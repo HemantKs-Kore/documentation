@@ -2,7 +2,6 @@ import gzip
 from urllib.parse import urlparse, urlunparse, unquote_plus
 
 
-
 def is_valid_url(url: str) -> bool:
     """Parse url to verify url scheme, Accept only http or https urls
     :return: bool
@@ -11,7 +10,7 @@ def is_valid_url(url: str) -> bool:
         print('!!! Undefined URL - {}'.format(url))
         return False
     else:
-        print('Validating the URL scheme ...')
+        print('Validating the URL scheme for url- {}'.format(url))
         try:
             uri = urlparse(url)
             _ = urlunparse(uri)
@@ -50,7 +49,7 @@ def is_gzipped_response(url: str, response) -> bool:
     """
     uri = urlparse(url)
     url_path = unquote_plus(uri.path)
-    content_type = response.header('content-type') or ''
+    content_type = response.headers.get('content-type', '') or ''
     if url_path.lower().endswith('.gz') or 'gzip' in content_type.lower():
         return True
     else:
@@ -69,3 +68,27 @@ def un_gzip(data):
         print("Unable to gunzip data: {}".format(ex))
         data = None
     return data
+
+
+def ungzip_response_content(url, response, data):
+    if is_gzipped_response(url, response):
+        data = un_gzip(data)
+    if data:
+        data = data.decode('utf-8-sig', errors='replace')
+    return data
+
+
+from html import unescape
+
+
+def html_unescape_strip(string):
+    """
+    decode html entities in a string
+    :return: Stripped string with HTML entities decoded; None if parameter string was empty or None.
+    """
+    if string:
+        unescaped_string = unescape(string)
+        unescaped_string = unescaped_string.strip()
+        if unescaped_string:
+            return unescaped_string
+    return None

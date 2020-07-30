@@ -43,14 +43,15 @@ class SitemapData(object):
 
 
 class AbstractSitemapParser(object, metaclass=abc.ABCMeta):
-    def __init__(self, url: str):
-        self.__url = url
+    def __init__(self, url: str, recursion_depth):
+        self._url = url
+        self._recursion_depth = recursion_depth
 
 
     @property
     def url(self) -> str:
-        return self.__url
-
-    @abc.abstractmethod
-    def pages(self) -> Iterator[SitemapData]:
-        pass
+        return self._url
+    #
+    # @abc.abstractmethod
+    # def pages(self) -> Iterator[SitemapData]:
+    #     pass

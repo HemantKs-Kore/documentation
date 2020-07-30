@@ -48,3 +48,10 @@ class RequestClient(object):
                 continue
             else:
                 return response
+
+    def get_trimmed_response_data(self, response):
+        if self._max_response_size:
+            data = response.content[:self._max_response_size]
+        else:
+            data = response.content
+        return data
