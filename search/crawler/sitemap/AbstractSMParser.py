@@ -1,7 +1,5 @@
 import abc
-import datetime
 from decimal import Decimal
-from typing import Optional, Iterator
 
 SITEMAP_PAGE_DEFAULT_PRIORITY = Decimal('0.5')
 
@@ -9,44 +7,31 @@ SITEMAP_PAGE_DEFAULT_PRIORITY = Decimal('0.5')
 class SitemapData(object):
     # lets try to reduce memory usage for data objects
     __slots__ = [
-        '__url',
-        '__priority',
-        '__last_modified'
+        '_sitemap_url',
+        '_pages_in_sitemap',
     ]
 
-    def __init__(self, url: str, priority: Decimal = SITEMAP_PAGE_DEFAULT_PRIORITY,
-                 last_modified: Optional[datetime.datetime] = None):
-        self.__url = url
-        self.__priority = priority
-        self.__last_modified = last_modified
+    def __init__(self, sitemap_url, pages_in_sitemap):
+        self._sitemap_url = sitemap_url
+        self._pages_in_sitemap = pages_in_sitemap
 
     @property
-    def url(self) -> str:
-        """
-        Return page URL.
-        """
-        return self.__url
+    def sitemap_url(self):
+        return self._sitemap_url
 
     @property
-    def priority(self) -> Decimal:
-        """
-        Return priority of this URL relative to other URLs on your site.
-        """
-        return self.__priority
+    def pages_in_sitemaps(self):
+        return self._pages_in_sitemap
 
-    @property
-    def last_modified(self) -> Optional[datetime.datetime]:
-        """
-        Return date of last modification of the URL.
-        """
-        return self.__last_modified
+    def sitemap_pages(self):
+        for page in self._pages_in_sitemap:
+            yield page
 
 
 class AbstractSitemapParser(object, metaclass=abc.ABCMeta):
     def __init__(self, url: str, recursion_depth):
         self._url = url
         self._recursion_depth = recursion_depth
-
 
     @property
     def url(self) -> str:

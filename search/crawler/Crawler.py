@@ -2,10 +2,7 @@ import re
 
 from search.crawler import utils
 from search.crawler.RequestClient import RequestClient
-from search.crawler.sitemap.SitemapParser import SitemapGateway
-
-#
-# from usp.tree import sitemap_tree_for_homepage
+from search.crawler.sitemap.SitemapParser import SitemapGateway, SitemapData
 
 URL_REGEX = re.compile(r'^https?://[^\s/$.?#].[^\s]*$', re.IGNORECASE)
 UNORTHODOX_SITEMAP_PATHS = {
@@ -39,12 +36,15 @@ class Crawler(object):
         robots_url = homepage_url + 'robots.txt'
         sitemap_parser = SitemapGateway(url=robots_url, recursion_depth=0)
         sitemaps_fetched = sitemap_parser.fetch_sitemaps()
+        fetched_url_set = {i.sitemap_url for i in sitemaps_fetched if isinstance(i, SitemapData)}
 
         for url_path in UNORTHODOX_SITEMAP_PATHS:
             unorthodox_sitemap_url = homepage_url + url_path
-            if unorthodox_sitemap_url not in sitemaps_fetched:
+            if unorthodox_sitemap_url not in fetched_url_set:
                 sitemap_parser = SitemapGateway(url=unorthodox_sitemap_url, recursion_depth=0)
-                sitemaps_fetched.extend(sitemap_parser.fetch_sitemaps())
+                sitemap_data = sitemap_parser.fetch_sitemaps()
+                if isinstance(sitemap_data, SitemapData):
+                    sitemaps_fetched.append(sitemap_data)
 
         print('Total sitemaps found- {}'.format(len(sitemaps_fetched)))
         print(sitemaps_fetched)

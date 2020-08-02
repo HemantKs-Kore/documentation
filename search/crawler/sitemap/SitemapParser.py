@@ -1,24 +1,64 @@
 import re
 from collections import OrderedDict
+from decimal import Decimal
 
 import lxml.etree
 from lxml.etree import XMLParser
 
 from search.crawler import utils
 from search.crawler.RequestClient import RequestClient
-from search.crawler.sitemap.AbstractSMParser import AbstractSitemapParser
+from search.crawler.sitemap.AbstractSMParser import AbstractSitemapParser, SitemapData
 
 request_client = RequestClient()
 
-class XMLSitempaPageParser(object):
+
+class PageData(object):
+    __slots__ = [
+        'url',
+        'last_modified',
+        'change_frequency',
+        'priority'
+    ]
+
+    def __init__(self):
+        self.url = None
+        self.last_modified = None
+        self.change_frequency = None
+        self.priority = None
+
+
+class XMLSitemapPageParser(object):
     def __init__(self, url, recursion_depth):
-        self._recusion_depth = recursion_depth
+        self._recursion_depth = recursion_depth
         self._url = url
 
     def fetch_sitemaps(self, tree):
         sitemap_url = utils.html_unescape_strip(self._url)
-        if sitemap_url:
-            return [sitemap_url]
+        pages = list()
+        try:
+            for xml_node in tree.xpath('//sitemap:url',
+                                       namespaces={'sitemap': 'http://www.sitemaps.org/schemas/sitemap/0.9'}):
+                node_children = xml_node.getchildren()
+                url_present = False
+                current_page = PageData()
+                for child in node_children:
+                    current_child_text = utils.html_unescape_strip(child.text)
+                    if current_child_text:
+                        if child.tag == '{http://www.sitemaps.org/schemas/sitemap/0.9}loc':
+                            url_present = True
+                            current_page.url = current_child_text
+                        elif child.tag == '{http://www.sitemaps.org/schemas/sitemap/0.9}changefreq':
+                            current_page.change_frequency = current_child_text.lower()
+                        elif child.tag == '{http://www.sitemaps.org/schemas/sitemap/0.9}priority':
+                            current_page.priority = Decimal(current_child_text)
+                if url_present:
+                    pages.append(current_page)
+        except Exception as e:
+            print(e)
+
+        sitemap_data = SitemapData(sitemap_url=sitemap_url, pages_in_sitemap=pages)
+        return sitemap_data
+
 
 class XMLSitemapIndexParser(object):
     def __init__(self, url, recursion_depth):
@@ -37,8 +77,15 @@ class XMLSitemapIndexParser(object):
         except Exception as e:
             print('Error while fetching sitemaps from sitemap index {} '.format(e))
 
+        sub_sitemaps = list()
         for sub_sitemap_url in self._sitemaps_in_index_url:
             pass  # todo this is to fetch all pages in sitemap url
+            try:
+                sitemap_parser = SitemapGateway(url=sub_sitemap_url, recursion_depth=self._recursion_depth + 1)
+                fetched_sitemaps = sitemap_parser.fetch_sitemaps()
+                sub_sitemaps.append(fetched_sitemaps)
+            except Exception as e:
+                print('Error while parsing sitemap files from sitemap index- {}'.format(e))
         return self._sitemaps_in_index_url  # todo return this as of now
 
 
@@ -69,7 +116,7 @@ class RobotSitemapParser(AbstractSitemapParser):
                 url=sitemap_url, recursion_depth=self._recursion_depth
             )
             extracted_pages = sitemap_parser.fetch_sitemaps()
-            pages_from_sitemaps.extend(extracted_pages)
+            pages_from_sitemaps.append(extracted_pages)
         return pages_from_sitemaps
 
 
@@ -86,12 +133,13 @@ class XMLSitemapParser(AbstractSitemapParser):
                 parser = XMLSitemapIndexParser(self._url, self._recursion_depth)
                 return parser.fetch_sitemaps(tree)
             elif tree.tag.endswith('urlset'):  # sitemap with page links
-                parser = XMLSitempaPageParser(self._url, self._recursion_depth)
+                parser = XMLSitemapPageParser(self._url, self._recursion_depth)
                 return parser.fetch_sitemaps(tree)
             else:
-                return list()
+                return None
         except Exception as e:
             print('Error while parsing XML- {}'.format(e))
+
 
 class SitemapGateway(object):
     __MAX_RECURSION_DEPTH = 10
@@ -108,14 +156,13 @@ class SitemapGateway(object):
         if 200 <= response.status_code < 300:
             trimmed_response_content = request_client.get_trimmed_response_data(response)
             response_content = utils.ungzip_response_content(self._url, response, trimmed_response_content)
-            parser = ''  # todo
             if response_content:
                 if response_content[:20].strip().startswith('<'):
                     parser = XMLSitemapParser(self._url, response_content)
                 elif self._url.endswith('/robots.txt'):
                     parser = RobotSitemapParser(self._url, self._recursion_depth)
-
-                    # plain text sitemap parser (saw this possibility in lib)
+                else:
+                    return None
                 sitemaps = parser.fetch_sitemaps(response_content)
                 return sitemaps
             else:
