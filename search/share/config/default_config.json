@@ -1,0 +1,48 @@
+{
+  "db": {
+    "COLLECTION_PAGES": "pages",
+    "COLLECTION_DOMAIN": "domain",
+    "DB_NAME": "koredbm001",
+    "MONGO_URI": "mongodb://localhost:27017",
+    "TEANAT_DB_NAME": "koredbt001"
+  },
+  "squid_proxy": {
+    "USE_PROXY": false,
+    "PROXY_SETTING": {
+      "http": "http://192.168.15.38:3128",
+      "https": "https://192.168.15.38:3128"
+    }
+  },
+  "log": {
+    "DEBUG_LOG": "/var/www/logs/faq_debug.log",
+    "SERVER_LOG": "/var/www/logs/faqbot.log",
+    "DEBUG_LOG_LEVEL": "ERROR",
+    "SERVER_LOG_LEVEL": "INFO"
+  },
+  "server": {
+    "FORKS": 0,
+    "HOST": "0.0.0.0",
+    "PORT": 5006
+  },
+  "ssl": {
+    "ML_SSL_VERIFY": false,
+    "FAQ_SSL": false,
+    "FAQ_SSL_CERT": "/etc/ssl/faq-cert.crt",
+    "FAQ_SSL_KEY": "/etc/ssl/faq-cert.key"
+  },
+  "remote_config": {
+    "USE_REMOTE_CONFIG": false,
+    "ENV_SSL_VERIFY": false,
+    "CONFIG_HOST": "https://qa-bots.kore.ai",
+    "CONFIG_END_POINT": "/api/internal/configuration",
+    "API_KEY_PATH": "/home/surendra/bin/qa_api.key"
+  },
+  "crypto": {
+    "IS_CONFIG_ENCRYPTED": false,
+    "CONFIG_ENCRYPTION_KEY_PATH": "/home/surendra/bin/faq_encrypt.key"
+  },
+  "startup": {
+    "RETRAIN_ENGINE": true
+  }
+}
+

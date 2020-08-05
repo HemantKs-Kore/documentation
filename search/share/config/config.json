@@ -1,0 +1,27 @@
+{
+  "db": {
+    "MONGO_URI": "mongodb://qaserver:M)nG!&*@3.92.161.192:27017"
+  },
+  "squid_proxy": {
+    "USE_PROXY": false,
+    "PROXY_SETTING": {
+      "http": "http://192.168.15.38:3128",
+      "https": "https://192.168.15.38:3128"
+    }
+  },
+  "server": {
+    "FORKS": 0,
+    "PORT": 5006
+  },
+  "remote_config": {
+    "USE_REMOTE_CONFIG": false,
+    "CONFIG_HOST": "https://qa-bots.kore.ai",
+    "CONFIG_END_POINT": "/api/internal/configuration",
+    "API_KEY_PATH": "/home/surendra/bin/qa_api.key"
+  },
+  "log": {
+    "DEBUG_LOG_LEVEL": "DEBUG",
+    "SERVER_LOG_LEVEL": "INFO"
+  }
+}
+
