@@ -34,18 +34,6 @@ def robo_parser(url):
 
     print(all_sites)
 
-def curl_parser(url):
-    import os
-    result = os.popen("curl "+url).read()
-    result_data_set = {"Disallowed":[], "Allowed":[]}
-
-    for line in result.split("\n"):
-        if line.startswith('Allow'):    # this is for allowed url
-            result_data_set["Allowed"].append(line.split(': ')[1].split(' ')[0])    # to neglect the comments or other junk info
-        elif line.startswith('Disallow'):    # this is for disallowed url
-            result_data_set["Disallowed"].append(line.split(': ')[1].split(' ')[0])    # to neglect the comments or other junk info
-
-    print (result_data_set)
 
 if __name__ == "__main__":
     url = "https://www.online.citibank.co.in"
