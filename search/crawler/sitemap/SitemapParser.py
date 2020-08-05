@@ -3,11 +3,12 @@ from collections import OrderedDict
 from decimal import Decimal
 
 import lxml.etree
+import traceback
 from lxml.etree import XMLParser
 
-from search.crawler import utils
-from search.crawler.RequestClient import RequestClient
-from search.crawler.sitemap.AbstractSMParser import AbstractSitemapParser, SitemapData
+from crawler import utils
+from crawler.RequestClient import RequestClient
+from crawler.sitemap.AbstractSMParser import AbstractSitemapParser, SitemapData
 
 request_client = RequestClient()
 
@@ -55,9 +56,10 @@ class XMLSitemapPageParser(object):
                     pages.append(current_page)
         except Exception as e:
             print(e)
+            return []
 
         sitemap_data = SitemapData(sitemap_url=sitemap_url, pages_in_sitemap=pages)
-        return sitemap_data
+        return [sitemap_data]
 
 
 class XMLSitemapIndexParser(object):
@@ -83,10 +85,12 @@ class XMLSitemapIndexParser(object):
             try:
                 sitemap_parser = SitemapGateway(url=sub_sitemap_url, recursion_depth=self._recursion_depth + 1)
                 fetched_sitemaps = sitemap_parser.fetch_sitemaps()
-                sub_sitemaps.append(fetched_sitemaps)
+                sub_sitemaps.extend(fetched_sitemaps)
             except Exception as e:
+                print(traceback.format_exc())
                 print('Error while parsing sitemap files from sitemap index- {}'.format(e))
-        return self._sitemaps_in_index_url  # todo return this as of now
+        # return self._sitemaps_in_index_url  # todo return this as of now
+        return sub_sitemaps
 
 
 class RobotSitemapParser(AbstractSitemapParser):
@@ -116,7 +120,7 @@ class RobotSitemapParser(AbstractSitemapParser):
                 url=sitemap_url, recursion_depth=self._recursion_depth
             )
             extracted_pages = sitemap_parser.fetch_sitemaps()
-            pages_from_sitemaps.append(extracted_pages)
+            pages_from_sitemaps.extend(extracted_pages)
         return pages_from_sitemaps
 
 
@@ -158,7 +162,7 @@ class SitemapGateway(object):
             response_content = utils.ungzip_response_content(self._url, response, trimmed_response_content)
             if response_content:
                 if response_content[:20].strip().startswith('<'):
-                    parser = XMLSitemapParser(self._url, response_content)
+                    parser = XMLSitemapParser(self._url, self._recursion_depth)
                 elif self._url.endswith('/robots.txt'):
                     parser = RobotSitemapParser(self._url, self._recursion_depth)
                 else:
