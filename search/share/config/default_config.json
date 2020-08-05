@@ -1,10 +1,15 @@
 {
   "db": {
-    "COLLECTION_PAGES": "pages",
-    "COLLECTION_DOMAIN": "domain",
+    "COLLECTION_PAGES": "findlypages",
+    "COLLECTION_DOMAIN": "webdomains",
+    "COLLECTION_CRAWLER_QUEUE": "findlyjobqueue",
     "DB_NAME": "koredbm001",
     "MONGO_URI": "mongodb://localhost:27017",
     "TEANAT_DB_NAME": "koredbt001"
+  },
+  "crawler": {
+    "URL_CRAWL_LIMIT": 250,
+    "INGEST_SUB_DOMAIN": true
   },
   "squid_proxy": {
     "USE_PROXY": false,
@@ -14,8 +19,8 @@
     }
   },
   "log": {
-    "DEBUG_LOG": "/var/www/logs/faq_debug.log",
-    "SERVER_LOG": "/var/www/logs/faqbot.log",
+    "DEBUG_LOG": "/var/www/logs/sa_debug.log",
+    "SERVER_LOG": "/var/www/logs/sa_server.log",
     "DEBUG_LOG_LEVEL": "ERROR",
     "SERVER_LOG_LEVEL": "INFO"
   },

@@ -1,0 +1,7 @@
+SYNC_RIGHTS_FILE = "sync_rights.pkl"
+STATUS_QUEUED = "queued"
+STATUS_running = "running"
+STATUS_FAILED = "failed"
+STATUS_SUCCESS = "success"
+CRAWL_ID_DB_KEY = "crawlId"
+RESOURCE_TYPE = "domain"

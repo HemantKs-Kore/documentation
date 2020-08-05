@@ -21,7 +21,6 @@ def init_routes(app):
         if item.endswith(".py"):
             name, ext = item.split('.')
             if ext == "py":
-                print(os.getcwd())
                 spec = importlib.util.spec_from_file_location(name, './share/routes/' + item)
                 route = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(route)
