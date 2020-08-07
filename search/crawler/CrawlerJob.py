@@ -39,15 +39,14 @@ def queue_listener():
             try:
                 request_payload = training_task['payload']
                 crawler = Crawler(request_payload.get('url'))
-                crawl_response = crawler.crawl()
-                if crawl_response['status_code'] == 400:
+                crawl_response = crawler.crawl(request_payload)
+                if crawl_response['status_code'] != 200:
                     training_failed = 1
             except Exception:
                 training_failed = 1
                 crawl_response[constants.CRAWL_ID_DB_KEY] = crawl_id
                 crawl_response['status_code'] = 400
                 debug_logger.error(traceback.format_exc())
-                print(traceback.format_exc())
 
             if training_failed:
                 db_manager.update_training_task(training_task['_id'], constants.STATUS_FAILED)

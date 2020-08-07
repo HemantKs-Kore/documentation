@@ -43,7 +43,10 @@ class DBManager(Singleton):
         self.crawl_queue_db = database[conf.get('COLLECTION_CRAWLER_QUEUE')]
 
     def insert_page_data_in_db(self, crawl_id, page_data):
-        pass
+        page_data['createdOn'] = datetime.datetime.utcnow()
+        page_data['crawl_id'] = crawl_id
+        self.pages_db.insert(page_data)
+        return True
 
     def insert_domain_data_in_db(self, search_index_id, domain_data):
         pass

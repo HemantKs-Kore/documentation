@@ -9,7 +9,7 @@
   },
   "crawler": {
     "URL_CRAWL_LIMIT": 250,
-    "INGEST_SUB_DOMAIN": true
+    "INGEST_SUB_DOMAIN": false
   },
   "squid_proxy": {
     "USE_PROXY": false,

@@ -1,15 +1,17 @@
+import logging
 import re
+import traceback
 from collections import OrderedDict
 from decimal import Decimal
 
 import lxml.etree
-import traceback
 from lxml.etree import XMLParser
 
 from crawler import utils
 from crawler.RequestClient import RequestClient
 from crawler.sitemap.AbstractSMParser import AbstractSitemapParser, SitemapData
 
+debug_logger = logging.getLogger('debug')
 request_client = RequestClient()
 
 
@@ -54,8 +56,8 @@ class XMLSitemapPageParser(object):
                             current_page.priority = Decimal(current_child_text)
                 if url_present:
                     pages.append(current_page)
-        except Exception as e:
-            print(e)
+        except Exception:
+            debug_logger.error(traceback.format_exc())
             return []
 
         sitemap_data = SitemapData(sitemap_url=sitemap_url, pages_in_sitemap=pages)
@@ -76,20 +78,18 @@ class XMLSitemapIndexParser(object):
                 sitemap_url = utils.html_unescape_strip(node)
                 if sitemap_url:
                     self._sitemaps_in_index_url.append(sitemap_url)
-        except Exception as e:
-            print('Error while fetching sitemaps from sitemap index {} '.format(e))
+        except Exception:
+            debug_logger.error('Error while fetching sitemaps from sitemap index {} '.format(traceback.format_exc()))
 
         sub_sitemaps = list()
         for sub_sitemap_url in self._sitemaps_in_index_url:
-            pass  # todo this is to fetch all pages in sitemap url
             try:
                 sitemap_parser = SitemapGateway(url=sub_sitemap_url, recursion_depth=self._recursion_depth + 1)
                 fetched_sitemaps = sitemap_parser.fetch_sitemaps()
                 sub_sitemaps.extend(fetched_sitemaps)
             except Exception as e:
-                print(traceback.format_exc())
-                print('Error while parsing sitemap files from sitemap index- {}'.format(e))
-        # return self._sitemaps_in_index_url  # todo return this as of now
+                debug_logger.error(
+                    'Error while parsing sitemap files from sitemap index- {}'.format(traceback.format_exc()))
         return sub_sitemaps
 
 
@@ -97,31 +97,35 @@ class RobotSitemapParser(AbstractSitemapParser):
     def __init__(self, url, recursion_depth):
         super().__init__(url, recursion_depth)
         if not utils.is_valid_url(url):
-            print('Not a valid url for parsing sitemap: {}'.format(url))
+            debug_logger.warning('Not a valid url for parsing sitemap: {}'.format(url))
 
     def fetch_sitemaps(self, data):
-        sitemap_urls_dict = OrderedDict()
-        data_by_lines = data.splitlines()
-        for line in data_by_lines:
-            line = line.strip().lower()
-            if line.startswith('site'):
-                sitemap_match = re.search(r'^site-?map:\s*(.+?)$', line, flags=re.IGNORECASE)
-                if sitemap_match:
-                    sitemap_url = sitemap_match.group(1)
-                    if utils.is_valid_url(sitemap_url):
-                        sitemap_urls_dict[sitemap_url] = True
-                    else:
-                        print('Invalid sitemap url- {}'.format(sitemap_url))
+        try:
+            sitemap_urls_dict = OrderedDict()
+            data_by_lines = data.splitlines()
+            for line in data_by_lines:
+                line = line.strip().lower()
+                if line.startswith('site'):
+                    sitemap_match = re.search(r'^site-?map:\s*(.+?)$', line, flags=re.IGNORECASE)
+                    if sitemap_match:
+                        sitemap_url = sitemap_match.group(1)
+                        if utils.is_valid_url(sitemap_url):
+                            sitemap_urls_dict[sitemap_url] = True
+                        else:
+                            debug_logger.warning('Invalid sitemap url- {}'.format(sitemap_url))
 
-        pages_from_sitemaps = list()
-        # sitemap url can be a sitemap xml or sitemap index xml
-        for sitemap_url in sitemap_urls_dict:
-            sitemap_parser = SitemapGateway(
-                url=sitemap_url, recursion_depth=self._recursion_depth
-            )
-            extracted_pages = sitemap_parser.fetch_sitemaps()
-            pages_from_sitemaps.extend(extracted_pages)
-        return pages_from_sitemaps
+            pages_from_sitemaps = list()
+            # sitemap url can be a sitemap xml or sitemap index xml
+            for sitemap_url in sitemap_urls_dict:
+                sitemap_parser = SitemapGateway(
+                    url=sitemap_url, recursion_depth=self._recursion_depth
+                )
+                extracted_pages = sitemap_parser.fetch_sitemaps()
+                pages_from_sitemaps.extend(extracted_pages)
+            return pages_from_sitemaps
+        except Exception:
+            debug_logger.error(traceback.format_exc())
+            return list()
 
 
 class XMLSitemapParser(AbstractSitemapParser):
@@ -140,9 +144,9 @@ class XMLSitemapParser(AbstractSitemapParser):
                 parser = XMLSitemapPageParser(self._url, self._recursion_depth)
                 return parser.fetch_sitemaps(tree)
             else:
-                return None
-        except Exception as e:
-            print('Error while parsing XML- {}'.format(e))
+                return list()
+        except Exception:
+            debug_logger.error('Error while parsing XML- {}'.format(traceback.format_exc()))
 
 
 class SitemapGateway(object):
@@ -150,12 +154,13 @@ class SitemapGateway(object):
 
     def __init__(self, url, recursion_depth):
         if recursion_depth > self.__MAX_RECURSION_DEPTH:
-            print('Recursion depth exceeded')
+            debug_logger.warning('Recursion depth exceeded')
+            raise Exception('recursion depth exceeded')
         self._url = url
         self._recursion_depth = recursion_depth
 
     def fetch_sitemaps(self):
-        print('Fetching content from url- {}'.format(self._url))
+        debug_logger.info('Fetching content from url- {}'.format(self._url))
         response = request_client.get(self._url)
         if 200 <= response.status_code < 300:
             trimmed_response_content = request_client.get_trimmed_response_data(response)
@@ -170,7 +175,7 @@ class SitemapGateway(object):
                 sitemaps = parser.fetch_sitemaps(response_content)
                 return sitemaps
             else:
-                print('No sitemaps found through URL- {}'.format(self._url))
+                debug_logger.info('No sitemaps found through URL- {}'.format(self._url))
         else:
-            print('No sitemaps found through URL- {}'.format(self._url))
+            debug_logger.info('No sitemaps found through URL- {}'.format(self._url))
         return list()

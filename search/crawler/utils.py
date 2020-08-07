@@ -1,5 +1,10 @@
 import gzip
+import logging
+import traceback
+from html import unescape
 from urllib.parse import urlparse, urlunparse, unquote_plus
+
+debug_logger = logging.getLogger('debug')
 
 
 def is_valid_url(url: str) -> bool:
@@ -7,21 +12,21 @@ def is_valid_url(url: str) -> bool:
     :return: bool
     """
     if not url:
-        print('!!! Undefined URL - {}'.format(url))
+        debug_logger.error('!!! Undefined URL - {}'.format(url))
         return False
     else:
-        print('Validating the URL scheme for url- {}'.format(url))
+        debug_logger.info('Validating the URL scheme for url- {}'.format(url))
         try:
             uri = urlparse(url)
             _ = urlunparse(uri)
             if not (uri.scheme and uri.scheme.lower() in ['http', 'https']):
-                print('Invalid scheme for URL - {}'.format(url))
+                debug_logger.warning('Invalid scheme for URL - {}'.format(url))
                 return False
             if not uri.hostname:
-                print('Undefined host for URL - {}'.format(url))
+                debug_logger.warning('Undefined host for URL - {}'.format(url))
                 return False
         except Exception as e:
-            print("Cannot parse URL {}: {}".format(url, e))
+            debug_logger.error("Cannot parse URL {}: {}".format(url, e))
             return False
         return True
 
@@ -32,15 +37,26 @@ def get_homepage_of_url(url: str) -> str:
     :return str: homepage of url
     """
     if not url:
-        print('URL is empty, while retrieving homepage URL.')
+        debug_logger.info('URL is empty, while retrieving homepage URL.')
     try:
         parsed_uri = urlparse(url)
         uri = (parsed_uri.scheme, parsed_uri.netloc, '/', '', '', '')
         homepage_url = urlunparse(uri)
-        return homepage_url
+        return homepage_url.rstrip('/')
+    except Exception:
+        debug_logger.error('Unable to get homepage of URL {}: {}'.format(url, traceback.format_exc()))
+        raise Exception('Invalid URL, unable to get homepage')
+
+
+def get_hostname(url: str):
+    if not url:
+        return None
+    try:
+        parsed_uri = urlparse(url)
+        return parsed_uri.hostname
     except Exception as e:
-        print('Unable to get homepage of URL {}: {}'.format(url, e))
-        return ''
+        debug_logger.error('Unable to get hostname of URL {}: {}'.format(url, e))
+        return None
 
 
 def is_gzipped_response(url: str, response) -> bool:
@@ -65,7 +81,7 @@ def un_gzip(data):
     try:
         data = gzip.decompress(data)
     except Exception as ex:
-        print("Unable to gunzip data: {}".format(ex))
+        debug_logger.error("Unable to gunzip data: {}".format(ex))
         data = None
     return data
 
@@ -76,9 +92,6 @@ def ungzip_response_content(url, response, data):
     if data:
         data = data.decode('utf-8-sig', errors='replace')
     return data
-
-
-from html import unescape
 
 
 def html_unescape_strip(string):

@@ -1,6 +1,10 @@
 {
   "db": {
-    "MONGO_URI": "mongodb://qaserver:M)nG!&*@3.92.161.192:27017"
+    "MONGO_URI": "mongodb://localhost:27017"
+  },
+   "crawler": {
+    "URL_CRAWL_LIMIT": 250,
+    "INGEST_SUB_DOMAIN": false
   },
   "squid_proxy": {
     "USE_PROXY": false,
