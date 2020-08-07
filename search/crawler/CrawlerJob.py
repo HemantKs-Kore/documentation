@@ -42,10 +42,11 @@ def queue_listener():
                 crawl_response = crawler.crawl(request_payload)
                 if crawl_response['status_code'] != 200:
                     training_failed = 1
-            except Exception:
+            except Exception as e:
                 training_failed = 1
                 crawl_response[constants.CRAWL_ID_DB_KEY] = crawl_id
                 crawl_response['status_code'] = 400
+                crawl_response['status_msg'] = str(e) if str(e) else 'Crawling Failed'
                 debug_logger.error(traceback.format_exc())
 
             if training_failed:

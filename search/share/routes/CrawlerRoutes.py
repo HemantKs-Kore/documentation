@@ -15,7 +15,7 @@ def init(app):
     """define all the routes related to faq in this method"""
 
     @app.route("/findly/crawl", methods=['POST'])
-    @app.route("/searchAssistant/crawl/<url_id>", methods=['POST'])
+    @app.route("/findly/crawl/<url_id>", methods=['POST'])
     def crawl(url_id=None):
         if 'crawlId' not in request.json:
             print('crawl Id missing in the request payload')

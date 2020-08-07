@@ -9,7 +9,7 @@ from scrapy.crawler import CrawlerProcess
 from crawler import utils
 from crawler.RequestClient import RequestClient
 from crawler.scrapers.LinkScraper import LinkScraper
-from crawler.scrapers.ScrapyPageScraper import MySpider
+from crawler.scrapers.ScrapyPageScraper import PageScraper
 from crawler.sitemap.SitemapParser import SitemapGateway, SitemapData
 from share.config.ConfigManager import ConfigManager
 
@@ -85,9 +85,19 @@ class Crawler(object):
         valid_page_urls = valid_page_urls[: CRAWL_LIMIT]
         return valid_page_urls, valid_sitemaps
 
+    def get_crawl_settings(self, user_agent='*'):
+        settings = {'LOG_LEVEL': "WARNING", 'ITEM_PIPELINES': {'crawler.scrapers.ScrapyPageScraper.MongoPipeline': 100}}
+        if self.robot_parse_status and robot_parser.crawl_delay(useragent=user_agent):
+            settings['DOWNLOAD_DELAY'] = robot_parser.crawl_delay(useragent=user_agent)
+        settings['DOWNLOAD_TIMEOUT'] = 10  # seconds
+        settings['DOWNLOAD_MAXSIZE'] = 10 * 1024 * 1024  # 10 MB
+        settings['USER_AGENT'] = user_agent
+        return settings
+
     def crawl(self, args):
         try:
             url = args.get('url')
+            user_agent = args.get('userAgent', 'SampleWebsiteTest')
             debug_logger.info('Homepage of input url- {}'.format(self.homepage_url))
             sitemap_parser = SitemapGateway(url=self.robots_url, recursion_depth=0)
             sitemaps_fetched = sitemap_parser.fetch_sitemaps()
@@ -109,34 +119,29 @@ class Crawler(object):
                                                                                                    True))
             if not filtered_page_urls or (len(filtered_page_urls) == 1 and filtered_page_urls[0] == url):
                 filtered_page_urls = link_scraper.scrape_urls(page_url=url)
+            if self.robot_parse_status:
+                filtered_page_urls = self.filter_urls_by_robots(filtered_page_urls, user_agent=user_agent)
 
-            filtered_page_urls = self.filter_urls_by_robots(filtered_page_urls)
-
+            crawl_settings = self.get_crawl_settings(user_agent=user_agent)
             start_time = time.time()
-            process = CrawlerProcess({'LOG_LEVEL': 'WARNING',
-                                      'ITEM_PIPELINES': {'crawler.scrapers.WebPageScraper.MongoPipeline': 100}
-                                      })
+            process = CrawlerProcess(settings=crawl_settings)
             args['start_urls'] = filtered_page_urls
-            process.crawl(MySpider, args)
+            print('Initiated scraping for {} pages...'.format(len(filtered_page_urls)))
+            process.crawl(PageScraper, args)
             process.start()
             print('time taken for scraping page data - {} sec'.format((time.time() - start_time) * 1000))
             return {'status_msg': 'Crawling successful', 'status_code': 200}
         except Exception as exception_msg:
             debug_logger.error(traceback.format_exc())
-            status_msg = exception_msg if exception_msg else "Crawling failed"
+            status_msg = str(exception_msg) if str(exception_msg) else "Crawling failed"
             return {'status_msg': status_msg, 'status_code': 200}
 
 
 if __name__ == '__main__':
     __domain = 'http://www.online.citibank.co.in/citi-nri/faqs-with-answers.htm'
-    # __domain = 'http://www.online.citibank.co.in/citi-nri/'
-    # domain = 'https://www.semicolonworld.com/'
-    # domain = 'https://www.xml-sitemaps.com//'
-    # domain = 'https://docs.scrapy.org/'
-    __domain = 'https://aws.amazon.com/faqs/'
+    __domain = 'https://en.wikipedia.org/wiki/Main_Page'
     from share.log.log_config import setup_logger
 
     setup_logger(['debug'])
-    c = Crawler()
+    c = Crawler(__domain)
     c.crawl({'url': __domain})
-    # filtered_page_urls = ['https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_headers', 'https://www.online.citibank.co.in/special-offers/home/index.html', 'https://www.online.citibank.co.in/portal/newgendp/cards/citi-rewards-card.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/static/compare-credit-cards.htm', 'https://www.online.citibank.co.in/portal/cards/MGM/MGM-Referal-Exist.html', 'https://www.online.citibank.co.in/portal/newgendp/cards/cash-back-credit-card.htm', 'https://www.online.citibank.co.in/portal/newgendp/cards/citi-premiermiles-card.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/fuel/popup/address-proof.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/citi-corporate-card.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/citibank-rewards-domestic-credit-card.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/cobranded-cards.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/creditcards_tc.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/finish-it.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/indianoil-titaniumcard.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/indianoil-platinumcard.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/rewards-home.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/clickanemi.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/citibank-additional-creditcard/citibank-add-on-credit-card.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/emi/loanurcard.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/emi/loanurcard-callback.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/popup/reward-points.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/shop-at-a-store.htm', 'https://www.online.citibank.co.in/citi-prestige/register-your-interest-direct.html', 'https://www.online.citibank.co.in/citi-prestige/terms.html', 'https://www.online.citibank.co.in/citi-prestige/the-experience.html', 'https://www.online.citibank.co.in/portal/newgen/cards/guardyourcard.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/rewards/cashback.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/travel-shield-secure/travel-shield-secure.htm', 'https://www.online.citibank.co.in/card-offers/credit-card-ahmedabad.htm', 'https://www.online.citibank.co.in/card-offers/credit-card-hyderabad.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/apply-now.htm', 'https://www.online.citibank.co.in/credit-cards/credit-card-apply-online.htm', 'https://www.online.citibank.co.in/citi-prestige/benefits-air-travel-logged-off.html', 'https://www.online.citibank.co.in/citi-prestige/benefits-at-a-glance-logged-off.html', 'https://www.online.citibank.co.in/citi-prestige/benefits-exclusive-access-logged-off.html', 'https://www.online.citibank.co.in/citi-prestige/benefits-luxury-travel-and-hotel-logged-off.html', 'https://www.online.citibank.co.in/citi-prestige/benefits-rewards-logged-off.html', 'https://www.online.citibank.co.in/citi-prestige/benefits-service-logged-off.html', 'https://www.online.citibank.co.in/citi-prestige/home_logged_off.html', 'https://www.online.citibank.co.in/credit-card/citi-prestige-credit-card.htm', 'https://www.online.citibank.co.in/credit-card/credit-card.htm', 'https://www.online.citibank.co.in/credit-card/products-services/samsung-pay/microsite/samsung-pay.htm', 'https://www.online.citibank.co.in/credit-card/citi-prestige/apply.htm', 'https://www.online.citibank.co.in/Credit-Cards/Standalone/IOC-Outlets/Oct14/IndianOil-Outlets-Citibank.htm', 'https://www.online.citibank.co.in/Credit-Cards/Standalone/Jan16/htm/MGM-ref/MGM-Referal-NTB.html', 'https://www.online.citibank.co.in/Credit-Cards/Standalone/jun15/PremierMiles/PremierMiles-eSite.htm', 'https://www.online.citibank.co.in/Credit-Cards/Standalone/Rewards/ewelcome-pack/Oct14/htm/rewards.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/CorporateCard/corporatecard-form.htm', 'https://www.online.citibank.co.in/portal/newgen/cards/tab/firstcitizencard.htm', 'https://www.online.citibank.co.in/portal/newgen/seo/cards/mediclaim-health-policy-callback.htm']

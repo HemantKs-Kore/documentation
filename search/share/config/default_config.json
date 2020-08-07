@@ -9,7 +9,9 @@
   },
   "crawler": {
     "URL_CRAWL_LIMIT": 250,
-    "INGEST_SUB_DOMAIN": false
+    "INGEST_SUB_DOMAIN": false,
+    "HOST_URL": "https://qa-bots.kore.ai",
+    "STATUS_ENDPOINT": ""
   },
   "squid_proxy": {
     "USE_PROXY": false,

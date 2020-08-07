@@ -48,6 +48,7 @@ class RequestClient(object):
                 continue
             else:
                 return response
+        return response
 
     def get_trimmed_response_data(self, response):
         if self._max_response_size:

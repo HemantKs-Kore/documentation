@@ -162,7 +162,7 @@ class SitemapGateway(object):
     def fetch_sitemaps(self):
         debug_logger.info('Fetching content from url- {}'.format(self._url))
         response = request_client.get(self._url)
-        if 200 <= response.status_code < 300:
+        if response and 200 <= response.status_code < 300:
             trimmed_response_content = request_client.get_trimmed_response_data(response)
             response_content = utils.ungzip_response_content(self._url, response, trimmed_response_content)
             if response_content:

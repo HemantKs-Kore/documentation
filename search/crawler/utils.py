@@ -38,6 +38,7 @@ def get_homepage_of_url(url: str) -> str:
     """
     if not url:
         debug_logger.info('URL is empty, while retrieving homepage URL.')
+        raise Exception('Empty URL variable')
     try:
         parsed_uri = urlparse(url)
         uri = (parsed_uri.scheme, parsed_uri.netloc, '/', '', '', '')
