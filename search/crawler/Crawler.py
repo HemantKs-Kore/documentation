@@ -93,7 +93,7 @@ class Crawler(object):
         else:
             settings['DOWNLOAD_DELAY'] = 1  # seconds, #todo: need to change later
         settings['DOWNLOAD_TIMEOUT'] = 10  # seconds
-        settings['DOWNLOAD_MAXSIZE'] = 10 * 1024 * 1024  # 10 MB
+        settings['DOWNLOAD_MAXSIZE'] = 12 * 1024 * 1024  # 12 MB
         settings['USER_AGENT'] = user_agent
         return settings
 

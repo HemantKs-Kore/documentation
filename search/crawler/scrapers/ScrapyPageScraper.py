@@ -3,10 +3,9 @@ import logging
 import traceback
 
 import scrapy
-from scrapy import signals
-from pydispatch import dispatcher
 from bs4 import BeautifulSoup
-from scrapy.exceptions import DropItem
+from pydispatch import dispatcher
+from scrapy import signals
 from scrapy.selector import Selector
 
 from share.db.DBManager import DBManager
@@ -50,11 +49,7 @@ class MongoPipeline(object):
 
 
 class PageScraper(scrapy.Spider):
-    name = 'sitemapspi'
-
-    # custom_settings = {'LOG_LEVEL': 'WARNING',
-    #                    'ITEM_PIPELINES': {'search.crawler.scrapers.WebPageScraper.MongoPipeline': 100}
-    #                    }
+    name = 'pagescraper'
 
     def __init__(self, args):
         dispatcher.connect(self.spider_closed, signals.spider_closed)
