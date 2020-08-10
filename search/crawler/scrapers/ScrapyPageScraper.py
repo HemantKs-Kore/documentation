@@ -45,7 +45,7 @@ class MongoPipeline(object):
             except Exception:
                 debug_logger.info('Error while inserting page in db: {}'.format(traceback.format_exc()))
         else:
-            raise DropItem('Missing information on item scraped- {}'.format(dict(data_item)))
+            debug_logger.warning('Missing information on item scraped- {}'.format(dict(data_item)))
         return data_item
 
 
@@ -97,12 +97,12 @@ class PageScraper(scrapy.Spider):
                 yield data_item
             else:
                 self.skipped_page_counter()
-                debug_logger.info('skipping item - '.format(content_type))
+                debug_logger.info('skipping item of content-type - {}'.format(content_type))
         except:
             self.skipped_page_counter()
             debug_logger.error(traceback.format_exc())
 
     def spider_closed(self, spider):
-        print('Number of pages scraped - {}'.format(self.allowed_page_counter()))
-        print('Number of pages skipped - {}'.format(self.skipped_page_counter()))
+        debug_logger.info('Number of pages scraped - {}'.format(self.allowed_page_counter()))
+        debug_logger.info('Number of pages skipped - {}'.format(self.skipped_page_counter()))
         spider.logger.info('Spider closed: %s', spider.name)

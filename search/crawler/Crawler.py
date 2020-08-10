@@ -20,6 +20,7 @@ link_scraper = LinkScraper()
 robot_parser = urllib.robotparser.RobotFileParser()
 crawl_config = config_manager.load_config('crawler')
 CRAWL_LIMIT = crawl_config.get('URL_CRAWL_LIMIT')
+CRAWL_SUB_DOMAINS = crawl_config.get('CRAWL_SUB_DOMAINS', True)
 URL_REGEX = re.compile(r'^https?://[^\s/$.?#].[^\s]*$', re.IGNORECASE)
 UNORTHODOX_SITEMAP_PATHS = {
     'sitemap.xml',
@@ -89,6 +90,8 @@ class Crawler(object):
         settings = {'LOG_LEVEL': "WARNING", 'ITEM_PIPELINES': {'crawler.scrapers.ScrapyPageScraper.MongoPipeline': 100}}
         if self.robot_parse_status and robot_parser.crawl_delay(useragent=user_agent):
             settings['DOWNLOAD_DELAY'] = robot_parser.crawl_delay(useragent=user_agent)
+        else:
+            settings['DOWNLOAD_DELAY'] = 1  # seconds, #todo: need to change later
         settings['DOWNLOAD_TIMEOUT'] = 10  # seconds
         settings['DOWNLOAD_MAXSIZE'] = 10 * 1024 * 1024  # 10 MB
         settings['USER_AGENT'] = user_agent
@@ -99,6 +102,7 @@ class Crawler(object):
             url = args.get('url')
             user_agent = args.get('userAgent', '*')
             debug_logger.info('Homepage of input url- {}'.format(self.homepage_url))
+            print('Fetching sitemaps ...')
             sitemap_parser = SitemapGateway(url=self.robots_url, recursion_depth=0)
             sitemaps_fetched = sitemap_parser.fetch_sitemaps()
             fetched_url_set = {i.sitemap_url for i in sitemaps_fetched if isinstance(i, SitemapData)}
@@ -115,8 +119,7 @@ class Crawler(object):
 
             debug_logger.info('Total sitemaps found- {}'.format(len(sitemaps_fetched)))
             filtered_page_urls, filtered_sitemaps = self.filter_urls_from_sitemap(url, sitemaps_fetched,
-                                                                                  crawl_config.get('INGEST_SUB_DOMAIN',
-                                                                                                   True))
+                                                                                  CRAWL_SUB_DOMAINS)
             if not filtered_page_urls or (len(filtered_page_urls) == 1 and filtered_page_urls[0] == url):
                 filtered_page_urls = link_scraper.scrape_urls(page_url=url)
             if self.robot_parse_status:
@@ -130,6 +133,7 @@ class Crawler(object):
             process.crawl(PageScraper, args)
             process.start()
             print('time taken for scraping page data - {} sec'.format((time.time() - start_time) * 1000))
+            debug_logger.info('Completed scraping process...')
             return {'status_msg': 'Crawling successful', 'status_code': 200}
         except Exception as exception_msg:
             debug_logger.error(traceback.format_exc())
@@ -141,10 +145,11 @@ if __name__ == '__main__':
     __domain = 'http://www.online.citibank.co.in/citi-nri/faqs-with-answers.htm'
     # __domain = 'https://en.wikipedia.org/wiki/Main_Page'
     # __domain = 'https://www.semicolonworld.com/'
-    __domain = 'https://www.xml-sitemaps.com//'
+    # __domain = 'https://www.propstream.com/'
     from share.log.log_config import setup_logger
 
     setup_logger(['debug'])
     c = Crawler(__domain)
-    c.crawl({'url': __domain, 'crawlId': 'with_headers', 'userAgent':'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B137 Safari/601.1'})
+    c.crawl({'url': __domain, 'crawlId': 'prop',
+             'userAgent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B137 Safari/601.1'})
     # c.crawl({'url': __domain, 'crawlId': 'with_headers'})

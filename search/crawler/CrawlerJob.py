@@ -1,9 +1,10 @@
+import json
 import logging
 import time
 import traceback
 
 from crawler.Crawler import Crawler
-from share import constants
+from crawler import constants
 from share.BotServices import notify_bot_status
 from share.db.DBManager import DBManager
 from share.log.log_config import setup_logger
@@ -12,6 +13,7 @@ loggers = ["debug", "server"]
 setup_logger(loggers)
 db_manager = DBManager()
 debug_logger = logging.getLogger('debug')
+server_logger = logging.getLogger('server')
 
 
 def is_valid_request(request_payload):
@@ -31,6 +33,8 @@ def queue_listener():
         training_task = db_manager.get_training_task()
         crawl_response = dict()
         if training_task:
+            server_logger.info(json.dumps({"CRAWL_Request": training_task}))
+            debug_logger.info(json.dumps({"CRAWL_Request": training_task}))
             if not is_valid_request(training_task):
                 raise Exception('invalid request payload')
             crawl_id = training_task[constants.CRAWL_ID_DB_KEY]
@@ -51,9 +55,13 @@ def queue_listener():
 
             if training_failed:
                 db_manager.update_training_task(training_task['_id'], constants.STATUS_FAILED)
+                server_logger.info(
+                    json.dumps({'CRAWL_Response': {'status': constants.STATUS_FAILED, 'payload': crawl_response}}))
                 notify_bot_status(crawl_id, constants.STATUS_FAILED, additional_payload=crawl_response)
             else:
                 db_manager.update_training_task(training_task['_id'], constants.STATUS_SUCCESS)
+                server_logger.info(
+                    json.dumps({'CRAWL_Response': {'status': constants.STATUS_SUCCESS, 'payload': crawl_response}}))
                 notify_bot_status(crawl_id, constants.STATUS_SUCCESS, additional_payload=crawl_response)
 
         else:

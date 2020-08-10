@@ -5,7 +5,7 @@ import traceback
 
 from pymongo import MongoClient
 
-from share import constants
+from crawler import constants as crawler_constants
 from share.config.ConfigManager import ConfigManager
 
 debug_logger = logging.getLogger('debug')
@@ -44,7 +44,7 @@ class DBManager(Singleton):
 
     def insert_page_data_in_db(self, crawl_id, page_data):
         page_data['createdOn'] = datetime.datetime.utcnow()
-        page_data['crawl_id'] = crawl_id
+        page_data['crawlId'] = crawl_id
         self.pages_db.insert(page_data)
         return True
 
@@ -54,9 +54,9 @@ class DBManager(Singleton):
     def put_train_task_in_queue(self, request_obj):
         crawl_id = request_obj["crawlId"]
         try:
-            query = {'crawlId': crawl_id, 'status': constants.STATUS_QUEUED, 'resourceType': constants.RESOURCE_TYPE}
+            query = {'crawlId': crawl_id, 'status': crawler_constants.STATUS_QUEUED, 'resourceType': crawler_constants.RESOURCE_TYPE}
             crawl_payload = {'crawlId': crawl_id, 'resourceType': "domain", 'payload': request_obj,
-                             'status': constants.STATUS_QUEUED,
+                             'status': crawler_constants.STATUS_QUEUED,
                              'startedOn': datetime.datetime.utcnow(), 'lastModified': datetime.datetime.utcnow()}
             updated_record = self.crawl_queue_db.find_one_and_update(query, {'$set': crawl_payload}, upsert=True,
                                                                      full_response=True, return_document=True)
@@ -68,8 +68,8 @@ class DBManager(Singleton):
     def get_training_task(self):
         try:
             updated_record = self.crawl_queue_db.find_one_and_update(
-                {'status': constants.STATUS_QUEUED, 'resourceType': constants.RESOURCE_TYPE}, {
-                    '$set': {'status': constants.STATUS_running, 'lastModified': datetime.datetime.utcnow()}})
+                {'status': crawler_constants.STATUS_QUEUED, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
+                    '$set': {'status': crawler_constants.STATUS_running, 'lastModified': datetime.datetime.utcnow()}})
             return updated_record
         except:
             debug_logger.error(traceback.format_exc())
@@ -88,8 +88,8 @@ class DBManager(Singleton):
         while True:
             try:
                 self.crawl_queue_db.update_many(
-                    {'status': constants.STATUS_running, 'resourceType': constants.RESOURCE_TYPE}, {
-                        '$set': {'status': constants.STATUS_QUEUED, 'lastModified': datetime.datetime.utcnow()}})
+                    {'status': crawler_constants.STATUS_running, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
+                        '$set': {'status': crawler_constants.STATUS_QUEUED, 'lastModified': datetime.datetime.utcnow()}})
                 break
             except:
                 debug_logger.error(traceback.format_exc())

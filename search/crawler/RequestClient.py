@@ -1,6 +1,6 @@
 import time
 from http import HTTPStatus
-
+from crawler import constants
 import requests
 
 RETRYABLE_HTTP_STATUS_CODES = {
@@ -25,15 +25,11 @@ RETRYABLE_HTTP_STATUS_CODES = {
     530,
 }
 
-SLEEP_BETWEEN_RETRIES = 1  # give one second gap between retries
-MAX_RETRIES = 2
-TIMEOUT = 10
-MAX_RESPONSE_SIZE = 10 * 1024 * 1024
 
 
 class RequestClient(object):
-    def __init__(self, max_response_size=MAX_RESPONSE_SIZE,
-                 max_retries=MAX_RETRIES, timeout=TIMEOUT, sleep_limit=SLEEP_BETWEEN_RETRIES):
+    def __init__(self, max_response_size=constants.MAX_RESPONSE_SIZE,
+                 max_retries=constants.MAX_RETRIES, timeout=constants.TIMEOUT, sleep_limit=constants.SLEEP_BETWEEN_RETRIES):
         self._max_response_size = max_response_size
         self._max_retries = max_retries
         self._timeout = timeout
