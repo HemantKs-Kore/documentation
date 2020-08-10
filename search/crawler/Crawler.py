@@ -97,7 +97,7 @@ class Crawler(object):
     def crawl(self, args):
         try:
             url = args.get('url')
-            user_agent = args.get('userAgent', 'SampleWebsiteTest')
+            user_agent = args.get('userAgent', '*')
             debug_logger.info('Homepage of input url- {}'.format(self.homepage_url))
             sitemap_parser = SitemapGateway(url=self.robots_url, recursion_depth=0)
             sitemaps_fetched = sitemap_parser.fetch_sitemaps()
@@ -139,9 +139,12 @@ class Crawler(object):
 
 if __name__ == '__main__':
     __domain = 'http://www.online.citibank.co.in/citi-nri/faqs-with-answers.htm'
-    __domain = 'https://en.wikipedia.org/wiki/Main_Page'
+    # __domain = 'https://en.wikipedia.org/wiki/Main_Page'
+    # __domain = 'https://www.semicolonworld.com/'
+    __domain = 'https://www.xml-sitemaps.com//'
     from share.log.log_config import setup_logger
 
     setup_logger(['debug'])
     c = Crawler(__domain)
-    c.crawl({'url': __domain})
+    c.crawl({'url': __domain, 'crawlId': 'with_headers', 'userAgent':'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B137 Safari/601.1'})
+    # c.crawl({'url': __domain, 'crawlId': 'with_headers'})

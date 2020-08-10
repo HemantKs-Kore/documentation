@@ -71,6 +71,7 @@ class PageScraper(scrapy.Spider):
 
     def get_html_text_content(self, html_text):
         soup = BeautifulSoup(html_text, "html.parser")
+        soup = soup.find('body')
         text_content = soup.get_text(separator="\n", strip=True)
         return text_content
 

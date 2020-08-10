@@ -39,9 +39,10 @@ class RequestClient(object):
         self._timeout = timeout
         self._sleep_between_retries = sleep_limit
 
-    def get(self, url):
+    def get(self, url, user_agent=''):
+        headers_mobile = {'User-Agent': user_agent}
         for retry in range(0, self._max_retries):
-            response = requests.get(url, timeout=self._timeout)
+            response = requests.get(url, timeout=self._timeout, headers=headers_mobile)
 
             if response.status_code in RETRYABLE_HTTP_STATUS_CODES:
                 time.sleep(self._sleep_between_retries)
