@@ -3,7 +3,7 @@ import traceback
 import json
 import requests
 
-from share import constants
+from crawler import constants
 from share.config.ConfigManager import ConfigManager
 
 config_manager = ConfigManager()
