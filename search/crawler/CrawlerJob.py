@@ -1,7 +1,11 @@
 import json
 import logging
+import os
+import sys
 import time
 import traceback
+
+sys.path.append(str(os.getcwd()))
 
 from crawler.Crawler import Crawler
 from crawler import constants
