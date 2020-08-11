@@ -4,7 +4,7 @@ import sys
 sys.path.extend(['../'])
 from share.db.DBManager import DBManager
 from share import errors
-from share import constants
+from crawler import constants
 
 from flask import request, make_response
 

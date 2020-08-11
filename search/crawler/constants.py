@@ -1,5 +1,4 @@
-SYNC_RIGHTS_FILE = "sync_rights.pkl"
-STATUS_QUEUED = "queued"
+STATUS_QUEUED = "queued" #todo: property
 STATUS_running = "running"
 STATUS_FAILED = "failed"
 STATUS_SUCCESS = "success"
