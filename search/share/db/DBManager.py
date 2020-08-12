@@ -48,23 +48,6 @@ class DBManager(Singleton):
         self.pages_db.insert(page_data)
         return True
 
-    def insert_domain_data_in_db(self, search_index_id, domain_data):
-        pass
-
-    def put_train_task_in_queue(self, request_obj):
-        crawl_id = request_obj["crawlId"]
-        try:
-            query = {'crawlId': crawl_id, 'status': crawler_constants.STATUS_QUEUED, 'resourceType': crawler_constants.RESOURCE_TYPE}
-            crawl_payload = {'crawlId': crawl_id, 'resourceType': "domain", 'payload': request_obj,
-                             'status': crawler_constants.STATUS_QUEUED,
-                             'startedOn': datetime.datetime.utcnow(), 'lastModified': datetime.datetime.utcnow()}
-            updated_record = self.crawl_queue_db.find_one_and_update(query, {'$set': crawl_payload}, upsert=True,
-                                                                     full_response=True, return_document=True)
-            return True
-        except Exception:
-            debug_logger.error("FAILED to enqueue crawl request for {}: {}".format(crawl_id, traceback.format_exc()))
-            return False
-
     def get_training_task(self):
         try:
             updated_record = self.crawl_queue_db.find_one_and_update(

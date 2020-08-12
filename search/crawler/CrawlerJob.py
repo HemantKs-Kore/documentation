@@ -39,11 +39,12 @@ def queue_listener():
         if training_task:
             if not is_valid_request(training_task):
                 raise Exception('invalid request payload')
-            crawl_id = training_task[crawl_constants.CRAWL_ID_DB_KEY]
+            crawl_id = str(training_task['_id'])
             notify_bot_status(crawl_id, crawl_constants.STATUS_RUNNING)
             training_failed = 0
             try:
                 request_payload = training_task['payload']
+                request_payload['crawlId'] = crawl_id
                 server_logger.info(json.dumps({"CRAWL_Request": request_payload}))
                 debug_logger.info(json.dumps({"CRAWL_Request": request_payload}))
                 crawler = Crawler(request_payload.get('url'))

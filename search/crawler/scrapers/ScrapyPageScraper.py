@@ -54,7 +54,7 @@ class PageScraper(scrapy.Spider):
     def __init__(self, args):
         dispatcher.connect(self.spider_closed, signals.spider_closed)
         self.start_urls = args.get('start_urls', [])
-        self.domain_id = args.get('domain_id')
+        self.domain_id = args.get('domainId')
         self.url = args.get('url')
         self.search_index_id = args.get('searchIndexId')
         self.stream_id = args.get('streamId')
@@ -66,8 +66,12 @@ class PageScraper(scrapy.Spider):
 
     def get_html_text_content(self, html_text):
         soup = BeautifulSoup(html_text, "html.parser")
+        for junk in soup(["script", "style"]):  # remove all javascript and stylesheet code
+            junk.decompose()
         soup = soup.find('body')
         text_content = soup.get_text(separator="\n", strip=True)
+        text_content = (line.strip() for line in text_content.splitlines())
+        text_content = '\n'.join(chunk for chunk in text_content if chunk)
         return text_content
 
     def parse(self, response):

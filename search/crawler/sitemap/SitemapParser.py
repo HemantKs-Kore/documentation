@@ -171,7 +171,7 @@ class SitemapGateway(object):
                 elif self._url.endswith('/robots.txt'):
                     parser = RobotSitemapParser(self._url, self._recursion_depth)
                 else:
-                    return None
+                    return []
                 sitemaps = parser.fetch_sitemaps(response_content)
                 return sitemaps
             else:

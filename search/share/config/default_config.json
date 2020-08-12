@@ -9,9 +9,9 @@
   },
   "crawler": {
     "URL_CRAWL_LIMIT": 250,
-    "CRAWL_SUB_DOMAINS": false,
+    "CRAWL_ONLY_SUB_DOMAINS": false,
     "HOST_URL": "https://qa-bots.kore.ai",
-    "STATUS_ENDPOINT": "/findly/status"
+    "STATUS_ENDPOINT": "/findly/job/<jobId>/status"
   },
   "squid_proxy": {
     "USE_PROXY": false,
