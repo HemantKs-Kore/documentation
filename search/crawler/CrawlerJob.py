@@ -37,8 +37,6 @@ def queue_listener():
         training_task = db_manager.get_training_task()
         crawl_response = dict()
         if training_task:
-            server_logger.info(json.dumps({"CRAWL_Request": training_task}))
-            debug_logger.info(json.dumps({"CRAWL_Request": training_task}))
             if not is_valid_request(training_task):
                 raise Exception('invalid request payload')
             crawl_id = training_task[crawl_constants.CRAWL_ID_DB_KEY]
@@ -46,6 +44,8 @@ def queue_listener():
             training_failed = 0
             try:
                 request_payload = training_task['payload']
+                server_logger.info(json.dumps({"CRAWL_Request": request_payload}))
+                debug_logger.info(json.dumps({"CRAWL_Request": request_payload}))
                 crawler = Crawler(request_payload.get('url'))
                 crawl_response = crawler.crawl(request_payload)
                 if crawl_response['status_code'] != 200:
