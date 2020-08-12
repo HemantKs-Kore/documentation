@@ -1,7 +1,8 @@
 import time
 from http import HTTPStatus
-from crawler import constants
+
 import requests
+from crawler.constants import CrawlerConstants as crawl_constants
 
 RETRYABLE_HTTP_STATUS_CODES = {
     HTTPStatus.BAD_REQUEST.value,
@@ -26,10 +27,10 @@ RETRYABLE_HTTP_STATUS_CODES = {
 }
 
 
-
 class RequestClient(object):
-    def __init__(self, max_response_size=constants.MAX_RESPONSE_SIZE,
-                 max_retries=constants.MAX_RETRIES, timeout=constants.TIMEOUT, sleep_limit=constants.SLEEP_BETWEEN_RETRIES):
+    def __init__(self, max_response_size=crawl_constants.MAX_RESPONSE_SIZE,
+                 max_retries=crawl_constants.MAX_RETRIES, timeout=crawl_constants.TIMEOUT,
+                 sleep_limit=crawl_constants.SLEEP_BETWEEN_RETRIES):
         self._max_response_size = max_response_size
         self._max_retries = max_retries
         self._timeout = timeout

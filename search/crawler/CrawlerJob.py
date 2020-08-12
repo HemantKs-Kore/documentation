@@ -8,8 +8,8 @@ import traceback
 sys.path.append(str(os.getcwd()))
 
 from crawler.Crawler import Crawler
-from crawler import constants
-from share.BotServices import notify_bot_status
+from crawler.constants import CrawlerConstants as crawl_constants
+from share.BotServicesClient import notify_bot_status
 from share.db.DBManager import DBManager
 from share.log.log_config import setup_logger
 
@@ -41,8 +41,8 @@ def queue_listener():
             debug_logger.info(json.dumps({"CRAWL_Request": training_task}))
             if not is_valid_request(training_task):
                 raise Exception('invalid request payload')
-            crawl_id = training_task[constants.CRAWL_ID_DB_KEY]
-            notify_bot_status(crawl_id, constants.STATUS_running)
+            crawl_id = training_task[crawl_constants.CRAWL_ID_DB_KEY]
+            notify_bot_status(crawl_id, crawl_constants.STATUS_RUNNING)
             training_failed = 0
             try:
                 request_payload = training_task['payload']
@@ -52,21 +52,23 @@ def queue_listener():
                     training_failed = 1
             except Exception as e:
                 training_failed = 1
-                crawl_response[constants.CRAWL_ID_DB_KEY] = crawl_id
+                crawl_response[crawl_constants.CRAWL_ID_DB_KEY] = crawl_id
                 crawl_response['status_code'] = 400
                 crawl_response['status_msg'] = str(e) if str(e) else 'Crawling Failed'
                 debug_logger.error(traceback.format_exc())
 
             if training_failed:
-                db_manager.update_training_task(training_task['_id'], constants.STATUS_FAILED)
+                db_manager.update_training_task(training_task['_id'], crawl_constants.STATUS_FAILED)
                 server_logger.info(
-                    json.dumps({'CRAWL_Response': {'status': constants.STATUS_FAILED, 'payload': crawl_response}}))
-                notify_bot_status(crawl_id, constants.STATUS_FAILED, additional_payload=crawl_response)
+                    json.dumps(
+                        {'CRAWL_Response': {'status': crawl_constants.STATUS_FAILED, 'payload': crawl_response}}))
+                notify_bot_status(crawl_id, crawl_constants.STATUS_FAILED, additional_payload=crawl_response)
             else:
-                db_manager.update_training_task(training_task['_id'], constants.STATUS_SUCCESS)
+                db_manager.update_training_task(training_task['_id'], crawl_constants.STATUS_SUCCESS)
                 server_logger.info(
-                    json.dumps({'CRAWL_Response': {'status': constants.STATUS_SUCCESS, 'payload': crawl_response}}))
-                notify_bot_status(crawl_id, constants.STATUS_SUCCESS, additional_payload=crawl_response)
+                    json.dumps(
+                        {'CRAWL_Response': {'status': crawl_constants.STATUS_SUCCESS, 'payload': crawl_response}}))
+                notify_bot_status(crawl_id, crawl_constants.STATUS_SUCCESS, additional_payload=crawl_response)
 
         else:
             time.sleep(0.5)  # to reduce cpu load if queue is empty

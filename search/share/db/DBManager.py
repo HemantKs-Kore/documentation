@@ -5,7 +5,7 @@ import traceback
 
 from pymongo import MongoClient
 
-from crawler import constants as crawler_constants
+from crawler.constants import CrawlerConstants as crawler_constants
 from share.config.ConfigManager import ConfigManager
 
 debug_logger = logging.getLogger('debug')
@@ -69,7 +69,7 @@ class DBManager(Singleton):
         try:
             updated_record = self.crawl_queue_db.find_one_and_update(
                 {'status': crawler_constants.STATUS_QUEUED, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
-                    '$set': {'status': crawler_constants.STATUS_running, 'lastModified': datetime.datetime.utcnow()}})
+                    '$set': {'status': crawler_constants.STATUS_RUNNING, 'lastModified': datetime.datetime.utcnow()}})
             return updated_record
         except:
             debug_logger.error(traceback.format_exc())
@@ -88,7 +88,7 @@ class DBManager(Singleton):
         while True:
             try:
                 self.crawl_queue_db.update_many(
-                    {'status': crawler_constants.STATUS_running, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
+                    {'status': crawler_constants.STATUS_RUNNING, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
                         '$set': {'status': crawler_constants.STATUS_QUEUED, 'lastModified': datetime.datetime.utcnow()}})
                 break
             except:

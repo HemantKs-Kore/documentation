@@ -3,7 +3,7 @@ import traceback
 import json
 import requests
 
-from crawler import constants
+from crawler.constants import CrawlerConstants as crawl_constants
 from share.config.ConfigManager import ConfigManager
 
 config_manager = ConfigManager()
@@ -17,7 +17,7 @@ def notify_bot_status(crawl_id, status, additional_payload=None):
         if additional_payload is None:
             additional_payload = dict()
 
-        payload = {constants.CRAWL_ID_DB_KEY: crawl_id, "status": status}
+        payload = {crawl_constants.CRAWL_ID_DB_KEY: crawl_id, "status": status}
         if isinstance(additional_payload, dict):
             payload.update(additional_payload)
 
