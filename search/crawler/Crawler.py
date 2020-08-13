@@ -140,6 +140,11 @@ class Crawler(object):
             if self.robot_parse_status:
                 filtered_page_urls = self.filter_urls_by_robots(filtered_page_urls, user_agent=user_agent)
 
+            if len(filtered_page_urls):
+                status_msg = 'No links found to scrape after following Robots.txt'
+                debug_logger.warning(status_msg)
+                return {'status_msg': status_msg, 'status_code': 400}
+
             crawl_settings = self.get_crawl_settings(user_agent=user_agent)
             start_time = time.time()
             process = CrawlerProcess(settings=crawl_settings)
