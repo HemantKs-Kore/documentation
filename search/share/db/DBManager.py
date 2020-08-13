@@ -3,9 +3,8 @@ import datetime
 import logging
 import traceback
 
-from pymongo import MongoClient
-
 from crawler.constants import CrawlerConstants as crawler_constants
+from pymongo import MongoClient
 from share.config.ConfigManager import ConfigManager
 
 debug_logger = logging.getLogger('debug')
@@ -72,8 +71,32 @@ class DBManager(Singleton):
             try:
                 self.crawl_queue_db.update_many(
                     {'status': crawler_constants.STATUS_RUNNING, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
-                        '$set': {'status': crawler_constants.STATUS_QUEUED, 'lastModified': datetime.datetime.utcnow()}})
+                        '$set': {'status': crawler_constants.STATUS_QUEUED,
+                                 'lastModified': datetime.datetime.utcnow()}})
                 break
             except:
                 debug_logger.error(traceback.format_exc())
-        debug_logger.info('Crawl logs: reset unfinished requests to Failed')
+        debug_logger.info('Crawl logs: reset unfinished requests to Queued')
+
+    def put_train_task_in_queue(self, request_obj):  # testing purpose
+        crawl_id = request_obj[crawler_constants.CRAWL_ID_DB_KEY]
+        try:
+            query = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'status': crawler_constants.STATUS_QUEUED,
+                     'resourceType': crawler_constants.RESOURCE_TYPE}
+            crawl_payload = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'resourceType': request_obj['resourceType'], 'payload': request_obj,
+                             'status': crawler_constants.STATUS_QUEUED,
+                             'startedOn': datetime.datetime.utcnow(), 'lastModified': datetime.datetime.utcnow()}
+            updated_record = self.crawl_queue_db.find_one_and_update(query, {'$set': crawl_payload}, upsert=True,
+                                                                     full_response=True, return_document=True)
+            return True
+        except Exception:
+            debug_logger.error("FAILED to enqueue crawl request for {}: {}".format(crawl_id, traceback.format_exc()))
+            return False
+
+if __name__ == '__main__':
+    db = DBManager()
+    db.put_train_task_in_queue({
+        crawler_constants.CRAWL_ID_DB_KEY: 'ct123',
+        'resourceType': crawler_constants.RESOURCE_TYPE,
+        'url': 'https://in.bookmyshow.com/'
+    })

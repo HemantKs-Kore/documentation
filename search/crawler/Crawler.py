@@ -73,7 +73,7 @@ class Crawler(object):
         else:
             valid_page_urls = [page.url for sitemap_fetched in sitemap_data for page in
                                sitemap_fetched.pages_in_sitemaps]
-            valid_sitemaps = [sitemap_fetched.sitemap_url for sitemap_fetched in sitemap_data]
+            valid_sitemaps = [sitemap_fetched.sitemap_url for sitemap_fetched in sitemap_data if len(sitemap_fetched.pages_in_sitemaps) > 0]
         valid_page_urls = valid_page_urls[: CRAWL_LIMIT]
         return valid_page_urls, valid_sitemaps
 
@@ -163,6 +163,7 @@ if __name__ == '__main__':
     # __domain = 'https://www.propstream.com/'
     __domain = 'https://www.xml-sitemaps.com//'
     __domain = 'https://www.cars24.com/'
+    __domain = 'https://in.bookmyshow.com/'
     from share.log.log_config import setup_logger
 
     setup_logger(['debug'])
