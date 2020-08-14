@@ -43,7 +43,7 @@ class DBManager(Singleton):
 
     def insert_page_data_in_db(self, crawl_id, page_data):
         page_data['createdOn'] = datetime.datetime.utcnow()
-        page_data['crawlId'] = crawl_id
+        page_data[crawler_constants.CRAWL_ID_DB_KEY] = crawl_id
         self.pages_db.insert(page_data)
         return True
 
