@@ -2,6 +2,7 @@
 import datetime
 import logging
 import traceback
+import uuid
 
 from crawler.constants import CrawlerConstants as crawler_constants
 from pymongo import MongoClient
@@ -44,6 +45,7 @@ class DBManager(Singleton):
     def insert_page_data_in_db(self, crawl_id, page_data):
         page_data['createdOn'] = datetime.datetime.utcnow()
         page_data[crawler_constants.CRAWL_ID_DB_KEY] = crawl_id
+        page_data['_id'] = 'pg-' + str(uuid.uuid4())
         self.pages_db.insert(page_data)
         return True
 
@@ -91,7 +93,8 @@ class DBManager(Singleton):
         try:
             query = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'status': crawler_constants.STATUS_QUEUED,
                      'resourceType': crawler_constants.RESOURCE_TYPE}
-            crawl_payload = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'resourceType': request_obj['resourceType'], 'payload': request_obj,
+            crawl_payload = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'resourceType': request_obj['resourceType'],
+                             'payload': request_obj,
                              'status': crawler_constants.STATUS_QUEUED,
                              'startedOn': datetime.datetime.utcnow(), 'lastModified': datetime.datetime.utcnow()}
             updated_record = self.crawl_queue_db.find_one_and_update(query, {'$set': crawl_payload}, upsert=True,
@@ -100,6 +103,7 @@ class DBManager(Singleton):
         except Exception:
             debug_logger.error("FAILED to enqueue crawl request for {}: {}".format(crawl_id, traceback.format_exc()))
             return False
+
 
 if __name__ == '__main__':
     db = DBManager()
