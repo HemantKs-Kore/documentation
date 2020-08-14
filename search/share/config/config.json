@@ -3,7 +3,7 @@
     "MONGO_URI": "mongodb://localhost:27017"
   },
    "crawler": {
-    "URL_CRAWL_LIMIT": 250,
+    "URL_CRAWL_LIMIT": 500,
     "CRAWL_ONLY_SUB_DOMAINS": false,
     "HOST_URL": "https://qa-bots.kore.ai"
    },

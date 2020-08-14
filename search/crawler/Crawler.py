@@ -140,7 +140,7 @@ class Crawler(object):
             if self.robot_parse_status:
                 filtered_page_urls = self.filter_urls_by_robots(filtered_page_urls, user_agent=user_agent)
 
-            if len(filtered_page_urls):
+            if not len(filtered_page_urls):
                 status_msg = 'No links found to scrape after following Robots.txt'
                 debug_logger.warning(status_msg)
                 return {'status_msg': status_msg, 'status_code': 400}
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     # __domain = 'https://www.propstream.com/'
     __domain = 'https://www.xml-sitemaps.com//'
     __domain = 'https://www.cars24.com/'
-    __domain = 'https://in.bookmyshow.com/'
+    __domain = 'https://www.online.citibank.co.in/'
     from share.log.log_config import setup_logger
 
     setup_logger(['debug'])

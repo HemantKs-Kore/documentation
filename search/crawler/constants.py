@@ -4,7 +4,6 @@ class CrawlerConstants(object):
     STATUS_FAILED = "failed"
     STATUS_SUCCESS = "success"
     STATUS_VALIDATION = "validation"
-    CRAWL_ID_DB_KEY = "jobId"
     RESOURCE_TYPE = "webdomain"
     SLEEP_BETWEEN_RETRIES = 1  # give one second gap between retries
     MAX_RETRIES = 2
@@ -24,3 +23,9 @@ class CrawlerConstants(object):
         'admin/config/search/xmlsitemap',
         'sitemap/sitemap-index.xml',
     }
+    CRAWL_ID_DB_KEY = "jobId"
+    RESOURCE_ID_DB_KEY = 'resourceId'
+    SEARCH_INDEX_DB_KEY = 'searchIndexId'
+    STREAM_ID_DB_KEY = 'streamId'
+    DOMAIN_URL_DB_KEY = 'url'
+    RESOURCE_TYPE_DB_KEY = 'resourceType'

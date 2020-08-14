@@ -78,7 +78,15 @@ class DBManager(Singleton):
                 debug_logger.error(traceback.format_exc())
         debug_logger.info('Crawl logs: reset unfinished requests to Queued')
 
-    def put_train_task_in_queue(self, request_obj):  # testing purpose
+    def get_domain_data_from_db(self, domain_id):
+        try:
+            record = self.domain_db.find_one({'_id': domain_id})
+            return record
+        except:
+            debug_logger.error(traceback.format_exc())
+            return dict()
+
+    def _put_train_task_in_queue(self, request_obj):  # testing purpose
         crawl_id = request_obj[crawler_constants.CRAWL_ID_DB_KEY]
         try:
             query = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'status': crawler_constants.STATUS_QUEUED,
@@ -95,8 +103,9 @@ class DBManager(Singleton):
 
 if __name__ == '__main__':
     db = DBManager()
-    db.put_train_task_in_queue({
+    db._put_train_task_in_queue({
         crawler_constants.CRAWL_ID_DB_KEY: 'ct123',
         'resourceType': crawler_constants.RESOURCE_TYPE,
-        'url': 'https://in.bookmyshow.com/'
+        'url': 'https://www.online.citibank.co.in/',
+        '_id': 'job-123'
     })

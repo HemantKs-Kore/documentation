@@ -4,10 +4,10 @@ import traceback
 
 import scrapy
 from bs4 import BeautifulSoup
+from crawler.constants import CrawlerConstants as crawl_constants
 from pydispatch import dispatcher
 from scrapy import signals
 from scrapy.selector import Selector
-
 from share.db.DBManager import DBManager
 
 debug_logger = logging.getLogger('debug')
@@ -21,7 +21,7 @@ class ScrapyItem(scrapy.Item):
     url = scrapy.Field()
     body = scrapy.Field()
     imageUrl = scrapy.Field()
-    domainId = scrapy.Field()
+    resourceId = scrapy.Field()
     searchIndexId = scrapy.Field()
     streamId = scrapy.Field()
     searchResultPreview = scrapy.Field()
@@ -36,7 +36,7 @@ class MongoPipeline(object):
             try:
                 data_item['sections'] = [section_text.strip() for section_text in data_item['sections'] if
                                          section_text.strip()]
-                data_item['domainId'] = spider.domain_id
+                data_item[crawl_constants.RESOURCE_ID_DB_KEY] = spider.domain_id
                 data_item['searchIndexId'] = spider.search_index_id
                 data_item['streamId'] = spider.stream_id
                 data_item['searchResultPreview'] = ''
@@ -54,7 +54,7 @@ class PageScraper(scrapy.Spider):
     def __init__(self, args):
         dispatcher.connect(self.spider_closed, signals.spider_closed)
         self.start_urls = args.get('start_urls', [])
-        self.domain_id = args.get('domainId')
+        self.domain_id = args.get(crawl_constants.RESOURCE_ID_DB_KEY)
         self.url = args.get('url')
         self.search_index_id = args.get('searchIndexId')
         self.stream_id = args.get('streamId')

@@ -21,15 +21,26 @@ server_logger = logging.getLogger('server')
 
 
 def is_valid_request(request_payload):
-    if request_payload.get('url', False):
+    if not request_payload.get(crawl_constants.RESOURCE_ID_DB_KEY, False):
         return False
-    elif request_payload.get('domainId', False):
+    elif not request_payload.get(crawl_constants.SEARCH_INDEX_DB_KEY, False):
         return False
-    elif request_payload.get('searchIndexId', False):
+    elif not request_payload.get(crawl_constants.STREAM_ID_DB_KEY, False):
         return False
-    elif request_payload.get('streamId', False):
+    elif not request_payload.get(crawl_constants.RESOURCE_TYPE_DB_KEY, False):
         return False
     return True
+
+
+def build_args(request_payload):
+    args = dict()
+    args['crawlId'] = request_payload['_id']
+    args[crawl_constants.RESOURCE_ID_DB_KEY] = request_payload[crawl_constants.RESOURCE_ID_DB_KEY]
+    args[crawl_constants.STREAM_ID_DB_KEY] = request_payload[crawl_constants.STREAM_ID_DB_KEY]
+    args[crawl_constants.SEARCH_INDEX_DB_KEY] = request_payload[crawl_constants.SEARCH_INDEX_DB_KEY]
+    domain_data = db_manager.get_domain_data_from_db(args[crawl_constants.RESOURCE_ID_DB_KEY])
+    args[crawl_constants.DOMAIN_URL_DB_KEY] = domain_data[crawl_constants.DOMAIN_URL_DB_KEY]
+    return args
 
 
 def queue_listener():
@@ -37,14 +48,13 @@ def queue_listener():
         training_task = db_manager.get_training_task()
         crawl_response = dict()
         if training_task:
-            if not is_valid_request(training_task):
-                raise Exception('invalid request payload')
-            crawl_id = str(training_task['_id'])
+            crawl_id = training_task['_id']
             notify_bot_status(crawl_id, crawl_constants.STATUS_RUNNING)
             training_failed = 0
             try:
-                request_payload = training_task['payload']
-                request_payload['crawlId'] = crawl_id
+                if not is_valid_request(training_task):
+                    raise Exception('invalid request payload')
+                request_payload = build_args(training_task)
                 server_logger.info(json.dumps({"CRAWL_Request": request_payload}))
                 debug_logger.info(json.dumps({"CRAWL_Request": request_payload}))
                 crawler = Crawler(request_payload.get('url'))
