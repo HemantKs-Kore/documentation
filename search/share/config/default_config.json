@@ -11,7 +11,7 @@
     "URL_CRAWL_LIMIT": 250,
     "CRAWL_ONLY_SUB_DOMAINS": false,
     "HOST_URL": "https://qa-bots.kore.ai",
-    "STATUS_ENDPOINT": "/findly/job/<jobId>/status",
+    "STATUS_ENDPOINT": "/api/internal/findly/job/<jobId>/status",
     "API_KEY": ""
   },
   "squid_proxy": {

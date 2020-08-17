@@ -29,10 +29,15 @@ def notify_bot_status(crawl_id, status, additional_payload=None):
         host_url = crawler_config.get('HOST_URL') + crawler_config.get('STATUS_ENDPOINT').replace('<jobId>', crawl_id)
         resp = requests.post(host_url, data=payload, headers=headers, verify=remote_config.get('ENV_SSL_VERIFY', False))
         if resp.status_code == 200:
-            debug_logger.info("status update notified to platform for kt_id: {}, status: {}".format(crawl_id, status))
+            debug_logger.info(
+                "status update notified to platform for host url: {}, job_id: {}, status: {}".format(host_url, crawl_id,
+                                                                                                     status))
         else:
             debug_logger.critical(
-                "error while status update notification: {}, crawl_id: {}".format(resp.status_code, crawl_id))
+                "error while status update notification with host url: {}, status-code: {}, job_id: {}, status: {}".format(
+                    host_url,
+                    resp.status_code,
+                    crawl_id, status))
 
     except:
         debug_logger.error(traceback.format_exc())
