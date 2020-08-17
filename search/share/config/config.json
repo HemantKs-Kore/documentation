@@ -2,11 +2,12 @@
   "db": {
     "MONGO_URI": "mongodb://localhost:27017"
   },
-   "crawler": {
+  "crawler": {
     "URL_CRAWL_LIMIT": 500,
     "CRAWL_ONLY_SUB_DOMAINS": false,
-    "HOST_URL": "https://qa-bots.kore.ai"
-   },
+    "HOST_URL": "https://qa-bots.kore.ai",
+    "API_KEY": ""
+  },
   "squid_proxy": {
     "USE_PROXY": false,
     "PROXY_SETTING": {

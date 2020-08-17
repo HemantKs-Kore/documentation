@@ -1,8 +1,8 @@
+import json
 import logging
 import traceback
-import json
-import requests
 
+import requests
 from crawler.constants import CrawlerConstants as crawl_constants
 from share.config.ConfigManager import ConfigManager
 
@@ -10,6 +10,7 @@ config_manager = ConfigManager()
 remote_config = config_manager.load_config('remote_config')
 crawler_config = config_manager.load_config('crawler')
 debug_logger = logging.getLogger('debug')
+api_key = crawler_config.get('API_KEY')
 
 
 def notify_bot_status(crawl_id, status, additional_payload=None):
@@ -21,7 +22,9 @@ def notify_bot_status(crawl_id, status, additional_payload=None):
         if isinstance(additional_payload, dict):
             payload.update(additional_payload)
 
-        headers = {"Content-Type": "application/json"}
+        headers = {"Content-Type": "application/json",
+                   "apikey": api_key
+                   }
         payload = json.dumps(payload)
         host_url = crawler_config.get('HOST_URL') + crawler_config.get('STATUS_ENDPOINT').replace('<jobId>', crawl_id)
         resp = requests.post(host_url, data=payload, headers=headers, verify=remote_config.get('ENV_SSL_VERIFY', False))
