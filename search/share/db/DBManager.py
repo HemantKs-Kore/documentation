@@ -69,16 +69,14 @@ class DBManager(Singleton):
             return False
 
     def reset_in_progress_tasks(self):
-        while True:
-            try:
-                self.crawl_queue_db.update_many(
-                    {'status': crawler_constants.STATUS_RUNNING, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
-                        '$set': {'status': crawler_constants.STATUS_QUEUED,
-                                 'lastModified': datetime.datetime.utcnow()}})
-                break
-            except:
-                debug_logger.error(traceback.format_exc())
-        debug_logger.info('Crawl logs: reset unfinished requests to Queued')
+        try:
+            self.crawl_queue_db.update_many(
+                {'status': crawler_constants.STATUS_RUNNING, 'resourceType': crawler_constants.RESOURCE_TYPE}, {
+                    '$set': {'status': crawler_constants.STATUS_QUEUED,
+                             'lastModified': datetime.datetime.utcnow()}})
+            debug_logger.info('Crawl logs: reset unfinished requests to Queued')
+        except:
+            debug_logger.error(traceback.format_exc())
 
     def get_domain_data_from_db(self, domain_id):
         try:
