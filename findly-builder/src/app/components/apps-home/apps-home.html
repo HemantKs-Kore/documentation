@@ -122,7 +122,7 @@
            </div>
       </div>
       </div>
-      <div class="modal-footer" [ngClass]="{'disabled': deleteInProgress}">
+      <div class="modal-footer">
         <button [disabled]="!newApp.name"  type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='createFindlyApp()' >{{creatingInProgress?'Createing...':'Proceed'}}</button>
         <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
       </div>

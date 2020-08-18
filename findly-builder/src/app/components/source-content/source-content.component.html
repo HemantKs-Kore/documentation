@@ -109,7 +109,7 @@
     <div class="sliderHeader">
       <h4 class="slider-title"><img src="assets/images/closeCross.png" class="closeCross" (click)="showPages?hidepages():closeStatusSlider();">{{selectedSource.name}}</h4>
     </div>
-    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
+    <perfect-scrollbar>
       <div class="sliderBody call-history-filter">
         <div class="info-content bg-color" *ngIf="!showPages">
           <div class="row m-0 row_content">
@@ -215,7 +215,7 @@
       <div class="desc-info-text text-center" *ngIf="currentStatusFailed">Crawling failed</div>
       <div class="desc-info-text text-center" *ngIf="!currentStatusFailed"></div>
     </div>
-    <div class="modal-footer status-modal-footer" [ngClass]="{'disabled': deleteInProgress}">
+    <div class="modal-footer status-modal-footer">
       <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal();getSourceList();">Done</button>
     </div>
 </kr-modal>
