@@ -76,8 +76,6 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      limit: 20,
-      skip: 0
     };
     payload = this.newSourceObj;
     payload.resourceType = 'webdomain';
@@ -93,6 +91,8 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
+      limit: 50,
+      skip: 0
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
@@ -122,7 +122,6 @@ export class SourceContentComponent implements OnInit , OnDestroy {
       if ((res && (res.status !== 'running')) && (res && (res.status !== 'queued'))) {
         clearInterval(this.polingObj[jobId]);
         this.closeStatusModal();
-        this.getSourceList();
       }
     }, errRes => {
       console.log(errRes);
@@ -173,6 +172,7 @@ export class SourceContentComponent implements OnInit , OnDestroy {
    }
    closeStatusModal() {
     this.cancleSourceAddition();
+    this.getSourceList();
     this.statusModalPopRef.close();
    }
   closeStatusSlider() {

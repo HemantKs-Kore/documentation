@@ -208,7 +208,7 @@
         <img src="assets/icons/check-white.svg">
       </div>
       <div class="label_text message-success text-center">Successfully Configured</div>
-      <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Initial URL validation id done!</span></div>
+      <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Initial URL validation done</span></div>
       <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Network Connectivity</span></div>
       <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Indexing Ristrictions</span></div>      
       <div class="text-center m-2" *ngIf="!currentStatusFailed"><mat-progress-bar mode="indeterminate"></mat-progress-bar></div>
@@ -216,6 +216,6 @@
       <div class="desc-info-text text-center" *ngIf="!currentStatusFailed"></div>
     </div>
     <div class="modal-footer status-modal-footer" [ngClass]="{'disabled': deleteInProgress}">
-      <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal()">Done</button>
+      <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal();getSourceList();">Done</button>
     </div>
 </kr-modal>
