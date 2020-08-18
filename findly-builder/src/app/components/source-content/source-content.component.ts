@@ -143,7 +143,7 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       webDomainId: this.selectedSource._id,
-      limit: 20,
+      limit: 50,
       skip: 0
     };
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
