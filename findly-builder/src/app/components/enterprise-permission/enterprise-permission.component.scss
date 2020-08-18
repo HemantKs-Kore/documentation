@@ -1,0 +1,45 @@
+@import './../../../app/scss/variables/variables.scss';
+
+.entPermission{
+	margin-top: 60px;
+	margin-left: 40px;
+	.dashboardTitle{
+		padding: 15px 0px 15px 50px;
+		font-size: 20px;
+		font-weight: 600;
+		color: $primaryColor;
+		margin: 0 !important;
+	}
+
+    .solidBTN{
+        @extend %buttonSolid;
+    }
+    .disableEnt {
+        pointer-events: none;
+        opacity: 0.5;;
+    }
+    .dateButton {
+        @extend %buttonSolid;
+        border:1px solid $hoverColor;
+        color:$hoverColor;
+        background:$whiteColor;
+        font-size: 11px;
+        line-height: 20px;
+    }
+    .selectedBtn {    
+        border: 1px solid #018490;
+        color: #ffffff;
+        background: #018490;
+    }
+
+    .emailField{
+		height: 30px;
+		width: 100%;
+		border-radius: 4px;
+		border: solid 1px #e5e8ec;
+        background-color: #f2f3f5;
+        font-size: 16px;
+        padding: 6px 8px;
+	}
+
+}

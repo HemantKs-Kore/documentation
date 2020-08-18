@@ -1,0 +1,369 @@
+@import './../../../app/scss/variables/variables.scss';
+
+.callHistoryContainer{
+    display: block;
+    padding-left: 40px;
+    padding-top: 52px;
+    height: calc(100vh);
+    .no-scroll {
+        overflow: hidden !important;
+    }
+    .scrollContainer{
+        padding: 14px 20px;
+        height: calc(100%);
+        padding-right: 0;
+        overflow: auto;
+        .call-logs-table {
+            height: calc(100% - 5px);
+        }
+        .empty-state-wrap{
+            padding-top: 10%;
+            text-align: center;
+            width: 538px;
+            margin: 0 auto;
+            .empty-image{
+                text-align: center;
+                // width: 30%;
+                // float: left;
+                display: inline-block;
+            }
+            .empty-message-wrap{
+                text-align: left;
+                display: inline-block;
+                width: 300px;
+                padding-left: 50px;
+                position: relative;
+                top: 45px;
+                .empty-head {
+                    font-size: 18px;
+                }
+                p{
+                    color:$secondaryColor;
+                }
+                .addFieldBTN{
+                    @extend %buttonSolid;
+                }
+            }
+        }
+        .searchFilterContainer{
+            padding-bottom: 30px;
+            .searchContainer{
+                position: relative;
+                .searchInput{
+                    width: 270px !important;
+                }
+                .searchIcon{
+                    position: absolute;
+                    right: 15px;
+                    top: 0px;
+                    opacity: .5;
+                }
+            }
+            .filterContainer{
+                float: right;
+                display: flex;
+                align-items: center;
+                .showingResult{
+                    border-radius: 4px;
+                    background-color: $backgroundColor;
+                    font-size: 12px;
+                    color: $primaryColor;
+                    padding: 7px 15px;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+                .filterBtn {
+                    @extend %buttonSolid;
+                    cursor: pointer;
+                }
+                .exportHistory {
+                    margin-left: 20px;
+                    cursor: pointer;
+                }
+            }
+        }
+        .callHistoryTableDiv{
+            .mat-table{
+                box-shadow: none;
+                .mat-header-row{
+                    border-bottom: 1px solid $secondaryColor;
+                    .mat-header-cell{
+                        ::ng-deep .mat-sort-header-container{
+
+                            .mat-sort-header-button{
+                                text-transform: uppercase;
+                            }
+                        }
+                    }
+                }
+                .mat-row{
+                    padding: 15px 0;
+                    align-items: start;
+                    min-height: auto;
+                    cursor: pointer;
+                    .mat-cell{
+                        &.mat-column-startDateAandTime{
+                            display: block;
+                        }
+                        &.mat-column-endDateAandTime{
+                            display: block;
+                        }
+                        .date{
+                            display: block;
+                        }
+                        .time{
+                            font-size: 12px;
+                            color: $secondaryColor;
+                            display: block;
+                        }
+                    }
+                    &:hover {
+                        background-color:$backgroundColor;
+                    }
+                }
+            }
+            .loading {
+                position: absolute;
+                top: 45%;
+                left: 45%;
+                width: 100px;
+                height: 40px;
+                .loading-message {
+                    position: relative;
+                    color: #29293b;
+                    top: -21px;
+                    left: 25px;
+                    font-size: 12px;
+                }
+            }
+        }
+        .call-logs-footer {
+            position: absolute;
+            bottom: 0;
+            background: #fff;
+            opacity: 0.75;
+            width: 95%;
+            .more-loading {
+                padding: 10px;
+                height: 40px;
+                position: relative;
+                left: 40%;
+                width: max-content;
+                .wait-message {
+                    position: relative;
+                    top: -20px;
+                    left: 25px;
+                }
+            }
+        }
+
+        .empty-container {
+            text-align: center;
+            .empty-message {
+                padding: 30px 0 0 0;
+                font-size: 24px;
+                font-weight: normal;
+                color: #26344a;
+            }
+        }
+
+    }
+    .date-period-buttons{
+        .dateRangeBtn{
+            border-radius: 4px;
+            border: solid 1px #009ea9;
+            background-color: #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 0 11px;
+            color: #009dab;
+            margin-left: 5px;
+            &:hover{
+                color: #009dab;
+            }
+        }
+    }
+    #callHistoryFilter{
+        .sliderContainer{
+            .sliderHeader{
+                padding: 20px 30px 15px;
+            }
+            .call-history-filter{
+                padding: 0 30px;
+                height: calc(100vh - 111px);
+                // overflow: auto;
+            }
+        }
+    }    
+}
+
+:host ::ng-deep #callHistoryDetails{
+    .callHistory{
+        .sliderHeader{
+            display: flex;
+            height: 58px;            
+            width: 100%;
+            border-bottom: 1px solid $borderColor;
+            // justify-content: space-between;
+            align-items: center;
+            padding: 0px 15px 0px 10px;
+            h6 {
+                margin-top: 9px;
+                margin-left: 10px;
+            }
+            .nav-tabs{
+                align-items: flex-end;
+                height: 56px;
+                border-bottom: 0;
+                li{
+                    margin: 0;
+                    padding: 10px 20px 10px 10px;
+                    a{
+                        font-size: 14px;
+                        color: $secondaryColor;
+                        padding: 0;
+                        position: relative;
+                        border: 0;
+                        &.active{                            
+                            color: $primaryColor;
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                background: $hoverColor;
+                                height: 2px;
+                                width: 100%;
+                                left: 0;
+                                bottom: -11px;
+                            }
+                        }
+                    }
+                }
+            }
+            .close-icon-div{
+                .closeCross{
+                    left: 0;
+                    top: 0;
+                }
+            }
+        }
+        .sliderBody{
+            padding: 20px 0 20px 20px;
+        }
+    }
+}
+
+.chat-history-container {
+    .chat-history-header {
+        .back-button {
+            position: relative;
+            bottom: 3px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 20px;
+            &:hover {
+                background: #f2f3f5;
+            }
+            img {
+                width: 14px;
+                -webkit-transform: scaleX(-1);
+                transform: scaleX(-1);
+            }
+        }
+        .heading {
+            margin-left: 10px;
+            h5 {
+                font-size: 20px;
+                color: #26344a;
+                font-weight: normal;
+            }
+        }
+    }
+
+    .chat-history-section {
+        height: calc(100vh - 80px);
+        overflow: hidden;        
+        .message-contain {
+            padding-right: 30px;
+            padding-left: 5px;
+            .sub-title-contain {
+                position: absolute;
+                font-size: 12px;
+                color: #8a959f;
+                font-style: italic;
+                text-align: right;
+                width: -webkit-max-content;
+                width: -moz-max-content;
+                width: max-content;
+                left: 0px;
+                margin-top: 10px;
+            }
+            .bot-message-contain {
+                margin: 20px 0;
+                .user-time {
+                    margin-left: 32px;
+                    color: #8a959f;
+                    font-size: 12px;
+                }
+                .bot-message {
+                    padding: 8px 12px;
+                    background: #f2f3f5;
+                    margin-left: 5px;
+                    border-top-right-radius: 8px;
+                    border-top-left-radius: 8px;
+                    border-bottom-right-radius: 8px;
+                    font-size: 15px;
+                    color: #26344a;
+                    display: inline-block;
+                    max-width: 70%;
+                    &.active {
+                        border: solid 3px #f5a623;
+                    }
+                }
+            }
+            .user-message-contain {
+                margin-bottom: 25px;
+                margin-top: 15px;
+                text-align: right;
+                .user-time {
+                    font-size: 12px;
+                    color: #8a959f;
+                    margin-right: 32px;
+                }
+                .user-message {
+                    position: relative;
+                    padding: 8px 12px;
+                    background: #009ea9;
+                    margin-right: 5px;
+                    border-top-right-radius: 8px;
+                    border-top-left-radius: 8px;
+                    border-bottom-left-radius: 8px;
+                    font-size: 15px;
+                    color: #fff;
+                    text-align: left;
+                    display: inline-block;
+                    max-width: 70%;
+                    &.active {
+                        border: solid 3px #f5a623;
+                    }
+                }
+            }
+        }
+        .empty-message-contain {
+            text-align: center;
+            margin-top: 10%;
+            .empty-mess {
+                font-size: 20px;
+                color: #26344a;
+                margin-top: 20px;
+            }
+        }
+    }
+}
+
+.dateRangeBtn {
+    @extend %buttonTransprant;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 20px;
+}
+

@@ -1,0 +1,17 @@
+<h1 mat-dialog-title class="modalTitle">Utterances</h1>
+<div class="leftContainer mat-dialog-content">
+    <div class="queryContainerInfoDiv">
+        <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr *ngFor="let utter of data.currentUtterances; index as i " >
+                  <td>{{i+1}}.  {{utter.utterance}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </div>
+<div mat-dialog-actions class="modalFooter">
+  <button mat-button class="solidBTN" (click)="onNoClick()">Close</button>
+</div>

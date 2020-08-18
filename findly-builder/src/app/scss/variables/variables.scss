@@ -1,0 +1,575 @@
+/* 
+    Created on : 23 Aug, 2018, 3:52:47 PM
+    Author     : Ravi Kiran Maddi
+*/
+
+html, body {
+	font-family: Lato;
+}
+
+// COLORS 
+$primaryColor:#26344a;
+$secondaryColor:#8a959f;
+$hoverColor:#009dab;
+$btnHoverColor:#018490;
+$hoverTransparent:rgba(0, 157, 171, 0.1);
+$backgroundColor:#f2f3f5;
+$whiteColor:#ffffff;
+$borderColor:#e5e8ec;
+$warningRed:#ea1818;
+$transparent:transparent;
+$orange:#ec7d01;
+$hintTextColor:#ec7d01;
+$hintBgColor:rgba(245,166,35,0.12);
+$white:var(--white-color);
+$buttonhoverBgColor:var(--primary-color1);
+$background-slider-active:#009dab;
+$hoverColor:#018490;
+$lightGreen:#C8E7EA;
+$borderRadius:3px;
+$borderGray: #dddddd;
+$darkGray:#666666;
+$colorOrange:#ffa500;
+$modalBorderColor:#eee;
+$green:#36ba5a;
+$placeholderColor:rgba(0, 0, 0, 0.3);
+// STANDARD SIZES
+$font-xs: 10px;
+$font-sm: 12px;	
+$font-md: 14px; 	
+$font-lg: 16px;		
+$font-xl: 18px;		
+$font-xxl: 24px; 	
+$font-xxxl: 30px; 
+
+%font-normal{font-weight: normal;}
+%font-bold{font-weight: bold;}
+%font-lighter{font-weight: lighter;}
+
+//MEDIA STARTS HERE
+$mediaMedium: "(max-width: 991px)";
+$mediaSmall: "(max-width: 767px)";
+//MEDIA STARTS HERE
+
+
+//EXTEND STARTS HERE
+
+//Border Starts Here
+%noBorder{border:none;}
+%borderAll{border: 1px solid $borderColor;}
+%borderRight{border-right: 1px solid $borderColor;}
+%borderLeft{border-left: 1px solid $borderColor;}
+%borderBottom{border-bottom: 1px solid $borderColor;}
+%borderTop{border-top: 1px solid $borderColor;}
+//Border Ends Here
+
+//Shasow Starts Here
+%noShadow{box-shadow: none;}
+%headerShadow{box-shadow: 0px 2px 2px 0px rgba(138, 149, 159, 0.2);}
+//Shasow Ends Here
+
+//Margin Starts Here
+%noMargin{margin:0 !important;}
+%noMarginTop{margin-top: 0 !important;}
+%noMarginBottom{margin-bottom: 0 !important;}
+%noMarginRight{margin-right: 0 !important;}
+%noMarginLeft{margin-left: 0 !important;}
+
+%marginFive{margin:5px !important;}
+%marginLeftFive{margin-left:5px !important;}
+%marginRightFive{margin-right:5px !important;}
+%marginTopFive{margin-top:5px !important;}
+%marginBottomFive{margin-bottom:5px !important;}
+
+%marginTen{margin:10px !important;}
+%marginLeftTen{margin-left:10px !important;}
+%marginRightTen{margin-right:10px !important;}
+%marginTopTen{margin-top:10px;}
+%marginBottomTen{margin-bottom:10px !important;}
+
+%marginFifteen{margin:15px !important;}
+%marginLeftFifteen{margin-left:15px !important;}
+%marginRightFifteen{margin-right:15px !important;}
+%marginTopFifteen{margin-top:15px;}
+%marginBottomFifteen{margin-bottom:15px !important;}
+
+%marginTwentyFive{margin:25px !important;}
+%marginLeftTwentyFive{margin-left:25px !important;}
+%marginRightTwentyFive{margin-right:25px !important;}
+%marginTopTwentyFive{margin-top:25px !important;}
+%marginBottomTwentyFive{margin-bottom:25px !important;}
+//Margin Ends Here
+
+//Padding Starts Here
+%noPadding{padding:0;}
+%noPaddingTop{padding-top: 0;}
+%noPaddingBottom{padding-bottom: 0;}
+%noPaddingRight{padding-right: 0;}
+%noPaddingLeft{padding-left: 0;}
+
+%paddingFive{padding:5px;}
+%paddingLeftFive{padding-left:5px;}
+%paddingRightFive{padding-right:5px;}
+%paddingTopFive{padding-top:5px;}
+%paddingBottomFive{padding-bottom:5px;}
+
+%paddingTen{padding:10px;}
+%paddingLeftTen{padding-left:10px;}
+%paddingRightTen{padding-right:10px;}
+%paddingTopTen{padding-top:10px;}
+%paddingBottomTen{padding-bottom:10px;}
+
+%paddingFifteen{padding:15px;}
+%paddingLeftFifteen{padding-left:15px;}
+%paddingRightFifteen{padding-right:15px;}
+%paddingTopFifteen{padding-top:15px;}
+%paddingBottomFifteen{padding-bottom:15px;}
+
+%paddingTwentyFive{padding:25px;}
+%paddingLeftTwentyFive{padding-left:25px;}
+%paddingRightTwentyFive{padding-right:25px;}
+%paddingTopTwentyFive{padding-top:25px;}
+%paddingBottomTwentyFive{padding-bottom:25px;}
+//Padding Ends Here
+
+//Width Starts Here
+%widthHundred{width:100%;}
+//Width Ends Here
+
+//Buttons Starts Here
+%buttonCancel{
+	border:1px solid $borderColor;
+	background:$whiteColor; 
+	color:$secondaryColor;
+	border-radius:4px;
+	min-width:auto; 
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 30px;
+	padding: 0 20px;
+	box-shadow: none;
+	&:hover{
+		border:1px solid $borderColor;
+		color:$secondaryColor;
+		background:$borderColor;
+	}
+}
+
+%buttonBorder{
+	border:1px solid $secondaryColor;
+	background:$whiteColor; 
+	color:$secondaryColor;
+	border-radius:4px;
+	min-width:auto; 
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 30px;
+	padding: 0 20px;
+	box-shadow: none;
+	&:hover{
+		border:1px solid $hoverColor;
+		color:$whiteColor;
+		background:$hoverColor;
+	}
+}
+%buttonSolid{
+	border:1px solid $hoverColor;
+	background:$hoverColor; 
+	color:$whiteColor;
+	border-radius:4px;
+	min-width:auto; 
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 30px;
+	padding: 0 20px;
+	&:hover{
+		border:1px solid $btnHoverColor;
+		color:$whiteColor;
+		background:$btnHoverColor;
+	}
+}
+%buttonTransprant{
+	border:1px solid  rgba(0, 157, 171, 0.4);
+	background:  rgba(0, 157, 171, 0.1); 
+	color:$hoverColor;
+	border-radius:4px;
+	min-width:auto; 
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 30px;
+	padding: 0 20px;
+	box-shadow: none;
+	&:hover{
+		border:1px solid $btnHoverColor;
+		color:$whiteColor;
+		background:$btnHoverColor;
+	}
+}
+%buttonDelete{
+	border:1px solid $warningRed;
+	background:$warningRed; 
+	color:$whiteColor;
+	border-radius:4px;
+	min-width:auto;  
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 30px;
+	// opacity: 0.8;
+	padding: 0 20px;
+	box-shadow: none;
+	&:hover{
+		// opacity: 1;
+		background-color: #cc0000;
+		border:1px solid #cc0000;
+	}
+}
+
+%cancelBTN{@extend %borderAll; background:$backgroundColor;}
+.kr-btn-cancel{
+    @extend %buttonCancel;
+}
+.kr-btn-delete{
+	@extend %buttonDelete;
+}
+//Buttons Ends Here
+textarea::placeholder{
+	font-size: 14px;
+	color: $secondaryColor;
+}
+div::placeholder{
+	font-size: 14px;
+	color: $secondaryColor;
+}
+[contentEditable=true]:empty:not(:focus):before{
+	content:attr(data-text);
+	font-size: 14px;
+	color: $secondaryColor;
+}
+input::placeholder{
+	font-size: 14px;
+	color: $secondaryColor;
+}
+//Input Starts Here
+input{
+    height: 34px;
+    border-radius: 3px;
+    border: solid 1px $borderColor;
+    background-color: $whiteColor;
+    outline: none;
+	padding-left: 8px;
+	color: $primaryColor;
+	font-size: 14px;
+	// width: 100%;
+}
+input::placeholder{
+	font-size: 14px;
+	color: $secondaryColor;
+}
+.textAlignLeft{
+	text-align: left !important;
+}
+//Input Ends Here
+//Dropdown Starts Here
+%dropdown{
+	.dropdown{
+		.dropdown-toggle{
+			border-radius: 3px;
+			border: solid 1px $borderColor;
+			margin-bottom: 10px;
+			font-size: 14px;
+			color: $primaryColor;
+		}
+		.dropdown-menu{
+			box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.15);
+			max-width: 300px;
+			border: solid 1px $borderColor;
+			.dropdown-item{
+				display: block;
+				padding: 5px 20px;
+				clear: both;
+				line-height: 1.42857143;
+				color: $primaryColor;
+				white-space: nowrap;
+				font-size: 14px;
+				&:hover{
+					color: $hoverColor;
+				}
+			}
+		}
+	}
+
+}
+//Dropdown Ends Here
+//Table Starts Here
+.mat-table{
+	.mat-header-row{
+		border-bottom: 1px solid $borderColor;
+		.mat-header-cell{
+			color: $secondaryColor;
+			text-transform: uppercase;
+			font-size: 12px;
+			font-weight: normal;
+			font-family: lato;
+		}
+	}
+	.mat-row{
+		border-bottom: 1px solid $borderColor;
+		.mat-cell{
+			color: $primaryColor;
+			font-size: 14px;
+			font-family: lato;
+		}
+	}
+}
+//Table Ends Here
+//EXTEND EDS HERE
+
+.deflectContainer{
+	display: block;
+	padding-right: 0;
+    padding-left: 0;
+}   
+.mat-menu-panel{
+	&.headerDropDown{
+		// min-width: 240px;
+		box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.15);
+		max-width: 300px;
+		margin: 10px 0 0 !important;
+		// padding-top: 15px;
+	   .accountsSwitchDiv{
+			position: relative;
+			padding: 0px 0px 0px 0px;
+			text-transform: uppercase;
+			border-bottom: 1px solid $borderColor;
+			display: none;
+		   .titleaccounts{
+			font-size: 12px;
+			font-weight: bold;
+			position: relative;
+			padding: 0px 0px 0px 0px;
+			text-transform: uppercase;
+			margin-left: 20px;
+			color: $primaryColor;
+		   }
+		   .accountName{
+			padding-left:35px;
+			color: $primaryColor;
+			font-size: 14px;
+			.tick-icon-green {
+				position: absolute;
+				left: 20px;
+				top: 22px;
+			}
+		   }
+	   }
+	   .logOut{
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			color: $primaryColor;
+			.poweroffIcon{
+				margin-right: 10px;
+			}
+	   }
+	} 
+}
+
+//SLIDER STYLING STARTS HERE
+.cdk-overlay-container{
+	z-index: 9999;
+	.cdk-global-overlay-wrapper{
+		.mat-dialog-container{
+			padding: 0;
+			.add-form-field-container{
+				height: 100%;
+				.add-form-field-header{
+					height: 50px;
+    				padding: 10px 20px;
+				}
+				.add-form-field-body{
+					height: calc(100vh - 102px);
+					overflow: auto;
+					padding: 20px;
+				}
+			}
+		}
+	}
+}
+::ng-deep .userMetrics{
+	width: 296px;
+	height: 34px;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px 0 rgba(179, 186, 200, 0.58);
+	border: solid 1px #e5e8ec;
+	background-color: #ffffff;
+}
+//SLIDER STYLING ENDS HERE
+::ng-deep .mat-radio-outer-circle{
+	border-color: $secondaryColor;
+}
+.mat-radio-label-content{
+	color: $primaryColor;
+}
+.mat-select-value{
+	color: $primaryColor;
+}
+
+// Toast Messages
+#toast-container{
+    position: fixed;
+    z-index: 100001;
+    top: 8px;
+    right: 10px;
+    // left: auto;
+    width: auto;	
+	.toast-success {
+		background-color: $whiteColor;
+		max-width: 500px;
+		min-width: 230px;
+		width: auto !important;
+		box-shadow: none !important;
+		color: #51A351 !important;
+		border: 1px solid #51A351;
+		border-left: 4px solid #51A351;
+		font-size: 14px;
+		padding: 10px !important;
+		background-image: none !important;
+		padding-right: 25px !important;
+		.toast-close-button{
+		  color: #51A351 !important;
+		  height: 10px !important;
+		  position: absolute;
+		  width: 10px;
+		  right: 10px;
+		  padding: 0;
+		  border: 0;
+		}
+	}
+	.toast-error {
+	background-color: $whiteColor;
+	max-width: 500px;
+	min-width: 230px;
+	width: auto !important;
+	box-shadow: none !important;
+	color: $warningRed !important;
+	border: 1px solid $warningRed;
+	border-left: 4px solid $warningRed;
+	font-size: 14px;
+	padding: 10px !important;
+	background-image: none !important;
+	padding-right: 25px !important;
+	.toast-close-button{
+		color: $warningRed !important;
+		height: 10px !important;
+		position: absolute;
+		width: 10px;
+		right: 10px;
+		padding: 0;
+		border: 0;
+	}
+	}
+	.toast-warning {
+		background-color: $whiteColor;
+		max-width: 500px;
+		min-width: 230px;
+		width: auto !important;
+		box-shadow: none !important;
+		color: $orange !important;
+		border: 1px solid $orange;
+		border-left: 4px solid $orange;
+		font-size: 14px;
+		padding: 10px !important;
+		padding-right: 25px !important;
+		// background-image: none !important;
+		.toast-close-button{
+			color: $orange !important;
+			height: 10px !important;
+			position: absolute;
+			width: 10px;
+			right: 10px;
+			padding: 0;
+			border: 0;
+		}
+	}
+}
+
+//ProTip 
+
+.hintDiv{    
+    background: $hintBgColor;
+    clear: both;
+    border: solid 1px #f3d19b;
+    padding: 10px 20px;
+    color: #ec7d01;
+    display: block;
+    border-radius: 4px;    
+    position: relative;
+    top: 8px;
+    margin-bottom: 10px;
+    .icon{
+        display: table-cell;
+        width: 20px;
+        height: 20px;
+    }
+    .description{
+        color: $hintTextColor;
+        font-size: 14px;
+        display: table-cell;
+        padding-left: 20px;
+    }
+}
+
+.mat-tooltip{
+	background: $primaryColor;
+}
+.cdk-drag {
+	.firstColumMove{
+		&::before {
+			content: "=";
+			font-size: 25px;
+			color: $secondaryColor;
+			position: absolute;
+			left: 0;
+			cursor: move;
+			display: block;
+		}
+	}
+}
+.swal2-icon-warning.swal2-popup{
+	width: 25em;
+	padding: 0;
+	.swal2-icon.swal2-warning{
+		border-color: $warningRed;
+		color: $whiteColor;
+		background: $warningRed;
+		width: 2em;
+		height: 2em;
+		margin-bottom: 20px;
+		.swal2-icon-content{
+			font-size: 25px;
+		}
+	}
+	.swal2-title{
+		font-size: 16px;
+		color: $primaryColor;
+		font-weight: normal;
+	}
+	.swal2-content{
+		font-size: 16px;
+		color: $primaryColor;
+	}
+	.swal2-actions{
+		background-color: $backgroundColor;
+		padding: 15px;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		.kr-btn-delete{
+			@extend %buttonDelete;
+			margin: 0 8px 0 0;
+		}
+		.kr-btn-cancel{
+			@extend %buttonCancel;
+			margin: 0;
+		}
+	}
+}

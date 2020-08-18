@@ -1,0 +1,23 @@
+<header>
+    <nav class="deflectHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+        <div class="container-fluid">
+            <div class="homePageTitle">
+                <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
+            </div>
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <button mat-button [matMenuTriggerFor]="menu" class="headerIcons"><img src="assets/images/avatar.svg" ></button>
+                    <mat-menu #menu="matMenu" class="headerDropDown">
+                        <div class="accountsSwitchDiv">
+                            <div class="titleaccounts">Accounts</div>
+                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg" class="tick-icon-green"> account one</button>
+                            <button mat-menu-item class="accountName"><img src="assets/images/tick-icon-green.svg" class="tick-icon-green"> account two</button>
+                        </div>
+                        <button mat-menu-item (click)="switchAccount()" class="switchAccount" *ngIf="showSwichAccountOption">Switch Account</button>
+                        <button mat-menu-item (click)="logoutClick()" class="logOut"><img src="assets/images/poweroffIcon.svg" class="poweroffIcon">Logout</button>
+                    </mat-menu>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,131 @@
+
+@import './../../../app/scss/variables/variables.scss';
+
+.chat-agent-content-sec{
+    display: flex;
+    height: 504px;
+    // align-items: center;
+    .chat-agent-logo-sec{
+        width: 143px;
+        flex-shrink: 0;        
+        .logo-radio-images{
+            width: 100%;
+            height: 72px;
+            border-radius: 5px;
+            border: solid 1px #e3dfdf;
+            background-color: $whiteColor;
+            padding: 0;                                      
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            &:last-child{
+                margin: 0;
+            }
+            .kr-sg-radiobutton{
+                width: 100%;
+                label{                                                
+                    width: 100%;
+                    padding:0 12px 0 38px;
+                    height: 72px;
+                    display: flex;
+                    align-items: center;
+                    &::before{
+                        top: 28px;                  
+                        left: 12px;
+                        margin: 0;
+                    }
+                }
+            }
+            img{
+                // height: 20px;                                           
+            }                                       
+        }
+        .channel-list{
+            padding-right: 10px;
+        }
+    }
+    .right-sec-content{
+        width: 100%;
+        padding: 15px 0 15px 15px;
+        border: solid 1px #d8d8d8;
+        background-color: #ffffff;
+        &.no-agent{
+            display: flex;
+            align-items: center;
+        }
+        // text-align: center;
+        .content-titel{
+            max-width: 140px;
+            margin: 0 auto;
+            color: #6d7278;
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 16px;
+        }
+        .tabs-chanels-agent{
+            .nav-tabs{
+                border: 0;
+                position: relative;
+                li{
+                    &:first-child{
+                        margin-right: 30px;
+                    }
+                    a{
+                        padding: 6px 0;
+                        text-decoration: none !important;                        
+                        font-size: 14px;
+                        font-weight: bold;
+                        color: #8a959f;
+                        &.active{
+                            color: #26344a;
+                            border-bottom: solid 2px #009dab
+                        }
+                    }
+                }
+                .full-page-popup-btn{
+                    position: absolute;
+                    right: 15px;
+                    cursor: pointer;
+                }
+            }
+            .tab-config-scroll{
+                padding-right: 15px;
+                height: 451px;
+            }
+            .tab-content{   
+                margin-top: 5px;            
+                .tab-pane{
+                    &.instructions-tab{
+                        .desc-info-text{
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}        
+
+.error-msg-dropdown{
+    margin:-10px 0 10px 0;
+    color: #ff001f;
+}
+.ng-touched.ng-invalid {
+    border: 1px solid red !important;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .chat-agent-content-sec{
+        .chat-agent-logo-sec{
+            .logo-radio-images {
+                .kr-sg-radiobutton{
+                    label{
+                        &::before{
+                            top: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

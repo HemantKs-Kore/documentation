@@ -1,0 +1,451 @@
+/* 
+    Created on : 23 Aug, 2018, 3:52:47 PM
+    Author     : Ravi Kiran Maddi
+*/
+@import './../../../app/scss/variables/variables.scss';
+.solidBTN{@extend %buttonSolid;
+    border:1px solid $hoverColor;
+    color:$whiteColor;
+    background:$hoverColor;
+}
+.dashboardheaderDiv{
+	margin: 50px 0 0 0;
+    padding: 15px 25px;
+    -webkit-box-shadow: -1px 11px 10px -7px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: -1px 11px 10px -7px rgba(0,0,0,0.08);
+    box-shadow: -1px 10px 5px -7px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 1;
+	.dashboardTitleDiv{
+		.title{
+			font-size: $font-xl;
+		}
+	}
+	.scoreInput {
+		display: inline-block;
+		margin-left: 5px;
+		height: 30px;
+		margin-top: 5px;
+	}
+	.refreshScore {
+		display: inline-block;
+		cursor:pointer;
+		background: $backgroundColor;
+		width: 100px;
+		height: 30px;
+		border: 1px solid #fff;
+		border-radius: 2px;
+		color: #8a959f;
+		font-size:14px;
+		padding: 5px 10px;
+		margin-left: 5px;
+		.refreshIcon {
+			margin-right:10px;
+			width: 14px;
+			height: 20px;
+			padding-bottom: 2px;
+		}
+	}
+
+}
+.grayContainer{
+	height: calc(100vh - 138px);
+	overflow: auto; 
+	padding: 20px 0px 50px 0px;
+	background: $backgroundColor;
+	.listContainer{
+		padding: 0;
+		@extend %noMarginLeft;
+		@extend %noMarginRight;
+		// margin-top: 2px;
+		background: $backgroundColor;
+
+		@media #{$mediaMedium} {
+			height: calc(100vh - 50px);
+			overflow: auto;
+			padding: 0;
+		}
+		.leftContainer{
+			background: $backgroundColor;
+			//height: calc(100vh - 60px);
+			overflow: hidden;
+			@extend %noPadding;
+			height: 400px;
+			.innerContainer{
+				// height: 100%;
+				margin:15px; 
+				background: $whiteColor;
+				@extend %borderAll;
+			}
+			&.smallHeight{
+				height: 130px;
+				.innerContainer{
+					margin:15px; 
+					background: $whiteColor;
+					@extend %borderAll;
+					height: 100px;
+				}
+			}
+			@media #{$mediaMedium}{
+				width: 50%;
+			}
+			.row{
+				@extend %noMargin;
+			}
+			.searchRow{
+				@extend %noPadding;
+				@extend %paddingTopFifteen;
+				@extend %paddingRightFifteen;
+				@extend %paddingLeftFifteen;
+				// @extend %borderBottom;
+				.queryName{
+					font-size: $font-xl;
+					color: $primaryColor;
+					// text-align: center;
+					font-weight: 500;
+					@extend %noMarginBottom;
+				}
+				.left{
+					@extend %noPadding;
+					@media #{$mediaMedium}{
+						width: 64%;
+					}
+					.mat-form-field{
+						@extend %widthHundred;
+					}
+				}
+				.right{
+					text-align: right;
+					line-height: 1;
+					.solidBTN{
+						@extend %buttonSolid;
+						//@extend %marginTopTen;
+						.plusIcon{
+							@extend %marginLeftTen;
+							display: inline-block;
+						}
+					}
+					.iconBtn{
+						cursor: pointer;
+						img{
+							width: 35px;
+						}
+					}
+
+					@media #{$mediaMedium}{
+						width: 36%;
+					}
+				}
+			}
+			.queryContainerInfoDiv{
+				// height: calc(100vh - 10px);
+				overflow: auto;
+				padding: 0 ;
+				height: 325px;
+				// @extend %paddingFifteen;
+				.emptyState{
+					font-size: $font-xxl;
+					text-align: center;
+					padding-top: 130px;
+					font-weight: 200;
+					color: $secondaryColor;
+				}
+				.example-full-width{
+					width: 100%;
+			}
+				.loader{
+					padding-top:100px;
+					text-align: center;
+				}
+				&.totalCount{
+					padding-top: 0 !important;
+					height: auto;
+					@extend %paddingFifteen;	
+					.loader{
+						padding-top: 0px;
+					}
+				}
+				&.overflowHidden{
+					overflow: hidden;
+				}
+				.textData {
+					// margin: 50px 0;
+					font-size: $font-xxl;
+					text-align: center;
+					color: $hoverColor !important;
+				}
+				.loaderwait {   
+					width: 40px;
+					height: 40px;
+					display: block;
+					margin: auto;
+					outline: 1px solid transparent;
+					-webkit-animation: spin 0.5s linear infinite;
+					animation: spin 0.5s linear infinite;
+				}
+				.scoreInput {
+					display: inline-block;
+					margin-left: 5px;
+					height: 30px;
+					margin-top: 5px;
+				}
+				.table-responsive{
+					// height: calc(100vh - 370px);
+					//overflow-y: auto;
+					&.scroll-div{
+						height: 265px;
+						overflow: auto;
+					}
+					.table{
+						thead{
+							th{
+								@extend %paddingFifteen;
+								color: $secondaryColor;
+								//@extend %borderTop;
+								border-top: none;
+								font-size: $font-sm;
+								width: 75%;
+								text-transform: uppercase;
+								@extend %font-normal;
+							}
+						}
+						tbody{
+							.onselect {
+								cursor: pointer;
+								&:hover{
+									background-color: $borderColor;
+								}
+							}
+							td{
+								color: $primaryColor;	
+								//@extend %borderTop;
+								border-top: none;
+								@extend %borderBottom;
+								@extend %paddingFifteen;
+								// cursor: pointer;
+								// &:hover{
+								// 	background-color: $borderColor;
+								// }
+							}
+						}
+					}
+				}
+			}
+		}
+		.rightContainer{
+			background: $backgroundColor;
+			//height: calc(100vh - 55px);
+			@extend %noPadding;
+			@media #{$mediaMedium}{
+				width: 50%;
+			}
+			.row{
+				@extend %noMargin;
+			}
+			.searchRow{
+				@extend %noPadding;
+				@extend %paddingTopFifteen;
+				@extend %paddingRightFifteen;
+				@extend %paddingLeftFifteen;
+				@extend %borderBottom;
+				.left{
+					@extend %noPadding;
+					@media #{$mediaMedium}{
+						width: 70%;
+					}
+					.queryName{
+						//font-size: $font-xl;
+						color: $primaryColor;
+						//@extend %marginBottomFive;
+						.previewText{
+							font-size: $font-sm;
+							color: $primaryColor;
+							display: inline-block;
+							@extend %marginLeftTen;
+						}
+					}
+					.modifiedDate{
+						font-size: $font-sm;
+						color: $secondaryColor;
+					}
+				}
+				.right{
+					text-align: right;
+					line-height: 1;
+					@media #{$mediaMedium}{
+						width: 30%;
+					}
+					.solidBTN{
+						@extend %buttonSolid;
+						//@extend %marginTopTen;
+					}
+					.iconBtn{
+						cursor: pointer;
+						img{
+							width: 35px;
+						}
+					}
+				}
+			}
+			.editorContainer{
+				height: calc(100vh - 338px);
+				width: 100%;
+				@extend %paddingFifteen;
+				.editor{
+					min-height:200px;
+					@extend %widthHundred;
+					@extend %borderAll;
+					height: calc(100vh - 160px);
+					border-bottom-left-radius: 5px;
+					border-bottom-right-radius: 5px;
+				}
+			}
+		}
+		
+	}
+}
+.mat-dialog-container {
+	.leftContainer{
+        background: $backgroundColor;
+        //height: calc(100vh - 60px);
+		@extend %noPadding;
+		@media #{$mediaMedium}{
+			width: 50%;
+		}
+		.row{
+			@extend %noMargin;
+		}
+		.searchRow{
+			@extend %noPadding;
+			@extend %paddingTopFifteen;
+			@extend %paddingRightFifteen;
+			@extend %paddingLeftFifteen;
+            @extend %borderBottom;
+            .queryName{
+                font-size: $font-lg;
+                color: $primaryColor;
+                text-align: center;
+                font-weight: bold;
+            }
+			.left{
+				@extend %noPadding;
+				@media #{$mediaMedium}{
+					width: 64%;
+				}
+				.mat-form-field{
+					@extend %widthHundred;
+				}
+			}
+			.right{
+				text-align: right;
+				line-height: 1;
+				.solidBTN{
+					@extend %buttonSolid;
+					//@extend %marginTopTen;
+					.plusIcon{
+						@extend %marginLeftTen;
+						display: inline-block;
+					}
+				}
+
+				.iconBtn{
+					cursor: pointer;
+					img{
+						width: 35px;
+					}
+				}
+				@media #{$mediaMedium}{
+					width: 36%;
+				}
+			}
+		}
+		.queryContainerInfoDiv{
+			// height: calc(100vh - 0);
+			overflow: auto;
+			@extend %paddingFifteen;
+			height: 325px;
+			.emptyState{
+				font-size: $font-xxl;
+				text-align: center;
+				padding-top: 130px;
+				font-weight: 200;
+				color: $secondaryColor;
+			}
+			&.overflowHidden{
+				overflow: hidden;
+			}
+			.example-full-width{
+				width: 100%;
+			}
+            .textData {
+                margin: 50px 0;
+                font-size: 75px;
+				text-align: center;
+				color: #009dab !important;
+            }
+            .table-responsive{
+                // height: calc(100vh - 370px);
+                //overflow-y: auto;
+                .table{
+                    thead{
+                        th{
+                            @extend %noPaddingLeft;
+                            color: $primaryColor;
+							//@extend %borderTop;
+							border-top: none;
+							font-size: $font-md;
+							width: 75%;
+							@extend %font-normal;
+                        }
+                    }
+                    tbody{
+                        td{
+                            color: $primaryColor;	
+							//@extend %borderTop;
+							border-top: none;
+							@extend %borderBottom;
+							@extend %noPaddingLeft;
+							//cursor: pointer;
+							// &:hover{
+							// 	background-color: $borderColor;
+							// }
+                        }
+                    }
+                }
+            }
+		}
+	}
+}
+.emptyState{	
+	// @extend %noMargin;
+	// padding: 40px 20px 40px 60px;
+	// height: calc(100vh - 50px);
+	// overflow: auto;
+	.emptyStateContainer{
+		width: 600px;
+		margin:auto;
+		text-align: center;
+		.title{
+			font-size: $font-xxl;
+			font-weight: 300;
+			color: $primaryColor;
+			@extend %marginTopTwentyFive;
+		}
+		.description{
+			font-size: $font-lg;
+			font-weight: 300;
+			color: $secondaryColor;
+			@extend %marginTopTwentyFive;
+		}
+		.noQueryBtn {
+            text-align: center;
+			.solidBTN{
+				@extend %buttonSolid;
+				.plusIcon{
+					@extend %marginLeftTen;
+					display: inline-block;
+				}
+			}
+        }
+	}
+}

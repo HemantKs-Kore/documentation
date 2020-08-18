@@ -1,0 +1,87 @@
+@import './../../../app/scss/variables/variables.scss';
+	.modalTitle{
+		text-align: center;
+		font-size: $font-xxl;
+		font-weight: 300;
+	}
+	.leftContainer{
+        // background: $backgroundColor;
+		//height: calc(100vh - 60px);
+		@extend %borderTop;
+		@extend %borderBottom;
+		@extend %noPadding;
+		@media #{$mediaMedium}{
+			width: 50%;
+		}
+		.row{
+			@extend %noMargin;
+		}
+		.searchRow{
+			@extend %noPadding;
+			@extend %paddingTopFifteen;
+			@extend %paddingRightFifteen;
+			@extend %paddingLeftFifteen;
+            @extend %borderBottom;
+            .queryName{
+                font-size: $font-lg;
+                color: $primaryColor;
+                text-align: center;
+                font-weight: bold;
+            }
+			.left{
+				@extend %noPadding;
+				@media #{$mediaMedium}{
+					width: 64%;
+				}
+				.mat-form-field{
+					@extend %widthHundred;
+				}
+			}
+			.right{
+				text-align: right;
+				.solidBTN{
+					@extend %buttonSolid;
+					//@extend %marginTopTen;
+					.plusIcon{
+						@extend %marginLeftTen;
+						display: inline-block;
+					}
+				}
+
+				@media #{$mediaMedium}{
+					width: 36%;
+				}
+			}
+		}
+		.queryContainerInfoDiv{
+			// height: calc(100vh - 270px);
+			// overflow: auto;
+            @extend %paddingFifteen;
+            .textData {
+                margin: 50px 0;
+                font-size: 75px;
+                text-align: center;
+            }
+            .table-responsive{
+                // height: calc(100vh - 300px);
+                //overflow-y: auto;
+                .table{
+                    tbody{
+                        td{
+                            color: $primaryColor;	
+                            @extend %borderBottom;
+                            border-top: none;
+                            @extend %noPaddingLeft;
+                        }
+                    }
+                }
+            }
+		}
+	}
+	
+	.modalFooter{
+		display: block;
+		text-align: center;
+		.solidBTN{@extend %buttonCancel;
+		}
+	}

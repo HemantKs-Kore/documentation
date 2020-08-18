@@ -1,0 +1,135 @@
+@import './../../../app/scss/variables/variables.scss';
+.callFlowContainer {
+    display: block;
+    padding-left: 55px;
+    padding-top: 52px;
+    height: calc(100vh);
+    .scrollContainer{ 
+        padding: 14px 20px;
+        height: calc(100% - 50px);
+        overflow: auto;
+        .customerExpContainer{
+            margin-bottom: 15px;
+        }
+        .callFlowHeading{
+            font-size: 14px;
+            font-weight: bold;
+            color: $primaryColor;
+            padding-bottom: 0px;
+        }
+        .callFlowDescription{
+            font-size: 12px;
+            color: $secondaryColor;
+            margin-bottom:15px;
+        }
+        .customerExpBody{
+            display: flex;
+            .radioDiv{
+                // border-radius: 3px;
+                // background-color: $backgroundColor;
+                // padding: 8px;
+                // width: 300px;
+                // // height: 105px;
+                // font-size: 13px;
+                // font-weight: bold;
+                // color: $primaryColor;
+                // margin-right:20px;
+                // position: relative;
+                width: 300px;
+                height: 120px;
+                border-radius: 4px;
+                border: solid 1px $borderColor;
+                background-color: $whiteColor;
+                margin-right:20px;
+                font-size: 14px;
+                color: $primaryColor;
+                position: relative;
+                padding: 18px;
+                p{
+                    margin-left: 28px;
+                    font-weight: normal;
+                    color: $secondaryColor;
+                    font-size: 12px;
+                    margin-bottom: 0;
+                }
+                .commingSoon{
+                    font-size: 14px;
+                    font-weight: bold;
+                    position: absolute;
+                    left: 45px;
+                    bottom: 5px;
+                    color: $secondaryColor;
+                }
+                // &.active{
+                //     border: 1px solid $hoverColor;
+                // }
+            
+                &.pointerEventsNone{
+                    pointer-events: none;
+                    background: $backgroundColor;
+                    color: $secondaryColor;
+                    ::ng-deep .mat-radio-label{
+                        margin-bottom: 0;
+                        .mat-radio-label-content{
+                            color: $secondaryColor;
+                        }
+                    }
+                }
+                ::ng-deep .mat-radio-label{
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .voiceWelcomeMessageContainer{
+            margin-bottom: 15px;
+            .voiceWelcomeMessage{
+                .heading{
+                    font-size: 14px;
+                    color: $primaryColor;
+                    font-weight: bold;
+                }
+                .description{
+                    color: $secondaryColor;
+                    font-size: 12px;
+                    margin-bottom: 5px;
+                }
+            }
+            .callFlowEditor{
+                width: 60%;
+                min-height: 60px;
+                border-radius: 3px;
+                border: solid 1px $borderColor;
+                padding-left: 8px;
+                outline: none;
+                &.validatorBorder{
+                    border: solid 1px $warningRed !important;
+                }
+            }
+            .validator{
+                font-size: 12px;
+                padding-left: 5px;
+                color: $warningRed;
+            }
+        }
+
+    }
+    .containerFooter{
+        width: 100%;
+        height: 50px;
+        background-color: $whiteColor;
+        box-shadow: 0 2px 20px 0 rgba(138, 149, 159, 0.45);
+        .btnContainer{
+            padding: 10px 20px;
+            .containerSaveBtn{
+                margin-right: 10px;
+                @extend %buttonSolid;
+            }
+            .containerBackBtn{
+                @extend %buttonBorder;
+            }
+        }
+    }
+    &.headerCreation{
+        padding-left: 0px !important;
+    }
+}

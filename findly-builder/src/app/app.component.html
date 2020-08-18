@@ -1,0 +1,10 @@
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<div *ngIf="!loading">
+    <app-header></app-header>
+    <app-mainmenu class="toShowAppHeader"></app-mainmenu>
+    <app-content class="container-fluid deflectContainer"></app-content>
+</div>
+
+<div class="loaderContainer"  *ngIf="loading">
+    <img src="assets/images/logoIcon.png" class="loaderLogoImage" >
+</div>

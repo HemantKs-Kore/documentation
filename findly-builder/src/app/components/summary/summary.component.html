@@ -1,0 +1,144 @@
+
+<perfect-scrollbar class="summer-content-scroll" [disabled]="workflowService.disablePerfectScroll">
+    <div class="summary-container" *ngIf="!loading" [@fadeInOutAnimation] [ngClass]="{'overflow-auto':workflowService.disablePerfectScroll}">    
+
+      <div class="findly-summery-content"  *ngIf="!(summary && summary.length)">
+        <div class="text">
+          <div class="heading">{{'My Smart Assistance'}}</div>
+        </div>
+        <div class="summaryComponents">
+          <div class="text-center label_text heading-text">How it works?</div>
+          <div class="summary row m-0">
+            <div class="col-4 summary-sec" *ngFor="let block of emptySummaryBlocks; index as i" >
+              <div class="summaryBlock">
+                <div class="count">{{"__"+block.stepCount+"__"}}</div>
+                <div class="title">{{block.stepName}}</div>
+                <div class="box_content">{{block.stepDiscription}}</div>
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="btnContainer">
+          <a href="#" class="learn-more">Lets Get Started?</a>
+          <button class="kr-sg-button-primary btn_md"  [routerLink]="['/content','add']">Add Source</button>
+        </div>
+      </div>
+
+
+      <div class="findly-domains-summery" *ngIf="summary && summary.length">
+        <div class="header-sec">
+          <div class="heading">My Smart Assistance</div>
+          <button class="kr-sg-button-primary btn_md">Add Source</button>
+        </div>
+        <div class="body-sec">
+          <div class="row m-0">
+            <div class="col-7 p-0 row m-0 left-sec">
+              <div class="col-6 main-block">
+                <div class="summary">
+                  <div class="label_text">Web Domains <span class="count-text">(5)</span></div>
+                  <div class="table-content-sec">
+                    <div class="row m-0 row_content">
+                      <div class="col-8 title">Total Pages</div>
+                      <div class="col-4 count">200</div>
+                    </div>
+                    <div class="row m-0 row_content">
+                      <div class="col-8 title">Unique Pages Matched</div>
+                      <div class="col-4 count">80</div>
+                    </div>
+                    <div class="row m-0 row_content">
+                      <div class="col-8 title">Unique Pages Viewed</div>
+                      <div class="col-4 count">30</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 main-block">
+                <div class="summary">
+                  <div class="label_text">Web Domains <span class="count-text">(5)</span></div>
+                  <div class="empty-img-block">
+                    <img src="assets/icons/tasks_empty.svg">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 main-block">
+                <div class="summary">
+                  <div class="label_text">FAQ Web Extracts <span class="count-text">(5)</span></div>
+                  <div class="empty-img-block">
+                    <img src="assets/icons/tasks_empty.svg">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 main-block">
+                <div class="summary">
+                  <div class="label_text">FAQ Doc Extracts <span class="count-text">(5)</span></div>
+                  <div class="empty-img-block">
+                    <img src="assets/icons/tasks_empty.svg">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 main-block">
+                <div class="summary">
+                  <div class="label_text">FAQ Manually Added<span class="count-text">(50)</span></div>
+                  <div class="empty-img-block">
+                    <img src="assets/icons/tasks_empty.svg">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 main-block">
+                <div class="summary">
+                  <div class="label_text">Bots <span class="count-text">(1)</span></div>
+                  <div class="empty-img-block">
+                    <img src="assets/icons/tasks_empty.svg">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5 right-sec p-0">
+              <div class="col-12 main-block">
+                <div class="summary">
+                  <div class="label_text">Metrics</div>
+                  <div class="table-content-sec">
+                    <div class="row m-0 row_content">
+                      <div class="col-8 title">Total Searches</div>
+                      <div class="col-4 count">100</div>
+                    </div>
+                    <div class="row m-0 row_content">
+                      <div class="col-8 title">Total Clicks</div>
+                      <div class="col-4 count">60</div>
+                    </div>
+                    <div class="row m-0 row_content">
+                      <div class="col-8 title">No Result Rate</div>
+                      <div class="col-4 count">5%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>    
+              <div class="col-12 main-block">
+                <div class="summary">
+                  <div class="label_text">Recent Activities</div>
+                  <div class="empty-img-block">
+                    <img src="assets/icons/empty_screen_recent_activities.svg">
+                  </div>
+                </div>
+              </div>          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</perfect-scrollbar>
+
+<div class="manage-form-please-wait-all" *ngIf="loading" [@fadeInOutAnimation]>
+  <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+  <span class="please-wait-message">Please Wait!</span>
+</div>
+
+<!-- <div class="error-container" *ngIf="!loading && showError">
+  <div class="err-img">
+    <img src="assets/images/empty-illustration.png">
+  </div>
+  <div class="err-msg">
+    Something went wrong, Please try later.  
+  </div>
+</div> -->
+

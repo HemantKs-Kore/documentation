@@ -1,0 +1,30 @@
+<div class="publish-container" [ngClass]="{'headerCreation': toShowAppHeader}">
+  <div class='sub-head d-none'>
+    <span>You have completed  only <strong>30%</strong> of Configuration Process. Please click to <strong>“Resume Configuration”</strong> to complete the configuration Setup.</span>
+    <button class="kr-sg-button-primary btn_md d-flex align-items-center">Resume Configuration</button>
+  </div>
+  <div class="scrollContainer">
+    <div class="publish-wrap">
+
+      <p>Publish the configurations that you have made in your SmartAssist.ai app to update your Virtual Assistant</p>
+    </div>
+
+    <div class='comments-wrap'>
+      <label class='heading'>Comments</label>
+      <!-- <div onkeypress="return (this.innerText.length <= 8000)" class="comments" id="comments" contenteditable=true></div> -->
+      <textarea class="comments" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" [(ngModel)]="comments" placeholder="Please provide comments" [class.error]="submitted && (comments.length === 0)" required></textarea>
+    </div>
+    <div class="note">
+      You are publishing under the Free Plan. The Free Plan comes with certain usage restrictions. You can upgrade anytime by reaching out to us. <a href="https://info.smartassist.ai/4x-customer-retention-with-call-automation-and-digital-deflection-2" target="_blank">Contact Us</a>.
+    </div>
+
+  </div>
+
+  <div class="containerFooter">
+    <div class="btnContainer d-flex align-items-center">
+      <button class="kr-sg-button-primary btn_md d-flex align-items-center" *ngIf="!toShowAppHeader" (click)="publish(true)" [disabled]="!allowSave">Publish<div class="loader-in-button ml-2" *ngIf="!allowSave"><img src="assets/images/icons/fa-spinner.svg"></div></button>
+      <div class="success-message-notification" *ngIf="successMsg"><img src="assets/images/check-green.svg">{{successMsg}}</div>
+      <div class="error-message-notification" *ngIf="errorMsg"><img src="assets/icons/Warn.svg">{{errorMsg}}</div>
+    </div>
+  </div>
+</div>

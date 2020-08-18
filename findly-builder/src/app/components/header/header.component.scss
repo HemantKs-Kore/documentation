@@ -1,0 +1,142 @@
+
+@import './../../../app/scss/variables/variables.scss';
+
+.deflectHeader{
+   padding-left: 58px !important;
+  //  box-shadow: 0px 2px 0px 0px rgba(138, 149, 159, 0.2);
+   box-shadow: 0 0 6px 0 rgba(138, 149, 159, 0.5);
+   background: $whiteColor;
+   padding: 8px 0rem;
+   z-index: 100 !important;
+   &.onboarding-header{
+     box-shadow: none;
+    background: transparent;
+   }
+   &.headerCreation{
+     padding-left: 0 !important;
+   }
+    .container-fluid{
+      .homePageTitle{
+        .currentTitle{
+          font-size: 14px;
+          font-weight: bold;
+          color: $primaryColor;
+        }
+        .callFlowTitleName{
+          font-size: 16px;
+          color: $primaryColor;
+          img {
+            transform: rotate(90deg);
+            cursor: pointer;
+            position: relative;
+            top: -1px;
+            margin-right: 15px;
+          }
+        }
+      }
+      .nav-flex-icons{
+        .headerIcons{
+          .mat-button-focus-overlay{
+            display: none !important;
+          }
+        }
+      }
+    }
+  
+.progressbar {
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+    width: 400px;
+  }
+  .progressbar li {
+    list-style-type: none;
+    width: 33.33%;
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    color: $secondaryColor;
+  }
+  .progressbar li .titleBGWhite{
+    display: inline-block;
+    padding: 2px 6px;
+    background: $whiteColor;
+  }
+  .progressbar li .titleBGWhite.marginRight20{
+    margin-right: 20px;
+  }
+//   .progressbar li:before {
+//     width: 30px;
+//     height: 30px;
+//     content: counter(step);
+//     counter-increment: step;
+//     line-height: 30px;
+//     border: 2px solid $secondaryColor;
+//     display: block;
+//     text-align: center;
+//     margin: 0 auto 10px auto;
+//     border-radius: 50%;
+//     background-color: $whiteColor;
+//   }
+  .greenStep{
+    // height: 19px;
+      position: relative;
+      top: -2px;
+      margin-right: 5px;
+  }
+  .grayStep{
+    // height: 19px;
+      position: relative;
+      top: -2px;
+      margin-left: 5px;
+  }
+  .progressbar li:after {
+    width: 100%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: $secondaryColor;
+    top: 10px;
+    left: -50%;
+    z-index: -1;
+  }
+  .progressbar li:first-child:after {
+    content: none;
+  }
+  .progressbar li.active {
+    color: $hoverColor;
+  }
+  .progressbar li.default {
+    color: $hoverColor;
+  }
+  .progressbar li.active:before {
+    border-color: $hoverColor;
+  }
+  .progressbar li.active + li:after {
+    background-color: $hoverColor;
+  }
+  .progressbarItem2{
+    position: relative;
+    right: -16px;
+  }
+  .circleTick {
+    position: absolute;
+    right: 6px;
+    top: 2px;
+    background: $whiteColor;
+    display:none;
+  }
+  .circleTick.chooseIcon{
+    right: -30px;
+  }
+  .progressbar li.active .circleTick{
+    display: block;
+  }
+}
+::ng-deep .headerIcons{
+  .mat-button-focus-overlay{
+    display: none !important;
+  }
+}

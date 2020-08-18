@@ -1,0 +1,130 @@
+<div class="emptyStateContainer">
+  <div class="scrollContainer">
+    <div *ngIf="!(apps && apps.length)">
+      <div class="empty-state-wrap">
+        <div class="col-6 empty-image">
+          <img src="assets/images/noBotsPlaceholder.svg">
+        </div>
+        <div class="col-4 empty-message">
+          <p class="title">Hi, {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}}</p>
+          <p class="welcomenote">Welcome to Findly.ai</p>
+          <!-- <p>Enrich your customer experience by deflecting and automating customer interaction using omni-channel Virtual Assistants</p> -->
+        </div>
+      </div>
+      
+      <div class="empty-description">
+        <p>Few steps away from launching your first Findly.ai app</p>
+        <div class="btnContainer">
+          <button [disabled]="saveInProgress" (click)="openCreateApp()" class="addFieldBTN"><i *ngIf="saveInProgress" class="fa fa-spinner fa-spin"></i>{{saveInProgress? 'Creating App' :'Get Started'}}</button>
+          <button class="seeHowBtn d-none">See how</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="stepsContainer">
+
+      <div class="stepsGrayContainer">
+        <span class="stepCount">1</span>
+        <h5 class="call-setup">Call Setup</h5>
+        <ul>
+          <li>Choose how your customers can reach Findly.ai</li>
+          <li>Deflect calls from your IVR System or ask your customers to directly call  Findly.ai</li>
+        </ul>
+        <img src="assets/images/stepsArrow.svg" class="stepsArrow">
+      </div>
+      <div class="stepsGrayContainer">
+        <span class="stepCount">2</span>
+        <h5>Automate Conversations</h5>
+        <ul>
+          <li>Automate customer conversations using intelligent Virtual Assistants</li>
+          <li>Virtual Assistants can be voice-enabled or text-based</li>
+        </ul>
+        <img src="assets/images/stepsArrow.svg" class="stepsArrow">
+      </div>
+      <div class="stepsGrayContainer ">
+        <span class="stepCount">3</span>
+        <h5>Hand-off to Agents</h5>
+        <ul>
+          <li>Seamlessly hand-off customers to agents</li>
+          <li>Collect user queries using forms or connect them to live agents</li>
+        </ul><img src="assets/images/stepsArrow.svg" class="stepsArrow">
+      </div>
+      <div class="stepsGrayContainer IVRImg">
+          <img src="assets/images/integrate-ivr-new.svg" class="integrate-ivr">
+      </div>
+    </div> -->
+
+    <div class="findly-dashboard" *ngIf="apps && apps.length">
+      <div class="main-heading">Welcome to Findly.ai</div>
+      <div class="header-sec row ml-0 mr-0">
+          <div class="title col-6 p-0">Your Applications</div>
+          <div class="col-6 p-0 row justify-content-end align-items-center text-right m-0">
+            <div class="kr-sg-input-search">                               
+              <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchApp">
+              <img src="assets/icons/search.svg" class="search-icon">
+            </div>
+            <button class="kr-sg-button-primary btn_lg" (click)="openCreateApp()">+ Add New</button>
+            <span class="dropdown createDropDown">
+              <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
+                <img class="gray_arrow" src="assets/icons/caretDown.svg">
+                <img class="white_arrow" src="assets/icons/caretDownWhit.svg">
+              </div>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a href="#">Import</a></li>
+              </ul>
+          </span>
+          </div>
+      </div>
+      <div class="body-sec">
+        <div class="row m-0">
+          <div class="col-3 cards-content" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
+            <div class="box">
+              <div class="img-block">
+                <img src="assets/icons/user-gray.svg">
+              </div>
+              <div class="content-sec">
+                <div class="name"><span>{{app.name}}</span></div>
+                <div class="info-text">{{app.description}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<kr-modal modalType="default" #createAppPop>
+  <div class="modal-header">
+        <h4 class="modal-title">Create App</h4>
+      </div>
+      <div class="modal-body textAlignLeft">
+        <div class="kr-sg-input-text mb-3">
+          <div class="label-text">Name</div>
+          <input type="text" placeholder="App name" class="input-text" [(ngModel)]="newApp.name" name="appName">
+        </div>
+        <div class="kr-sg-input-text-area mb-2">
+          <div class="label-text">Discription</div>
+          <textarea placeholder="App discription" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
+        </div>
+        <div class="kr-sg-dropdowns w-100 mt-1">
+          <div class="label-text">Language</div>
+          <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
+              <ul class="dropdown-menu content-menu">
+              <li class="search-box">
+                  <input type="text" placeholder="Search" class="seach-input">
+              </li>                                                
+                <li><a href="#">English</a></li>
+                <li><a href="#">German</a></li>
+                <li><a href="#">French</a></li>
+              </ul>
+           </div>
+      </div>
+      </div>
+      <div class="modal-footer" [ngClass]="{'disabled': deleteInProgress}">
+        <button [disabled]="!newApp.name"  type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='createFindlyApp()' >{{creatingInProgress?'Createing...':'Proceed'}}</button>
+        <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
+      </div>
+</kr-modal>
+

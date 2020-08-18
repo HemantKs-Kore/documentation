@@ -1,0 +1,220 @@
+<div class="contentContainer" [ngClass]="{'heightAdjust': (resources && resources.length) && !(addNewSource)}">
+  <div class="manage-form-please-wait-all" *ngIf="loadingContent" [@fadeInOutAnimation]>
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+<div *ngIf="!loadingContent && (addNewSource || !(resources && resources.length))" class="h-100 position-relative addNewSource">
+  <div *ngIf="(selectedSourceType === 'webCrawl')" class="crerateWebCrawl">
+    <form #domainCrawl="ngForm">
+    <div class="kr-sg-input-text mb-3">
+      <div class="label-text">Source URL</div>
+      <input type="url" autocomplete="off" name="sourceUrl" [(ngModel)]="newSourceObj.url" class="input-text" required>
+      <!-- <div class="error-msg" *ngIf="domainCrawl && domainCrawl.dirty && !newSourceObj.url">Enter a valid url</div> -->
+    </div>
+    <div class="kr-sg-input-text mb-3">
+      <div class="label-text">Source Title</div>
+      <input type="text" autocomplete="off" name="sourceTitle" [(ngModel)]="newSourceObj.name" class="input-text" required>
+      <!-- <div class="error-msg" *ngIf="domainCrawl && domainCrawl.dirty && !newSourceObj.name">Enter a valid name</div> -->
+    </div>
+    <div class="kr-sg-input-text-area mb-3">
+      <div class="label-text">Discription</div>
+      <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc"  name="sourceDesc" placeholder="Placeholder text" class="input-text"></textarea>
+    </div>
+    <div class="buttonFooter">
+      <button class="kr-sg-button-primary btn_md mr-2" [disabled]="domainCrawl.invalid" (click)="proceedSourceAddition()">Proceed</button>
+      <button class="kr-sg-button-secondary-two btn_md" (click)="cancleSourceAddition()">Back</button>
+    </div>
+  </form>
+  </div>
+  
+  <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
+    <div class="crawlContent row m-0">
+      <div class="col-12 main-title label_text">Crawl content from web pages, documnets and other sources</div>
+      <div class="webDomain col-3" (click)="selectSource('webCrawl')" [ngClass]="{selected: clickedSourceType==='webCrawl'}">
+        <div class="box-block">
+          <img src="assets/icons/check-blue.svg" class="check" *ngIf="clickedSourceType==='webCrawl'">
+          <div class="title label_text m-0">Crawl Web Domain</div>
+          <div class="imageDiv"><img src="{{imageUrl}}"></div>
+          <div class="info-text">Extract and index web pages</div> 
+        </div>
+      </div>
+  
+      <div class="webDomain col-3" (click)="selectSource('document')" [ngClass]="{selected: clickedSourceType==='document'}">
+        <div class="box-block">
+          <img src="assets/icons/check-blue.svg" class="check" *ngIf="clickedSourceType==='document'">
+          <div class="title label_text m-0">Extract Document</div>
+          <div class="imageDiv"><img src="{{imageUrl}}"></div>
+          <div class="info-text">Extract and index content</div> 
+        </div>      
+      </div>
+  
+      <div class="webDomain col-3" (click)="selectSource('others')" [ngClass]="{selected: clickedSourceType==='others'}">
+        <div class="box-block">
+          <img src="assets/icons/check-blue.svg" class="check" *ngIf="clickedSourceType==='others'">
+          <div class="title label_text m-0">Others</div>
+          <div class="imageDiv"><img src="{{imageUrl}}"></div>
+          <div class="info-text">Extract content from others</div> 
+        </div>     
+      </div>       
+    </div>
+    <div class="buttonFooter">
+      <button class="kr-sg-button-primary btn_md mr-2" [disabled]="!clickedSourceType" (click)="confirmSource()">Next</button>
+      <button class="kr-sg-button-secondary-two btn_md" (click)="cancleNewSource()" *ngIf="resources && resources.length">Back</button>
+    </div>  
+  </div> 
+</div>
+<div *ngIf="!loadingContent && !addNewSource" class="table-list-content">
+  <!-- <div *ngIf="!(resources && resources.length)">
+     <p>No sources found</p>
+      <button class="kr-sg-button-primary btn_md mr-2" (click)="createNewResource()">Add sources</button>
+  </div> -->
+  <!-- DATA TABLE START HERE -->
+  <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+   <div class="table-action-header">       
+        <div class="kr-sg-input-search">                               
+          <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchSources">
+          <img src="assets/icons/search.svg" class="search-icon">
+        </div>
+        <button class="kr-sg-button-primary btn_md" (click)="createNewResource()">Add Source</button>
+    </div>
+    <section class="table-content">
+        <header class="table-header">
+            <div class="col">Source</div>
+            <div class="col">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+            <div class="col">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+            <div class="col">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+            <div class="col">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+            <div class="col"></div>
+        </header>
+        <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']" (click)="openStatusSlider(source)">
+            <div class="col">{{source.name}}</div>
+            <div class="col">{{source.type}}</div>
+            <div class="col">Default</div>
+            <div class="col">{{source.recentStatus}}</div>
+            <div class="col">{{source.createdOn | dateFormatPipe}}</div>
+            <div class="col text-right">
+              <span class="actions-links"><img class="action_icon arrow-icon" src="assets/images/return.svg"></span>
+              <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
+              <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span>
+              <span class="actions-links"><img class="action_icon" src="assets/images/settings.svg"></span>              
+          </div>
+        </div>
+    </section>                               
+</div>   
+<!-- DATA TABLE ENDS HERE -->
+</div>
+</div>
+<app-slider-component id="sourceSlider">
+  <div class="sliderContainer">
+    <div class="sliderHeader">
+      <h4 class="slider-title"><img src="assets/images/closeCross.png" class="closeCross" (click)="showPages?hidepages():closeStatusSlider();">{{selectedSource.name}}</h4>
+    </div>
+    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
+      <div class="sliderBody call-history-filter">
+        <div class="info-content bg-color" *ngIf="!showPages">
+          <div class="row m-0 row_content">
+            <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+            <div class="col-10 right-info-title">{{selectedSource.name}}</div>
+          </div>
+          <div class="row m-0 row_content">
+            <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+            <div class="col-10 right-info-title">{{selectedSource.url}}</div>
+          </div>
+          <div class="row m-0 row_content">
+            <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+            <div class="col-10 right-info-title"><span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}</div>
+          </div>
+          <div class="row m-0 row_content">
+            <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
+            <div class="col-10 right-info-title">{{statusObj[selectedSource.recentStatus]}}</div>
+          </div>
+          <div class="row m-0 row_content">
+            <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
+            <div class="col-10 right-info-title">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="viewPages()">View Pages</a></div>
+          </div>
+        </div>
+        <div class="content-accordion-sec" *ngIf="showPages">
+          <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
+            <div class="noPages">No Pages Available</div>
+          </ng-container>
+          <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
+            <div class="search-header">
+              <div class="kr-sg-input-search">                               
+                <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
+                <img src="assets/icons/search.svg" class="search-icon">
+            </div>
+            <button class="kr-sg-button-primary btn_md">Add Page</button>
+            </div>
+            <div class="accordion-content-info">
+              <div class="header-sec row m-0">
+                <div class="col-8 label_text m-0">Pages</div>
+                <div class="col-4 label_text m-0">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              </div>
+              <div id="accordion" class="accordion-section">
+                <div class="card_content" *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'title']">
+                  <div class="card_header">
+                    <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
+                      <div class="row m-0 content">
+                        <div class="col-8 link-name">{{page.url || selectedSource.url}}</div>
+                        <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
+                        <div class="col-2 actions">
+                          <img src="assets/images/return.svg">
+                          <img src="assets/images/trashIcon.svg">
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="collapse" data-parent="#accordion">
+                    <div class="card_body" style="padding-left: 30px;">
+                      <div class="info-content">
+                        <div class="row m-0 row_content">
+                          <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+                          <div class="col-10 right-info-title">{{page.title}}</div>
+                        </div>
+                        <div class="row m-0 row_content">
+                          <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+                          <div class="col-10 right-info-title">{{page.url || selectedSource.url}}</div>
+                        </div>
+                        <div class="row m-0 row_content">
+                          <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+                          <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe}}</div>
+                        </div>                      
+                      </div>
+                      <button class="kr-sg-button-primary btn_md mt-3 mb-3">Check for Updates</button>
+                      <div class="label_text">Results Preview</div> 
+                      <div class="info-content">
+                        <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>    
+                        <div class="previewContent" [innerHtml]="page.body"></div>        
+                      </div>
+                      <button class="kr-sg-button-primary btn_md mt-3 mb-3">Test & Preview</button>
+                    </div>
+                  </div>
+                </div>   
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <!-- <div class="sliderFooter">
+      <button class="btn">Done</button>
+    </div> -->
+  </div>
+</app-slider-component>
+<kr-modal modalType="default" #statusModalPop>
+    <div class="modal-body status-modal-popup">
+      <div class="success-check">
+        <img src="assets/icons/check-white.svg">
+      </div>
+      <div class="label_text message-success text-center">Successfully Configured</div>
+      <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Initial URL validation id done!</span></div>
+      <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Network Connectivity</span></div>
+      <div class="content"><img src="assets/images/check-green.svg" class="successfullyConnected"><span>Indexing Ristrictions</span></div>      
+      <div class="text-center m-2" *ngIf="!currentStatusFailed"><mat-progress-bar mode="indeterminate"></mat-progress-bar></div>
+      <div class="desc-info-text text-center" *ngIf="currentStatusFailed">Crawling failed</div>
+      <div class="desc-info-text text-center" *ngIf="!currentStatusFailed"></div>
+    </div>
+    <div class="modal-footer status-modal-footer" [ngClass]="{'disabled': deleteInProgress}">
+      <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal()">Done</button>
+    </div>
+</kr-modal>

@@ -1,0 +1,558 @@
+@import '../../scss/variables/variables.scss';
+
+.kr-modal {
+    /*--Full Modal Basic Styles Starts Here--*/
+    text-align: center;
+    padding: 0!important;
+    z-index: 10500;
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -4px;
+    }
+    &.kr-full{
+        .modal-dialog{
+            max-width: 100% !important;
+            margin: 0 !important;
+            height: 100%;
+            .modal-content{
+                border-radius: 0;
+                height: 100%;
+                .full-page-header{
+                    display: block;
+                    height: 50px;
+                    background-color: $whiteColor;
+                    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                    position: relative;
+                    .back{
+                        margin-left: 25px;
+                        margin-top: 18px;
+                        color: $secondaryColor;
+                        cursor: pointer;
+                    }
+                    &.row{
+                        display: flex;
+                        margin: 0;
+                        .screenFreeze{
+                            pointer-events: none;
+                            opacity:0.5;
+                        }
+                        .left{
+                            padding-top: 12px;
+                            max-width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            .arrow{
+                                cursor: pointer;
+                                transform: rotate(180deg);
+                                position: relative;
+                                top: -1px;
+                            }
+                        }
+                        .right{
+                            text-align: right;
+                            padding-top: 6px;
+                            .kr-btn-greenTransparent{
+                                width: 80px;
+                            }
+                            .kr-btn-primary{
+                                margin: 0 15px;
+                                width: 80px;
+                            }
+                            .gHelp{
+                                font-size: $font-md;
+                                font-weight: normal;
+                                color: $secondaryColor;
+                                cursor: pointer;
+                                .gHelpIcon{
+                                    margin-right: 5px;
+                                    opacity: .6;
+                                }
+                                &:hover{
+                                    color: $primaryColor;
+                                    .gHelpIcon{
+                                        margin-right: 5px;
+                                        opacity: 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    /*--Full Modal Basic Styles Ends Here--*/
+
+    &.kr-slide {
+        .modal-dialog {
+            position: fixed ;
+            top: 0;
+            right: 0;
+            height: 100%;
+            margin: 0;
+           
+            .modal-content {
+                border: none;
+                border-radius: 0;
+                height: 100%;
+
+                .modal-body {
+                    padding: 1rem;
+                }
+            }
+        }
+    }
+    /*--Regular Modal Basic Styles Starts Here--*/
+    .modal-dialog{
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        width: 100%;
+        margin: 0 auto;
+        .modal-content{
+            border: 0;
+            .modal-header{
+                justify-content: center !important;   
+                height: 69px;
+                border-bottom: solid 0px #e5e8ec;
+                background-color: #f2f3f5;    
+                .modal-title{
+                    font-size: $font-xxl;
+                    font-weight: 300;  
+                    color: #26344a;
+                }
+            }
+            .modal-body{
+                padding: 30px 35px;
+                .deleteDiscription{
+                    color: #8a959f;
+                    font-size: 14px;
+                    padding: 28px 0;
+                }
+                &.newDashboardBody{
+                    padding: 55px 70px;
+                    label{
+                        font-size: $font-md;
+                        margin-bottom: 6px
+                    }
+                }
+                .inputsDiv{
+                    margin-bottom: 20px;
+                    color: $primaryColor;
+                    label{
+                        font-size: $font-md;
+                        font-weight: bold;
+                        margin-bottom: 6px
+                    }
+                    ::-webkit-input-placeholder { /* Edge */
+                        color: $placeholderColor;
+                        font-size: $font-sm;
+                      }
+                      
+                      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                        color: $placeholderColor;
+                        font-size: $font-sm;
+                      }
+                      
+                      ::placeholder {
+                        color: $placeholderColor;
+                        font-size: $font-sm;
+                      }
+                      .cancelCustomStatus{
+                        position: relative;
+                        float: right;
+                        bottom: 29px;
+                        right: 12px; 
+                        cursor: pointer;  
+                       }
+                      .ststusDropDown{
+                          .dropdown-toggle{
+                            height: 34px;
+                            border-radius: 2px;
+                            border: solid 1px $borderColor;
+                            background-color: $whiteColor;
+                            display: block;
+                            width: 100%;
+                            padding: 5px 10px;
+                            font-size: $font-md;
+                            outline: 0;
+                            position: relative;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            &::after{
+                                float: right;
+                                margin-top: 8px;
+                                opacity: 0.5;
+                                position: absolute;
+                                right: 8px;
+                            }
+                          }
+                          .dropdown-menu{
+                              transform: none !important;
+                              max-height: 230px;
+                              overflow: auto;
+                              .dropdown-item {
+                                  padding-left: 30px;
+                                  width: 99%;
+                                  padding-left: 30px;
+                                  text-overflow: ellipsis;
+                                  overflow: hidden;
+                                  white-space: nowrap;
+                                  .checkTickIcon{
+                                      position: absolute;
+                                      left: 15px;
+                                      top: 20px;
+                                  }
+                                  &.customAdd{
+                                      color: $buttonhoverBgColor;
+                                      .plusIcon{
+                                          float: right;
+                                          font-size: 16px;
+                                          position: relative;
+                                          top: -2px;
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                }
+                &.importModalBody{
+                    .inputsDiv{
+                        label{
+                            font-weight: normal;
+                        }
+                    }
+                    .posRev{
+                        position: relative;
+                        .dummyInput{
+                            position: absolute;
+                            top: 29px;
+                            opacity: 0;
+                            cursor: pointer;
+                        }
+                        .kr-btn-greenTransparent{
+                            position: absolute;
+                            top: 30px;
+                            right: 0;
+                            width: 70px;
+                            height: 32px;
+                        }
+                    }
+                }
+            }
+            .modal-footer{
+                justify-content: center !important; 
+                height: 60px;
+                border-top: solid 0px #e5e8ec;
+                background-color: #f2f3f5;
+                padding: 6px;
+                .kr-btn-primary{
+                    width: 114px;
+                    background-color: #009dab;
+                    border: 1px solid #009dab;
+                    font-size: 14px;
+                    color: #fff;
+                    &:hover{
+                        background: #018490;
+                        border: 1px solid #018490;
+                    }
+                    &.red{
+                        background-color: $warningRed !important;
+                        border: none !important;
+                    }
+                }
+                .kr-btn-cancel{
+                    width: 114px;
+                    border: 1px solid #e5e8ec;
+                    background: #fff;
+                    color: #8a959f;
+                    &:hover{
+                        // background-color: #f2f3f5;
+                        // border: 1px solid #f2f3f5;
+                        opacity: 0.8;
+                    }
+                }
+                &.importModalFooter{
+                    button{
+                        height: 30px;
+                        padding: 0;
+                    }
+                }
+            }
+
+        }
+    }
+    &.passwordModal{
+        .modal-dialog{
+            width: 450px;
+            .passowrdBody{
+                .logoDiv{
+                    text-align: center;
+                    .kore-logo{
+                        width: 120px;
+                        margin-bottom: 15px;
+                    }
+                }
+                .passwordTitle{
+                    font-size: 20px;
+                    font-weight: 300;
+                    text-align: center;
+                    color: $primaryColor;
+                    margin-bottom: 30px;
+                }
+                .btnDiv{
+                    text-align: center;
+                    .kr-btn-primary{
+                        margin: 30px 0 15px;
+                    }
+                }
+                .termsDiv{
+                    font-size: $font-sm;
+                    color: $secondaryColor;
+                    text-align: center;
+                    p{
+                        margin-bottom: 5px;
+                        a{
+                            color: $buttonhoverBgColor;
+                            display: inline-block;
+                            &:hover{
+                                color: $hoverColor;
+                            }
+                        }
+                        span{
+                            color: $buttonhoverBgColor;
+                            display: inline-block;
+                            margin: 0 5px;
+                        }
+                    }
+                }
+                .group 			  { 
+                    position:relative; 
+                  }
+                  input 				{
+                    font-size:$font-md;
+                    padding:10px 10px 10px 5px;
+                    display:block;
+                    width: 100%;
+                    border:none;
+                    border-bottom:1px solid $borderColor;
+                  }
+                  input:focus 		{ outline:none; }
+                  
+                  /* LABEL ======================================= */
+                  label 				 {
+                    color:$secondaryColor; 
+                    font-size:$font-md;
+                    font-weight:normal;
+                    position:absolute;
+                    pointer-events:none;
+                    left:5px;
+                    top:10px;
+                    transition:0.2s ease all; 
+                    -moz-transition:0.2s ease all; 
+                    -webkit-transition:0.2s ease all;
+                  }
+                  
+                  /* active state */
+                  input:focus ~ label, input:valid ~ label 		{
+                    top:-10px;
+                    font-size:$font-md;
+                    font-weight: bold;
+                    color:$primaryColor;
+                  }
+                  
+                  /* BOTTOM BARS ================================= */
+                  .bar 	{ position:relative; display:block; width:100%; }
+                  .bar:before, .bar:after 	{
+                    content:'';
+                    height:2px; 
+                    width:0;
+                    bottom:1px; 
+                    position:absolute;
+                    background:$buttonhoverBgColor; 
+                    transition:0.2s ease all; 
+                    -moz-transition:0.2s ease all; 
+                    -webkit-transition:0.2s ease all;
+                  }
+                  .bar:before {
+                    left:50%;
+                  }
+                  .bar:after {
+                    right:50%; 
+                  }
+                  
+                  /* active state */
+                  input:focus ~ .bar:before, input:focus ~ .bar:after {
+                    width:50%;
+                  }
+                  
+                  /* HIGHLIGHTER ================================== */
+                  .highlight {
+                    position:absolute;
+                    height:60%; 
+                    width:100px; 
+                    top:25%; 
+                    left:0;
+                    pointer-events:none;
+                    opacity:0.5;
+                  }
+                  
+                  /* active state */
+                  input:focus ~ .highlight {
+                    -webkit-animation:inputHighlighter 0.3s ease;
+                    -moz-animation:inputHighlighter 0.3s ease;
+                    animation:inputHighlighter 0.3s ease;
+                  }
+                  
+                  /* ANIMATIONS ================ */
+                  @-webkit-keyframes inputHighlighter {
+                      from { background:$primaryColor; }
+                    to 	{ width:0; background:transparent; }
+                  }
+                  @-moz-keyframes inputHighlighter {
+                      from { background:$primaryColor; }
+                    to 	{ width:0; background:transparent; }
+                  }
+                  @keyframes inputHighlighter {
+                      from { background:$primaryColor; }
+                    to 	{ width:0; background:transparent; }
+                  }
+            }
+        }
+    }
+    /*--Regular Modal Basic Styles Ends Here--*/
+}
+.modal{
+    &.property-data-modal{
+        background-color: rgba(0, 0, 0, 0.2);
+        .modal-dialog{
+            margin: 0;
+            height: 92%;
+            width: 448px;
+            .modal-content{
+                height: 100%;
+                .modal-header{
+                    height: 60px;
+                    border-bottom: solid 1px #e5e8ec;
+                    background-color: #f2f3f5;
+                }
+                .modal-body{
+                    padding: 20px 0px 0px 23px;
+                    text-align: left;
+                    height: 100%;
+                    .top-sec{
+                        padding-right: 25px;
+                        .kr-sg-fileupload{
+                            text-align: left;
+                            .label-text{
+                                text-align: left;
+                            }
+                            .custom-file{
+                                label{
+                                    &::before{
+                                        left: 0;
+                                    }                                
+                                    span{
+                                        text-align: left;
+                                        width: 100%;
+                                    }
+                                }
+                            }
+                            .info-text{
+                                color: #09a624;
+                                // font-weight: bold;
+                                margin-top: 2px;
+                                font-size: 14px;;
+                            }
+                            .error-text{
+                                margin-top: 2px;
+                                font-size: 14px;
+                                color: #ff001f;
+                            }
+                        }
+                        .line-seperator-text-info{
+                            position: relative;
+                            text-align: center;
+                            margin-top: 20px;
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                left: 0;
+                                width: 35%;
+                                height: 1px;
+                                background: #e5e8ec;
+                                top: 11px;
+                            }
+                            &::after{
+                                content: "";
+                                position: absolute;
+                                right: 0;
+                                width: 35%;
+                                height: 1px;
+                                background: #e5e8ec;
+                                top: 11px;
+                            }
+                            span{
+                                font-size: 12px;
+                                color: #8a959f;
+                            }
+                        }
+                        .kr-sg-multi-line-notification{
+                            margin: 20px 0;
+                        }
+                    }                    
+                    .add-values-sec-inputs{
+                        height: calc(100% - 160px); //temperory until implementation of file upload //
+                        // height: calc(100% - 330px);
+                        .label-text{
+                            padding-right: 25px;
+                        }
+                        .input-content{
+                            height: 100%;
+                            padding-right: 25px;
+                            .input-enter{
+                                margin-bottom: 5px;
+                                .kg-sr-input-search{
+                                    display: inline-block;
+                                    width: 95%;
+                                }
+                                .close-minus-btn{                                   
+                                    float: right;
+                                    position: relative;
+                                    top: 8px;
+                                    span{
+                                        line-height: 0;
+                                        padding: 5px 4px;
+                                        float: right;
+                                        background: #8a959f;
+                                        border-radius: 98px;
+                                        width: 14px;
+                                        height: 14px;
+                                        font-size: 20px;
+                                        color: #fff;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .modal-footer{
+                    height: 60px;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    button{
+                        min-width: 100px !important;
+                    }
+                }
+            }
+        }
+    }                
+}

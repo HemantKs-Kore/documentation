@@ -1,0 +1,164 @@
+@import './../../../app/scss/variables/variables.scss';
+
+.ReportsDiv{
+	margin-top: 60px;
+	margin-left: 40px;
+	.dashboardTitle{
+		padding: 15px 0px 15px 50px;
+		font-size: 20px;
+		font-weight: 600;
+		color: $primaryColor;
+		margin: 0 !important;
+	}
+    
+    .example-radio-group {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+    }
+      
+    .example-radio-button {
+        margin: 3px 0;
+    }
+
+    .report-Type {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .solidBTN{
+        @extend %buttonSolid;
+    }
+    .disableBtn {
+        pointer-events: none;
+        opacity: 0.5;;
+    }
+    .dateButton {
+        @extend %buttonSolid;
+        border:1px solid $hoverColor;
+        color:$hoverColor;
+        background:$whiteColor;
+        font-size: 11px;
+        line-height: 20px;
+    }
+    .selectedBtn {    
+        border: 1px solid #018490;
+        color: #ffffff;
+        background: #018490;
+    }
+
+    .dateField{
+		height: 30px;
+		width: 100%;
+		border-radius: 4px;
+		border: solid 1px #e5e8ec;
+        background-color: #f2f3f5;
+        font-size: 16px;
+        padding: 6px 8px;
+    }
+
+    .reportHeader {
+        .detailText {
+            color: $secondaryColor;
+            font-size: 15px;
+
+        }
+        .detailVal {
+            font-size: 17px;
+            font-weight: bold;
+            @extend %marginTopFive;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }        
+    }
+    .backButton {
+        padding: 5px 0;
+        cursor: pointer;
+        color:#8a959f;
+    }
+    
+    .listOfReports{
+        @extend %noMargin;
+        //margin-left: 60px !important;
+        padding: 20px 20px 40px 40px;
+        height: calc(100vh - 50px);
+        
+    
+        .table-responsive{
+            height: calc(100vh - 190px);
+            //overflow-y: auto;
+            .table{
+                .tableSize {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    display: inline-block;
+                }
+                .col-a {
+                    max-width:250px;
+                    width: 250px;
+                }
+                .col-b {
+                    max-width: 200px;
+                    width: 200px;
+                }
+                .col-c {
+                    max-width: 170px;
+                    width: 170px;
+                }
+                .col-d {
+                    max-width: 90px;
+                    width: 90px;
+                    cursor: pointer;
+                }
+                .statusCaret {
+                    margin-left: 5px;
+                    font-size: 15px;
+                }
+                thead{
+                    th{
+                        @extend %noPaddingLeft;
+                        color: $secondaryColor;
+                        @extend %borderTop;
+                        border-top: none;
+                        font-size: $font-sm;
+                        text-transform: uppercase;
+                    }
+                }
+                .noRecords {
+                    font-size: 22px;
+                    width: 300px;
+                    height: 50px;
+                    display: block;
+                    position: absolute;
+                    top: calc(50% - 25px);
+                    left: calc(50% - 25px);
+                    color: #8a959f;
+                }
+                .waitForLoad {
+                    opacity: 0.8;
+                    pointer-events: none;
+                }
+                tbody{
+                    .onselect {
+                        cursor: pointer;
+                        &:hover{
+                            background-color: $backgroundColor;
+                        }
+                    }
+                    td{
+                        color: $primaryColor;	
+                        @extend %borderTop;
+                        @extend %noPaddingLeft;
+                        font-size: $font-md;
+                        a{
+                            color: $hoverColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

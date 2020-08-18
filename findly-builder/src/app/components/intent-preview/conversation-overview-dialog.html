@@ -1,0 +1,18 @@
+<h1 mat-dialog-title class="modalTitle">Conversation</h1>
+<div class="leftContainer mat-dialog-content">
+    <div class="contentDiv">
+        <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr *ngFor="let conv of data.utterConversation;" >
+                  <td class="convoRow" *ngIf="conv.sentBy === 'Client' " ><span class="rightConvo">{{conv.text}}</span><img src="assets/images/userIcon.svg" class="msgType" style="position: absolute;right: 0;bottom: 0;"></td>
+                  <td class="convoRow" *ngIf="conv.sentBy === 'Agent' " ><img src="assets/images/botIcon.svg"  class="msgType"><span class="leftConvo" >{{conv.text}}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </div>
+<div mat-dialog-actions class="modalFooter">
+  <button mat-button class="solidBTN" (click)="onNoClick()">Close</button>
+</div>

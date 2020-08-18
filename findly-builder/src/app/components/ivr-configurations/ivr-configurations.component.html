@@ -1,0 +1,163 @@
+<div class="ivrConfigurationContainer" [ngClass]="{'headerCreation': toShowAppHeader}">
+  <div class="scrollContainer">
+    <div *ngIf="toShowAppHeader" class="callFlowHeading">IVR Configuration</div>
+    <p class="ivrConfigurationDescription">Voice calls diverted from your IVR System will be received by the SmartAssist.ai
+      app for fulfilling the user requests. Provide the configuration details required to connect and receive the voice
+      calls from your IVR System. </p>
+    <div class="ivrConfigurationBody">
+      <div class="integrationTypeName">Integration Type</div>
+      <p class="integrationTypeDescription">Choose how your IVR System should be integrated with SmartAssist.ai app for
+        transferring the user calls.</p>
+      <div class="kr-radioBtns">
+        <mat-radio-group class="optionsRadio" aria-label="Select an option" [(ngModel)]="defaultValue">
+          <mat-radio-button class="mat-radio-checked sipTransfer" [checked]="defaultValue" value="D1">
+            <span class="lableTitle">SIP Domain Transfer</span>
+            <p class="radioBtnDesc">Transfer your IVR calls to SmartAssist.ai app by initiating SIP sessions.</p>
+          </mat-radio-button>
+        </mat-radio-group>
+        <button *ngIf="defaultValue === 'D1' && (sipDomainNameEditor ==='' || sipDomainNameEditor === undefined)" class="btn btn-default enableBTN"
+          (click)="enablingIvr('sip')">Enable</button>
+        <div [ngClass]="{'d-none': defaultValue === 'D2' || (sipDomainNameEditor === '' || sipDomainNameEditor === undefined)}" class="inputsContainer">
+          <div class="row m-0 ">
+            <div class="col-12 integrationTypeName ">SIP Domain Name
+              <i class="fa fa-question-circle tooltipClass"
+                matTooltip="Please use this SIP Domain address to define the call routing from your IVR System to SmartAssist.ai."
+                matTooltipPosition="right"></i>
+            </div>
+            <div class="col-6 noPaddingLFT">
+              <input readonly [(ngModel)]="sipDomainNameEditor" class="sipDomainNameEditor" id="sipDomainName"
+                #userinputSIP>
+              <div (click)="copyTextFromInput(userinputSIP)" class="copyText">Copy</div>
+              <div *ngIf="toShowCopyMsg" class="copiedMsg">Copied</div>
+            </div>
+          </div>
+          <div class="row m-0 marginBTM15">
+            <div class="col-12 integrationTypeName  textArea">Incoming IP Address
+              <i class="fa fa-question-circle tooltipClass"
+                matTooltip="Enter one or more your IP Addresses that would be transferring voice calls to SmartAssist.ai app."
+                matTooltipPosition="right"></i>
+            </div>
+            <div class="col-6 noPaddingLFT">
+              <div placeholder="Eg:198.256.0.0.1,255.255.255.0" [innerHTML]="ipAddressEditor"
+                (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)"
+                class="ipAddressEditor" id="ipAddress" contenteditable=true></div>
+              <span class="validator" *ngIf="!ipAddressValidator">Incoming IP Address is required</span>
+            </div>
+          </div>
+          <div class="row m-0 marginBTM15">
+            <div class="col-12 integrationTypeName ">Language Preference</div>
+            <div class="col-6 noPaddingLFT">
+              <div class="languagePreference" contenteditable=false>English <img src="assets/images/arrow-dropdown.svg" class="arrow-dropdown"></div>
+              
+            </div>
+          </div>
+          <!-- <div class="row m-0">
+            <div class="col-2 integrationTypeName">Voice Preference</div>
+            <div class="col-5 integrationTypeDropdown">
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  Male - Type 1
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <mat-radio-group class="optionsRadio" aria-label="Select an option" [(ngModel)]="defaultValue">
+          <mat-radio-button class="mat-radio-checked phoneNumber" [checked]="defaultValue" value="D2">
+            <span class="lableTitle">Transfer to Phone number</span>
+            <p class="radioBtnDesc">Transfer your IVR calls to SmartAssist.ai app by forwarding the calls to a dedicated
+              phone number.</p>
+          </mat-radio-button>
+        </mat-radio-group>
+        <div [ngClass]="{'d-none': defaultValue === 'D1'}" class="inputsContainer">
+          <div class="row m-0 ">
+            <div class="col-12 integrationTypeName ">Country code</div>
+            <div class="col-6 integrationTypeDropdown noPaddingLFT">
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{countryCodeDetails.name}}
+                  <img src="assets/images/arrow-dropdown.svg" class="arrow-dropdown">
+                </button>
+                <button [disabled]="countryCodeDetails.name === 'Select a Country'" *ngIf="phoneNumber === ''" class="btn btn-default enableBTN"
+                  (click)="enablingIvr('phoneNumber')">Enable</button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <span class="dropdown-item" *ngFor="let country of countryCodeDetailsFromSeedData"
+                    (click)="countryCodeClick(country)">{{country.Country}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="phoneNumber !== ''" class="row m-0 marginBTM15">
+            <div class="col-12 integrationTypeName ">Phone number</div>
+            <div class="col-6 noPaddingLFT">
+              <input [(ngModel)]="phoneNumber" readonly class="phoneNumberTextArea" id="phoneNumber" #userinput>
+              <div (click)="copyTextFromInput(userinput)" class="copyText">Copy</div>
+              <div *ngIf="toShowCopyMsg" class="copiedMsg">Copied</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="containerFooter">
+    <div class="btnContainer">
+      <button [disabled]="phoneNumber === '' && defaultValue === 'D2'" *ngIf="!toShowAppHeader"
+        class="containerSaveBtn" (click)="saveIVRConfigurationData($event,false)">Save</button>
+      <button *ngIf="toShowAppHeader" class="containerSaveBtn"
+        (click)="saveIVRConfigurationData($event,true)">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade getStartedModal" id="exampleModalCenter" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Let's get started</h5>
+      </div>
+      <div class="modal-body">
+        <div class="getStartContainer">
+          <div class="getBox greenBG">
+            <span class="circleOne"></span>
+            <h2>Transfer calls to SmartAssist.ai</h2>
+            <p>Define business rules to deflect calls from your IVR</p>
+            <p> Integrate IVR with SmartAssist.ai to transfer calls</p>
+            <span class="circleTwo"></span>
+          </div>
+          <div class="getBox">
+            <span class="circleOne"></span>
+            <h2>Integrate IVR</h2>
+            <p>Choose how your IVR should connect to SmartAssist.ai</p>
+            <p>Personalize the call experience </p>
+            <span class="circleTwo"></span>
+          </div>
+          <div class="getBox">
+            <span class="circleOne"></span>
+            <h2>Manage Deflection</h2>
+            <p>Choose deflection experience to manage user conversation</p>
+            <p> Use intelligent virtual assistant to automate conversation</p>
+            <span class="circleTwo"></span>
+          </div>
+          <div class="getBox">
+            <span class="circleOne"></span>
+            <h2>Customize Experience</h2>
+            <p>Train virtual assistant with your domain knowledge</p>
+            <p>Digitally collect user request & enable conversation with agents</p>
+            <span class="circleTwo"></span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary">Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>

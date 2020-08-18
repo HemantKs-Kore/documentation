@@ -1,0 +1,7 @@
+dist/**
+*.bak
+findly-builder/node_modules/**
+findly-builder/dist/**
+
+
+

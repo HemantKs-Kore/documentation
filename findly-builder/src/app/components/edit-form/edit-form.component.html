@@ -1,0 +1,442 @@
+<div class="manage-form-container" [ngClass]="{'headerCreation': toShowAppHeader}" *ngIf="!isLoading">
+  <span class="form-header">
+    <img src="assets/icons/arrow-back.svg" (click)="closeSlider()">
+    <h3>Edit Form</h3>
+  </span>
+  <perfect-scrollbar id="scroll_per" [disabled]="workflowService.disablePerfectScroll" class="manage-form-perfect-scrollbar">
+    <div class="scrollContainer"  [ngClass]="{'noEvents': saveInProgress}">
+      <div class="manage-body mt-1">
+        <div class="row col-12 m-0 p-0">      
+          <div class="kr-sg-input-text mb-3  position-relative">
+            <div class="label-text font-weight-bold" for="formTitle">Form Name 
+              <mat-spinner id="formTitleSpinner" *ngIf="isFormNameSaving" diameter="16" strokeWidth="2"></mat-spinner>
+              <span class="img-right" *ngIf="isSavedFormTitle">
+                <img src="assets/images/onboarding/check-green.svg">
+              </span>
+            </div>
+            <input type="text" placeholder="Customer Enquiry Form" [maxLength]="40" id="formTitle" placeholder="Placeholder text" class="input-text" [(ngModel)]="formTitle" (keyup)='checkKey($event)'>                        
+          </div>
+          <div class="kr-sg-input-text mb-1  position-relative">
+            <div class="label-text font-weight-bold" for="recipientEmail">Agent Email 
+              <mat-spinner id="recipientEmailSpinner" *ngIf="isAgentEmailSaving" diameter="16" strokeWidth="2"></mat-spinner>
+              <img class="helpIcon" src="assets/images/helpIcon.svg" matTooltip="Enter the email address of the agent to whom the requests should be submitted.">
+              <span class="img-right" *ngIf="isSavedEmailId">
+                <img src="assets/images/onboarding/check-green.svg">
+              </span> 
+            </div>
+            <input type="text" placeholder="Agent Email" id="recipientEmail"  [maxLength]="40" class="input-text" [(ngModel)]="recipientEmail" (keyup)='checkKeyRecipientEmail($event)'>                        
+          </div>
+        </div>
+        <table mat-table matSort multiTemplateDataRows *ngIf="dataSource.data?.length" [dataSource]="dataSource" class="w-100 table-hover table-inline-edit" 
+          cdkDropList #table #list="cdkDropList" [cdkDropListData]="dataSource.data" 
+          (cdkDropListDropped)="onListDrop($event)" [cdkDropListDisabled]="isInEditMode">
+
+          <ng-container matColumnDef="fieldIndex">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="mat_thead_cell"> Field Index </mat-header-cell>
+            <mat-cell (click)="editFormField(element)" *matCellDef="let element" class="mat_row_cell">  {{element.fieldIndex}} </mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="fieldName">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell field_name_sec"> Field Name </mat-header-cell>
+            <!-- (click)="element.isEdit = true" -->
+            <mat-cell (click)='editField(element)' class="firstColumMove mat_row_cell field_name_sec" [ngClass]="{'isedit': element.isEdit}" *matCellDef="let element">  
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.fieldName}}">{{element.fieldName}}</div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Field Name</div>
+              <!-- <div class="inline-input-edit">
+                <input type="text" *ngIf="element.isEdit" [maxLength]="25"  [(ngModel)]="element.fieldName">
+              </div> -->
+              <div class="kr-sg-input-text">                
+                <input type="text" *ngIf="element.isEdit" placeholder="Enter field name" [maxLength]="25"  [(ngModel)]="element.fieldName" class="input-text">                
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="displayName">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell"> Display Name </mat-header-cell>
+            <mat-cell (click)='editField(element)' *matCellDef="let element" class="mat_row_cell" [ngClass]="{'isedit': element.isEdit}"> 
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.displayName}}">{{element.displayName}}</div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Display Name</div>             
+              <div class="kr-sg-input-text">                
+                <input type="text"  *ngIf="element.isEdit" [maxLength]="25" [(ngModel)]="element.displayName" class="input-text">                
+              </div>
+            </mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="helpText">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell helptext-flex"> Hint Text </mat-header-cell>
+            <mat-cell (click)='editField(element)' *matCellDef="let element" class="mat_row_cell helptext-flex" [ngClass]="{'isedit': element.isEdit}"> 
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.helpText || '---'}}">{{element.helpText || '---'}}</div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Hint Text</div>             
+              <div class="kr-sg-input-text">                
+                <input type="text" *ngIf="element.isEdit" placeholder="Enter hint text" [maxLength]="25"  [(ngModel)]="element.helpText" class="input-text">                
+              </div>
+            </mat-cell>
+          </ng-container>        
+
+          <ng-container matColumnDef="dataType">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell"> Data Type </mat-header-cell>
+            <mat-cell (click)='editField(element)' class="text-capitalize mat_row_cell" *matCellDef="let element" [ngClass]="{'isedit': element.isEdit}"> 
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.dataType}}"> {{element.dataType}} </div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Data Type</div>
+              <mat-select matInput *ngIf="element.isEdit" placeholder="Select" class="select-dropdown custom-mat-select-form" [(ngModel)]="element.dataType">
+                <mat-option *ngFor="let dTList of dataTypeList" class="text-capitalize field-type-opt position-relative" [value]="dTList">
+                  <span>{{dTList}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="fieldType">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell field_type_sec"> Field Type </mat-header-cell>
+            <mat-cell (click)='editField(element)' *matCellDef="let element" class="mat_row_cell field_type_sec" [ngClass]="{'isedit': element.isEdit}"> 
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.fieldType | fieldType}}">{{element.fieldType | fieldType}} </div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Field Type</div>
+              <div class="field_type_select">
+                <mat-select matInput *ngIf="element.isEdit"  placeholder="Select" (selectionChange)="fTChange(element)"  class="select-dropdown custom-mat-select-form" [(ngModel)]="element.fieldType">
+                  <mat-option *ngFor="let fTList of fieldTypeList" class="field-type-opt position-relative" [value]="fTList.id">
+                    <span>{{fTList.name}}</span>
+                  </mat-option>
+                </mat-select>         
+                <!-- <div class="gear-icon" *ngIf="element.isEdit" (click)="openFieldTypeModal($event, element)"><img src="assets/images/gear.svg"></div> -->
+              </div>
+            </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="isOptional">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell"> Is Optional </mat-header-cell>
+            <mat-cell (click)='editField(element)' *matCellDef="let element" class="mat_row_cell" [ngClass]="{'isedit': element.isEdit}"> 
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.isOptional}}">{{element.isOptional}} </div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Is Optional</div>
+              <div *ngIf="element.isEdit" class="optional-multi-toggle">
+                <span class="toggle-unchecked" (click)='element.isOptional = "Yes"'>
+                  <img src="assets/images/left-menu-icons/unselectedCheck.svg" *ngIf="element.isOptional == 'No'">
+                  <span *ngIf="element.isOptional == 'No'" class="toggle-yes-no">No</span>
+                </span>
+                <span class="toggle-checked" (click)='element.isOptional = "No"'>              
+                  <img src="assets/images/left-menu-icons/toggle-1.png" *ngIf="element.isOptional == 'Yes'">
+                  <span *ngIf="element.isOptional == 'Yes'" class="toggle-yes-no">Yes</span>
+                </span>
+                <!-- toggle button code here-->
+              </div>
+              </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="isMultiSelect">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell"> Is Multiselect </mat-header-cell>
+            <mat-cell (click)='editField(element)' *matCellDef="let element" class="mat_row_cell" [ngClass]="{'isedit': element.isEdit}"> 
+              <div *ngIf="!element.isEdit" class="text-element" title="{{element.isMultiSelect}}">{{element.isMultiSelect}} </div>
+              <div *ngIf="element.isEdit" class="edit-title-header">Is Multiselect</div>
+              <div *ngIf="element.isEdit" class="optional-multi-toggle">
+                <span class="toggle-unchecked" (click)='element.isMultiSelect = "Yes"'>
+                  <img src="assets/images/left-menu-icons/unselectedCheck.svg" *ngIf="element.isMultiSelect == 'No'">
+                  <span *ngIf="element.isMultiSelect == 'No'" class="toggle-yes-no">No</span>
+                </span>
+                <span class="toggle-checked" (click)='element.isMultiSelect = "No"'>
+                  <img src="assets/images/left-menu-icons/toggle-1.png" *ngIf="element.isMultiSelect == 'Yes'">
+                  <span *ngIf="element.isMultiSelect == 'Yes'" class="toggle-yes-no">Yes</span>
+                </span>
+                <!-- toggle button code here-->
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="operation">
+            <mat-header-cell *matHeaderCellDef class="mat_thead_cell"></mat-header-cell>
+            <mat-cell *matCellDef="let element" class="operation-icons" [ngClass]="{'isedit': element.isEdit}"> 
+              <a class="deleteLink" (click)="deleteFormField(element)" *ngIf="!element.isEdit" >
+                <img src="assets/icons/trashIcon.svg">
+              </a>
+              <span *ngIf="!element.isEdit" class="drag_drop_icon"><img src="assets/images/grouping.png"></span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="pl-20 pr-20">
+              <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                  <div class="example-element-description col-12" *ngIf="element.isEdit">
+                    <div class="field-type-container">
+                      <form class="form-field-form" [formGroup]="registerForm">
+                        <div class='cond-wrap'>
+                          <div *ngIf="element.fieldType == 'date'" class="col-3 p-0">
+                            <label for="dateDropdown" class="font-weight-bold mb-0">Format</label>
+                              <mat-select matInput name="dateDropdown" [(ngModel)]="selected.dFormat" [ngModelOptions]="{standalone: true}" class="select-dropdown custom-mat-select-form p-0 border-0">
+                              <mat-option *ngFor="let dFormat of dateFormatList" [value]="dFormat">
+                                <span>{{dFormat}}</span>
+                              </mat-option>
+                            </mat-select>
+                          </div>
+                  
+                          <div class="kr-sg-input-text col-3 p-0" *ngIf="element.fieldType == 'url'">
+                            <div class="label-text font-weight-bold">Placeholder</div>
+                            <input type="text" id="url" placeholder="Enter a valid url" class="input-text" formControlName="url" [ngClass]="{'error': submitted && fval.url.errors }">
+                            <div *ngIf="submitted && fval.url.errors">
+                              <div class="error-msg" *ngIf="fval.url.errors.required">URL is required</div>
+                              <!-- <div class="error-msg" *ngIf="fval.url.errors.pattern">Enter a valid URL</div> -->
+                            </div>
+                          </div>
+
+                          <div class="kr-sg-input-text col-3 p-0" *ngIf="element.fieldType == 'textbox'">
+                            <div class="label-text font-weight-bold">Placeholder</div>
+                            <input type="text" id="textbox" placeholder="placeholder for the field" formControlName="textbox" class="input-text" [ngClass]="{ 'error': submitted && fval.textbox.errors }">
+                            <div *ngIf="submitted && fval.textbox.errors">
+                              <div class="error-msg" *ngIf="fval.textbox.errors.required">Text box is required</div>
+                            </div>
+                          </div>
+
+                          <div class="kr-sg-input-text col-3 p-0" *ngIf="element.fieldType == 'textarea'">
+                            <div class="label-text font-weight-bold">Placeholder</div>
+                            <input type="text" id="textarea" placeholder="placeholder for the field" formControlName="textarea" class="input-text" [ngClass]="{'error': submitted && fval.textarea.errors}">
+                            <div *ngIf="submitted && fval.textarea.errors">
+                              <div class="error-msg" *ngIf="fval.textarea.errors.required">Text Area is required</div>
+                            </div>
+                          </div>
+
+                          <div class="type_head_container" *ngIf="element.fieldType == 'typeahead'">
+                            <div class="row m-0 content-sec">
+                              <div class="col-4 p-0 mb-2">                                                    
+                                <div class="kr-sg-input-text">
+                                  <div class="label-text font-weight-bold" for="endpointUrl">End Point URL</div>
+                                  <input type="text" id="endpointUrl" placeholder="https://integration.api.io/requestid" formControlName="endpointUrl" class="input-text" [ngClass]="{'error': submitted && fval.endpointUrl.errors}">
+                                  <div *ngIf="submitted && fval.endpointUrl.errors">
+                                    <div class="error-msg" *ngIf="fval.endpointUrl.errors.required">End Point URL is required</div>
+                                    <div class="error-msg" *ngIf="fval.endpointUrl.errors.pattern">Enter a valid URL</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-4 pr-0 mb-2">
+                                <div class="label_text" for="endPointContType">Endpoint Content Type</div>
+                                <mat-select matInput name="endPointContType" [(ngModel)]="selected.endPointContType" [ngModelOptions]="{standalone: true}" class="select-dropdown custom-mat-select-form p-0 border-0">
+                                  <mat-option *ngFor="let endPType of endPointContentType" [value]="endPType">
+                                    <span>{{endPType}}</span>
+                                  </mat-option>
+                                </mat-select>
+                              </div>
+                              <div class="col-4 pr-0 mb-2">
+                                <div class="label_text" for="endPointMethod">Endpoint Method</div>
+                                <mat-select matInput name="endPointMethod" [(ngModel)]="selected.endPointMethod" [ngModelOptions]="{standalone: true}" class="select-dropdown custom-mat-select-form p-0 border-0">
+                                  <mat-option *ngFor="let endPMethod of endPointMethod" [value]="endPMethod">
+                                    <span>{{endPMethod}}</span>
+                                  </mat-option>
+                                </mat-select>
+                              </div>
+                              <div class="col-4 p-0">                             
+                                <div class="kr-sg-input-text">
+                                  <div class="label-text font-weight-bold" for="responsePath">Response Path</div>
+                                  <input type="text" id="responsePath" placeholder="Path look upto in URL response" formControlName="responsePath" class="input-text"  [ngClass]="{ 'error': submitted && fval.responsePath.errors }">
+                                  <div *ngIf="submitted && fval.responsePath.errors">
+                                    <div class="error-msg" *ngIf="fval.responsePath.errors.required">Response Path is required</div>                                   
+                                  </div>
+                                </div>                                
+                              </div>
+                              <div class="col-4 pr-0">
+                                <div class="kr-sg-input-text">
+                                  <div class="label-text font-weight-bold" for="labelKey">Label Key</div>
+                                  <input type="text" class="input-text" id="labelKey" placeholder="Label Key" formControlName="labelKey" [ngClass]="{ 'error': submitted && fval.labelKey.errors }">
+                                  <div *ngIf="submitted && fval.labelKey.errors">
+                                    <div class="error-msg" *ngIf="fval.labelKey.errors.required">Label key is required</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-4 pr-0">              
+                                <div class="kr-sg-input-text">
+                                  <div class="label-text font-weight-bold" for="optValKey">Option Value Key</div>
+                                  <input type="text" id="optValKey" placeholder="Value Key" formControlName="optValKey" class="input-text" [ngClass]="{ 'error': submitted && fval.optValKey.errors }">
+                                  <div *ngIf="submitted && fval.optValKey.errors">
+                                    <div class="error-msg" *ngIf="fval.optValKey.errors.required">Option Value Key is required</div>
+                                  </div>                                  
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="kr-sg-input-text col-3 p-0" *ngIf="element.fieldType == 'email'">
+                            <div class="label-text font-weight-bold" for="email">Placeholder</div>
+                            <input type="text" id="email" placeholder="Enter a valid Email" formControlName="email" class="input-text" [ngClass]="{ 'error': submitted && fval.email.errors }">
+                            <!-- <div class="error-msg">Error message here</div> -->
+                            <div *ngIf="submitted && fval.email.errors">
+                              <div class="error-msg" *ngIf="fval.email.errors.required">
+                                Email is required
+                              </div>
+                            </div>
+                          </div>
+                        
+                          <div *ngIf="element.fieldType == 'datetime'" class="col-3 p-0">
+                            <div class="form-group">
+                              <label for="dateTimeFormat" class="font-weight-bold mb-1">Format</label>
+                                <mat-select matInput name="dateTimeFormat" [(ngModel)]="selected.dTFormat" [ngModelOptions]="{standalone: true}" class="select-dropdown custom-mat-select-form p-0 border-0">
+                                <mat-option *ngFor="let dTVal of dateTimeFormat" [value]="dTVal">
+                                  <span>{{dTVal}}</span>
+                                </mat-option>
+                              </mat-select>
+                            </div>
+                          </div> 
+                  
+                          <div class="mb-20 static-dropdown-selection" *ngIf="element.fieldType == 'file'">
+                            <div class="header-titles">                             
+                                 <div class="add-option-btn" (click)="addToFileList()">+<span>Add</span></div>
+                            </div>
+                            <div class="is-searchable">
+                              <span class="searchble-title">Allow Multiple File Upload</span>
+                              <span class="toggle-unchecked" (click)='isMultipleFile = "Yes"'>
+                                <img src="assets/images/left-menu-icons/unselectedCheck.svg" *ngIf="isMultipleFile == 'No'">
+                                <span *ngIf="isMultipleFile == 'No'" class="toggle-yes-no">No</span>
+                              </span>
+                              <span class="toggle-checked" (click)='isMultipleFile = "No"'>              
+                                <img src="assets/images/left-menu-icons/toggle-1.png" *ngIf="isMultipleFile == 'Yes'">
+                                <span *ngIf="isMultipleFile == 'Yes'" class="toggle-yes-no">Yes</span>
+                              </span>
+                            </div>
+                            <div class="success-message-dropdown" *ngIf="isFileNewAdded"><img src="assets/images/onboarding/check-green.svg">New field added  successfully.</div>                            
+                            <div class="row ml-0 mr-0 add-option-header-titles">
+                                 <!-- <div class="col-3 label_text p-0">Default</div> -->
+                                 <div class="col-6 label_text p-0 text-center mb-0">File Upload Payload Field Key</div>
+                                 <div class="col-6 label_text p-0 text-center mb-0">File Upload payload Field Value</div>
+                            </div>
+                            <div class="add-options-sec" *ngFor="let det of addFileList; let i = index">
+                              <div class="radio-sec p-0 text-center">{{i+1}}</div>
+                              <div class="input-sec">
+                                  <div class="kr-sg-input-text">
+                                      <input type="text" [(ngModel)]="det.name" [ngModelOptions]="{standalone: true}" placeholder="File_Name {{i+1}}" class="input-text">
+                                  </div>
+                              </div>
+                              <div class="input-sec"> 
+                                <mat-select matInput placeholder="Select" name="payloadFieldValue" [(ngModel)]="det.value"  [ngModelOptions]="{standalone: true}" class="select-dropdown custom-mat-select-form file_upload_drpdown p-0 border-0">
+                                  <!-- [(ngModel)]="selected.payloadFieldValue" -->
+                                  <mat-option *ngFor="let payVal of payloadFieldValueList" [value]="payVal">
+                                    <span>{{payVal}}</span>
+                                  </mat-option>
+                                </mat-select>
+                              </div>
+                              <div class="delete-field" (click)='deleteFileUpload(i)'><img src="assets/icons/trashIcon.svg"></div>
+                            </div>
+                         </div>
+                        </div>              
+                      </form>                                            
+                      <div class="mb-20 static-dropdown-selection" *ngIf="element.fieldType == 'staticDropDown'">
+                        <div class="header-titles">                             
+                             <div class="add-option-btn" (click)="addNewOptionField()">+<span>Add</span></div>
+                        </div>
+                        <div class="is-searchable">
+                          <span class="searchble-title">Is Searchable</span>
+                          <span class="toggle-unchecked" (click)='isSearchable = "Yes"'>
+                            <img src="assets/images/left-menu-icons/unselectedCheck.svg" *ngIf="isSearchable == 'No'">
+                            <span *ngIf="isSearchable == 'No'" class="toggle-yes-no">No</span>
+                          </span>
+                          <span class="toggle-checked" (click)='isSearchable = "No"'>              
+                            <img src="assets/images/left-menu-icons/toggle-1.png" *ngIf="isSearchable == 'Yes'">
+                            <span *ngIf="isSearchable == 'Yes'" class="toggle-yes-no">Yes</span>
+                          </span>
+                        </div>
+                        <div class="success-message-dropdown" *ngIf="isNewStatic"><img src="assets/images/onboarding/check-green.svg">New field added  successfully.</div>
+                        
+                        <div class="row ml-0 mr-0 add-option-header-titles">
+                             <div class="col-3 label_text p-0">Default</div>
+                             <div class="col-5 label_text p-0">Option Name</div>
+                             <div class="col-4 label_text p-0">Option Value</div>
+                        </div>
+                        <div class="add-options-sec" *ngFor="let det of defaultValList; let i = index">
+                          <div class="radio-sec">
+                              <div class="kr-sg-radiobutton" [ngClass]="{'disabled': det.value == ''}">
+                                  <input class="radio-custom" type="radio" value="{{det.value}}" id="radio-{{i}}" name="radio" [(ngModel)]="staticDropDownSelection">
+                                  <label for="radio-{{i}}" class="radio-custom-label"></label>
+                              </div>
+                          </div>
+                          <div class="input-sec">
+                              <div class="kr-sg-input-text">
+                                  <input type="text" placeholder="Placeholder text" [(ngModel)]="det.name" class="input-text">
+                              </div>
+                          </div>
+                          <div class="input-sec">
+                              <div class="kr-sg-input-text">
+                                  <input type="text" placeholder="Placeholder text" [(ngModel)]="det.value" class="input-text">
+                              </div>
+                          </div>
+                          <div class="delete-field" (click)="deleteDefVal(det)"><img src="assets/icons/trashIcon.svg"></div>
+                        </div>
+                     </div>
+                    </div>  
+                  <div *ngIf="element.isEdit" class="save-cancel-btn">
+                    <button (click)="editManageField(element)" class="kr-sg-button-primary">Save</button>
+                    <!-- <button (click)="editFormField(element)" class="btn saveBtn"> Save</button> -->
+                    <button (click)="cancelEditting(element)" id="cancel-button" class="kr-sg-button-secondary ml-3">Cancel</button>
+                    <button (click)="deleteAllStaticDropdown()" *ngIf="defaultValList.length > 2 && element.fieldType == 'staticDropDown'" class="kr-sg-button-danger ml-3">Delete</button>
+                    <button (click)="deleteAllFiles()" *ngIf="addFileList.length > 2 && element.fieldType == 'file'" class="kr-sg-button-danger ml-3">Delete</button>
+                  </div>             
+                </div>
+            </div>
+          </td>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" [ngClass]='{"edit-form-field": row.isEdit}' cdkDrag [class.example-expanded-row]="expandedElement === row" (click)="editElement(row)">
+        </mat-row>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      </table>
+      <div>
+        <button (click)="addField()" class="kr-sg-button-secondary-two mt-3 pt-1">Add Field</button>
+      </div>
+      <div class="empty-form-image" *ngIf="!dataSource.data?.length">
+        <div class="img-block">
+          <img src="assets/images/empty-illustration.png">
+        </div>
+        <div class="heading">No Field added to Form</div>
+        <div class="desc-text">Your Form is empty. Lorium lipsum lorium  lipsum</div>
+      </div>   
+
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="containerFooter d-none" *ngIf="dataSource.data?.length && toShowAppHeader">
+    <div class="btnContainer">
+      <button class="containerSaveBtn" (click)="nextStep()">Finish</button>
+      <button class="containerBackBtn" (click)="backStep()">Back</button>
+    </div>
+  </div>
+
+  <div class="containerFooter">
+    <!-- <div class="btnContainer">
+      <button class="containerSaveBtn">Update and Exit</button>
+      <button class="containerBackBtn">Close</button>
+    </div> -->
+  </div>
+
+
+  <div class="please-wait" *ngIf="saveInProgress">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+  </div>
+
+<div class="manage-form-please-wait-all" *ngIf="isLoading">
+  <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+  <span class="please-wait-message">Please Wait!</span>
+</div>
+
+
+
+<div class="modal fade" id="widgetNavigationPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="publishSuccess" class="modal-title" id="exampleModalLongTitle">Success</h5>
+        <h5 *ngIf="!publishSuccess" class="modal-title" id="exampleModalLongTitle">Oops, something went wrong</h5>
+      </div>
+      <div class="modal-body">
+        <p *ngIf="publishSuccess">Your SmartAssist.ai app is now ready to take calls. </p>
+        <div *ngIf="publishSuccess" class="row protipNoPadding">
+          <div class="hintDiv row">
+            <span class="icon"><img class="layer" src="assets/images/24x29-bulbicon.png"></span>
+            <span class="description">Please make sure that you have configured the deflection rules and the integration in your IVR System</span>
+          </div>
+       </div>
+       <div *ngIf="!publishSuccess" class="retryBtn">
+         <img src = "assets/images/exclamationCircle-Red.svg">
+         <p>We could not enable your SmartAssist.ai app. You may retry to resolve the problem. Please contact your administrator if the problem persists.</p>
+       </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="publishSuccess" (click)="widgetNavigationComplete()" type="button" data-dismiss="modal" class="btn okBtn">Okay</button>
+        <button *ngIf="!publishSuccess" (click)="nextStep()" type="button" data-dismiss="modal" class="btn retryBtn">Retry</button>
+        <button *ngIf="!publishSuccess" type="button" data-dismiss="modal" class="btn closeBtn">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+<div class="callFlowContainer" [ngClass]="{'headerCreation': toShowAppHeader}">
+  <div class="scrollContainer">
+    <div class="customerExpContainer">
+      <div class="callFlowHeading">Customer Experience</div>
+      <p class="callFlowDescription">Define how the incoming calls from your IVR System should be handled by the
+        SmartAssist.ai App. Choose your preferred deflection template and also customize the messages to be presented to
+        your users. </p>
+      <div class="customerExpBody">
+        <div class="radioDiv active">
+          <mat-radio-group class="optionsRadio">
+            <mat-radio-button checked value="">Deflect to Digital Form</mat-radio-button>
+          </mat-radio-group>
+          <p>Customers can submit their requests using forms on a web interface.</p>
+        </div>
+        <div class="radioDiv pointerEventsNone">
+          <mat-radio-group class="optionsRadio">
+            <mat-radio-button value="">Automate using Chat Interface</mat-radio-button>
+          </mat-radio-group>
+          <p>Customers will be deflected to a virtual chat agent to get their queries answered.</p>
+          <div class="commingSoon d-none">Coming Soon ...</div>
+        </div>
+        <div class="radioDiv pointerEventsNone">
+          <mat-radio-group class="optionsRadio">
+            <mat-radio-button value="">Automate using Voice Interface</mat-radio-button>
+          </mat-radio-group>
+          <p>Customers will be deflected to a virtual voice agent to continue their conversations.</p>
+          <div class="commingSoon d-none">Coming Soon ...</div>
+        </div>
+        <div class="radioDiv pointerEventsNone">
+          <mat-radio-group class="optionsRadio">
+            <mat-radio-button value="">Custom Experience</mat-radio-button>
+          </mat-radio-group>
+          <p>Define your own experience for deflecting and automating the customer conversations.</p>
+          <div class="commingSoon d-none">Coming Soon ...</div>
+        </div>
+      </div>
+    </div>
+    <div class="customizeContainer">
+      <!-- <div class="callFlowHeading">CUSTOMIZE MESSAGES</div>
+      <p class="callFlowDescription">Customize the messages that are sent to the customers for managing the
+        conversation.</p> -->
+      <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Welcome Message for Voice Interface</span>
+          <p class="description">Message to inform the user that the user is talking to a virtual agent</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="welcomeMessage" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!welcomeMessageWarning">Welcome message is required</span>
+      </div>
+      <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Prompt to ask Phone Number</span>
+          <p class="description">A prompt message to ask the phone number of the user for sending a message with a URL to
+            start the chat conversation</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="phoneNumber" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!phoneNumberWarning">Phone number is required</span>
+      </div>
+      <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Message to send Chat Link</span>
+          <p class="description">A message that would be sent to the user as a SMS with the URL</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="confirmationMessage" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!chatLinkWarning">Chat link is required</span>
+      </div>
+      <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">SMS Confirmation Message</span>
+          <p class="description">Message to inform that the SMS is sent and that the call will be terminated</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="chatLink" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!confirmationMessageWarning">Confirmation message is required</span>
+      </div>
+
+      <!-- <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Message to send SMS</span>
+          <p class="description">Message to be sent to the customer’s phone with a link to continue the conversation</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="smsMessage" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!smsMessageWarning">SMS message is required</span>
+      </div> -->
+
+      <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Welcome Message for Chat Interface</span>
+          <p class="description">Message to be displayed to the user on launching the Chat Interface</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="chatInterfaceMessage" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!chatInterfaceMessageWarning">Chat Interface message is required</span>
+      </div>
+
+      <!-- <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Message to present the Form</span>
+          <p class="description">Message to be displayed to the user with a link to open the enquiry form</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor" id="formMessage"
+          contenteditable=true></div>
+          <span class="validator" *ngIf="!formMessageWarning">Present the Form message is required</span>
+      </div> -->
+
+      <div class="voiceWelcomeMessageContainer">
+        <div class="voiceWelcomeMessage">
+          <span class="heading">Acknowledgement Message for Form Submission</span>
+          <p class="description">Message to be displayed to the user to confirm the form submission</p>
+        </div>
+        <div (keydown)="validator($event)" onkeypress="return (this.innerText.length <= 8000)" class="callFlowEditor"
+          id="acknowledgementMessage" contenteditable=true data-text="Enter text here"></div>
+        <span class="validator" *ngIf="!acknowledgementMessageWarning">Acknowledgement message is required</span>
+      </div>
+    </div>
+  </div>
+  <div class="containerFooter">
+    <div class="btnContainer">
+      <button *ngIf="!toShowAppHeader" class="containerSaveBtn" (click)="saveCallFlowData($event,false)">Save</button>
+      <button *ngIf="toShowAppHeader" class="containerSaveBtn"
+        (click)="saveCallFlowData($event,true)">Next</button>
+      <button *ngIf="toShowAppHeader" class="containerBackBtn"
+        (click)="toShowModule()">Back</button>
+    </div>
+  </div>
+</div>

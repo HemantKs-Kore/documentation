@@ -1,0 +1,147 @@
+<div class="chat-agent-content-sec">   
+    <div class="chat-agent-logo-sec">
+        <perfect-scrollbar class="channel-list" [disabled]="workflowService.disablePerfectScroll">
+            <div class="logo-radio-images" *ngFor="let item of liveAgents; let i = index">
+                <div class="kr-sg-radiobutton pr-0">
+                    <input id="{{'agent' + i}}" name="selectedAgent" class="radio-custom h-auto" type="radio" [value]="item" [(ngModel)]="selectedAgent" (change)="onAgentChange(selectedAgent)">
+                    <label for="{{'agent' + i}}" class="radio-custom-label">
+                        <img [src]="item.iconPath" alt="" (error)="item.brokenImage = true;" (load)="item.brokenImage = false;" *ngIf="!item.brokenImage">
+                        <span *ngIf="item.brokenImage">{{item.label}}</span>
+                    </label>
+                </div>                                     
+            </div>
+        </perfect-scrollbar>
+    </div>    
+  <div class="right-sec-content" [ngClass]="{'no-agent': !selectedAgent}">
+      <div class="content-titel" *ngIf="!selectedAgent">Select any of the Live chat agent Sytem to configure</div>
+      <div class="tabs-chanels-agent" *ngIf="selectedAgent">       
+        <ul class="nav nav-tabs mb-3">
+            <li (click)="activeTab = 'configuration'"><a data-toggle="tab" href="#configuration" class="active">Configuration</a></li>
+            <li (click)="activeTab = 'instructions'"><a data-toggle="tab" href="#instructions">Instructions</a></li>     
+            <div class="full-page-popup-btn" (click)="openInstructions()" *ngIf="activeTab === 'instructions'"><img src="assets/images/icons/Maximize.svg"></div>       
+        </ul>          
+          <!-- Tab panes -->
+          <perfect-scrollbar class="tab-config-scroll" [disabled]="workflowService.disablePerfectScroll">
+            <div class="tab-content">
+                <div class="tab-pane active" id="configuration">
+                    <form [formGroup]="agentForm" style="border: none !important;">
+                        <div *ngFor="let field of selectedAgent.fields; let i = index" [ngSwitch]="field.fieldType">
+                            <div class="kr-sg-input-text-area mb-2 pb-1 position-relative" *ngSwitchCase="'textarea'">
+                                <div class="label-text font-weight-bold m-0">{{field.displayName}}</div>
+                                <textarea [placeholder]="field.placeholder" class="input-text" [formControlName]="field.name" [readOnly]="field.isEditable === false ? true: false"></textarea>
+                                <div class="error-msg" *ngIf="agentForm.get(field.name).touched && agentForm.get(field.name).invalid">
+                                    <span *ngIf="agentForm.get(field.name).errors.required">{{field.displayName}} is required</span>
+                                    <span *ngIf="agentForm.get(field.name).errors.minLength">{{field.displayName}} should contain minimum of {{field.minLength}} characters</span>
+                                    <span *ngIf="agentForm.get(field.name).errors.maxLength">{{field.displayName}} is exceeded {{field.maxLength}} characters</span>
+                                </div>
+                            </div>
+                            <div class="group-radiobutton" *ngSwitchCase="'radio'">
+                                <div class="heading-title">{{field.displayName}}</div>
+                                <div class="kr-sg-radiobutton d-block" *ngFor="let item of field.listofvalues; let i = index">
+                                    <input id="{{'radio' + field.name + i}}" [name]="field.name" class="radio-custom" type="radio" [formControlName]="field.name" [value]="item.key" [checked]="updateCheckedStatus(field.name, item.key)">
+                                    <label for="{{'radio' + field.name + i}}" class="radio-custom-label font-weight-normal">{{item.label}}</label>
+                                </div>
+                            </div>
+
+                            <div *ngSwitchCase="'staticlist'">
+                                <div class="label_text">{{field.displayName}}</div>
+                                <mat-form-field class="custom-mat-select">
+                                    <mat-label>Choose Option</mat-label>
+                                    <mat-select disableOptionCentering="true" [formControlName]="field.name" style="border: none !important;" [disabled]="field.isEditable === false ? true: false">
+                                        <mat-option [value]="item.key" *ngFor="let item of field.listofvalues"> {{item.label}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div class="error-msg-dropdown" *ngIf="agentForm.get(field.name).touched && agentForm.get(field.name).invalid">
+                                    <span *ngIf="agentForm.get(field.name).errors.required">{{field.displayName}} is required</span>
+                                </div>
+                            </div>
+
+                            <div *ngSwitchCase="'dynamiclist'">
+                                <div class="label_text">{{field.displayName}}</div>
+                                <mat-form-field class="custom-mat-select">
+                                    <mat-label>Choose Option</mat-label>
+                                    <mat-select disableOptionCentering="true" [formControlName]="field.name" style="border: none !important;" [disabled]="field.isEditable === false ? true: false" (selectionChange)="onSdkAppChange(field.name)">
+                                        <mat-option [value]="item.clientId" *ngFor="let item of sdkApps"> {{item.appName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div class="error-msg-dropdown" *ngIf="agentForm.get(field.name).touched && agentForm.get(field.name).invalid">
+                                    <span *ngIf="agentForm.get(field.name).errors.required">{{field.displayName}} is required</span>
+                                </div>
+                            </div>
+
+                            <div class="kr-sg-input-text mb-2 pb-1 position-relative" *ngSwitchDefault>
+                                <div class="label-text font-weight-bold">{{field.displayName}}  <span (click)="copyTextFromInput($event,agentForm.get(field.name).value)" *ngIf="field.showCopy">Copy</span></div>
+                                <input [type]="(field.dataType === 'number'? 'number': (field.dataType === 'password' ? 'password':'text'))" [placeholder]="field.placeholder" class="input-text" [formControlName]="field.name" autocomplete="off" [readOnly]="field.isEditable === false ? true: false">
+                                <div class="error-msg" *ngIf="agentForm.get(field.name).touched && agentForm.get(field.name).invalid">
+                                    <span *ngIf="agentForm.get(field.name).errors.required">{{field.displayName}} is required</span>
+                                    <span *ngIf="agentForm.get(field.name).errors.minLength">{{field.displayName}} should contain minimum of {{field.minLength}} characters</span>
+                                    <span *ngIf="agentForm.get(field.name).errors.maxLength">{{field.displayName}} is exceeded {{field.maxLength}} characters</span>
+                                    <span *ngIf="agentForm.get(field.name).errors.email">Enter a valid email</span>
+                                    <span *ngIf="agentForm.get(field.name).errors.pattern">Enter a valid URL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="custom-app" *ngIf="selectedAgent.key === 'custom' && agentForm.get('sdkClientId').value && selectedSdkApp">
+                            
+                            <div class="kr-sg-input-text mb-2 pb-1 position-relative">
+                                <div class="label-text font-weight-bold">BOT NAME  <span (click)="copyTextFromInput($event,botName.value)">Copy</span></div>
+                                <input type="text" class="input-text" readOnly #botName [value]="selectedSdkApp.appName">
+                            </div>
+                            <div class="kr-sg-input-text mb-2 pb-1 position-relative">
+                                <div class="label-text font-weight-bold">BOT ID  <span (click)="copyTextFromInput($event,botId.value)">Copy</span></div>
+                                <input type="text" class="input-text" readOnly #botId [value]="(this.selectedSdkApp.bots && this.selectedSdkApp.bots[0] && this.selectedSdkApp.bots[0]._id)"> 
+                            </div>
+                            <div class="kr-sg-input-text mb-2 pb-1 position-relative">
+                                <div class="label-text font-weight-bold">CLIENT ID <span (click)="copyTextFromInput($event,clientId.value)">Copy</span></div>
+                                <input type="text" class="input-text" readOnly #clientId [value]="selectedSdkApp.clientId">
+                            </div>
+                            <div class="kr-sg-input-text mb-2 pb-1 position-relative">
+                                <div class="label-text font-weight-bold">CLIENT SECRET <span (click)="copyTextFromInput($event,clientSecret.value)">Copy</span></div>
+                                <input type="password" class="input-text" readOnly #clientSecret [value]="selectedSdkApp.clientSecret">
+                            </div>
+                        </div>
+                    </form>
+                   
+                    <!-- <div class="kr-sg-input-text mb-3">
+                        <div class="label-text font-weight-bold">WebHook URL <span>Copy</span></div>
+                        <input type="text" placeholder="https:// bots.kore.ai/hook/facebook/bkfjksf.lmvm" class="input-text">                                        
+                    </div> 
+                    <div class="kr-sg-input-text mb-3">
+                        <div class="label-text font-weight-bold">Access URL <span>Copy</span></div>
+                        <input type="text" placeholder="Placehoder Text" class="input-text">                                        
+                    </div>   
+                    <div class="kr-sg-input-text mb-3">
+                        <div class="label-text font-weight-bold">CallBack URL</div>
+                        <input type="text" placeholder="Placehoder Text" class="input-text">                                        
+                    </div> 
+                    <div class="group-radiobutton">
+                        <div class="heading-title">Type something</div>
+                        <div class="kr-sg-radiobutton d-block">
+                            <input id="radio-22" name="radio" class="radio-custom" type="radio" checked>
+                            <label for="radio-22" class="radio-custom-label font-weight-normal">Loriume Lipsum lipsum</label>
+                        </div>
+                        <div class="kr-sg-radiobutton d-block">
+                            <input id="radio-23" name="radio" class="radio-custom" type="radio">
+                            <label for="radio-23" class="radio-custom-label font-weight-normal">lipsum Lorium</label>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="tab-pane fade instructions-tab" id="instructions">
+                    <ng-container *ngFor="let item of instructions">
+                        <ng-container *ngIf="item">
+                            <div class="label-text font-weight-bold">{{item.title}}</div>
+                            <div class="desc-info-text" [innerHTML]="item.instruction"></div>
+                            <div class="code" *ngIf="item.code">
+                                <pre [innerHTML]="item.code"></pre>
+                              </div>
+                            <div class="mb-3 mt-3 text-center" *ngFor="let img of item.image">
+                                <img [src]="img" width="95%">
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>            
+            </div>
+            </perfect-scrollbar>
+      </div>
+  </div>
+</div>          
