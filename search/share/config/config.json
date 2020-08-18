@@ -4,7 +4,7 @@
   },
   "crawler": {
     "URL_CRAWL_LIMIT": 500,
-    "CRAWL_ONLY_SUB_DOMAINS": false,
+    "CRAWL_ONLY_SUB_DOMAINS": true,
     "HOST_URL": "https://qa-bots.kore.ai",
     "API_KEY": ""
   },
@@ -16,7 +16,7 @@
     }
   },
   "server": {
-    "FORKS": 0,
+    "FORKS": 2,
     "PORT": 5006
   },
   "remote_config": {

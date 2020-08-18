@@ -93,7 +93,12 @@ class DBManager(Singleton):
                      'resourceType': crawler_constants.RESOURCE_TYPE}
             crawl_payload = {crawler_constants.CRAWL_ID_DB_KEY: crawl_id, 'resourceType': request_obj['resourceType'],
                              'payload': request_obj,
+                            '_id': request_obj['_id'],
+                             'url': request_obj['url'],
+                             'resourceId': request_obj['resourceId'],
                              'status': crawler_constants.STATUS_QUEUED,
+                             'searchIndexId': request_obj['searchIndexId'],
+                             'streamId': request_obj['streamId'],
                              'startedOn': datetime.datetime.utcnow(), 'lastModified': datetime.datetime.utcnow()}
             updated_record = self.crawl_queue_db.find_one_and_update(query, {'$set': crawl_payload}, upsert=True,
                                                                      full_response=True, return_document=True)
@@ -109,5 +114,29 @@ if __name__ == '__main__':
         crawler_constants.CRAWL_ID_DB_KEY: 'ct123',
         'resourceType': crawler_constants.RESOURCE_TYPE,
         'url': 'https://www.online.citibank.co.in/',
-        '_id': 'job-123'
+        '_id': 'job-123',
+        'resourceId': 'r12',
+        'searchIndexId': 's-2121',
+         'streamId': 'sss'
+
+    })
+    db._put_train_task_in_queue({
+        crawler_constants.CRAWL_ID_DB_KEY: 'ct124',
+        'resourceType': crawler_constants.RESOURCE_TYPE,
+        'url': 'https://en.wikipedia.org/wiki/Main_Page/',
+        '_id': 'job-113',
+        'resourceId': 'r132',
+        'searchIndexId' : 's-121',
+        'streamId': 'sss'
+
+    })
+    db._put_train_task_in_queue({
+        crawler_constants.CRAWL_ID_DB_KEY: 'ct125',
+        'resourceType': crawler_constants.RESOURCE_TYPE,
+        'url': 'https://en.wikipedia.org/wiki/Main_Page/',
+        '_id': 'job-114',
+        'resourceId': 'r132',
+        'searchIndexId' : 's-121',
+        'streamId': 'sss'
+
     })

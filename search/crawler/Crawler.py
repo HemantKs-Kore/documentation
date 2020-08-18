@@ -1,8 +1,8 @@
 import logging
-import re
 import time
 import traceback
 import urllib.robotparser
+from multiprocessing import Process
 
 from crawler import utils
 from crawler.RequestClient import RequestClient
@@ -73,7 +73,8 @@ class Crawler(object):
         else:
             valid_page_urls = [page.url for sitemap_fetched in sitemap_data for page in
                                sitemap_fetched.pages_in_sitemaps]
-            valid_sitemaps = [sitemap_fetched.sitemap_url for sitemap_fetched in sitemap_data if len(sitemap_fetched.pages_in_sitemaps) > 0]
+            valid_sitemaps = [sitemap_fetched.sitemap_url for sitemap_fetched in sitemap_data if
+                              len(sitemap_fetched.pages_in_sitemaps) > 0]
         valid_page_urls = valid_page_urls[: CRAWL_LIMIT]
         return valid_page_urls, valid_sitemaps
 
@@ -112,6 +113,13 @@ class Crawler(object):
                             sitemaps_fetched.append(data)
                             fetched_url_set.add(data.sitemap_url)
 
+    @staticmethod
+    def crawl_process(args, crawl_settings):
+        process = CrawlerProcess(settings=crawl_settings)
+        print('Initiated scraping for {} pages...'.format(len(args['start_urls'])))
+        process.crawl(PageScraper, args)
+        process.start()
+
     def crawl(self, args):
         try:
             url = args.get('url')
@@ -145,13 +153,12 @@ class Crawler(object):
                 debug_logger.warning(status_msg)
                 return {'status_msg': status_msg, 'status_code': 400}
 
+            args['start_urls'] = filtered_page_urls
             crawl_settings = self.get_crawl_settings(user_agent=user_agent)
             start_time = time.time()
-            process = CrawlerProcess(settings=crawl_settings)
-            args['start_urls'] = filtered_page_urls
-            print('Initiated scraping for {} pages...'.format(len(filtered_page_urls)))
-            process.crawl(PageScraper, args)
-            process.start()
+            new_process = Process(target=self.crawl_process, args=(args, crawl_settings))
+            new_process.start()
+            new_process.join()
             print('time taken for scraping page data - {} sec'.format((time.time() - start_time) * 1000))
             debug_logger.info('Completed scraping process...')
             return {'status_msg': 'Crawling successful', 'status_code': 200}
