@@ -3,10 +3,7 @@ import { SideBarService } from '@kore.services/header.service';
 import { workflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { finalize, delay } from 'rxjs/operators';
-import { SummaryModel, SummaryMockData } from 'src/app/data/summary.model';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
-import { of } from 'rxjs';
 import { AuthService } from '@kore.services/auth.service';
 declare const $: any;
 @Component({
@@ -19,7 +16,7 @@ export class SummaryComponent implements OnInit {
 
   selectedApp: any;
   loading = true;
-  summary: SummaryModel;
+  summary:any;
   showError = false;
   btLogs: any[] = [];
   emptySummaryBlocks: any = [

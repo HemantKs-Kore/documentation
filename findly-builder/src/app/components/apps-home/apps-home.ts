@@ -3,7 +3,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { workflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
-import { KRModalComponent } from '@kore.shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 
 declare const $: any;
 @Component({
@@ -47,7 +47,7 @@ export class AppsListingComponent implements OnInit {
   }
   openApp(app) {
    this.workflowService.selectedApp(app);
-   this.router.navigate(['/summary']);
+   this.router.navigate(['/summary'], { skipLocationChange: true });
   }
   openCreateApp() {
     this.createAppPopRef  = this.createAppPop.open();
@@ -79,7 +79,7 @@ export class AppsListingComponent implements OnInit {
         self.workflowService.selectedApp(res);
         self.apps.push(res);
         self.workflowService.showAppCreationHeader(true);
-        self.router.navigate(['/summary']);
+        self.router.navigate(['/summary'], { skipLocationChange: true });
         this.closeCreateApp();
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');

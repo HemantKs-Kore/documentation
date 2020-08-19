@@ -3,8 +3,8 @@
     position: absolute;
     top: 45%;
     left: 45%;
-    box-shadow: 0 5px 10px 0 #e9eff5;
-    background:  $whiteColor;
+    // box-shadow: 0 5px 10px 0 #e9eff5;
+    background:  transparent;
     width: 100px;
     height: 40px;
     padding-top: 10px;
@@ -193,6 +193,38 @@
         }
         .sliderBody{
             height: calc(100vh - 70px);
+            .table-view-details{
+                .row_table{
+                    padding: 8px 0;
+                    border-bottom: 1px solid #e5e8ec;
+                    .pageBodyContent{
+                        height: 300px;
+                        .htmlBodyPreview{
+                            white-space: pre-wrap;
+                        }
+                    }
+                    .title{
+                        color: #8a959f;
+                        font-size: 14px;
+                        padding: 0 10px;
+                    }
+                    .info-content-sec{
+                        color: #26344a;
+                        font-size: 14px;
+                        padding: 0 10px;
+                        .external_link{
+                            margin-left: 4px;
+                            cursor: pointer;
+                        }
+                        .desc{
+                            margin-top: 12px;
+                            &:first-child{
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+            }
             .noPages{
                 padding-top: 20%;
                 text-align: center;
@@ -200,8 +232,31 @@
             .info-content{
                 padding: 15px;                
                 border-radius: 8px;
+                &.pageTitleContainer{
+                    padding-bottom: 30px;
+                }
+                &.previewSection{
+                    overflow-y: scroll;
+                    max-height: 100px;
+                    .previewContent {
+                        white-space: pre-wrap;
+                    }
+                }
                 &.bg-color{
                     background: #f2f3f5;
+                }
+                .viewPageDetails{
+                    position: relative;
+                    display: block;
+                    left: -110px;
+                    top: 5px;
+                    margin-left: 106px;
+                    a{
+                        text-decoration: underline;
+                        color: #009dab;
+                        padding-left: 5px;
+                        cursor: pointer;
+                    }
                 }
                 .row_content{
                     padding: 3px 0;
@@ -302,6 +357,7 @@
                                 }
                             }
                         }
+                        
                         .collapse{
                             position: relative;
                             &.show{
@@ -323,7 +379,20 @@
                                     background: #fff !important;
                                     border: 1px solid #e5e8ec;
                                     padding: 15px 20px;
-                                }
+                                    max-height: 130px;
+                                    overflow: hidden;
+                                    white-space: pre;
+                                    .viewPageDetails{
+                                        margin-left: 106px;
+                                        a{
+                                            text-decoration: underline;
+                                            color: #009dab;
+                                            padding-left: 5px;
+                                            cursor: pointer;
+                                        }
+                                    }
+                                   
+                                    }
                             }
                         }
                     }

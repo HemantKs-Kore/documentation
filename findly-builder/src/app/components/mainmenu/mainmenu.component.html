@@ -1,11 +1,11 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed" >
 	<div class="list-group list-group-flush">
-		<div class="logosDiv" [routerLink]="['/apps']" (click)="preview('')">
+		<div class="logosDiv" [routerLink]="['/apps']" skipLocationChange (click)="preview('')">
 			<img src="assets/images/findly-icon.png" class="logoIcon">
 			<img src="assets/images/findly-logo.svg" class="logoKoreIcon">
 		</div>
-		<button [routerLink]="['/summary']" routerLinkActive="active"  mat-button>
+		<button [routerLink]="['/summary']" skipLocationChange routerLinkActive="active"  mat-button class="mat-button">
 			<span class="inlineIconBox">
 				<img src="assets/images/left-menu-icons/newIcons/dashboard.svg" class="dashboard">
 				<img src="assets/images/left-menu-icons/newIcons/dashboard-white.svg" class="dashboard-white">
@@ -13,13 +13,13 @@
 			<span  class="linkTitle">Summary</span>
 		</button>
 		<div routerLinkActive="active" class="mat-button mat_button_cutom_nav" disableRipple>
-			<span class="inlineIconBox" [routerLink]="['/content','add']">
+			<span class="inlineIconBox" [routerLink]="['/content']" skipLocationChange>
 				<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-gray.svg" class="publish">
 				<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-white.svg" class="publish-white">
 			</span>
-			<span class="linkTitle" [routerLink]="['/content','add']">Source</span>
+			<span class="linkTitle" [routerLink]="['/content']" skipLocationChange>Source</span>
 			<div class="hoverIcons">
-				<div class="subMenu" [routerLink]="['/content','add']" routerLinkActive="active"
+				<div class="subMenu" [routerLink]="['/content']" skipLocationChange routerLinkActive="active"
 					(click)="preview('Content')" mat-button>
 					Content
 				</div>

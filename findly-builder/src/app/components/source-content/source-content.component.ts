@@ -3,7 +3,7 @@ import {ServiceInvokerService} from '@kore.services/service-invoker.service';
 import {workflowService} from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
-import { KRModalComponent } from '@kore.shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
@@ -14,6 +14,7 @@ import { NotificationService } from '../../services/notification.service';
   animations: [fadeInOutAnimation]
 })
 export class SourceContentComponent implements OnInit , OnDestroy {
+  loadingSliderContent = false;
   selectedSourceType: any = null;
   searchSources = '';
   pagesSearch = '';
@@ -24,14 +25,17 @@ export class SourceContentComponent implements OnInit , OnDestroy {
   resources: any = [];
   statusModalPopRef: any = [];
   polingObj: any = {};
+  resourcesObj: any = {};
   loadingContent = true;
   selectedSource: any = {};
   statusObj: any = {
     failed: 'Failed',
     successfull: 'Successfull',
+    success: 'Success',
     queued: 'Queued',
   };
-  showPages: any = false;
+  sliderStep = 0;
+  selectedPage:any={};
   currentStatusFailed: any = false;
   userInfo: any = {};
   jobid = 'job-707f76af-b916-5cd5-ba9d-43826e4b1934';
@@ -59,7 +63,7 @@ export class SourceContentComponent implements OnInit , OnDestroy {
  ];
 
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
-  constructor(private workflowService: workflowService,
+  constructor(public workflowService: workflowService,
               private service: ServiceInvokerService,
               private notificationService: NotificationService,
               private authService: AuthService) {}
@@ -95,7 +99,20 @@ export class SourceContentComponent implements OnInit , OnDestroy {
       skip: 0
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
-      this.resources = res;
+      this.resources = res.reverse();
+      if (this.resources && this.resources.length) {
+        this.resources.forEach(resource => {
+          if ((resource && resource.recentStatus === 'inprogress') || (resource && resource.recentStatus === 'queued')) {
+             if (!this.polingObj[resource.jobId]) {
+               this.poling(resource.jobId);
+             }
+          } else {
+            if (this.polingObj[resource.jobId]) {
+              clearInterval(this.polingObj[resource.jobId]);
+            }
+          }
+        });
+      }
       this.loadingContent = false;
     }, errRes => {
       this.getSourceList();
@@ -103,11 +120,11 @@ export class SourceContentComponent implements OnInit , OnDestroy {
       this.loadingContent = false;
     });
   }
-  poling(jobMetaId) {
-    clearInterval(this.polingObj[jobMetaId]);
+  poling(jobId) {
+    clearInterval(this.polingObj[jobId]);
     const self = this;
-    this.polingObj[jobMetaId] = setInterval(() => {
-      self.getJobStatus(jobMetaId);
+    this.polingObj[jobId] = setInterval(() => {
+      self.getJobStatus(jobId);
     }, 5000);
   }
   getJobStatus(jobId) {
@@ -147,9 +164,10 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     };
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
-      this.showPages = false;
-      this.sliderComponent.openSlider('#sourceSlider', 'right500');
+      this.sliderStep = 0;
+      this.loadingSliderContent = false;
     }, errRes => {
+      this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
       } else {
@@ -158,13 +176,20 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     });
   }
   viewPages() {
-    this.showPages = true;
+    this.sliderStep = 1;
   }
-  hidepages() {
-    this.showPages = false;
+  viewPageDetails() {
+    this.sliderStep = 2;
+  }
+  sliderBack() {
+    if(this.sliderStep){
+      this.sliderStep =  this.sliderStep - 1;
+    }
   }
   openStatusSlider(source) {
     this.selectedSource = source;
+    this.loadingSliderContent = true;
+    this.sliderComponent.openSlider('#sourceSlider', 'right500');
     this.getCrawledPages();
   }
   openStatusModal() {
@@ -173,7 +198,9 @@ export class SourceContentComponent implements OnInit , OnDestroy {
    closeStatusModal() {
     this.cancleSourceAddition();
     this.getSourceList();
-    this.statusModalPopRef.close();
+    if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
    }
   closeStatusSlider() {
     this.sliderComponent.closeSlider('#sourceSlider');
@@ -195,6 +222,9 @@ export class SourceContentComponent implements OnInit , OnDestroy {
   }
   selectSource(selectedCrawlMethod) {
    this.clickedSourceType = selectedCrawlMethod;
+  }
+  openImageLink(url){
+    window.open(url,'_blank');
   }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
