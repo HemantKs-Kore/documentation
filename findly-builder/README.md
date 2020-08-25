@@ -1,6 +1,6 @@
-# Deflect
+# Findly
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
 
 ## Development server
 
@@ -13,14 +13,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-Run   `npm run-script ng build` to build the project. The build artifacts will be stored in the `dist/` directory. 
-
-    Use the `--prod` flag for a production build.
-    Use the `--c` flag for environment
-        value can be [qa | qa1 | prod]
-        Ex:npm run-script ng build -- --prod --c=qa
-           '--' to pass args from npm run-script to command line
 
 ## Running unit tests
 

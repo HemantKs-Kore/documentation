@@ -109,7 +109,7 @@
     <div class="sliderHeader">
       <h4 class="slider-title"><img src="assets/images/closeCross.png" class="closeCross" (click)="sliderStep?sliderBack():closeStatusSlider();">{{selectedSource.name}}</h4>
     </div>
-    <perfect-scrollbar>
+    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
       <div class="sliderBody call-history-filter">
         <div class="manage-form-please-wait-all" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
           <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>

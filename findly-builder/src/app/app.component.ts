@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.onResize();
     $('.toShowAppHeader').addClass('d-none');
-    this.router.navigate(['/apps']);
+    this.router.navigate(['/apps'], { skipLocationChange: true });
   }
 
   navigationInterceptor(event: RouterEvent): void {

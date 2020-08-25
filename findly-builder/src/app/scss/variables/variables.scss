@@ -4,7 +4,7 @@
 */
 
 html, body {
-	font-family: Lato;
+	font-family: Inter;
 }
 
 // COLORS 
@@ -309,7 +309,7 @@ input::placeholder{
 			text-transform: uppercase;
 			font-size: 12px;
 			font-weight: normal;
-			font-family: lato;
+			font-family: Inter;
 		}
 	}
 	.mat-row{
@@ -317,7 +317,7 @@ input::placeholder{
 		.mat-cell{
 			color: $primaryColor;
 			font-size: 14px;
-			font-family: lato;
+			font-family: Inter;
 		}
 	}
 }

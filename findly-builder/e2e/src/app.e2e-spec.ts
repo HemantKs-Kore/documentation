@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to kore-sales!');
+    expect(page.getTitleText()).toEqual('findly app is running!');
   });
 
   afterEach(async () => {

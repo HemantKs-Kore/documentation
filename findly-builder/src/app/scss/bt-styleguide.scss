@@ -2998,7 +2998,7 @@ and open the template in the editor.
                 border: 0;
                 padding: 0;
                 .mat-select{
-                    font-family: lato !important;                    
+                    font-family: Inter !important;                    
                     .mat-select-arrow-wrapper{
                         .mat-select-arrow{
                             border: 0;
@@ -3043,12 +3043,12 @@ and open the template in the editor.
 }
 
 .mat-select{
-    font-family: lato !important;
+    font-family: Inter !important;
     color: $primaryColor !important;
     font-size: 14px !important; 
 }
 .mat-option{
-    font-family: lato !important;
+    font-family: Inter !important;
     color: $primaryColor !important;
     font-size: 14px !important; 
 }

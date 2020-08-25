@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/';
+import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { AuthService } from '@kore.services/auth.service';
 import { timeout } from 'rxjs/operators';
-import { NotificationMessageComponent } from 'src/app/components/notification-message/notification-message.component';
 // import {zip} from 'rxjs/operators';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -24,7 +24,7 @@ export class ConfirmationDialogComponent implements OnInit {
   }
 
   onClickLearnMore() {
-    this.onSelect.emit("learnMore");
+    this.onSelect.emit('learnMore');
   }
 
 }

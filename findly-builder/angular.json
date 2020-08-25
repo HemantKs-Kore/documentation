@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kore-sales": {
+    "findly": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -23,7 +23,8 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -31,15 +32,13 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/app/scss/styles.scss",
-              "node_modules/font-awesome/css/font-awesome.css",
-              "node_modules/lato-font/css/lato-font.min.css"
+              "src/assets/fonts/inter-font.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ],
-            "es5BrowserSupport": true
+            ]
           },
           "configurations": {
             "prod": {
@@ -47,30 +46,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
-            },
-            "dev": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
                 }
               ],
               "optimization": true,
@@ -239,18 +214,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "kore-sales:build"
+            "browserTarget": "findly:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "kore-sales:build:production"
+              "browserTarget": "findly:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "kore-sales:build"
+            "browserTarget": "findly:build"
           }
         },
         "test": {
@@ -284,7 +259,7 @@
         }
       }
     },
-    "kore-sales-e2e": {
+    "findly-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -293,11 +268,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "kore-sales:serve"
+            "devServerTarget": "findly:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "kore-sales:serve:production"
+              "devServerTarget": "findly:serve:production"
             }
           }
         },
@@ -313,5 +288,5 @@
       }
     }
   },
-  "defaultProject": "kore-sales"
+  "defaultProject": "findly"
 }

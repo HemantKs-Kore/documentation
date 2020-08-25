@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { DeflectAppConfig } from '../data/configurations.model';
 
 
 @Injectable({
@@ -9,7 +8,6 @@ import { DeflectAppConfig } from '../data/configurations.model';
 export class workflowService {
   deflectAppsData: any = [];
   appCreationFlow = false;
-  configurationData: DeflectAppConfig = null;
   completedPercentage = 0;
   _seedData: any;
   selectedAppForEdit: any;
