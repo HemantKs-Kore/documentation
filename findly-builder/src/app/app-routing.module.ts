@@ -17,7 +17,10 @@ const routes: Routes = [
       { path: '', redirectTo: '/apps', pathMatch: 'full' },
       { path: 'apps', component: AppsListingComponent },
       { path: 'summary', component: SummaryComponent },
+      { path: 'source', component: SourceContentComponent },
       { path: 'content', component: SourceContentComponent },
+      { path: 'faqs', component: SourceContentComponent },
+      { path: 'botActions', component: SourceContentComponent },
     ]
   }
 ];

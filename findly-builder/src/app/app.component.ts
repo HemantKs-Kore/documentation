@@ -39,9 +39,11 @@ export class AppComponent implements OnInit {
     }
     if (event instanceof NavigationEnd) {
       if (event && event.url === '/apps') {
-        $('.toShowAppHeader').addClass('d-none');
+        // $('.toShowAppHeader').addClass('d-none');
+        $('.krFindlyAppComponent').removeClass('appSelected');
       } else {
-        $('.toShowAppHeader').removeClass('d-none');
+        // $('.toShowAppHeader').removeClass('d-none');
+        $('.krFindlyAppComponent').addClass('appSelected');
       }
       this.authService.findlyApps.subscribe((res) => {
         self.appsData = res;

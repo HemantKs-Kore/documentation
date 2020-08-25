@@ -13,26 +13,6 @@ app-mainmenu{
     	height: 100%;
 		transition: .33s;
 		overflow: hidden;
-		 &:hover{
-		 	width:250px;
-			transition: .33s;
-			.logosDiv{
-				.logoIcon{
-					display:none;
-				}
-				.logoKoreIcon{
-					display:block;
-				}
-			}
-		.mat-button{
-				.linkTitle{
-					display: inline-block;
-					position: absolute;
-					@extend %marginLeftTen;
-					top: 10px;
-				}
-			}
-		}
 		.logosDiv{
 			// @extend %paddingFifteen;
 			padding: 15px 15px 15px 12px;
@@ -45,6 +25,28 @@ app-mainmenu{
 				display: none;
 			}
 		}
+		&.activeMenu{
+			width:200px;
+		   transition: .33s;
+		   .logosDiv{
+			   .logoIcon{
+				   display:none;
+			   }
+			   .logoKoreIcon{
+				   display:block;
+			   }
+		   }
+	     .mat-button{
+			   .linkTitle{
+				   display: inline-block;
+				   position: absolute;
+				   @extend %marginLeftTen;
+				   top: 10px;
+				   outline: none;
+			   }
+		   }
+	   }
+		
 		.mat-button{
 			text-align: left;
 			color: $secondaryColor;
@@ -56,6 +58,7 @@ app-mainmenu{
 			.inlineIconBox{
 				display: inline-block;
 				width: 20px;
+				outline: none;
                 &.leftAdjust{
 					left: -3px;
 					position: relative;
@@ -196,59 +199,20 @@ app-mainmenu{
 				.hoverIcons{
 					display: block;
 				}
-				.dashboard{
-					display: none;
-				}
-				.ivr{
-					display: none;
-				}
-				.call-flow{
-					display: none;
-				}
-				.forms{
-					display: none;
-				}
-				.live-agent{
-					display: none;
-				}
-				.channels{
-					display: none;
+			}
+			.active{
+				color: $whiteColor;
+				.publish-white{
+					display: inline-block;
 				}
 				.publish{
 					display: none;
 				}
-				.callHistory{
-					display: none;
-				}
-				.settings{
-					display: none;
-				}
-				.dashboard-white{
-					display: inline-block;
-				}
-				.ivr-white{
-					display: inline-block;
-				}
-				.call-flow-white{
-					display: inline-block;
-				}
-				.forms-white{
-					display: inline-block;
-				}
-				.live-agent-white{
-					display: inline-block;
-				}
-				.channels-white{
-					display: inline-block;
-				}
-				.publish-white{
-					display: inline-block;
-				}
-				.callHistory-white{
-					display: inline-block;
-				}
-				.settings-white{
-					display: inline-block;
+			}
+			&.activeSubMenu{
+				// color: $whiteColor;
+				.hoverIcons{
+					display: block;
 				}
 			}
 			.linkTitle{display: none;font-weight: normal;}

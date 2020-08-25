@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="sidebar-fixed position-fixed" >
+<div class="sidebar-fixed position-fixed activeMenu" >
 	<div class="list-group list-group-flush">
 		<div class="logosDiv" [routerLink]="['/apps']" skipLocationChange (click)="preview('')">
 			<img src="assets/images/findly-icon.png" class="logoIcon">
@@ -12,21 +12,22 @@
 			</span>
 			<span  class="linkTitle">Summary</span>
 		</button>
-		<div routerLinkActive="active" class="mat-button mat_button_cutom_nav" disableRipple>
-			<span class="inlineIconBox" [routerLink]="['/content']" skipLocationChange>
-				<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-gray.svg" class="publish">
-				<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-white.svg" class="publish-white">
-			</span>
-			<span class="linkTitle" [routerLink]="['/content']" skipLocationChange>Source</span>
+		<div  class="mat-button mat_button_cutom_nav activeSubMenu">
+			<div routerLinkActive="active">
+				<span class="inlineIconBox" [routerLink]="['/source']" skipLocationChange>
+					<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-gray.svg" class="publish">
+					<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-white.svg" class="publish-white">
+				</span>
+				<span class="linkTitle" [routerLink]="['/source']" skipLocationChange>Source</span>
+			</div>
 			<div class="hoverIcons">
-				<div class="subMenu" [routerLink]="['/content']" skipLocationChange routerLinkActive="active"
-					(click)="preview('Content')" mat-button>
+				<div class="subMenu" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
 					Content
 				</div>
-				<div class="subMenu" mat-button>
+				<div class="subMenu" [routerLink]="['/faqs']" skipLocationChange routerLinkActive="active"  (click)="preview('Content')" mat-button>
 					Faqs
 				</div>
-				<div class="subMenu" mat-button>
+				<div class="subMenu" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
 					Bot Actions
 				</div>
 			</div>

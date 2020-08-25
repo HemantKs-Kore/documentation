@@ -1,5 +1,25 @@
 @import './scss/variables/variables.scss';
-
+.krFindlyAppComponent{
+    .toShowAppHeader{
+        display: none;
+    }
+    .appContent{
+        padding-right: 0;
+        padding-top: 0;
+        padding-left: 0px;
+    }
+    &.appSelected{
+        .toShowAppHeader{
+            display: block !important;
+        }
+        .appContent{
+            padding-left: 200px;
+            display: block;
+            padding-right: 0;
+            padding-top: 51px;
+        }
+    }
+}
 // app-content{
 // &.container-fluid{
 // 	@extend %noPadding;
