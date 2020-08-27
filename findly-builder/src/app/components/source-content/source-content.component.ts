@@ -228,6 +228,33 @@ export class SourceContentComponent implements OnInit , OnDestroy {
   openImageLink(url){
     window.open(url,'_blank');
   }
+  fileupload(payload){ 
+    const quaryparms: any = {
+      userId: this.userInfo.id
+     
+    };
+    console.log(this.userInfo.id);
+    this.service.invoke('post.fileupload', quaryparms,payload).subscribe(res=>{
+      console.log(res);
+    });
+ }
+filechange(event){
+  console.log(event);
+  const files=event.target.files[0];
+  // const onfileload= () => { 
+    const formdata=new FormData();
+    formdata.append('file',files);
+    formdata.append('fileContext', 'daas' );
+    // formdata.append('fileExtension','pdf');
+       formdata.append('Content-Type', files.type);
+       this.fileupload(formdata)
+      //  };
+ 
+  const filereader=new FileReader();
+  // filereader.onload = onfileload;
+  console.log(filereader);
+  // this.fileupload(filereader);
+}
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
    if (timerObjects && timerObjects.length) {

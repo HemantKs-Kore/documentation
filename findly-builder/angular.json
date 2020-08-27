@@ -288,5 +288,8 @@
       }
     }
   },
-  "defaultProject": "findly"
+  "defaultProject": "findly",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -174,6 +174,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/deflectai/apps/:appId/availableNumbers',
       method: 'get'
     };
+    this.serviceList['post.fileupload']={
+      endpoint:this.API_SERVER_URL + '/users/:userId/file',
+      method:'post'
+    };
 
   }
 
