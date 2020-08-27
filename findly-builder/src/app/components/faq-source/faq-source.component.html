@@ -31,13 +31,672 @@
             <div><p><strong>{{'Train' | translate}}</strong>{{'Train_IndexingInfo' | translate}}</p></div>
         </div>
     </div>
-    <div class="faqsListContainer">
-    <div class="header">
-        <mat-tab-group animationDuration="0ms" class="selectionBar">
-            <mat-tab label="All Questions">All Questions</mat-tab>
-            <mat-tab label="Added">Added</mat-tab>
-            <mat-tab label="Not Added">Not Added</mat-tab>
-        </mat-tab-group>
-    </div>
+    <div class="faqsListContainer">       
+        <div class="faq-header-sec row m-0">
+            <div class="left-sec col-5 row m-0">
+                <div class="tab-sec d-flex col-9 p-0">
+                    <div class="tab_title active">All<span>(667)</span></div>
+                    <div class="tab_title">Added<span>(123)</span></div>
+                    <div class="tab_title">Not Added<span>(544)</span></div>
+                </div>
+                <div class="untrained-text col-3 p-0 text-right"><span>3 Untrained</span></div>
+            </div>
+            <div class="right-sec col-7 d-flex m-0">
+                <div class="kr-sg-input-search mr-2">                               
+                    <input type="text" placeholder="Search" class="input-search">
+                    <img src="assets/icons/search.svg" class="search-icon">
+                </div>
+                <button class="kr-sg-button-secondary-two btn_md mr-2">Check Extracts</button>
+                <div class="kr-sg-dropdowns mr-1">                 
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Add Question</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                                     
+                          <li><a href="#">Option 1</a></li>
+                          <li><a href="#">Option 2</a></li>
+                          <li><a href="#">Option 3</a></li>
+                        </ul>
+                    </div>
+                </div>                
+                <!-- <div class="manage-extracts-title">Manage Extracts</div> -->
+                <span class="dropdown kr-sg-overflow-menu m-0">
+                    <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon" src="assets/icons/overflow.svg">
+                    </div>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                      <li><a href="#"><img src="assets/icons/check.svg">Option1</a></li>
+                      <li><a href="#"><img src="assets/icons/check.svg">Option1</a></li>                      
+                    </ul>
+                </span>
+            </div>
+        </div>
+        
+        <!-- Template one -->
+        <div class="faq-body">    
+            <perfect-scrollbar class="faq-scrollbar">
+                <div class="kr-sg-data-table accordion-table">                
+                    <section class="table-content">
+                        <header class="table-header">
+                            <div class="col-8">
+                                <div class="col p-0">
+                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                        <input id="table_checked3" class="checkbox-custom" type="checkbox">
+                                        <label for="table_checked3" class="checkbox-custom-label">All</label>
+                                    </div> 
+                                    <span class="acc-header-title">Questions</span>
+                                </div>                            
+                            </div>
+                            <div class="col-2">
+                                <div class="col p-0">Sources<img class="ml-2" src="assets/icons/caretDown.svg"></div>                            
+                            </div>  
+                            <div class="col-2">
+                                <div class="col p-0"></div>                            
+                            </div>                      
+                        </header>
+                        <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table1">
+                            <div class="col-8">
+                                <div class="col p-0">
+                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                        <input id="table_checked5" class="checkbox-custom" type="checkbox">
+                                        <label for="table_checked5" class="checkbox-custom-label"></label>
+                                    </div> 
+                                    <span class="acc-title">How to transfer from current account</span>
+                                </div>                           
+                            </div>
+                            <div class="col-2">
+                                <div class="col p-0">City Bank</div>                            
+                            </div>  
+                            <div class="col-2">
+                                <div class="col p-0 justify-content-end">
+                                    <img src="assets/images/trashIcon.svg" class="ml-5">
+                                    <img src="assets/images/trashIcon.svg" class="ml-5">
+                                </div>                            
+                            </div>                         
+                        </div>
+                        <div id="accordion-table1" class="collapse accordion-table">
+                            <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
+                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div class="tags-sec">
+                                <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
+                                <div class="follow_up_que">+ Add a Followup Question</div>
+                            </div>
+                            <div class="train-your-question-sec">
+                                <div class="label_text">Train Your Question</div>
+                                <div class="box-train">
+                                    <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
+                                    <div class="kr-sg-input-search mb-2">                                                                     
+                                        <input type="text" placeholder="Search" class="input-search">
+                                        <img src="assets/icons/search.svg" class="search-icon">
+                                    </div>
+                                    <div class="kr-sg-input-text mb-3">                                    
+                                        <input type="text" placeholder="Placeholder text" class="input-text">                                    
+                                    </div>
+                                    <button class="kr-sg-button-primary btn_md mr-3">Save</button>
+                                    <button class="kr-sg-button-secondary btn_md">Cancel</button>
+                                </div>
+                            </div>                         
+                            <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                            <div class="questions-items">
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">
+                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>  
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">
+                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">
+                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>                              
+                            </div>
+                            <div class="empty-questions-selected">
+                                <img src="assets/images/icons/empty-illustration.svg">
+                                <div class="heading">No Questions selected yet</div>
+                                <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                            </div>                            
+                        </div>                    
+                        <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table2">
+                            <div class="col-8">
+                                <div class="col p-0">
+                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                        <input id="table_checked4" class="checkbox-custom" type="checkbox">
+                                        <label for="table_checked4" class="checkbox-custom-label"></label>
+                                    </div> 
+                                    <span class="acc-title">I would like to chage my credit card details</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="col p-0">Citi Bank</div>                            
+                            </div>  
+                            <div class="col-2">
+                                <div class="col p-0 justify-content-end">
+                                    <img src="assets/images/trashIcon.svg" class="ml-5">
+                                    <img src="assets/images/trashIcon.svg" class="ml-5">
+                                </div>                            
+                            </div>                     
+                        </div>
+                        <div id="accordion-table2" class="collapse accordion-table">
+                            <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
+                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div class="tags-sec">
+                                <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
+                                <div class="follow_up_que">+ Add a Followup Question</div>
+                            </div>
+                            <div class="train-your-question-sec">
+                                <div class="label_text">Train Your Question</div>
+                                <div class="box-train">
+                                    <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
+                                    <div class="kr-sg-input-search mb-2">                                                                     
+                                        <input type="text" placeholder="Search" class="input-search">
+                                        <img src="assets/icons/search.svg" class="search-icon">
+                                    </div>
+                                    <div class="kr-sg-input-text mb-3">                                    
+                                        <input type="text" placeholder="Placeholder text" class="input-text">                                    
+                                    </div>
+                                    <button class="kr-sg-button-primary btn_md mr-3">Save</button>
+                                    <button class="kr-sg-button-secondary btn_md">Cancel</button>
+                                </div>
+                            </div>                         
+                            <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                            <div class="questions-items">
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>  
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>                              
+                            </div>
+                            <div class="empty-questions-selected">
+                                <img src="assets/images/icons/empty-illustration.svg">
+                                <div class="heading">No Questions selected yet</div>
+                                <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                            </div>                            
+                        </div>  
+                        <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table3">
+                            <div class="col-8">
+                                <div class="col p-0">
+                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                        <input id="table_checked4" class="checkbox-custom" type="checkbox">
+                                        <label for="table_checked4" class="checkbox-custom-label"></label>
+                                    </div> 
+                                    <span class="acc-title">I would like to chage my credit card details</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="col p-0">Citi Bank</div>                            
+                            </div>  
+                            <div class="col-2">
+                                <div class="col p-0 justify-content-end">
+                                    <img src="assets/images/trashIcon.svg" class="ml-5">
+                                    <img src="assets/images/trashIcon.svg" class="ml-5">
+                                </div>                            
+                            </div>                     
+                        </div>
+                        <div id="accordion-table3" class="collapse accordion-table">
+                            <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
+                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div class="tags-sec">
+                                <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
+                                <div class="follow_up_que">+ Add a Followup Question</div>
+                            </div>
+                            <div class="train-your-question-sec">
+                                <div class="label_text">Train Your Question</div>
+                                <div class="box-train">
+                                    <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
+                                    <div class="kr-sg-input-search mb-2">                                                                     
+                                        <input type="text" placeholder="Search" class="input-search">
+                                        <img src="assets/icons/search.svg" class="search-icon">
+                                    </div>
+                                    <div class="kr-sg-input-text mb-3">                                    
+                                        <input type="text" placeholder="Placeholder text" class="input-text">                                    
+                                    </div>
+                                    <button class="kr-sg-button-primary btn_md mr-3">Save</button>
+                                    <button class="kr-sg-button-secondary btn_md">Cancel</button>
+                                </div>
+                            </div>                         
+                            <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                            <div class="questions-items">
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>  
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="selected-questions-list">
+                                    <div class="question">What is the process of creating inst account in citi bank?</div>
+                                    <span class="selected-tags">
+                                        <span class="tags-length">3 tags</span>
+                                        <span class="edit-delete-icons">                                           
+                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                        </span>
+                                    </span>
+                                </div>                              
+                            </div>
+                            <div class="empty-questions-selected">
+                                <img src="assets/images/icons/empty-illustration.svg">
+                                <div class="heading">No Questions selected yet</div>
+                                <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                            </div>                            
+                        </div>                   
+                    </section>                               
+                </div> 
+            </perfect-scrollbar>                    
+        </div>
+
+        <!-- Template Two -->
+        <!-- <div class="faq-content-boxes">
+            <div class="content faq_tasks_list">
+              <div class="box">               
+                <div class="header_sec d-flex justify-content-between align-items-center">
+                    <div class="col-4">
+                        <div class="col p-0">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input id="table_checked3" class="checkbox-custom" type="checkbox">
+                                <label for="table_checked3" class="checkbox-custom-label">Select All</label>
+                            </div>                             
+                        </div>                            
+                    </div>                                 
+                    <div class="col-4 pr-0">
+                        <div class="kr-sg-dropdowns">                           
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select Extracts</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                              
+                                    <li><a href="#">Option 1</a></li>
+                                    <li><a href="#">Option 2</a></li>
+                                    <li><a href="#">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>                         
+                    </div>   
+                    <div class="col-4">
+                        <div class="kr-sg-dropdowns add-que-drpdown">                           
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Add Questions</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                              
+                                    <li><a href="#">Option 1</a></li>
+                                    <li><a href="#">Option 2</a></li>
+                                    <li><a href="#">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>                          
+                    </div>                   
+                </div>
+                <perfect-scrollbar class="scroll-faqs">      
+                  <div class="body-section pt-0">                   
+                    <div class="kr-sg-data-table accordion-table">                
+                        <section class="table-content">                            
+                            <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table1">
+                                <div class="col-9">
+                                    <div class="col p-0">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="table_checked5" class="checkbox-custom" type="checkbox">
+                                            <label for="table_checked5" class="checkbox-custom-label"></label>
+                                        </div> 
+                                        <span class="acc-title">How to transfer from current account</span>
+                                    </div>                           
+                                </div>                              
+                                <div class="col-3">
+                                    <div class="col p-0 justify-content-end">
+                                        <img src="assets/images/trashIcon.svg" class="ml-4">
+                                        <img src="assets/images/trashIcon.svg" class="ml-4">
+                                    </div>                            
+                                </div>                         
+                            </div>
+                            <div id="accordion-table1" class="collapse accordion-table">
+                                <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
+                                <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                                <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                                <div class="tags-sec">
+                                    <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
+                                    <div class="follow_up_que">+ Add a Followup Question</div>
+                                </div>
+                                <div class="train-your-question-sec">
+                                    <div class="label_text">Train Your Question</div>
+                                    <div class="box-train">
+                                        <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
+                                        <div class="kr-sg-input-search mb-2">                                                                     
+                                            <input type="text" placeholder="Search" class="input-search">
+                                            <img src="assets/icons/search.svg" class="search-icon">
+                                        </div>
+                                        <div class="kr-sg-input-text mb-3">                                    
+                                            <input type="text" placeholder="Placeholder text" class="input-text">                                    
+                                        </div>
+                                        <button class="kr-sg-button-primary btn_md mr-3">Save</button>
+                                        <button class="kr-sg-button-secondary btn_md">Cancel</button>
+                                    </div>
+                                </div>                         
+                                <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                                <div class="questions-items">
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">
+                                               
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>  
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">
+                                               
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">
+                                               
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>                              
+                                </div>
+                                <div class="empty-questions-selected">
+                                    <img src="assets/images/icons/empty-illustration.svg">
+                                    <div class="heading">No Questions selected yet</div>
+                                    <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                                </div>                            
+                            </div>                    
+                            <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table2">
+                                <div class="col-9">
+                                    <div class="col p-0">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="table_checked5" class="checkbox-custom" type="checkbox">
+                                            <label for="table_checked5" class="checkbox-custom-label"></label>
+                                        </div> 
+                                        <span class="acc-title">How to transfer from current account</span>
+                                    </div>                           
+                                </div>                              
+                                <div class="col-3">
+                                    <div class="col p-0 justify-content-end">
+                                        <img src="assets/images/trashIcon.svg" class="ml-4">
+                                        <img src="assets/images/trashIcon.svg" class="ml-4">
+                                    </div>                            
+                                </div>                     
+                            </div>
+                            <div id="accordion-table2" class="collapse accordion-table">
+                                <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
+                                <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                                <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                                <div class="tags-sec">
+                                    <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
+                                    <div class="follow_up_que">+ Add a Followup Question</div>
+                                </div>
+                                <div class="train-your-question-sec">
+                                    <div class="label_text">Train Your Question</div>
+                                    <div class="box-train">
+                                        <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
+                                        <div class="kr-sg-input-search mb-2">                                                                     
+                                            <input type="text" placeholder="Search" class="input-search">
+                                            <img src="assets/icons/search.svg" class="search-icon">
+                                        </div>
+                                        <div class="kr-sg-input-text mb-3">                                    
+                                            <input type="text" placeholder="Placeholder text" class="input-text">                                    
+                                        </div>
+                                        <button class="kr-sg-button-primary btn_md mr-3">Save</button>
+                                        <button class="kr-sg-button-secondary btn_md">Cancel</button>
+                                    </div>
+                                </div>                         
+                                <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                                <div class="questions-items">
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">                                           
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>  
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">                                           
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">                                           
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>                              
+                                </div>
+                                <div class="empty-questions-selected">
+                                    <img src="assets/images/icons/empty-illustration.svg">
+                                    <div class="heading">No Questions selected yet</div>
+                                    <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                                </div>                            
+                            </div>  
+                            <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table3">
+                                <div class="col-9">
+                                    <div class="col p-0">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="table_checked5" class="checkbox-custom" type="checkbox">
+                                            <label for="table_checked5" class="checkbox-custom-label"></label>
+                                        </div> 
+                                        <span class="acc-title">How to transfer from current account</span>
+                                    </div>                           
+                                </div>                              
+                                <div class="col-3">
+                                    <div class="col p-0 justify-content-end">
+                                        <img src="assets/images/trashIcon.svg" class="ml-4">
+                                        <img src="assets/images/trashIcon.svg" class="ml-4">
+                                    </div>                            
+                                </div>                 
+                            </div>
+                            <div id="accordion-table3" class="collapse accordion-table">
+                                <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
+                                <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                                <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                                <div class="tags-sec">
+                                    <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
+                                    <div class="follow_up_que">+ Add a Followup Question</div>
+                                </div>
+                                <div class="train-your-question-sec">
+                                    <div class="label_text">Train Your Question</div>
+                                    <div class="box-train">
+                                        <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
+                                        <div class="kr-sg-input-search mb-2">                                                                     
+                                            <input type="text" placeholder="Search" class="input-search">
+                                            <img src="assets/icons/search.svg" class="search-icon">
+                                        </div>
+                                        <div class="kr-sg-input-text mb-3">                                    
+                                            <input type="text" placeholder="Placeholder text" class="input-text">                                    
+                                        </div>
+                                        <button class="kr-sg-button-primary btn_md mr-3">Save</button>
+                                        <button class="kr-sg-button-secondary btn_md">Cancel</button>
+                                    </div>
+                                </div>                         
+                                <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                                <div class="questions-items">
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">                                           
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>  
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">                                           
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="selected-questions-list">
+                                        <div class="question">What is the process of creating inst account in citi bank?</div>
+                                        <span class="selected-tags">
+                                            <span class="tags-length">3 tags</span>
+                                            <span class="edit-delete-icons">                                           
+                                                <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                            </span>
+                                        </span>
+                                    </div>                              
+                                </div>
+                                <div class="empty-questions-selected">
+                                    <img src="assets/images/icons/empty-illustration.svg">
+                                    <div class="heading">No Questions selected yet</div>
+                                    <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                                </div>                            
+                            </div>                   
+                        </section>                               
+                    </div> 
+                  </div>   
+                </perfect-scrollbar>                
+              </div>
+            </div>
+            <div class="content train_your_questions">
+              <div class="box">
+                <div class="header-sec">
+                  <div class="title">Train Q&A</div>   
+                  <div class="desc-info-text m-0">Add alternate forms of the question, key tags and add synonyms.</div>       
+                </div>                 
+                <perfect-scrollbar class="scroll-faqs">
+                  <div class="body-section">                         
+                    <div class="add-questions-form pb-0">                        
+                        <div class="kr-sg-dropdowns mb-8">
+                          <div class="label-text">How do i create insta account in citi bank</div>
+                          <div class="dropdown dropdown-open drp_custon_input">                       
+                              <div class="kr-sg-input-search dropdown-toggle dropdown-input p-0 border-0" data-toggle="dropdown">                               
+                                <input type="text" placeholder="Add alternate questions or select from suggestions" class="input-search">
+                                <img src="assets/images/search-gray.svg" class="search-icon">
+                              </div>                                        
+                              <ul class="dropdown-menu content-menu">                                                                  
+                                <li><a href="#">What are the process of creating insta account in citibank ?</a></li>
+                                <li><a href="#">Please provide the process of insta account ?</a></li>
+                                <li><a href="#">Insta account in citibank - process ?</a></li>
+                                <li><a href="#">What are the process of creating insta account in citibank ?</a></li>
+                                <li><a href="#">Insta account in citibank - process ?</a></li>
+                              </ul>
+                          </div>
+                        </div>
+                        <div class="kr-sg-input-text mb-8">                                           
+                          <input type="text" placeholder="Add alternate questions" class="input-text" name="altQuestion">             
+                        </div>                                 
+                        <div class="btn-sec mt-3">
+                          <button class="kr-sg-button-primary mr-2">Save</button>
+                          <button class="kr-sg-button-secondary mr-2">Cancel</button>                          
+                        </div>
+                      </div>
+
+
+                    <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
+                    <div class="questions-items">
+                        <div class="selected-questions-list">
+                            <div class="question">What is the process of creating inst account in citi bank?</div>
+                            <span class="selected-tags">
+                                <span class="tags-length">3 tags</span>
+                                <span class="edit-delete-icons">
+                                    
+                                    <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                </span>
+                            </span>
+                        </div>  
+                        <div class="selected-questions-list">
+                            <div class="question">What is the process of creating inst account in citi bank?</div>
+                            <span class="selected-tags">
+                                <span class="tags-length">3 tags</span>
+                                <span class="edit-delete-icons">
+                                    
+                                    <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                </span>
+                            </span>
+                        </div>
+                        <div class="selected-questions-list">
+                            <div class="question">What is the process of creating inst account in citi bank?</div>
+                            <span class="selected-tags">
+                                <span class="tags-length">3 tags</span>
+                                <span class="edit-delete-icons">
+                                    
+                                    <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
+                                </span>
+                            </span>
+                        </div>                              
+                    </div>
+                    <div class="empty-questions-selected">
+                        <img src="assets/images/icons/empty_ill.svg">
+                        <div class="heading">Add alternate questions</div>
+                        <div class="desc">Add alternate forms of the question that your customers would generally use.</div>
+                    </div>                               
+                    <div class="empty-questions-selected">
+                        <img src="assets/images/icons/empty_ill.svg">
+                        <div class="heading">No Question selected yet</div>
+                        <div class="desc">Please select a question to get auto suggested similar Questions</div>
+                    </div>
+                  </div>              
+                </perfect-scrollbar>
+              </div>
+            </div>
+        </div> -->
     </div>
 </div>

@@ -954,8 +954,8 @@ and open the template in the editor.
         section{
             &.table-content{
                 > *{
-                    display: flex;
-                    justify-content: space-between;
+                    // display: flex;
+                    // justify-content: space-between;
                 }               
                 .col{
                     // flex: 1;
@@ -966,7 +966,7 @@ and open the template in the editor.
                 }
                 .collapse{
                     display: none !important;
-                    &.in{
+                    &.show{
                         display: block !important;
                         transition: all 0.4s ease-in;
                     }
@@ -1160,7 +1160,8 @@ and open the template in the editor.
                 display: flex;
                 align-items: center;
                 padding: 16px 0;
-                border-bottom: 1px solid #e5e8ec;              
+                border-bottom: 1px solid #e5e8ec;    
+                cursor: pointer;          
                 &.disabled{
                     pointer-events: none;
                     &::before{
@@ -1999,8 +2000,8 @@ and open the template in the editor.
         color: $primaryColor;
         border-radius: 4px;
         padding: 4px 25px 4px 10px;
-        height: 30px;
-        line-height: 30px;
+        height: 34px;
+        line-height: 34px;
         width: 100%;
         &::placeholder{
             color: $secondaryColor;
