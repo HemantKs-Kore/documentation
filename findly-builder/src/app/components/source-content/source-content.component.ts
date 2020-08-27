@@ -9,6 +9,7 @@ import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router} from '@angular/router';
+declare const $: any;
 @Component({
   selector: 'app-source-content',
   templateUrl: './source-content.component.html',
@@ -41,6 +42,9 @@ export class SourceContentComponent implements OnInit , OnDestroy {
   currentStatusFailed: any = false;
   userInfo: any = {};
   jobid = 'job-707f76af-b916-5cd5-ba9d-43826e4b1934';
+  fileName:any = '';
+  csvContent:any = '';
+  fileId:any = '';
   tempPages = [
     {
         _id: 'pg-xxxxxx-xxx-xxx',
@@ -228,33 +232,63 @@ export class SourceContentComponent implements OnInit , OnDestroy {
   openImageLink(url){
     window.open(url,'_blank');
   }
-  fileupload(payload){ 
+  fileChangeListener(event) {
+    // getting file name and validating file type//
+    let fileName = '';
+    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
+      fileName = event.target.files[0].name;
+    } else {
+      return;
+    }
+    const _ext = fileName.substring(fileName.lastIndexOf('.'));
+    if (_ext !== '.pdf' && _ext !== '.csv') {
+      $('#sourceFileUploader').val(null);
+      this.notificationService.notify('Please select a valid csv or pdf file', 'error');
+      return;
+    } else {
+      this.fileName = fileName;
+    }
+    this.onFileSelect(event.target , _ext);
+  }
+  onFileSelect(input: HTMLInputElement , ext) {
+    const files = input.files;
+    const content = this.csvContent;
+    if (files && files.length) {
+      const fileToRead = files[0];
+      const onFileLoad = (fileLoadedEvent) => {
+        const textFromFileLoaded = fileLoadedEvent.target.result;
+        this.csvContent = textFromFileLoaded;
+        const data = new FormData();
+        data.append('file', fileToRead);
+        data.append('fileContext', 'daas');
+        data.append('fileExtension', ext);
+        // data.append('Content-Type', fileToRead.type);
+        this.fileupload(data);
+    };
+      const fileReader = new FileReader();
+      fileReader.onload = onFileLoad;
+      fileReader.readAsText(fileToRead, 'UTF-8');
+    }
+
+  }
+  fileupload(payload){
     const quaryparms: any = {
       userId: this.userInfo.id
-     
     };
-    console.log(this.userInfo.id);
-    this.service.invoke('post.fileupload', quaryparms,payload).subscribe(res=>{
-      console.log(res);
-    });
+    this.service.invoke('post.fileupload', quaryparms,payload).subscribe(
+      res => {
+       this.fileId = res.fileId;
+       this.notificationService.notify('File uploaded successfully', 'success');
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to upload file ', 'error');
+        }
+      }
+    );
  }
-filechange(event){
-  console.log(event);
-  const files=event.target.files[0];
-  // const onfileload= () => { 
-    const formdata=new FormData();
-    formdata.append('file',files);
-    formdata.append('fileContext', 'daas' );
-    // formdata.append('fileExtension','pdf');
-       formdata.append('Content-Type', files.type);
-       this.fileupload(formdata)
-      //  };
- 
-  const filereader=new FileReader();
-  // filereader.onload = onfileload;
-  console.log(filereader);
-  // this.fileupload(filereader);
-}
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
    if (timerObjects && timerObjects.length) {

@@ -10,10 +10,12 @@ export class ServiceInvokerService {
   private DEFAULT_HEADERS = {
     'Content-Type': 'application/json;charset=UTF-8'
   };
-  
-  public invoke(serviceId?:String, qParams?:any, payload?:any, headers?:any): Observable<any> {
-    let conf = this.prepareHttpCall(serviceId, qParams, payload, headers);
-    var _args=[conf.url];
+  private UPLOAD_HEADERS = {
+      'Content-Type': undefined // 'multipart/form-data' //
+  };
+  public invoke(serviceId?:string, qParams?:any, payload?:any, headers?:any): Observable<any> {
+    const conf = this.prepareHttpCall(serviceId, qParams, payload, headers);
+    const _args=[conf.url];
 
     if(conf.method==='get'||conf.method==='delete'){
       _args.push({
@@ -28,20 +30,24 @@ export class ServiceInvokerService {
     return this.http[conf.method].apply(this.http,_args);
   }
   private prepareHttpCall(serviceId, qParams, payload, headers) {
-    let HTTP_VERB_GET = 'get',
-      HTTP_VERB_POST = 'post',
-      HTTP_VERB_PUT = 'put',
-      HTTP_VERB_DELETE = 'delete';
-      
-    let serviceConf = this.endpoints.getServiceInfo(serviceId);
-    let _url, _verb, _headers = JSON.parse(JSON.stringify(this.DEFAULT_HEADERS));
+    const HTTP_VERB_GET = 'get';
+        const HTTP_VERB_POST = 'post';
+        const HTTP_VERB_PUT = 'put';
+        const HTTP_VERB_DELETE = 'delete';
 
+        const serviceConf = this.endpoints.getServiceInfo(serviceId);
+        let _url;
+        let _verb;
+        let _headers = JSON.parse(JSON.stringify(this.DEFAULT_HEADERS));
+        if (serviceId === 'post.fileupload') {
+            _headers = JSON.parse(JSON.stringify(this.UPLOAD_HEADERS));
+        }
     try {
       _verb = serviceConf.method;
       _url = serviceConf.endpoint;
       _url = this.resolveUrl(_url, qParams||{}, false);
     } catch (error) {
-      throw new Error("Unable to find Endpoint or method");
+      throw new Error('Unable to find Endpoint or method');
     }
 
     _url += _url.indexOf('?') > -1 ? '&' : '?';
@@ -65,18 +71,18 @@ export class ServiceInvokerService {
   }
 
   private resolveUrl(toResolveUrl, values, deleteProp) {
-    let _regExToParamName = /\:([a-zA-Z]+)/g;
-    return toResolveUrl.replace(_regExToParamName, function (matchStr, valName) {
-      var r = values[valName];
-      if (typeof r !== 'undefined' && typeof r !== null) {
-        if (deleteProp) {
-          delete values[valName];
+    const _regExToParamName = /\:([a-zA-Z]+)/g;
+    return toResolveUrl.replace(_regExToParamName, (matchStr, valName) => {
+        const r = values[valName];
+        if (typeof r !== 'undefined' && typeof r !== null) {
+            if (deleteProp) {
+                delete values[valName];
+            }
+            // encodeURIComponent is applied because $http removes special characters like '#' from the query
+            // return encodeURIComponent(r);
+            return r;
         }
-        // encodeURIComponent is applied because $http removes special characters like '#' from the query
-        //return encodeURIComponent(r);
-        return r;
-      }
-      return matchStr;
+        return matchStr;
     });
   }
 
