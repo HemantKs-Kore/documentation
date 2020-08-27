@@ -17,6 +17,7 @@ declare const $: any;
   animations: [fadeInOutAnimation]
 })
 export class SourceContentComponent implements OnInit , OnDestroy {
+  fileAdded : boolean = false;
   loadingSliderContent = false;
   selectedSourceType: any = null;
   searchSources = '';
@@ -83,12 +84,41 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
     console.log(this.userInfo);
   }
+  
+  proceedSourceAddition1(extractDoc) {
+    console.log(extractDoc);
+    let payload={};
+    let fileId='1234'
+    let resourceType='document'
+    let quaryparms={
+      searchIndexId:this.selectedApp.searchIndexes[0]._id
+
+    };
+    this.newSourceObj.fileId=fileId;
+    this.newSourceObj.resourceType=resourceType;
+    payload=this.newSourceObj
+    this.service.invoke('post.extractdocument',quaryparms,payload).subscribe(res => {
+      this.router.navigate(['/content'], { skipLocationChange: true });
+      // console.log(res);
+      // this.poling(res._id);
+      // this.openStatusModal();
+     }, errRes => {
+      this.router.navigate(['/content'], { skipLocationChange: true });
+       console.log(errRes);
+     });
+
+    console.log('contentdemo', this.newSourceObj.title)
+    console.log('contentdemo', this.newSourceObj.desc)
+    console.log('contentdemo', this.newSourceObj)
+
+  }
   proceedSourceAddition() {
     let payload: any = {};
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
     };
+
     payload = this.newSourceObj;
     payload.resourceType = 'webdomain';
     this.service.invoke('add.source', quaryparms, payload).subscribe(res => {
@@ -261,7 +291,7 @@ export class SourceContentComponent implements OnInit , OnDestroy {
         const data = new FormData();
         data.append('file', fileToRead);
         data.append('fileContext', 'daas');
-        data.append('fileExtension', ext);
+        data.append('fileExtension', 'pdf');
         // data.append('Content-Type', fileToRead.type);
         this.fileupload(data);
     };
@@ -277,6 +307,8 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     };
     this.service.invoke('post.fileupload', quaryparms,payload).subscribe(
       res => {
+        this.fileAdded= true;
+        this.fileName= '.csv';
        this.fileId = res.fileId;
        this.notificationService.notify('File uploaded successfully', 'success');
       },
