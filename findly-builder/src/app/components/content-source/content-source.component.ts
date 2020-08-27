@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import {ServiceInvokerService} from '@kore.services/service-invoker.service';
+import { ServiceInvokerService} from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
@@ -7,29 +7,22 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
-import { ActivatedRoute } from '@angular/router';
 import { Router} from '@angular/router';
 @Component({
-  selector: 'app-source-content',
-  templateUrl: './source-content.component.html',
-  styleUrls: ['./source-content.component.scss'],
+  selector: 'app-content-source',
+  templateUrl: './content-source.component.html',
+  styleUrls: ['./content-source.component.scss'],
   animations: [fadeInOutAnimation]
 })
-export class SourceContentComponent implements OnInit , OnDestroy {
+export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
-  selectedSourceType: any = null;
   searchSources = '';
   pagesSearch = '';
-  clickedSourceType: any = null;
-  addNewSource = false;
-  newSourceObj: any = {};
   selectedApp: any = {};
   resources: any = [];
-  statusModalPopRef: any = [];
   polingObj: any = {};
   resourcesObj: any = {};
   loadingContent = true;
-  selectedSource: any = {};
   statusObj: any = {
     failed: 'Failed',
     successfull: 'Successfull',
@@ -38,62 +31,25 @@ export class SourceContentComponent implements OnInit , OnDestroy {
   };
   sliderStep = 0;
   selectedPage:any={};
+  selectedSource: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
-  jobid = 'job-707f76af-b916-5cd5-ba9d-43826e4b1934';
-  tempPages = [
-    {
-        _id: 'pg-xxxxxx-xxx-xxx',
-        title: 'Adding a Quora Bot - Kore.ai Documentation',
-        sections: [
-            'Adding a Quora Bot'
-        ],
-        // tslint:disable-next-line:max-line-length
-        body: 'Menu\nDocumentation\nCurrent Version (7.3)\n7.2 Version\n7.1 Version\n7.0 Version\n6.4 Version\n6.3 Version\nCommunity\nSupport\nBot Builder\nsearch\nChatbot Overview\nConversational Bots\nIntents & Entities\nIntelligent Bots\nKore.ai\'s Approach\nKore.ai Conversational Platform',
-        imageUrl: [
-            'https://developer.kore.ai/wp-content/uploads/2019/05/logo-documentation-3x-1.png',
-            'https://developer.kore.ai/wp-content/uploads/QuoraLogo.jpg',
-            'https://developer.kore.ai/wp-content/uploads/newtask.png'
-        ],
-        resourceId: 'wdom-df76b7c4-7160-5d60-a3e6-036176dc53ff',
-        searchIndexId: 'sidx-4fe0bceb-d390-5abb-b879-e1626ca2b04d',
-        streamId: 'st-85bf517b-2592-5050-9cbc-0c81925eadc5',
-        searchResultPreview: '',
-        createdOn: '2020-08-14T11:16:52.527Z',
-        jobId: 'job-e8b3a541-fbb2-56d5-9b60-7bb11ee5ee41'
-    }
- ];
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  constructor(
+    public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService,
+    private authService: AuthService,
+    private router: Router
+    ) { }
 
-  imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
-  constructor(public workflowService: WorkflowService,
-              private service: ServiceInvokerService,
-              private notificationService: NotificationService,
-              private authService: AuthService,
-              private router: Router,
-              ) {}
-   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
-   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-  ngOnInit() {
+  ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.getSourceList();
     this.userInfo = this.authService.getUserInfo() || {};
-    console.log(this.userInfo);
   }
-  proceedSourceAddition() {
-    let payload: any = {};
-    const searchIndex =  this.selectedApp.searchIndexes[0]._id;
-    const quaryparms: any = {
-      searchIndexId: searchIndex,
-    };
-    payload = this.newSourceObj;
-    payload.resourceType = 'webdomain';
-    this.service.invoke('add.source', quaryparms, payload).subscribe(res => {
-     console.log(res);
-     this.poling(res._id);
-     this.openStatusModal();
-    }, errRes => {
-      console.log(errRes);
-    });
+  addNewContentSource(type){
+    this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
   getSourceList() {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
@@ -142,7 +98,6 @@ export class SourceContentComponent implements OnInit , OnDestroy {
       }
       if ((res && (res.status !== 'running')) && (res && (res.status !== 'queued'))) {
         clearInterval(this.polingObj[jobId]);
-        this.closeStatusModal();
       }
     }, errRes => {
       console.log(errRes);
@@ -153,10 +108,6 @@ export class SourceContentComponent implements OnInit , OnDestroy {
         this.notificationService.notify('Failed to crawl web page', 'error');
       }
     });
-  }
-  sliderDone() {
-    this.addNewSource = false;
-    this.cancleSourceAddition();
   }
   getCrawledPages() {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
@@ -196,34 +147,8 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     this.sliderComponent.openSlider('#sourceSlider', 'right500');
     this.getCrawledPages();
   }
-  openStatusModal() {
-    this.statusModalPopRef  = this.statusModalPop.open();
-   }
-   closeStatusModal() {
-    this.cancleSourceAddition();
-    this.getSourceList();
-    if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
-      this.statusModalPopRef.close();
-    }
-    this.router.navigate(['/content'], { skipLocationChange: true });
-   }
   closeStatusSlider() {
     this.sliderComponent.closeSlider('#sourceSlider');
-  }
-  createNewResource() {
-    this.addNewSource = true;
-  }
-  cancleSourceAddition() {
-    this.addNewSource = false;
-    this.newSourceObj = {};
-    this.selectedSourceType = null;
-    this.clickedSourceType = null;
-  }
-  cancleNewSource() {
-    this.addNewSource = false;
-  }
-  selectSource(selectedCrawlMethod) {
-   this.selectedSourceType = selectedCrawlMethod;
   }
   openImageLink(url){
     window.open(url,'_blank');

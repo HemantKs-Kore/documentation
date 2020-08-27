@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
-import { workflowService } from '@kore.services/workflow.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
@@ -60,7 +60,7 @@ export class SummaryComponent implements OnInit {
   };
 
   constructor(
-    public workflowService: workflowService,
+    public workflowService: WorkflowService,
     private headerService: SideBarService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,

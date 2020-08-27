@@ -1,0 +1,16 @@
+{
+    "please_wait":"Please Wait..",
+    "FAQs":"FAQs",
+    "faqsTitleDiscription":"Here you can add question & answers from different sources and manage them",
+    "lets_get_started":"Lets Get Started?",
+    "extract_from_web_pages_and_documents":"Extract from web pages and documents",
+    "extract_using_annotation_tool":"Extract using annotation tool",
+    "manually_input_question_and_answers":"Manually input question and answers",
+    "Auto_indexing":"Auto Indexing",
+    "Auto_IndexingInfo":"- FAQs can be directly indexed by choosing the 'auto indexing' at the time of extraction",
+    "Review_and_Add":"Review and Add",
+    "Review_and_Add_IndexingInfo":"- Or choose 'Extract and Review' option to review all the questions before adding it for indexing",
+    "Train":"Train",
+    "Train_IndexingInfo":"Reviewed and added questions or modifed FAQs need to be trained for indexing"
+
+}

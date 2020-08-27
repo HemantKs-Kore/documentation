@@ -1,9 +1,9 @@
-<div class="contentContainer" [ngClass]="{'heightAdjust': (resources && resources.length) && !(addNewSource)}">
+<div class="contentContainer">
   <div class="manage-form-please-wait-all" *ngIf="loadingContent" [@fadeInOutAnimation]>
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
-<div *ngIf="!loadingContent && (addNewSource || !(resources && resources.length))" class="h-100 position-relative addNewSource">
+<div class="h-100 position-relative addNewSource">
   <div *ngIf="(selectedSourceType === 'webCrawl')" class="crerateWebCrawl">
     <form #domainCrawl="ngForm">
     <div class="kr-sg-input-text mb-3">
@@ -30,40 +30,36 @@
   <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
     <div class="crawlContent row m-0">
       <div class="col-12 main-title label_text">Crawl content from web pages, documnets and other sources</div>
-      <div class="webDomain col-3" (click)="selectSource('webCrawl')" [ngClass]="{selected: clickedSourceType==='webCrawl'}">
+      <div class="webDomain col-3" (click)="selectSource('webCrawl')" [ngClass]="{selected: selectedSourceType==='webCrawl'}">
         <div class="box-block">
-          <img src="assets/icons/check-blue.svg" class="check" *ngIf="clickedSourceType==='webCrawl'">
+          <img src="assets/icons/check-blue.svg" class="check" *ngIf="selectedSourceType==='webCrawl'">
           <div class="title label_text m-0">Crawl Web Domain</div>
           <div class="imageDiv"><img src="{{imageUrl}}"></div>
           <div class="info-text">Extract and index web pages</div> 
         </div>
       </div>
   
-      <div class="webDomain col-3" (click)="selectSource('document')" [ngClass]="{selected: clickedSourceType==='document'}">
+      <div class="webDomain col-3" (click)="selectSource('document')" [ngClass]="{selected: selectedSourceType==='document'}">
         <div class="box-block">
-          <img src="assets/icons/check-blue.svg" class="check" *ngIf="clickedSourceType==='document'">
+          <img src="assets/icons/check-blue.svg" class="check" *ngIf="selectedSourceType==='document'">
           <div class="title label_text m-0">Extract Document</div>
           <div class="imageDiv"><img src="{{imageUrl}}"></div>
           <div class="info-text">Extract and index content</div> 
         </div>      
       </div>
   
-      <div class="webDomain col-3" (click)="selectSource('others')" [ngClass]="{selected: clickedSourceType==='others'}">
+      <div class="webDomain col-3" (click)="selectSource('others')" [ngClass]="{selected: selectedSourceType==='others'}">
         <div class="box-block">
-          <img src="assets/icons/check-blue.svg" class="check" *ngIf="clickedSourceType==='others'">
+          <img src="assets/icons/check-blue.svg" class="check" *ngIf="selectedSourceType==='others'">
           <div class="title label_text m-0">Others</div>
           <div class="imageDiv"><img src="{{imageUrl}}"></div>
           <div class="info-text">Extract content from others</div> 
         </div>     
       </div>       
     </div>
-    <div class="buttonFooter">
-      <button class="kr-sg-button-primary btn_md mr-2" [disabled]="!clickedSourceType" (click)="confirmSource()">Next</button>
-      <button class="kr-sg-button-secondary-two btn_md" (click)="cancleNewSource()" *ngIf="resources && resources.length">Back</button>
-    </div>  
   </div> 
 </div>
-<div *ngIf="!loadingContent && !addNewSource" class="table-list-content">
+<div *ngIf="!loadingContent && !addNewSource && false" class="table-list-content">
   <!-- <div *ngIf="!(resources && resources.length)">
      <p>No sources found</p>
       <button class="kr-sg-button-primary btn_md mr-2" (click)="createNewResource()">Add sources</button>
@@ -248,6 +244,6 @@
       <div class="desc-info-text text-center" *ngIf="!currentStatusFailed"></div>
     </div>
     <div class="modal-footer status-modal-footer">
-      <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal();getSourceList();">Done</button>
+      <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal()">Done</button>
     </div>
 </kr-modal>

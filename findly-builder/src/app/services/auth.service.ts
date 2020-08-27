@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import {ServiceInvokerService} from '@kore.services/service-invoker.service';
 import {AppUrlsService} from '@kore.services/app.urls.service';
-import {workflowService} from '@kore.services/workflow.service';
+import {WorkflowService} from '@kore.services/workflow.service';
 import { Observer, from, Subject } from 'rxjs';
 import { Observable } from 'rxjs';
 import {ReplaySubject} from 'rxjs';
@@ -24,7 +24,7 @@ export class AuthService {
     private localstore: LocalStoreService,
     private service: ServiceInvokerService,
     private appUrls: AppUrlsService,
-    public workflowService: workflowService
+    public workflowService: WorkflowService
   ) {
     this.authInfo = localstore.getAuthInfo();
   }

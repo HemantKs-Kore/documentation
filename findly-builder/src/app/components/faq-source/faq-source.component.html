@@ -1,0 +1,43 @@
+<div class="faqsMainContainer">
+    <div class="manage-form-please-wait-all" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'please_wait' | translate}}</span>
+      </div>
+    <div *ngIf="false" class="emptyFaqsContainer">
+        <div class="titleContainer">
+            <h1>{{'FAQs' | translate}}</h1>
+            <p>{{'faqsTitleDiscription' | translate}}</p>
+        </div>
+        <div class="getStartedContainer">
+            <h1>{{'lets_get_started' | translate}}</h1>
+            <div class="optionItems">
+              <div class="faqItem">
+               <img src="assets/images/source-icos/faq_web_page.png">
+               <div>{{'extract_from_web_pages_and_documents' | translate}}</div>
+              </div>
+              <div class="faqItem">
+                <img src="assets/images/source-icos/faq_automation_tool.png">
+                <div>{{'extract_using_annotation_tool' | translate}}</div>
+               </div>
+               <div class="faqItem">
+                <img src="assets/images/source-icos/faq_manual.png">
+                <div>{{'manually_input_question_and_answers' | translate}}</div>
+               </div>
+            </div>
+        </div>
+        <div class="additionalInfoContainer">
+            <div><p><strong>{{'Auto_indexing' | translate}}</strong>{{'Auto_IndexingInfo' | translate}}</p></div>
+            <div><p><strong>{{'Review_and_Add ' | translate}}</strong>{{'Review_and_Add_IndexingInfo' | translate}}</p></div>
+            <div><p><strong>{{'Train' | translate}}</strong>{{'Train_IndexingInfo' | translate}}</p></div>
+        </div>
+    </div>
+    <div class="faqsListContainer">
+    <div class="header">
+        <mat-tab-group animationDuration="0ms" class="selectionBar">
+            <mat-tab label="All Questions">All Questions</mat-tab>
+            <mat-tab label="Added">Added</mat-tab>
+            <mat-tab label="Not Added">Not Added</mat-tab>
+        </mat-tab-group>
+    </div>
+    </div>
+</div>

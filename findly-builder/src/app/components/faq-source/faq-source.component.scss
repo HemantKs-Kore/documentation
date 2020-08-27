@@ -1,0 +1,34 @@
+.faqsMainContainer{
+    .emptyFaqsContainer{
+        padding: 20px;
+        .titleContainer{
+            text-align: center;
+        }
+        .getStartedContainer{
+            padding-top: 30px;
+            text-align: center;
+            .optionItems{
+                padding-top: 10px;
+                .faqItem{
+                    display: inline-block;
+                    padding: 31px;
+                    img{
+                        width: 100px;
+                    }
+                }
+            }
+        }
+        .additionalInfoContainer{
+            text-align: left;
+            padding-top: 59px;
+            padding-left: 270px;
+        }
+    }
+    .faqsListContainer{
+        .header{
+            padding-top: 10px;
+            
+        }
+    }
+    
+}

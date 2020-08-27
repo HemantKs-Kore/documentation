@@ -5,6 +5,8 @@ import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { AppsListingComponent } from './components/apps-home/apps-home';
 import { SummaryComponent } from './components/summary/summary.component';
 import { SourceContentComponent } from './components/source-content/source-content.component';
+import { ContentSourceComponent } from './components/content-source/content-source.component';
+import { FaqSourceComponent } from './components/faq-source/faq-source.component';
 
 const routes: Routes = [
   {
@@ -18,8 +20,8 @@ const routes: Routes = [
       { path: 'apps', component: AppsListingComponent },
       { path: 'summary', component: SummaryComponent },
       { path: 'source', component: SourceContentComponent },
-      { path: 'content', component: SourceContentComponent },
-      { path: 'faqs', component: SourceContentComponent },
+      { path: 'content', component: ContentSourceComponent },
+      { path: 'faqs', component: FaqSourceComponent },
       { path: 'botActions', component: SourceContentComponent },
     ]
   }

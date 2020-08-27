@@ -1,0 +1,172 @@
+<div class="contentContainer">
+    <div class="manage-form-please-wait-all" *ngIf="loadingContent" [@fadeInOutAnimation]>
+      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      <span class="please-wait-message">Please Wait!</span>
+    </div>
+  <div  class="table-list-content">
+    <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+     <div class="table-action-header">       
+          <div class="kr-sg-input-search">                               
+            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchSources">
+            <img src="assets/icons/search.svg" class="search-icon">
+          </div>
+          <button class="kr-sg-button-primary btn_md "  mat-button [matMenuTriggerFor]="addSource">Add Source</button>
+          <mat-menu #addSource="matMenu">
+            <button mat-menu-item (click)="addNewContentSource('webCrawl')">Crawl Web Domain</button>
+            <button mat-menu-item (click)="addNewContentSource('docCrawl')">Extract Document</button>
+          </mat-menu>
+      </div>
+      <section class="table-content">
+          <header class="table-header">
+              <div class="col">Source</div>
+              <div class="col">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col"></div>
+          </header>
+          <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']" (click)="openStatusSlider(source)">
+              <div class="col">{{source.name}}</div>
+              <div class="col">{{source.type}}</div>
+              <div class="col">Default</div>
+              <div class="col">{{statusObj[source.recentStatus]}}</div>
+              <div class="col">{{source.createdOn | dateFormatPipe}}</div>
+              <div class="col text-right">
+                <span class="actions-links"><img class="action_icon arrow-icon" src="assets/images/return.svg"></span>
+                <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
+                <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span>
+                <span class="actions-links"><img class="action_icon" src="assets/images/settings.svg"></span>              
+            </div>
+          </div>
+      </section>                               
+  </div>   
+  <!-- DATA TABLE ENDS HERE -->
+  </div>
+</div>
+<app-slider-component id="sourceSlider">
+    <div class="sliderContainer">
+      <div class="sliderHeader">
+        <h4 class="slider-title"><img src="assets/images/closeCross.png" class="closeCross" (click)="sliderStep?sliderBack():closeStatusSlider();">{{selectedSource.name}}</h4>
+      </div>
+      <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
+        <div class="sliderBody call-history-filter">
+          <div class="manage-form-please-wait-all" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
+            <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+            <span class="please-wait-message">Please Wait!</span>
+          </div>
+          <div class="info-content bg-color" *ngIf="!sliderStep && !loadingSliderContent">
+            <div class="row m-0 row_content">
+              <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+              <div class="col-10 right-info-title">{{selectedSource.name}}</div>
+            </div>
+            <div class="row m-0 row_content">
+              <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+              <div class="col-10 right-info-title">{{selectedSource.url}}</div>
+            </div>
+            <div class="row m-0 row_content">
+              <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+              <div class="col-10 right-info-title"><span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}</div>
+            </div>
+            <div class="row m-0 row_content">
+              <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
+              <div class="col-10 right-info-title">{{statusObj[selectedSource.recentStatus]}}</div>
+            </div>
+            <div class="row m-0 row_content">
+              <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
+              <div class="col-10 right-info-title">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="viewPages()">View Pages</a></div>
+            </div>
+          </div>
+          <div class="content-accordion-sec" *ngIf="sliderStep === 1">
+            <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
+              <div class="noPages">No Pages Available</div>
+            </ng-container>
+            <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
+              <div class="search-header">
+                <div class="kr-sg-input-search">                               
+                  <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
+                  <img src="assets/icons/search.svg" class="search-icon">
+              </div>
+              <button class="kr-sg-button-primary btn_md">Add Page</button>
+              </div>
+              <div class="accordion-content-info">
+                <div class="header-sec row m-0">
+                  <div class="col-8 label_text m-0">Pages</div>
+                  <div class="col-4 label_text m-0">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                </div>
+                <div id="accordion" class="accordion-section">
+                  <div class="card_content" *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url']">
+                    <div class="card_header">
+                      <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
+                        <div class="row m-0 content">
+                          <div class="col-8 link-name">{{page.url || selectedSource.url}}</div>
+                          <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
+                          <div class="col-2 actions">
+                            <img src="assets/images/return.svg">
+                            <img src="assets/images/trashIcon.svg">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div id="collapseOne{{page._id}}" class="collapse" data-parent="#accordion">
+                      <div class="card_body" style="padding-left: 30px;">
+                        <div class="info-content pageTitleContainer">
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.title}}</div>
+                          </div>
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.url || selectedSource.url}}</div>
+                          </div>
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe}}
+                              <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View Details</a></span> 
+                            </div>
+                          </div>     
+                                          
+                        </div>
+                        <button class="kr-sg-button-primary btn_md mt-3 mb-3">Check for Updates</button>
+                        <div class="label_text">Results Preview</div> 
+                        <div class="info-content previewSection">
+                          <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>    
+                          <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div> 
+                          <div class="previewContent" *ngIf="page.searchResultPreview" [innerHtml]="page.searchResultPreview"></div>        
+                        </div>
+                        <button class="kr-sg-button-primary btn_md mt-3 mb-3">Test & Preview</button>
+                      </div>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="table-view-details mt-3" *ngIf="sliderStep === 2 && selectedPage">
+            <div class="row m-0 row_table">
+              <div class="col-3 title">Title</div>
+              <div class="col-9 info-content-sec">{{selectedPage.title}}</div>
+            </div>
+            <div class="row m-0 row_table">
+              <div class="col-3 title">Body</div>
+              <div class="col-9 info-content-sec">
+                <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="pageBodyContent">
+                <div class="htmlBodyPreview" [innerHtml]="selectedPage.body"></div>
+               </perfect-scrollbar>
+              </div>
+            </div>
+            <div class="row m-0 row_table">
+              <div class="col-3 title">URL</div>
+              <ng-container *ngFor="let imageUrl of selectedPage.imageUrl; let index = index ">
+              <div *ngIf="index < 1" class="col-9 info-content-sec" >{{imageUrl}}<img class="external_link" (click)="openImageLink(imageUrl)" src="assets/icons/external-link.svg"></div>
+              </ng-container>
+            </div>
+            <div class="row m-0 row_table">
+              <div class="col-3 title">Published</div>
+              <div class="col-9 info-content-sec" *ngIf="selectedPage.publishedOn">{{selectedPage.publishedOn}}</div>
+              <div class="col-9 info-content-sec" *ngIf="!selectedPage.publishedOn">No publish information available</div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+</app-slider-component>

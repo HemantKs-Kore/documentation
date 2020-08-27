@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'underscore';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'kr-modal',
   templateUrl: './kr-modal.component.html',
   styleUrls: ['./kr-modal.component.scss'],

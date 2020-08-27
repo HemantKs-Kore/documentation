@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class workflowService {
+export class WorkflowService {
   deflectAppsData: any = [];
   appCreationFlow = false;
   completedPercentage = 0;

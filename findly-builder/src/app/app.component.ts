@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
-import { workflowService } from '@kore.services/workflow.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 declare const $: any;
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,
               private authService: AuthService,
               public localstore: LocalStoreService,
-              public workflowService: workflowService,
+              public workflowService: WorkflowService,
   ) {
 
     router.events.subscribe((event: RouterEvent) => {

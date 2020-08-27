@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { workflowService } from '@kore.services/workflow.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 
@@ -29,7 +29,7 @@ export class AppsListingComponent implements OnInit {
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
-    public workflowService: workflowService,
+    public workflowService: WorkflowService,
     private router: Router,
   ) {
     this.authInfo = localstore.getAuthInfo();

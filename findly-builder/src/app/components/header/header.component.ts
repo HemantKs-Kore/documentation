@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { SideBarService } from '../../services/header.service';
 import { Router } from '@angular/router';
-import { workflowService } from '@kore.services/workflow.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 import { AppUrlsService } from '@kore.services/app.urls.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
-    public workflowService: workflowService,
+    public workflowService: WorkflowService,
     private router: Router,
     private ref: ChangeDetectorRef,
     private appUrlsService: AppUrlsService,

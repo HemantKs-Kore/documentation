@@ -4,14 +4,14 @@ import * as moment from 'moment';
 @Pipe({
    name: 'dateFormatPipe'
 })
-export class dateFormatPipe  implements PipeTransform {
+export class DateFormatPipe  implements PipeTransform {
    transform(date: string): any {
-    var _mmts = new Date(date);
-    if(_mmts.toString() === "Invalid Date"){
-        return "-";
+    const _date = new Date(date);
+    if(_date.toString() === 'Invalid Date'){
+        return '-';
     }
     else{
-        return moment(_mmts).format('DD MMM YYYY');
+        return moment(_date).format('DD MMM YYYY');
     }
    }
 }
