@@ -170,7 +170,7 @@
                 height: auto;
             }
         }
-        .createDropDown{ 
+        .createDropDown{
             &.show{                
                 .dropdown-toggle{
                     background: #018490;
@@ -218,6 +218,7 @@
                     a{
                         font-size: 12px;
                         font-weight: bold;
+                        font-family: Inter;
                         color: #26344a;
                         line-height: 45px;
                         border-bottom: 1px solid #e5e8ec;
