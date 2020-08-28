@@ -29,7 +29,10 @@
               <div class="col">{{source.name}}</div>
               <div class="col">{{source.type}}</div>
               <div class="col">Default</div>
-              <div class="col">{{statusObj[source.recentStatus]}}</div>
+              <div class="col">
+                <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
+                <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+              </div>
               <div class="col">{{source.createdOn | dateFormatPipe}}</div>
               <div class="col text-right">
                 <span class="actions-links"><img class="action_icon arrow-icon" src="assets/images/return.svg"></span>
@@ -102,7 +105,7 @@
                           <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
                           <div class="col-2 actions">
                             <img src="assets/images/return.svg">
-                            <img src="assets/images/trashIcon.svg">
+                            <img src="assets/images/trashIcon.svg" (click)="deletePage(page ,$event)">
                           </div>
                         </div>
                       </a>

@@ -8,6 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router} from '@angular/router';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -23,11 +24,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   polingObj: any = {};
   resourcesObj: any = {};
   loadingContent = true;
+  serachIndexId;
   statusObj: any = {
-    failed: 'Failed',
-    successfull: 'Successfull',
-    success: 'Success',
-    queued: 'Queued',
+    failed: {name : 'Failed', color: 'red'},
+    successfull: {name : 'Successfull', color: 'green'},
+    success: {name : 'Success', color: 'green'},
+    queued: {name : 'Queued', color: 'blue'},
+    running: {name : 'In Progress', color: 'blue'},
+    inProgress: {name :'In Progress', color: 'blue'},
   };
   sliderStep = 0;
   selectedPage:any={};
@@ -45,6 +49,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getSourceList();
     this.userInfo = this.authService.getUserInfo() || {};
   }
@@ -55,6 +60,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
+      type:'content',
       limit: 50,
       skip: 0
     };
@@ -152,6 +158,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openImageLink(url){
     window.open(url,'_blank');
+  }
+  deletePage(page,event){
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms:any = {
+      searchIndexId: this.serachIndexId,
+      webDomainId:this.selectedSource._id,
+      pageId:page._id
+    }
+    this.service.invoke('delete.contnet.page', quaryparms).subscribe(res => {
+      const deleteIndex = _.findIndex(this.selectedSource.pages,(pg)=>{
+           return pg._id === page._id;
+      })
+      if (deleteIndex > -1) {
+       this.selectedSource.pages.splice(deleteIndex,1);
+      }
+    }, errRes => {
+    });
   }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
