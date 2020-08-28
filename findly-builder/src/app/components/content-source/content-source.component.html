@@ -3,8 +3,11 @@
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
     </div>
+    <div class="manage-form-please-wait-all" *ngIf="!(resources && resources.length) && !loadingContent" [@fadeInOutAnimation]>
+      <span class="please-wait-message">No Content Available</span>
+    </div>
   <div  class="table-list-content">
-    <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+    <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length && !loadingContent">
      <div class="table-action-header">       
           <div class="kr-sg-input-search">                               
             <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchSources">

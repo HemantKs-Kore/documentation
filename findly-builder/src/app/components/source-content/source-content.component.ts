@@ -10,6 +10,7 @@ import { NotificationService } from '../../services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router} from '@angular/router';
 declare const $: any;
+import * as _ from 'underscore';
 @Component({
   selector: 'app-source-content',
   templateUrl: './source-content.component.html',
@@ -17,17 +18,17 @@ declare const $: any;
   animations: [fadeInOutAnimation]
 })
 export class SourceContentComponent implements OnInit , OnDestroy {
-  fileAdded : boolean = false;
+  fileAdded = false;
+  searchIndexId;
   loadingSliderContent = false;
   selectedSourceType: any = null;
-  searchSources = '';
-  pagesSearch = '';
   addNewSource = false;
   newSourceObj: any = {};
   selectedApp: any = {};
   resources: any = [];
   statusModalPopRef: any = [];
   polingObj: any = {};
+  initialValidations:any = {}
   currentStatusFailed: any = false;
   userInfo: any = {};
   fileName:any = '';
@@ -44,73 +45,47 @@ export class SourceContentComponent implements OnInit , OnDestroy {
    @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
+    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
     console.log(this.userInfo);
   }
-    proceedSourceAddition1(extractDoc) {
-    console.log(extractDoc);
-    let payload={};
-    let fileId='1234'
-    const resourceType='document'
-    let quaryparms={
-      searchIndexId:this.selectedApp.searchIndexes[0]._id
-
-    };
-    this.newSourceObj.fileId=fileId;
-    this.newSourceObj.resourceType=resourceType;
-    payload=this.newSourceObj
-    this.service.invoke('post.extractdocument',quaryparms,payload).subscribe(res => {
-      this.router.navigate(['/content'], { skipLocationChange: true });
-      // console.log(res);
-      // this.poling(res._id);
-      // this.openStatusModal();
-     }, errRes => {
-      this.router.navigate(['/content'], { skipLocationChange: true });
-       console.log(errRes);
-     });
-
-    console.log('contentdemo', this.newSourceObj.title)
-    console.log('contentdemo', this.newSourceObj.desc)
-    console.log('contentdemo', this.newSourceObj)
-
-  }
   proceedSourceAddition() {
     let payload: any = {};
-    const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex,
+      searchIndexId: this.searchIndexId,
     };
-
     payload = this.newSourceObj;
     payload.resourceType = 'webdomain';
     this.service.invoke('add.source', quaryparms, payload).subscribe(res => {
-     console.log(res);
-     this.poling(res._id);
+    this.polingObj.currentRunningResource = res;
+     this.poling();
      this.openStatusModal();
     }, errRes => {
       console.log(errRes);
     });
   }
-  poling(jobId) {
-    clearInterval(this.polingObj[jobId]);
+  poling() {
     const self = this;
-    this.polingObj[jobId] = setInterval(() => {
-      self.getJobStatus(jobId);
+    clearInterval(self.polingObj.currentPoleJob);
+    this.polingObj.currentPoleJob = setInterval(() => {
+      self.getJobStatus();
     }, 5000);
   }
-  getJobStatus(jobId) {
+  getJobStatus() {
+    const self = this;
     const quaryparms: any = {
-      jobId,
+      searchIndexId:this.searchIndexId,
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-      if (res && res.status === 'failed') {
-        this.currentStatusFailed = false;
-        this.notificationService.notify('Failed to crawl web page', 'error');
-      }
-      if ((res && (res.status !== 'running')) && (res && (res.status !== 'queued'))) {
-        clearInterval(this.polingObj[jobId]);
-        this.closeStatusModal();
-      }
+      const queuedJobs = _.filter(res,(source) => {
+        return (((source.status === 'running') || (source.status === 'queued')) && (source._id === this.polingObj.currentRunningResource.jobId));
+      });
+      if (queuedJobs && queuedJobs.length) {
+        console.log(queuedJobs);
+     } else {
+       console.log('No Jobs');
+       clearInterval(self.polingObj.currentPoleJob);
+     }
     }, errRes => {
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -124,9 +99,13 @@ export class SourceContentComponent implements OnInit , OnDestroy {
     this.cancleSourceAddition();
   }
   openStatusModal() {
+    const self= this;
+    clearInterval(self.polingObj.currentPoleJob);
     this.statusModalPopRef  = this.statusModalPop.open();
    }
    closeStatusModal() {
+    const self= this;
+    clearInterval(self.polingObj.currentPoleJob);
     this.cancleSourceAddition();
     if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
@@ -179,7 +158,7 @@ export class SourceContentComponent implements OnInit , OnDestroy {
         const data = new FormData();
         data.append('file', fileToRead);
         data.append('fileContext', 'daas');
-        data.append('fileExtension', 'pdf');
+        data.append('fileExtension', ext.replace('.',''));
         // data.append('Content-Type', fileToRead.type);
         this.fileupload(data);
     };
@@ -201,6 +180,7 @@ export class SourceContentComponent implements OnInit , OnDestroy {
        this.notificationService.notify('File uploaded successfully', 'success');
       },
       errRes => {
+        this.fileAdded= false;
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
@@ -209,12 +189,66 @@ export class SourceContentComponent implements OnInit , OnDestroy {
       }
     );
  }
-  ngOnDestroy() {
-   const timerObjects = Object.keys(this.polingObj);
-   if (timerObjects && timerObjects.length) {
-    timerObjects.forEach(job => {
-      clearInterval(this.polingObj[job]);
+
+  /** file upload  */
+
+  FAQfileUpload(event){
+    console.log(event);
+    this.fileAdded= true;
+    this.fileChangeListener(event);
+  }
+  removeFile(){
+    $('#fileInput').replaceWith($('#fileInput').val('').clone(true));
+    this.fileAdded= true;
+    this.service.invoke('post.fileupload').subscribe().unsubscribe();
+  }
+  /** file upload  */
+
+   /** proceed Source API  */
+
+   proceedSource(proceedType,resourceType){
+    let payload: any = {};
+    const searchIndex =  this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      type: proceedType,
+    };
+    payload = this.newSourceObj;
+    if(this.fileAdded) {
+      resourceType = 'document';
+    }
+    if(proceedType === 'content'){
+      payload.resourceType = resourceType;
+    } else {
+      quaryparms.faqType = resourceType
+    }
+    if(resourceType === 'document'){
+      payload.fileId = this.fileId;
+      if(payload.hasOwnProperty('url')) delete payload.url;
+    }
+    this.service.invoke('add.sourceMaterial', quaryparms, payload).subscribe(res => {
+     this.poling();
+     this.openStatusModal();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed to add sources ', 'error');
+      }
     });
-   }
+  }
+  redirectTo(proceedType){
+    if(proceedType === 'faq'){
+      this.router.navigate(['/faqs'], { skipLocationChange: true })
+    }else{
+      this.router.navigate(['/content'], { skipLocationChange: true });
+    }
+  }
+  /** proceed Source API */
+  ngOnDestroy() {
+     const self= this;
+      clearInterval(self.polingObj.currentPoleJob);
+      console.log('PolingDistroyed');
+      this.fileAdded = false;
   }
 }

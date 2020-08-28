@@ -67,51 +67,40 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res.reverse();
       if (this.resources && this.resources.length) {
-        this.resources.forEach(resource => {
-          if ((resource && resource.recentStatus === 'inprogress') || (resource && resource.recentStatus === 'queued')) {
-             if (!this.polingObj[resource.jobId]) {
-               this.poling(resource.jobId);
-             }
-          } else {
-            if (this.polingObj[resource.jobId]) {
-              clearInterval(this.polingObj[resource.jobId]);
-            }
-          }
-        });
+        this.poling('content')
       }
       this.loadingContent = false;
     }, errRes => {
-      this.getSourceList();
       console.log(errRes);
       this.loadingContent = false;
     });
   }
-  poling(jobId) {
-    clearInterval(this.polingObj[jobId]);
+  poling(type) {
+    clearInterval(this.polingObj[type]);
     const self = this;
-    this.polingObj[jobId] = setInterval(() => {
-      self.getJobStatus(jobId);
+    this.polingObj[type] = setInterval(() => {
+      self.getJobStatus(type);
     }, 5000);
   }
-  getJobStatus(jobId) {
+  getJobStatus(type) {
     const quaryparms: any = {
-      jobId,
+      searchIndexId:this.serachIndexId,
+      type
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-      if (res && res.status === 'failed') {
-        this.currentStatusFailed = false;
-        this.notificationService.notify('Failed to crawl web page', 'error');
-      }
-      if ((res && (res.status !== 'running')) && (res && (res.status !== 'queued'))) {
-        clearInterval(this.polingObj[jobId]);
-      }
+      const queuedJobs = _.filter(res,(source) => {
+        return ((source.status === 'running') || (source.status === 'queued'));
+      });
+      if (queuedJobs && queuedJobs.length) {
+        console.log(queuedJobs);
+     } else {
+       clearInterval(this.polingObj[type]);
+     }
     }, errRes => {
-      console.log(errRes);
-      this.getSourceList();
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
       } else {
-        this.notificationService.notify('Failed to crawl web page', 'error');
+        this.notificationService.notify('Failed to crawl', 'error');
       }
     });
   }

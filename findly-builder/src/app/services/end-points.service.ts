@@ -65,7 +65,7 @@ export class EndPointsService {
       method:'delete'
     };
     this.serviceList['get.job.status'] = {
-      endpoint: this.API_SERVER_URL + '/findly/jobs/:jobId/status',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
       method: 'get'
     };
     this.serviceList['deflect.seed.data'] = {
@@ -80,8 +80,8 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/users/:userId/file',
       method:'post'
     };
-    this.serviceList['post.extractdocument']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source',
+    this.serviceList['add.sourceMaterial']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
   }

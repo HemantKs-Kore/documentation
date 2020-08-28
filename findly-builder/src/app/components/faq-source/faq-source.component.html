@@ -3,7 +3,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
       </div>
-    <div *ngIf="false" class="emptyFaqsContainer">
+    <div *ngIf="!(resources && resources.length)" class="emptyFaqsContainer">
         <div class="titleContainer">
             <h1>{{'FAQs' | translate}}</h1>
             <p>{{'faqsTitleDiscription' | translate}}</p>
@@ -31,7 +31,7 @@
             <div><p><strong>{{'Train' | translate}}</strong>{{'Train_IndexingInfo' | translate}}</p></div>
         </div>
     </div>
-    <div class="faqsListContainer">       
+    <div class="faqsListContainer" *ngIf="(resources && resources.length)">       
         <div class="faq-header-sec row m-0">
             <div class="left-sec col-5 row m-0">
                 <div class="tab-sec d-flex col-9 p-0">
