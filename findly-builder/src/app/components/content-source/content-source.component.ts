@@ -8,6 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router} from '@angular/router';
+declare const $: any;
 import * as _ from 'underscore';
 @Component({
   selector: 'app-content-source',
@@ -29,15 +30,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     failed: {name : 'Failed', color: 'red'},
     successfull: {name : 'Successfull', color: 'green'},
     success: {name : 'Success', color: 'green'},
-    queued: {name : 'Queued', color: 'blue'},
+    queued: {name : 'In Progress', color: 'blue'},
     running: {name : 'In Progress', color: 'blue'},
-    inProgress: {name :'In Progress', color: 'blue'},
+    inprogress: {name :'In Progress', color: 'blue'},
   };
   sliderStep = 0;
   selectedPage:any={};
   selectedSource: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
+  sortedData:any = [];
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   constructor(
     public workflowService: WorkflowService,
@@ -56,6 +58,23 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   addNewContentSource(type){
     this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.resources.slice();
+    const sortedData = data.sort((a, b) => {
+      const isAsc = true;
+      switch (sort) {
+        case 'type': return this.compare(a.type, b.type, isAsc);
+        case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);
+        case 'name': return this.compare(a.name, b.name, isAsc);
+        case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
+        default: return 0;
+      }
+    });
+    this.resources = sortedData;
+  }
   getSourceList() {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -65,11 +84,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       skip: 0
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
-      this.resources = res.reverse();
+      this.resources = res;
+      _.map(this.resources, (source)=> {
+        source.name = source.name || source.title;
+      });
+      this.resources =  this.resources.reverse();
       if (this.resources && this.resources.length) {
         this.poling('content')
       }
       this.loadingContent = false;
+      setTimeout(()=>{
+        $('#searchContentSources').focus();
+       },100);
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -80,7 +106,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const self = this;
     this.polingObj[type] = setInterval(() => {
       self.getJobStatus(type);
-    }, 5000);
+    }, 10000);
   }
   getJobStatus(type) {
     const quaryparms: any = {
@@ -137,6 +163,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   openStatusSlider(source) {
+    if(source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))){
+    this.notificationService.notify('Source extraction is still in progress','error');
+    return;
+    }
     this.selectedSource = source;
     this.loadingSliderContent = true;
     this.sliderComponent.openSlider('#sourceSlider', 'right500');

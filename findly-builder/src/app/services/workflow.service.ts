@@ -6,7 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class WorkflowService {
-  deflectAppsData: any = [];
+  findlyAppsData: any = [];
   appCreationFlow = false;
   completedPercentage = 0;
   _seedData: any;
@@ -23,11 +23,11 @@ export class WorkflowService {
     return this.appCreationFlow;
   }
 
-  deflectApps(appData?) {
+  findlyApps(appData?) {
     if (appData) {
-      this.deflectAppsData = appData;
+      this.findlyAppsData = appData;
     }
-    return this.deflectAppsData;
+    return this.findlyAppsData;
   }
   selectedApp(data?) {
     if (data) {
@@ -46,9 +46,9 @@ export class WorkflowService {
   }
   resolveHostUrl(): string {
     const url = window.location.protocol + '//' + window.location.host;
-    if (url === 'https://staging-app.deflect.ai') { return 'https://staging-bots.korebots.com'; }
-    if (url === 'https://pilots-app.deflect.ai') { return 'https://pilot-bots.kore.ai'; }
-    if (url === 'https://app.deflect.ai') { return 'https://bots.kore.ai'; }
+    if (url === 'https://staging-app.findly.ai') { return 'https://staging-bots.korebots.com'; }
+    if (url === 'https://pilots-app.findly.ai') { return 'https://pilot-bots.kore.ai'; }
+    if (url === 'https://app.findly.ai') { return 'https://bots.kore.ai'; }
     return url;
   }
 }

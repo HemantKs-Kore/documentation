@@ -1,17 +1,15 @@
-<div class="emptyStateContainer">
+<div class="emptyStateContainer" aria-live="polite">
   <div class="scrollContainer">
     <div *ngIf="!(apps && apps.length)">
       <div class="empty-state-wrap">
-        <div class="col-6 empty-image">
+        <div aria-hidden="true" class="col-6 empty-image">
           <img src="assets/images/noBotsPlaceholder.svg">
         </div>
-        <div class="col-4 empty-message">
-          <p class="title">Hi, {{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}}</p>
-          <p class="welcomenote">Welcome to Findly.ai</p>
-          <!-- <p>Enrich your customer experience by deflecting and automating customer interaction using omni-channel Virtual Assistants</p> -->
+        <div class="col-4 empty-message" >
+          <p class="title" role="banner">{{'Hi'| translate}}{{this.authInfo.currentAccount.userInfo.fName}} {{this.authInfo.currentAccount.userInfo.lName}}</p>
+          <p class="welcomenote" role="doc-acknowledgments">{{'WelcometoFindly' | translate}}</p>
         </div>
       </div>
-      
       <div class="empty-description">
         <p>Few steps away from launching your first Findly.ai app</p>
         <div class="btnContainer">
@@ -20,51 +18,17 @@
         </div>
       </div>
     </div>
-    
-    <!-- <div class="stepsContainer">
-
-      <div class="stepsGrayContainer">
-        <span class="stepCount">1</span>
-        <h5 class="call-setup">Call Setup</h5>
-        <ul>
-          <li>Choose how your customers can reach Findly.ai</li>
-          <li>Deflect calls from your IVR System or ask your customers to directly call  Findly.ai</li>
-        </ul>
-        <img src="assets/images/stepsArrow.svg" class="stepsArrow">
-      </div>
-      <div class="stepsGrayContainer">
-        <span class="stepCount">2</span>
-        <h5>Automate Conversations</h5>
-        <ul>
-          <li>Automate customer conversations using intelligent Virtual Assistants</li>
-          <li>Virtual Assistants can be voice-enabled or text-based</li>
-        </ul>
-        <img src="assets/images/stepsArrow.svg" class="stepsArrow">
-      </div>
-      <div class="stepsGrayContainer ">
-        <span class="stepCount">3</span>
-        <h5>Hand-off to Agents</h5>
-        <ul>
-          <li>Seamlessly hand-off customers to agents</li>
-          <li>Collect user queries using forms or connect them to live agents</li>
-        </ul><img src="assets/images/stepsArrow.svg" class="stepsArrow">
-      </div>
-      <div class="stepsGrayContainer IVRImg">
-          <img src="assets/images/integrate-ivr-new.svg" class="integrate-ivr">
-      </div>
-    </div> -->
-
     <div class="findly-dashboard" *ngIf="apps && apps.length">
-      <div class="main-heading">Welcome to Findly.ai</div>
+      <div class="main-heading" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
       <div class="header-sec row ml-0 mr-0">
-          <div class="title col-6 p-0">Your Applications</div>
+          <div class="title col-6 p-0" role="contentinfo">{{'Your_Applications' | translate}}</div>
           <div class="col-6 p-0 row justify-content-end align-items-center text-right m-0">
-            <div class="kr-sg-input-search">                               
-              <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchApp">
+            <div class="kr-sg-input-search" role="searchbox">                               
+              <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp">
               <img src="assets/icons/search.svg" class="search-icon">
             </div>
             <button class="kr-sg-button-primary btn_lg" (click)="openCreateApp()">+ Add New</button>
-            <span class="dropdown createDropDown">
+            <span class="dropdown createDropDown hide">
               <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
                 <img class="gray_arrow" src="assets/icons/caretDown.svg">
                 <img class="white_arrow" src="assets/icons/caretDownWhit.svg">
@@ -76,7 +40,7 @@
           </div>
       </div>
       <div class="body-sec">
-        <div class="row m-0">
+        <div class="row m-0 appsListingContainer">
           <div class="col-3 cards-content" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
             <div class="box">
               <div class="img-block">
@@ -88,6 +52,7 @@
               </div>
             </div>
           </div>
+          <div class="empty">No apps found that matches with {{searchApp}}</div>
         </div>
       </div>
     </div>
@@ -101,11 +66,11 @@
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Name</div>
-          <input type="text" placeholder="App name" class="input-text" [(ngModel)]="newApp.name" name="appName">
+          <input maxlength="128" type="text" placeholder="App name" class="input-text" [(ngModel)]="newApp.name" name="appName">
         </div>
         <div class="kr-sg-input-text-area mb-2">
           <div class="label-text">Discription</div>
-          <textarea placeholder="App discription" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
+          <textarea maxlength="512" placeholder="App discription" class="input-text" [(ngModel)]="newApp.description" name="appDesc"></textarea>
         </div>
         <div class="kr-sg-dropdowns w-100 mt-1">
           <div class="label-text">Language</div>
@@ -113,7 +78,7 @@
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>                                            
               <ul class="dropdown-menu content-menu">
               <li class="search-box">
-                  <input type="text" placeholder="Search" class="seach-input">
+                  <input maxlength="128" type="text" placeholder="Search" class="seach-input">
               </li>                                                
                 <li><a href="#">English</a></li>
                 <li><a href="#">German</a></li>

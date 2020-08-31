@@ -1,0 +1,63 @@
+<div class="import-faq-modal-content">
+  <div class="header-sec">Import</div>
+  <div class="body-sec">        
+    <div class="kr-sg-file-drag-drop p-0">        
+      <div *ngIf="step == 1 || step == 2">
+        <img src="assets/images/icons/Upload.svg">
+      </div>
+      <div class="drag-drop-sec border-0 p-0" ng2FileDrop
+      (fileOver)="fileOverBase($event)"
+      [uploader]="uploader" *ngIf="step == 0">
+          <div class="drag-text">
+            <div class="pb-2"
+            class="well my-drop-zone">
+              <img src="assets/images/icons/Upload.svg">              
+            </div>
+            <div>Drag and Drop</div>
+          </div> 
+          <div class="divider-text">Or</div>                            
+          <div class="custom-file">
+              <input type="file" accept='attachment/*' class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="fileSelect($event)" #fileUpload>
+              <label for="inputGroupFile01"><span class="border-0">Browse</span></label>
+          </div>
+          <div class="info-content">You can upload your Q&As in the CSV or JSON format. You may download the <a download target="_blank" href="assets/files/SampleFAQsNew.csv">Sample CSV</a> and <a download target="_blank" href="assets/files/SampleFAQs.json">Sample JSON</a> files. </div>
+      </div>
+      <div class="uploaded-file-name" *ngIf="step == 1">
+          <div class="file-close-text">
+              <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+              <div class="file-name">{{fileName}}</div>
+          </div>                                  
+      </div> 
+      <div class='importing' *ngIf="step == 2">
+        <div class="success-message mb-1">Importing...</div>
+        <mat-progress-bar mode="indeterminate" class="mat-custom-progress"></mat-progress-bar>
+      </div>
+  
+      <div class="back-up" *ngIf="step == -1">
+        <div class="backup-heading">Important Note</div>
+        <div class="backup-message">All the existing terms and their questions will be replaced by the import. Please backup before proceeding.</div>      
+        <div class="backup-options">
+          <span class="backup-text" (click)='exportFile("csv")'><img src="assets/icons/download.svg">Backup CSV</span>
+          <span class="or_divider">or</span>
+          <span class="backup-text" (click)='exportFile("json")'><img src="assets/icons/download.svg">Backup JSON</span>
+        </div>
+      </div>
+      <div *ngIf="step == 3">
+        <img src="assets/images/icons/successfull.svg">
+        <div class="success-message">File has been imported successfully</div>   
+      </div>
+      <div *ngIf="step == 4">
+        <img src="assets/images/import-error.png" class="error-image">
+        <div class="success-message">{{errorMessage}}</div>     
+      </div>                   
+                                  
+  </div>
+  </div>
+  <div class="footer-sec">
+    <button class="kr-sg-button-primary btn_md mr-2" *ngIf="showSteps.proceed.indexOf(step) > -1" (click)="step=0">Proceed</button>
+    <button class="kr-sg-button-secondary btn_md mr-2" *ngIf="showSteps.cancel.indexOf(step) > -1" (click)='close()'>Cancel</button>
+    <button class="kr-sg-button-secondary btn_md mr-2" *ngIf="step == 4" (click)='step = 0'>Go Back</button>
+    <button class="kr-sg-button-primary btn_md mr-2" [disabled]="step == 0" *ngIf="showSteps.next.indexOf(step) > -1" (click)="step==1?startImport():false">Next</button>
+    <button class="kr-sg-button-primary btn_md mr-2" *ngIf="showSteps.ok.indexOf(step) > -1" (click)='close()'>Ok</button>
+  </div>
+</div>

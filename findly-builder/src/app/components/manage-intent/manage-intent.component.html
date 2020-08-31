@@ -1,0 +1,165 @@
+<div class="manage-intent" *ngIf="!loading && !showError" [@fadeInOutAnimation]>
+  <div class="banner-header-sec d-flex justify-content-between align-items-center" *ngIf="showResumeConfigMsg && (completedPercentage|| completedPercentage === 0 )">
+    <div class="title">You have completed only {{completedPercentage}}% of Configuration Process. Please click <b>“Resume Configuration”</b> to complete the configuration Setup.</div>
+    <div class="button-resume-config">
+      <button class="kr-sg-button-primary btn_md" [routerLink]="['/config']">Resume Configuration</button>
+      <img src="assets/images/close.svg" (click)="showResumeConfigMsg = false;">
+    </div>
+  </div>
+  <div class="body-content">
+    <div class="info-title" *ngIf="isEmpty">Build your bot's knowledge collection by adding FAQs or by importing from file.</div>
+    <!-- EMPTY SCREEN STYLES -->
+    <div class="empty-faqs-sec" *ngIf="isEmpty">
+      <img src="assets/images/icons/empty_ill.svg">
+      <div class="heading">Automate responses for the frequently asked questions.</div>
+      <div class="desc">You can add the frequent asked questions by uploading them or by adding them manually. The response can be a simple answer or you can trigger a fulfillment task.</div>
+      <div>
+        <button class="kr-sg-button-primary btn_md mr-2" (click)="onClickAddFaqs()">Add FAQs</button>
+        <button class="kr-sg-button-primary btn_md" (click)="importFaqs(0)">Import FAQs</button>
+      </div>
+    </div>
+    <!-- END -->
+    <div class="faq-content-boxes" *ngIf="!isEmpty">
+      <div class="content faq_tasks_list">
+        <div class="box">
+          <div class="header-sec d-flex justify-content-between align-items-center">
+            <div class="title">FAQs & Tasks</div>
+            <div class="kr-sg-input-search">                               
+              <input type="text" placeholder="Search" class="input-search" (input)="searchTerm$.next($event.target.value)" name="searchTerm" [(ngModel)]="searchTerm">
+              <img src="assets/images/search-gray.svg" class="search-icon">
+            </div>
+          </div>  
+          <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-faqs">      
+            <div class="body-section">
+              <app-add-faq (addFaq)="addFaq($event)" (onCancel)="showAddFaqSection = false;checkFaqs()" *ngIf="showAddFaqSection"></app-add-faq>
+              <div class="d-flex justify-content-between align-items-center add-questions-btn-sec">
+                <div class="q-title" [class.invisible]="faqs.length <= 0">Questions</div>
+                <button class="kr-sg-button-secondary-two btn_md" *ngIf="!showAddFaqSection" (click)="onClickAddQuestion()">Add Question</button>
+              </div>
+              <div class="accordion-sec-list">
+                <div id="accordion">
+                  <ng-container  *ngIf="faqs.length > 0">
+                    <ng-container *ngFor="let faq of faqs; let i = index">
+                      <div class="card-acc">
+                        <div class="card_header">
+                          <a class="card-link collapsed" data-toggle="collapse" href="{{'#collapse' + i}}" (click)="onClickFaq(faq, $event)">{{faq.questionPayload.question}}</a>
+                          <div class="edit-delete">
+                            <img src="assets/images/icons/edit-black.svg" *ngIf="faq.answerPayload[0].type !== 'uxmap'" (click)="onClickEditFaq(faq, 'collapse' + i)">
+                            <img src="assets/icons/script.svg" *ngIf="faq.answerPayload[0].type === 'uxmap'" popoverClass="script-my-custom-class" ngbPopover="Added response is a Javascript message. Please visit Bot Builder to modify." triggers="mouseenter:mouseleave" container='body'>
+                            <!-- <span class="tooltip-custom" *ngIf="faq.answerPayload[0].type === 'uxmap'">
+                              <img src="assets/icons/script.svg" (click)="openJSModal(faq)">
+                              <span class="tooltiptext">Added response is a Javascript message. Please visit Bot Builder to modify .</span>
+                            </span>  -->
+                            <img class="delete" src="assets/images/trashIcon.svg" (click)="onClickDeleteFaq(faq)">
+                          </div>
+                        </div>
+                        <div id="{{'collapse' + i}}" class="collapse" data-parent="#accordion">
+                          <div class="card-body">
+                              <div class="inner-content" *ngIf="faq.answerPayload[0].type !== 'uxmap'">{{faq.answerPayload[0].text}} </div>
+                              <div class="inner-content" *ngIf="faq.answerPayload[0].type === 'uxmap'">
+                                The response to this question is defined using JavaScript. Please visit the Bot Builder to modify the response. <span class="view_script d-none">View Script</span>
+                              </div>
+                           
+                              <div class="tags-followup">
+                                <span class="title">Tags:
+                                  <span>
+                                    {{prepareTags(faq.questionPayload.tagsPayload)}}
+                                  </span>
+                                </span>
+                                <div class="addflowquestions d-none" (click)="faq.showAddFollowUpQSection = !faq.showAddFollowUpQSection">+ Add a follow Up Question</div>
+                              </div>                      
+                          </div>
+                        </div>
+                      </div>
+                      <app-add-faq (editFaq)="editFaq($event)" (onCancel)="faq.showEditSection = false" [inputClass]="'pt-3'" [faqData]="faq" *ngIf="faq.showEditSection"></app-add-faq>
+                      <app-add-faq (addFllowUpFaq)="addFaq($event)" [inputClass]="'pt-3 followup'" (onCancel)="faq.showAddFollowUpQSection = false" *ngIf="faq.showAddFollowUpQSection"></app-add-faq>
+                      <div class="followup-added-questions" class="d-none">
+                        <div class="question-name">How can i check the limit of my account ?</div>
+                        <div class="action-icons">
+                          <img src="assets/images/icons/edit-black.svg">
+                            <img class="delete" src="assets/images/trashIcon.svg">
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                  <div *ngIf="faqs.length === 0 && searchTerm" class="text-center">No Result Found</div>
+                </div>
+              </div>
+            </div>   
+          </perfect-scrollbar>                
+        </div>
+      </div>
+      <div class="content train_your_questions">
+        <div class="box">
+          <div class="header-sec">
+            <div class="title">Train your question</div>   
+            <div class="desc-info-text m-0">Add alternate forms of the question, key tags and add synonyms.</div>       
+          </div>                 
+          <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-faqs">
+            <div class="body-section">
+             <app-add-alt-faq [selectedFaq]="selectedFaq" (updateFaq)="updateFaq($event)"></app-add-alt-faq>
+              <ng-container>
+                <div class="alt-questions" *ngIf="selectedFaq">Alternate Questions <span class="count">{{selectedFaq.subQuestions.length ? '(' + selectedFaq.subQuestions.length + ')' : ''}}</span></div>
+                <div class="questions-items" *ngIf="selectedFaq && selectedFaq.subQuestions.length">
+                  <ng-container *ngFor="let subQuestion of selectedFaq.subQuestions; let i = index">
+                    <div class="selected-questions-list" (click)="onClickAltQuestion(i)">
+                      <div class="question">{{subQuestion.question}}</div>
+                     <span class="selected-tags">
+                      <span class="tags-length">{{subQuestion.tagsPayload.length}} {{subQuestion.tagsPayload.length === 1 ? 'tag' : 'tags'}}</span>
+                      <span class="edit-delete-icons">
+                        <img class="edit" src="assets/images/icons/edit-black.svg">
+                        <img class="delete" src="assets/images/trashIcon.svg" (click)="deleteAltQuestion(i); $event.stopPropagation()">                      
+                      </span>
+                     </span>
+                    </div>
+                    <div class="inline-edit-question-faq" *ngIf="altQuestionIndex === i">
+                      <app-add-alt-faq [selectedFaq]="selectedFaq" [altQuestionIndex]="altQuestionIndex" (updateFaq)="updateFaq($event)" (resetAltQuestionIndex)="resetAltQuestionIndex()"></app-add-alt-faq>
+                     </div>
+                  </ng-container>
+                  
+                </div>
+                <div class="empty-questions-selected" *ngIf="selectedFaq && !selectedFaq.subQuestions.length">
+                  <img src="assets/images/icons/empty_ill.svg">
+                  <div class="heading">Add alternate questions</div>
+                  <div class="desc">Add alternate forms of the question that your customers would generally use.</div>
+                </div>
+              </ng-container>
+            
+              <div class="empty-questions-selected" *ngIf="!selectedFaq">
+                <img src="assets/images/icons/empty_ill.svg">
+                <div class="heading">No Question selected yet</div>
+                <div class="desc">Please select a question to get auto suggested similar Questions</div>
+              </div>
+            </div>              
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="manage-form-please-wait-all" *ngIf="loading" [@fadeInOutAnimation]>
+  <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+  <span class="please-wait-message">Please Wait!</span>
+</div>
+
+<div class="error-container" *ngIf="!loading && showError" [@fadeInOutAnimation]>
+  <div class="err-img">
+      <img src="assets/images/icons/empty_ill.svg">
+  </div>
+  <div class="err-msg">
+      Something went wrong, Please try later.
+  </div>
+</div>
+
+<ng-template #jsModal let-data> 
+  <div class="heading-js-preview">Javascript Message <img src="assets/images/close.svg"></div>
+  <div class="js-preview-sec">
+    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
+      <div class="content-js-preview">
+        <md-editor [mode]="'preview'" height="300px" name="jsContent" [(ngModel)]="jsConent"></md-editor>
+      </div>
+    </perfect-scrollbar> 
+  </div>
+</ng-template>

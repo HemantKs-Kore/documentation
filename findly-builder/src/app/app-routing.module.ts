@@ -4,9 +4,10 @@ import { AuthGuard } from '@kore.services/auth.guard';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { AppsListingComponent } from './components/apps-home/apps-home';
 import { SummaryComponent } from './components/summary/summary.component';
-import { SourceContentComponent } from './components/source-content/source-content.component';
+import { AddSourceComponent } from './components/add-source/add-source.component';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
+import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 
 const routes: Routes = [
   {
@@ -16,13 +17,15 @@ const routes: Routes = [
       appData: AppDataResolver
     },
     children: [
-      { path: '', redirectTo: '/apps', pathMatch: 'full' },
+      { path: '', component: AppsListingComponent, pathMatch: 'full'},
       { path: 'apps', component: AppsListingComponent },
       { path: 'summary', component: SummaryComponent },
-      { path: 'source', component: SourceContentComponent },
+      { path: 'source', component: AddSourceComponent },
       { path: 'content', component: ContentSourceComponent },
+      { path: 'faqsManual', component: ManageIntentComponent },
       { path: 'faqs', component: FaqSourceComponent },
-      { path: 'botActions', component: SourceContentComponent },
+      { path: 'botActions', component: AddSourceComponent },
+      { path: '**', component: AppsListingComponent},
     ]
   }
 ];

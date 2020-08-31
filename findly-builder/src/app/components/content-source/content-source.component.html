@@ -10,40 +10,41 @@
     <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length && !loadingContent">
      <div class="table-action-header">       
           <div class="kr-sg-input-search">                               
-            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchSources">
+            <input type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
             <img src="assets/icons/search.svg" class="search-icon">
           </div>
           <button class="kr-sg-button-primary btn_md "  mat-button [matMenuTriggerFor]="addSource">Add Source</button>
           <mat-menu #addSource="matMenu">
-            <button mat-menu-item (click)="addNewContentSource('webCrawl')">Crawl Web Domain</button>
-            <button mat-menu-item (click)="addNewContentSource('docCrawl')">Extract Document</button>
+            <button mat-menu-item (click)="addNewContentSource('contentWeb')">Crawl Web Domain</button>
+            <button mat-menu-item (click)="addNewContentSource('contentDoc')">Extract Document</button>
           </mat-menu>
       </div>
       <section class="table-content">
           <header class="table-header">
-              <div class="col">Source</div>
-              <div class="col">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col"></div>
+              <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col last-child" (click)="sortBy('name')"></div>
           </header>
-          <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']" (click)="openStatusSlider(source)">
-              <div class="col">{{source.name}}</div>
-              <div class="col">{{source.type}}</div>
+          <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+              <div class="col">{{source.title || source.name}}</div>
+              <div class="col">{{source.type | titlecase}}</div>
               <div class="col">Default</div>
               <div class="col">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
               </div>
               <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-              <div class="col text-right">
-                <span class="actions-links"><img class="action_icon arrow-icon" src="assets/images/return.svg"></span>
+              <div class="col text-right last-child" >
+                <!-- <span class="actions-links"><img class="action_icon arrow-icon" src="assets/images/return.svg"></span> -->
                 <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
                 <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span>
-                <span class="actions-links"><img class="action_icon" src="assets/images/settings.svg"></span>              
-            </div>
+                <!-- <span class="actions-links"><img class="action_icon" src="assets/images/settings.svg"></span>               -->
+             </div>
           </div>
+          <div class="empty">No Search Results found</div>
       </section>                               
   </div>   
   <!-- DATA TABLE ENDS HERE -->
@@ -122,7 +123,7 @@
                           </div>
                           <div class="row m-0 row_content">
                             <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-                            <div class="col-10 right-info-title">{{page.url || selectedSource.url}}</div>
+                            <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
                           </div>
                           <div class="row m-0 row_content">
                             <div class="col-2 left-info-title pl-0">Created <span>:</span></div>

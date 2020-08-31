@@ -76,6 +76,9 @@
                         text-decoration: underline;
                     }
                 }
+                .kr-sg-dropdowns .dropdown-open .content-menu{
+                    overflow: hidden;
+                }
             }
             .right-sec{
                     align-items: center;
@@ -669,4 +672,121 @@
             }                     
         }
     }    
+}
+
+
+::ng-deep #faqsSourceSlider {
+    .sliderComponent {
+        z-index: 100 !important;
+        background: rgba(38, 52, 74,0.5);
+        .sliderDialogComponent{
+            width: 65% !important;
+            max-width: 65% !important;
+        }
+        .sliderHeader {
+            padding: 20px 20px 0px;
+            .table-action-header {
+                height: 50px;
+                display: inline-block;
+                align-items: center;
+                justify-content: space-between;
+                .kr-sg-input-search{
+                    margin: 0;
+                    width: 250px;
+                    display: inline-block;
+                    position: relative;
+                }
+                .kr-sg-button-primary {
+                    position: absolute;
+                    right: 25px;
+                    height: 35px;
+                    font-size: 14px;
+                    display: inline-block;
+                }
+            } 
+        }
+       
+        .sliderBody{
+            height: calc(100vh - 70px);
+            .addNewSource{        
+                .label-text{
+                    font-weight: bold;
+                }
+                .crerateWebCrawl{
+                    width: 70%;
+                    padding: 0 10px;
+                    .buttonFooter{
+                        position: fixed;
+                        width: calc(100% + 37px);
+                        background-color: #fff;
+                        left: 55px;
+                        bottom: 0;
+                        padding: 10px;
+                        padding-left: 200px;               
+                    }
+                }
+            }    
+            .imageDiv{
+                img{
+                    width: 100px;
+                }
+            }
+            .kr-sg-data-table section.table-content .content-body{
+                cursor: pointer;
+            }
+            .kr-sg-data-table{
+                section{
+                    .faqScurceListScroll{
+                        height: calc(100vh - 135px);
+                        .ps-content{
+                            .empty{
+                                display: none;
+                                text-align: center;
+                                width: 100%;
+                                padding: 10%;
+                                white-space: break-spaces;
+                            }
+                            div.empty:first-child {
+                                display: block !important;
+                              } 
+                          }
+                    }
+                    .last-child {
+                        max-width: 90px !important;
+                    }
+                }
+            }
+            .table-list-content{
+                .kr-sg-data-table{
+                    
+                    .table-content{
+                        margin-top: 12px;
+                        .table-header{
+                            background: #f3f3f4;
+                            border-bottom: 1px solid #e5e8ec;
+                            .col{
+                                font-weight: bold;
+                                color: #26344a;
+                            }
+                        }
+                        .col{
+                            .action_icon{
+                                width: 16px;
+                                height: 16px;
+                                cursor: pointer;
+                                visibility: hidden;
+                            }
+                        }
+                        .content-body{
+                            &:hover{
+                                .action_icon{
+                                    visibility: visible;
+                                }
+                            }
+                        }
+                    }          
+                }
+            }   
+        }
+    }
 }

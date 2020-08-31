@@ -6,7 +6,10 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import { tempdata } from './tempdata';
 import * as _ from 'underscore';
+import { from } from 'rxjs';
+declare const $: any;
 
 @Component({
   selector: 'app-faq-source',
@@ -19,20 +22,27 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
   serachIndexId;
   searchSources = '';
   pagesSearch = '';
+  selectedFaq:any = null;
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
+  faqObj:any = {
+    allFaqs:[],
+    stagedFaqs:[],
+    unStagedFaqs:[]
+  }
+  selectedtab = 'allFaqs';
+  selectAllFaqs = false;
   resourcesObj: any = {};
   loadingFaqs = true;
   statusObj: any = {
     failed: {name : 'Failed', color: 'red'},
     successfull: {name : 'Successfull', color: 'green'},
     success: {name : 'Success', color: 'green'},
-    queued: {name : 'Queued', color: 'blue'},
+    queued: {name : 'In Progress', color: 'blue'},
     running: {name : 'In Progress', color: 'blue'},
     inProgress: {name :'In Progress', color: 'blue'},
   };
-  sliderStep = 0;
   selectedPage:any={};
   selectedSource: any = {};
   currentStatusFailed: any = false;
@@ -49,11 +59,37 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getfaqs();
     this.getSourceList();
     this.userInfo = this.authService.getUserInfo() || {};
+    setTimeout(()=>{
+      $('#searchFaqs').focus();
+     },100);
   }
   addNewContentSource(type){
     this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
+  }
+  selectAll(){
+    const allFaqs= $('.selectEachfaqInput');
+    console.log(allFaqs);
+  }
+  getfaqs(){
+    const searchIndex =  this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      limit: 50,
+      offset: 1,
+      sourceType:'all',
+      catagory:true,
+    };
+    this.service.invoke('get.faqs', quaryparms).subscribe(res => {
+        console.log(res);
+      this.loadingFaqs = false;
+    }, errRes => {
+      // this.faqObj.allFaqs = tempdata.tempfaqs ||  [];
+      this.faqObj.allFaqs = [];
+      this.loadingFaqs = false;
+    });
   }
   getSourceList() {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
@@ -68,17 +104,25 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
       if (this.resources && this.resources.length) {
         this.poling('faq')
       }
-      this.loadingFaqs = false;
     }, errRes => {
-      this.loadingFaqs = false;
     });
+  }
+  selectedFaqToTrain(faq){
+ this.selectedFaq = faq;
+  }
+  addfaqs(type){
+    if(type==='manual'){
+      this.router.navigate(['/faqsManual']);
+    }else{
+      this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
+    }
   }
   poling(type) {
     clearInterval(this.polingObj[type]);
     const self = this;
     this.polingObj[type] = setInterval(() => {
       self.getJobStatus(type);
-    }, 5000);
+    }, 10000);
   }
   getJobStatus(type) {
     const quaryparms: any = {
@@ -101,6 +145,12 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
         this.notificationService.notify('Failed to crawl web page', 'error');
       }
     });
+  }
+  openStatusSlider() {
+    this.sliderComponent.openSlider('#faqsSourceSlider', 'right500');
+  }
+  closeStatusSlider() {
+    this.sliderComponent.closeSlider('#faqsSourceSlider');
   }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);

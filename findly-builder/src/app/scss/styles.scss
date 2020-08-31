@@ -25,6 +25,9 @@ html{
             min-width:auto !important;
             &:focus{outline:none !important;}
         }
+        .hide{
+            display: none !important;
+        }
         .headerDropDown{
             margin-top: 10px !important;
         }
@@ -229,8 +232,19 @@ html{
 .mat-drawer-backdrop.mat-drawer-shown {
     background-color: rgba(0, 0, 0, 0.09);
 }
-
-.manage-deflection-exp-popup{   
+.manage-form-please-wait-all{
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    background: transparent;
+    width: 223px;
+    height: 40px;
+    padding-top: 10px;
+    border-radius: 4px;
+    opacity: 0.95;
+    padding-left: 7% !important;
+}
+.manage-findlyion-exp-popup{   
     .mat-dialog-container{
         box-shadow: none !important;
     }

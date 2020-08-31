@@ -36,13 +36,10 @@ export class AppsListingComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.apps =  this.workflowService.deflectApps();
+    this.apps =  this.workflowService.findlyApps();
     console.log(this.apps);
-    $('.toShowAppHeader').addClass('d-none');
     setTimeout(() => {
-      if (!( $('.toShowAppHeader').hasClass('d-none'))) {
-        $('.toShowAppHeader').addClass('d-none');
-      }
+     $('#serachInputBox').focus();
     }, 100);
   }
   openApp(app) {

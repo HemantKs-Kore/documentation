@@ -1,4 +1,7 @@
-{
+{   
+    "Hi":"Hi, ",
+    "WelcometoFindly":"Welcome to Findly.ai",
+    "Your_Applications":"Your Applications",
     "please_wait":"Please Wait..",
     "FAQs":"FAQs",
     "faqsTitleDiscription":"Here you can add question & answers from different sources and manage them",

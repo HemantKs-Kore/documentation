@@ -1,0 +1,143 @@
+<div class="contentContainer">
+  <div class="h-100 position-relative addNewSource">
+    <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
+      <div class="crawlContent row m-0" *ngFor="let sourceCatagory of availableSources">
+        <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
+        <div class="webDomain col-3" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+          <div class="box-block">
+            <div class="title label_text m-0">{{source.name}}</div>
+            <div class="imageDiv"><img src="{{source.icon}}"></div>
+            <div class="info-text">{{source.description}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FAQ Extract Doc-->
+    <div *ngIf="selectedSourceType" class="crerateWebCrawl">
+      <form #sourceCreation="ngForm">
+        <div class="kr-sg-input-text mb-3">
+          <div class="label-text">Source Title</div>
+          <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter source"
+            [(ngModel)]="newSourceObj.name" class="input-text" required>
+        </div>
+        <div class="kr-sg-input-text-area mb-3">
+          <div class="label-text">Discription</div>
+          <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" placeholder="Enter description"
+            class="input-text"></textarea>
+        </div>
+         <!-- File uploader with Drag & Drop START HERE -->
+        <div class="kr-sg-input-text-area mb-3" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
+          <div class="kr-sg-file-drag-drop">
+            <div class="label_text">File</div>
+            <div class="drag-drop-sec">
+              <div _ngcontent-gpv-c11="" class="imageDiv">
+                <img _ngcontent-gpv-c11="" class="ng-tns-c11-2" src="{{imageUrl}}">
+              </div>
+              <div class="custom-file " style="opacity: 0;">
+                <input type="file" id="sourceFileUploader" class="custom-file-input "
+                  (change)="fileChangeListener($event)"  aria-describedby="inputGroupFileAddon01"
+                  accept=".csv,.pdf">
+              </div>
+              <label for="sourceFileUploader" class="drag-label">Drag and Drop Or <span  class="span-ul">Browse</span></label>
+            </div>
+            <div class="kr-sg-file-drag-drop" *ngIf="fileObj.fileName">
+              <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                <div class="file-close-text">
+                  <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                  <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                </div>
+                <div class="progress-status">
+                  <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
+                  <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress" src="assets/icons/info.svg">
+                </div>
+              </div>
+              <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">Error in uploading file</div>
+            </div>
+          </div>
+          <div class="kr-sg-input-text mb-3" *ngIf="(selectedSourceType.sourceType==='faq')">
+            <div class="label_text mt-3" style="text-align: center;">or</div>
+          </div>
+        </div>
+       <!-- File uploader with Drag & Drop ENDS HERE -->
+        <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
+          <div class="kr-sg-input-text mb-3">
+            <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
+              class="input-text">
+          </div>
+          <div class="kr-sg-input-text-area mb-3 radio-pad" *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false"> <!-- Not supporting for now-->
+            <div class="kr-sg-radiobutton d-block">
+              <input id="radio-17" name="radio" class="radio-custom" type="radio">
+              <label for="radio-17" class="radio-custom-label">Index Automatically</label>
+            </div>
+            <div class="kr-sg-radiobutton d-block">
+              <input id="radio-18" name="radio" class="radio-custom" type="radio">
+              <label for="radio-18" class="radio-custom-label">Extraxt & Review</label>
+            </div>
+          </div>
+        </div>
+        <div class="buttonFooter">
+          <button class="kr-sg-button-primary btn_md mr-2" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
+            (click)="proceedSource()">Proceed</button>
+          <button class="kr-sg-button-secondary-two btn_md" (click)="cancleSourceAddition()">Back</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<kr-modal modalType="default" #statusModalPop>
+  <div class="modal-body status-modal-popup" *ngIf="selectedSourceType">
+    <div class="success-check"
+      *ngIf="(initialValidations.urlValidation && initialValidations.network && initialValidations.ristrictions)">
+      <img src="assets/icons/check-white.svg">
+    </div>
+    <div class="configInProgress">
+      <img class="loadingConfigs" src="assets/icons/gear-spinner.svg">
+    </div>
+    <div class="label_text message-success text-center">
+      {{(initialValidations.urlValidation && initialValidations.network && initialValidations.ristrictions)?'Successfully Configured':'Configuration In Progress'}}
+    </div>
+    <div class="content" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
+      <mat-spinner *ngIf="!initialValidations.urlValidation" diameter="18" strokeWidth="2"></mat-spinner>
+      <img *ngIf="initialValidations.urlValidation" src="assets/images/check-green.svg" class="successfullyConnected">
+      <span>Initial URL validation done</span>
+    </div>
+    <div class="content" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'document')">
+      <mat-spinner *ngIf="!initialValidations.fileValidation" diameter="18" strokeWidth="2"></mat-spinner>
+      <img *ngIf="initialValidations.fileValidation" src="assets/images/check-green.svg" class="successfullyConnected">
+      <span>Initial file validation done</span>
+    </div>
+    <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')">
+      <div class="content">
+        <mat-spinner *ngIf="!initialValidations.validated" diameter="18" strokeWidth="2"></mat-spinner>
+        <img *ngIf="initialValidations.validated" src="assets/images/check-green.svg" class="successfullyConnected">
+        <span>Network Connectivity</span>
+      </div>
+      <div class="content">
+        <mat-spinner *ngIf="!initialValidations.validated" diameter="18" strokeWidth="2"></mat-spinner>
+        <img *ngIf="initialValidations.validated" src="assets/images/check-green.svg" class="successfullyConnected">
+        <span>Indexing Ristrictions</span>
+      </div>
+    </div>
+    <div class="content" *ngIf="selectedSourceType.sourceType === 'faq'">
+      <mat-spinner *ngIf="!initialValidations.validated" diameter="18" strokeWidth="2"></mat-spinner>
+      <img *ngIf="initialValidations.validated" src="assets/images/check-green.svg" class="successfullyConnected">
+      <span>Indexing Ristrictions</span>
+    </div>
+    <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'content'"> 
+      <p *ngIf="(selectedSourceType.resourceType === 'webdomain')">Contnet crawling in progress</p>
+      <p *ngIf="(selectedSourceType.resourceType === 'document')">Contnet crawling in progress</p>
+    </div>
+    <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'faq'"> 
+      <p>Faq Extraction  In Progress</p>
+    </div>
+    <div class="text-center m-2" *ngIf="!currentStatusFailed">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <div class="relaxNote">You will be notified when the extraction progress is done</div>
+    </div>
+    <div class="desc-info-text text-center" *ngIf="currentStatusFailed">Crawling failed</div>
+  </div>
+  <div class="modal-footer status-modal-footer">
+    <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal"
+      (click)="closeStatusModal()">Ok</button>
+  </div>
+</kr-modal>

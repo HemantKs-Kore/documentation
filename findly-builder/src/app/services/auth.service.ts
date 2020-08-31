@@ -155,7 +155,7 @@ export class AuthService {
   }
 
   public seedData() {
-    this.service.invoke('deflect.seed.data').subscribe(res => {
+    this.service.invoke('findly.seed.data').subscribe(res => {
       this.workflowService.seedData(res);
     }, errRes => {
       this.findlyApps.next(errRes);
@@ -169,7 +169,7 @@ export class AuthService {
         this.workflowService.showAppCreationHeader(false);
       }
       this.findlyApps.next(res);
-      this.workflowService.deflectApps(res);
+      this.workflowService.findlyApps(res);
     }, errRes => {
       this.findlyApps.next(errRes);
     });

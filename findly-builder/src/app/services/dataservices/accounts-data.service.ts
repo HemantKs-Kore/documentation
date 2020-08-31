@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AccountsDataService {
-  private accountsData: Object = {};
+  private accountsData: object = {};
 
   constructor() {
   }
 
-  public setAccountsData(data: Object): any {
+  public setAccountsData(data: object): any {
     this.accountsData = data;
   }
 
@@ -16,7 +16,6 @@ export class AccountsDataService {
     return this.accountsData || {};
   }
   public init() {
-    
   }
 
 }

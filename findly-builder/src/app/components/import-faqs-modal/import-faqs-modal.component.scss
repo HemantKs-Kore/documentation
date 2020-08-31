@@ -1,0 +1,114 @@
+@import './../../../app/scss/variables/variables.scss';
+
+.import-faq-modal-content{
+    text-align: center;
+    position: relative;
+    height: 100%;
+    .header-sec{
+        border-radius: 4px;
+        background-color: $backgroundColor;
+        font-size: 24px;
+        font-weight: 300;
+        color: $primaryColor;
+        padding: 15px 0;
+    }
+    .body-sec{
+        padding: 20px 42px;
+        .kr-sg-file-drag-drop{            
+            .drag-drop-sec {
+                .divider-text{
+                    padding: 5px 0;
+                    font-size: 14px;
+                }
+                .custom-file {
+                    label{
+                        span{
+
+                        }
+                    }
+                }
+            }
+            .uploaded-file-name{
+                margin: 28px 0;
+            }
+            .info-content{
+                color: $primaryColor;
+                font-size: 12px;
+                > a {
+                    color: #009dab;
+                }
+                span{
+                    color: $hoverColor;
+                    cursor: pointer;
+                }
+            }
+            .success-message{
+                font-size: 14px;
+                font-weight: bold;
+                margin: 28px 0;
+            }
+            .back-up {
+                .backup-heading {
+                    color: #ff001f;
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                    font-weight: 500;
+                }
+                .backup-message {
+                    color: #26344a;
+                    font-size: 14px;
+                    line-height: 1.43;
+                    margin-bottom: 30px;
+                }
+                .backup-options {
+                   .or_divider{
+                    color: #8a959f;
+                    font-size: 14px;
+                    margin: 0 15px;
+                   }
+                    .backup-text {
+                        color: #009dab;
+                        font-weight: bold;
+                        cursor: pointer;
+                        > img{
+                            margin-right: 4px;
+                            position: relative;
+                            top: -2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .footer-sec{    
+        border-radius: 4px;
+        background-color: $backgroundColor;
+        text-align: center;
+        padding: 15px 0;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        button{
+            width: 100px;
+        }
+    }
+    .error-image{
+        width: 80px;
+    }
+}
+::ng-deep .mat-custom-progress{
+    margin: 12px 0 0 0;
+    height: 5px;
+    border-radius: 100px;    
+    width: 150px !important;
+    margin: 5px auto;                
+    .mat-progress-bar-buffer{
+        background-color:#e5e8ec;
+        border-radius: 100px;
+    }
+    .mat-progress-bar-fill{
+        &::after{
+            background-color:$hoverColor;
+        }
+    }
+}

@@ -8,12 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilterPipe} from './helpers/filters/filter.pipe';
 import { DateFormatPipe} from './helpers/filters/dateformat.pipe';
-import { HeaderComponent } from './components/header/header.component';
-import { ContentComponent } from './components/content/content.component';
+import { AppHeaderComponent } from './components/app-header/app-header.component';
+import { AppBodyComponent } from './components/app-body/app-body.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MainmenuComponent } from './components/mainmenu/mainmenu.component';
+import { AppMenuComponent } from './components/app-menu/app-menu.component';
 
 import {HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthGuard} from '@kore.services/auth.guard';
@@ -31,23 +31,30 @@ import { ConfirmationDialogComponent } from './helpers/components/confirmation-d
 import { SharedModule } from './shared/shared.module';
 import { SummaryComponent } from './components/summary/summary.component';
 import { KRModalComponent } from './shared/kr-modal/kr-modal.component';
-import { SourceContentComponent } from './components/source-content/source-content.component';
+import { AddSourceComponent } from './components/add-source/add-source.component';
 import { MatMenuModule} from '@angular/material/menu';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
-
+import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
+import { AddFaqComponent } from './components/add-faq/add-faq.component';
+import { AddAltFaqComponent } from './components/add-alt-faq/add-alt-faq.component';
+import { CustomMarkdownEditorComponent } from './helpers/lib/md-editor.component';
+import { MarkdownEditorResizeSensorComponent } from './helpers/lib/resize-sensor/resize-sensor.component';
+import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog/editor-url-dialog.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    ContentComponent,
-    MainmenuComponent,
+    AppHeaderComponent,
+    AppBodyComponent,
+    AppMenuComponent,
     FilterPipe,
     DateFormatPipe,
     AppsListingComponent,
@@ -55,9 +62,16 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ConfirmationDialogComponent,
     SummaryComponent,
     KRModalComponent,
-    SourceContentComponent,
+    AddSourceComponent,
     ContentSourceComponent,
     FaqSourceComponent,
+    ManageIntentComponent,
+    AddFaqComponent,
+    AddAltFaqComponent,
+    CustomMarkdownEditorComponent,
+    MarkdownEditorResizeSensorComponent,
+    EditorUrlDialogComponent,
+    ImportFaqsModalComponent
     ],
   imports: [
     BrowserModule,
@@ -75,6 +89,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatMenuModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    FileUploadModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

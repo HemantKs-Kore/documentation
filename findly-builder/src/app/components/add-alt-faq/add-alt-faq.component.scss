@@ -1,0 +1,100 @@
+
+@import './../../../app/scss/variables/variables.scss';
+.add-questions-form{
+    padding: 0 18px;
+    padding-bottom: 20px;
+    &.followup{
+        background-color: $backgroundColor;
+        margin-left: 45px;
+    }
+    .drp_custon_input{
+        .dropdown-input{
+            &::before{
+                display: none !important;
+            }
+        }
+        .search-icon{
+            top: 10px;
+        }
+    }
+         
+}
+
+
+.mb-8{
+    margin-bottom: 8px;
+}
+
+:host ::ng-deep .example-chip-list {
+    width: 100%;
+    .mat-form-field-wrapper{
+        padding: 0;
+        .mat-form-field-flex{
+            .mat-form-field-infix{
+                margin: 0;
+                padding: 0;
+                border: 0;
+                .mat-chip-list{
+                    .mat-chip-list-wrapper{
+                        border-radius: 3px;
+                        border: solid 1px #e5e8ec;        
+                        margin: 0;
+                        font-family: Lato !important;
+                        .mat-input-element{
+                            margin: 0;
+                            border: 0;
+                            height: 32px;
+                        }
+                        .mat-chip{
+                            border-radius: 4px;
+                            background-color: #e5e8ec;
+                            padding: 0px 9px;
+                            margin: 3px 0px 3px 3px;
+                            min-height: 26px;
+                            &:hover{
+                                &::after{
+                                    opacity: 0.09;
+                                }
+                            }
+                            .mat-val{
+                                color: #8a959f;
+                                font-size: 12px;
+                                font-weight: bold;
+                            }
+                            .mat-icon{
+                                width: auto;
+                                height: auto;
+                                opacity: 0.8;
+                                img{
+                                    width: 11px;
+                                    height: 11px;
+                                    vertical-align: middle;
+                                    position: relative;
+                                    top: 0px;
+                                    left: 2px;
+                                }
+                            }
+                        }                        
+                    }                        
+                }
+            }
+        }                        
+    }
+    .mat-form-field-label-wrapper{
+        padding: 0;
+        height: 32px;                            
+        top: 2px;
+        .mat-form-field-label{
+            margin: 0;
+            top: 6px;
+            left: 10px;
+        }
+    }
+    .mat-form-field-subscript-wrapper{
+        margin: 0;
+        top: 0;
+    }
+    .mat-form-field-underline{
+        display: none;
+    }
+} 

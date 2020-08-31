@@ -1,10 +1,11 @@
 <meta name="viewport" content="width=device-width, user-scalable=no">
-<div *ngIf="!loading" class="krFindlyAppComponent">
-    <app-header></app-header>
-    <app-mainmenu class="toShowAppHeader"></app-mainmenu>
-    <app-content class="container-fluid appContent"></app-content>
+<div class="krFindlyAppComponent">
+    <div *ngIf="!loading">
+        <app-header></app-header>
+        <app-mainmenu class="toShowAppHeader"></app-mainmenu>
+        <app-body class="container-fluid appContent"></app-body>
+    </div>
 </div>
-
 <div class="loaderContainer"  *ngIf="loading">
     <img src="assets/images/logoIcon.png" class="loaderLogoImage" >
 </div>

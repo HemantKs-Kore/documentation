@@ -36,8 +36,8 @@ export class EndPointsService {
       method: 'get'
     };
 
-    this.serviceList['get.deflect.apps'] = {
-      endpoint: this.API_SERVER_URL + '/deflectai/apps',
+    this.serviceList['get.findly.apps'] = {
+      endpoint: this.API_SERVER_URL + '/findlyai/apps',
       method: 'get'
     };
     this.serviceList['create.app'] = {
@@ -49,7 +49,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['add.source'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/source',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source',
       method: 'post'
     };
     this.serviceList['get.source.list'] = {
@@ -68,7 +68,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
       method: 'get'
     };
-    this.serviceList['deflect.seed.data'] = {
+    this.serviceList['findly.seed.data'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/seed_data',
       method: 'get'
     };
@@ -81,8 +81,64 @@ export class EndPointsService {
       method:'post'
     };
     this.serviceList['add.sourceMaterial']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      method:'post'
+    };
+    this.serviceList['add.sourceMaterialFaq']={
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
+    };
+    this.serviceList['get.faqs']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=:sourceType&staged=:catagory&resourceId=":resourceId',
+      method:'get'
+    };
+    this.serviceList['addRemove.faqs']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId/stage?action=:method',
+      method:'get'
+    };
+    this.serviceList['get.knowledgetasks'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/knowledgetasks?streamId=:streamId',
+      method: 'get'
+    };
+
+    this.serviceList['create.knowledgetask'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/knowledgetasks',
+      method: 'post'
+    };
+
+    this.serviceList['get.fags'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs?ktId=:ktId',
+      method: 'get'
+    };
+
+    this.serviceList['get.getorsearchfaq'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs?ktId=:ktId&limit=:limit&offset=:offSet&search=:searchParam&parentId=:parentId&withallchild=:withallchild&type=:filter',
+      method: 'get'
+    };
+
+    this.serviceList['create.faqs'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs',
+      method: 'post'
+    };
+
+    this.serviceList['edit.faq'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/:faqID',
+      method: 'put'
+    };
+
+    this.serviceList['delete.faq'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/:faqID',
+      method: 'delete'
+    };
+
+    this.serviceList['get.possibletags'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/possibletags?ktId=:ktId',
+      method: 'post'
+    };
+
+    this.serviceList['get.globalsynonyms'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/builder/globalsynonyms?offset=:offset&limit=:limit&search=:search&keyword=:keyword&state=:state&ktId=:ktId',
+      method: 'get'
     };
   }
 }
