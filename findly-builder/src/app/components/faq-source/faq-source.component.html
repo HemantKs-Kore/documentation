@@ -11,7 +11,7 @@
         <div class="getStartedContainer">
             <h1>{{'lets_get_started' | translate}}</h1>
             <div class="optionItems">
-              <div class="faqItem">
+              <div class="faqItem" (click)="addfaqs('faqWeb')">
                <img src="assets/images/source-icos/faq_web_page.png">
                <div>{{'extract_from_web_pages_and_documents' | translate}}</div>
               </div>
@@ -20,10 +20,14 @@
                 <div>{{'extract_using_annotation_tool' | translate}}</div>
                </div>
                <div class="faqItem">
-                <img src="assets/images/source-icos/faq_manual.png">
+                <img src="assets/images/source-icos/faq_manual.png" (click)="addfaqs('manual')">
                 <div>{{'manually_input_question_and_answers' | translate}}</div>
                </div>
             </div>
+        </div>
+        <div class='centerContnet'>
+            <!-- <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button> -->
+            <button class="kr-sg-button-primary" (click)="openStatusSlider()">Check Extracts</button>
         </div>
         <!-- <div class="additionalInfoContainer">
             <div><p><strong>{{'Auto_indexing' | translate}}</strong>{{'Auto_IndexingInfo' | translate}}</p></div>
