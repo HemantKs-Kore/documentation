@@ -105,7 +105,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     })
   ],
   // tslint:disable-next-line:max-line-length
-  entryComponents: [ConfirmationDialogComponent],
+  entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

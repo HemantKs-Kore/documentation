@@ -116,7 +116,18 @@
         }
     }   
 }
-
+::ng-deep:perfect-scrollbar .ps-content{
+    .empty{
+        display: none;
+        text-align: center;
+        width: 100%;
+        padding: 10%;
+        white-space: break-spaces;
+    }
+    div.empty:first-child {
+        display: block !important;
+      } 
+  }
 ::ng-deep #sourceSlider {
     .sliderComponent {
         z-index: 100 !important;

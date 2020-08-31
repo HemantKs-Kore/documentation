@@ -36,6 +36,7 @@ export class AppsListingComponent implements OnInit {
    }
 
   ngOnInit() {
+    $('.krFindlyAppComponent').removeClass('appSelected');
     this.apps =  this.workflowService.findlyApps();
     console.log(this.apps);
     setTimeout(() => {

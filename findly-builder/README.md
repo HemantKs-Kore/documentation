@@ -1,7 +1,28 @@
-# Findly
+# WebForms
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.0.
 
+## Development server
+Prerequisites:
+    Test
+    Latest stable versions of node,nvm
+
+Setup:
+
+    1.[sudo] npm install
+    2.[sudo] npm install -g @angular/cli
+    3.Run `ng serve` for a dev server. 
+    4.Navigate to `http://localhost:4200/forms`. 
+    
+## Build
+    1.[sudo] npm install
+    2.Run   `npm run-script ng build` to build the project. The build artifacts will be stored in the `dist/` directory. 
+
+        Use the `--prod` flag for a production build.
+        Use the `--c` flag for environment
+            value can be [qa | qa1 | prod]
+            Ex:npm run-script ng build -- --prod --c=qa
+     
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

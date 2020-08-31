@@ -3,6 +3,7 @@ import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, Navigatio
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { SideBarService } from './services/header.service';
 declare const $: any;
 import * as _ from 'underscore';
 @Component({
@@ -14,11 +15,18 @@ export class AppComponent implements OnInit {
   loading = true;
   previousState;
   appsData: any;
+  pathsObj: any = {
+   '/faq':'Faqs',
+   '/content':'Contnet',
+   '/source':'Source',
+   '/botActions':'Bot Actions'
+  }
   constructor(private router: Router,
               private authService: AuthService,
               public localstore: LocalStoreService,
               public workflowService: WorkflowService,
               private activatedRoute: ActivatedRoute,
+              private headerService: SideBarService
   ) {
 
     router.events.subscribe((event: RouterEvent) => {
@@ -28,7 +36,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.onResize();
-    $('.toShowAppHeader').addClass('d-none');
     this.previousState = this.getPreviousState();
   }
    restorepreviousState(){
@@ -47,6 +54,9 @@ export class AppComponent implements OnInit {
          }
          try {
           this.router.navigate([route], { skipLocationChange: true });
+          if(route && this.pathsObj && this.pathsObj[route]){
+            this.preview(this.pathsObj[route]);
+          }
          } catch (e) {
          }
         }
@@ -68,6 +78,12 @@ export class AppComponent implements OnInit {
       window.localStorage.removeItem('krPreviousState');
      }
    }
+   preview(selection): void {
+    const toogleObj = {
+      title: selection,
+    };
+    this.headerService.toggle(toogleObj);
+  }
    getPreviousState(){
      let previOusState :any = null;
      try {

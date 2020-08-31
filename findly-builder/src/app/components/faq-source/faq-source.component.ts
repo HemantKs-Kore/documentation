@@ -112,7 +112,7 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
   }
   addfaqs(type){
     if(type==='manual'){
-      this.router.navigate(['/faqsManual']);
+      this.router.navigate(['/faqsManual'],{ skipLocationChange: true });
     }else{
       this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
     }

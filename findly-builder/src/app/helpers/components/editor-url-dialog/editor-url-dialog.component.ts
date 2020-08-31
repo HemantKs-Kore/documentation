@@ -16,8 +16,8 @@ export class EditorUrlDialogComponent implements OnInit {
 
   ngOnInit() {
     this.urlForm = {
-      url: "",
-      altText: ""
+      url: '',
+      altText: ''
     }
   }
 
