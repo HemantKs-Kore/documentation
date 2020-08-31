@@ -221,7 +221,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
        this.fileObj.fileUploadInProgress = false;
        this.notificationService.notify('File uploaded successfully', 'success');
        this.selectedSourceType.resourceAdded = true;
-       this.selectedSourceType.resourceType = 'webdomain';
+      //  this.selectedSourceType.resourceType = 'webdomain';
       },
       errRes => {
         this.fileObj.fileUploadInProgress = false;
