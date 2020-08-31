@@ -5,14 +5,14 @@
 			<img src="assets/images/findly-icon.png" class="logoIcon">
 			<img src="assets/images/findly-logo.svg" class="logoKoreIcon">
 		</div>
-		<button [routerLink]="['/summary']" skipLocationChange routerLinkActive="active"  mat-button class="mat-button">
+		<button [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active"  mat-button class="mat-button">
 			<span class="inlineIconBox">
 				<img src="assets/images/left-menu-icons/newIcons/dashboard.svg" class="dashboard">
 				<img src="assets/images/left-menu-icons/newIcons/dashboard-white.svg" class="dashboard-white">
 			</span>
 			<span  class="linkTitle">Summary</span>
 		</button>
-		<div  class="mat-button mat_button_cutom_nav activeSubMenu">
+		<div  class="mat-button mat_button_cutom_nav activeSubMenu" (click)="preview('Source')">
 			<div routerLinkActive="active">
 				<span class="inlineIconBox" [routerLink]="['/source']" skipLocationChange>
 					<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-gray.svg" class="publish">
@@ -24,11 +24,11 @@
 				<div class="subMenu" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
 					Content
 				</div>
-				<div class="subMenu"  routerLinkActive="active"  (click)="preview('Content')" mat-button>
+				<div class="subMenu"  routerLinkActive="active"  (click)="preview('Faqs')" mat-button>
 					<div [routerLink]="['/faqs']" skipLocationChange>Faqs</div>
 					<div class="hide" [routerLink]="['/faqsmanual']" skipLocationChange>Faqs</div>
 				</div>
-				<div class="subMenu" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
+				<div class="subMenu" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
 					Bot Actions
 				</div>
 			</div>
