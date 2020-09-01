@@ -8,7 +8,8 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { tempdata } from './tempdata';
 import * as _ from 'underscore';
-import { from } from 'rxjs';
+import { from, interval } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 declare const $: any;
 
 @Component({
@@ -26,6 +27,7 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
+  pollingSubscriber;
   faqObj:any = {
     allFaqs:[],
     stagedFaqs:[],
@@ -102,7 +104,7 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res.reverse();
       if (this.resources && this.resources.length) {
-        this.poling('faq')
+        this.poling()
       }
     }, errRes => {
     });
@@ -117,34 +119,47 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
       this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
     }
   }
-  poling(type) {
-    clearInterval(this.polingObj[type]);
-    const self = this;
-    this.polingObj[type] = setInterval(() => {
-      self.getJobStatus(type);
-    }, 10000);
-  }
-  getJobStatus(type) {
+  poling() {
+    if(this.pollingSubscriber){
+      this.pollingSubscriber.unsubscribe();
+    }
     const quaryparms: any = {
       searchIndexId:this.serachIndexId,
-      type
+      type:'faq'
     };
-    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-      const queuedJobs = _.filter(res,(source) => {
-        return ((source.status === 'running') || (source.status === 'queued'));
+    this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
+      this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+        this.updateSourceStatus(res);
+        const queuedJobs = _.filter(res, (source) => {
+          return ((source.status === 'running') || (source.status === 'queued'));
+        });
+        if (queuedJobs && queuedJobs.length) {
+          console.log(queuedJobs);
+        } else {
+          this.pollingSubscriber.unsubscribe();
+        }
+      }, errRes => {
+        this.pollingSubscriber.unsubscribe();
+        if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to extract web page', 'error');
+        }
       });
-      if (queuedJobs && queuedJobs.length) {
-        console.log(queuedJobs);
-     } else {
-       clearInterval(this.polingObj[type]);
-     }
-    }, errRes => {
-      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to crawl web page', 'error');
       }
-    });
+    )
+  }
+  updateSourceStatus(statusItems){
+    if(statusItems && statusItems.length){
+      statusItems.forEach(status => {
+        this.polingObj[status._id] = status.status;
+      });
+      this.resources.forEach(source => {
+        if(source && this.polingObj && this.polingObj[source.jobId]){
+          source.status = this.polingObj[source.jobId];
+        }
+      });
+    }
   }
   openStatusSlider() {
     this.sliderComponent.openSlider('#faqsSourceSlider', 'right500');
@@ -153,12 +168,6 @@ export class FaqSourceComponent implements OnInit , OnDestroy {
     this.sliderComponent.closeSlider('#faqsSourceSlider');
   }
   ngOnDestroy() {
-   const timerObjects = Object.keys(this.polingObj);
-   if (timerObjects && timerObjects.length) {
-    timerObjects.forEach(job => {
-      clearInterval(this.polingObj[job]);
-    });
-   }
+    this.pollingSubscriber.unsubscribe();
   }
-
 }
