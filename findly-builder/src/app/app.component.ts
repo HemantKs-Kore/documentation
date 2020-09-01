@@ -131,4 +131,7 @@ export class AppComponent implements OnInit {
   onResize(event?) {
     this.workflowService.disablePerfectScroll = window.innerWidth <= 600;
   }
+  ngOnDistroy(){
+    this.authService.findlyApps.unsubscribe();
+  }
 }
