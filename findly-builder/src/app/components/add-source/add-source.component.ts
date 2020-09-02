@@ -28,6 +28,14 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   statusModalPopRef: any = [];
   pollingSubscriber: any = null;
   initialValidations:any = {}
+  defaultStatusObj:any = {
+    jobId: '',
+    status: 'running',
+    validation:{
+      validated :false
+    }
+    }
+  statusObject:any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
   csvContent:any = '';
@@ -85,7 +93,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
           name:'Add FAQs Manually',
           description:'Manually Input FAQs',
           icon: 'assets/images/source-icos/addfaqmanually.svg',
-          id:'faqDoc',
+          id:'manual',
           sourceType:'faq',
           resourceType:'manual'
         }
@@ -102,6 +110,9 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
    @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
    @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   ngOnInit() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    }
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.userInfo = this.authService.getUserInfo() || {};
@@ -124,27 +135,32 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
      $('#addSourceTitleInput').focus();
     },100);
   }
-  poling(sourceId) {
+  poling(jobId) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
-      type: 'faq'
+      type: this.selectedSourceType.sourceType
     };
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+        this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
-          return (((source.status === 'running') || (source.status === 'queued')) && (source._id=== sourceId));
+          return  (source._id=== jobId);
         });
         if (queuedJobs && queuedJobs.length) {
-
+          this.statusObject = queuedJobs[0];
+          if((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
+            this.pollingSubscriber.unsubscribe();
+          }
         } else {
-          this.pollingSubscriber.unsubscribe();
-          this.closeStatusModal();
+          this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
+          this.statusObject.status = 'failed';
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
+         this.statusObject.status = 'failed';
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
@@ -155,6 +171,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     )
   }
   openStatusModal() {
+    this.statusObject = { ...this.defaultStatusObj};
     const self= this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -308,8 +325,8 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       if(payload.hasOwnProperty('url')) delete payload.url;
     }
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-     this.poling(res.jobId);
      this.openStatusModal();
+     this.poling(res._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

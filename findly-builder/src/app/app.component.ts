@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   appsData: any;
   pathsObj: any = {
    '/faq':'Faqs',
-   '/content':'Contnet',
+   '/content':'Content',
    '/source':'Source',
    '/botActions':'Bot Actions'
   }

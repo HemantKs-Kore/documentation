@@ -1,16 +1,19 @@
 <header>
     <nav class="findlyHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
         <div class="container-fluid p-0">
-            <img src="assets/images/findly-logo.svg" class="logoKoreIcon">
+            <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon">
             <div class="homePageTitle d-none">
                 <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content">   
+                <ng-template #rt let-r="result" let-t="term">
+                    <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
+                  </ng-template>
                 <li class="nav-item pr-4 mr-2">
-                    <img src="assets/icons/sidemenu/search.svg">
-                    <div class="kr-sg-input-search d-none">                               
-                        <input type="text" placeholder="Search" class="input-search">
-                        <img src="assets/images/close.svg" class="search-icon">
+                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">
+                    <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}" >                               
+                        <input type="text" placeholder="Search" class="input-search" (keydown.enter)="triggerRoute(searchText)" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt"  [inputFormatter]="formatter">
+                        <img src="assets/images/close.svg" class="search-icon" (click)="toggleSearch(false)">
                     </div>
                 </li>            
                 <li class="nav-item pr-4 mr-2">

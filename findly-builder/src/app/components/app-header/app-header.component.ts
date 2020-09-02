@@ -5,8 +5,10 @@ import { Router } from '@angular/router';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppUrlsService } from '@kore.services/app.urls.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
-
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 declare const $: any;
+import * as _ from 'underscore';
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
@@ -17,6 +19,21 @@ export class AppHeaderComponent implements OnInit {
   pagetitle: any;
   fromCallFlow = '';
   showSwichAccountOption = false;
+  searchActive = false;
+  searchText:any;
+  search:any;
+  formatter:any;
+  availableRouts = [
+    {displayName:'Summary' , routeId:'/summary',quaryParms:{}},
+    {displayName:'Add Sources' , routeId:'/source',quaryParms:{}},
+    {displayName:'Crawl Web Domain' , routeId:'/source',quaryParms:{sourceType:'contentWeb'}},
+    {displayName:'Extract Document' , routeId:'/source',quaryParms:{sourceType:'contentDoc'}},
+    {displayName:'Add FAQs Manually' , routeId:'/source',quaryParms:{sourceType:'manual'}},
+    {displayName:'Extrat FAQs from Document' , routeId:'/source',quaryParms:{sourceType:'faqDoc'}},
+    {displayName:'Extrat FAQs from Webdomain' , routeId:'/source',quaryParms:{sourceType:'faqWeb'}},
+    {displayName:'FAQs' , routeId:'/faqs',quaryParms:{sourceType:'faqWeb'}},
+    {displayName:'Content' , routeId:'/content',quaryParms:{sourceType:'faqWeb'}},
+  ]
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -30,7 +47,28 @@ export class AppHeaderComponent implements OnInit {
   logoutClick() {
     this.authService.logout();
   }
-
+  toggleSearch(activate){
+    this.searchActive = activate;
+    if(!activate){
+    this.searchText = '';
+    }
+  }
+  triggerRoute(type,routObj?){
+    const self = this;
+    let queryParams:any = {};
+    if(type){
+      setTimeout(()=>{
+        const slectedRoute = _.filter(this.availableRouts,{displayName:self.searchText.displayName})
+        if(slectedRoute && slectedRoute.length){
+          queryParams = slectedRoute[0].quaryParms || {};
+          this.router.navigate([slectedRoute[0].routeId], { skipLocationChange: true,queryParams});
+        }
+      },100)
+    } else if (routObj && routObj.routeId){
+       queryParams = routObj.quaryParms || {};
+      this.router.navigate([routObj.routeId], { skipLocationChange: true,queryParams});
+    }
+  }
   ngOnInit() {
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
     this.headerService.change.subscribe(data => {
@@ -48,7 +86,13 @@ export class AppHeaderComponent implements OnInit {
     });
 
     this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
-
+    this.search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+    this.formatter = (x: {displayName: string}) => (x.displayName || '');
   }
 
   removeCallFlowExpand() {

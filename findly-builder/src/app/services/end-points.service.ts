@@ -56,12 +56,16 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webDomainId/pages?limit=:limit&skip=:skip',
       method: 'get'
     };
-    this.serviceList['delete.contnet.page']={
+    this.serviceList['delete.content.page']={
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webDomainId/pages/:pageId',
       method:'delete'
     };
     this.serviceList['get.job.status'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
+      method: 'get'
+    };
+    this.serviceList['get.job.statusById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/jobs/:jobId/status',
       method: 'get'
     };
     this.serviceList['findly.seed.data'] = {
@@ -88,16 +92,16 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=all',
       method:'get'
     };
-    this.serviceList['get.allFaqsByStaged']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&staged=:staged&limit=:limit&source=all',
+    this.serviceList['get.allFaqsByState']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all',
       method:'get'
     };
     this.serviceList['get.faqsByResources']={
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&resourceId=:resourceId',
       method:'get'
     };
-    this.serviceList['get.faqsByResourcesStaged']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&staged=:staged&limit=:limit&resourceId=:resourceId',
+    this.serviceList['get.faqsByResourcesState']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&resourceId=:resourceId',
       method:'get'
     };
     this.serviceList['addRemove.faqs']={

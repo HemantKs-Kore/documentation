@@ -35,7 +35,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   selectAllFaqs = false;
   loadingTab = false;
   resourcesObj: any = {};
-  sekectedResource;
+  selectedResource;
+  public model: any;
   loadingFaqs = true;
   statusObj: any = {
     failed: { name: 'Failed', color: 'red' },
@@ -46,7 +47,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     inProgress: { name: 'In Progress', color: 'blue' },
   };
   selectedPage: any = {};
-  selectedSource: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
   searchFaq = '';
@@ -102,9 +102,10 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       staged = 'no';
     }
     if(source){
-      this.selectedSource = source;
+      this.selectedResource = source;
       this.getfaqsBy(source._id,staged);
     } else {
+      this.selectedResource = null;
       this.getfaqsBy(null,staged);
     }
   }
@@ -148,6 +149,9 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     });
   }
   getfaqsBy(resourceId?, checkStaged?) {
+    if(this.selectedResource && this.selectedResource._id){
+      resourceId = this.selectedResource._id
+    }
     this.loadingTab = true;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -156,21 +160,21 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       offset: 0,
     };
     if (checkStaged && checkStaged==='yes') {
-      quaryparms.staged = true;
+      quaryparms.state = 'Approved';
     } else {
-      quaryparms.staged = false;
+      quaryparms.staged = 'in_review';
     }
     let serviceId = 'get.allFaqs';
     if (resourceId) {
       quaryparms.resourceId = resourceId;
       if(checkStaged){
-        serviceId = 'get.faqsByResourcesStaged';
+        serviceId = 'get.faqsByResourcesState';
       } else {
         serviceId = 'get.faqsByResources';
       }
     } else {
       if(checkStaged){
-        serviceId = 'get.allFaqsByStaged';
+        serviceId = 'get.allFaqsByState';
       }
     }
     this.faqsApiService(serviceId, quaryparms);
