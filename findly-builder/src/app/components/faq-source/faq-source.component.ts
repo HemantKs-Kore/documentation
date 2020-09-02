@@ -293,6 +293,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.sliderComponent.closeSlider('#faqsSourceSlider');
   }
   ngOnDestroy() {
-    this.pollingSubscriber.unsubscribe();
+    if(this.pollingSubscriber){
+      this.pollingSubscriber.unsubscribe();
+    }
   }
 }
