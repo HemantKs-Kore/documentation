@@ -39,9 +39,11 @@ export class ServiceInvokerService {
         let _url;
         let _verb;
         let _headers = JSON.parse(JSON.stringify(this.DEFAULT_HEADERS));
-        if (serviceId === 'post.fileupload') {
-            _headers = JSON.parse(JSON.stringify(this.UPLOAD_HEADERS));
-        }
+        if(headers){
+          _headers = JSON.parse(JSON.stringify(headers));
+        }else if (serviceId === 'post.fileupload') {
+          _headers = JSON.parse(JSON.stringify(this.UPLOAD_HEADERS));
+      }
     try {
       _verb = serviceConf.method;
       _url = serviceConf.endpoint;

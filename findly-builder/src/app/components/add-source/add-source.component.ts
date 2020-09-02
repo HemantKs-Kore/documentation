@@ -201,7 +201,8 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       const onFileLoad = (fileLoadedEvent) => {
         const data = new FormData();
         data.append('file', fileToRead);
-        data.append('fileContext', 'daas');
+        data.append('fileContext', 'findly');
+        data.append('Content-Type', fileToRead.type);
         data.append('fileExtension', ext.replace('.',''));
         this.fileupload(data);
     };
