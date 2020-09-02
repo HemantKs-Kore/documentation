@@ -1,6 +1,9 @@
 
 @import './../../../app/scss/variables/variables.scss';
-
+::ng-deep.dropdown-item.active, .dropdown-item:active{
+  background-color: #F3F8FF !important;
+  color: black;
+}
 .findlyHeader{
    box-shadow: 0px 1px 5px rgba(32, 33, 36, 0.2);;
    background: $whiteColor;

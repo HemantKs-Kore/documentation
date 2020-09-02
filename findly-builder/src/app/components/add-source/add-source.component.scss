@@ -346,7 +346,22 @@
                 margin: 0 auto;              
                 background: #BDC1C6;
                 border-radius: 2px;
-            }           
+            }    
+            .error-check{
+                width: 40px;
+                height: 40px;
+                border-radius: 100%;
+                margin: 10px auto;
+                margin-bottom: 15px;
+                position: relative;
+            img {
+                width: 50px;
+                height: 50px;
+                left: 0px;
+                top: -25px;
+                position: relative;
+            }
+            }       
         }
         .modal-footer{
             text-align: left;

@@ -25,7 +25,7 @@
                </div>
             </div> 
         </div>
-        <div class='centerContnet'>
+        <div class='centerContent'>
             <!-- <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button> -->
             <button class="kr-sg-button-primary" (click)="openStatusSlider()">Check Extracts</button>
         </div>
@@ -40,15 +40,15 @@
             <div class="headerContainer">
                 <div class="left-sec col-5 row m-0">
                     <div class="tab-sec d-flex col-9 p-0">
-                        <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">All<span class="hide">({{faqs.length}})</span></div>
-                        <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">Added<span class="hide">({{faqs.length}})</span></div>
-                        <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Not Added<span class="hide">({{faqs.length}})</span></div>
+                        <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">Drafts<span class="hide">({{faqs.length}})</span></div>
+                        <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">In-review<span class="hide">({{faqs.length}})</span></div>
+                        <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Approved<span class="hide">({{faqs.length}})</span></div>
                     </div>
                 </div>
                 <div class="col-3 pr-0 m-0">
                     <div class="kr-sg-dropdowns sourceSelection">                           
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{sekectedResource?sekectedResource.name:'All'}}</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{selectedResource?selectedResource.name:'All'}}</button>                                            
                             <ul class="dropdown-menu content-menu">
                                 <li (click)="selectResourceFilter()"><a >All</a></li>
                                 <ng-container *ngFor="let source of resources">

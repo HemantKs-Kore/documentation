@@ -101,6 +101,9 @@
         <div class="success-check" *ngIf="(initialValidations.urlValidation && initialValidations.network && initialValidations.ristrictions)">
           <img src="assets/icons/check-white.svg">
         </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed') ">
+          <img src="assets/images/exclamationCircle-Red.svg">
+        </div>
         <div class="configInProgress">
           <img class="loadingConfigs" src="assets/images/source-icos/success-icon.svg">
         </div>

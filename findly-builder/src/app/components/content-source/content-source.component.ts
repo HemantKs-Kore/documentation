@@ -188,7 +188,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       webDomainId:this.selectedSource._id,
       pageId:page._id
     }
-    this.service.invoke('delete.contnet.page', quaryparms).subscribe(res => {
+    this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       const deleteIndex = _.findIndex(this.selectedSource.pages,(pg)=>{
            return pg._id === page._id;
       })

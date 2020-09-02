@@ -11,22 +11,22 @@
 		<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']" routerLinkActive="active" (click)="preview('Source')"></div>
 
 		<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>			
-			<span class="inlineIconBox" [routerLink]="['/content']" skipLocationChange>
+			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/content.svg">				
 			</span>
-			<span class="linkTitle" [routerLink]="['/content']" skipLocationChange>Content</span>
+			<span class="linkTitle">Content</span>
 		</div>
-		<div mat-button class="mat-button" routerLinkActive="active" (click)="preview('Faqs')" mat-button>
-			<span class="inlineIconBox" [routerLink]="['/faqs']" skipLocationChange>
+		<div [routerLink]="['/faqs']" mat-button class="mat-button" routerLinkActive="active" (click)="preview('Faqs')" mat-button>
+			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/faq.svg">				
 			</span>
-			<span class="linkTitle" [routerLink]="['/faqs']" skipLocationChange>Faqs</span>		
+			<span class="linkTitle">Faqs</span>		
 		</div>
 		<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>			
-			<span class="inlineIconBox" [routerLink]="['/botActions']" skipLocationChange>
+			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/botactions.svg">				
 			</span>
-			<span class="linkTitle" [routerLink]="['/botActions']" skipLocationChange>Bot Actions</span>
+			<span class="linkTitle">Bot Actions</span>
 		</div>		
 		
 		<!-- <button mat-button>
