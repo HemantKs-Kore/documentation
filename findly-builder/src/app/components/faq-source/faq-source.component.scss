@@ -54,68 +54,83 @@
     .faqsListContainer{
         .faq-header-sec{
             align-items: center;
-            padding: 20px 0px;
-            .left-sec{
+            padding: 10px 0px;
+            .headerContainer{
+                display: flex;
+                flex-wrap: wrap;
                 align-items: center;
-                padding-right: 0;
-                .tab-sec{
-                    .tab_title{                    
-                            font-size: 14px;
-                            font-weight: 500;
-                            padding: 5px 0;                   
-                            margin-right: 30px;
-                            color: #8a959f;
-                            cursor: pointer;
-                            &.active{
-                                border-bottom: 2px solid #009dab;
-                                color: #26344a;
-                            }
-                            span{
-                                color: #8a959f;
-                                padding-left: 3px;
-                            }
-                    }
+                width: 100%;
+                padding: 10px 0;
+                border-radius: 5px;
+                background: aliceblue;
+                margin: 0 10px !important;
+                .sourceSelection{
+                    position: absolute;
+                    left: -110px;
+                    top: -17px;
                 }
-                .untrained-text{
-                    span{
-                        color: #26344a;
-                        text-decoration: underline;
-                    }
-                }
-                .kr-sg-dropdowns .dropdown-open .content-menu{
-                    overflow: hidden;
-                }
-            }
-            .right-sec{
+                .left-sec{
                     align-items: center;
-                    justify-content: flex-end;
-                .kr-sg-input-search{
-                        width: 220px;                    
-                        .input-search{
-                            height: 34px;
+                    padding-right: 0;
+                    .tab-sec{
+                        .tab_title{                    
+                                font-size: 14px;
+                                font-weight: 500;
+                                padding: 5px 0;                   
+                                margin-right: 30px;
+                                color: #8a959f;
+                                cursor: pointer;
+                                &.active{
+                                    border-bottom: 2px solid #009dab;
+                                    color: #26344a;
+                                }
+                                span{
+                                    color: #8a959f;
+                                    padding-left: 3px;
+                                }
                         }
-                }
-                .kr-sg-button-secondary-two{
-                        height: 34px;
-                }
-                .kr-sg-dropdowns{
-                    width: 130px;                  
-                    .dropdown-input{
-                            background: #018490;
-                            color: #fff;
-                            border-radius: 5px;                        
+                    }
+                    .untrained-text{
+                        span{
+                            color: #26344a;
+                            text-decoration: underline;
+                        }
+                    }
+                    .kr-sg-dropdowns .dropdown-open .content-menu{
+                        overflow: hidden;
                     }
                 }
-                .manage-extracts-title{
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: #26344a;
-                }
-                .kr-sg-overflow-menu{
-                        .dropdown-menu{
-                            width: auto !important; 
-                            min-width: 180px !important;                      
+                .right-sec{
+                        align-items: center;
+                        justify-content: flex-end;
+                    .kr-sg-input-search{
+                            width: 220px;                    
+                            .input-search{
+                                height: 34px;
+                            }
+                    }
+                    .kr-sg-button-secondary-two{
+                            height: 34px;
+                    }
+                    .kr-sg-dropdowns{
+                        width: 130px;                  
+                        .dropdown-input{
+                                background: #018490;
+                                color: #fff;
+                                border-radius: 5px;                        
                         }
+                    }
+                    .manage-extracts-title{
+                        font-size: 14px;
+                        font-weight: bold;
+                        color: #26344a;
+                    }
+                    .kr-sg-overflow-menu{
+                            .dropdown-menu{
+                                width: auto !important; 
+                                min-width: 180px !important;                      
+                            }
+                    }
                 }
             }
         }
@@ -130,6 +145,7 @@
             &.accordion-table{                   
                 section{
                     &.table-content {
+                        display: block;
                         .table-header{
                             border-bottom: 1px solid #e5e8ec;
                         }                                                      
@@ -192,6 +208,7 @@
                             }
                             .info-content{
                                 padding: 12px 0;
+                                white-space: pre-wrap;
                             }
                             .tags-sec{
                                 display: flex;
@@ -337,18 +354,58 @@
             display: flex;
             width: 100%;
             height: 100%;
-            padding: 0 15px;           
+            padding: 0 15px;  
+            .manage-form-please-wait-all{
+                left: 40%;
+                padding-left: 0 !important;
+            }  
             .kr-sg-data-table{
+                #faqaccordianGroup{
+                    .emptySearch{
+                        display: none;
+                        text-align: center;
+                        width: 100%;
+                        padding: 10%;
+                        white-space: break-spaces;
+                    }
+                    div.emptySearch:first-child {
+                        display: block !important;
+                }
+            } 
                 &.accordion-table {
                     section{
                         &.table-content {
+                            .staged{
+                                background: aliceblue;
+                                transform: rotate(134deg);
+                                height: 20px;
+                                width: 20px;
+                                cursor: pointer;
+                                padding: 5px;
+                                border-radius: 50%;
+                            }
+                            .unStaged{
+                                background: aliceblue;
+                                height: 20px;
+                                width: 20px;
+                                cursor: pointer;
+                                padding: 5px;
+                                border-radius: 50%;
+                                font-size: 22px;
+                                line-height: 0.4;
+                                font-weight: 400;
+                                text-align: center;
+                            }
+                            .spinner{
+                                width: 20px;
+                            }
                             .collapsed-default{
                                 &::before{
-                                    left: 42px;
+                                    left: 10px;
                                 }
                                 &.collapsed{
                                     &::before{
-                                        left: 42px;
+                                        left: 10px;
                                     }
                                 }
                             }
@@ -356,7 +413,7 @@
                                 padding-left: 18px;
                             }
                             .accordion-table{
-                                padding: 0 15px 20px 68px;
+                                padding: 0 15px 20px 35px;
                             }
                         }
                     }
@@ -388,12 +445,18 @@
                         border-radius: 2px;
                         background-color: transparent;
                         padding: 12px 0;
+                        .stageQuestions{
+                            right: 20px;
+                        }
                         .add-que-drpdown{
                             .dropdown-input{
                                 border: solid 1px rgba(0,157,171,0.4);
                                 background: rgba(0,157,171,0.1);
                                 border-radius: 4px;
                                 color: #009dab;
+                            }
+                            .dropdown-menu{
+                                width: 200px;
                             }
                         }
                     }
@@ -680,7 +743,14 @@
     }    
 }
 
-
+::ng-deep.scroll-faqs{
+    .ps__thumb-y{
+        width: 3px !important;
+    }
+    .ps__rail-y{
+        width: 3px !important;
+    }
+}
 ::ng-deep #faqsSourceSlider {
     .sliderComponent {
         z-index: 100 !important;

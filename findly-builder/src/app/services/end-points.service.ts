@@ -48,10 +48,6 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps',
       method: 'get'
     };
-    this.serviceList['add.source'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source',
-      method: 'post'
-    };
     this.serviceList['get.source.list'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'get'
@@ -88,13 +84,25 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
-    this.serviceList['get.faqs']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=:sourceType&staged=:catagory&resourceId=":resourceId',
+    this.serviceList['get.allFaqs']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=all',
+      method:'get'
+    };
+    this.serviceList['get.allFaqsByStaged']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&staged=:staged&limit=:limit&source=all',
+      method:'get'
+    };
+    this.serviceList['get.faqsByResources']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&resourceId=:resourceId',
+      method:'get'
+    };
+    this.serviceList['get.faqsByResourcesStaged']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&staged=:staged&limit=:limit&resourceId=:resourceId',
       method:'get'
     };
     this.serviceList['addRemove.faqs']={
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId/stage?action=:method',
-      method:'get'
+      method:'put'
     };
     this.serviceList['get.knowledgetasks'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/knowledgetasks?streamId=:streamId',

@@ -10,7 +10,8 @@ import { NotificationService } from '../../services/notification.service';
 import { Router , ActivatedRoute} from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import { of } from 'rxjs';
+import { of, interval } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -25,7 +26,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   newSourceObj: any = {};
   selectedApp: any = {};
   statusModalPopRef: any = [];
-  polingObj: any = {};
+  pollingSubscriber: any = null;
   initialValidations:any = {}
   currentStatusFailed: any = false;
   userInfo: any = {};
@@ -38,7 +39,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         {
           name:'Crawl Web Domain',
           description:'Extract and index web pages',
-          icon: this.imageUrl,
+          icon: 'assets/images/source-icos/faq_web_page.png',
           id:'contentWeb',
           sourceType:'content',
           resourceType:'webdomain'
@@ -46,7 +47,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         {
           name:'Extract Document',
           description:'Extract and index content',
-          icon: this.imageUrl,
+          icon: 'assets/images/source-icos/faq_automation_tool.png',
           id:'contentDoc',
           sourceType:'content',
           resourceType:'document'
@@ -59,7 +60,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         {
           name:'Extract FAQs ',
           description:'Extract and index web pages',
-          icon: this.imageUrl,
+          icon: 'assets/images/source-icos/faq_web_page.png',
           id:'faqWeb',
           sourceType:'faq',
           resourceType:''
@@ -67,7 +68,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         {
           name:'Add FAQs Manually',
           description:'Add and index web pages',
-          icon: this.imageUrl,
+          icon: 'assets/images/source-icos/faq_manual.png',
           id:'faqDoc',
           sourceType:'faq',
           resourceType:'manual'
@@ -107,49 +108,48 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
      $('#addSourceTitleInput').focus();
     },100);
   }
-  poling() {
-    const self = this;
-    clearInterval(this.polingObj.currentPoleJob);
-    setTimeout(()=>{
-      this.polingObj.currentPoleJob = setInterval(() => {
-        self.getJobStatus();
-      }, 10000);
-    },200)
-  }
-  getJobStatus() {
-    const self = this;
+  poling(sourceId) {
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
     const quaryparms: any = {
-      searchIndexId:this.searchIndexId,
-      type:this.selectedSourceType.sourceType
+      searchIndexId: this.searchIndexId,
+      type: 'faq'
     };
-    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-      const queuedJobs = _.filter(res,(source) => {
-        return (((source.status === 'running') || (source.status === 'queued')) && (source._id === this.polingObj.currentRunningResource.jobId));
+    this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
+      this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+        const queuedJobs = _.filter(res, (source) => {
+          return (((source.status === 'running') || (source.status === 'queued')) && (source._id=== sourceId));
+        });
+        if (queuedJobs && queuedJobs.length) {
+
+        } else {
+          this.pollingSubscriber.unsubscribe();
+          this.closeStatusModal();
+        }
+      }, errRes => {
+        this.pollingSubscriber.unsubscribe();
+        if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to extract web page', 'error');
+        }
       });
-      if (queuedJobs && queuedJobs.length) {
-        if(queuedJobs[0].validation)
-        this.initialValidations = queuedJobs[0].validation;
-     } else {
-       this.redirectTo();
-       console.log('No Jobs');
-       clearInterval(this.polingObj.currentPoleJob);
-     }
-    }, errRes => {
-      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to crawl web page', 'error');
-      }
-    });
+    }
+    )
   }
   openStatusModal() {
     const self= this;
-    clearInterval(this.polingObj.currentPoleJob);
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
     this.statusModalPopRef  = this.statusModalPop.open();
    }
    closeStatusModal() {
     const self= this;
-    clearInterval(this.polingObj.currentPoleJob);
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
     if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
@@ -162,14 +162,14 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.removeFile();
   }
   selectSource(selectedCrawlMethod) {
-  if(selectedCrawlMethod && (selectedCrawlMethod.sourceType === 'faq') && (selectedCrawlMethod.resourceType === 'manual')){
-    this.router.navigate(['/faqsManual'], { skipLocationChange: true })
-  } else {
+  // if(selectedCrawlMethod && (selectedCrawlMethod.sourceType === 'faq') && (selectedCrawlMethod.resourceType === 'manual')){
+  //   this.router.navigate(['/faqsManual'], { skipLocationChange: true })
+  // } else {
     this.selectedSourceType = selectedCrawlMethod;
     setTimeout(()=>{
      $('#addSourceTitleInput').focus();
     },100);
-  }
+  // }
   }
   openImageLink(url){
     window.open(url,'_blank');
@@ -291,7 +291,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       if(payload.hasOwnProperty('url')) delete payload.url;
     }
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-     this.poling();
+     this.poling(res.jobId);
      this.openStatusModal();
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -300,6 +300,32 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         this.notificationService.notify('Failed to add sources ', 'error');
       }
     });
+  }
+  addManualFaq(event){
+    console.log(event);
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      type: 'faq',
+      faqType:'manual'
+    };
+    const payload: any = {
+      desc: event.response,
+      name: event.question,
+      question: event.question,
+      answer: event.response
+      };
+    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
+       this.selectedSourceType = null;
+       event.cb('success');
+       this.router.navigate(['/faqs'], { skipLocationChange: true });
+     }, errRes => {
+       event.cb('error');
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed to add sources ', 'error');
+       }
+     });
   }
   redirectTo(){
     if(this.selectedSourceType.sourceType === 'faq'){
@@ -311,7 +337,9 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   /** proceed Source API */
   ngOnDestroy() {
      const self= this;
-      clearInterval(this.polingObj.currentPoleJob);
+     if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+     }
       console.log('PolingDistroyed');
       this.fileObj.fileAdded = false;
   }

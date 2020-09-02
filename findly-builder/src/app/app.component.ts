@@ -55,7 +55,9 @@ export class AppComponent implements OnInit {
          try {
           this.router.navigate([route], { skipLocationChange: true });
           if(route && this.pathsObj && this.pathsObj[route]){
-            this.preview(this.pathsObj[route]);
+            setTimeout(()=>{
+              this.preview(this.pathsObj[route]);
+            },200);
           }
          } catch (e) {
          }

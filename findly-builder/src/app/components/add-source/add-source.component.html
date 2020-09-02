@@ -1,7 +1,7 @@
-<div class="contentContainer">
+<div class="contentContainer" [ngClass]="{'fullHeight':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
   <div class="h-100 position-relative addNewSource">
     <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
-      <div class="crawlContent row m-0" *ngFor="let sourceCatagory of availableSources">
+      <div class="crawlContent row m-0 mb-2" *ngFor="let sourceCatagory of availableSources">
         <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
         <div class="webDomain col-3" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
           <div class="box-block">
@@ -14,7 +14,8 @@
     </div>
     <!-- FAQ Extract Doc-->
     <div *ngIf="selectedSourceType" class="crerateWebCrawl">
-      <form #sourceCreation="ngForm">
+      <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="selectedSourceType = null" *ngIf="selectedSourceType.resourceType === 'manual'"></app-add-faq>  
+      <form #sourceCreation="ngForm" *ngIf="selectedSourceType.resourceType !== 'manual' ">
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Source Title</div>
           <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter source"
@@ -75,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div class="buttonFooter">
+        <div class="buttonFooter" *ngIf="(selectedSourceType.resourceType !== 'manual')">
           <button class="kr-sg-button-primary btn_md mr-2" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
             (click)="proceedSource()">Proceed</button>
           <button class="kr-sg-button-secondary-two btn_md" (click)="cancleSourceAddition()">Back</button>

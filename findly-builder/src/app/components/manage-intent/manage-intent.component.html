@@ -31,7 +31,7 @@
           </div>  
           <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-faqs">      
             <div class="body-section">
-              <app-add-faq (addFaq)="addFaq($event)" (onCancel)="showAddFaqSection = false;checkFaqs()" *ngIf="showAddFaqSection"></app-add-faq>
+              <app-add-faq (addFaq)="addFaq($event)" (cancelfaqEvent)="showAddFaqSection = false;checkFaqs()" *ngIf="showAddFaqSection"></app-add-faq>
               <div class="d-flex justify-content-between align-items-center add-questions-btn-sec">
                 <div class="q-title" [class.invisible]="faqs.length <= 0">Questions</div>
                 <button class="kr-sg-button-secondary-two btn_md" *ngIf="!showAddFaqSection" (click)="onClickAddQuestion()">Add Question</button>

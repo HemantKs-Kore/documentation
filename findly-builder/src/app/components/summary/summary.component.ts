@@ -19,6 +19,12 @@ export class SummaryComponent implements OnInit {
   summary:any;
   showError = false;
   btLogs: any[] = [];
+  summaryObj:any ={
+    contentDocuments: [],
+    contentWebDomains: [],
+    faqWebDomains: [],
+    faqDocuments: []
+  }
   emptySummaryBlocks: any = [
   {
    stepCount: 1,

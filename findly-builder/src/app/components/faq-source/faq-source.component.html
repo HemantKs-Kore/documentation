@@ -2,8 +2,8 @@
     <div class="manage-form-please-wait-all" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
-      </div>
-    <div *ngIf="!(faqObj.allFaqs && faqObj.allFaqs.length) && !loadingFaqs" class="emptyFaqsContainer">
+    </div>
+    <div *ngIf="!(faqsAvailable) && !loadingFaqs" class="emptyFaqsContainer">
         <div class="titleContainer">
             <h1>{{'FAQs' | translate}}</h1>
             <p>{{'faqsTitleDiscription' | translate}}</p>
@@ -23,7 +23,7 @@
                 <img src="assets/images/source-icos/faq_manual.png" (click)="addfaqs('manual')">
                 <div>{{'manually_input_question_and_answers' | translate}}</div>
                </div>
-            </div>
+            </div> 
         </div>
         <div class='centerContnet'>
             <!-- <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button> -->
@@ -35,338 +35,59 @@
             <div><p><strong>{{'Train' | translate}}</strong>{{'Train_IndexingInfo' | translate}}</p></div>
         </div> -->
     </div>
-    <div class="faqsListContainer" *ngIf="(faqObj && faqObj.allFaqs && faqObj.allFaqs.length) && !loadingFaqs">       
+    <div class="faqsListContainer" *ngIf="(faqsAvailable) && !loadingFaqs">       
         <div class="faq-header-sec row m-0">
-            <div class="left-sec col-5 row m-0">
-                <div class="tab-sec d-flex col-9 p-0">
-                    <div class="tab_title" (click)="selectedtab = 'allFaqs';selectedFaq=null" [ngClass]="{'active': (selectedtab === 'allFaqs')}">All<span>({{faqObj.allFaqs.length}})</span></div>
-                    <div class="tab_title" (click)="selectedtab = 'stagedFaqs';selectedFaq=null" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">Added<span>({{faqObj.stagedFaqs.length}})</span></div>
-                    <div class="tab_title" (click)="selectedtab = 'unStagedFaqs';selectedFaq=null" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Not Added<span>({{faqObj.unStagedFaqs.length}})</span></div>
-                </div>
-                <!-- <div class="untrained-text col-3 p-0 text-right"><span>3 Untrained</span></div> -->
-            </div>
-            <div class="right-sec col-7 d-flex m-0">
-                <div class="kr-sg-input-search mr-2">                               
-                    <input type="text" placeholder="Search" id="searchFaqs" class="input-search">
-                    <img src="assets/icons/search.svg" class="search-icon">
-                </div>
-                <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button>
-                <!-- <div class="kr-sg-dropdowns mr-1">                 
-                    <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Add Question</button>                                            
-                        <ul class="dropdown-menu content-menu">                                                                     
-                          <li (click)="addfaqs('faqWeb')"><a>Document</a></li>
-                          <li (click)="addfaqs('faqDoc')"><a>Webdomain</a></li>
-                          <li (click)="addfaqs('manual')"><a>Manual</a></li>
-                        </ul>
+            <div class="headerContainer">
+                <div class="left-sec col-5 row m-0">
+                    <div class="tab-sec d-flex col-9 p-0">
+                        <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">All<span class="hide">({{faqs.length}})</span></div>
+                        <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">Added<span class="hide">({{faqs.length}})</span></div>
+                        <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Not Added<span class="hide">({{faqs.length}})</span></div>
                     </div>
-                </div>                 -->
-                <!-- <div class="manage-extracts-title">Manage Extracts</div> -->
-                <!-- <span class="dropdown kr-sg-overflow-menu m-0">
-                    <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon" src="assets/icons/overflow.svg">
-                    </div>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                      <li><a ><img src="assets/icons/check.svg">Option1</a></li>
-                      <li><a ><img src="assets/icons/check.svg">Option1</a></li>                      
-                    </ul>
-                </span> -->
-            </div>
-        </div>
-        
-        <!-- Template one -->
-        <div class="faq-body hide">    
-            <perfect-scrollbar class="faq-scrollbar">
-                <div class="kr-sg-data-table accordion-table">                
-                    <section class="table-content">
-                        <header class="table-header">
-                            <div class="col-8">
-                                <div class="col p-0">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                        <input id="table_checked3" class="checkbox-custom" type="checkbox">
-                                        <label for="table_checked3" class="checkbox-custom-label">All</label>
-                                    </div> 
-                                    <span class="acc-header-title">Questions</span>
-                                </div>                            
-                            </div>
-                            <div class="col-2">
-                                <div class="col p-0">Sources<img class="ml-2" src="assets/icons/caretDown.svg"></div>                            
-                            </div>  
-                            <div class="col-2">
-                                <div class="col p-0"></div>                            
-                            </div>                      
-                        </header>
-                        <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table1">
-                            <div class="col-8">
-                                <div class="col p-0">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                        <input id="table_checked5" class="checkbox-custom" type="checkbox">
-                                        <label for="table_checked5" class="checkbox-custom-label"></label>
-                                    </div> 
-                                    <span class="acc-title">How to transfer from current account</span>
-                                </div>                           
-                            </div>
-                            <div class="col-2">
-                                <div class="col p-0">City Bank</div>                            
-                            </div>  
-                            <div class="col-2">
-                                <div class="col p-0 justify-content-end">
-                                    <img src="assets/images/trashIcon.svg" class="ml-5">
-                                    <img src="assets/images/trashIcon.svg" class="ml-5">
-                                </div>                            
-                            </div>                         
+                </div>
+                <div class="col-3 pr-0 m-0">
+                    <div class="kr-sg-dropdowns sourceSelection">                           
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{sekectedResource?sekectedResource.name:'All'}}</button>                                            
+                            <ul class="dropdown-menu content-menu">
+                                <li (click)="selectResourceFilter()"><a >All</a></li>
+                                <ng-container *ngFor="let source of resources">
+                                    <li *ngIf="source.status==='success'" (click)="selectResourceFilter(source)"><a >{{source.name}}</a></li>
+                                </ng-container>                                                                          
+                               
+                            </ul>
                         </div>
-                        <div id="accordion-table1" class="collapse accordion-table">
-                            <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
-                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                            <div class="tags-sec">
-                                <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
-                                <div class="follow_up_que">+ Add a Followup Question</div>
-                            </div>
-                            <div class="train-your-question-sec">
-                                <div class="label_text">Train Your Question</div>
-                                <div class="box-train">
-                                    <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
-                                    <div class="kr-sg-input-search mb-2">                                                                     
-                                        <input type="text" placeholder="Search" class="input-search">
-                                        <img src="assets/icons/search.svg" class="search-icon">
-                                    </div>
-                                    <div class="kr-sg-input-text mb-3">                                    
-                                        <input type="text" placeholder="Placeholder text" class="input-text">                                    
-                                    </div>
-                                    <button class="kr-sg-button-primary btn_md mr-3">Save</button>
-                                    <button class="kr-sg-button-secondary btn_md">Cancel</button>
-                                </div>
-                            </div>                         
-                            <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
-                            <div class="questions-items">
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">
-                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>  
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">
-                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">
-                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>                              
-                            </div>
-                            <div class="empty-questions-selected">
-                                <img src="assets/images/icons/empty-illustration.svg">
-                                <div class="heading">No Questions selected yet</div>
-                                <div class="desc">Please select a question to get auto suggested similar Questions.</div>
-                            </div>                            
-                        </div>                    
-                        <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table2">
-                            <div class="col-8">
-                                <div class="col p-0">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                        <input id="table_checked4" class="checkbox-custom" type="checkbox">
-                                        <label for="table_checked4" class="checkbox-custom-label"></label>
-                                    </div> 
-                                    <span class="acc-title">I would like to chage my credit card details</span>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="col p-0">Citi Bank</div>                            
-                            </div>  
-                            <div class="col-2">
-                                <div class="col p-0 justify-content-end">
-                                    <img src="assets/images/trashIcon.svg" class="ml-5">
-                                    <img src="assets/images/trashIcon.svg" class="ml-5">
-                                </div>                            
-                            </div>                     
-                        </div>
-                        <div id="accordion-table2" class="collapse accordion-table">
-                            <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
-                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                            <div class="tags-sec">
-                                <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
-                                <div class="follow_up_que">+ Add a Followup Question</div>
-                            </div>
-                            <div class="train-your-question-sec">
-                                <div class="label_text">Train Your Question</div>
-                                <div class="box-train">
-                                    <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
-                                    <div class="kr-sg-input-search mb-2">                                                                     
-                                        <input type="text" placeholder="Search" class="input-search">
-                                        <img src="assets/icons/search.svg" class="search-icon">
-                                    </div>
-                                    <div class="kr-sg-input-text mb-3">                                    
-                                        <input type="text" placeholder="Placeholder text" class="input-text">                                    
-                                    </div>
-                                    <button class="kr-sg-button-primary btn_md mr-3">Save</button>
-                                    <button class="kr-sg-button-secondary btn_md">Cancel</button>
-                                </div>
-                            </div>                         
-                            <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
-                            <div class="questions-items">
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>  
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>                              
-                            </div>
-                            <div class="empty-questions-selected">
-                                <img src="assets/images/icons/empty-illustration.svg">
-                                <div class="heading">No Questions selected yet</div>
-                                <div class="desc">Please select a question to get auto suggested similar Questions.</div>
-                            </div>                            
-                        </div>  
-                        <div class="content-body collapsed-default collapsed" data-toggle="collapse" data-target="#accordion-table3">
-                            <div class="col-8">
-                                <div class="col p-0">
-                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                        <input id="table_checked4" class="checkbox-custom" type="checkbox">
-                                        <label for="table_checked4" class="checkbox-custom-label"></label>
-                                    </div> 
-                                    <span class="acc-title">I would like to chage my credit card details</span>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="col p-0">Citi Bank</div>                            
-                            </div>  
-                            <div class="col-2">
-                                <div class="col p-0 justify-content-end">
-                                    <img src="assets/images/trashIcon.svg" class="ml-5">
-                                    <img src="assets/images/trashIcon.svg" class="ml-5">
-                                </div>                            
-                            </div>                     
-                        </div>
-                        <div id="accordion-table3" class="collapse accordion-table">
-                            <div class="title-source">Source:<span class="source-name">Citi Bank</span></div>
-                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                            <div class="info-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                            <div class="tags-sec">
-                                <div class="tags">Tags: <span>#Citi Bank</span>, <span>#Citi Bank</span></div>
-                                <div class="follow_up_que">+ Add a Followup Question</div>
-                            </div>
-                            <div class="train-your-question-sec">
-                                <div class="label_text">Train Your Question</div>
-                                <div class="box-train">
-                                    <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
-                                    <div class="kr-sg-input-search mb-2">                                                                     
-                                        <input type="text" placeholder="Search" class="input-search">
-                                        <img src="assets/icons/search.svg" class="search-icon">
-                                    </div>
-                                    <div class="kr-sg-input-text mb-3">                                    
-                                        <input type="text" placeholder="Placeholder text" class="input-text">                                    
-                                    </div>
-                                    <button class="kr-sg-button-primary btn_md mr-3">Save</button>
-                                    <button class="kr-sg-button-secondary btn_md">Cancel</button>
-                                </div>
-                            </div>                         
-                            <div class="alt-questions">Alternate Questions <span class="count">(3)</span></div>
-                            <div class="questions-items">
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>  
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="selected-questions-list">
-                                    <div class="question">What is the process of creating inst account in citi bank?</div>
-                                    <span class="selected-tags">
-                                        <span class="tags-length">3 tags</span>
-                                        <span class="edit-delete-icons">                                           
-                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                        </span>
-                                    </span>
-                                </div>                              
-                            </div>
-                            <div class="empty-questions-selected">
-                                <img src="assets/images/icons/empty-illustration.svg">
-                                <div class="heading">No Questions selected yet</div>
-                                <div class="desc">Please select a question to get auto suggested similar Questions.</div>
-                            </div>                            
-                        </div>                   
-                    </section>                               
+                    </div>                         
                 </div> 
-            </perfect-scrollbar>                    
+                <div class="right-sec col-4 d-flex m-0">
+                    <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button>
+                </div>
+            </div>
         </div>
-
         <!-- Template Two -->
         <div class="faq-content-boxes">
             <div class="content faq_tasks_list">
               <div class="box">               
-                <div class="header_sec d-flex justify-content-between align-items-center">
-                    <div class="col-4">
+                <div class="header_sec d-flex justify-content-between align-items-center"> 
+                    <!-- <div class="col-2 pr-0">
                         <div class="col p-0">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" *ngIf="(faqObj && faqObj[selectedtab] && faqObj[selectedtab].length)">
+                            <div class="kr-sg-checkbox pr-0 mb-0" (click)="$event.stopImmediatePropagation();" *ngIf="(faqs && faqs.length)">
                                 <input id="selectAllFaqs" class="checkbox-custom selectAllFaqsInput" (change)="selectAll()" [(ngModel)]="selectAllFaqs" type="checkbox">
-                                <label for="selectAllFaqs" class="checkbox-custom-label">Select All</label>
+                                <label for="selectAllFaqs" class="checkbox-custom-label">All</label>
                             </div>                             
                         </div>                            
-                    </div>                                 
-                    <div class="col-4 pr-0">
-                        <div class="kr-sg-dropdowns">                           
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select Extracts</button>                                            
-                                <ul class="dropdown-menu content-menu">                                                                              
-                                    <li *ngFor="let source of resources"><a >{{source.name}}</a></li>
-                                </ul>
-                            </div>
-                        </div>                         
-                    </div>   
-                    <div class="col-4">
+                    </div>
+                    <div class="col-2 pl-0">
+                        <button class="kr-sg-button-primary btn_md mr-3">Stage</button>                         
+                    </div>  -->
+                    <div class="kr-sg-input-search col-10">                               
+                        <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" class="input-search">
+                        <img src="assets/icons/search.svg" class="search-icon stageQuestions">
+                    </div>
+                    <div class="col-2 pl-0">
                         <div class="kr-sg-dropdowns add-que-drpdown">                           
                             <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Add Questions</button>                                            
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">New</button>                                            
                                 <ul class="dropdown-menu content-menu">    
                                     <li (click)="addfaqs('manual')"><a>Manual</a></li>
                                     <li (click)="addfaqs('faqDoc')"><a>Extrat from Document</a></li>
@@ -376,35 +97,38 @@
                         </div>                          
                     </div>                   
                 </div>
-                <perfect-scrollbar class="scroll-faqs">      
-                  <div class="body-section pt-0">                   
-                    <div class="kr-sg-data-table accordion-table" *ngIf="(faqObj && faqObj[selectedtab] && faqObj[selectedtab].length)">                
-                        <section class="table-content">  
+                <perfect-scrollbar class="scroll-faqs"> 
+                 <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="showAddFaqSection = false" *ngIf="showAddFaqSection"></app-add-faq>  
+                  <div class="body-section pt-0" *ngIf="!loadingTab">                   
+                    <div class="kr-sg-data-table accordion-table" *ngIf="(faqs && faqs.length)">                
+                        <section class="table-content faqsListing">  
                             <div id="faqaccordianGroup" class="accordion">
-                                <ng-container *ngFor="let faq of faqObj[selectedtab]">
+                                <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question'] ">
                                     <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)" class="content-body collapsed-default collapsed" data-toggle="collapse" [attr.data-target]="'#'+faq._id" aria-expanded="true" [attr.aria-controls]="collapseOne">
                                         <div class="col-9">
                                             <div class="col p-0">
-                                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                    <input [attr.id]="'selectFaqCheckBox' + faq._id" class="checkbox-custom selectEachfaqInput" type="checkbox">
+                                                <!-- <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                    <input [attr.id]="'selectFaqCheckBox' + faq._id" (change)="checkUncheckfaqs()" class="checkbox-custom selectEachfaqInput" type="checkbox">
                                                     <label [attr.for]="'selectFaqCheckBox' + faq._id" class="checkbox-custom-label"></label>
-                                                </div> 
+                                                </div>  -->
                                                 <span class="acc-title">{{faq.question}}</span>
                                             </div>                           
                                         </div>                              
                                         <div class="col-3">
                                             <div class="col p-0 justify-content-end">
-                                                <img src="assets/images/trashIcon.svg" class="ml-4">
+                                                <img (click)="stageUnstageQuestion(faq)" class="staged ml-4" *ngIf="!faq.staged && !faq.statusUpdateInProgress" src="assets/images/closeCross.png">
+                                                <i (click)="stageUnstageQuestion(faq)" class="unStaged ml-4" *ngIf="faq.staged && !faq.statusUpdateInProgress">-</i>
+                                                <img class="spinner ml-4" *ngIf="faq.statusUpdateInProgress" src="assets/images/spinner-small.svg">
                                                 <img src="assets/images/trashIcon.svg" class="ml-4">
                                             </div>                            
                                         </div>                         
                                     </div>
                                     <div id="{{faq._id}}" class="collapse accordion-table"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id">
                                         <div class="title-source">Source:<span class="source-name">{{faq.source}}</span></div>
-                                        <div class="info-content"  [innerHtml]="faq.body"></div>
+                                        <div class="info-content"  [innerHtml]="faq.answer"></div>
                                         <div class="tags-sec">
                                             <div class="tags">Tags: <span *ngFor="let tag of faq.keywords">{{tag}}</span></div>
-                                            <div class="follow_up_que">+ Add a Followup Question</div>
+                                            <!-- <div class="follow_up_que">+ Add a Followup Question</div> -->
                                         </div>
                                         <div class="train-your-question-sec">
                                             <div class="label_text">Train Your Question</div>
@@ -439,20 +163,29 @@
                                        
                                         <div class="empty-questions-selected" *ngIf="!(faq.alternateQuestions && faq.alternateQuestions.length)">
                                             <img src="assets/images/icons/empty-illustration.svg">
-                                            <div class="heading">No Questions selected yet</div>
-                                            <div class="desc">Please select a question to get auto suggested similar Questions.</div>
+                                            <div class="heading">Add alternate questions</div>
+                                            <div class="desc">Add alternate forms of the question that your customers would generally use.</div>
                                         </div>                            
                                     </div> 
-                                </ng-container>  
+                                </ng-container>
+                                <div class="empty-questions-selected emptySearch">
+                                    <div class="heading">No search results</div>
+                                </div>
                             </div> 
                         </section>                               
                     </div> 
-                    <div class="empty-questions-selected"  *ngIf="!(faqObj && faqObj[selectedtab] && faqObj[selectedtab].length)">
+                    <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
                         <img src="assets/images/icons/empty_ill.svg">
                         <div class="heading">No Questions</div>
                         <div class="desc">Please add questions</div>
                     </div>
-                  </div>   
+                  </div> 
+                  <div *ngIf="loadingTab">
+                    <div class="manage-form-please-wait-all" [@fadeInOutAnimation]>
+                        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+                        <span class="please-wait-message">{{'please_wait' | translate}}</span>
+                    </div>
+                  </div>
                 </perfect-scrollbar>                
               </div>
             </div>
@@ -473,7 +206,7 @@
                                     <input type="text" placeholder="Add alternate questions or select from suggestions" class="input-search">
                                     <img src="assets/images/search-gray.svg" class="search-icon">
                                   </div>                                        
-                                  <ul class="dropdown-menu content-menu">                                                                  
+                                  <ul class="dropdown-menu content-menu hide">                                                                  
                                     <li><a >What are the process of creating insta account in citibank ?</a></li>
                                     <li><a >Please provide the process of insta account ?</a></li>
                                     <li><a >Insta account in citibank - process ?</a></li>
