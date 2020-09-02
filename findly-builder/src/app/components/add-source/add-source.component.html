@@ -1,12 +1,14 @@
 <div class="contentContainer" [ngClass]="{'fullHeight':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
   <div class="h-100 position-relative addNewSource">
     <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
-      <div class="crawlContent row m-0 mb-2" *ngFor="let sourceCatagory of availableSources">
+      <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">
         <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
-        <div class="webDomain col-3" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+        <div class="webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
           <div class="box-block">
             <div class="title label_text m-0">{{source.name}}</div>
-            <div class="imageDiv"><img src="{{source.icon}}"></div>
+            <div class="imageDiv">
+              <img src="{{source.icon}}">
+            </div>
             <div class="info-text">{{source.description}}</div>
           </div>
         </div>

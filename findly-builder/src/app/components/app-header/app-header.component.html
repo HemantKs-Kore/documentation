@@ -1,13 +1,26 @@
 <header>
     <nav class="findlyHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <img src="assets/images/findly-logo.svg" class="logoKoreIcon">
-            <div class="homePageTitle">
+            <div class="homePageTitle d-none">
                 <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
             </div>
-            <ul class="navbar-nav nav-flex-icons">
+            <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content">   
+                <li class="nav-item pr-4 mr-2">
+                    <img src="assets/icons/sidemenu/search.svg">
+                    <div class="kr-sg-input-search d-none">                               
+                        <input type="text" placeholder="Search" class="input-search">
+                        <img src="assets/images/close.svg" class="search-icon">
+                    </div>
+                </li>            
+                <li class="nav-item pr-4 mr-2">
+                    <img src="assets/icons/sidemenu/notification.svg">
+                </li>
+                <li class="nav-item pr-4 mr-2">
+                    <img src="assets/icons/sidemenu/help.svg">
+                </li>
                 <li class="nav-item">
-                    <button mat-button [matMenuTriggerFor]="menu" class="headerIcons"><img src="assets/images/avatar.svg" ></button>
+                    <button mat-button [matMenuTriggerFor]="menu" class="headerIcons p-0"><img src="assets/images/avatar.svg"></button>
                     <mat-menu #menu="matMenu" class="headerDropDown">
                         <div class="accountsSwitchDiv">
                             <div class="titleaccounts">Accounts</div>
@@ -17,7 +30,7 @@
                         <button mat-menu-item (click)="switchAccount()" class="switchAccount" *ngIf="showSwichAccountOption">Switch Account</button>
                         <button mat-menu-item (click)="logoutClick()" class="logOut"><img src="assets/images/poweroffIcon.svg" class="poweroffIcon">Logout</button>
                     </mat-menu>
-                </li>
+                </li>                
             </ul>
         </div>
     </nav>

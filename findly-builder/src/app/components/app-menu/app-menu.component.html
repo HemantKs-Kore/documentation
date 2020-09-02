@@ -1,67 +1,61 @@
 <!-- Sidebar -->
-<div class="sidebar-fixed position-fixed activeMenu" >
-	<div class="list-group list-group-flush">
-	<div class="logosDiv" (click)="goHome()" skipLocationChange (click)="preview('')">
-			<img src="assets/images/findly-icon.png" class="logoIcon">
-			<img src="assets/images/findly-logo.svg" class="logoKoreIcon">
-		</div>
-		<button [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active"  mat-button class="mat-button">
+<div class="sidebar-fixed position-fixed activeMenu">
+	<div class="list-group list-group-flush">	
+		<div [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active" mat-button class="mat-button">
 			<span class="inlineIconBox">
-				<img src="assets/images/left-menu-icons/newIcons/dashboard.svg" class="dashboard">
-				<img src="assets/images/left-menu-icons/newIcons/dashboard-white.svg" class="dashboard-white">
+				<img src="assets/icons/sidemenu/summery.svg" class="dashboard">			
 			</span>
-			<span  class="linkTitle">Summary</span>
-		</button>
-		<div  class="mat-button mat_button_cutom_nav activeSubMenu" >
-			<div routerLinkActive="active" (click)="preview('Source')">
-				<span class="inlineIconBox" [routerLink]="['/source']" skipLocationChange>
-					<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-gray.svg" class="publish">
-					<img src="assets/images/left-menu-icons/newIcons/Assistant-Configuration-white.svg" class="publish-white">
-				</span>
-				<span class="linkTitle" [routerLink]="['/source']" skipLocationChange>Source</span>
-			</div>
-			<div class="hoverIcons">
-				<div class="subMenu" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>
-					Content
-				</div>
-				<div class="subMenu"  routerLinkActive="active"  (click)="preview('Faqs')" mat-button>
-					<div [routerLink]="['/faqs']" skipLocationChange>Faqs</div>
-					<div class="hide" [routerLink]="['/faqsmanual']" skipLocationChange>Faqs</div>
-				</div>
-				<div class="subMenu" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>
-					Bot Actions
-				</div>
-			</div>
+			<span class="linkTitle">Summary</span>
 		</div>
-		<button mat-button>
-			<span class="inlineIconBox leftAdjust">	
-				<img src="assets/images/left-menu-icons/newIcons/Summery.svg" class="ivr">
-				<img src="assets/images/left-menu-icons/newIcons/Summery-white.svg" class="ivr-white">
+
+		<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']" routerLinkActive="active" (click)="preview('Source')"></div>
+
+		<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>			
+			<span class="inlineIconBox" [routerLink]="['/content']" skipLocationChange>
+				<img src="assets/icons/sidemenu/content.svg">				
+			</span>
+			<span class="linkTitle" [routerLink]="['/content']" skipLocationChange>Content</span>
+		</div>
+		<div mat-button class="mat-button" routerLinkActive="active" (click)="preview('Faqs')" mat-button>
+			<span class="inlineIconBox" [routerLink]="['/faqs']" skipLocationChange>
+				<img src="assets/icons/sidemenu/faq.svg">				
+			</span>
+			<span class="linkTitle" [routerLink]="['/faqs']" skipLocationChange>Faqs</span>		
+		</div>
+		<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>			
+			<span class="inlineIconBox" [routerLink]="['/botActions']" skipLocationChange>
+				<img src="assets/icons/sidemenu/botactions.svg">				
+			</span>
+			<span class="linkTitle" [routerLink]="['/botActions']" skipLocationChange>Bot Actions</span>
+		</div>		
+		
+		<!-- <button mat-button>
+			<span class="inlineIconBox leftAdjust">
+				<img src="assets/images/left-menu-icons/newIcons/Summery.svg">				
 			</span>
 			<span class="linkTitle">Preview</span>
-		</button>
-		
-		<button  mat-button>
+		</button> -->
+
+		<div class="sub-title">training</div>
+
+		<div mat-button class="mat-button">
 			<span class="inlineIconBox leftAdjust">
-				<img src="assets/images/left-menu-icons/newIcons/Logs.svg" class="callHistory">
-				<img src="assets/images/left-menu-icons/newIcons/Logs-white.svg" class="callHistory-white">
+				<img src="assets/icons/sidemenu/training.svg" class="callHistory">				
 			</span>
-			<span  class="linkTitle">Training</span> 
-		</button>
-		<button mat-button>
+			<span class="linkTitle">Training</span>
+		</div>
+		<div mat-button class="mat-button">
 			<span class="inlineIconBox">
-				<img src="assets/images/left-menu-icons/newIcons/publish.svg" class="publish">
-				<img src="assets/images/left-menu-icons/newIcons/publish-white.svg" class="publish-white">
+				<img src="assets/icons/sidemenu/metrics.svg" class="publish">				
 			</span>
-			<span  class="linkTitle">Metrics</span> 
-		</button>
-		<button mat-button>
+			<span class="linkTitle">Metrics</span>
+		</div>
+		<div mat-button class="mat-button settings-menu">
 			<span class="inlineIconBox">
-				<img src="assets/images/left-menu-icons/newIcons/publish.svg" class="publish">
-				<img src="assets/images/left-menu-icons/newIcons/publish-white.svg" class="publish-white">
+				<img src="assets/icons/sidemenu/settings.svg" class="publish">				
 			</span>
-			<span  class="linkTitle">Settings</span> 
-		</button>
+			<span class="linkTitle">Settings</span>
+		</div>
 	</div>
 </div>
-<!-- Sidebar -->  
+<!-- Sidebar -->

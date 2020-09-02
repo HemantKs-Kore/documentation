@@ -34,41 +34,57 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
   availableSources:any = [
     {
-      title: 'Crawl content from web pages, documnets and other sources',
+      title: 'Add Content',
       sources: [
         {
           name:'Crawl Web Domain',
           description:'Extract and index web pages',
-          icon: 'assets/images/source-icos/faq_web_page.png',
+          icon: 'assets/images/source-icos/crawlwebdomain.svg',
           id:'contentWeb',
           sourceType:'content',
           resourceType:'webdomain'
         },
         {
-          name:'Extract Document',
-          description:'Extract and index content',
-          icon: 'assets/images/source-icos/faq_automation_tool.png',
+          name:'Upload File',
+          description:'Index file content',
+          icon: 'assets/images/source-icos/file_upload.svg',
           id:'contentDoc',
+          sourceType:'content',
+          resourceType:'document'
+        },
+        {
+          name:'Others',
+          description:'Extract content from other',
+          icon: 'assets/images/source-icos/others.svg',
+          id:'contentothers',
           sourceType:'content',
           resourceType:'document'
         }
       ]
     },
     {
-      title: 'Extract FAQs from web pages and documents or add manually',
+      title: 'Extract FAQs',
       sources: [
         {
           name:'Extract FAQs ',
-          description:'Extract and index web pages',
-          icon: 'assets/images/source-icos/faq_web_page.png',
+          description:'Extract FAQs from web pages',
+          icon: 'assets/images/source-icos/globe.svg',
           id:'faqWeb',
           sourceType:'faq',
           resourceType:''
         },
         {
+          name:'Import FAQs',
+          description:'Annotate and extract FAQs',
+          icon: 'assets/images/source-icos/importfaq.svg',
+          id:'faqDoc',
+          sourceType:'faq',
+          resourceType:'importfaq'
+        },
+        {
           name:'Add FAQs Manually',
-          description:'Add and index web pages',
-          icon: 'assets/images/source-icos/faq_manual.png',
+          description:'Manually Input FAQs',
+          icon: 'assets/images/source-icos/addfaqmanually.svg',
           id:'faqDoc',
           sourceType:'faq',
           resourceType:'manual'

@@ -2,11 +2,9 @@
 @import './../../../app/scss/variables/variables.scss';
 
 .findlyHeader{
-   padding-left: 10px !important;
-  //  box-shadow: 0px 2px 0px 0px rgba(138, 149, 159, 0.2);
-   box-shadow: 0 0 6px 0 rgba(138, 149, 159, 0.5);
+   box-shadow: 0px 1px 5px rgba(32, 33, 36, 0.2);;
    background: $whiteColor;
-   padding: 8px 0rem;
+   padding: 12px 20px;
    z-index: 100 !important;
    &.onboarding-header{
      box-shadow: none;
@@ -40,6 +38,13 @@
         .headerIcons{
           .mat-button-focus-overlay{
             display: none !important;
+          }
+        }
+      }
+      .right-menu-content{
+        .nav-item{
+          img{
+            cursor: pointer;
           }
         }
       }
