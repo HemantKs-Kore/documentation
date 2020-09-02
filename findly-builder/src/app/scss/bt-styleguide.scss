@@ -1653,6 +1653,7 @@ and open the template in the editor.
         color: $primaryColor;
         width: 100%;
         line-height: normal;
+        resize: none;
         &::placeholder{
             color: $secondaryColor;         
         }
