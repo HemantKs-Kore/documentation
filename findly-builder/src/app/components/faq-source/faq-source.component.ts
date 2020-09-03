@@ -10,6 +10,9 @@ import { tempdata } from './tempdata';
 import * as _ from 'underscore';
 import { from, interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 declare const $: any;
 
 @Component({
@@ -52,13 +55,19 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   searchFaq = '';
   stageMsgImg = 'https://www.svgrepo.com/show/121146/add-circular-interface-button.svg';
   unStageMsgImg = 'https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/1297235041547546467-512.png';
+  statusModalPopRef: any = [];
+  addSourceModalPopRef: any = [];
+  showSourceAddition:any = null;
+  @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
+  @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -74,6 +83,33 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   addNewContentSource(type) {
     this.router.navigate(['/source'], { skipLocationChange: true, queryParams: { sourceType: type } });
   }
+  openStatusModal() {
+    this.statusModalPopRef  = this.statusModalPop.open();
+   }
+   closeStatusModal() {
+    if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
+   }
+   openAddSourceModal() {
+    this.addSourceModalPopRef  = this.addSourceModalPop.open();
+   }
+   closeAddsourceModal() {
+    if (this.addSourceModalPopRef &&  this.addSourceModalPopRef.close) {
+      this.addSourceModalPopRef.close();
+    }
+   }
+   onSourceAdditionClose(){
+    this.closeAddsourceModal();
+    this.showSourceAddition = null;
+   }
+   onSourceAdditionSave(){
+    this.showSourceAddition = null;
+   }
+   addFaqSource(type?){
+     this.showSourceAddition = true;
+    this.openAddSourceModal();
+   }
   selectAll() {
     const allFaqs = $('.selectEachfaqInput');
     if (allFaqs && allFaqs.length){
@@ -289,6 +325,52 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+  deleteQuestion(index) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete FAQ',
+        text: 'Are you sure you want to delete selected question?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          dialogRef.close();
+          console.log('deleted')
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteAltQuestion(index) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Alternate Question',
+        text: 'Are you sure you want to delete selected alternate question?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          dialogRef.close();
+          console.log('deleted')
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
   }
   openStatusSlider() {
     this.sliderComponent.openSlider('#faqsSourceSlider', 'right500');

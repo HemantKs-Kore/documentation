@@ -8,7 +8,7 @@
 			<span class="linkTitle">Summary</span>
 		</div>
 
-		<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']" routerLinkActive="active" (click)="preview('Source')"></div>
+		<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')"></div>
 
 		<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>			
 			<span class="inlineIconBox">
@@ -16,7 +16,7 @@
 			</span>
 			<span class="linkTitle">Content</span>
 		</div>
-		<div [routerLink]="['/faqs']" mat-button class="mat-button" routerLinkActive="active" (click)="preview('Faqs')" mat-button>
+		<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active" (click)="preview('Faqs')" mat-button>
 			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/faq.svg">				
 			</span>
@@ -38,7 +38,7 @@
 
 		<div class="sub-title">training</div>
 
-		<div mat-button class="mat-button">
+		<div mat-button class="mat-button"  [routerLink]="['/faqsManual']" skipLocationChange routerLinkActive="active">
 			<span class="inlineIconBox leftAdjust">
 				<img src="assets/icons/sidemenu/training.svg" class="callHistory">				
 			</span>

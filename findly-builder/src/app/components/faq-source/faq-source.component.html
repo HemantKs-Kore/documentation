@@ -27,7 +27,7 @@
         </div>
         <div class='centerContent'>
             <!-- <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button> -->
-            <button class="kr-sg-button-primary" (click)="openStatusSlider()">Check Extracts</button>
+            <button class="kr-sg-button-primary" (click)="openStatusModal()">Check Extracts</button>
         </div>
         <!-- <div class="additionalInfoContainer">
             <div><p><strong>{{'Auto_indexing' | translate}}</strong>{{'Auto_IndexingInfo' | translate}}</p></div>
@@ -60,7 +60,7 @@
                     </div>                         
                 </div> 
                 <div class="right-sec col-4 d-flex m-0">
-                    <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button>
+                    <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusModal()">Check Extracts</button>
                 </div>
             </div>
         </div>
@@ -253,57 +253,59 @@
         </div>
     </div>
 </div>
-<app-slider-component id="faqsSourceSlider">
-    <div class="sliderContainer">
-      <div class="sliderHeader">
-        <h4 class="slider-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='closeStatusSlider()'></h4>
+
+
+<kr-modal modalType="center" modalClass="faqSourceListing" #statusModalPop>
+    <div class="modal-header">
+        <h4 class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='closeStatusModal()'></h4>
         <div class="table-action-header">       
             <div class="kr-sg-input-search">                               
               <input type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
               <img src="assets/icons/search.svg" class="search-icon">
             </div>
-            <button class="kr-sg-button-primary btn_md "  mat-button [matMenuTriggerFor]="addSource">Add Source</button>
-            <mat-menu #addSource="matMenu">
-              <button mat-menu-item (click)="addfaqs('faqWeb')">Webdomain</button>
-              <button mat-menu-item (click)="addfaqs('faqDoc')">Document</button>
-            </mat-menu>
-        </div>
-      </div>
-        <div class="sliderBody">
-            <div  class="table-list-content">
-                <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
-                  <section class="table-content">
-                      <header class="table-header">
-                          <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                          <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                          <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                          <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                          <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                          <div class="col" (click)="sortBy('createdOn')">Reviewed <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                          <div class="col last-child" (click)="sortBy('name')"></div>
-                      </header>
-                      <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
-                      <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
-                          <div class="col">{{source.title || source.name}}</div>
-                          <div class="col">{{source.source | titlecase}}</div>
-                          <div class="col">
-                            <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
-                            <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                          </div>
-                          <div class="col">{{source.extracted || '0'}}</div>
-                          <div class="col">{{source.staged || '0'}}</div>
-                          <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-                          <div class="col text-right last-child" >
-                            <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
-                            <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
-                         </div>
-                      </div>
-                      <div class="empty">No Search Results found</div>
-                      </perfect-scrollbar>
-                      
-                  </section>                               
-              </div>
-            </div>
+            <button class="kr-sg-button-primary btn_md" (click)='addFaqSource()'>Add Source</button>
         </div>
     </div>
-</app-slider-component>
+    <div class="modal-body source-modal-popup">
+        <div  class="table-list-content">
+            <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+              <section class="table-content">
+                  <header class="table-header">
+                      <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                      <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                      <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                      <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                      <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                      <div class="col" (click)="sortBy('createdOn')">Reviewed <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                      <div class="col last-child" (click)="sortBy('name')"></div>
+                  </header>
+                  <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
+                  <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+                      <div class="col">{{source.title || source.name}}</div>
+                      <div class="col">{{source.source | titlecase}}</div>
+                      <div class="col">
+                        <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
+                        <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+                      </div>
+                      <div class="col">{{source.extracted || '0'}}</div>
+                      <div class="col">{{source.staged || '0'}}</div>
+                      <div class="col">{{source.createdOn | dateFormatPipe}}</div>
+                      <div class="col text-right last-child" >
+                        <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
+                        <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
+                     </div>
+                  </div>
+                  <div class="empty">No Search Results found</div>
+                  </perfect-scrollbar>
+                  
+              </section>                               
+          </div>
+        </div>
+    </div>
+</kr-modal>
+
+<kr-modal modalType="center" modalClass="faqSourceListing" #addSourceModalPop>
+    <ng-container *ngIf="showSourceAddition">
+        <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="'faqDoc'" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+    </ng-container>
+</kr-modal>

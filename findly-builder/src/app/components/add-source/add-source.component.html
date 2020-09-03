@@ -1,5 +1,6 @@
 
 <div class="contentContainer" [ngClass]="{'fullHeight':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
+  <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4>
   <perfect-scrollbar>
     <div class="h-100 position-relative addNewSource">
       <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
@@ -95,69 +96,71 @@
 </div>
 <kr-modal modalType="default" #statusModalPop>
   <div class="status-modal-popup">
-    <div class="modal_content">
-      <div class="modal-header">Crawl Web Domain <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
-      <div class="modal-body" *ngIf="selectedSourceType">
-        <div class="success-check" *ngIf="(initialValidations.urlValidation && initialValidations.network && initialValidations.ristrictions)">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
+      <div class="modal-body" >
+        <div class="success-check"  *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !(statusObject.status==='failed')">
           <img src="assets/icons/check-white.svg">
         </div>
-        <div class="error-check" *ngIf="(statusObject.status==='failed') ">
+        <div class="configInProgress" *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
+          <img class="loadingConfigs" src="assets/icons/gear-spinner.svg">
+        </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed') && !((statusObject.status==='success') || (statusObject.status==='failed'))">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
-        <div class="configInProgress">
-          <img class="loadingConfigs" src="assets/images/source-icos/success-icon.svg">
-        </div>
-        <div class="message-success text-center">
+        <div class="message-success text-center" *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
           {{(initialValidations.urlValidation && initialValidations.network && initialValidations.ristrictions)?'Successfully Configured':'Configuration In Progress'}}
         </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+         Source added Successfully
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          Failed to add Source
+        </div>
+        <ng-container *ngIf="statusObject && statusObject.validation && !((statusObject.status==='success') || (statusObject.status==='failed'))">
         <div class="status-identification-content">
           <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
-            <!-- <mat-spinner *ngIf="!initialValidations.urlValidation" diameter="18" strokeWidth="2"></mat-spinner> -->
             <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.urlValidation">
             <img *ngIf="initialValidations.urlValidation" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
             <span>Initial URL validation done</span>
           </div>
           <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'document')">
-            <!-- <mat-spinner *ngIf="!initialValidations.fileValidation" diameter="18" strokeWidth="2"></mat-spinner> -->
             <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.fileValidation">
             <img *ngIf="initialValidations.fileValidation" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
             <span>Initial file validation done</span>
           </div>
           <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')">
             <div class="content-title">
-              <!-- <mat-spinner *ngIf="!initialValidations.validated" diameter="18" strokeWidth="2"></mat-spinner> -->
               <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
               <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>Network Connectivity</span>
             </div>
             <div class="content-title">
-              <!-- <mat-spinner *ngIf="!initialValidations.validated" diameter="18" strokeWidth="2"></mat-spinner> -->
               <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
               <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>Indexing Ristrictions</span>
             </div>
           </div>
           <div class="content-title" *ngIf="selectedSourceType.sourceType === 'faq'">
-            <!-- <mat-spinner *ngIf="!initialValidations.validated" diameter="18" strokeWidth="2"></mat-spinner> -->
             <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
             <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
             <span>Indexing Ristrictions</span>
           </div>
         </div>
-        <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'content'"> 
+        </ng-container>
+        <div class="progressNote" *ngIf="(selectedSourceType.sourceType === 'content') && !((statusObject.status==='success') || (statusObject.status==='failed'))"> 
           <div *ngIf="(selectedSourceType.resourceType === 'webdomain')">Crawling In-progress</div>
           <div *ngIf="(selectedSourceType.resourceType === 'document')">Crawling In-progress</div>
         </div>
-        <div class="progressNote" *ngIf="selectedSourceType.sourceType === 'faq'"> 
+        <div class="progressNote" *ngIf="(selectedSourceType.sourceType === 'faq') && !((statusObject.status==='success') || (statusObject.status==='failed'))"> 
           <div>Faq Extraction  In Progress</div>
         </div>
-        <div class="text-center" *ngIf="!currentStatusFailed">
+        <div class="text-center" *ngIf="!((statusObject.status==='success') || (statusObject.status==='failed'))">
           <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
           <div class="relaxNote">You will be notified when the extraction progress is done</div>
         </div>
-        <div class="desc-info-text text-center" *ngIf="currentStatusFailed">Crawling failed</div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" [ngClass]="{'centerModel': resourceIDToOpen}">
           <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal()" disabled>Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeStatusModal()" disabled>Cancel</button>
       </div>

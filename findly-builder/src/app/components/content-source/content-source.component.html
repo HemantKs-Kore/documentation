@@ -64,7 +64,7 @@
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
             <span class="please-wait-message">Please Wait!</span>
           </div>
-          <div class="info-content bg-color" *ngIf="!sliderStep && !loadingSliderContent">
+          <div class="info-content bg-color" *ngIf="!sliderStep && !loadingSliderContent && selectedSource">
             <div class="row m-0 row_content">
               <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
               <div class="col-10 right-info-title">{{selectedSource.name}}</div>
@@ -79,7 +79,9 @@
             </div>
             <div class="row m-0 row_content">
               <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
-              <div class="col-10 right-info-title">{{statusObj[selectedSource.recentStatus]}}</div>
+              <div class="col-10 right-info-title">{{statusObj[selectedSource.recentStatus].name}}</div>
+              <div class="col-10 right-info-title" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]" [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">{{statusObj[selectedSource.recentStatus].name}}</div>
+              <div class="col-10 right-info-title" *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
             </div>
             <div class="row m-0 row_content">
               <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
@@ -166,9 +168,9 @@
             </div>
             <div class="row m-0 row_table">
               <div class="col-3 title">URL</div>
-              <ng-container *ngFor="let imageUrl of selectedPage.imageUrl; let index = index ">
-              <div *ngIf="index < 1" class="col-9 info-content-sec" >{{imageUrl}}<img class="external_link" (click)="openImageLink(imageUrl)" src="assets/icons/external-link.svg"></div>
-              </ng-container>
+              <!-- <ng-container *ngFor="let imageUrl of selectedPage.imageUrl; let index = index "> -->
+              <div class="col-9 info-content-sec" >{{selectedPage.imageUrl}}<img class="external_link" (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/external-link.svg"></div>
+              <!-- </ng-container> -->
             </div>
             <div class="row m-0 row_table">
               <div class="col-3 title">Published</div>

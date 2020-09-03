@@ -1,7 +1,7 @@
 <header>
     <nav class="findlyHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
         <div class="container-fluid p-0">
-            <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon">
+            <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange>
             <div class="homePageTitle d-none">
                 <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
             </div>

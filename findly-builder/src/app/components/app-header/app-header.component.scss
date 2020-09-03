@@ -9,6 +9,10 @@
    background: $whiteColor;
    padding: 12px 20px;
    z-index: 100 !important;
+   .logoKoreIcon{
+     outline: none;
+     cursor: pointer;
+   }
    &.onboarding-header{
      box-shadow: none;
     background: transparent;

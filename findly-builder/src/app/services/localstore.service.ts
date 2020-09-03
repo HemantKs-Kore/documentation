@@ -19,7 +19,7 @@ export class LocalStoreService {
   */
   public getAuthInfo(): any {
     try {
-      let _accountDetails = window[this.storageType].getItem("jStorage");
+      let _accountDetails = window[this.storageType].getItem('jStorage');
       if (_accountDetails) {
         _accountDetails = JSON.parse(_accountDetails);
       } else {
@@ -50,7 +50,7 @@ export class LocalStoreService {
 
   public getSelectedAccount(): any {
     try {
-      let _selectedAccount = window[this.storageType].getItem("selectedAccount");
+      let _selectedAccount = window[this.storageType].getItem('selectedAccount');
       if (_selectedAccount) {
         _selectedAccount = JSON.parse(_selectedAccount);
       } else {
@@ -64,7 +64,7 @@ export class LocalStoreService {
 
   public getAssociatedAccounts(): any[] {
     try {
-      let _accountDetails = window[this.storageType].getItem("jStorage");
+      let _accountDetails = window[this.storageType].getItem('jStorage');
       if (_accountDetails) {
         _accountDetails = JSON.parse(_accountDetails);
 

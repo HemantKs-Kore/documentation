@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import {ServiceInvokerService} from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
@@ -28,6 +28,10 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   statusModalPopRef: any = [];
   pollingSubscriber: any = null;
   initialValidations:any = {}
+  @Input() inputClass: string;
+  @Input() resourceIDToOpen: any;
+  @Output() saveEvent = new EventEmitter();
+  @Output() cancleEvent = new EventEmitter();
   defaultStatusObj:any = {
     jobId: '',
     status: 'running',
@@ -119,10 +123,11 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     console.log(this.userInfo);
     if(this.route && this.route.snapshot && this.route.snapshot.queryParams){
       this.receivedQuaryparms = this.route.snapshot.queryParams
-      if(this.receivedQuaryparms && this.receivedQuaryparms.sourceType){
+      if(this.receivedQuaryparms && this.receivedQuaryparms.sourceType || this.resourceIDToOpen){
+        const resourceType = this.resourceIDToOpen || this.receivedQuaryparms.sourceType;
       this.availableSources.forEach( catagory => {
             catagory.sources.forEach(source => {
-               if(source.id === this.receivedQuaryparms.sourceType){
+               if(source.id === resourceType){
                 this.selectedSourceType = source;
                }
             });
@@ -190,9 +195,14 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.cancleSourceAddition();
    }
   cancleSourceAddition() {
-    this.newSourceObj = {};
-    this.selectedSourceType = null;
-    this.removeFile();
+    if(this.resourceIDToOpen){
+      const event:any = {}
+      this.cancleEvent.emit(event);
+    }else {
+      this.newSourceObj = {};
+      this.selectedSourceType = null;
+      this.removeFile();
+    }
   }
   selectSource(selectedCrawlMethod) {
   // if(selectedCrawlMethod && (selectedCrawlMethod.sourceType === 'faq') && (selectedCrawlMethod.resourceType === 'manual')){
