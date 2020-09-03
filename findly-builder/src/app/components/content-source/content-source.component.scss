@@ -1,4 +1,7 @@
 @import './../../../app/scss/variables/variables.scss';
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 input[type=text]:focus {
     width: 80%;
     background: rgb(19, 18, 18);
@@ -127,6 +130,7 @@ input[type=text]:focus {
                 .grid-list-view-table{
                     margin-left: 15px;
                     cursor: pointer;
+                    width: 20px;
                 }
             }  
             .table-content{
@@ -165,6 +169,13 @@ input[type=text]:focus {
                         &.failed{
                             color: #DD3646;
                         }
+                    }
+                    .inProgress{
+                        width: 20px;
+                        height: 20px;
+                        -webkit-animation:spin 4s linear infinite;
+                        -moz-animation:spin 4s linear infinite;
+                        animation:spin 4s linear infinite;
                     }
                     &:hover{
                         background: #F8F9FA;
@@ -212,6 +223,11 @@ input[type=text]:focus {
                             .status-data{
                                 .status-info{
                                     padding-top: 12px;
+                                    .inprogressLoader{
+                                        -webkit-animation:spin 4s linear infinite;
+                                        -moz-animation:spin 4s linear infinite;
+                                        animation:spin 4s linear infinite;
+                                    }
                                     .status-name{
                                         font-size: 12px;
                                         font-weight: normal;
@@ -246,7 +262,20 @@ input[type=text]:focus {
         }
     }   
 }
-
+::ng-deep perfect-scrollbar{
+    .ps__thumb-y{
+        width: 3px !important;
+    }
+    .ps__rail-y{
+        width: 3px !important;
+    }
+    .ps__thumb-x{
+        display: none !important;
+    }
+    .ps__rail-x{
+        display: none !important;
+    }
+}
 ::ng-deep perfect-scrollbar .ps-content{
     .empty{
         display: none;
@@ -259,15 +288,21 @@ input[type=text]:focus {
         display: block !important;
       } 
   }
-::ng-deep #sourceSlider {
-    .sliderComponent {
-        z-index: 100 !important;
+    ::ng-deep.sliderComponent {
         background: rgba(38, 52, 74,0.5);
-        .sliderDialogComponent{
-            width: 65% !important;
-            max-width: 65% !important;
+        .modal-header{
+            height: 55px !important;
+            .header-title{
+              position: absolute;
+              left: 30px;
+              font-size: 14px;
+            }
+            .closeCross{
+                position: absolute;
+                right: 10px;
+            }
         }
-        .sliderBody{
+        .modal-body{
             height: calc(100vh - 70px);
             .table-view-details{
                 .row_table{
@@ -475,4 +510,3 @@ input[type=text]:focus {
             }
         }
     }
-}

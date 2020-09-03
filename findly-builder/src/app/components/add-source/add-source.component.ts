@@ -176,6 +176,9 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     )
   }
   openStatusModal() {
+    if(this.resourceIDToOpen){
+      $('.addSourceModalComponent').addClass('hide');
+    }
     this.statusObject = { ...this.defaultStatusObj};
     const self= this;
     if (this.pollingSubscriber) {

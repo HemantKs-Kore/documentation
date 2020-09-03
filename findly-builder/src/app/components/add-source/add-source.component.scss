@@ -24,6 +24,9 @@
     height: calc(100vh - 123px);
     background: #fff;
     overflow: hidden;
+    &.modalBody{
+        height: calc(100vh - 60px) !important;
+    }
     perfect-scrollbar{
         padding-right: 15px;
     }
@@ -403,6 +406,23 @@
                 }
             }
         }
+    }
+}
+
+::ng-deep perfect-scrollbar{
+    .ps__thumb-y{
+        width: 3px !important;
+    }
+    .ps__rail-y{
+        width: 3px !important;
+    }
+    .ps__thumb-x{
+        width: 3px !important;
+        display: none;
+    }
+    .ps__rail-x{
+        width: 3px !important;
+        display: none;
     }
 }
 

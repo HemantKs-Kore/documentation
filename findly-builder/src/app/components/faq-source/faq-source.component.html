@@ -255,12 +255,12 @@
 </div>
 
 
-<kr-modal modalType="center" modalClass="faqSourceListing" #statusModalPop>
+<kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header">
         <h4 class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='closeStatusModal()'></h4>
         <div class="table-action-header">       
             <div class="kr-sg-input-search">                               
-              <input type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
+              <input [disabled]='!(resources && resources.length)' type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
               <img src="assets/icons/search.svg" class="search-icon">
             </div>
             <button class="kr-sg-button-primary btn_md" (click)='addFaqSource()'>Add Source</button>
@@ -300,11 +300,12 @@
                   
               </section>                               
           </div>
+          <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
         </div>
     </div>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="faqSourceListing" #addSourceModalPop>
+<kr-modal modalType="center" modalClass="addSourceModalComponent" #addSourceModalPop>
     <ng-container *ngIf="showSourceAddition">
         <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="'faqDoc'" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
     </ng-container>
