@@ -1,4 +1,4 @@
-<div class="faqsMainContainer">
+<div class="faqsMainContainer d-none">
     <div class="manage-form-please-wait-all" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
@@ -251,6 +251,245 @@
               </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="faqmain-container">
+    <div class="faqsListContainer">
+        <div class="faq-header-sec row">
+            <div class="col-8 left-sec p-0">
+                <div class="tab-sec d-flex">
+                    <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">Drafts<span class="">({{faqs.length}})</span></div>
+                    <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">In-review<span class="">({{faqs.length}})</span></div>
+                    <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Approved<span class="">({{faqs.length}})</span></div>
+                </div>
+            </div>
+            <div class="col-4 p-0 right-sec">
+                <div class="title"><img src="assets/icons/sidemenu/plus-table.svg">Manage Extracts</div>
+            </div>
+        </div>
+        <div class="faq-content-boxes">
+            <div class="content-boxes faq_tasks_list">
+                <div class="header-sec">
+                    <div class="kr-sg-checkbox">
+                        <input id="checkbox_drp1" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox_drp1" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="kr-sg-input-search">                               
+                        <input type="text" placeholder="Search" class="input-search">
+                        <img src="assets/icons/search-gray.svg" class="search-icon">
+                    </div>
+                    <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Filter<img src="assets/icons/filter.svg"></button>                                            
+                            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                              <li>Extract FAQs</li>
+                              <li>Import FAQs</li>
+                              <li>Add FAQs Manually</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Add</button>                                            
+                            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                              <li>Extract FAQs</li>
+                              <li>Import FAQs</li>
+                              <li>Add FAQs Manually</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="body-content">
+                    <perfect-scrollbar class="accor-scroll show_footer">
+                        <div class="selected-all-questions">Do you want to select all 100 questions?</div>
+                        <div id="accordion" class="accordion-content">
+                            <div class="card-content">
+                                <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">                                    
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                                            <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">How do I access my account online at Citibank Online?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                    <div class="cardbody">
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="card-content">
+                                <div class="card_link collapsed is-checked" data-toggle="collapse" href="#collapsetwo">
+                                    <span class="published-que">Published</span>
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="checkbox_drp3" class="checkbox-custom" type="checkbox" checked>
+                                            <label for="checkbox_drp3" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">How do I access my account online at Citibank Online?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="collapsetwo" class="collapse" data-parent="#accordion">
+                                    <div class="cardbody">
+                                        <div class="acc-inner-que check-all">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                        <div class="acc-inner-que check-all">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="card-content">
+                                <div class="card_link collapsed is-checked" data-toggle="collapse" href="#collapsethree">
+                                    <span class="published-que reverted">Reverted</span>
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="checkbox_drp4" class="checkbox-custom" type="checkbox" checked>
+                                            <label for="checkbox_drp4" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">How do I access my account online at Citibank Online?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="collapsethree" class="collapse" data-parent="#accordion">
+                                    <div class="cardbody">
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>     
+                            <div class="card-content">
+                                <div class="card_link collapsed" data-toggle="collapse" href="#collapsefour">
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="checkbox_drp5" class="checkbox-custom" type="checkbox">
+                                            <label for="checkbox_drp5" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">How do I access my account online at Citibank Online?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="collapsefour" class="collapse" data-parent="#accordion">
+                                    <div class="cardbody">
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="card-content">
+                                <div class="card_link collapsed" data-toggle="collapse" href="#collapse6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input id="checkbox_drp6" class="checkbox-custom" type="checkbox">
+                                            <label for="checkbox_drp6" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">How do I access my account online at Citibank Online?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="collapse6" class="collapse" data-parent="#accordion">
+                                    <div class="cardbody">
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                        <div class="acc-inner-que">
+                                            <div class="title">What are the guidelines for creating an account?</div>
+                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+                        </div>
+                    </perfect-scrollbar>
+                    <div class="footer-btns">
+                        <button class="kr-sg-button-primary btn_lg">Send for Review</button>
+                        <button class="kr-sg-button-secondary btn_lg">Delete</button>
+                    </div>
+                </div>
+            </div>
+            <div class="content-boxes train_your_questions">
+                <div class="header-sec row m-0">
+                    <div class="col-4 p-0 title">Train your questions</div>
+                    <div class="col-8 p-0 title text-right">
+                        <span class="questions-count">Alternate Questions (5)</span>
+                        <span class="questions-count">Followup Questions (3)</span>
+                    </div>
+                </div>
+                <div class="header-info-que">
+                    <div class="col_ p-0 source">
+                        <div class="heading">Source</div>
+                        <div class="info-title">Citi Bank</div>
+                    </div>
+                    <div class="col_ p-0 type">
+                        <div class="heading">Type</div>
+                        <div class="info-title">Web</div>
+                    </div>
+                    <div class="col_ p-0">
+                        <div class="heading">Created</div>
+                        <div class="info-title">07-24-2020</div>
+                    </div>
+                    <div class="col_ p-0 review-btn">
+                        <button class="kr-sg-button-primary btn_lg">Send for Review</button>
+                        <img src="assets/icons/delete-table.svg">
+                    </div>                    
+                </div>
+                <perfect-scrollbar class="train-questions-body-scroll">               
+                    <div class="body-content">
+                        <div class="question-content">
+                            <div class="title-que">
+                                <span class="">How do I access my account online at Citibank Online?</span>
+                                <img src="assets/icons/edit.svg">
+                            </div>
+                            <div class="keywords">
+                                <span class="key-title">Keywords :</span>
+                                <span class="keys">account,</span>
+                                <span class="keys">0nline,</span>
+                                <span class="keys">citibank,</span>
+                            </div>                        
+                            <div class="added-answer">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.</div>
+                            <div class="added-answer">If you had opted not to receive a Debit Card for your Rupee Checking Account at the time of account opening, you will not receive a Debit Card and will not be able to access your account online. If you had opted to receive a Debit Card for your Rupee Checking Account at the time of account opening and have not received your Debit Card within 2 weeks of receiving a confirmation that your account is open, please call CitiPhone.</div>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            </div>
+        </div>        
     </div>
 </div>
 
