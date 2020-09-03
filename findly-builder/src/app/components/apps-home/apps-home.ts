@@ -77,7 +77,7 @@ export class AppsListingComponent implements OnInit {
         self.workflowService.selectedApp(res);
         self.apps.push(res);
         self.workflowService.showAppCreationHeader(true);
-        self.router.navigate(['/summary'], { skipLocationChange: true });
+        self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
