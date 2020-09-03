@@ -21,7 +21,6 @@
 .contentContainer{
     padding-left: 65px;
     padding-top: 30px;
-    // padding-right: 15px;
     height: calc(100vh - 123px);
     background: #fff;
     overflow: hidden;
@@ -138,11 +137,11 @@
                     }
                 }
                 &.centerModel{
-                    width: 69.9%;
                     background-color: #fff;
-                    left: 191px;
                     text-align: left;
-                    padding-left: 75px;
+                    width: 70%;
+                    left: calc(15% - 2px);
+                    padding-left: 30px;
                 }
             }
         }

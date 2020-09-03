@@ -8,47 +8,90 @@
     </div>
   <div  class="table-list-content">
     <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length && !loadingContent">
-     <div class="table-action-header">       
-          <div class="kr-sg-input-search">                               
-            <input type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
-            <img src="assets/icons/search.svg" class="search-icon">
+     <div class="table-action-header">                
+          <div class="search">
+            <span class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg">Search</span>
           </div>
-          <button class="kr-sg-button-primary btn_md "  mat-button [matMenuTriggerFor]="addSource">Add Source</button>
-          <mat-menu #addSource="matMenu">
-            <button mat-menu-item (click)="addNewContentSource('contentWeb')">Crawl Web Domain</button>
-            <button mat-menu-item (click)="addNewContentSource('contentDoc')">Extract Document</button>
-          </mat-menu>
-      </div>
+          <div class="kr-sg-dropdowns">            
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
+                <ul class="dropdown-menu content-menu">                                                              
+                  <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
+                  <li (click)="addNewContentSource('contentDoc')">Upload File</li>                 
+                </ul>
+            </div>
+          </div>
+          <div class="grid-list-view-table"><img src="assets/icons/grid-view.svg"></div>
+      </div>     
       <section class="table-content">
           <header class="table-header">
               <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col d-flex align-items-center" (click)="sortBy('type')">Type                                
+                <div class="kr-sg-dropdowns type_sort_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">            
+                  <div class="dropdown dropdown-open">
+                      <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/caretDown.svg" class="ml-1"></button>                                            
+                      <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>                                                              
+                        <li>Doc</li>
+                        <li>Web</li>                 
+                      </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
+              <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status 
+                <div class="kr-sg-dropdowns type_sort_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">            
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/caretDown.svg" class="ml-1"></button>                                            
+                    <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>                                                              
+                      <li>Success</li>
+                      <li>In Progress</li> 
+                      <li>Failed</li>                
+                    </ul>
+                </div>
+              </div></div>
+              <div class="col" (click)="sortBy('createdOn')">Crawled</div>
               <div class="col last-child" (click)="sortBy('name')"></div>
           </header>
-          <perfect-scrollbar class="faq-scrollbar">
-          <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
-              <div class="col">{{source.title || source.name}}</div>
-              <div class="col">{{source.type | titlecase}}</div>
-              <div class="col">Default</div>
-              <div class="col">
-                <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
-                <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+          <perfect-scrollbar class="table-scroll-perfect">
+            <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+                <div class="col">{{source.title || source.name}}</div>
+                <div class="col">{{source.type | titlecase}}</div>
+                <!-- <div class="col">Default</div> -->
+                <div class="col">
+                  <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img src="assets/icons/failed-status.svg" class="ml-2" *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img src="assets/icons/inprogress.svg" class="ml-2" *ngIf="statusObj[source.recentStatus].name == 'In Progress'"></span>
+                  <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+                </div>
+                <div class="col">{{source.createdOn | dateFormatPipe}}</div>
+                <div class="col text-right last-child">                  
+                  <span class="actions-links"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                  <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
               </div>
-              <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-              <div class="col text-right last-child" >
-                <!-- <span class="actions-links"><img class="action_icon arrow-icon" src="assets/images/return.svg"></span> -->
-                <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
-                <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span>
-                <!-- <span class="actions-links"><img class="action_icon" src="assets/images/settings.svg"></span>               -->
-             </div>
-          </div>
+            </div>
           <div class="empty">No Search Results found</div>
-        </perfect-scrollbar>
-         
-      </section>                               
+        </perfect-scrollbar>        
+      </section>  
+      <perfect-scrollbar class="table-scroll-perfect list d-none">
+        <div class="list-view-data">
+            <div class="row row_list">
+              <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+                <div class="box">
+                  <div class="title">{{source.title || source.name}}</div>
+                  <div class="type">{{source.type | titlecase}}</div>
+                  <div class="status-data">
+                    <!-- <div class="count-pages"><span class="pagelength">19</span> Pages</div> -->
+                    <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                      <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
+                      <img src="assets/icons/inprogress.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                      <div class="status-name">{{statusObj[source.recentStatus].name}}</div>
+                    </div>
+                    <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
+                    <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">{{source.createdOn | dateFormatPipe}}</div>
+                  </div>
+                </div>
+              </div>            
+            </div>
+        </div> 
+      </perfect-scrollbar>                             
   </div>   
   <!-- DATA TABLE ENDS HERE -->
   </div>

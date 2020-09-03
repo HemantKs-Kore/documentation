@@ -27,12 +27,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingContent = true;
   serachIndexId;
   statusObj: any = {
-    failed: {name : 'Failed', color: 'red'},
-    successfull: {name : 'Successfull', color: 'green'},
-    success: {name : 'Success', color: 'green'},
-    queued: {name : 'In Progress', color: 'blue'},
-    running: {name : 'In Progress', color: 'blue'},
-    inprogress: {name :'In Progress', color: 'blue'},
+    failed: {name : 'Failed', color: '#DD3646'},
+    successfull: {name : 'Successfull', color: '#28A745'},
+    success: {name : 'Success', color: '#28A745'},
+    queued: {name : 'In Progress', color: '#0D6EFD'},
+    running: {name : 'In Progress', color: '#0D6EFD'},
+    inprogress: {name :'In Progress', color: '#0D6EFD'},
   };
   sliderStep = 0;
   selectedPage:any={};
