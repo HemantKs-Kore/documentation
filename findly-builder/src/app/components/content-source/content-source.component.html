@@ -79,7 +79,6 @@
             </div>
             <div class="row m-0 row_content">
               <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
-              <div class="col-10 right-info-title">{{statusObj[selectedSource.recentStatus].name}}</div>
               <div class="col-10 right-info-title" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]" [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">{{statusObj[selectedSource.recentStatus].name}}</div>
               <div class="col-10 right-info-title" *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
             </div>
