@@ -105,7 +105,7 @@
         <div class="configInProgress" *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
           <img class="loadingConfigs" src="assets/icons/gear-spinner.svg">
         </div>
-        <div class="error-check" *ngIf="(statusObject.status==='failed') && !((statusObject.status==='success') || (statusObject.status==='failed'))">
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div class="message-success text-center" *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
@@ -161,8 +161,8 @@
         </div>
       </div>
       <div class="modal-footer" [ngClass]="{'centerModel': resourceIDToOpen}">
-          <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal()" disabled>Ok</button>
-          <button type="button" class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeStatusModal()" disabled>Cancel</button>
+          <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeStatusModal()">Ok</button>
+          <button type="button" class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeStatusModal()">Cancel</button>
       </div>
     </div>    
   </div> 
