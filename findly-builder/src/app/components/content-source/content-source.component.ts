@@ -167,7 +167,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       this.sliderStep = 0;
-      // this.loadingSliderContent = false;
+      this.loadingSliderContent = false;
     }, errRes => {
       this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
