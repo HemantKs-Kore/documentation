@@ -45,7 +45,7 @@ export class AppsListingComponent implements OnInit {
   }
   openApp(app) {
    this.workflowService.selectedApp(app);
-   this.router.navigate(['/summary'], { skipLocationChange: true });
+   this.router.navigate(['/source'], { skipLocationChange: true });
   }
   openCreateApp() {
     this.createAppPopRef  = this.createAppPop.open();
