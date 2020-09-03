@@ -53,6 +53,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   statusModalPopRef: any = [];
   addSourceModalPopRef: any = [];
   showSourceAddition:any = null;
+  isAsc = true;
+  selectedSort = '';
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
@@ -80,8 +82,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   sortBy(sort) {
     const data = this.resources.slice();
+    this.selectedSort = sort;
+    if(this.selectedSort !== sort){
+      this.isAsc = true;
+    }else {
+      this.isAsc = !this.isAsc;
+    }
     const sortedData = data.sort((a, b) => {
-      const isAsc = true;
+      const isAsc = this.isAsc;
       switch (sort) {
         case 'type': return this.compare(a.type, b.type, isAsc);
         case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);

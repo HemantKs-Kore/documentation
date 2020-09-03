@@ -143,7 +143,19 @@ input[type=text]:focus {
                     .col{
                         font-weight: 500;                       
                         color: #9AA0A6;
-                        font-size: 12px;                        
+                        font-size: 12px;   
+                        cursor: pointer;         
+                        .sortImg{
+                            transform: rotate(270deg);
+                            top: -0.7px;
+                            position: relative;
+                            &.assending{
+                                transform: rotate(180deg);
+                            }
+                            &.decending{
+                                transform: rotate(0deg);
+                            }
+                        }            
                     }
                 }
                 .col{
@@ -309,6 +321,7 @@ input[type=text]:focus {
                 position: absolute;
                 right: 20px;
                 top: 20px;
+                cursor: pointer;
             }
         }
         .modal-body{

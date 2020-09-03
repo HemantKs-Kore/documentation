@@ -28,11 +28,11 @@
       </div>     
       <section class="table-content"  *ngIf="currentView === 'list'">
           <header class="table-header">
-              <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}" class="ml-1 sortImg"></div>
               <div class="col d-flex align-items-center" (click)="sortBy('type')">Type                                
-                <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"  [autoClose]="true" [placement]="'bottom-right'">            
+                <div class="kr-sg-dropdowns type_sort_dropdown"  #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"  [autoClose]="true" [placement]="'bottom-right'">            
                   <div class="dropdown dropdown-open">
-                      <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/caretDown.svg" class="ml-1"></button>                                            
+                      <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"  class="ml-1 sortImg"></button>                                            
                       <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>                                                              
                         <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</li>
                                        
@@ -41,17 +41,17 @@
                 </div>
               </div>
               <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-              <div class="col d-flex align-items-center" (click)="sortBy('  ')">Status 
+              <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status 
                 <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">            
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/caretDown.svg" class="ml-1"></button>                                            
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}" class="ml-1 sortImg"></button>                                            
                     <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu >                                                              
                       <li *ngFor="let status of statusArr" (click)="statusFilter.close();filterTable(status,'recentStatus')">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : 'In Progress')}}</li>
                                      
                     </ul>
                 </div>
               </div></div>
-              <div class="col" (click)="sortBy('createdOn')">Crawled</div>
+              <div class="col" (click)="sortBy('createdOn')">Crawled<img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}" class="ml-1 sortImg"></div>
               <div class="col last-child" (click)="sortBy('name')"></div>
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
@@ -149,7 +149,7 @@
             </div>
             <button class="kr-sg-button-primary btn_md">Add Page</button>
             </div>
-            <div class="accordion-content-info">
+            <div class="accordion-content-info text-left">
               <div class="header-sec row m-0">
                 <div class="col-8 label_text m-0">Pages</div>
                 <div class="col-4 label_text m-0">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -202,7 +202,7 @@
             </div>
           </ng-container>
         </div>
-        <div class="table-view-details mt-3" *ngIf="sliderStep === 2 && selectedPage">
+        <div class="table-view-details mt-3 text-left" *ngIf="sliderStep === 2 && selectedPage">
           <div class="row m-0 row_table">
             <div class="col-3 title">Title</div>
             <div class="col-9 info-content-sec">{{selectedPage.title}}</div>
