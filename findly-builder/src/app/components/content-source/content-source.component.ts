@@ -10,6 +10,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router} from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
+import * as moment from 'moment';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -25,7 +26,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   polingObj: any = {};
   resourcesObj: any = {};
   loadingContent = true;
+  sectionShow : boolean = true;
   serachIndexId;
+  filterResourcesBack;
+  statusArr= [];
+  docTypeArr =[];
   statusObj: any = {
     failed: {name : 'Failed', color: '#DD3646'},
     successfull: {name : 'Successfull', color: '#28A745'},
@@ -85,6 +90,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
+      this.filterResourcesBack = res;
+      if(this.resources.length){
+        this.resources.forEach(element => {
+          this.statusArr.push(element.recentStatus);
+          this.docTypeArr.push(element.type);
+        });
+        this.statusArr = [...new Set(this.statusArr)]
+        this.docTypeArr = [...new Set(this.docTypeArr)]
+      } 
+       
+      
+
       _.map(this.resources, (source)=> {
         source.name = source.name || source.title;
       });
@@ -197,6 +214,67 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }, errRes => {
     });
+  }
+
+  filterTable(source,headerOption){
+    console.log(this.resources,source)
+    this.resources = [...this.filterResourcesBack]; // For new Filter..
+    let resourceData =  this.resources.filter((data)=>{
+      console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+     return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+     
+    })
+    if(resourceData.length)this.resources = [...resourceData];
+    if($('.dropdown-menu')){
+     // $('.dropdown-menu.show')[0].style.display="none";
+     //hover and click
+    }
+  }
+  transform(date: string): any {
+    const _date = new Date(date);
+    if(_date.toString() === 'Invalid Date'){
+        return '-';
+    }
+    else{
+        return moment(_date).format('DD MMM YYYY');
+    }
+   }
+  pushValues(res,index){
+    let array = [];
+      res[index].createdOn
+      array.push(this.transform(res[index].createdOn),res[index].desc,res[index].name,res[index].recentStatus,res[index].type)
+    
+    return array 
+  }
+  applyFilter(valToSearch){
+    if(valToSearch){
+      this.resources = [...this.filterResourcesBack]; 
+    let tableData = [];
+    console.log(this.resources)
+    
+    for(let i =0 ; i< this.resources.length;i++){
+      //console.log(Object.keys(requireddata[i]))
+      let requireddata = this.pushValues(this.resources,i);
+      let obj : string[] = requireddata;
+      for(let j =0 ; j < obj.length; j++){
+        if(obj[j].includes(valToSearch)){
+          tableData.push(this.resources[i]);
+        }
+      }
+    }
+    tableData = [...new Set(tableData)]
+    if(tableData.length){
+      this.resources = tableData;
+      this.sectionShow = true;
+    }else{
+      this.sectionShow = false;
+    }
+    console.log( tableData);
+    }else{
+      this.resources = [...this.filterResourcesBack];
+      this.searchSources = "";
+      this.sectionShow = true;
+    }     
   }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);

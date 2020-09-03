@@ -1,4 +1,22 @@
 @import './../../../app/scss/variables/variables.scss';
+input[type=text]:focus {
+    width: 80%;
+    background: rgb(19, 18, 18);
+    cursor: auto;
+    height: 34px;
+    border-radius: 3px;
+    border: solid 1px #e5e8ec;
+    background-color: #ffffff;
+    outline: none;
+    padding-left: 8px;
+    color: #26344a;
+    font-size: 14px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    input::placeholder {
+       padding-right: 10px
+      }
+  }
 .manage-form-please-wait-all{
     position: absolute;
     top: 45%;

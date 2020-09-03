@@ -8,9 +8,11 @@
     </div>
   <div  class="table-list-content">
     <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length && !loadingContent">
-     <div class="table-action-header">                
+     <div class="table-action-header"> 
+        <input type="text" placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">              
           <div class="search">
-            <span class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg">Search</span>
+            <img _ngcontent-xqf-c1="" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+            <!-- <span class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg">Search</span> -->
           </div>
           <div class="kr-sg-dropdowns">            
             <div class="dropdown dropdown-open">
@@ -23,29 +25,28 @@
           </div>
           <div class="grid-list-view-table"><img src="assets/icons/grid-view.svg"></div>
       </div>     
-      <section class="table-content">
+      <section class="table-content" *ngIf="sectionShow">
           <header class="table-header">
               <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" class="ml-1"></div>
               <div class="col d-flex align-items-center" (click)="sortBy('type')">Type                                
-                <div class="kr-sg-dropdowns type_sort_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">            
+                <div class="kr-sg-dropdowns type_sort_dropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">            
                   <div class="dropdown dropdown-open">
                       <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/caretDown.svg" class="ml-1"></button>                                            
                       <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>                                                              
-                        <li>Doc</li>
-                        <li>Web</li>                 
+                        <li *ngFor="let docType of docTypeArr" (click)="filterTable(docType,'type')">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</li>
+                                       
                       </ul>
                   </div>
                 </div>
               </div>
               <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-              <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status 
-                <div class="kr-sg-dropdowns type_sort_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">            
+              <div class="col d-flex align-items-center" (click)="sortBy('  ')">Status 
+                <div class="kr-sg-dropdowns type_sort_dropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">            
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/caretDown.svg" class="ml-1"></button>                                            
-                    <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>                                                              
-                      <li>Success</li>
-                      <li>In Progress</li> 
-                      <li>Failed</li>                
+                    <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu >                                                              
+                      <li *ngFor="let status of statusArr" (click)="filterTable(status,'recentStatus')">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'inprogress' ? 'In Progress' : '')) }}</li>
+                                     
                     </ul>
                 </div>
               </div></div>
@@ -53,7 +54,7 @@
               <div class="col last-child" (click)="sortBy('name')"></div>
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
-            <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+            <div class="content-body" *ngFor="let source of resources " (click)="openStatusSlider(source)">
                 <div class="col">{{source.title || source.name}}</div>
                 <div class="col">{{source.type | titlecase}}</div>
                 <!-- <div class="col">Default</div> -->
@@ -81,7 +82,7 @@
                     <!-- <div class="count-pages"><span class="pagelength">19</span> Pages</div> -->
                     <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                       <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
-                      <img src="assets/icons/inprogress.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                      <!-- <img src="assets/icons/inprogress.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'"> -->
                       <div class="status-name">{{statusObj[source.recentStatus].name}}</div>
                     </div>
                     <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
