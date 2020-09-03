@@ -1,9 +1,9 @@
 <div class="contentContainer">
-    <div class="manage-form-please-wait-all" *ngIf="loadingContent" [@fadeInOutAnimation]>
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
     </div>
-    <div class="manage-form-please-wait-all" *ngIf="!(resources && resources.length) && !loadingContent" [@fadeInOutAnimation]>
+    <div class="mainLoadingSpinner" *ngIf="!(resources && resources.length) && !loadingContent" [@fadeInOutAnimation]>
       <span class="please-wait-message">No Content Available</span>
     </div>
   <div  class="table-list-content">
@@ -110,11 +110,11 @@
   <div class="modal-body source-modal-popup">
     <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
       <div class="sliderBody call-history-filter">
-        <div class="manage-form-please-wait-all" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
+        <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
           <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
           <span class="please-wait-message">Please Wait!</span>
         </div>
-        <div class="info-content bg-color" *ngIf="!sliderStep && !loadingSliderContent && selectedSource">
+        <div class="info-content bg-color text-left" *ngIf="!sliderStep && !loadingSliderContent && selectedSource">
           <div class="row m-0 row_content">
             <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
             <div class="col-10 right-info-title">{{selectedSource.name}}</div>

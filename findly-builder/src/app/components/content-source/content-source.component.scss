@@ -20,7 +20,7 @@ input[type=text]:focus {
        padding-right: 10px
       }
   }
-.manage-form-please-wait-all{
+.mainLoadingSpinner{
     position: absolute;
     top: 45%;
     left: 45%;
@@ -290,6 +290,14 @@ input[type=text]:focus {
   }
     ::ng-deep.sliderComponent {
         background: rgba(38, 52, 74,0.5);
+        .mainLoadingSpinner{
+            left: 35%;
+            .please-wait-message {
+                top: -19px !important;
+                left: -12px !important;
+                font-size: 12px;
+            }
+        }
         .modal-header{
             height: 55px !important;
             .header-title{
@@ -299,7 +307,9 @@ input[type=text]:focus {
             }
             .closeCross{
                 position: absolute;
-                right: 10px;
+                right: 20px;
+                top: 20px;
+            }
             }
         }
         .modal-body{

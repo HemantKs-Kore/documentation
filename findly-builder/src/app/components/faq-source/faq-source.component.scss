@@ -1,5 +1,5 @@
 @import './../../../app/scss/variables/variables.scss';
-.manage-form-please-wait-all{
+.mainLoadingSpinner{
     position: absolute;
     top: 45%;
     left: 45%;
@@ -359,7 +359,7 @@
             width: 100%;
             height: 100%;
             padding: 0 15px;  
-            .manage-form-please-wait-all{
+            .mainLoadingSpinner{
                 left: 40%;
                 padding-left: 0 !important;
             }  

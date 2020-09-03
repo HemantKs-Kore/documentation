@@ -1,5 +1,5 @@
 @import './../../../app/scss/variables/variables.scss';
-.manage-form-please-wait-all{
+.mainLoadingSpinner{
     position: absolute;
     top: 45%;
     left: 45%;  
@@ -20,7 +20,7 @@
 }
 .contentContainer{
     padding-left: 65px;
-    padding-top: 30px;
+    // padding-top: 30px;
     height: calc(100vh - 123px);
     background: #fff;
     overflow: hidden;
@@ -38,7 +38,8 @@
     &.fullHeight{
         height: calc(100vh - 62px) !important;
     }   
-    .addNewSource{        
+    .addNewSource{       
+        padding-top: 30px; 
         .label-text, .label_text{
             font-weight: 500;
             color: #202124;

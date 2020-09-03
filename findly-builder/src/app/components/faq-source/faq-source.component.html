@@ -1,5 +1,5 @@
 <div class="faqsMainContainer">
-    <div class="manage-form-please-wait-all" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
+    <div class="mainLoadingSpinner" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
@@ -181,7 +181,7 @@
                     </div>
                   </div> 
                   <div *ngIf="loadingTab">
-                    <div class="manage-form-please-wait-all" [@fadeInOutAnimation]>
+                    <div class="mainLoadingSpinner" [@fadeInOutAnimation]>
                         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
                         <span class="please-wait-message">{{'please_wait' | translate}}</span>
                     </div>
