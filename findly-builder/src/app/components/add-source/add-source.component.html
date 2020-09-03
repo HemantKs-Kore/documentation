@@ -18,7 +18,7 @@
         </div>
       </div>
       <!-- FAQ Extract Doc-->
-      <div *ngIf="selectedSourceType" class="crerateWebCrawl">
+      <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
         <div class="crawl-form-title" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">Crawl Web Domain</div>
         <div class="crawl-form-title" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">Upload File</div>
         <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="selectedSourceType = null" *ngIf="selectedSourceType.resourceType === 'manual'"></app-add-faq>  
@@ -83,11 +83,10 @@
               </div>
             </div>
           </div>
-          <div class="buttonFooter" *ngIf="(selectedSourceType.resourceType !== 'manual')">
+          <div class="buttonFooter" *ngIf="(selectedSourceType.resourceType !== 'manual')" [ngClass]="{'centerModel': resourceIDToOpen}">
             <button class="kr-sg-button-primary btn_md mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
               (click)="proceedSource()">Proceed</button>
             <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="cancleSourceAddition()">Back</button>
-            <button class="kr-sg-button-secondary-two btn_md cancel" (click)="cancleSourceAddition()">Cancel</button>
           </div>
         </form>
       </div>
