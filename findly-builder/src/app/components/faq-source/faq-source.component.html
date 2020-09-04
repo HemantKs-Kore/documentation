@@ -305,12 +305,12 @@
                 </div>
                 <div class="body-content">
                     <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab">
-                    <perfect-scrollbar class="accor-scroll" [ngClass]="{cssClass: faqSelectionObj.selectedCount}">
+                    <perfect-scrollbar class="accor-scroll" [ngClass]="{'show_footer': faqSelectionObj.selectedCount}">
                         <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                         <div id="accordion" class="accordion-content">
                             <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question']">
                                 <div class="card-content">
-                                    <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" aria-expanded="true" [attr.aria-controls]="collapseOne">      
+                                    <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                         <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                         <div class="d-flex align-items-center">
                                             <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
