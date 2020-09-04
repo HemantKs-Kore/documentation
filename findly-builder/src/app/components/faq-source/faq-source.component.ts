@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { tempdata } from './tempdata';
 import * as _ from 'underscore';
 import { from, interval } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { startWith, elementAt } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
@@ -31,6 +31,11 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
+  faqSelectionObj:any ={
+    selectAll:false,
+    selectedItems:{},
+    selectedCount:0,
+  }
   pollingSubscriber;
   faqs:any = [];
   faqsAvailable = false;
@@ -110,18 +115,38 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
      this.showSourceAddition = true;
     this.openAddSourceModal();
    }
+   addRemoveFaqFromSelection(faqId,addtion,clear?){
+     if(clear){
+      this.faqSelectionObj.selectedItems = {};
+      this.faqSelectionObj.selectedCount = 0;
+      this.faqSelectionObj.selectAll = false;
+     } else {
+      if(faqId){
+        if(addtion){
+          this.faqSelectionObj.selectedItems[faqId] = {};
+        } else {
+          if(this.faqSelectionObj.selectedItems[faqId]){
+            delete this.faqSelectionObj.selectedItems[faqId]
+          }
+        }
+      }
+      this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
+     }
+   }
   selectAll() {
     const allFaqs = $('.selectEachfaqInput');
     if (allFaqs && allFaqs.length){
       $.each(allFaqs, (index,element) => {
         if($(element) && $(element).length){
-          $(element)[0].checked = this.selectAllFaqs;
+          $(element)[0].checked = this.faqSelectionObj.selectAll;
+          const faqId = $(element)[0].id.split('_')[1]
+          this.addRemoveFaqFromSelection(faqId,this.faqSelectionObj.selectAll);
         }
       });
     };
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
-  checkUncheckfaqs(){
+  checkUncheckfaqs(faq){
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
     const allElements = $('.selectEachfaqInput');
     if(selectedElements.length === allElements.length){
@@ -129,6 +154,9 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     } else {
       $('#selectAllFaqs')[0].checked = false;
     }
+    const element = $('#selectFaqCheckBox_' + faq._id);
+    const addition =  element[0].checked
+    this.addRemoveFaqFromSelection(faq._id,addition);
   }
   selectResourceFilter(source?){
     let staged = null;
@@ -223,6 +251,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.getFaqsOnSelection();
   }
   getFaqsOnSelection(){
+    this.addRemoveFaqFromSelection(null,null,true);
     if(this.selectedtab === 'allFaqs'){
       this.getfaqsBy();
     } else if (this.selectedtab === 'stagedFaqs'){

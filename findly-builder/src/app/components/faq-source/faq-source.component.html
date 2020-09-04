@@ -179,7 +179,7 @@
                         <div class="heading">No Questions</div>
                         <div class="desc">Please add questions</div>
                     </div>
-                  </div> 
+                   </div> 
                   <div *ngIf="loadingTab">
                     <div class="mainLoadingSpinner" [@fadeInOutAnimation]>
                         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
@@ -257,191 +257,102 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
-<div class="faqmain-container">
+<div class="faqmain-container" *ngIf="!loadingFaqs">
     <div class="faqsListContainer">
         <div class="faq-header-sec row">
             <div class="col-8 left-sec p-0">
                 <div class="tab-sec d-flex">
-                    <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">Drafts<span class="">({{faqs.length}})</span></div>
-                    <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">In-review<span class="">({{faqs.length}})</span></div>
-                    <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Approved<span class="">({{faqs.length}})</span></div>
+                    <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">Drafts<span class="hide">({{faqs.length}})</span></div>
+                    <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">In-review<span class="hide">({{faqs.length}})</span></div>
+                    <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Approved<span class="hide">({{faqs.length}})</span></div>
                 </div>
             </div>
             <div class="col-4 p-0 right-sec">
-                <div class="title"><img src="assets/icons/sidemenu/plus-table.svg">Manage Extracts</div>
+                <div class="title"><img src="assets/icons/sidemenu/plus-table.svg" (click)="openStatusModal()">Manage Extracts</div>
             </div>
         </div>
         <div class="faq-content-boxes">
             <div class="content-boxes faq_tasks_list">
                 <div class="header-sec">
                     <div class="kr-sg-checkbox">
-                        <input id="checkbox_drp1" class="checkbox-custom" type="checkbox">
-                        <label for="checkbox_drp1" class="checkbox-custom-label"></label>
+                        <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">
+                        <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                     </div>
                     <div class="kr-sg-input-search">                               
-                        <input type="text" placeholder="Search" class="input-search">
+                        <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch'>
                         <img src="assets/icons/search-gray.svg" class="search-icon">
                     </div>
-                    <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Filter<img src="assets/icons/filter.svg"></button>                                            
                             <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                              <li>Extract FAQs</li>
-                              <li>Import FAQs</li>
-                              <li>Add FAQs Manually</li>
+                                <ng-container *ngFor="let source of resources">
+                                    <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><a >{{source.name}}</a></li>
+                                </ng-container>
                             </ul>
                         </div>
                     </div>
-                    <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="kr-sg-dropdowns add"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Add</button>                                            
                             <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                              <li>Extract FAQs</li>
-                              <li>Import FAQs</li>
-                              <li>Add FAQs Manually</li>
+                              <li (click)="selectSourceDrop.close();addfaqs('manual')">Extract FAQs</li>
+                              <li (click)="selectSourceDrop.close();addfaqs('faqWeb')">Import FAQs</li>
+                              <li (click)="selectSourceDrop.close();addfaqs('faqDoc')">Add FAQs Manually</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="body-content">
-                    <perfect-scrollbar class="accor-scroll show_footer">
-                        <div class="selected-all-questions">Do you want to select all 100 questions?</div>
+                    <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab">
+                    <perfect-scrollbar class="accor-scroll" [ngClass]="{cssClass: faqSelectionObj.selectedCount}">
+                        <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                         <div id="accordion" class="accordion-content">
-                            <div class="card-content">
-                                <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">                                    
-                                    <div class="d-flex align-items-center">
-                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                            <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
-                                            <label for="checkbox_drp2" class="checkbox-custom-label"></label>
-                                        </div>
-                                        <div class="title-desc-sec">
-                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="collapseOne" class="collapse" data-parent="#accordion">
-                                    <div class="cardbody">
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
+                            <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question']">
+                                <div class="card-content">
+                                    <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" aria-expanded="true" [attr.aria-controls]="collapseOne">      
+                                        <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
+                                        <div class="d-flex align-items-center">
+                                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                <input  [attr.id]="'selectFaqCheckBox_' + faq._id" (change)="checkUncheckfaqs(faq)" class="checkbox-custom selectEachfaqInput" type="checkbox">
+                                                <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
+                                            </div>
+                                            <div class="title-desc-sec">
+                                                <div class="title">{{faq.question}}</div>
+                                                <div class="desc">{{faq.answer}}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>  
-                            <div class="card-content">
-                                <div class="card_link collapsed is-checked" data-toggle="collapse" href="#collapsetwo">
-                                    <span class="published-que">Published</span>
-                                    <div class="d-flex align-items-center">
-                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                            <input id="checkbox_drp3" class="checkbox-custom" type="checkbox" checked>
-                                            <label for="checkbox_drp3" class="checkbox-custom-label"></label>
-                                        </div>
-                                        <div class="title-desc-sec">
-                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
+                                    <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
+                                        <div class="cardbody">
+                                            <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
+                                                <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._is]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
+                                                    <div class="title">{{altQuestion.question}}</div>
+                                                    <div class="desc">{{altQuestion.answer}}</div>
+                                                </div>
+                                            </ng-container>
                                         </div>
                                     </div>
-                                </div>
-                                <div id="collapsetwo" class="collapse" data-parent="#accordion">
-                                    <div class="cardbody">
-                                        <div class="acc-inner-que check-all">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                        <div class="acc-inner-que check-all">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="card-content">
-                                <div class="card_link collapsed is-checked" data-toggle="collapse" href="#collapsethree">
-                                    <span class="published-que reverted">Reverted</span>
-                                    <div class="d-flex align-items-center">
-                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                            <input id="checkbox_drp4" class="checkbox-custom" type="checkbox" checked>
-                                            <label for="checkbox_drp4" class="checkbox-custom-label"></label>
-                                        </div>
-                                        <div class="title-desc-sec">
-                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="collapsethree" class="collapse" data-parent="#accordion">
-                                    <div class="cardbody">
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>     
-                            <div class="card-content">
-                                <div class="card_link collapsed" data-toggle="collapse" href="#collapsefour">
-                                    <div class="d-flex align-items-center">
-                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                            <input id="checkbox_drp5" class="checkbox-custom" type="checkbox">
-                                            <label for="checkbox_drp5" class="checkbox-custom-label"></label>
-                                        </div>
-                                        <div class="title-desc-sec">
-                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="collapsefour" class="collapse" data-parent="#accordion">
-                                    <div class="cardbody">
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>   
-                            <div class="card-content">
-                                <div class="card_link collapsed" data-toggle="collapse" href="#collapse6">
-                                    <div class="d-flex align-items-center">
-                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                            <input id="checkbox_drp6" class="checkbox-custom" type="checkbox">
-                                            <label for="checkbox_drp6" class="checkbox-custom-label"></label>
-                                        </div>
-                                        <div class="title-desc-sec">
-                                            <div class="title">How do I access my account online at Citibank Online?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to create</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="collapse6" class="collapse" data-parent="#accordion">
-                                    <div class="cardbody">
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                        <div class="acc-inner-que">
-                                            <div class="title">What are the guidelines for creating an account?</div>
-                                            <div class="desc">To access Citibank Online as a first time user, you will need to...</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                    
+                                </div> 
+                            </ng-container>
+                            <div class="empty-questions-selected divBlockEmptylastChild">
+                                <div class="heading">No search results</div>
+                            </div>
                         </div>
+                       
                     </perfect-scrollbar>
-                    <div class="footer-btns">
+                   </ng-container>
+                    <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
+                        <div *ngIf="loadingTab">
+                            <div class="heading">{{'please_wait' | translate}}</div>
+                        </div>
+                        <ng-container *ngIf="!loadingTab">
+                            <img src="assets/images/icons/empty_ill.svg">
+                            <div class="heading">No Questions</div>
+                            <div class="desc">Please add questions</div>
+                        </ng-container>
+                    </div>
+                    <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
                         <button class="kr-sg-button-primary btn_lg">Send for Review</button>
                         <button class="kr-sg-button-secondary btn_lg">Delete</button>
                     </div>
