@@ -99,7 +99,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       }
    }),
     ToastrModule.forRoot({
-      timeOut: 50000,
+      timeOut: 5000,
       autoDismiss	: false,
       closeButton : true
     })
