@@ -272,136 +272,307 @@
             </div>
         </div>
         <div class="faq-content-boxes">
-            <div class="content-boxes faq_tasks_list">
-                <div class="header-sec">
-                    <div class="kr-sg-checkbox">
-                        <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">
-                        <label for="selectAllFaqs" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="kr-sg-input-search">                               
-                        <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch'>
-                        <img src="assets/icons/search-gray.svg" class="search-icon">
-                    </div>
-                    <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                        <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Filter<img src="assets/icons/filter.svg"></button>                                            
-                            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                <ng-container *ngFor="let source of resources">
-                                    <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><a >{{source.name}}</a></li>
-                                </ng-container>
-                            </ul>
+            <div class="content">
+                <div class="content-boxes faq_tasks_list">
+                    <div class="header-sec">
+                        <div class="kr-sg-checkbox">
+                            <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll">
+                            <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                         </div>
-                    </div>
-                    <div class="kr-sg-dropdowns add"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                        <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Add</button>                                            
-                            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                              <li (click)="selectSourceDrop.close();addfaqs('manual')">Extract FAQs</li>
-                              <li (click)="selectSourceDrop.close();addfaqs('faqWeb')">Import FAQs</li>
-                              <li (click)="selectSourceDrop.close();addfaqs('faqDoc')">Add FAQs Manually</li>
-                            </ul>
+                        <div class="kr-sg-input-search">                               
+                            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch'>
+                            <img src="assets/icons/search-gray.svg" class="search-icon">
                         </div>
-                    </div>
-                </div>
-                <div class="body-content">
-                    <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab">
-                    <perfect-scrollbar class="accor-scroll" [ngClass]="{'show_footer': faqSelectionObj.selectedCount}">
-                        <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
-                        <div id="accordion" class="accordion-content">
-                            <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question']">
-                                <div class="card-content">
-                                    <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
-                                        <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
-                                        <div class="d-flex align-items-center">
-                                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                <input  [attr.id]="'selectFaqCheckBox_' + faq._id" (change)="checkUncheckfaqs(faq)" class="checkbox-custom selectEachfaqInput" type="checkbox">
-                                                <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
-                                            </div>
-                                            <div class="title-desc-sec">
-                                                <div class="title">{{faq.question}}</div>
-                                                <div class="desc">{{faq.answer}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
-                                        <div class="cardbody">
-                                            <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
-                                                <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._is]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
-                                                    <div class="title">{{altQuestion.question}}</div>
-                                                    <div class="desc">{{altQuestion.answer}}</div>
-                                                </div>
-                                            </ng-container>
-                                        </div>
-                                    </div>
-                                </div> 
-                            </ng-container>
-                            <div class="empty-questions-selected divBlockEmptylastChild">
-                                <div class="heading">No search results</div>
+                        <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Filter<img src="assets/icons/filter.svg"></button>                                            
+                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                    <ng-container *ngFor="let source of resources">
+                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)">{{source.name}}</li>
+                                    </ng-container>
+                                </ul>
                             </div>
                         </div>
-                       
-                    </perfect-scrollbar>
-                   </ng-container>
-                    <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
-                        <div *ngIf="loadingTab">
-                            <div class="heading">{{'please_wait' | translate}}</div>
+                        <div class="kr-sg-dropdowns add"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Add</button>                                            
+                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                  <li (click)="selectSourceDrop.close();addfaqs('manual')">Extract FAQs</li>
+                                  <li (click)="selectSourceDrop.close();addfaqs('faqWeb')">Import FAQs</li>
+                                  <li (click)="selectSourceDrop.close();addfaqs('faqDoc')">Add FAQs Manually</li>
+                                </ul>
+                            </div>
                         </div>
-                        <ng-container *ngIf="!loadingTab">
-                            <img src="assets/images/icons/empty_ill.svg">
-                            <div class="heading">No Questions</div>
-                            <div class="desc">Please add questions</div>
-                        </ng-container>
                     </div>
-                    <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
-                        <button class="kr-sg-button-primary btn_lg">Send for Review</button>
-                        <button class="kr-sg-button-secondary btn_lg">Delete</button>
-                    </div>
-                </div>
-            </div>
-            <div class="content-boxes train_your_questions">
-                <div class="header-sec row m-0">
-                    <div class="col-4 p-0 title">Train your questions</div>
-                    <div class="col-8 p-0 title text-right">
-                        <span class="questions-count">Alternate Questions (5)</span>
-                        <span class="questions-count">Followup Questions (3)</span>
-                    </div>
-                </div>
-                <div class="header-info-que">
-                    <div class="col_ p-0 source">
-                        <div class="heading">Source</div>
-                        <div class="info-title">Citi Bank</div>
-                    </div>
-                    <div class="col_ p-0 type">
-                        <div class="heading">Type</div>
-                        <div class="info-title">Web</div>
-                    </div>
-                    <div class="col_ p-0">
-                        <div class="heading">Created</div>
-                        <div class="info-title">07-24-2020</div>
-                    </div>
-                    <div class="col_ p-0 review-btn">
-                        <button class="kr-sg-button-primary btn_lg">Send for Review</button>
-                        <img src="assets/icons/delete-table.svg">
-                    </div>                    
-                </div>
-                <perfect-scrollbar class="train-questions-body-scroll">               
                     <div class="body-content">
-                        <div class="question-content">
-                            <div class="title-que">
-                                <span class="">How do I access my account online at Citibank Online?</span>
-                                <img src="assets/icons/edit.svg">
+                        <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab">
+                        <perfect-scrollbar class="accor-scroll" [ngClass]="{'show_footer': faqSelectionObj.selectedCount}">
+                            <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
+                            <div id="accordion" class="accordion-content">
+                                <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question']">
+                                    <div class="card-content">
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                            <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
+                                            <div class="d-flex align-items-center">
+                                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                    <input  [attr.id]="'selectFaqCheckBox_' + faq._id" (change)="checkUncheckfaqs(faq)" class="checkbox-custom selectEachfaqInput" type="checkbox">
+                                                    <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
+                                                </div>
+                                                <div class="title-desc-sec">
+                                                    <div class="title">{{faq.question}}</div>
+                                                    <div class="desc">{{faq.answer}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
+                                            <div class="cardbody">
+                                                <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
+                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._is]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
+                                                        <div class="title">{{altQuestion.question}}</div>
+                                                        <div class="desc">{{altQuestion.answer}}</div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </ng-container>
+                                <div class="empty-questions-selected divBlockEmptylastChild">
+                                    <div class="heading">No search results</div>
+                                </div>
                             </div>
-                            <div class="keywords">
-                                <span class="key-title">Keywords :</span>
-                                <span class="keys">account,</span>
-                                <span class="keys">0nline,</span>
-                                <span class="keys">citibank,</span>
-                            </div>                        
-                            <div class="added-answer">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.</div>
-                            <div class="added-answer">If you had opted not to receive a Debit Card for your Rupee Checking Account at the time of account opening, you will not receive a Debit Card and will not be able to access your account online. If you had opted to receive a Debit Card for your Rupee Checking Account at the time of account opening and have not received your Debit Card within 2 weeks of receiving a confirmation that your account is open, please call CitiPhone.</div>
+                           
+                        </perfect-scrollbar>
+                       </ng-container>
+                        <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
+                            <div *ngIf="loadingTab">
+                                <div class="heading">{{'please_wait' | translate}}</div>
+                            </div>
+                            <ng-container *ngIf="!loadingTab">
+                                <img src="assets/images/icons/empty_ill.svg">
+                                <div class="heading">No Questions</div>
+                                <div class="desc">Please add questions</div>
+                            </ng-container>
+                        </div>
+                        <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
+                            <button class="kr-sg-button-primary btn_lg">Send for Review</button>
+                            <button class="kr-sg-button-secondary btn_lg">Delete</button>
                         </div>
                     </div>
-                </perfect-scrollbar>
+                </div>
+            </div>            
+            <div class="content">
+                <div class="content-boxes train_your_questions">
+                    <div class="header-sec row m-0">
+                        <div class="col-4 p-0 title">Train your questions</div>
+                        <div class="col-8 p-0 title text-right">
+                            <span class="questions-count">Alternate Questions (5)</span>
+                            <span class="questions-count">Followup Questions (3)</span>
+                        </div>
+                    </div>
+                    <div class="header-sec with-info row m-0">
+                        <div class="col-2 p-0 col_">
+                            <div class="heading">Source</div>
+                            <div class="info-title">Citi Bank</div>
+                        </div>
+                        <div class="col-1 p-0 col_">
+                            <div class="heading">Type</div>
+                            <div class="info-title">Web</div>
+                        </div>
+                        <div class="col-2 p-0 col_">
+                            <div class="heading">Editor</div>
+                            <div class="info-title">Devendar Bala</div>
+                        </div>
+                        <div class="col-3 p-0 col_">
+                            <div class="heading">Req. Date & Time</div>
+                            <div class="info-title">07-24-2020 <span class="time">10:49:18</span></div>
+                        </div>
+                        <div class="col-4 p-0 col_">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <button class="kr-sg-button-primary btn_lg">Approve</button>
+                                <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                        <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                          <li>Needs Rework</li>                                         
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="comments-img">
+                                    <img src="assets/icons/comment.svg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-info-que">
+                        <div class="col_ p-0 source">
+                            <div class="heading">Source</div>
+                            <div class="info-title">Citi Bank</div>
+                        </div>
+                        <div class="col_ p-0 type">
+                            <div class="heading">Type</div>
+                            <div class="info-title">Web</div>
+                        </div>
+                        <div class="col_ p-0">
+                            <div class="heading">Created</div>
+                            <div class="info-title">07-24-2020</div>
+                        </div>
+                        <div class="col_ p-0 review-btn">
+                            <button class="kr-sg-button-primary btn_lg">Send for Review</button>
+                            <img src="assets/icons/delete-table.svg">
+                        </div>                    
+                    </div>
+                    <div class="header-info-que with-info">
+                        <div class="col-2 p-0">
+                            <div class="heading">Source</div>
+                            <div class="info-title">Citi Bank</div>
+                        </div>
+                        <div class="col-1 p-0">
+                            <div class="heading">Type</div>
+                            <div class="info-title">Web</div>
+                        </div>
+                        <div class="col-2 p-0">
+                            <div class="heading">Edited by</div>
+                            <div class="info-title">Devendar Bala</div>
+                        </div>
+                        <div class="col-3 p-0">
+                            <div class="heading">Reviewed by</div>
+                            <div class="info-title">Devendar Bala</div>
+                        </div>
+                        <div class="col-3 p-0">
+                            <div class="heading">Approved at</div>
+                            <div class="info-title">07-24-2020 10:49:18</div>
+                        </div>
+                        <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
+                                <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                  <li>Move to Drafts</li>      
+                                  <li>Send for Review</li>                                   
+                                  <li class="delete-text">Delete</li>                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <perfect-scrollbar class="train-questions-body-scroll">               
+                        <div class="body-content">
+                            <div class="body-top-content">
+                                <div class="question-content">
+                                    <div class="title-que">
+                                        <span class="">How do I access my account online at Citibank Online?</span>
+                                        <img src="assets/icons/edit.svg">
+                                    </div>
+                                    <div class="keywords">
+                                        <span class="key-title">Keywords :</span>
+                                        <span class="keys">account,</span>
+                                        <span class="keys">0nline,</span>
+                                        <span class="keys">citibank,</span>
+                                    </div>                        
+                                    <div class="added-answer">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.</div>
+                                    <div class="added-answer">If you had opted not to receive a Debit Card for your Rupee Checking Account at the time of account opening, you will not receive a Debit Card and will not be able to access your account online. If you had opted to receive a Debit Card for your Rupee Checking Account at the time of account opening and have not received your Debit Card within 2 weeks of receiving a confirmation that your account is open, please call CitiPhone.</div>
+                                </div>
+                                <div class="appearences-info row">
+                                    <div class="col-4 p-0">
+                                        <span class="source">Appearances:</span>
+                                        <span class="count">10</span>
+                                    </div>
+                                    <div class="col-3 p-0">
+                                        <span class="source">Clicks:</span>
+                                        <span class="count">10</span>
+                                    </div>
+                                    <div class="col-2 p-0">
+                                        <span class="source"><img src="assets/icons/like.svg"></span>
+                                        <span class="count">2</span>
+                                    </div>
+                                    <div class="col-3 p-0">
+                                        <span class="source"><img src="assets/icons/dislike.svg"></span>
+                                        <span class="count">10</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-alternative-questions row">
+                                <div class="col-10 pl-0 pr-2">
+                                    <div class="question-name text-truncate">Alternate Questions (5)</div>
+                                    <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
+                                </div>
+                                <div class="col-2 p-0 text-right">
+                                    <button class="kr-sg-button-primary btn_lg">Add</button>
+                                </div>
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">How do I create an account in Citibank?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">How do I create an account in Citibank?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                            <div class="add-alternative-questions row">
+                                <div class="col-10 pl-0 pr-2">
+                                    <div class="question-name text-truncate">Followup Questions (2)</div>
+                                    <div class="added-tags text-truncate">Add followup the question, key tags and add synonyms.</div>
+                                </div>
+                                <div class="col-2 p-0 text-right">
+                                    <button class="kr-sg-button-primary btn_lg">Add</button>
+                                </div>
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">How do I access my account online at Citibank Online?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                            <div class="added-questions-list">
+                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
+                                <div class="added-tags text-truncate">
+                                    <span class="tags-data">#account</span>
+                                    <span class="tags-data">#online</span>
+                                    <span class="tags-data">#citibank</span>
+                                </div>
+                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                            </div>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
             </div>
         </div>        
     </div>

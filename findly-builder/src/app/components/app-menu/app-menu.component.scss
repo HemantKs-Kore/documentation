@@ -6,11 +6,11 @@
 @import './../../../app/scss/variables/variables.scss';
 app-mainmenu{
 	.sidebar-fixed{
-		top:63px;
+		top:60px;
 		background:#EFF0F1;
 		width:55px;
     	z-index: 9;
-    	height: calc(100% - 63px);
+    	height: calc(100% - 60px);
 		transition: .33s;
 		overflow: hidden;		
 		&.activeMenu{

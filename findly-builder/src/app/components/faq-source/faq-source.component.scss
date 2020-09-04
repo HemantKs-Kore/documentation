@@ -799,9 +799,12 @@
             height: 100vh;
             background: #E4E5E7;
             display: flex;
-            .content-boxes{
-                width: 50%;                                
-                background: #fff;                
+            .content{
+                width: 50%;
+            }
+            .content-boxes{                                                
+                background: #fff;    
+                height: 100%;            
                 &.faq_tasks_list{
                     margin-right: 5px;
                     // flex-shrink: 0;
@@ -1024,10 +1027,74 @@
                 }
                 &.train_your_questions{
                     margin-left: 5px;
-                    flex-shrink: 0;
+                    // flex-shrink: 0;
                     .header-sec{
                         padding: 30px;
                         background: #EFF0F1;
+                        &.with-info{
+                            padding: 20px 30px 19px 30px;                         
+                            .heading{
+                                color: #9AA0A6;
+                                font-size: 12px;
+                                text-transform: uppercase; 
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                padding-right: 10px;                               
+                            }
+                            .info-title{
+                                font-size: 14px;
+                                color: #202124;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                padding-right: 10px;
+                                span{
+                                    font-size: 12px;
+                                }
+                            }
+                            .kr-sg-button-primary{
+                                font-size: 14px;
+                                background: #0D6EFD;
+                                border-radius: 4px;
+                                color: #FFFFFF;
+                            }
+                            .kr-sg-dropdowns{
+                                &.add{
+                                    width: auto;
+                                    &.show{
+                                        .dropdown-open {
+                                            .dropdown-input{
+                                                background: #E4E5E7;  
+                                            }
+                                        }
+                                    }
+                                    .dropdown-open {
+                                        .dropdown-input{
+                                            border: 1px solid #BDC1C6;
+                                            box-sizing: border-box;
+                                            border-radius: 4px;
+                                            padding: 0;
+                                            font-size: 14px;
+                                            color: #000000;
+                                            width: 24px;
+                                            text-align: center;
+                                            margin-left: 5px;
+                                            &::before{
+                                                display: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .comments-img{
+                                cursor: pointer;
+                                margin-left: 18px;
+                                img{
+
+                                }
+                            }
+                        }
                         .title{
                             color: #202124;
                             font-weight: 500;
@@ -1045,17 +1112,43 @@
                         padding: 20px 0px;
                         margin: 0 30px;
                         border-bottom: 1px solid #E5E8EC;
+                        &.with-info{                            
+                            .elipse-dropdown{
+                                width: auto;
+                                padding: 0;
+                                text-align: right;
+                                .dropdown-open {
+                                    .dropdown-input{
+                                        border: 0px solid #BDC1C6;
+                                        box-sizing: border-box;
+                                        border-radius: 0px;
+                                        padding: 0;
+                                        font-size: 14px;
+                                        color: #000000;
+                                        width: auto;
+                                        text-align: center;
+                                        margin-left: 0px;
+                                        &::before{
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         .col_{
-                            width: 25%;
+                            width: 23%;
                             &.source{
-                                width: 23%;
+                                width: 21%;
                             }
                             &.type{
-                                width: 18%;
+                                width: 16%;
                             }
                             &.review-btn{
-                                width: 34%;
+                                width: 40%;
                                 text-align: right;
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-end;
                                 button{
                                     font-size: 14px;
                                     padding: 0 15px;
@@ -1066,27 +1159,33 @@
                                 img{
                                     margin-left: 18px;
                                 }
-                            }
-                            .heading{
-                                color: #9AA0A6;
-                                font-size: 12px;
-                                text-transform: uppercase;                                
-                            }
-                            .info-title{
-                                font-size: 14px;
-                                color: #202124;
-                                white-space: nowrap;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                padding-right: 10px;
-                            }
+                            }                            
+                        }
+                        .heading{
+                            color: #9AA0A6;
+                            font-size: 12px;
+                            text-transform: uppercase;     
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            padding-right: 10px;                           
+                        }
+                        .info-title{
+                            font-size: 14px;
+                            color: #202124;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            padding-right: 10px;
                         }
                     }
                     .train-questions-body-scroll{
                         height: calc(100vh - 310px);
                     }
-                    .body-content{
-                        padding: 20px 30px;
+                    .body-content{                        
+                        .body-top-content{
+                            padding: 20px 30px 0 30px;
+                        }
                         .question-content{
                             .title-que{
                                 color: #202124;
@@ -1122,6 +1221,77 @@
                                 font-size: 14px;
                                 padding: 15px 0 10px 0;
                                 line-height: 21px;
+                            }
+                        }
+                        .appearences-info{
+                            background: #F8F9FA;
+                            border-radius: 4px;
+                            padding: 10px 20px;
+                            margin: 20px 0 40px 0;
+                            .source{
+                                color: #9AA0A6;
+                                text-transform: uppercase;
+                                font-size: 12px;
+                                img{
+                                    position: relative;
+                                    top: -2px;
+                                }
+                            }
+                            .count{
+                                color: #202124;
+                                font-size: 14px;
+                                padding-left: 8px;
+                            }
+                        }
+                        .add-alternative-questions{
+                            padding: 15px 30px;
+                            align-items: center;
+                            background: #EFF0F1;
+                            margin: 40px 0 0 0;
+                            .question-name{
+                                color: #202124;
+                                font-weight: 500;
+                                font-size: 14px;
+                            }
+                            .que-desc{
+                                color: #8A959F;
+                                font-size: 12px;
+                            }
+                            .kr-sg-button-primary{
+                                border-radius: 4px;
+                                font-size: 14px;
+                                border: 1px solid #BDC1C6;
+                                background: #FFFFFF;
+                                color: #202124;
+                            }
+                        }
+                        .added-questions-list{
+                            padding: 13px 30px;
+                            background: #FFFFFF;
+                            box-shadow: inset 0px -1px 0px #E4E5E7;
+                            position: relative;
+                            transition: 0.3s all ease;
+                            .question-name{
+                                color: #202124;
+                                font-weight: 500;
+                                font-size: 14px;
+                                padding-right: 20px;
+                            }
+                            .added-tags{
+                                color: #5F6368;
+                                font-size: 12px;
+                                padding-right: 20px;                                
+                            }
+                            .delete-icon{                               
+                                display: none;
+                                position: absolute;
+                                right: 30px;
+                                top: 27px;
+                            }
+                            &:hover{
+                                .delete-icon{                                   
+                                    display: block;
+                                }
                             }
                         }
                     }
@@ -1190,7 +1360,7 @@
         }
     }
 }
-::ng-deep.accor-scroll{
+::ng-deep.accor-scroll, ::ng-deep.train-questions-body-scroll{
     .ps__thumb-y{
         width: 3px !important;
     }
@@ -1440,6 +1610,14 @@
                             .col_{
                                 flex:1;
                                 padding-right: 10px;
+                            }
+                        }
+                        .header-sec{
+                            &.with-info {
+                                .col_{
+                                    flex: 1 !important;
+                                    max-width: 100% !important;
+                                }
                             }
                         }
                     }
