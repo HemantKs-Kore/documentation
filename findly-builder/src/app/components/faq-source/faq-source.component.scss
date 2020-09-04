@@ -992,6 +992,12 @@
                                             max-width: 100%;
                                         }
                                     }
+                                    .emptyAltQuestions{
+                                        padding-top: 10px;
+                                        padding-right: 120px !important;
+                                        height: 15px;
+                                        padding-bottom: 13px;
+                                    }
                                 }
                             }   
                             .divBlockEmptylastChild{
@@ -1102,7 +1108,7 @@
                             .questions-count{
                                 font-size: 12px;
                                 color: #0D6EFD;
-                                margin-left: 20px;
+                                margin-left: 15px;
                             }
                         }
                     }

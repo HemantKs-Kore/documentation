@@ -35,11 +35,12 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     selectAll:false,
     selectedItems:{},
     selectedCount:0,
+    stats:{}
   }
   pollingSubscriber;
   faqs:any = [];
   faqsAvailable = false;
-  selectedtab = 'allFaqs';
+  selectedtab = 'draft';
   selectAllFaqs = false;
   loadingTab = false;
   resourcesObj: any = {};
@@ -80,6 +81,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getfaqsBy();
     this.getSourceList();
+    this.getStats();
     this.userInfo = this.authService.getUserInfo() || {};
     setTimeout(() => {
       $('#searchFaqs').focus();
@@ -110,9 +112,10 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
    }
    onSourceAdditionSave(){
     this.showSourceAddition = null;
+    this.getfaqsBy();
    }
-   addFaqSource(type?){
-     this.showSourceAddition = true;
+   addFaqSource(type){
+     this.showSourceAddition = type;
     this.openAddSourceModal();
    }
    addRemoveFaqFromSelection(faqId,addtion,clear?){
@@ -159,18 +162,12 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.addRemoveFaqFromSelection(faq._id,addition);
   }
   selectResourceFilter(source?){
-    let staged = null;
-    if(this.selectedtab=== 'stagedFaqs'){
-      staged = 'yes';
-    } else if(this.selectedtab === 'unStagedFaqs'){
-      staged = 'no';
-    }
     if(source){
       this.selectedResource = source;
-      this.getfaqsBy(source._id,staged);
+      this.getfaqsBy(source._id,this.selectedtab);
     } else {
       this.selectedResource = null;
-      this.getfaqsBy(null,staged);
+      this.getfaqsBy(null,this.selectedtab);
     }
   }
   addManualFaq(event){
@@ -199,6 +196,15 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
        }
      });
   }
+  getStats() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    this.service.invoke('get.faqStatics', quaryparms).subscribe(res => {
+      this.faqSelectionObj.stats = res.countByState;
+    }, errRes => {
+    });
+  }
   faqsApiService(serviceId, params, payload?) {
     this.faqs = [];
     this.service.invoke(serviceId, params, payload).subscribe(res => {
@@ -213,7 +219,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       this.loadingTab = false;
     });
   }
-  getfaqsBy(resourceId?, checkStaged?) {
+  getfaqsBy(resourceId?, tab? , skip?) {
     this.showAddFaqSection = false;
     if(this.selectedResource && this.selectedResource._id && !resourceId){
       resourceId = this.selectedResource._id
@@ -224,24 +230,18 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       searchIndexId: searchIndex,
       limit: 50,
       offset: 0,
+      state:this.selectedtab || 'draft'
     };
-    if (checkStaged && checkStaged==='yes') {
-      quaryparms.state = 'Approved';
-    } else {
-      quaryparms.staged = 'in_review';
+    if(tab){
+      quaryparms.state = tab;
     }
-    let serviceId = 'get.allFaqs';
+    let serviceId = 'get.allFaqsByState';
     if (resourceId) {
+      serviceId = 'get.allFaqsByResources';
       quaryparms.resourceId = resourceId;
-      if(checkStaged){
-        serviceId = 'get.faqsByResourcesState';
-      } else {
-        serviceId = 'get.faqsByResources';
-      }
-    } else {
-      if(checkStaged){
-        serviceId = 'get.allFaqsByState';
-      }
+    }
+    if(skip){
+      quaryparms.offset = skip;
     }
     this.faqsApiService(serviceId, quaryparms);
   }
@@ -252,13 +252,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   }
   getFaqsOnSelection(){
     this.addRemoveFaqFromSelection(null,null,true);
-    if(this.selectedtab === 'allFaqs'){
-      this.getfaqsBy();
-    } else if (this.selectedtab === 'stagedFaqs'){
-      this.getfaqsBy(null , 'yes');
-    } else {
-      this.getfaqsBy(null , 'no');
-    }
+    this.getfaqsBy(null , this.selectedtab);
   }
   getSourceList() {
     const quaryparms: any = {
@@ -277,38 +271,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   }
   selectedFaqToTrain(faq) {
     this.selectedFaq = faq;
-  }
-  stageUnstageQuestion(faq){
-    faq.statusUpdateInProgress = true;
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      faqId:faq._id
-    };
-    if(faq && faq.staged){
-      quaryparms.method = 'remove';
-    }else {
-      quaryparms.method = 'add';
-    }
-    this.service.invoke('addRemove.faqs', quaryparms).subscribe(res => {
-      delete faq.statusUpdateInProgress;
-      faq.staged = !faq.staged;
-      const faqIndex = _.findIndex(this.faqs,{_id:faq._id});
-      if((faqIndex > -1)){
-        if( this.selectedtab === 'stagedFaqs' ) {
-          if(!faq.staged){
-           this.faqs.splice(faqIndex,1);
-          }
-        } else if(this.selectedtab === 'unStagedFaqs'){
-          if(faq.staged){
-            if(faq.staged){
-              this.faqs.splice(faqIndex,1);
-             }
-           }
-        }
-      }
-    }, errRes => {
-      delete faq.statusUpdateInProgress;
-    });
   }
   addfaqs(type) {
     if (type === 'manual') {

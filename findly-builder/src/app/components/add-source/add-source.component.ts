@@ -348,6 +348,13 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       }
     });
   }
+  faqCancle(event){
+    this.selectedSourceType = null
+    if(this.resourceIDToOpen){
+      const eve:any = {}
+      this.cancleEvent.emit(eve);
+     }
+  }
   addManualFaq(event){
     console.log(event);
     const quaryparms: any = {
@@ -364,6 +371,10 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.selectedSourceType = null;
        event.cb('success');
+       if(this.resourceIDToOpen){
+        const eve:any = {}
+        this.saveEvent.emit(eve);
+       }
        this.router.navigate(['/faqs'], { skipLocationChange: true });
      }, errRes => {
        event.cb('error');

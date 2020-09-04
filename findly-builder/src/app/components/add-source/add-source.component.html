@@ -20,7 +20,7 @@
       <!-- FAQ Extract Doc-->
       <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
         <div class="crawl-form-title" >{{selectedSourceType.name}}</div>
-        <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="selectedSourceType = null" *ngIf="selectedSourceType.resourceType === 'manual'"></app-add-faq>  
+        <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="faqCancle()" *ngIf="selectedSourceType.resourceType === 'manual'"></app-add-faq>  
         <form #sourceCreation="ngForm" *ngIf="selectedSourceType.resourceType !== 'manual'">
           <div class="kr-sg-input-text mb-4">
             <div class="label-text">Source Title</div>
@@ -97,7 +97,7 @@
     <div class="modal_content" *ngIf="selectedSourceType">
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
       <div class="modal-body" >
-        <div class="success-check"  *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !(statusObject.status==='failed')">
+        <div class="success-check"  *ngIf="((statusObject && statusObject.validation && statusObject.validation.validated) && !(statusObject.status==='failed')) || (statusObject.status==='success')">
           <img src="assets/icons/check-white.svg">
         </div>
         <div class="configInProgress" *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">

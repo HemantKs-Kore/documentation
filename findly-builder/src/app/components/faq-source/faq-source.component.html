@@ -1,258 +1,4 @@
-<div class="faqsMainContainer d-none">
-    <div class="mainLoadingSpinner" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
-        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'please_wait' | translate}}</span>
-    </div>
-    <div *ngIf="!(faqsAvailable) && !loadingFaqs" class="emptyFaqsContainer">
-        <div class="titleContainer">
-            <h1>{{'FAQs' | translate}}</h1>
-            <p>{{'faqsTitleDiscription' | translate}}</p>
-        </div>
-        <div class="getStartedContainer">
-            <h1>{{'lets_get_started' | translate}}</h1>
-            <div class="optionItems">
-              <div class="faqItem" (click)="addfaqs('faqWeb')">
-               <img src="assets/images/source-icos/faq_web_page.png">
-               <div>{{'extract_from_web_pages_and_documents' | translate}}</div>
-              </div>
-              <div class="faqItem">
-                <img src="assets/images/source-icos/faq_automation_tool.png">
-                <div>{{'extract_using_annotation_tool' | translate}}</div>
-               </div>
-               <div class="faqItem">
-                <img src="assets/images/source-icos/faq_manual.png" (click)="addfaqs('manual')">
-                <div>{{'manually_input_question_and_answers' | translate}}</div>
-               </div>
-            </div> 
-        </div>
-        <div class='centerContent'>
-            <!-- <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusSlider()">Check Extracts</button> -->
-            <button class="kr-sg-button-primary" (click)="openStatusModal()">Check Extracts</button>
-        </div>
-        <!-- <div class="additionalInfoContainer">
-            <div><p><strong>{{'Auto_indexing' | translate}}</strong>{{'Auto_IndexingInfo' | translate}}</p></div>
-            <div><p><strong>{{'Review_and_Add ' | translate}}</strong>{{'Review_and_Add_IndexingInfo' | translate}}</p></div>
-            <div><p><strong>{{'Train' | translate}}</strong>{{'Train_IndexingInfo' | translate}}</p></div>
-        </div> -->
-    </div>
-    <div class="faqsListContainer" *ngIf="(faqsAvailable) && !loadingFaqs">       
-        <div class="faq-header-sec row m-0">
-            <div class="headerContainer">
-                <div class="left-sec col-5 row m-0">
-                    <div class="tab-sec d-flex col-9 p-0">
-                        <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">Drafts<span class="hide">({{faqs.length}})</span></div>
-                        <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">In-review<span class="hide">({{faqs.length}})</span></div>
-                        <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Approved<span class="hide">({{faqs.length}})</span></div>
-                    </div>
-                </div>
-                <div class="col-3 pr-0 m-0">
-                    <div class="kr-sg-dropdowns sourceSelection">                           
-                        <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{selectedResource?selectedResource.name:'All'}}</button>                                            
-                            <ul class="dropdown-menu content-menu">
-                                <li (click)="selectResourceFilter()"><a >All</a></li>
-                                <ng-container *ngFor="let source of resources">
-                                    <li *ngIf="source.status==='success'" (click)="selectResourceFilter(source)"><a >{{source.name}}</a></li>
-                                </ng-container>                                                                          
-                               
-                            </ul>
-                        </div>
-                    </div>                         
-                </div> 
-                <div class="right-sec col-4 d-flex m-0">
-                    <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="openStatusModal()">Check Extracts</button>
-                </div>
-            </div>
-        </div>
-        <!-- Template Two -->
-        <div class="faq-content-boxes">
-            <div class="content faq_tasks_list">
-              <div class="box">               
-                <div class="header_sec d-flex justify-content-between align-items-center"> 
-                    <!-- <div class="col-2 pr-0">
-                        <div class="col p-0">
-                            <div class="kr-sg-checkbox pr-0 mb-0" (click)="$event.stopImmediatePropagation();" *ngIf="(faqs && faqs.length)">
-                                <input id="selectAllFaqs" class="checkbox-custom selectAllFaqsInput" (change)="selectAll()" [(ngModel)]="selectAllFaqs" type="checkbox">
-                                <label for="selectAllFaqs" class="checkbox-custom-label">All</label>
-                            </div>                             
-                        </div>                            
-                    </div>
-                    <div class="col-2 pl-0">
-                        <button class="kr-sg-button-primary btn_md mr-3">Stage</button>                         
-                    </div>  -->
-                    <div class="kr-sg-input-search col-10">                               
-                        <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" class="input-search">
-                        <img src="assets/icons/search.svg" class="search-icon stageQuestions">
-                    </div>
-                    <div class="col-2 pl-0">
-                        <div class="kr-sg-dropdowns add-que-drpdown">                           
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">New</button>                                            
-                                <ul class="dropdown-menu content-menu">    
-                                    <li (click)="addfaqs('manual')"><a>Manual</a></li>
-                                    <li (click)="addfaqs('faqDoc')"><a>Extrat from Document</a></li>
-                                    <li (click)="addfaqs('faqWeb')"><a>Extrat from Webdomain</a></li>                                                                          
-                                </ul>
-                            </div>
-                        </div>                          
-                    </div>                   
-                </div>
-                <perfect-scrollbar class="scroll-faqs"> 
-                 <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="showAddFaqSection = false" *ngIf="showAddFaqSection"></app-add-faq>  
-                  <div class="body-section pt-0" *ngIf="!loadingTab">                   
-                    <div class="kr-sg-data-table accordion-table" *ngIf="(faqs && faqs.length)">                
-                        <section class="table-content faqsListing">  
-                            <div id="faqaccordianGroup" class="accordion">
-                                <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question'] ">
-                                    <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)" class="content-body collapsed-default collapsed" data-toggle="collapse" [attr.data-target]="'#'+faq._id" aria-expanded="true" [attr.aria-controls]="collapseOne">
-                                        <div class="col-9">
-                                            <div class="col p-0">
-                                                <!-- <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                    <input [attr.id]="'selectFaqCheckBox' + faq._id" (change)="checkUncheckfaqs()" class="checkbox-custom selectEachfaqInput" type="checkbox">
-                                                    <label [attr.for]="'selectFaqCheckBox' + faq._id" class="checkbox-custom-label"></label>
-                                                </div>  -->
-                                                <span class="acc-title">{{faq.question}}</span>
-                                            </div>                           
-                                        </div>                              
-                                        <div class="col-3">
-                                            <div class="col p-0 justify-content-end">
-                                                <img (click)="stageUnstageQuestion(faq)" class="staged ml-4" *ngIf="!faq.staged && !faq.statusUpdateInProgress" src="assets/images/closeCross.png">
-                                                <i (click)="stageUnstageQuestion(faq)" class="unStaged ml-4" *ngIf="faq.staged && !faq.statusUpdateInProgress">-</i>
-                                                <img class="spinner ml-4" *ngIf="faq.statusUpdateInProgress" src="assets/images/spinner-small.svg">
-                                                <img src="assets/images/trashIcon.svg" class="ml-4">
-                                            </div>                            
-                                        </div>                         
-                                    </div>
-                                    <div id="{{faq._id}}" class="collapse accordion-table"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id">
-                                        <div class="title-source">Source:<span class="source-name">{{faq.source}}</span></div>
-                                        <div class="info-content"  [innerHtml]="faq.answer"></div>
-                                        <div class="tags-sec">
-                                            <div class="tags">Tags: <span *ngFor="let tag of faq.keywords">{{tag}}</span></div>
-                                            <!-- <div class="follow_up_que">+ Add a Followup Question</div> -->
-                                        </div>
-                                        <div class="train-your-question-sec hide">
-                                            <div class="label_text">Train Your Question</div>
-                                            <div class="box-train">
-                                                <div class="label_text">How to extend the daily transfer linit in Citi Bank?</div>  
-                                                <div class="kr-sg-input-search mb-2">                                                                     
-                                                    <input type="text" placeholder="Search" class="input-search">
-                                                    <img src="assets/icons/search.svg" class="search-icon">
-                                                </div>
-                                                <div class="kr-sg-input-text mb-3">                                    
-                                                    <input type="text" placeholder="Placeholder text" class="input-text">                                    
-                                                </div>
-                                                <button class="kr-sg-button-primary btn_md mr-3">Save</button>
-                                                <button class="kr-sg-button-secondary btn_md">Cancel</button>
-                                            </div>
-                                        </div> 
-                                        <div class="alt-questions">Alternate Questions <span class="count">({{faq.alternateQuestions.length}})</span></div>    
-                                        <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
-                                            <div class="questions-items" *ngFor="let altQuestion of faq.alternateQuestions">
-                                                <div class="selected-questions-list">
-                                                    <div class="question">{{altQuestion.question}}</div>
-                                                    <span class="selected-tags">
-                                                        <span class="tags-length">{{altQuestion.keywords.length}} tags</span>
-                                                        <span class="edit-delete-icons">
-                                                            <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                                        </span>
-                                                    </span>
-                                                </div>                             
-                                            </div>
-                                        </ng-container>                    
-                                        
-                                       
-                                        <div class="empty-questions-selected" *ngIf="!(faq.alternateQuestions && faq.alternateQuestions.length)">
-                                            <img src="assets/images/icons/empty-illustration.svg">
-                                            <div class="heading">Add alternate questions</div>
-                                            <div class="desc">Add alternate forms of the question that your customers would generally use.</div>
-                                        </div>                            
-                                    </div> 
-                                </ng-container>
-                                <div class="empty-questions-selected emptySearch">
-                                    <div class="heading">No search results</div>
-                                </div>
-                            </div> 
-                        </section>                               
-                    </div> 
-                    <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
-                        <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">No Questions</div>
-                        <div class="desc">Please add questions</div>
-                    </div>
-                   </div> 
-                  <div *ngIf="loadingTab">
-                    <div class="mainLoadingSpinner" [@fadeInOutAnimation]>
-                        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-                        <span class="please-wait-message">{{'please_wait' | translate}}</span>
-                    </div>
-                  </div>
-                </perfect-scrollbar>                
-              </div>
-            </div>
-            <div class="content train_your_questions">
-              <div class="box">
-                <div class="header-sec">
-                  <div class="title">Train Q&A</div>   
-                  <div class="desc-info-text m-0">Add alternate forms of the question, key tags and add synonyms.</div>       
-                </div>                 
-                <perfect-scrollbar class="scroll-faqs">
-                  <div class="body-section">  
-                      <ng-container *ngIf="selectedFaq">
-                        <div class="add-questions-form pb-0">                        
-                            <div class="kr-sg-dropdowns mb-8">
-                              <div class="label-text">{{selectedFaq.question}}</div>
-                              <div class="dropdown dropdown-open drp_custon_input">                       
-                                  <div class="kr-sg-input-search dropdown-toggle dropdown-input p-0 border-0" data-toggle="dropdown">                               
-                                    <input type="text" placeholder="Add alternate questions or select from suggestions" class="input-search">
-                                    <img src="assets/images/search-gray.svg" class="search-icon">
-                                  </div>                                        
-                                  <ul class="dropdown-menu content-menu hide">                                                                  
-                                    <li><a >What are the process of creating insta account in citibank ?</a></li>
-                                    <li><a >Please provide the process of insta account ?</a></li>
-                                    <li><a >Insta account in citibank - process ?</a></li>
-                                    <li><a >What are the process of creating insta account in citibank ?</a></li>
-                                    <li><a >Insta account in citibank - process ?</a></li>
-                                  </ul>
-                              </div>
-                            </div>
-                            <div class="kr-sg-input-text mb-8">                                           
-                              <input type="text" placeholder="Add alternate questions" class="input-text" name="altQuestion">             
-                            </div>                                 
-                            <div class="btn-sec mt-3">
-                              <button class="kr-sg-button-primary mr-2">Save</button>
-                              <button class="kr-sg-button-secondary mr-2">Cancel</button>                          
-                            </div>
-                        </div>
-                        <div class="alt-questions">Alternate Questions <span class="count">({{selectedFaq.alternateQuestions.length}})</span></div>
-                        <div class="questions-items" *ngIf="selectedFaq.alternateQuestions">
-                            <div class="selected-questions-list" *ngFor="let altQuestion of selectedFaq.alternateQuestions">
-                                <div class="question">{{altQuestion.question}}</div>
-                                <span class="selected-tags">
-                                    <span class="tags-length">{{altQuestion.keywords.length}} tags</span>
-                                    <span class="edit-delete-icons">
-                                        <img class="delete" src="assets/images/trashIcon.svg" (click)="$event.stopPropagation()">                      
-                                    </span>
-                                </span>
-                            </div>                             
-                        </div>
-                      </ng-container>                  
-                    <div class="empty-questions-selected" *ngIf="selectedFaq && !selectedFaq.alternateQuestions">
-                        <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">Add alternate questions</div>
-                        <div class="desc">Add alternate forms of the question that your customers would generally use.</div>
-                    </div>                               
-                    <div class="empty-questions-selected" *ngIf="!selectedFaq">
-                        <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">No Question selected yet</div>
-                        <div class="desc">Please select a question to get auto suggested similar Questions</div>
-                    </div>
-                  </div>              
-                </perfect-scrollbar>
-              </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="mainLoadingSpinner" *ngIf="loadingFaqs" [@fadeInOutAnimation]>
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
@@ -262,13 +8,13 @@
         <div class="faq-header-sec row">
             <div class="col-8 left-sec p-0">
                 <div class="tab-sec d-flex">
-                    <div class="tab_title" (click)="selectTab('allFaqs')" [ngClass]="{'active': (selectedtab === 'allFaqs')}">Drafts<span class="hide">({{faqs.length}})</span></div>
-                    <div class="tab_title" (click)="selectTab('stagedFaqs')" [ngClass]="{'active': (selectedtab === 'stagedFaqs')}">In-review<span class="hide">({{faqs.length}})</span></div>
-                    <div class="tab_title" (click)="selectTab('unStagedFaqs')" [ngClass]="{'active': (selectedtab === 'unStagedFaqs')}">Approved<span class="hide">({{faqs.length}})</span></div>
+                    <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}">Drafts<span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
+                    <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">In-review<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
+                    <div class="tab_title" (click)="selectTab('approved')" [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                 </div>
             </div>
             <div class="col-4 p-0 right-sec">
-                <div class="title"><img src="assets/icons/sidemenu/plus-table.svg" (click)="openStatusModal()">Manage Extracts</div>
+                <div (click)="openStatusModal()" class="title"><img src="assets/icons/sidemenu/plus-table.svg">Manage Extracts</div>
             </div>
         </div>
         <div class="faq-content-boxes">
@@ -297,9 +43,9 @@
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Add</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                  <li (click)="selectSourceDrop.close();addfaqs('manual')">Extract FAQs</li>
-                                  <li (click)="selectSourceDrop.close();addfaqs('faqWeb')">Import FAQs</li>
-                                  <li (click)="selectSourceDrop.close();addfaqs('faqDoc')">Add FAQs Manually</li>
+                                  <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">Extract FAQs</li>
+                                  <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">Import FAQs</li>
+                                  <li (click)="selectSourceDrop.close();addFaqSource('manual')">Add FAQs Manually</li>
                                 </ul>
                             </div>
                         </div>
@@ -332,6 +78,7 @@
                                                         <div class="desc">{{altQuestion.answer}}</div>
                                                     </div>
                                                 </ng-container>
+                                                <div class="divBlockEmptylastChild emptyAltQuestions"> No Alternate Questions</div>
                                             </div>
                                         </div>
                                     </div> 
@@ -340,7 +87,6 @@
                                     <div class="heading">No search results</div>
                                 </div>
                             </div>
-                           
                         </perfect-scrollbar>
                        </ng-container>
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
@@ -364,27 +110,35 @@
                 <div class="content-boxes train_your_questions">
                     <div class="header-sec row m-0">
                         <div class="col-4 p-0 title">Train your questions</div>
-                        <div class="col-8 p-0 title text-right">
-                            <span class="questions-count">Alternate Questions (5)</span>
-                            <span class="questions-count">Followup Questions (3)</span>
+                        <div class="col-8 p-0 title text-right" *ngIf="selectedFaq">
+                            <span class="questions-count">Alternate Questions ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}})</span>
+                            <span class="questions-count">Followup Questions ({{(selectedFaq.followupQuestions?selectedFaq.followupQuestions.length:0)}})</span>
                         </div>
                     </div>
-                    <div class="header-sec with-info row m-0">
+                    <ng-container *ngIf="!selectedFaq">
+                        <div class="empty-questions-selected">
+                        <img src="assets/images/icons/empty_ill.svg">
+                        <div class="heading">No Questions</div>
+                        <div class="desc">Please select a questions</div>
+                       </div>
+                    </ng-container>
+                    <ng-container *ngIf="selectedFaq">
+                    <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
                         <div class="col-2 p-0 col_">
                             <div class="heading">Source</div>
-                            <div class="info-title">Citi Bank</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-1 p-0 col_">
                             <div class="heading">Type</div>
-                            <div class="info-title">Web</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0 col_">
                             <div class="heading">Editor</div>
-                            <div class="info-title">Devendar Bala</div>
+                            <div class="info-title">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col-3 p-0 col_">
                             <div class="heading">Req. Date & Time</div>
-                            <div class="info-title">07-24-2020 <span class="time">10:49:18</span></div>
+                            <div class="info-title">{{selectedFaq.createdBy || dateFormatPipe}}<span class="time hide">10:49:18</span></div>
                         </div>
                         <div class="col-4 p-0 col_">
                             <div class="d-flex align-items-center justify-content-end">
@@ -403,44 +157,44 @@
                             </div>
                         </div>
                     </div>
-                    <div class="header-info-que">
+                    <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
                         <div class="col_ p-0 source">
                             <div class="heading">Source</div>
-                            <div class="info-title">Citi Bank</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col_ p-0 type">
                             <div class="heading">Type</div>
-                            <div class="info-title">Web</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col_ p-0">
                             <div class="heading">Created</div>
-                            <div class="info-title">07-24-2020</div>
+                            <div class="info-title">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col_ p-0 review-btn">
                             <button class="kr-sg-button-primary btn_lg">Send for Review</button>
                             <img src="assets/icons/delete-table.svg">
                         </div>                    
                     </div>
-                    <div class="header-info-que with-info">
+                    <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
                         <div class="col-2 p-0">
                             <div class="heading">Source</div>
-                            <div class="info-title">Citi Bank</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-1 p-0">
                             <div class="heading">Type</div>
-                            <div class="info-title">Web</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0">
                             <div class="heading">Edited by</div>
-                            <div class="info-title">Devendar Bala</div>
+                            <div class="info-title">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col-3 p-0">
                             <div class="heading">Reviewed by</div>
-                            <div class="info-title">Devendar Bala</div>
+                            <div class="info-title">{{selectedFaq.reviewedBy || '--'}}</div>
                         </div>
                         <div class="col-3 p-0">
                             <div class="heading">Approved at</div>
-                            <div class="info-title">07-24-2020 10:49:18</div>
+                            <div class="info-title">{{selectedFaq.createdBy || dateFormatPipe}}</div>
                         </div>
                         <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
@@ -458,120 +212,73 @@
                             <div class="body-top-content">
                                 <div class="question-content">
                                     <div class="title-que">
-                                        <span class="">How do I access my account online at Citibank Online?</span>
+                                        <span class="">{{selectedFaq.question}}</span>
                                         <img src="assets/icons/edit.svg">
                                     </div>
                                     <div class="keywords">
                                         <span class="key-title">Keywords :</span>
-                                        <span class="keys">account,</span>
-                                        <span class="keys">0nline,</span>
-                                        <span class="keys">citibank,</span>
+                                        <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
                                     </div>                        
-                                    <div class="added-answer">To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.</div>
-                                    <div class="added-answer">If you had opted not to receive a Debit Card for your Rupee Checking Account at the time of account opening, you will not receive a Debit Card and will not be able to access your account online. If you had opted to receive a Debit Card for your Rupee Checking Account at the time of account opening and have not received your Debit Card within 2 weeks of receiving a confirmation that your account is open, please call CitiPhone.</div>
+                                    <div class="added-answer" [innerHtml]='selectedFaq.answer'></div>
                                 </div>
                                 <div class="appearences-info row">
                                     <div class="col-4 p-0">
                                         <span class="source">Appearances:</span>
-                                        <span class="count">10</span>
+                                        <span class="count">{{selectedFaq.feedback.expand}}</span>
                                     </div>
                                     <div class="col-3 p-0">
                                         <span class="source">Clicks:</span>
-                                        <span class="count">10</span>
+                                        <span class="count">{{selectedFaq.feedback.ckick}}</span>
                                     </div>
                                     <div class="col-2 p-0">
                                         <span class="source"><img src="assets/icons/like.svg"></span>
-                                        <span class="count">2</span>
+                                        <span class="count">{{selectedFaq.feedback.thumbsup}}</span>
                                     </div>
                                     <div class="col-3 p-0">
                                         <span class="source"><img src="assets/icons/dislike.svg"></span>
-                                        <span class="count">10</span>
+                                        <span class="count">{{selectedFaq.feedback.thumbsdown}}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="add-alternative-questions row">
                                 <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">Alternate Questions (5)</div>
+                                    <div class="question-name text-truncate">Alternate Questions ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}})</div>
                                     <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg">Add</button>
                                 </div>
                             </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
+                            <ng-container *ngIf="selectedFaq.alternateQuestions && selectedFaq.alternateQuestions.length">
+                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq.alternateQuestions">
+                                <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
                                 <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
+                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion.keywords">{{keyword}}</span>
                                 </div>
                                 <img src="assets/icons/delete-table.svg" class="delete-icon">
                             </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">How do I create an account in Citibank?</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
-                                </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
-                            </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
-                                </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
-                            </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">How do I create an account in Citibank?</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
-                                </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
-                            </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
-                                </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
-                            </div>
+                           </ng-container>
                             <div class="add-alternative-questions row">
                                 <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">Followup Questions (2)</div>
+                                    <div class="question-name text-truncate">Followup Questions ({{(selectedFaq.followupQuestions?selectedFaq.followupQuestions.length:0)}})</div>
                                     <div class="added-tags text-truncate">Add followup the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg">Add</button>
                                 </div>
                             </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">How do I access my account online at Citibank Online?</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
+                            <ng-container *ngIf="selectedFaq.followupQuestions && selectedFaq.followupQuestions.length">
+                                <div class="added-questions-list">
+                                    <div class="question-name text-truncate">How do I access my account online at Citibank Online?</div>
+                                    <div class="added-tags text-truncate">
+                                        <span class="tags-data" *ngFor="let keyword of followupQuestions.keywords">{{keyword}}</span>
+                                    </div>
+                                    <img src="assets/icons/delete-table.svg" class="delete-icon">
                                 </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
-                            </div>
-                            <div class="added-questions-list">
-                                <div class="question-name text-truncate">What is the process of creating insta account?</div>
-                                <div class="added-tags text-truncate">
-                                    <span class="tags-data">#account</span>
-                                    <span class="tags-data">#online</span>
-                                    <span class="tags-data">#citibank</span>
-                                </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
-                            </div>
+                            </ng-container>
                         </div>
                     </perfect-scrollbar>
+                   </ng-container>
                 </div>
             </div>
         </div>        
@@ -587,7 +294,7 @@
               <input [disabled]='!(resources && resources.length)' type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
               <img src="assets/icons/search.svg" class="search-icon">
             </div>
-            <button class="kr-sg-button-primary btn_md" (click)='addFaqSource()'>Add Source</button>
+            <button class="kr-sg-button-primary btn_md" (click)='addFaqSource("faqDoc")'>Add Source</button>
         </div>
     </div>
     <div class="modal-body source-modal-popup">
@@ -631,6 +338,6 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #addSourceModalPop>
     <ng-container *ngIf="showSourceAddition">
-        <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="'faqDoc'" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+        <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
     </ng-container>
 </kr-modal>

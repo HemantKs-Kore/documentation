@@ -93,11 +93,11 @@ export class EndPointsService {
       method:'get'
     };
     this.serviceList['get.allFaqsByState']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&serach=:searchQuary',
       method:'get'
     };
-    this.serviceList['get.faqsByResources']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&resourceId=:resourceId',
+    this.serviceList['get.allFaqsByResources']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&resourceId=:resourceId&serach=:searchQuary',
       method:'get'
     };
     this.serviceList['get.faqsByResourcesState']={
@@ -112,12 +112,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/knowledgetasks?streamId=:streamId',
       method: 'get'
     };
-
     this.serviceList['create.knowledgetask'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/knowledgetasks',
       method: 'post'
     };
-
+    this.serviceList['get.faqStatics'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats',
+      method: 'get'
+    };
     this.serviceList['get.fags'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs?ktId=:ktId',
       method: 'get'
