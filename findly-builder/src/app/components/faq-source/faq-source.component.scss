@@ -1,5 +1,5 @@
 @import './../../../app/scss/variables/variables.scss';
-.manage-form-please-wait-all{
+.mainLoadingSpinner{
     position: absolute;
     top: 45%;
     left: 45%;
@@ -1156,12 +1156,15 @@
         width: 3px !important;
     }
 }
-::ng-deep.faqSourceListing{
+::ng-deep.addSourceModalComponent{
     .modal-header {
         padding: 20px 20px 0px;
         .header-title{
             position: absolute;
-            left: 12px;
+            left: 17px;
+            .closeCross{
+                cursor: pointer;
+            }
         }
         .table-action-header {
             height: 50px;

@@ -160,6 +160,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       };
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.showAddFaqSection = false;
+       this.getFaqsOnSelection();
        event.cb('success');
      }, errRes => {
        event.cb('error');
@@ -185,7 +186,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     });
   }
   getfaqsBy(resourceId?, checkStaged?) {
-    if(this.selectedResource && this.selectedResource._id){
+    this.showAddFaqSection = false;
+    if(this.selectedResource && this.selectedResource._id && !resourceId){
       resourceId = this.selectedResource._id
     }
     this.loadingTab = true;
@@ -218,9 +220,12 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   selectTab(tab){
     this.selectedFaq=null
     this.selectedtab = tab;
-    if(tab === 'allFaqs'){
+    this.getFaqsOnSelection();
+  }
+  getFaqsOnSelection(){
+    if(this.selectedtab === 'allFaqs'){
       this.getfaqsBy();
-    } else if (tab === 'stagedFaqs'){
+    } else if (this.selectedtab === 'stagedFaqs'){
       this.getfaqsBy(null , 'yes');
     } else {
       this.getfaqsBy(null , 'no');

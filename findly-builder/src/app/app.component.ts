@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
         })
         if(selectedApp && selectedApp.length){
           this.workflowService.selectedApp(selectedApp[0]);
-          route = '/summary';
+          route = '/source';
         if(this.previousState.route){
           route = this.previousState.route
          }

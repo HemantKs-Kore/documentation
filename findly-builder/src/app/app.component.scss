@@ -1,5 +1,5 @@
 @import './scss/variables/variables.scss';
-.krFindlyAppComponent{
+::ng-deep.krFindlyAppComponent{
     .toShowAppHeader{
         display: none;
     }
@@ -7,6 +7,9 @@
         padding-right: 0;
         padding-top: 0;
         padding-left: 0px;
+    }
+    .autoSearchTools{
+        display: none;
     }
     &.appSelected{
         .toShowAppHeader{
@@ -17,6 +20,9 @@
             display: block;
             padding-right: 0;
             padding-top: 61px;
+        }
+        .autoSearchTools{
+            display: list-item;
         }
     }
 }

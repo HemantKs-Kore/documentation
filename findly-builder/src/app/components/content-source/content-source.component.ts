@@ -10,6 +10,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router} from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
+import * as moment from 'moment';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -18,6 +19,7 @@ import * as _ from 'underscore';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  currentView = 'grid'
   searchSources = '';
   pagesSearch = '';
   selectedApp: any = {};
@@ -25,7 +27,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   polingObj: any = {};
   resourcesObj: any = {};
   loadingContent = true;
+  sectionShow = true;
   serachIndexId;
+  filterResourcesBack;
+  statusArr= [];
+  docTypeArr =[];
+  contentTypes= {
+    webdomain:'WEB',
+    document:'DOC'
+  }
   statusObj: any = {
     failed: {name : 'Failed', color: '#DD3646'},
     successfull: {name : 'Successfull', color: '#28A745'},
@@ -40,6 +50,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   currentStatusFailed: any = false;
   userInfo: any = {};
   sortedData:any = [];
+  statusModalPopRef: any = [];
+  addSourceModalPopRef: any = [];
+  showSourceAddition:any = null;
+  isAsc = true;
+  selectedSort = '';
+  @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
+  @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   constructor(
     public workflowService: WorkflowService,
@@ -56,15 +73,23 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
   }
   addNewContentSource(type){
-    this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
+    this.showSourceAddition = type;
+    this.openAddSourceModal();
+    // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   sortBy(sort) {
     const data = this.resources.slice();
+    this.selectedSort = sort;
+    if(this.selectedSort !== sort){
+      this.isAsc = true;
+    }else {
+      this.isAsc = !this.isAsc;
+    }
     const sortedData = data.sort((a, b) => {
-      const isAsc = true;
+      const isAsc = this.isAsc;
       switch (sort) {
         case 'type': return this.compare(a.type, b.type, isAsc);
         case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);
@@ -85,6 +110,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
+      this.filterResourcesBack = res;
+      if(this.resources.length){
+        this.resources.forEach(element => {
+          this.statusArr.push(element.recentStatus);
+          this.docTypeArr.push(element.type);
+        });
+        this.statusArr = [...new Set(this.statusArr)]
+        this.docTypeArr = [...new Set(this.docTypeArr)]
+      }
       _.map(this.resources, (source)=> {
         source.name = source.name || source.title;
       });
@@ -167,9 +201,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.notificationService.notify('Source extraction is still in progress','error');
     return;
     }
+    this.openStatusModal();
     this.selectedSource = source;
     this.loadingSliderContent = true;
-    this.sliderComponent.openSlider('#sourceSlider', 'right500');
+    // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     this.getCrawledPages();
   }
   closeStatusSlider() {
@@ -198,6 +233,86 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
+
+  filterTable(source,headerOption){
+    console.log(this.resources,source)
+    this.resources = [...this.filterResourcesBack]; // For new Filter..
+    const resourceData =  this.resources.filter((data)=>{
+      console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+     return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+
+    })
+    if(resourceData.length)this.resources = [...resourceData];
+  }
+  transform(date: string): any {
+    const _date = new Date(date);
+    if(_date.toString() === 'Invalid Date'){
+        return '-';
+    }
+    else{
+        return moment(_date).format('DD MMM YYYY');
+    }
+   }
+  pushValues(res,index){
+    const array = [];
+      array.push(this.transform(res[index].createdOn),res[index].desc,res[index].name,res[index].recentStatus,res[index].type)
+
+    return array
+  }
+  applyFilter(valToSearch){
+    if(valToSearch){
+      this.resources = [...this.filterResourcesBack];
+    let tableData = [];
+    console.log(this.resources)
+
+    for(let i =0 ; i< this.resources.length;i++){
+      // console.log(Object.keys(requireddata[i]))
+      const requireddata = this.pushValues(this.resources,i);
+      const obj : string[] = requireddata;
+      // tslint:disable-next-line:prefer-for-of
+      for(let j =0 ; j < obj.length; j++){
+        if(obj[j].includes(valToSearch)){
+          tableData.push(this.resources[i]);
+        }
+      }
+    }
+    tableData = [...new Set(tableData)]
+    if(tableData.length){
+      this.resources = tableData;
+      this.sectionShow = true;
+    }else{
+      this.sectionShow = false;
+    }
+    console.log( tableData);
+    }else{
+      this.resources = [...this.filterResourcesBack];
+      this.searchSources = '';
+      this.sectionShow = true;
+    }
+  }
+  openStatusModal() {
+    this.statusModalPopRef  = this.statusModalPop.open();
+   }
+   closeStatusModal() {
+    if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
+      this.statusModalPopRef.close();
+    }
+   }
+   openAddSourceModal() {
+    this.addSourceModalPopRef  = this.addSourceModalPop.open();
+   }
+   closeAddsourceModal() {
+    if (this.addSourceModalPopRef &&  this.addSourceModalPopRef.close) {
+      this.addSourceModalPopRef.close();
+    }
+   }
+   onSourceAdditionClose(){
+    this.closeAddsourceModal();
+    this.showSourceAddition = null;
+   }
+   onSourceAdditionSave(){
+    this.showSourceAddition = null;
+   }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
    if (timerObjects && timerObjects.length) {
