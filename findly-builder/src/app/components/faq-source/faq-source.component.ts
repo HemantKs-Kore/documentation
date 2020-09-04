@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { tempdata } from './tempdata';
 import * as _ from 'underscore';
 import { from, interval } from 'rxjs';
-import { startWith, elementAt } from 'rxjs/operators';
+import { startWith, elementAt, filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
@@ -27,6 +27,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   searchSources = '';
   pagesSearch = '';
   selectedFaq: any = null;
+  singleSelectedFaq: any = null;
   showAddFaqSection = false;
   selectedApp: any = {};
   resources: any = [];
@@ -160,6 +161,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     const element = $('#selectFaqCheckBox_' + faq._id);
     const addition =  element[0].checked
     this.addRemoveFaqFromSelection(faq._id,addition);
+    this.singleSelectedFaq = faq;
   }
   selectResourceFilter(source?){
     if(source){
@@ -322,7 +324,95 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       });
     }
   }
-  deleteQuestion(index) {
+  sendForReview(action){
+    let state = "";
+    if(action == "update"){
+      state = "in-review"
+    }else if(action == "delete"){
+      state = "delete"
+    }
+    const selectedElements = $('.selectEachfaqInput:checkbox:checked')
+    let selectIDArray: any[] = [];
+    let reviewdata : any[] = []; 
+      for(let i = 0; i < selectedElements.length ; i++){
+        selectIDArray.push(selectedElements[i].id.split('_')[1]);
+      }
+    for(let i = 0; i < this.faqs.length; i++){
+      for(let j = 0; j< selectIDArray.length; j ++){
+        if(selectIDArray[j] ==  this.faqs[i]._id){
+          reviewdata.push({"id" : this.faqs[i]._id});
+          this.faqs[i].state = 'in-review';
+          //this.tempRecordDelete(this.faqs[i]._id)
+        }
+      }
+    }
+    const quaryparms:any = {
+      searchIndexId: this.serachIndexId,
+    }
+    let payload = {
+      faqs : reviewdata,
+      state :state
+    };
+    this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
+      this.getfaqsBy();
+    }, errRes => {
+    });
+    //this.getfaqsBy();
+    //let selectIDArray = selectedElements.forEach(element => this.strArr(element.id));
+   
+    console.log(reviewdata);
+  }
+  tempRecordDelete(id){
+    const deleteIndex = _.findIndex(this.faqs,(fq)=>{
+      return fq._id === id;
+    })
+    if (deleteIndex > -1) {
+      this.faqs.splice(deleteIndex,1);
+    }
+  }
+  strArr(s: string): any[] {
+    return Array(s);
+  }
+  deleteSrcAQ(source,event,dialogRef){
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms:any = {
+      searchIndexId: this.serachIndexId,
+      sourceId : source._id
+    }
+    this.service.invoke('delete.faq.source', quaryparms).subscribe(res => {
+      dialogRef.close();
+      const deleteIndex = _.findIndex(this.resources,(fq)=>{
+           return fq._id === source._id;
+      })
+      if (deleteIndex > -1) {
+       this.resources.splice(deleteIndex,1);
+      }
+    }, errRes => {
+    });
+  }
+  deleteIndFAQ(faq,dialogRef){
+    const quaryparms:any = {
+      searchIndexId: this.serachIndexId,
+      faqId : faq._id
+    }
+    /** for multiple  */
+
+
+    this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
+      dialogRef.close();
+      const deleteIndex = _.findIndex(this.faqs,(fq)=>{
+           return fq._id === faq._id;
+      })
+      if (deleteIndex > -1) {
+       this.faqs.splice(deleteIndex,1);
+      }
+    }, errRes => {
+    });
+  }
+  deleteQuestion(type,record,event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
       height: '306px',
@@ -337,8 +427,18 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          dialogRef.close();
-          console.log('deleted')
+          if(type == 'qstnFAQ'){
+            const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+            if(selectedElements.length > 1){
+              this.sendForReview('delete')
+            }else{
+              this.deleteIndFAQ(record,dialogRef)
+            }
+          }else{
+            this.deleteSrcAQ(record,event,dialogRef)
+          }
+          //dialogRef.close();
+          //console.log('deleted')
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')

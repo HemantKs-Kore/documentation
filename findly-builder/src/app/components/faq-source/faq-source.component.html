@@ -100,8 +100,8 @@
                             </ng-container>
                         </div>
                         <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
-                            <button class="kr-sg-button-primary btn_lg">Send for Review</button>
-                            <button class="kr-sg-button-secondary btn_lg">Delete</button>
+                            <button class="kr-sg-button-primary btn_lg" (click)="sendForReview('update')">Send for Review</button>
+                            <button class="kr-sg-button-secondary btn_lg" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -321,7 +321,7 @@
                       <div class="col">{{source.extracted || '0'}}</div>
                       <div class="col">{{source.staged || '0'}}</div>
                       <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-                      <div class="col text-right last-child" >
+                      <div class="col text-right last-child" (click)="deleteQuestion('recordFAQ',source,$event)">
                         <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
                         <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
                      </div>

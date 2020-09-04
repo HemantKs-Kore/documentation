@@ -254,9 +254,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (result === 'yes') {
           if(from == 'source'){
-            this.deletePage(record,event,dialogRef)
-          }  else{
             this.deleteSource(record,dialogRef)
+          }  else{
+            this.deletePage(record,event,dialogRef)
           } 
         } else if (result === 'no') {
           dialogRef.close();
@@ -273,7 +273,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   deleteSource(record,dialogRef){
     const quaryparms:any = {
-      searchIndexId: record._id,
+      searchIndexId: this.serachIndexId,//record._id,
       type:record.type
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
@@ -308,7 +308,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
-
   filterTable(source,headerOption){
     console.log(this.resources,source)
     this.resources = [...this.filterResourcesBack]; // For new Filter..

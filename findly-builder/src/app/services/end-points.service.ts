@@ -148,7 +148,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/:faqID',
       method: 'delete'
     };
-
+    
     this.serviceList['get.possibletags'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/possibletags?ktId=:ktId',
       method: 'post'
@@ -157,6 +157,19 @@ export class EndPointsService {
     this.serviceList['get.globalsynonyms'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/builder/globalsynonyms?offset=:offset&limit=:limit&search=:search&keyword=:keyword&state=:state&ktId=:ktId',
       method: 'get'
+    };
+
+    this.serviceList['delete.faq.ind'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId',
+      method: 'get'
+    };
+    this.serviceList['delete.faq.source'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source/:sourceId',
+      method: 'get'
+    };
+    this.serviceList['update.faq.bulk'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/bulk',
+      method: 'put'
     };
   }
 }
