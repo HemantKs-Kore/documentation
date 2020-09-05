@@ -173,5 +173,22 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/bulk',
       method: 'put'
     };
+    this.serviceList['create.synonym'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms',
+      method: 'post'
+    };
+    this.serviceList['get.synonym'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms?offset=:offset&limit=:limit',
+      method: 'get'
+    };
+    
+    this.serviceList['update.synonym'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms/:synonymId',
+      method: 'put'
+    };
+    this.serviceList['delete.synonym'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms/:synonymId',
+      method: 'delete'
+    };
   }
 }

@@ -77,7 +77,7 @@
                
                             <div class="col-md-11">
                                 <b><span [innerHTML] = "synonym.name + '~'"></span></b>
-                                <span *ngFor="let eachSyn of synonym.synonym;let i = index" [innerHTML] = "eachSyn + ' '"></span>
+                                <span *ngFor="let eachSyn of synonym.synonym;let i = index" [innerHTML] = "eachSyn"></span>
                             </div>
                             <div class="col-md-1">                  
                                 <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
@@ -91,7 +91,7 @@
                                 <mat-chip-list #chipList aria-label="tag selection">
                                   <mat-chip *ngFor="let syn of synonym.synonym" [selectable]="selectable"
                                            [removable]="removable" (removed)="removeList(syn,i)">
-                                    {{syn || ''}}
+                                    {{ syn }}
                                     <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                   </mat-chip>
                                   <input placeholder="Synonyms"
@@ -99,8 +99,8 @@
                                          [matChipInputFor]="chipList"
                                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                          [matChipInputAddOnBlur]="addOnBlur"
-                                         (matChipInputTokenEnd)="addList($event)" #suggestedInput>
-                                         <button type="button" class="btn btn-light" (click)="addSynonyms(synonymObj)">+</button>
+                                         (matChipInputTokenEnd)="addList($event,i)" #suggestedInput>
+                                         <!-- <button type="button" class="btn btn-light" (click)="addSynonymsAddedName(syn,i)">+</button> -->
                                 </mat-chip-list>
                               </mat-form-field>
                         </div>
