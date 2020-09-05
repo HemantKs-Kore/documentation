@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
-  currentView = 'grid'
+  currentView = 'list'
   searchSources = '';
   pagesSearch = '';
   selectedApp: any = {};

@@ -339,7 +339,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       question: event.question,
    answer: event.answer,
    alternateQuestions: [],
-   keywords: event.keywords,
+   keywords: event.tags,
    state: event.state
     };
     this.updateFaq(this.selectedFaq,'updateQA',_payload)
