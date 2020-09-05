@@ -46,6 +46,7 @@ import { MarkdownEditorResizeSensorComponent } from './helpers/lib/resize-sensor
 import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog/editor-url-dialog.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
+import { SynonymsComponent } from './components/synonyms/synonyms.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CustomMarkdownEditorComponent,
     MarkdownEditorResizeSensorComponent,
     EditorUrlDialogComponent,
-    ImportFaqsModalComponent
+    ImportFaqsModalComponent,
+    SynonymsComponent
     ],
   imports: [
     BrowserModule,

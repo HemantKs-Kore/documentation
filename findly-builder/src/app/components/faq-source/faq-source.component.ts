@@ -498,6 +498,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
       }
     });
+    
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
