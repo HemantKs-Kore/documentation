@@ -11,6 +11,8 @@ import { Router} from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -19,7 +21,7 @@ import * as moment from 'moment';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
-  currentView = 'grid'
+  currentView = 'list'
   searchSources = '';
   pagesSearch = '';
   selectedApp: any = {};
@@ -30,6 +32,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sectionShow = true;
   serachIndexId;
   filterResourcesBack;
+  btnCount;
+  pagingData : any[] = [];
   statusArr= [];
   docTypeArr =[];
   contentTypes= {
@@ -63,7 +67,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
     ) { }
 
   ngOnInit(): void {
@@ -157,13 +162,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
        clearInterval(this.polingObj[type]);
      }
     }, errRes => {
-      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to crawl', 'error');
-      }
+      this.errorToaster(errRes,'Failed to fetch job status');
+      clearInterval(this.polingObj[type]);
     });
   }
+  errorToaster(errRes,message){
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+  }
+ }
   getCrawledPages() {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -174,6 +185,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
+      /** Paging */
+      this.pagingData = res;
+      this.pageination(res)
+    /** Paging */
       this.sliderStep = 0;
       this.loadingSliderContent = false;
     }, errRes => {
@@ -197,23 +212,88 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   openStatusSlider(source) {
-    if(source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))){
-    this.notificationService.notify('Source extraction is still in progress','error');
-    return;
+    if(source.recentStatus === 'success'){
+      if(source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))){
+        this.notificationService.notify('Source extraction is still in progress','error');
+        return;
+        }
+        this.openStatusModal();
+        this.selectedSource = source;
+        this.loadingSliderContent = true;
+        // this.sliderComponent.openSlider('#sourceSlider', 'right500');
+        this.getCrawledPages();
     }
-    this.openStatusModal();
-    this.selectedSource = source;
-    this.loadingSliderContent = true;
-    // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-    this.getCrawledPages();
   }
+  pageination(pages){
+    let count = 0;
+    let divisor = Math.floor(pages.length/10) 
+    let remainder = pages.length%10;
+    if(remainder>0){
+      this.btnCount =  divisor+1;
+    }else{
+      this.btnCount =  divisor;
+    }
+  }
+  numArr(n: number): any[] {
+    return Array(n);
+  }
+  onClickPageNo(index,noRows){
+  }
+  deletePages(from,record,event) {
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: from == 'source'? 'Delete Source ' :' Delete Page',
+        text: 'Are you sure you want to delete selected record?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if(from == 'source'){
+            this.deleteSource(record,dialogRef)
+          }  else{
+            this.deletePage(record,event,dialogRef)
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+
   closeStatusSlider() {
     this.sliderComponent.closeSlider('#sourceSlider');
   }
   openImageLink(url){
     window.open(url,'_blank');
   }
-  deletePage(page,event){
+  deleteSource(record,dialogRef){
+    const quaryparms:any = {
+      searchIndexId: this.serachIndexId,
+      type:record.type,
+      webDomainId:record._id
+    }
+    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
+      dialogRef.close();
+      const deleteIndex = _.findIndex(this.resources,(pg)=>{
+           return pg._id === record._id;
+      })
+      if (deleteIndex > -1) {
+        this.resources.splice(deleteIndex,1);
+      }
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to delete source');
+    });
+  }
+  deletePage(page,event,dialogRef){
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -224,6 +304,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       pageId:page._id
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
+      dialogRef.close();
       const deleteIndex = _.findIndex(this.selectedSource.pages,(pg)=>{
            return pg._id === page._id;
       })
@@ -233,7 +314,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
-
   filterTable(source,headerOption){
     console.log(this.resources,source)
     this.resources = [...this.filterResourcesBack]; // For new Filter..

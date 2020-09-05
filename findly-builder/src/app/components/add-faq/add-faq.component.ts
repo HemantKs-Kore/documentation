@@ -51,11 +51,11 @@ export class AddFaqComponent implements OnInit {
   ngOnInit() {
     if (this.faqData) {
       this.form = this.fb.group({
-        question: [this.faqData.questionPayload.question, Validators.required],
-        botResponse: [this.faqData.answerPayload[0].text, Validators.required]
+        question: [this.faqData.question, Validators.required],
+        botResponse: [this.faqData.answer, Validators.required]
       });
-      this.tags = this.faqData.questionPayload.tagsPayload;
-      this.text = this.faqData.answerPayload[0].text;
+      this.tags = this.faqData.keywords;
+      this.text = this.faqData.answer;
     } else {
       this.form = this.fb.group({
         question: ['', Validators.required],
@@ -81,17 +81,13 @@ export class AddFaqComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our tag
     if ((value || '').trim()) {
       if (!this.checkDuplicateTags((value || '').trim())) {
         this.notify.notify('Duplicate tags are not allowed', 'warning');
       } else {
-        this.tags.push({ tag: value.trim(), synonyms: [] });
+        this.tags.push(value.trim());
       }
     }
-
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -99,7 +95,6 @@ export class AddFaqComponent implements OnInit {
 
   remove(tag): void {
     const index = this.tags.indexOf(tag);
-
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
@@ -141,17 +136,11 @@ export class AddFaqComponent implements OnInit {
   }
 
   checkDuplicateTags(suggestion: string = ''): boolean {
-    return this.tags.every(f => f.tag.toLowerCase() !== suggestion.toLowerCase())
+    return this.tags.every(f => f.toLowerCase() !== suggestion.toLowerCase())
   }
-
   selectedTag(data: MatAutocompleteSelectedEvent) {
     this.suggestedInput.nativeElement.value = '';
-    const obj: any = {
-      tag: data.option.viewValue,
-      synonyms: []
-    }
-    this.tags.push(obj);
-    console.log(data);
+    this.tags.push(data.option.viewValue);
   }
   showpopup(popOver) {
     const elements = document.getElementsByClassName('bs-popover-bottom');

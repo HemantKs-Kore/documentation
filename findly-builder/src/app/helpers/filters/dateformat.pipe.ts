@@ -5,13 +5,16 @@ import * as moment from 'moment';
    name: 'dateFormatPipe'
 })
 export class DateFormatPipe  implements PipeTransform {
-   transform(date: string): any {
-    const _date = new Date(date);
-    if(_date.toString() === 'Invalid Date'){
+   transform(date: string , format: string): any {
+    const dateValue = new Date(date);
+    if (dateValue.toString() === 'Invalid Date') {
         return '-';
-    }
-    else{
-        return moment(_date).format('DD MMM YYYY');
+    } else {
+        if (format) {
+            return moment(dateValue).format(format);
+        } else {
+            return moment(dateValue).format('MM-DD-YYYY');
+        }
     }
    }
 }

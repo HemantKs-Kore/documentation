@@ -56,7 +56,7 @@
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
             <ng-container *ngIf="sectionShow" >
-            <div class="content-body" *ngFor="let source of resources " (click)="openStatusSlider(source)">
+            <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)">
                 <div class="col">{{source.title || source.name}}</div>
                 <div class="col">{{source.type | titlecase}}</div>
                 <!-- <div class="col">Default</div> -->
@@ -67,7 +67,7 @@
                 <div class="col">{{source.createdOn | dateFormatPipe}}</div>
                 <div class="col text-right last-child">                  
                   <span class="actions-links"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                  <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
+                  <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
               </div>
             </div>
           </ng-container>
@@ -155,16 +155,15 @@
                 <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
               </div>
               <div id="accordion" class="accordion-section">
-                <div class="card_content" *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url']">
+                <div class="card_content" *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content">
                         <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">{{page.url || selectedSource.url}}</div>
                         <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
                         <div class="col-2 actions">
-                          <img src="assets/icons/sidemenu/table-refresh-2.svg">
-                          <img src="assets/icons/sidemenu/table-refresh.svg">
-                          <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePage(page ,$event)">
+                          <img src="assets/images/return.svg">
+                          <img src="assets/images/trashIcon.svg" (click)="deletePages('pages',page ,$event)">
                         </div>
                       </div>
                     </a>
@@ -198,7 +197,14 @@
                       <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
                     </div>
                   </div>
-                </div>   
+                </div> 
+                <!-- pageination -->
+                <div>
+                  <button class="btn">PRE</button>
+                    <button *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(i,10)">{{i+1}}</button>
+                  <button class="btn">NXT</button>
+                </div>  
+                 <!-- pageination -->
               </div>
             </div>
           </ng-container>

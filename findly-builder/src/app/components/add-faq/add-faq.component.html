@@ -8,7 +8,7 @@
     <mat-form-field class="example-chip-list mb-8" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
-          <ng-template #ngbTemplate>
+          <!-- <ng-template #ngbTemplate>
             <div class="container" (mouseenter)="containFocused(true)" (mouseleave)="containFocused(false)" (click)="$event.stopPropagation()"> 
               <div class="sys-content">
                 <span class="title-syn">Synonyms:</span>
@@ -19,13 +19,16 @@
               </div>
               <input class="sys-input" placeholder="Type & enter" [(ngModel)]="newSynonym" (keyDown.enter)="addSynonym(tag)"
               [ngModelOptions]="{standalone: true}">
-            </div>              
-      </ng-template>
-          <div #popOver="ngbPopover" (mouseenter)="showpopup(popOver)" (mouseleave)="toggle(popOver)"
-            id="hoverContent_{{index + tag.tag}}" class="mat-val" [ngbPopover]="ngbTemplate" [placement]='"bottom"'
-            [container]='"body"' (click)="$event.stopPropagation()" [autoClose]='"outside"' [triggers]='"manual"' [popoverClass]='"intent_question_chip_sys_tooltip"' >
-            {{tag.tag}}</div>
-          <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+            </div>               
+        </ng-template>
+          <div #popOver="ngbPopover"
+           (mouseenter)="showpopup(popOver)" (mouseleave)="toggle(popOver)"  [ngbPopover]="ngbTemplate" [placement]='"bottom"' [container]='"body"'
+           [autoClose]='"outside"' [triggers]='"manual"' [popoverClass]='"intent_question_chip_sys_tooltip"'
+            id="hoverContent_{{index + tag.tag}}" class="mat-val"
+             (click)="$event.stopPropagation()">
+            {{tag.tag}}</div>-->
+            <div class="mat-val" (click)="$event.stopPropagation()"> {{tag}}</div>
+            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
         </mat-chip>
         <input placeholder="Type & enter"
               (focus)= "getAltTags($event)"
@@ -34,7 +37,7 @@
                [matAutocomplete]="suggestedItems"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                (matChipInputTokenEnd)="add($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()">
-      </mat-chip-list>
+        </mat-chip-list>
       <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event)">
         <ng-container *ngFor = "let suggestion of suggestionTags">
           <mat-option *ngIf="checkDuplicateTags(suggestion)">
