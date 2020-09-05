@@ -162,13 +162,19 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
        clearInterval(this.polingObj[type]);
      }
     }, errRes => {
-      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to crawl', 'error');
-      }
+      this.errorToaster(errRes,'Failed to fetch job status');
+      clearInterval(this.polingObj[type]);
     });
   }
+  errorToaster(errRes,message){
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+  }
+ }
   getCrawledPages() {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -206,7 +212,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   openStatusSlider(source) {
-    if(source.recentStatus === "success"){
+    if(source.recentStatus === 'success'){
       if(source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))){
         this.notificationService.notify('Source extraction is still in progress','error');
         return;
@@ -214,7 +220,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.openStatusModal();
         this.selectedSource = source;
         this.loadingSliderContent = true;
-        
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
         this.getCrawledPages();
     }
@@ -233,7 +238,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     return Array(n);
   }
   onClickPageNo(index,noRows){
-    
   }
   deletePages(from,record,event) {
     if(event){
@@ -257,7 +261,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             this.deleteSource(record,dialogRef)
           }  else{
             this.deletePage(record,event,dialogRef)
-          } 
+          }
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -273,8 +277,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   deleteSource(record,dialogRef){
     const quaryparms:any = {
-      searchIndexId: this.serachIndexId,//record._id,
-      type:record.type
+      searchIndexId: this.serachIndexId,
+      type:record.type,
+      webDomainId:record._id
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
@@ -285,6 +290,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.resources.splice(deleteIndex,1);
       }
     }, errRes => {
+      this.errorToaster(errRes,'Failed to delete source');
     });
   }
   deletePage(page,event,dialogRef){

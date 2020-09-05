@@ -112,6 +112,14 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId/stage?action=:method',
       method:'put'
     };
+    this.serviceList['update.faq']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId',
+      method:'put'
+    };
+    this.serviceList['delete.faq']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId',
+      method:'delete'
+    };
     this.serviceList['get.knowledgetasks'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/knowledgetasks?streamId=:streamId',
       method: 'get'
@@ -143,12 +151,6 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/:faqID',
       method: 'put'
     };
-
-    this.serviceList['delete.faq'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/:faqID',
-      method: 'delete'
-    };
-    
     this.serviceList['get.possibletags'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs/possibletags?ktId=:ktId',
       method: 'post'
@@ -161,7 +163,7 @@ export class EndPointsService {
 
     this.serviceList['delete.faq.ind'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId',
-      method: 'get'
+      method: 'delete'
     };
     this.serviceList['delete.faq.source'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source/:sourceId',
