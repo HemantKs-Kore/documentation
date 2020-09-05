@@ -8,6 +8,7 @@ import { AddSourceComponent } from './components/add-source/add-source.component
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
 import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
+import { SynonymsComponent } from './components/synonyms/synonyms.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'faqsManual', component: ManageIntentComponent },
       { path: 'faqs', component: FaqSourceComponent },
       { path: 'botActions', component: AddSourceComponent },
+      { path: 'synonyms', component: SynonymsComponent },
       { path: '**', component: AppsListingComponent},
     ]
   }
