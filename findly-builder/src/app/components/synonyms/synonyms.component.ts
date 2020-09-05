@@ -19,7 +19,7 @@ export class SynonymsComponent implements OnInit {
   serachIndexId
   loadingContent : boolean = true;
   haveRecord : boolean = false;
-  synonymData : any[] = [];//SynonymModal[] = [];
+  synonymData : any[];//SynonymModal[] = [];
   synonymDataBack : any[] = [];//SynonymModal[] = [];
   synonymObj: any; //SynonymClass = new SynonymClass();
   visible = true;
@@ -146,19 +146,32 @@ export class SynonymsComponent implements OnInit {
   }
  }
   applyFilter(value){
-    this.synonymData= [...this.synonymDataBack];
-    const data = this.synonymData.filter(data=>{
+    /** Work in Progress */
+    if(value){
+      this.synonymData= [...this.synonymDataBack];
+    let data = [];
+    let dataoBJ = {};
+    dataoBJ = this.synonymData.filter(data=>{
       return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()) || data.synonym.forEach(element => {
          element.toLocaleLowerCase().includes(value.toLocaleLowerCase())
       });
+
       //return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
     })
+    data.push(dataoBJ)
+   // data = [...new Set(data)]
     if(data.length){
-      this.synonymData = [...data];
+      this.synonymData = [...data]; 
       this.haveRecord = true;
     }else{
+      this.synonymData = null;
       this.haveRecord = false;
     }
+    }else{
+      this.synonymData= [...this.synonymDataBack];
+      this.haveRecord = true;
+    }
+    
     
   }
   editSynRecord(record,event,i){
