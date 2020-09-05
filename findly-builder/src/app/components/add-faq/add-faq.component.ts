@@ -51,11 +51,11 @@ export class AddFaqComponent implements OnInit {
   ngOnInit() {
     if (this.faqData) {
       this.form = this.fb.group({
-        question: [this.faqData.questionPayload.question, Validators.required],
-        botResponse: [this.faqData.answerPayload[0].text, Validators.required]
+        question: [this.faqData.question, Validators.required],
+        botResponse: [this.faqData.answer, Validators.required]
       });
-      this.tags = this.faqData.questionPayload.tagsPayload;
-      this.text = this.faqData.answerPayload[0].text;
+      this.tags = this.faqData.keywords;
+      this.text = this.faqData.answer;
     } else {
       this.form = this.fb.group({
         question: ['', Validators.required],

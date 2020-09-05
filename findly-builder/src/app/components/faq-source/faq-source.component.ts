@@ -13,6 +13,7 @@ import { startWith, elementAt, filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
 
 @Component({
@@ -48,6 +49,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   selectedResource;
   public model: any;
   loadingFaqs = true;
+  editfaq = false;
   statusObj: any = {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
@@ -65,6 +67,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   statusModalPopRef: any = [];
   addSourceModalPopRef: any = [];
   showSourceAddition:any = null;
+  @ViewChild('editQaScrollContainer' , { static: true })editQaScrollContainer?: PerfectScrollbarComponent;
+  @ViewChild('fqasScrollContainer' , { static: true })fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -119,6 +123,15 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
      this.showSourceAddition = type;
     this.openAddSourceModal();
    }
+   errorToaster(errRes,message){
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+  }
+ }
    addRemoveFaqFromSelection(faqId,addtion,clear?){
      if(clear){
       this.faqSelectionObj.selectedItems = {};
@@ -137,17 +150,20 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       this.faqSelectionObj.selectedCount = Object.keys(this.faqSelectionObj.selectedItems).length;
      }
    }
-  selectAll() {
+  selectAll(unselectAll?) {
     const allFaqs = $('.selectEachfaqInput');
     if (allFaqs && allFaqs.length){
       $.each(allFaqs, (index,element) => {
         if($(element) && $(element).length){
-          $(element)[0].checked = this.faqSelectionObj.selectAll;
+          $(element)[0].checked = unselectAll?false: this.faqSelectionObj.selectAll;
           const faqId = $(element)[0].id.split('_')[1]
           this.addRemoveFaqFromSelection(faqId,this.faqSelectionObj.selectAll);
         }
       });
     };
+    if(unselectAll){
+      $('#selectAllFaqs')[0].checked = false;
+    }
     const selectedElements = $('.selectEachfaqInput:checkbox:checked');
   }
   checkUncheckfaqs(faq){
@@ -312,6 +328,22 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     }
     )
   }
+  editThisQa(){
+    this.editfaq = true;
+  }
+  faqCancle(event){
+   this.editfaq = false;
+  }
+  editFaq(event){
+    const _payload = {
+      question: event.question,
+   answer: event.answer,
+   alternateQuestions: [],
+   keywords: event.keywords,
+   state: event.state
+    };
+    this.updateFaq(this.selectedFaq,'updateQA',_payload)
+  }
   updateSourceStatus(statusItems) {
     if (statusItems && statusItems.length) {
       statusItems.forEach(status => {
@@ -324,43 +356,63 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       });
     }
   }
-  sendForReview(action){
-    let state = "";
-    if(action == "update"){
-      state = "in-review"
-    }else if(action == "delete"){
-      state = "delete"
+  updateFaq(faq,action,params){
+    this.selectAll(true);
+    const quaryparms:any = {
+      searchIndexId: this.serachIndexId,
+      faqId:faq._id,
     }
-    const selectedElements = $('.selectEachfaqInput:checkbox:checked')
-    let selectIDArray: any[] = [];
-    let reviewdata : any[] = []; 
-      for(let i = 0; i < selectedElements.length ; i++){
-        selectIDArray.push(selectedElements[i].id.split('_')[1]);
-      }
-    for(let i = 0; i < this.faqs.length; i++){
-      for(let j = 0; j< selectIDArray.length; j ++){
-        if(selectIDArray[j] ==  this.faqs[i]._id){
-          reviewdata.push({"id" : this.faqs[i]._id});
-          this.faqs[i].state = 'in-review';
-          //this.tempRecordDelete(this.faqs[i]._id)
+    let payload:any={}
+    if(action === 'stateUpdate'){
+      payload.state = params;
+    }
+    if(action==='updateQA'){
+      payload = params;
+    }
+    this.service.invoke('update.faq', quaryparms,payload).subscribe(res => {
+      this.selectedFaq = res;
+      this.selectedtab = res.state;
+      this.getfaqsBy();
+      this.getStats();
+      this.editfaq = false;
+    }, errRes => {
+      this.errorToaster(errRes,'Somthing went worng');
+    });
+  }
+  bulkUpdate(action,state?){
+    const payload: any = {
+      faqs : [],
+    };
+    let custerrMsg = 'Failed to update faqs'
+    if(action === 'update' && state){
+      payload.state = state
+    }else if(action === 'delete'){
+      payload.action = 'delete'
+      custerrMsg = 'Failed to delete faqs'
+    }
+    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+    const sekectedFaqsCollection:any = [];
+    if(selectedElements && selectedElements.length){
+      $.each(selectedElements,(i,ele) =>{
+        const  faqId = $(ele)[0].id.split('_')[1];
+        const tempobj= {
+          _id:faqId
         }
-      }
+          sekectedFaqsCollection.push(tempobj);
+      })
     }
+    payload.faqs = sekectedFaqsCollection;
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
     }
-    let payload = {
-      faqs : reviewdata,
-      state :state
-    };
+    this.selectAll(true);
+    this.addRemoveFaqFromSelection(null,null,true);
     this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
       this.getfaqsBy();
+      this.getStats();
     }, errRes => {
+      this.errorToaster(errRes,custerrMsg);
     });
-    //this.getfaqsBy();
-    //let selectIDArray = selectedElements.forEach(element => this.strArr(element.id));
-   
-    console.log(reviewdata);
   }
   tempRecordDelete(id){
     const deleteIndex = _.findIndex(this.faqs,(fq)=>{
@@ -398,9 +450,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       searchIndexId: this.serachIndexId,
       faqId : faq._id
     }
-    /** for multiple  */
-
-
     this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
       dialogRef.close();
       const deleteIndex = _.findIndex(this.faqs,(fq)=>{
@@ -409,8 +458,33 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       if (deleteIndex > -1) {
        this.faqs.splice(deleteIndex,1);
       }
+      this.getStats();
+      this.selectedFaq = null;
     }, errRes => {
+      this.errorToaster(errRes,'Failed to delete faq');
     });
+  }
+  deleteInfividualQuestion(record) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete FAQ',
+        text: 'Are you sure you want to delete selected question?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteIndFAQ(record,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
   }
   deleteQuestion(type,record,event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -427,18 +501,11 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          if(type == 'qstnFAQ'){
-            const selectedElements = $('.selectEachfaqInput:checkbox:checked');
-            if(selectedElements.length > 1){
-              this.sendForReview('delete')
-            }else{
-              this.deleteIndFAQ(record,dialogRef)
-            }
+          if(type === 'qstnFAQ'){
+              this.bulkUpdate('delete')
           }else{
             this.deleteSrcAQ(record,event,dialogRef)
           }
-          //dialogRef.close();
-          //console.log('deleted')
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')

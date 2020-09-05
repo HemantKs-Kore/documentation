@@ -187,6 +187,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.statusModalPopRef  = this.statusModalPop.open();
    }
    closeStatusModal() {
+    this.saveEvent.emit();
     const self= this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
