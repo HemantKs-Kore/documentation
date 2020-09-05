@@ -29,14 +29,28 @@
             <div class="row container-fluid">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><b>Name</b></label>
+                        <label for="exampleInputEmail1"><b>Set Name</b></label>
                         <input type="text" class="form-control" id="name" [(ngModel)]="synonymObj.name" [ngModelOptions]="{standalone: true}" placeholder="Name" required>
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><b>Synonym</b></label>
-                        <input type="text" class="form-control" id="synonymId" [(ngModel)]="synonymObj.synonym" [ngModelOptions]="{standalone: true}"placeholder="synonym">
+                        <label for="exampleInputEmail1"><b>Synonyms</b></label>
+                        <mat-form-field  class="example-chip-list mb-8" [floatLabel]="'never'">
+                            <mat-chip-list #chipList aria-label="tag selection">
+                              <mat-chip *ngFor="let syn of synArr" [selectable]="selectable"
+                                       [removable]="removable" (removed)="remove(syn)">
+                                {{syn}}
+                                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                              </mat-chip>
+                              <input    placeholder="Synonyms"
+                              [value] = "typedQuery"
+                                     [matChipInputFor]="chipList"
+                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                     [matChipInputAddOnBlur]="addOnBlur"
+                                     (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.synonym" [ngModelOptions]="{standalone: true}">
+                            </mat-chip-list>
+                          </mat-form-field>
                     </div>
                 </div>
                 <!-- <div class="col-md-1">
@@ -53,30 +67,48 @@
   <!-- synonyms Card Header -->
 
   <!-- synonyms List -->
-  <ul class="list-group" *ngIf = "!loadingContent && haveRecord">
-    <li class="list-group-item" *ngFor="let synonym of synonymData">
-        <div class="row">
-            <div class="col-md-11">
-                <b><span [innerHTML] = "synonym.name + '~'"></span></b>
-                <span [innerHTML] = "synonym.synonym"></span>
+  <perfect-scrollbar class="table-scroll-perfect">
+    <ul class="list-group" *ngIf = "!loadingContent && haveRecord">
+        <li class="list-group-item" *ngFor="let synonym of synonymData;let i = index">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    
+                        <div class="row"data-toggle="collapse" (click) = "editSynRecord(synonym,$event,i)">
+               
+                            <div class="col-md-11">
+                                <b><span [innerHTML] = "synonym.name + '~'"></span></b>
+                                <span *ngFor="let eachSyn of synonym.synonym;let i = index" [innerHTML] = "eachSyn + ' '"></span>
+                            </div>
+                            <div class="col-md-1">                  
+                                <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                                <span class="actions-links" (click) = "deleteSynRecord(synonym,$event)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
+                            </div>
+                        </div>
+                    <div id="collapse_{{i}}" class="panel-collapse collapse">
+                        <hr>
+                        <div class="panel-body">
+                            <mat-form-field  class="example-chip-list mb-8" [floatLabel]="'never'">
+                                <mat-chip-list #chipList aria-label="tag selection">
+                                  <mat-chip *ngFor="let syn of synonym.synonym" [selectable]="selectable"
+                                           [removable]="removable" (removed)="removeList(syn,i)">
+                                    {{syn || ''}}
+                                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                  </mat-chip>
+                                  <input placeholder="Synonyms"
+                                         [value] = "typedQuery"
+                                         [matChipInputFor]="chipList"
+                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                         [matChipInputAddOnBlur]="addOnBlur"
+                                         (matChipInputTokenEnd)="addList($event)" #suggestedInput>
+                                         <button type="button" class="btn btn-light" (click)="addSynonyms(synonymObj)">+</button>
+                                </mat-chip-list>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-1">                  
-                <span class="actions-links"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
-            </div>
-        </div>
-    </li>
-  </ul>
-<!-- synonyms List -->
-  <!-- <mat-card  style="margin:1%" >
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz br
-        bred for hunting.
-      </p>
-      <span>hee</span>
-    </mat-card-content>
-    
-  </mat-card>-->
+        </li>
+      </ul>
+  </perfect-scrollbar>
 </div>
 
