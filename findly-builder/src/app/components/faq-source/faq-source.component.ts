@@ -246,7 +246,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      limit: 50,
+      limit: 100,
       offset: 0,
       state:this.selectedtab || 'draft'
     };
@@ -357,7 +357,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     }
   }
   updateFaq(faq,action,params){
-    this.selectAll(true);
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
       faqId:faq._id,
@@ -370,6 +369,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       payload = params;
     }
     this.service.invoke('update.faq', quaryparms,payload).subscribe(res => {
+      this.addRemoveFaqFromSelection(null,null,true);
+      this.selectAll(true);
       this.selectedFaq = res;
       this.selectedtab = res.state;
       this.getfaqsBy();
