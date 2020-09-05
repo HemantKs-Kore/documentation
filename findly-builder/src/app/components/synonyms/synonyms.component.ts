@@ -167,23 +167,24 @@ export class SynonymsComponent implements OnInit {
       event.preventDefault();
     }
       $('#collapse_'+i).toggleClass("collapse");
-      const quaryparms: any = {
-        searchIndexId:this.serachIndexId,
-        synonymId: null
-      };
-      const payload = {
-        synonyms: record.synonym,
-        keyword: record.name
-      }
-      this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-        console.log(res);
-        
-      }, errRes => {
-        this.errorToaster(errRes,'Failed to get Synonyms');
-      });
+      
   }
-  addSynonymsAddedName(record, i){
-    this.synonymData[i].synonym = record;
+  addSynonymsAddedName(synonym, i){
+    //this.synonymData[i].synonym = record;
+    const quaryparms: any = {
+      searchIndexId:this.serachIndexId,
+      synonymId: null
+    };
+    const payload = {
+      synonyms: synonym,
+      keyword: this.synonymData[i].name
+    }
+    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
+      console.log(res);
+      
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to update Synonyms');
+    });
   }
   deleteSynRecord(record){
     const quaryparms: any = {
@@ -194,7 +195,7 @@ export class SynonymsComponent implements OnInit {
       console.log(res);
       
     }, errRes => {
-      this.errorToaster(errRes,'Failed to get Synonyms');
+      this.errorToaster(errRes,'Failed to delete Synonyms');
     });
   }
   clear(){
