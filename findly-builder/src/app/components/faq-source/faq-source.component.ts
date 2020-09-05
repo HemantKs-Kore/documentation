@@ -24,6 +24,7 @@ declare const $: any;
 export class FaqSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   serachIndexId;
+  currentView = 'grid'
   searchSources = '';
   pagesSearch = '';
   selectedFaq: any = null;

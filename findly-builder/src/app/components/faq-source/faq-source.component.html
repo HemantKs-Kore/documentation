@@ -288,51 +288,93 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header">
-        <h4 class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='closeStatusModal()'></h4>
-        <div class="table-action-header">       
+        <div class="header-title" (click)='addFaqSource("faqDoc")'><img src="assets/images/closeCross.png" class="closeCross"></div>
+        <!-- <div class="table-action-header modal-table-actions">       
             <div class="kr-sg-input-search">                               
               <input [disabled]='!(resources && resources.length)' type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
               <img src="assets/icons/search.svg" class="search-icon">
             </div>
             <button class="kr-sg-button-primary btn_md" (click)='addFaqSource("faqDoc")'>Add Source</button>
-        </div>
+        </div> -->
+        <div class="table-action-header modal-table-actions"> 
+            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">              
+              <div class="search">
+                <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+                <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
+              </div>
+              <div class="kr-sg-dropdowns">            
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                              
+                      <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
+                      <li (click)="addNewContentSource('contentDoc')">Upload File</li>                 
+                    </ul>
+                </div>
+              </div>
+              <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
+              <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
+          </div> 
     </div>
-    <div class="modal-body source-modal-popup">
-        <div  class="table-list-content">
-            <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
-              <section class="table-content">
-                  <header class="table-header">
-                      <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('createdOn')">Reviewed <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col last-child" (click)="sortBy('name')"></div>
-                  </header>
-                  <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
-                  <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
-                      <div class="col">{{source.title || source.name}}</div>
-                      <div class="col">{{source.source | titlecase}}</div>
-                      <div class="col">
-                        <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
-                        <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                      </div>
-                      <div class="col">{{source.extracted || '0'}}</div>
-                      <div class="col">{{source.staged || '0'}}</div>
-                      <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-                      <div class="col text-right last-child" >
-                        <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
-                        <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
-                     </div>
-                  </div>
-                  <div class="empty">No Search Results found</div>
-                  </perfect-scrollbar>
-                  
-              </section>                               
-          </div>
-          <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
-        </div>
+    <div class="modal-body source-modal-popup" *ngIf="resources && resources.length">
+        <ng-container  *ngIf="currentView === 'list'">
+            <div class="table-list-content">
+                <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+                <section class="table-content">
+                    <header class="table-header">
+                        <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                        <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                        <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                        <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Reviewed <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                        <div class="col last-child" (click)="sortBy('name')"></div>
+                    </header>
+                    <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
+                    <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+                        <div class="col">{{source.title || source.name}}</div>
+                        <div class="col">{{source.source | titlecase}}</div>
+                        <div class="col">
+                            <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
+                            <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+                        </div>
+                        <div class="col">{{source.extracted || '0'}}</div>
+                        <div class="col">{{source.staged || '0'}}</div>
+                        <div class="col">{{source.createdOn | dateFormatPipe}}</div>
+                        <div class="col text-right last-child" >
+                            <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
+                            <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
+                        </div>
+                    </div>
+                    <div class="empty">No Search Results found</div>
+                    </perfect-scrollbar>
+                    
+                </section>                               
+            </div>
+            <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
+            </div>
+        </ng-container>
+        <ng-container  *ngIf="currentView === 'grid'">
+            <div class="list-view-data">
+                <div class="row row_list">
+                <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']">
+                    <div class="box">
+                    <div class="title">{{source.title || source.name}}</div>
+                    <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
+                    <div class="status-data">
+                        <!-- <div class="count-pages"><span class="pagelength">19</span> Pages</div> -->
+                        <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                        <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
+                        <img class="inprogressLoader" src="assets/icons/ringLoading.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                        <div class="status-name">{{statusObj[source.recentStatus].name}}</div>
+                        </div>
+                        <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
+                        <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">{{source.createdOn | dateFormatPipe}}</div>
+                    </div>
+                    </div>
+                </div>            
+                </div>
+            </div> 
+        </ng-container>
     </div>
 </kr-modal>
 
