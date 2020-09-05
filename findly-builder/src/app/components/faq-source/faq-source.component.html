@@ -288,7 +288,7 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header">
-        <div class="header-title" (click)='addFaqSource("faqDoc")'><img src="assets/images/closeCross.png" class="closeCross"></div>
+        <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>
         <!-- <div class="table-action-header modal-table-actions">       
             <div class="kr-sg-input-search">                               
               <input [disabled]='!(resources && resources.length)' type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
@@ -306,8 +306,8 @@
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
                     <ul class="dropdown-menu content-menu">                                                              
-                      <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
-                      <li (click)="addNewContentSource('contentDoc')">Upload File</li>                 
+                      <li (click)="openAddSourceModal('faqWeb')">Web URL</li>
+                      <li (click)="openAddSourceModal('FaqDoc')">Upload File</li>   
                     </ul>
                 </div>
               </div>
@@ -330,7 +330,7 @@
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
-                    <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
+                    <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']">
                         <div class="col">{{source.title || source.name}}</div>
                         <div class="col">{{source.source | titlecase}}</div>
                         <div class="col">
@@ -357,7 +357,7 @@
             <div class="list-view-data">
                 <div class="row row_list">
                 <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']">
-                    <div class="box">
+                    <div class="box" *ngIf="source">
                     <div class="title">{{source.title || source.name}}</div>
                     <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
                     <div class="status-data">

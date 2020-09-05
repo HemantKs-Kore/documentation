@@ -56,6 +56,10 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     running: { name: 'In Progress', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },
   };
+  contentTypes= {
+    webdomain:'WEB',
+    document:'DOC'
+  }
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
