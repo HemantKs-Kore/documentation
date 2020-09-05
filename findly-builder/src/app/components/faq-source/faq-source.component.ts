@@ -380,7 +380,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes,'Somthing went worng');
     });
   }
-  bulkUpdate(action,state?){
+  bulkUpdate(action,state?,dialogRef?){
     const payload: any = {
       faqs : [],
     };
@@ -411,6 +411,9 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
       this.getfaqsBy();
       this.getStats();
+      if(dialogRef){
+        dialogRef.close();
+      }
     }, errRes => {
       this.errorToaster(errRes,custerrMsg);
     });
@@ -504,7 +507,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (result === 'yes') {
           if(type === 'qstnFAQ'){
-              this.bulkUpdate('delete')
+              this.bulkUpdate('delete',null,dialogRef)
           }else{
             this.deleteSrcAQ(record,event,dialogRef)
           }
