@@ -143,8 +143,8 @@
                 &.centerModel{
                     background-color: #fff;
                     text-align: left;
-                    width: 70%;
-                    left: calc(15% - 2px);
+                    width: 80%;
+                    left: calc(10% - 2px);
                     padding-left: 30px;
                 }
             }
@@ -284,9 +284,7 @@
                     }
                 }
                 .col{
-                    .action_icon{
-                        width: 16px;
-                        height: 16px;
+                    .action_icon{                        
                         cursor: pointer;
                         visibility: hidden;
                     }

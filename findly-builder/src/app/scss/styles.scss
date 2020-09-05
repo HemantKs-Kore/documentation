@@ -417,7 +417,7 @@ div.divBlockEmptylastChild:first-child {
 } 
 .type_sort_dropdown-content{
     box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
-    width: 140px;
+    max-width: 200px;
     top: 3px !important;
     min-width: 140px;
     padding: 10px 0px;
@@ -428,6 +428,21 @@ div.divBlockEmptylastChild:first-child {
         color: #202124;
         padding: 8px 20px;
         cursor: pointer;
+        position: relative;
+        .list-name{
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            overflow: hidden;
+            padding-right: 10px;
+        }
+        img{
+            float: right;
+            top: 11px;
+            position: absolute;
+            right: 10px;
+        }
         &:hover{
             background: #EFF0F1;
         }
@@ -436,7 +451,7 @@ div.divBlockEmptylastChild:first-child {
 .faq-filter-add{
     background: #FFFFFF;
     box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
-    width: 160px;  
+    max-width: 250px;  
     min-width: 160px;
     padding: 10px 0px;
     border: 0;        
@@ -448,11 +463,27 @@ div.divBlockEmptylastChild:first-child {
         color: #202124;
         padding: 8px 20px;
         cursor: pointer;
+        position: relative;
+        .list-name{
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            overflow: hidden;
+            padding-right: 10px;
+        }
+        img{
+            float: right;
+            top: 11px;
+            position: absolute;
+            right: 10px;
+        }
         &:hover{
             background: #EFF0F1;
         }
     }
 }
+
 .delete-text{
     color: #DD3646 !important;
 }
@@ -630,9 +661,7 @@ div.divBlockEmptylastChild:first-child {
                 }
             }
             .col{
-                .action_icon{
-                    width: 16px;
-                    height: 16px;
+                .action_icon{                   
                     cursor: pointer;
                     visibility: hidden;
                 }
@@ -759,6 +788,7 @@ div.divBlockEmptylastChild:first-child {
                 height: 225px;
                 padding: 25px 0;
                 cursor: pointer;
+                position: relative;
                 .title{
                     color: #202124;
                     font-weight: 500;
@@ -807,8 +837,150 @@ div.divBlockEmptylastChild:first-child {
                         color: #9AA0A6;
                         font-size: 12px;
                     }
-                }                            
+                }     
+                .actions-delete{
+                    position: absolute;
+                    right: 15px;
+                    bottom: 10px;
+                    display: none;
+                    .actions-links{
+                        margin-left: 15px;
+                        cursor: pointer;
+                    }
+                }  
+                &:hover{
+                    transition: 0.3s all ease;
+                    .actions-delete{
+                        display: block;
+                    }
+                }                     
             }
         }
     }
+}
+
+.paginations-custon{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: fixed;
+    bottom: 20px;
+    right: 10%;
+    margin-right: 30px;
+    .previous{
+        color: #9AA0A6;
+        font-weight: normal;
+        font-size: 14px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    .next{
+        font-weight: normal;
+        font-size: 14px;
+        color: #202124;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    .numbers{
+        color: #5F6368;
+        font-weight: normal;
+        font-size: 14px;
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+        &.active{
+            color: #0D6EFD;
+            border-bottom: 1px solid #0D6EFD;
+        }
+    }
+}
+
+.crawlContent{
+    .main-title{
+        padding-left: 15px;
+        color: #202124;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .webDomain{    
+        padding: 15px;   
+        .check{
+            position: absolute;
+            right: 10px;
+            top: 12px;
+        }
+        &.selected{
+            .box-block{
+                border: 1px solid #85B7FE;
+                background-color: #F3F8FF;
+                .title{
+                    color: #07377F;
+                }
+                .info-text{
+                    color: #07377F;
+                }
+            }  
+        }    
+        .box-block{
+            background: #fff;           
+            border-radius: 6px;
+            border: 1px solid #BDC1C6;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 250px;
+            height: 250px;
+            &:hover{                        
+                border: 1px solid #85B7FE;
+                background-color: #F3F8FF;
+                .title{
+                    color: #07377F;
+                }
+                .info-text{
+                    color: #07377F;
+                }
+            }
+            .title{
+                color: #202124;
+                font-size: 16px;
+                font-weight: 500;
+            }
+            .imageDiv{
+                padding: 46px 0;
+                img{
+                    height: 65px;
+                    width: 65px;
+                }
+            }
+            .info-text{
+                color: #5F6368;             
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }           
+    }
+}
+.selected-length-doc-web{
+    color: #0D6EFD;  
+    padding-left: 2px;
+    font-size: 10px;
+    font-weight: bold;
+}
+.filter-count{
+    position: absolute;
+    z-index: 1;
+    right: -6px;
+    top: -18px;
+    background: #0D6EFD;
+    font-size: 10px;
+    border-radius: 100%;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
 }

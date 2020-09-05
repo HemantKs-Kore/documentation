@@ -31,10 +31,12 @@
                         </div>
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
+                                <span class="filter-count">2</span>
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Filter<img src="assets/icons/filter.svg"></button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                    <ng-container *ngFor="let source of resources">
-                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)">{{source.name}}</li>
+                                    <li><span class="list-name">All</span><img src="assets/icons/check-blue.svg"></li>
+                                    <ng-container *ngFor="let source of resources">                                        
+                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -291,14 +293,7 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header">
-        <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>
-        <!-- <div class="table-action-header modal-table-actions">       
-            <div class="kr-sg-input-search">                               
-              <input [disabled]='!(resources && resources.length)' type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
-              <img src="assets/icons/search.svg" class="search-icon">
-            </div>
-            <button class="kr-sg-button-primary btn_md" (click)='addFaqSource("faqDoc")'>Add Source</button>
-        </div> -->
+        <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
         <div class="table-action-header modal-table-actions"> 
             <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">              
               <div class="search">
@@ -343,8 +338,8 @@
                         <div class="col">{{source.extracted || '0'}}</div>
                         <div class="col">{{source.staged || '0'}}</div>
                         <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
-                        <div class="col text-right last-child" (click)="deleteSource(source,$event)">
-                            <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
+                        <div class="col text-right last-child">
+                            <span class="actions-links" (click)="deleteSource(source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                             <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
                         </div>
                     </div>
@@ -359,22 +354,30 @@
         <ng-container  *ngIf="currentView === 'grid'">
             <div class="list-view-data">
                 <div class="row row_list">
-                <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']">
-                    <div class="box" *ngIf="source">
-                    <div class="title">{{source.title || source.name}}</div>
-                    <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
-                    <div class="status-data">
-                        <!-- <div class="count-pages"><span class="pagelength">19</span> Pages</div> -->
-                        <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                        <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
-                        <img class="inprogressLoader" src="assets/icons/ringLoading.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
-                        <div class="status-name">{{statusObj[source.recentStatus].name}}</div>
+                    <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                    (click)="openStatusSlider(source)">
+                    <div class="box">
+                      <div class="title">{{source.title || source.name}}</div>
+                      <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
+                      <div class="status-data">
+                        <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.numPages}}</span> Pages</div>
+                        <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                          <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
+                          <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
+                            *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                          <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>
                         </div>
                         <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
-                        <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">{{source.createdOn | dateFormatPipe}}</div>
+                        <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
+                          {{source.createdOn | dateFormatPipe}}
+                        </div>
+                      </div>
+                        <div class="actions-delete">                           
+                            <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                        </div>
                     </div>
-                    </div>
-                </div>            
+                  </div>          
                 </div>
             </div> 
         </ng-container>

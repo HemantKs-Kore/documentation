@@ -79,7 +79,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       sources: [
         {
           name:'Extract FAQs ',
-          description:'Extract FAQs from web pages',
+          description:'Extract FAQs from web pages and documents',
           icon: 'assets/images/source-icos/globe.svg',
           id:'faqWeb',
           sourceType:'faq',

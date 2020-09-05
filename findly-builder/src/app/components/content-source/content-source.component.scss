@@ -2,24 +2,6 @@
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-input[type=text]:focus {
-    width: 80%;
-    background: rgb(19, 18, 18);
-    cursor: auto;
-    height: 34px;
-    border-radius: 3px;
-    border: solid 1px #BDC1C6;
-    background-color: #ffffff;
-    outline: none;
-    padding-left: 8px;
-    color: #202124;
-    font-size: 14px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-    input::placeholder {
-       padding-right: 10px
-      }
-  }
 .mainLoadingSpinner{
     position: absolute;
     top: 45%;
@@ -45,6 +27,9 @@ input[type=text]:focus {
     height: calc(100vh - 62px);
     overflow: hidden;    
     background: #fff;
+    .empty-case-showing-cotent{
+        margin: 0 -5px;
+    }
     .kr-sg-data-table section.table-content .content-body{
         cursor: pointer;
     }
@@ -160,9 +145,7 @@ input[type=text]:focus {
                     }
                 }
                 .col{
-                    .action_icon{
-                        width: 16px;
-                        height: 16px;
+                    .action_icon{                        
                         cursor: pointer;
                         visibility: hidden;
                     }
@@ -334,7 +317,7 @@ input[type=text]:focus {
             }
             .modal-body{
                 height: calc(100vh - 70px);
-                padding: 20px 0 20px 30px !important;
+                padding: 20px 0 60px 30px !important;
                 perfect-scrollbar{
                     &.scroll-table{
                         padding-right: 30px;
@@ -421,43 +404,61 @@ input[type=text]:focus {
                         align-items: center;
                         width: 100%;
                         margin-bottom: 20px;
-                        justify-content: flex-end;                        
-                        .add-page{
-                            color: #202124;
-                            font-weight: 500;
-                            font-size: 12px;
-                            margin-left: 25px;
-                            padding: 0 15px;
-                            cursor: pointer;
-                            img{
-                                position: relative;
-                                top: -1px;
-                                margin-right: 8px;
-                            }
-                        }
-                        .kr-sg-input-search{
-                            width: 300px;
-                            input{
-                                padding: 4px 10px 4px 32px;
-                                background: #FFFFFF;
-                                border: 1px solid #E4E5E7;
-                                box-sizing: border-box;
-                                border-radius: 4px;
-                                color: #BDC1C6;
-                                font-weight: 300;
+                        justify-content: space-between;        
+                        .tabs-sec{
+                            .tabname{
+                                padding: 8px 10px;
+                                border-bottom: 1px solid transparent;
+                                color: #202124;
+                                font-weight: 500;
                                 font-size: 14px;
-                                &::placeholder{
-                                    color: #BDC1C6;
+                                margin-right: 2px;
+                                cursor: pointer;
+                                &.active{
+                                    border-bottom: 1px solid #0D6EFD;
                                 }
                             }
-                            .search-icon{
-                                position: absolute;
-                                left: 10px;
-                                top: 9px;
+                        }  
+                        .right-side{
+                            display: flex;
+                            align-items: center;
+                            .add-page{
+                                color: #202124;
+                                font-weight: 500;
+                                font-size: 12px;
+                                margin-left: 25px;
+                                padding: 0 15px;
                                 cursor: pointer;
-                                right: 0;                            
+                                img{
+                                    position: relative;
+                                    top: -1px;
+                                    margin-right: 8px;
+                                }
                             }
-                        }
+                            .kr-sg-input-search{
+                                width: 300px;
+                                input{
+                                    padding: 4px 10px 4px 32px;
+                                    background: #FFFFFF;
+                                    border: 1px solid #E4E5E7;
+                                    box-sizing: border-box;
+                                    border-radius: 4px;
+                                    color: #BDC1C6;
+                                    font-weight: 300;
+                                    font-size: 14px;
+                                    &::placeholder{
+                                        color: #BDC1C6;
+                                    }
+                                }
+                                .search-icon{
+                                    position: absolute;
+                                    left: 10px;
+                                    top: 9px;
+                                    cursor: pointer;
+                                    right: 0;                            
+                                }
+                            }
+                        }                                      
                     }  
                     .header-sec{
                         padding: 15px 10px;

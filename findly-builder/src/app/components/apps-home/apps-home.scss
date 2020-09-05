@@ -1,13 +1,13 @@
 @import './../../../app/scss/variables/variables.scss';
 .emptyStateContainer{
-    padding-top: 53px;
+    padding-top: 60px;
     margin-left: 0;
     margin-right: 0;
     .textAlignLeft{
         text-align: left;
     }
     .scrollContainer{
-        height: calc(100vh - 50px);
+        height: calc(100vh - 60px);
         overflow-y: auto;
         padding-bottom: 20px;
         background-color: #f3f3f4;
@@ -168,6 +168,25 @@
             .search-icon{
                 width: auto;
                 height: auto;
+            }
+        }
+        .kr-sg-button-primary{
+            background: #0D6EFD;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            color: #fff;
+        }
+        .add-new{
+            color: #202124;
+            font-weight: 500;
+            font-size: 12px;            
+            padding: 0 15px;
+            cursor: pointer;
+            img{
+                position: relative;
+                top: -1px;
+                margin-right: 8px;
             }
         }
         .createDropDown{
