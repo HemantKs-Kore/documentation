@@ -5,7 +5,7 @@ import {
 
 
 import { Observable } from 'rxjs';
-import { catchError,tap} from 'rxjs/operators';
+import { catchError,tap, retry} from 'rxjs/operators';
 import {AuthService} from '@kore.services/auth.service';
 import {AppUrlsService} from '@kore.services/app.urls.service'
 import { LocalStoreService } from '@kore.services/localstore.service';
@@ -32,7 +32,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
     // setting AccountId header
     const selectedAccount = this.localStoreService.getSelectedAccount() || this.auth.getSelectedAccount();
-    if (selectedAccount) {
+    let skipAccountHeaders = false;
+    if(req && req.url && req.url.includes('/AppControlList')){
+      skipAccountHeaders = true
+    }
+    if (selectedAccount && !skipAccountHeaders) {
       _reqAdditions.setHeaders.AccountId = selectedAccount.accountId;
     }
 
