@@ -324,7 +324,7 @@
                       <div class="col">{{source.extracted || '0'}}</div>
                       <div class="col">{{source.staged || '0'}}</div>
                       <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
-                      <div class="col text-right last-child" (click)="deleteQuestion('recordFAQ',source,$event)">
+                      <div class="col text-right last-child" (click)="deleteSource(source,$event)">
                         <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
                         <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
                      </div>

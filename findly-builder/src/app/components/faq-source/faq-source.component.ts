@@ -429,11 +429,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   strArr(s: string): any[] {
     return Array(s);
   }
-  deleteSrcAQ(source,event,dialogRef){
-    if(event){
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
+  deleteSrcAQ(source,dialogRef){
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
       sourceId : source._id
@@ -490,6 +486,30 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
         }
       })
   }
+  deleteSource(record,event) {
+    if(event){
+      event.stopImmediatePropagation();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Resource',
+        text: 'Are you sure you want to delete ?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSrcAQ(record,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
   deleteQuestion(type,record,event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
@@ -501,15 +521,13 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
       }
     });
-    
-
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
           if(type === 'qstnFAQ'){
               this.bulkUpdate('delete',null,dialogRef)
           }else{
-            this.deleteSrcAQ(record,event,dialogRef)
+            this.deleteSrcAQ(record,dialogRef)
           }
         } else if (result === 'no') {
           dialogRef.close();
