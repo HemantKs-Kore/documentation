@@ -296,7 +296,7 @@
     <div class="modal-header">
         <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
         <div class="table-action-header modal-table-actions"> 
-            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">              
+            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources">              
               <div class="search">
                 <img *ngIf="searchSources" class="search-icon" src="assets/images/close.svg">
                 <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
