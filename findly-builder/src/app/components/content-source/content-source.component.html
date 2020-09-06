@@ -69,7 +69,7 @@
                     [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
                     class="ml-1 sortImg"></button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li><span class="list-name">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                  <li><span class="list-name" (click)="sourceFilter.close();filterTable('all','type')">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
                     <span class="list-name">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                 </ul>
@@ -87,7 +87,7 @@
                     [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
                     class="ml-1 sortImg"></button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li><span class="list-name">All</span><img class="hide"  src="assets/icons/check-blue.svg"></li>
+                  <li><span class="list-name" (click)="sourceFilter.close();filterTable('all','recentStatus')">All</span><img class="hide"  src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span class="list-name" >{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : 'In Progress')}}<img class="hide"  src="assets/icons/check-blue.svg"></span>
                     </li>
@@ -213,7 +213,7 @@
   
         <div class="content-accordion-sec" *ngIf="sliderStep === 0">
           <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
-            <div class="noPages">No Pages Available</div>
+            <div class="noPages" *ngIf="!loadingContent && isConfig">No Pages Available</div>
           </ng-container>
           <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
             
@@ -271,7 +271,7 @@
                 </div>
                 <div id="accordion" class="accordion-section">
                   <div class="card_content"
-                    *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url'];let i = index">
+                    *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
                     <div class="card_header">
                       <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                         <div class="row m-0 content">
@@ -320,8 +320,12 @@
                   <!-- pageination -->
                   <div class="paginations-custon">
                     <div class="previous">Previous</div>
-                    <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(i,10)"
-                      class="numbers active">{{i+1}}</div>
+                    <!-- <div class="previous" *ngIf="btnAllCount > 5"> ... </div> -->
+                    <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(5,i)"
+                      id="number_{{i}}" class="numbers active">{{i+1}}
+                      <!-- <div *ngif="">{{i+1}}</div> -->
+                    </div>
+                    <div class="next" *ngIf="btnAllCount > 5"> ... </div>
                     <div class="next">Next</div>
                   </div>
                   <!-- pageination -->
