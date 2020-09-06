@@ -150,16 +150,33 @@ export class SynonymsComponent implements OnInit {
     if(value){
       this.synonymData= [...this.synonymDataBack];
     let data = [];
-    let dataoBJ = {};
-    dataoBJ = this.synonymData.filter(data=>{
-      return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()) || data.synonym.forEach(element => {
-         element.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      });
+    for(let i=0; i< this.synonymData.length ; i++){
+      let dataoBJ = {};
+      let dataLen = data.length;
+      if(this.synonymData[i].name.toLocaleLowerCase().includes(value.toLocaleLowerCase())){
+        data.push(this.synonymData[i]);
+        dataLen = data.length+1;
+      }
+      if(data.length == dataLen){
+        for(let j=0; j< this.synonymData[i].synonym.length ; j++){
+          if(this.synonymData[i].synonym[j].toLocaleLowerCase().includes(value.toLocaleLowerCase())){
+            data.push(this.synonymData[i]);
+          }
+        }
+      }
+    }
+    // this.synonymData.filter(d=>{
+    //   let dataoBJ = {};
+    //   if(d.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()) || d.synonym.forEach(element => {
+    //      element.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+    //   })){
+    //     return data.push(d);
+    //   }
 
-      //return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    })
-    data.push(dataoBJ)
-   // data = [...new Set(data)]
+    //   //return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+    // })
+    //data.push(dataoBJ)
+    data = [...new Set(data)]
     if(data.length){
       this.synonymData = [...data]; 
       this.haveRecord = true;
