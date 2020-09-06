@@ -9,6 +9,7 @@ import { catchError,tap, retry} from 'rxjs/operators';
 import {AuthService} from '@kore.services/auth.service';
 import {AppUrlsService} from '@kore.services/app.urls.service'
 import { LocalStoreService } from '@kore.services/localstore.service';
+declare let window:any;
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -38,6 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     if (selectedAccount && !skipAccountHeaders) {
       _reqAdditions.setHeaders.AccountId = selectedAccount.accountId;
+      window.findlyAccountId= selectedAccount.accountId;
     }
 
 

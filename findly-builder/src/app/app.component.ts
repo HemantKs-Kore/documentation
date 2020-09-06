@@ -5,6 +5,10 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
+declare const KoreWidgetSDK: any;
+declare const KoreSDK: any;
+declare const koreBotChat: any;
+koreBotChat
 import * as _ from 'underscore';
 @Component({
   selector: 'app-root',
@@ -37,6 +41,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.onResize();
     this.previousState = this.getPreviousState();
+  }
+  ngAfterViewInit(){
+    setTimeout( (a) => {
+      this.initSearchSDK();
+    },2000)
   }
    restorepreviousState(){
     let route = '/apps';
@@ -135,5 +144,41 @@ export class AppComponent implements OnInit {
   }
   ngOnDistroy(){
     this.authService.findlyApps.unsubscribe();
+  }
+  initSearchSDK(){
+
+    $('body').append('<div class="start-search-icon-div"></div>');
+    $('app-body').append('<div class="search-background-div"></div>');
+
+    $('.start-search-icon-div').click(function(){
+      if(!$('.search-background-div:visible').length){
+        $('.search-background-div').show();
+        $('.start-search-icon-div').addClass('active');
+      }else{
+        $('.search-background-div').hide();
+        $('.start-search-icon-div').removeClass('active');
+
+      }
+    });
+    
+   
+    var chatConfig = KoreSDK.chatConfig;
+    //chatConfig.botOptions.assertionFn = assertion;
+    chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
+
+    var koreBot = koreBotChat();
+    koreBot.show(chatConfig);
+
+
+    var widgetsConfig=KoreSDK.widgetsConfig;
+
+    var wizSelector = {
+        menu: ".kr-wiz-menu-chat",
+        content: ".kr-wiz-content-chat"
+    }
+    var wSdk = new KoreWidgetSDK(widgetsConfig);
+           wSdk.setJWT('dummyJWT');
+            wSdk.show(widgetsConfig, wizSelector);
+            wSdk.showSearch();
   }
 }
