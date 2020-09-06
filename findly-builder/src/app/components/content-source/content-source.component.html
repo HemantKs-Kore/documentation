@@ -134,10 +134,10 @@
                 <div class="box">
                   <div class="title">{{source.title || source.name}}</div>
                   <div class="type" [ngClass]="{'doc': (source.type==='document')}">
-                    {{contentTypes[source.source] | titlecase}}</div>
+                    {{contentTypes[source.type] | titlecase}}</div>
                   <div class="status-data">
                     <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span
-                        class="pagelength">{{source.extractedFaqsCount}}</span> Extracted FAQs</div>
+                        class="pagelength">{{source.numPages}}</span> Pages</div>
                     <div class="status-info"
                       *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') "
                       [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
