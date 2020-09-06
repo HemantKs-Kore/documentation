@@ -637,15 +637,17 @@ div.divBlockEmptylastChild:first-child {
         }  
         .table-content{
             margin-top: 25px;      
-            padding: 0 15px 0 10px;          
+            padding: 0 15px 0 10px;   
+            display: block;       
             .table-header{
                 background: #fff;
                 border-bottom: 1px solid #E4E5E7;
                 color: #9AA0A6;
-                .col{
+                .col_{
                     font-weight: 500;                       
                     color: #9AA0A6;
-                    font-size: 12px;   
+                    font-size: 12px;  
+                    padding: 0px 10px; 
                     cursor: pointer;         
                     .sortImg{
                         transform: rotate(270deg);
@@ -660,7 +662,7 @@ div.divBlockEmptylastChild:first-child {
                     }            
                 }
             }
-            .col{
+            .col_{
                 .action_icon{                   
                     cursor: pointer;
                     visibility: hidden;
@@ -669,9 +671,26 @@ div.divBlockEmptylastChild:first-child {
             .content-body{
                 padding: 9px 0;
                 border-bottom: 1px solid #E4E5E7;
-                .col{
+                .col_{
                     color: #202124;
                     font-size: 14px;
+                    padding: 0px 10px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    max-width: 100%;                    
+                    .actions-links{
+                        width: 32px;
+                        display: inline-block;
+                        text-align: center;
+                        background: transparent;
+                        height: 32px;
+                        line-height: 32px;
+                        .action_icon{
+                            width: 12px;
+                            height: 12px;
+                        }
+                    }
                     &.success{
                         color: #28A745;
                     }
@@ -696,75 +715,7 @@ div.divBlockEmptylastChild:first-child {
                     }
                 }
             }
-        }
-        .list-view-data{
-            .row_list{
-                margin: 10px 0 0 0 !important;
-                .box-content{
-                    padding: 10px;
-                    text-align: center;
-                    .box{
-                        background: #FFFFFF;
-                        border: 1px solid #BDC1C6;
-                        box-sizing: border-box;
-                        border-radius: 6px;
-                        width: 225px;
-                        height: 225px;
-                        padding: 25px 0;
-                        cursor: pointer;
-                        .title{
-                            color: #202124;
-                            font-weight: 500;
-                            font-size: 16px;
-                            margin-bottom: 24px;
-                        }
-                        .type{
-                            background: #0D6EFD;
-                            border-radius: 2px;
-                            padding: 3px 0;
-                            width: 76px;
-                            margin: 0 auto;
-                            color: #FFFFFF;
-                            font-size: 12px;
-                            margin-bottom: 30px;
-                            text-transform: uppercase;
-                            &.doc{
-                                background: #28A745;
-                            }
-                        }
-                        .status-data{
-                            .status-info{
-                                padding-top: 12px;
-                                .inprogressLoader{
-                                    -webkit-animation:spin 4s linear infinite;
-                                    -moz-animation:spin 4s linear infinite;
-                                    animation:spin 4s linear infinite;
-                                }
-                                .status-name{
-                                    font-size: 12px;
-                                    font-weight: normal;
-                                    margin-top: 10px;
-                                }
-                            }
-                            .count-pages{
-                                color: #9AA0A6;
-                                font-size: 12px;
-                                .pagelength{
-                                    font-weight: 500;
-                                    font-size: 20px;
-                                    color: #202124;
-                                }
-                            }
-                            .created-date{
-                                margin-top: 32px;
-                                color: #9AA0A6;
-                                font-size: 12px;
-                            }
-                        }                            
-                    }
-                }
-            }
-        }          
+        }               
     }
     .table-scroll-perfect{
         height: calc(100vh - 214px);
@@ -786,7 +737,7 @@ div.divBlockEmptylastChild:first-child {
                 border-radius: 6px;
                 width: 225px;
                 height: 225px;
-                padding: 25px 0;
+                padding: 25px 15px;
                 cursor: pointer;
                 position: relative;
                 .title{
@@ -794,6 +745,9 @@ div.divBlockEmptylastChild:first-child {
                     font-weight: 500;
                     font-size: 16px;
                     margin-bottom: 24px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                 }
                 .type{
                     background: #0D6EFD;

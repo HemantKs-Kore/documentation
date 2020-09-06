@@ -1,40 +1,41 @@
 <ng-template #ruleContainer let-rulesObj='rulesObj' let-rulesSet="rulesSet" let-rule='rule' let-ruleIndex='ruleIndex'  let-validationMode='validationMode'>
     <div [ngClass]="{'validation-rules-add-edit row m-0 mt-1 mb-1 w-100 col-12': (validationMode==='simple')}">        
         <div [ngClass]="{'drop-down-sec w-100 col-12 row m-0 p-0':(validationMode==='simple'), 'd-flex mt-mb-11 w-100 rules-selection align-items-center':(validationMode==='advanced')}" class="drop-down-sec w-100 col-12 row m-0 p-0">
+            <span class="info-rule if">If</span>
             <div *ngIf="validationMode==='simple'" class="close-minus-btn" (click)="removeSimpleRule(rulesSet,ruleIndex)"><span>-</span></div>
             <div *ngIf="validationMode==='advanced'" class="close-minus-btn" (click)="removeAdvancedRule(ruleIndex,rulesSet,rule)"><span>-</span></div>
-            <div class="col-3 pr-0 pl-10">                        
+            <div class="col-3">                        
                 <div class="kr-sg-dropdowns">                           
-                    <div class="dropdown dropdown-open" ngbDropdown container='body'>
+                    <div class="dropdown dropdown-open" ngbDropdown>
                         <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
                         <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                        <li ngbDropdownItem><a>1</a></li>  
-                        <li ngbDropdownItem><a>1</a></li>  
-                        <li ngbDropdownItem><a>1</a></li>  
-                        <li ngbDropdownItem><a>1</a></li>                                                                         
+                        <li><a>1</a></li>  
+                        <li><a>1</a></li>  
+                        <li><a>1</a></li>  
+                        <li><a>1</a></li>                                                                         
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-3 pr-0 pl-10" >                        
+            <div class="col-3">                        
                 <div class="kr-sg-input-text">
                     <input type="text" [(ngModel)]="rule.value"  placeholder="" class="input-text">
                 </div>
             </div>
-            <div class="col-3 pr-0 pl-10">                        
+            <div class="col-3">                        
                 <div class="kr-sg-dropdowns">                           
-                    <div class="dropdown dropdown-open" ngbDropdown container='body'>
+                    <div class="dropdown dropdown-open" ngbDropdown>
                         <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
                         <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                        <li ngbDropdownItem><a>1</a></li>  
-                        <li ngbDropdownItem><a>1</a></li>  
-                        <li ngbDropdownItem><a>1</a></li>  
-                        <li ngbDropdownItem><a>1</a></li>                                                                         
+                            <li><a>1</a></li>  
+                            <li><a>1</a></li>  
+                            <li><a>1</a></li>  
+                            <li><a>1</a></li>                                                                         
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-3 pr-0 pl-10" >                        
+            <div class="col-3">                        
                 <div class="kr-sg-input-text">
                     <input type="text" [(ngModel)]="rule.value"  placeholder="" class="input-text">
                 </div>
@@ -43,17 +44,29 @@
     </div>
     <ng-container *ngIf="validationMode==='simple'">
     <div class="rule-info" *ngIf="ruleIndex !== (rulesSet.rules.length-1)">AND</div>
-    <div class="row m-0 justify-content-between align-items-center mt-2 col-12 pl-0" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
-    <div class="close-minus-btn add-plus" (click)="addSimpleRule(rulesSet,'simple')"><span>+</span></div>
+    <div class="row justify-content-between align-items-center col-12 pr-0 add-rule-plus-icon" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
+        <div class="close-minus-btn add-plus" (click)="addSimpleRule(rulesSet,'simple')"><span>+</span></div>
     </div>
-    <div class="error-message-text-box w-100 mb-2 col-12" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
-        <div class="kr-sg-input-text">
+    <div class="error-message-text-box w-100 mb-2 col-12 row m-0" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
+        <span class="info-rule">then</span>
+        <div class="kr-sg-dropdowns col-3">                           
+            <div class="dropdown dropdown-open" ngbDropdown>
+                <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
+                <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
+                    <li><a>1</a></li>  
+                    <li><a>1</a></li>  
+                    <li><a>1</a></li>  
+                    <li><a>1</a></li>                                                                         
+                </ul>
+            </div>
+        </div>
+        <div class="kr-sg-input-text col-9">
             <input type="text" placeholder="Please select department"  [(ngModel)]="rulesSet.errorMsg" class="input-text">            
-        </div>      
+        </div>     
     </div>
     </ng-container>
 </ng-template>
-<div class="col-12 pr-0">
+<!-- <div class="col-12 pr-0">
     <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
         <div class="validation-setting-rules" >
             <ng-container *ngFor="let rule of simpleRule.rules; index as i">
@@ -63,4 +76,105 @@
             </ng-container>
         </div>  
     </ng-container>
+</div> -->
+
+<div class="rules-table-container">
+    <div class="tab-sec-top">
+        <div class="tab-name active">Groups</div>
+        <div class="tab-name">Rules</div>
+        <div class="tab-name">Signals</div>
+    </div>
+    <div class="header-sec">
+        <div class="kr-sg-input-search">                               
+            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()">
+            <img src="assets/icons/search-gray.svg" class="search-icon">
+        </div>
+        <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+            <div class="dropdown dropdown-open">                
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Filter<img src="assets/icons/filter.svg"></button>                                            
+                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                    <li><span class="list-name">All</span><img src="assets/icons/check-blue.svg"></li>   
+                    <li><span class="list-name">Import FAQs</span><img src="assets/icons/check-blue.svg"></li>                 
+                </ul>
+            </div>
+        </div>
+        <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Add</button>                                            
+                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                  <li>Extract FAQs</li>
+                  <li>Import FAQs</li>
+                  <li>Add FAQs Manually</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="faq-header-sec row m-0">
+        <div class="col-12 left-sec p-0">
+            <div class="tab-sec d-flex">
+                <div class="tab_title active">Drafts<span>(0)</span></div>
+                <div class="tab_title">In-review<span>(0)</span></div>
+                <div class="tab_title">Approved<span>(0)</span></div>
+            </div>
+        </div>       
+    </div>
+    <div class="table-list-content">
+        <div class="kr-sg-data-table">      
+          <section class="table-content">
+            <header class="table-header">
+              <div class="col-2 col_">RULE NAME<img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></div>
+              <div class="col-2 col_ d-flex align-items-center">Type<span class="selected-length-doc-web hide">(2)</span>
+                <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></button>
+                    <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                      <li><span class="list-name">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>                      
+                    </ul>
+                  </div>
+                </div>
+              </div>              
+              <div class="col_ col-2 d-flex align-items-center">Status<span class="selected-length-doc-web hide">(2)</span>
+                <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></button>
+                    <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                      <li><span class="list-name">All</span><img class="hide"  src="assets/icons/check-blue.svg"></li>                     
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col_ col-6 col">DEFINITION</div>              
+            </header>
+            <perfect-scrollbar class="table-scroll-perfect">
+                <div class="content-body">
+                    <div class="col-12 pl-5 pr-0">
+                        <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
+                            <div class="kr-sg-input-text mb-3 rule-name-input">
+                                <input type="text" placeholder="" class="input-text">
+                            </div>
+                            <div class="validation-setting-rules" >
+                                <ng-container *ngFor="let rule of simpleRule.rules; index as i">
+                                    <ng-container 
+                                        *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:'simple'}">
+                                    </ng-container>
+                                </ng-container>
+                            </div>  
+                        </ng-container>
+                    </div>
+                    <!-- <div class="col_ col-2">Citi Bank</div>
+                    <div class="col_ col-2">Web</div>                   
+                    <div class="col_ col-2 review">In-Review</div>
+                    <div class="col_ col-6 definatation">If <b>“Search Context.RecentSearches”</b> Contains <b>“Credit”</b> OR <b>“Card”</b> AND <b>“User Context.CustomerType”</b> Starts With <b>“Premium”</b> THEN Filter Results Containing <b>“Card Offers”</b> OR <b>“Card Rewards”</b></div>                -->
+                </div>   
+                <div class="content-body">
+                    <div class="col_ col-2">Citi Bank</div>
+                    <div class="col_ col-2">Web</div>                   
+                    <div class="col_ col-2 review">In-Review</div>
+                    <div class="col_ col-6 definatation">If <b>“Search Context.RecentSearches”</b> Contains <b>“Credit”</b> OR <b>“Card”</b> AND <b>“User Context.CustomerType”</b> Starts With <b>“Premium”</b> THEN Filter Results Containing <b>“Card Offers”</b> OR <b>“Card Rewards”</b></div>               
+                    <div class="delete-rule-data"><img src="assets/icons/edit.svg"></div>
+                </div>           
+            </perfect-scrollbar>
+          </section>       
+        </div>
+    </div>
 </div>
