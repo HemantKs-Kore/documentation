@@ -167,7 +167,7 @@ export class EndPointsService {
     };
     this.serviceList['delete.faq.source'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source/:sourceId',
-      method: 'get'
+      method: 'delete'
     };
     this.serviceList['update.faq.bulk'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/bulk',

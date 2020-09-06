@@ -182,7 +182,7 @@ and open the template in the editor.
 /*---- BUTTON STYLES START HERE---*/
 .kr-sg-button-primary{
     border: 1px solid transparent;
-    background: $hoverColor;
+    background: #0D6EFD;
     padding: 0px 20px;
     height: 26px;    
     font-size: 12px;
@@ -192,18 +192,18 @@ and open the template in the editor.
     text-align: center;
     transition: 0.2s all ease-in;
     &:hover{
-        background: #008c99;
+        background: #0D6EFD;
     }
     &:active{
-        background:#007d88;
+        background:#0D6EFD;
     }
     &:focus{
-        border: solid 1px #1372ff;
+        border: solid 1px #0D6EFD;
     }
     &:disabled{
-        background: #66c4cc;
-        color: #b5e3e7;
-        opacity: 1;
+        background: #0D6EFD;
+        color: #ffff;
+        opacity: 0.5;
     }
     &.btn_md{
         height: 30px;
@@ -219,21 +219,21 @@ and open the template in the editor.
 }
 
 .kr-sg-button-secondary{
-    border: 1px solid $borderColor;
-    background: $whiteColor;
+    border: 1px solid #BDC1C6;
+    background: #FFFFFF;
     padding: 0px 20px;
     height: 26px;    
     font-size: 12px;
     border-radius: 4px;
-    color: $secondaryColor;
+    color: #202124;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
     &:hover{
-        background:#f6f8fa;
+        background:#FFFFFF;
     }
     &:active{
-        background:$borderColor;
+        background:#BDC1C6;
     }
     &:focus{
         background:$whiteColor;

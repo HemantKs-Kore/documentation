@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
-  currentView = 'grid'
+  currentView = 'list'
   searchSources = '';
   pagesSearch = '';
   selectedApp: any = {};
@@ -36,6 +36,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   pagingData : any[] = [];
   statusArr= [];
   docTypeArr =[];
+  selectedFilter: any = '' 
   contentTypes= {
     webdomain:'WEB',
     document:'DOC'
@@ -283,6 +284,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
+      this.notificationService.notify('Source deleted successsfully','success');
       const deleteIndex = _.findIndex(this.resources,(pg)=>{
            return pg._id === record._id;
       })
@@ -305,6 +307,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       dialogRef.close();
+      this.notificationService.notify('Page deleted successsfully','success');
       const deleteIndex = _.findIndex(this.selectedSource.pages,(pg)=>{
            return pg._id === page._id;
       })
@@ -340,6 +343,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     return array
   }
   applyFilter(valToSearch){
+    if (valToSearch === this.selectedFilter){
+      this.getSourceList();
+      this.selectedFilter = '';
+      return;
+    }
     if(valToSearch){
       this.resources = [...this.filterResourcesBack];
     let tableData = [];
@@ -388,9 +396,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
    }
    onSourceAdditionClose(){
     this.closeAddsourceModal();
+    this.getSourceList();
     this.showSourceAddition = null;
    }
    onSourceAdditionSave(){
+    this.closeAddsourceModal();
+    this.getSourceList();
     this.showSourceAddition = null;
    }
   ngOnDestroy() {

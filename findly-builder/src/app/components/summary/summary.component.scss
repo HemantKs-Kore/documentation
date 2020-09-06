@@ -18,6 +18,7 @@
     padding-right: 15px;   
     // overflow: hidden;
     height: calc(100vh);
+    background-color: #fff;
     .configuration-activity{
         .config-data{   
             width: 50%;
@@ -411,6 +412,13 @@
             margin-right: 15px;
             text-decoration: none !important;
         }
+        button{
+            background: #0D6EFD;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            color: #fff;
+        }
     }
 }
 .findly-domains-summery{
@@ -423,6 +431,13 @@
         .heading{
             font-size: 18px;
             font-weight: bold;
+        }
+        .kr-sg-button-primary{
+            background: #0D6EFD;
+            border-radius: 4px;
+            height: 34px;
+            font-size: 14px;
+            color: #fff;
         }
     }
     .body-sec{

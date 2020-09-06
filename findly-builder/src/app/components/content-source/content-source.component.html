@@ -1,114 +1,177 @@
 <div class="contentContainer">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
-      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-      <span class="please-wait-message">Please Wait!</span>
+  <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+  <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
+    <div class="crawlContent row m-0 mb-4">
+      <div class="col-12 main-title label_text">Add Content</div>
+      <div class="webDomain" (click)="addNewContentSource('contentWeb')">
+        <div class="box-block">
+          <div class="title label_text m-0">Crawl Web Domain</div>
+          <div class="imageDiv"><img src="assets/images/source-icos/crawlwebdomain.svg"></div>
+          <div class="info-text">Extract and index web pages and documents</div>
+        </div>
+      </div>
+      <div class="webDomain" (click)="addNewContentSource('contentDoc')">
+        <div class="box-block">
+          <div class="title label_text m-0">Upload File</div>
+          <div class="imageDiv"><img src="assets/images/source-icos/file_upload.svg"></div>
+          <div class="info-text">Index file content</div>
+        </div>
+      </div>
+      <div class="webDomain d-none">
+        <div class="box-block">
+          <div class="title label_text m-0">Others</div>
+          <div class="imageDiv"><img src="assets/images/source-icos/others.svg"></div>
+          <div class="info-text">Extract content from other</div>
+        </div>
+      </div>
     </div>
-    <div class="mainLoadingSpinner" *ngIf="!(resources && resources.length) && !loadingContent" [@fadeInOutAnimation]>
-      <span class="please-wait-message">No Content Available</span>
-    </div>
-  <div  class="table-list-content">
-    <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length && !loadingContent">
-     <div class="table-action-header"> 
-        <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">              
-          <div class="search">
-            <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-            <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
+  </div>
+  <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
+    <div class="kr-sg-data-table with-checkbox">
+      <div class="table-action-header">
+        <input type="text" name='searchSources' placeholder="Search" id="searchContentSources"
+          class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">
+        <div class="search">
+          <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+          <span *ngIf="!searchSources" class="search-name"><img class="search-img"
+              src="assets/icons/sidemenu/search-table.svg"></span>
+        </div>
+        <div class="kr-sg-dropdowns">
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
+                src="assets/icons/sidemenu/plus-table.svg">Add Content</button>
+            <ul class="dropdown-menu content-menu">
+              <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
+              <li (click)="addNewContentSource('contentDoc')">Upload File</li>
+            </ul>
           </div>
-          <div class="kr-sg-dropdowns">            
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
-                <ul class="dropdown-menu content-menu">                                                              
-                  <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
-                  <li (click)="addNewContentSource('contentDoc')">Upload File</li>                 
+        </div>
+        <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img
+            src="assets/icons/grid-view.svg"></div>
+        <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img
+            src="assets/icons/list-view.svg"></div>
+      </div>
+      <section class="table-content" *ngIf="currentView === 'list'">
+        <header class="table-header">
+          <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg"
+              [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
+              class="ml-1 sortImg"></div>
+          <div class="col d-flex align-items-center" (click)="sortBy('type')">Type<span
+              class="selected-length-doc-web hide">(2)</span>
+            <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
+              [autoClose]="true" [placement]="'bottom-right'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img
+                    src="assets/icons/caretDown.svg"
+                    [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
+                    class="ml-1 sortImg"></button>
+                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                  <li><span class="list-name">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                  <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
+                    <span class="list-name">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                 </ul>
+              </div>
             </div>
           </div>
-          <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
-          <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
-      </div>     
-      <section class="table-content"  *ngIf="currentView === 'list'">
-          <header class="table-header">
-              <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}" class="ml-1 sortImg"></div>
-              <div class="col d-flex align-items-center" (click)="sortBy('type')">Type                                
-                <div class="kr-sg-dropdowns type_sort_dropdown"  #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"  [autoClose]="true" [placement]="'bottom-right'">            
-                  <div class="dropdown dropdown-open">
-                      <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"  class="ml-1 sortImg"></button>                                            
-                      <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>                                                              
-                        <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</li>
-                                       
-                      </ul>
-                  </div>
-                </div>
+          <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
+          <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status<span
+              class="selected-length-doc-web hide">(2)</span>
+            <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
+              [autoClose]="true" [placement]="'bottom-right'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img
+                    src="assets/icons/caretDown.svg"
+                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
+                    class="ml-1 sortImg"></button>
+                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                  <li><span class="list-name">All</span><img class="hide"  src="assets/icons/check-blue.svg"></li>
+                  <li *ngFor="let status of statusArr"
+                    (click)="statusFilter.close();filterTable(status,'recentStatus')"><span class="list-name" >{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : 'In Progress')}}<img class="hide"  src="assets/icons/check-blue.svg"></span>
+                    </li>
+                </ul>
               </div>
-              <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-              <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status 
-                <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">            
-                <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()"><img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}" class="ml-1 sortImg"></button>                                            
-                    <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu >                                                              
-                      <li *ngFor="let status of statusArr" (click)="statusFilter.close();filterTable(status,'recentStatus')">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : 'In Progress')}}</li>
-                                     
-                    </ul>
-                </div>
-              </div></div>
-              <div class="col" (click)="sortBy('createdOn')">Crawled<img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}" class="ml-1 sortImg"></div>
-              <div class="col last-child" (click)="sortBy('name')"></div>
-          </header>
-          <perfect-scrollbar class="table-scroll-perfect">
-            <ng-container *ngIf="sectionShow" >
+            </div>
+          </div>
+          <div class="col" (click)="sortBy('createdOn')">Crawled<img src="assets/icons/caretDown.svg"
+              [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
+              class="ml-1 sortImg"></div>
+          <div class="col last-child" (click)="sortBy('name')"></div>
+        </header>
+        <perfect-scrollbar class="table-scroll-perfect">
+          <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)">
-                <div class="col">{{source.title || source.name}}</div>
-                <div class="col">{{source.type | titlecase}}</div>
-                <!-- <div class="col">Default</div> -->
-                <div class="col">
-                  <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img src="assets/icons/failed-status.svg" class="ml-2" *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img src="assets/icons/ringLoading.svg" class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'"></span>
-                  <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                </div>
-                <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-                <div class="col text-right last-child">                  
-                  <span class="actions-links"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                  <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
+              <div class="col">{{source.title || source.name}}</div>
+              <div class="col">{{source.type | titlecase}}</div>
+              <!-- <div class="col">Default</div> -->
+              <div class="col">
+                <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
+                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
+                    src="assets/icons/failed-status.svg" class="ml-2"
+                    *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img src="assets/icons/ringLoading.svg"
+                    class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'"></span>
+                <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+              </div>
+              <div class="col">{{source.createdOn | dateFormatPipe}}</div>
+              <div class="col text-right last-child">
+                <span class="actions-links d-none"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
+                    src="assets/icons/delete-table.svg"></span>
               </div>
             </div>
           </ng-container>
           <div class="empty">No Results found</div>
-        </perfect-scrollbar>        
+        </perfect-scrollbar>
       </section>
-      <ng-container  *ngIf="currentView === 'grid'">
+      <ng-container *ngIf="currentView === 'grid'">
         <perfect-scrollbar class="table-scroll-perfect list">
           <div class="list-view-data">
-              <div class="row row_list">
-                <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
-                  <div class="box">
-                    <div class="title">{{source.title || source.name}}</div>
-                    <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
-                    <div class="status-data">
-                      <!-- <div class="count-pages"><span class="pagelength">19</span> Pages</div> -->
-                      <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                        <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
-                        <img class="inprogressLoader" src="assets/icons/ringLoading.svg" *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
-                        <div class="status-name">{{statusObj[source.recentStatus].name}}</div>
-                      </div>
-                      <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
-                      <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">{{source.createdOn | dateFormatPipe}}</div>
+            <div class="row row_list">
+              <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                (click)="openStatusSlider(source)">
+                <div class="box">
+                  <div class="title">{{source.title || source.name}}</div>
+                  <div class="type" [ngClass]="{'doc': (source.type==='document')}">
+                    {{contentTypes[source.source] | titlecase}}</div>
+                  <div class="status-data">
+                    <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span
+                        class="pagelength">{{source.extractedFaqsCount}}</span> Extracted FAQs</div>
+                    <div class="status-info"
+                      *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') "
+                      [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                      <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
+                      <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
+                        *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                      <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">
+                        {{statusObj[source.recentStatus].name}}</div>
                     </div>
+                    <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
+                    <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
+                      {{source.createdOn | dateFormatPipe}}</div>
                   </div>
-                </div>            
+                  <div class="actions-delete">                   
+                    <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
+                    <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                </div>
+                </div>
               </div>
-          </div> 
-        </perfect-scrollbar>                             
-      </ng-container>                        
-  </div>   
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </ng-container>
+    </div>
   </div>
 </div>
 
 <kr-modal modalType="center" modalClass="sliderComponent" #statusModalPop id="sourceSlider">
   <div class="modal-header">
     <h4 class="header-title">{{selectedSource.name}}</h4>
-    <img src="assets/images/closeCross.png" class="closeCross" (click)="sliderStep?sliderBack():closeStatusModal();">
+    <img src="assets/images/close.svg" class="closeCross" (click)="sliderStep?sliderBack():closeStatusModal();">
   </div>
   <div class="modal-body source-modal-popup">
-    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll">
+    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table">
       <div class="sliderBody call-history-filter">
         <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
           <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
@@ -125,16 +188,25 @@
           </div>
           <div class="row m-0 row_content">
             <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-            <div class="col-10 right-info-title"><span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}</div>
+            <div class="col-10 right-info-title">
+              <span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}
+            </div>
           </div>
           <div class="row m-0 row_content">
             <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
-            <div class="col-10 right-info-title" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]" [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">{{statusObj[selectedSource.recentStatus].name}}</div>
-            <div class="col-10 right-info-title" *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
+            <div class="col-10 right-info-title"
+              *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+              [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
+              {{statusObj[selectedSource.recentStatus].name}}</div>
+            <div class="col-10 right-info-title"
+              *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
           </div>
           <div class="row m-0 row_content">
             <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
-            <div class="col-10 right-info-title">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="viewPages()">View Pages</a></div>
+            <div class="col-10 right-info-title">
+              {{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages"
+                *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="viewPages()">View
+                Pages</a></div>
           </div>
         </div>
         <div class="content-accordion-sec" *ngIf="sliderStep === 1">
@@ -143,32 +215,40 @@
           </ng-container>
           <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
             <div class="search-header">
-              <div class="kr-sg-input-search">                               
-                <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
-                <img src="assets/icons/search.svg" class="search-icon">
-            </div>
-            <button class="kr-sg-button-primary btn_md">Add Page</button>
+              <div class="tabs-sec">
+                <span class="tabname active">Pages</span>
+                <span class="tabname">Configuration</span>
+              </div>
+              <div class="right-side">
+                <div class="kr-sg-input-search">
+                  <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
+                  <img src="assets/images/search-input.svg" class="search-icon">
+                </div>
+                <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div>
+              </div>
             </div>
             <div class="accordion-content-info text-left">
               <div class="header-sec row m-0">
-                <div class="col-8 label_text m-0">Pages</div>
-                <div class="col-4 label_text m-0">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                <div class="col-8 label_text m-0 p-0">Pages</div>
+                <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
               </div>
               <div id="accordion" class="accordion-section">
-                <div class="card_content" *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url'];let i = index">
+                <div class="card_content"
+                  *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content">
-                        <div class="col-8 link-name">{{page.url || selectedSource.url}}</div>
+                        <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
+                          {{page.url || selectedSource.url}}</div>
                         <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
                         <div class="col-2 actions">
-                          <img src="assets/images/return.svg">
-                          <img src="assets/images/trashIcon.svg" (click)="deletePages('pages',page ,$event)">
+                          <img src="assets/icons/sidemenu/table-refresh.svg">
+                          <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)">
                         </div>
                       </div>
                     </a>
                   </div>
-                  <div id="collapseOne{{page._id}}" class="collapse" data-parent="#accordion">
+                  <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
                     <div class="card_body" style="padding-left: 30px;">
                       <div class="info-content pageTitleContainer">
                         <div class="row m-0 row_content">
@@ -182,60 +262,63 @@
                         <div class="row m-0 row_content">
                           <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
                           <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe}}
-                            <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View Details</a></span> 
+                            <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
+                                Details</a></span>
                           </div>
-                        </div>     
-                                        
+                        </div>
+
                       </div>
-                      <button class="kr-sg-button-primary btn_md mt-3 mb-3">Check for Updates</button>
-                      <div class="label_text">Results Preview</div> 
+                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
+                      <div class="label_text">Results Preview</div>
                       <div class="info-content previewSection">
-                        <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>    
-                        <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div> 
-                        <div class="previewContent" *ngIf="page.searchResultPreview" [innerHtml]="page.searchResultPreview"></div>        
+                        <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
+                        <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
+                        <div class="previewContent" *ngIf="page.searchResultPreview"
+                          [innerHtml]="page.searchResultPreview"></div>
                       </div>
-                      <button class="kr-sg-button-primary btn_md mt-3 mb-3">Test & Preview</button>
+                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
                     </div>
                   </div>
-                </div> 
+                </div>
                 <!-- pageination -->
-                <div>
-                  <button class="btn">PRE</button>
-                    <button *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(i,10)">{{i+1}}</button>
-                  <button class="btn">NXT</button>
-                </div>  
-                 <!-- pageination -->
+                <div class="paginations-custon">
+                  <div class="previous">Previous</div>
+                  <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(i,10)"
+                    class="numbers active">{{i+1}}</div>
+                  <div class="next">Next</div>
+                </div>
+                <!-- pageination -->
               </div>
             </div>
           </ng-container>
         </div>
-        <div class="table-view-details mt-3 text-left" *ngIf="sliderStep === 2 && selectedPage">
-          <div class="row m-0 row_table">
-            <div class="col-3 title">Title</div>
-            <div class="col-9 info-content-sec">{{selectedPage.title}}</div>
+        <div class="table-view-details" *ngIf="sliderStep === 2 && selectedPage">
+          <div class="view-details-data">
+            <div class="title">Title</div>
+            <div class="desc-info">{{selectedPage.title}}</div>
           </div>
-          <div class="row m-0 row_table">
-            <div class="col-3 title">Body</div>
-            <div class="col-9 info-content-sec">
-              <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="pageBodyContent">
-              <div class="htmlBodyPreview" [innerHtml]="selectedPage.body"></div>
-             </perfect-scrollbar>
-            </div>
+          <div class="view-details-data">
+            <div class="title">Body</div>
+            <div class="desc-info" [innerHtml]="selectedPage.body"></div>
           </div>
-          <div class="row m-0 row_table">
-            <div class="col-3 title">URL</div>
-            <!-- <ng-container *ngFor="let imageUrl of selectedPage.imageUrl; let index = index "> -->
-            <div class="col-9 info-content-sec" >{{selectedPage.imageUrl}}<img class="external_link" (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/external-link.svg"></div>
-            <!-- </ng-container> -->
+          <div class="view-details-data">
+            <div class="title">URL</div>
+            <div class="desc-info">{{selectedPage.imageUrl}}<img class="external_link"
+                (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
           </div>
-          <div class="row m-0 row_table">
-            <div class="col-3 title">Published</div>
-            <div class="col-9 info-content-sec" *ngIf="selectedPage.publishedOn">{{selectedPage.publishedOn}}</div>
-            <div class="col-9 info-content-sec" *ngIf="!selectedPage.publishedOn">No publish information available</div>
+          <div class="view-details-data">
+            <div class="title">Published</div>
+            <div class="desc-info">{{selectedPage.publishedOn}}</div>
+            <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
           </div>
         </div>
       </div>
     </perfect-scrollbar>
+  </div>
+  <div class="footer-btns d-none">
+    <button class="kr-sg-button-primary btn_lg">Update</button>
+    <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
+    <button class="kr-sg-button-secondary-two btn_lg">Delete</button>
   </div>
 </kr-modal>
 

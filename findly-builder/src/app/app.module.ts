@@ -42,6 +42,7 @@ import { ManageIntentComponent } from './components/manage-intent/manage-intent.
 import { AddFaqComponent } from './components/add-faq/add-faq.component';
 import { AddAltFaqComponent } from './components/add-alt-faq/add-alt-faq.component';
 import { CustomMarkdownEditorComponent } from './helpers/lib/md-editor.component';
+import { ConvertMDtoHTML } from './helpers/lib/convertHTML';
 import { MarkdownEditorResizeSensorComponent } from './helpers/lib/resize-sensor/resize-sensor.component';
 import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog/editor-url-dialog.component';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -114,7 +115,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useClass: AuthInterceptor,
       multi: true,
     },
-    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar
+    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML
   ],
   bootstrap: [AppComponent]
 })

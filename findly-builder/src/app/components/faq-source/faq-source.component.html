@@ -10,7 +10,7 @@
                 <div class="tab-sec d-flex">
                     <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}">Drafts<span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
                     <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">In-review<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
-                    <div class="tab_title" (click)="selectTab('approve')" [ngClass]="{'active': (selectedtab === 'approve')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
+                    <div class="tab_title" (click)="selectTab('approved')" [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
                 </div>
             </div>
             <div class="col-4 p-0 right-sec">
@@ -26,22 +26,24 @@
                             <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                         </div>
                         <div class="kr-sg-input-search">                               
-                            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch'>
+                            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()">
                             <img src="assets/icons/search-gray.svg" class="search-icon">
                         </div>
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Filter<img src="assets/icons/filter.svg"></button>                                            
+                                <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span>
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Filter<img src="assets/icons/filter.svg"></button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                    <ng-container *ngFor="let source of resources">
-                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)">{{source.name}}</li>
+                                    <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id)" src="assets/icons/check-blue.svg"></li>
+                                    <ng-container *ngFor="let source of resources">                                        
+                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
                         </div>
                         <div class="kr-sg-dropdowns add"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown">Add</button>                                            
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Add</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                   <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">Extract FAQs</li>
                                   <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">Import FAQs</li>
@@ -51,12 +53,12 @@
                         </div>
                     </div>
                     <div class="body-content">
-                        <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" #fqasScrollContainer>
-                        <perfect-scrollbar class="accor-scroll" [ngClass]="{'show_footer': faqSelectionObj.selectedCount}">
+                        <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
+                        <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)">
                             <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                             <div id="accordion" class="accordion-content">
-                                <ng-container *ngFor="let faq of faqs | filter: [ searchFaq , 'question']">
-                                    <div class="card-content">
+                                <div *ngFor="let faq of faqs">
+                                    <div class="card-content" *ngIf="faq.action!=='delete'">
                                         <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
@@ -82,17 +84,20 @@
                                             </div>
                                         </div>
                                     </div> 
-                                </ng-container>
+                                </div>
                                 <div class="empty-questions-selected divBlockEmptylastChild">
                                     <div class="heading">No search results</div>
                                 </div>
                             </div>
+                            <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
                         </perfect-scrollbar>
                        </ng-container>
+                       <div class="empty-questions-selected"  *ngIf="loadingTab">
+                        <div >
+                            <div class="heading">{{'please_wait' | translate}}</div>
+                        </div>
+                      </div>
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
-                            <div *ngIf="loadingTab">
-                                <div class="heading">{{'please_wait' | translate}}</div>
-                            </div>
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
                                 <div class="heading">No Questions</div>
@@ -100,10 +105,10 @@
                             </ng-container>
                         </div>
                         <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approve')">Approve</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approve')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approve')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approve')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -144,7 +149,7 @@
                         </div>
                         <div class="col-4 p-0 col_">
                             <div class="d-flex align-items-center justify-content-end">
-                                <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approve')">Approve</button>
+                                <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
                                 <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
@@ -177,7 +182,7 @@
                             <img src="assets/icons/delete-table.svg" class="cursor" (click)="deleteInfividualQuestion(selectedFaq)">
                         </div>                    
                     </div>
-                    <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approve'">
+                    <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
                         <div class="col-2 p-0" [ngClass]="{'col-3': !selectedFaq.reviewedBy}">
                             <div class="heading">Source</div>
                             <div class="info-title">{{selectedFaq.source | titlecase}}</div>
@@ -222,7 +227,7 @@
                                         <span class="key-title">Keywords :</span>
                                         <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
                                     </div>                        
-                                    <div class="added-answer" [innerHtml]='selectedFaq.answer'></div>
+                                    <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div>
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
@@ -291,55 +296,99 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header">
-        <h4 class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='closeStatusModal()'></h4>
-        <div class="table-action-header">       
-            <div class="kr-sg-input-search">                               
-              <input [disabled]='!(resources && resources.length)' type="text" placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources">
-              <img src="assets/icons/search.svg" class="search-icon">
-            </div>
-            <button class="kr-sg-button-primary btn_md" (click)='addFaqSource("faqDoc")'>Add Source</button>
-        </div>
+        <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
+        <div class="table-action-header modal-table-actions"> 
+            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources">              
+              <div class="search">
+                <img *ngIf="searchSources" class="search-icon" src="assets/images/close.svg">
+                <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
+              </div>
+              <div class="kr-sg-dropdowns">            
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                              
+                      <li (click)="addFaqSource('faqWeb')">Web URL</li>
+                      <li (click)="addFaqSource('faqDoc')">Upload File</li>   Can I open a Rupee Checking Account or Term Deposit Accounts for a minor?
+
+                    </ul>
+                </div>
+              </div>
+              <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
+              <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
+          </div> 
     </div>
-    <div class="modal-body source-modal-popup">
-        <div  class="table-list-content">
-            <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
-              <section class="table-content">
-                  <header class="table-header">
-                      <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col" (click)="sortBy('createdOn')">Reviewed <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-                      <div class="col last-child" (click)="sortBy('name')"></div>
-                  </header>
-                  <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
-                  <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']" (click)="openStatusSlider(source)">
-                      <div class="col">{{source.title || source.name}}</div>
-                      <div class="col">{{source.source | titlecase}}</div>
-                      <div class="col">
-                        <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
-                        <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+    <div class="modal-body source-modal-popup" *ngIf="resources && resources.length">
+        <ng-container  *ngIf="currentView === 'list'">
+            <div class="table-list-content">
+                <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
+                <section class="table-content">
+                    <header class="table-header">
+                        <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Created <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Reviewed <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col last-child" (click)="sortBy('name')"></div>
+                    </header>
+                    <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
+                    <div class="content-body" *ngFor="let source of resources | filter: [ searchSources , 'name']">
+                        <div class="col">{{source.title || source.name}}</div>
+                        <div class="col">{{source.source | titlecase}}</div>
+                        <div class="col">
+                            <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
+                            <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+                        </div>
+                        <div class="col">{{source.extracted || '0'}}</div>
+                        <div class="col">{{source.staged || '0'}}</div>
+                        <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
+                        <div class="col text-right last-child">
+                            <span class="actions-links" (click)="deleteSource(source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
+                        </div>
+                    </div>
+                    <div class="empty">No Search Results found</div>
+                    </perfect-scrollbar>
+                    
+                </section>                               
+            </div>
+            <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
+            </div>
+        </ng-container>
+        <ng-container  *ngIf="currentView === 'grid'">
+            <div class="list-view-data">
+                <div class="row row_list">
+                    <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                    (click)="openStatusSlider(source)">
+                    <div class="box">
+                      <div class="title">{{source.title || source.name}}</div>
+                      <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
+                      <div class="status-data">
+                        <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.numPages}}</span> Pages</div>
+                        <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                          <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
+                          <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
+                            *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                          <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>
+                        </div>
+                        <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
+                        <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
+                          {{source.createdOn | dateFormatPipe}}
+                        </div>
                       </div>
-                      <div class="col">{{source.extracted || '0'}}</div>
-                      <div class="col">{{source.staged || '0'}}</div>
-                      <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
-                      <div class="col text-right last-child" (click)="deleteQuestion('recordFAQ',source,$event)">
-                        <span class="actions-links"><img class="action_icon" src="assets/images/trashIcon.svg"></span>
-                        <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
-                     </div>
-                  </div>
-                  <div class="empty">No Search Results found</div>
-                  </perfect-scrollbar>
-                  
-              </section>                               
-          </div>
-          <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
-        </div>
+                        <div class="actions-delete">                           
+                            <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                        </div>
+                    </div>
+                  </div>          
+                </div>
+            </div> 
+        </ng-container>
     </div>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="addSourceModalComponent" #addSourceModalPop>
+<kr-modal modalType="center" modalClass="addSourceModalComponent" #addfaqSourceModalPop>
     <ng-container *ngIf="showSourceAddition">
         <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
     </ng-container>

@@ -8,7 +8,7 @@
       <span class="please-wait-message">No Content Available</span>
     </div>
   <div  class="table-list-content">
-    <div class="kr-sg-data-table with-checkbox"  *ngIf="haveRecord && !loadingContent">
+    <div class="kr-sg-data-table with-checkbox"  *ngIf="!loadingContent">
      <div class="table-action-header"> 
         <input type="text" name='searchSources' placeholder="Search" id="searchSynonymsId" class="input-search tbsearchbar" [(ngModel)]="synonym" (keyup)="applyFilter($event.target.value)">              
           <div class="search">

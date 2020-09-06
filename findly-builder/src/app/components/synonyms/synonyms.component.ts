@@ -129,7 +129,7 @@ export class SynonymsComponent implements OnInit {
       this.synonymObj = new SynonymClass();
     });
     
-    if(record){
+    if(record.name){
       record.synonym =  this.synArr;
       this.synonymData.push(record);
       this.synArr = []
@@ -181,7 +181,7 @@ export class SynonymsComponent implements OnInit {
       this.synonymData = [...data]; 
       this.haveRecord = true;
     }else{
-      this.synonymData = null;
+      //this.synonymData = null;
       this.haveRecord = false;
     }
     }else{
