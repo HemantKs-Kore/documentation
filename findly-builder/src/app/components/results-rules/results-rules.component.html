@@ -1,0 +1,66 @@
+<ng-template #ruleContainer let-rulesObj='rulesObj' let-rulesSet="rulesSet" let-rule='rule' let-ruleIndex='ruleIndex'  let-validationMode='validationMode'>
+    <div [ngClass]="{'validation-rules-add-edit row m-0 mt-1 mb-1 w-100 col-12': (validationMode==='simple')}">        
+        <div [ngClass]="{'drop-down-sec w-100 col-12 row m-0 p-0':(validationMode==='simple'), 'd-flex mt-mb-11 w-100 rules-selection align-items-center':(validationMode==='advanced')}" class="drop-down-sec w-100 col-12 row m-0 p-0">
+            <div *ngIf="validationMode==='simple'" class="close-minus-btn" (click)="removeSimpleRule(rulesSet,ruleIndex)"><span>-</span></div>
+            <div *ngIf="validationMode==='advanced'" class="close-minus-btn" (click)="removeAdvancedRule(ruleIndex,rulesSet,rule)"><span>-</span></div>
+            <div class="col-3 pr-0 pl-10">                        
+                <div class="kr-sg-dropdowns">                           
+                    <div class="dropdown dropdown-open" ngbDropdown container='body'>
+                        <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
+                        <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
+                        <li ngbDropdownItem><a>1</a></li>  
+                        <li ngbDropdownItem><a>1</a></li>  
+                        <li ngbDropdownItem><a>1</a></li>  
+                        <li ngbDropdownItem><a>1</a></li>                                                                         
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 pr-0 pl-10" >                        
+                <div class="kr-sg-input-text">
+                    <input type="text" [(ngModel)]="rule.value"  placeholder="" class="input-text">
+                </div>
+            </div>
+            <div class="col-3 pr-0 pl-10">                        
+                <div class="kr-sg-dropdowns">                           
+                    <div class="dropdown dropdown-open" ngbDropdown container='body'>
+                        <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
+                        <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
+                        <li ngbDropdownItem><a>1</a></li>  
+                        <li ngbDropdownItem><a>1</a></li>  
+                        <li ngbDropdownItem><a>1</a></li>  
+                        <li ngbDropdownItem><a>1</a></li>                                                                         
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 pr-0 pl-10" >                        
+                <div class="kr-sg-input-text">
+                    <input type="text" [(ngModel)]="rule.value"  placeholder="" class="input-text">
+                </div>
+            </div>
+        </div>        
+    </div>
+    <ng-container *ngIf="validationMode==='simple'">
+    <div class="rule-info" *ngIf="ruleIndex !== (rulesSet.rules.length-1)">AND</div>
+    <div class="row m-0 justify-content-between align-items-center mt-2 col-12 pl-0" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
+    <div class="close-minus-btn add-plus" (click)="addSimpleRule(rulesSet,'simple')"><span>+</span></div>
+    </div>
+    <div class="error-message-text-box w-100 mb-2 col-12" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
+        <div class="kr-sg-input-text">
+            <input type="text" placeholder="Please select department"  [(ngModel)]="rulesSet.errorMsg" class="input-text">            
+        </div>      
+    </div>
+    </ng-container>
+</ng-template>
+<div class="col-12 pr-0">
+    <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
+        <div class="validation-setting-rules" >
+            <ng-container *ngFor="let rule of simpleRule.rules; index as i">
+                <ng-container 
+                    *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:'simple'}">
+                </ng-container>
+            </ng-container>
+        </div>  
+    </ng-container>
+</div>
