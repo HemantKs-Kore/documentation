@@ -8,18 +8,18 @@
       <span class="please-wait-message">No Content Available</span>
     </div>
   <div  class="table-list-content">
-    <div class="kr-sg-data-table with-checkbox"  *ngIf="!loadingContent">
-     <div class="table-action-header"> 
-        <input type="text" name='searchSources' placeholder="Search" id="searchSynonymsId" class="input-search tbsearchbar" [(ngModel)]="synonym" (keyup)="applyFilter($event.target.value)">              
-          <div class="search">
-            <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-            <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
-          </div>
-          <div class="search">
-            <img src="assets/icons/grid-view.svg">
-          </div>
-      </div>                       
-  </div>   
+      <div class="kr-sg-data-table with-checkbox"  *ngIf="!loadingContent">
+        <div class="table-action-header"> 
+            <input type="text" name='searchSources' placeholder="Search" id="searchSynonymsId" class="input-search tbsearchbar" [(ngModel)]="synonym" (keyup)="applyFilter($event.target.value)">              
+              <div class="search">
+                <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+                <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
+              </div>
+              <div class="search">
+                <img src="assets/icons/grid-view.svg">
+              </div>
+          </div>                       
+    </div>   
   </div>
   <!-- search Bar -->
   <!-- synonyms Card Header -->
@@ -30,7 +30,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="exampleInputEmail1"><b>Set Name</b></label>
-                        <input type="text" class="form-control" id="name" [(ngModel)]="synonymObj.name" [ngModelOptions]="{standalone: true}" placeholder="Name" required>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="synonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Name" required>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -48,7 +48,7 @@
                                      [matChipInputFor]="chipList"
                                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                      [matChipInputAddOnBlur]="addOnBlur"
-                                     (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.synonym" [ngModelOptions]="{standalone: true}">
+                                     (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.synonyms" [ngModelOptions]="{standalone: true}">
                             </mat-chip-list>
                           </mat-form-field>
                     </div>
@@ -63,21 +63,23 @@
         </form>
     </div>
     
-</div>
+ </div>
   <!-- synonyms Card Header -->
 
   <!-- synonyms List -->
   <perfect-scrollbar class="table-scroll-perfect">
-    <ul class="list-group" *ngIf = "!loadingContent && haveRecord">
+    <ul class="list-group " *ngIf = "!loadingContent && haveRecord">
+      
         <li class="list-group-item" *ngFor="let synonym of synonymData;let i = index">
-            <div class="panel-group">
+         
+          <div class="panel-group">
                 <div class="panel panel-default">
                     
                         <div class="row"data-toggle="collapse" (click) = "editSynRecord(synonym,$event,i)">
                
                             <div class="col-md-11">
-                                <b><span [innerHTML] = "synonym.name + '~'"></span></b>
-                                <span *ngFor="let eachSyn of synonym.synonym;let i = index" [innerHTML] = "eachSyn"></span>
+                                <b><span [innerHTML] = "synonym.keyword + '~'"></span></b>
+                                <span *ngFor="let eachSyn of synonym.synonyms;let i = index" [innerHTML] = "eachSyn"></span>
                             </div>
                             <div class="col-md-1">                  
                                 <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
@@ -89,8 +91,8 @@
                         <div class="panel-body">
                             <mat-form-field  class="example-chip-list mb-8" [floatLabel]="'never'">
                                 <mat-chip-list #chipList aria-label="tag selection">
-                                  <mat-chip *ngFor="let syn of synonym.synonym"  [selectable]="selectable"
-                                           [removable]="removable" (removed)="removeList(syn,i)">
+                                  <mat-chip *ngFor="let syn of synonym.synonyms"  [selectable]="selectable"
+                                           [removable]="removable" (removed)="removeList(syn,synonym._id,i)">
                                     {{ syn }}
                                     <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                   </mat-chip>
@@ -99,16 +101,17 @@
                                          [matChipInputFor]="chipList"
                                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                          [matChipInputAddOnBlur]="addOnBlur"
-                                         (matChipInputTokenEnd)="addList($event,i)" #suggestedInput>
-                                         <button type="button" class="btn btn-light" (click)="addSynonymsAddedName(syn,i)">+</button>
+                                         (matChipInputTokenEnd)="addList($event,synonym._id,i)"  #suggestedInput>
+                                         <!-- <button type="button" class="btn btn-light" (click)="addSynonymsAddedName(syn,i)">+</button> -->
                                 </mat-chip-list>
                               </mat-form-field>
                         </div>
                     </div>
                 </div>
             </div>
+           
         </li>
       </ul>
-  </perfect-scrollbar>
+    </perfect-scrollbar> 
 </div>
 

@@ -7,6 +7,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import * as _ from 'underscore';
 declare const $: any;
 
 @Component({
@@ -19,7 +20,7 @@ export class SynonymsComponent implements OnInit {
   serachIndexId
   loadingContent : boolean = true;
   haveRecord : boolean = false;
-  synonymData : any[];//SynonymModal[] = [];
+  synonymData : any[] = [];//SynonymModal[] = [];
   synonymDataBack : any[] = [];//SynonymModal[] = [];
   synonymObj: any; //SynonymClass = new SynonymClass();
   visible = true;
@@ -45,23 +46,63 @@ export class SynonymsComponent implements OnInit {
       input.value = '';
     }
   }
-  addList(event: MatChipInputEvent,i): void {
+  addList(event: MatChipInputEvent,synonym_id,i): void {
     const input = event.input;
     const value = event.value;
-
+    let synonyms = [...this.synonymData];
     if ((value || '').trim()) {
-      this.synonymData[i].synonym.push( value.trim());
+      synonyms[i].synonyms.push( value.trim());
     }
     if (input) {
       input.value = '';
     }
+    const quaryparms: any = {
+      searchIndexId:this.serachIndexId,
+      synonymId: synonym_id
+    };
+    const payload = {
+      synonyms: synonyms[i].synonyms,
+      keyword: this.synonymData[i].keyword
+    }
+    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
+      console.log(res);
+      this.synonymData[i].synonyms = [...synonyms[i].synonyms];
+      if (input) {
+        input.value = '';
+      }
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to update Synonyms');
+    });
+    
   }
-  removeList(syn,i): void {
-    const index = this.synonymData[i].synonym.indexOf(syn);
+ 
+  removeList(syn,synonym_id,i): void {
+    let synonyms = [...this.synonymData];
+    const index = synonyms[i].synonyms.indexOf(syn);
 
     if (index >= 0) {
-      this.synonymData[i].synonym.splice(index, 1);
+      synonyms[i].synonyms.splice(index, 1);
     }
+    const quaryparms: any = {
+      searchIndexId:this.serachIndexId,
+      synonymId: synonym_id
+    };
+    const payload = {
+      synonyms: synonyms[i].synonyms,
+      keyword: this.synonymData[i].keyword
+    }
+    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
+      console.log(res);
+      this.synonymData[i].synonyms = [...synonyms[i].synonyms]
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to update Synonyms');
+    });
+    
+    // const index = this.synonymData[i].synonyms.indexOf(syn);
+
+    // if (index >= 0) {
+    //   this.synonymData[i].synonyms.splice(index, 1);
+    // }
   }
   remove(syn): void {
     const index = this.synArr.indexOf(syn);
@@ -85,16 +126,16 @@ export class SynonymsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadingContent = false;
     /** hard coded Data */
-    let data : Array<SynonymModal> = [{
-      name :"Cab",
-      synonym :["Taxi"],
-    },{
-      name :"Bike",
-      synonym :["MotorCycle"],
-    }];
-    this.synonymData = data;
-    this.synonymDataBack = data;
-    this.synonymData ? this.haveRecord = true : this.haveRecord = false;
+    // let data : Array<SynonymModal> = [{
+    //   name :"Cab",
+    //   synonym :["Taxi"],
+    // },{
+    //   name :"Bike",
+    //   synonym :["MotorCycle"],
+    // }];
+    // this.synonymData = data;
+    // this.synonymDataBack = data;
+    // this.synonymData ? this.haveRecord = true : this.haveRecord = false;
     /** hard coded Data */
     const quaryparms: any = {
       searchIndexId:this.serachIndexId,
@@ -103,9 +144,14 @@ export class SynonymsComponent implements OnInit {
     };
     this.service.invoke('get.synonym', quaryparms).subscribe(res => {
       console.log(res);
-      this.synonymData = res;
-      this.synonymDataBack = res;
-      this.synonymData ? this.haveRecord = true : this.haveRecord = false;
+      res.forEach(element => {
+        if(element.keyword){
+          this.synonymData.push(element);
+          this.synonymDataBack.push(element);
+          this.synonymData ? this.haveRecord = true : this.haveRecord = false;
+        }
+      });
+      
     }, errRes => {
       this.errorToaster(errRes,'Failed to get Synonyms');
     });
@@ -117,12 +163,13 @@ export class SynonymsComponent implements OnInit {
     };
     const payload = {
       synonyms: this.synArr,
-      keyword: record.name
+      keyword: record.keyword
     }
     this.service.invoke('create.synonym', quaryparms, payload).subscribe(res => {
-      if(record){
-        record.synonym =  this.synArr;
-        this.synonymData.push(record);
+      //this.ngOnInit();
+      if(res){
+        //record.synonym =  this.synArr;
+        this.synonymData.push(res);
         this.synArr = []
         this.synonymObj = new SynonymClass();
        }
@@ -131,12 +178,12 @@ export class SynonymsComponent implements OnInit {
       this.synonymObj = new SynonymClass();
     });
     
-    if(record.name){
-      record.synonym =  this.synArr;
-      this.synonymData.push(record);
-      this.synArr = []
-      this.synonymObj = new SynonymClass();
-     }
+    // if(record.name){
+    //   record.synonym =  this.synArr;
+    //   this.synonymData.push(record);
+    //   this.synArr = []
+    //   this.synonymObj = new SynonymClass();
+    //  }
   }
   errorToaster(errRes,message){
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -155,13 +202,13 @@ export class SynonymsComponent implements OnInit {
     for(let i=0; i< this.synonymData.length ; i++){
       let dataoBJ = {};
       let dataLen = data.length;
-      if(this.synonymData[i].name.toLocaleLowerCase().includes(value.toLocaleLowerCase())){
+      if(this.synonymData[i].keyword.toLocaleLowerCase().includes(value.toLocaleLowerCase())){
         data.push(this.synonymData[i]);
         dataLen = data.length+1;
       }
       if(data.length == dataLen){
-        for(let j=0; j< this.synonymData[i].synonym.length ; j++){
-          if(this.synonymData[i].synonym[j].toLocaleLowerCase().includes(value.toLocaleLowerCase())){
+        for(let j=0; j< this.synonymData[i].synonyms.length ; j++){
+          if(this.synonymData[i].synonyms[j].toLocaleLowerCase().includes(value.toLocaleLowerCase())){
             data.push(this.synonymData[i]);
           }
         }
@@ -209,7 +256,7 @@ export class SynonymsComponent implements OnInit {
     };
     const payload = {
       synonyms: synonym,
-      keyword: this.synonymData[i].name
+      keyword: this.synonymData[i].keyword
     }
     this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
       console.log(res);
@@ -218,16 +265,36 @@ export class SynonymsComponent implements OnInit {
       this.errorToaster(errRes,'Failed to update Synonyms');
     });
   }
-  deleteSynRecord(record){
+  deleteSynRecord(record,event){
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
     const quaryparms: any = {
       searchIndexId:this.serachIndexId,
-      synonymId: null
+      synonymId: record._id
     };
-    this.service.invoke('update.synonym', quaryparms).subscribe(res => {
+    this.service.invoke('delete.synonym', quaryparms).subscribe(res => {
       console.log(res);
+      const deleteIndex = _.findIndex(this.synonymData,(fq)=>{
+        return fq._id === record._id;
+      })
+      if (deleteIndex > -1) {
+        this.synonymData.splice(deleteIndex,1);
+      }
       
     }, errRes => {
-      this.errorToaster(errRes,'Failed to delete Synonyms');
+      if(errRes.status == 200){
+        const deleteIndex = _.findIndex(this.synonymData,(fq)=>{
+          return fq._id === record._id;
+        })
+        if (deleteIndex > -1) {
+          this.synonymData.splice(deleteIndex,1);
+        }
+      }else{
+        this.errorToaster(errRes,'Failed to delete Synonyms');
+      }
+     
     });
   }
   clear(){

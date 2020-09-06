@@ -174,21 +174,26 @@ export class EndPointsService {
       method: 'put'
     };
     this.serviceList['create.synonym'] = {
-      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/synonyms',
       method: 'post'
     };
     this.serviceList['get.synonym'] = {
-      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/synonyms?offset=:offset&limit=:limit',
       method: 'get'
     };
     
     this.serviceList['update.synonym'] = {
-      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms/:synonymId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/synonyms/:synonymId',
       method: 'put'
     };
     this.serviceList['delete.synonym'] = {
-      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/synonyms/:synonymId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/synonyms/:synonymId',
       method: 'delete'
     };
+    this.serviceList['get.bots'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?',
+      method: 'get'
+    };
+    
   }
 }
