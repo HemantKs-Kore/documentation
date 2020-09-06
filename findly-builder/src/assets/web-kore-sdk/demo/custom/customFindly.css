@@ -29,6 +29,9 @@
 #searchChatContainer .ranking-action-bar{
     display: block !important;    
 }
+#searchChatContainer .action-wrp{
+    display: block !important;
+}
 .ranking-action-bar{
     background: #eee;
     display: none; 
@@ -41,6 +44,4 @@
     color: #ffff;
     cursor: pointer;
 }
-.action-wrp{
-    display: block !important;
-}
+
