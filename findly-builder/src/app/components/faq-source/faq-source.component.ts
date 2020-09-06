@@ -97,7 +97,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     private convertMDtoHTML:ConvertMDtoHTML,
-    private changeDetection: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -292,10 +291,12 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   }
   searchFaqs(){
     if(this.searchFaq){
+      this.loadingTab = true;
       this.getfaqsBy(null,null,null,this.searchFaq);
     }
   }
   faqsApiService(serviceId, params?,concat?) {
+    this.faqs = [];
     if(this.apiLoading){
       return;
     }
@@ -307,7 +308,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       } else {
         this.faqs = [...res] || [];
       }
-      this.changeDetection.detectChanges();
       this.faqsObj.faqs = this.faqs;
       if(this.faqs.length){
          this.moreLoading.loadingText = 'Loading...';
