@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  isConfig = false;
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
@@ -187,7 +188,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       /** Paging */
-      this.pagingData = res;
+     
+      let data = [...res];
+      this.pagingData = data.slice(0,10);
       this.pageination(res)
     /** Paging */
       this.sliderStep = 0;
@@ -202,14 +205,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   viewPages() {
-    this.sliderStep = 1;
+    this.sliderStep = 0;
   }
   viewPageDetails() {
-    this.sliderStep = 2;
+    this.sliderStep = 1;
   }
   sliderBack() {
     if(this.sliderStep){
       this.sliderStep =  this.sliderStep - 1;
+    }
+  }
+  swapSlider(){
+    $('.tabname').toggleClass("active");
+    if(this.isConfig){
+      this.isConfig = false;
+    }else{
+      this.isConfig = true;
     }
   }
   openStatusSlider(source) {

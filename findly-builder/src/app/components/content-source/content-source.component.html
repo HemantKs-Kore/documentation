@@ -177,7 +177,8 @@
           <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
           <span class="please-wait-message">Please Wait!</span>
         </div>
-        <div class="info-content bg-color text-left" *ngIf="!sliderStep && !loadingSliderContent && selectedSource">
+        
+        <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep! && !loadingSliderContent && selectedSource">
           <div class="row m-0 row_content">
             <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
             <div class="col-10 right-info-title">{{selectedSource.name}}</div>
@@ -208,91 +209,131 @@
                 *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="viewPages()">View
                 Pages</a></div>
           </div>
-        </div>
-        <div class="content-accordion-sec" *ngIf="sliderStep === 1">
+        </div> -->
+  
+        <div class="content-accordion-sec" *ngIf="sliderStep === 0">
           <ng-container *ngIf="!(selectedSource && selectedSource.pages && selectedSource.pages.length)">
             <div class="noPages">No Pages Available</div>
           </ng-container>
           <ng-container *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length">
-            <div class="search-header">
-              <div class="tabs-sec">
-                <span class="tabname active">Pages</span>
-                <span class="tabname">Configuration</span>
-              </div>
-              <div class="right-side">
-                <div class="kr-sg-input-search">
-                  <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
-                  <img src="assets/images/search-input.svg" class="search-icon">
+            
+              <div class="search-header">
+                <div class="tabs-sec">
+                  <span class="tabname active" (click)="swapSlider()">Pages</span>
+                  <span class="tabname" (click)="swapSlider()">Configuration</span>
                 </div>
-                <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div>
-              </div>
-            </div>
-            <div class="accordion-content-info text-left">
-              <div class="header-sec row m-0">
-                <div class="col-8 label_text m-0 p-0">Pages</div>
-                <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-              </div>
-              <div id="accordion" class="accordion-section">
-                <div class="card_content"
-                  *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url'];let i = index">
-                  <div class="card_header">
-                    <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content">
-                        <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
-                          {{page.url || selectedSource.url}}</div>
-                        <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
-                        <div class="col-2 actions">
-                          <img src="assets/icons/sidemenu/table-refresh.svg">
-                          <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)">
-                        </div>
-                      </div>
-                    </a>
+                <div class="right-side">
+                  <div class="kr-sg-input-search">
+                    <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
+                    <img src="assets/images/search-input.svg" class="search-icon">
                   </div>
-                  <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
-                    <div class="card_body" style="padding-left: 30px;">
-                      <div class="info-content pageTitleContainer">
-                        <div class="row m-0 row_content">
-                          <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
-                          <div class="col-10 right-info-title">{{page.title}}</div>
-                        </div>
-                        <div class="row m-0 row_content">
-                          <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-                          <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
-                        </div>
-                        <div class="row m-0 row_content">
-                          <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-                          <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe}}
-                            <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
-                                Details</a></span>
-                          </div>
-                        </div>
-
-                      </div>
-                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
-                      <div class="label_text">Results Preview</div>
-                      <div class="info-content previewSection">
-                        <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
-                        <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
-                        <div class="previewContent" *ngIf="page.searchResultPreview"
-                          [innerHtml]="page.searchResultPreview"></div>
-                      </div>
-                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
+                  <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div>
+                </div>
+              </div>
+              <div *ngIf= "isConfig">
+                <div class="info-content bg-color text-left" *ngIf="sliderStep === 0 && !loadingSliderContent && selectedSource">
+                  <div class="row m-0 row_content">
+                    <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+                    <div class="col-10 right-info-title">{{selectedSource.name}}</div>
+                  </div>
+                  <div class="row m-0 row_content">
+                    <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+                    <div class="col-10 right-info-title">{{selectedSource.url}}</div>
+                  </div>
+                  <div class="row m-0 row_content">
+                    <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+                    <div class="col-10 right-info-title">
+                      <span>{{selectedSource.createdOn | dateFormatPipe}}</span>{{' by ' + userInfo.fName +' ' + userInfo.lName}}
                     </div>
                   </div>
+                  <div class="row m-0 row_content">
+                    <div class="col-2 left-info-title pl-0">Status <span>:</span></div>
+                    <div class="col-10 right-info-title"
+                      *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+                      [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
+                      {{statusObj[selectedSource.recentStatus].name}}</div>
+                    <div class="col-10 right-info-title"
+                      *ngIf="!(selectedSource.recentStatus && statusObj[selectedSource.recentStatus])">---</div>
+                  </div>
+                  <div class="row m-0 row_content">
+                    <div class="col-2 left-info-title pl-0">Pages <span>:</span></div>
+                    <div class="col-10 right-info-title">
+                      {{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}<a class="ViewPages"
+                        *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">View
+                        Pages</a></div>
+                  </div>
                 </div>
-                <!-- pageination -->
-                <div class="paginations-custon">
-                  <div class="previous">Previous</div>
-                  <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(i,10)"
-                    class="numbers active">{{i+1}}</div>
-                  <div class="next">Next</div>
-                </div>
-                <!-- pageination -->
               </div>
+              <div class="accordion-content-info text-left" *ngIf = "!isConfig">
+                <div class="header-sec row m-0">
+                  <div class="col-8 label_text m-0 p-0">Pages</div>
+                  <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+                </div>
+                <div id="accordion" class="accordion-section">
+                  <div class="card_content"
+                    *ngFor="let page of selectedSource.pages | filter: [ pagesSearch, 'url'];let i = index">
+                    <div class="card_header">
+                      <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
+                        <div class="row m-0 content">
+                          <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
+                            {{page.url || selectedSource.url}}</div>
+                          <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
+                          <div class="col-2 actions">
+                            <img src="assets/icons/sidemenu/table-refresh.svg">
+                            <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
+                      <div class="card_body" style="padding-left: 30px;">
+                        <div class="info-content pageTitleContainer">
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.title}}</div>
+                          </div>
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
+                          </div>
+                          <div class="row m-0 row_content">
+                            <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+                            <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe}}
+                              <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
+                                  Details</a></span>
+                            </div>
+                          </div>
+  
+                        </div>
+                        <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
+                        <div class="label_text">Results Preview</div>
+                        <div class="info-content previewSection">
+                          <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
+                          <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
+                          <div class="previewContent" *ngIf="page.searchResultPreview"
+                            [innerHtml]="page.searchResultPreview"></div>
+                        </div>
+                        <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- pageination -->
+                  <div class="paginations-custon">
+                    <div class="previous">Previous</div>
+                    <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(i,10)"
+                      class="numbers active">{{i+1}}</div>
+                    <div class="next">Next</div>
+                  </div>
+                  <!-- pageination -->
+                </div>
+              
             </div>
+
+           
           </ng-container>
+        
         </div>
-        <div class="table-view-details" *ngIf="sliderStep === 2 && selectedPage">
+        <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
           <div class="view-details-data">
             <div class="title">Title</div>
             <div class="desc-info">{{selectedPage.title}}</div>

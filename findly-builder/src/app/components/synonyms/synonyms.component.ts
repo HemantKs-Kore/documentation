@@ -97,7 +97,9 @@ export class SynonymsComponent implements OnInit {
     this.synonymData ? this.haveRecord = true : this.haveRecord = false;
     /** hard coded Data */
     const quaryparms: any = {
-      searchIndexId:this.serachIndexId
+      searchIndexId:this.serachIndexId,
+      offset: 0,
+      limit : 50
     };
     this.service.invoke('get.synonym', quaryparms).subscribe(res => {
       console.log(res);
