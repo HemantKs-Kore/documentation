@@ -1,11 +1,11 @@
 <div class="add-questions-form" [ngClass]="inputClass">
   <form [formGroup]="form">
-    <div class="kr-sg-input-text mb-8">
-      <div class="label-text font-weight-bold">Question</div>
+    <div class="kr-sg-input-text mb-15">
+      <div class="label-text">Question</div>
       <input type="text" placeholder="Enter your question" class="input-text" formControlName="question">             
     </div>
-    <div for="tagInput" class="label_text">Tags</div>
-    <mat-form-field class="example-chip-list mb-8" [floatLabel]="'never'">
+    <div for="tagInput" class="label-text">Tags</div>
+    <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
           <!-- <ng-template #ngbTemplate>
@@ -46,11 +46,77 @@
         </ng-container>
       </mat-autocomplete>
     </mat-form-field>
-    <div class="label_text">Bot Response</div>
-    <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor>
+    <div class="label-text bot-res-title">Bot Response <img src="assets/icons/sidemenu/delete-table.svg"></div>
+    <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
+    <div class="layout-select">
+      <div class="d-flex align-items-center m-0 col-7 p-0">
+        <div class="title">Select Layout</div>
+        <div class="img-block active">
+          <img src="assets/icons/editor/no-image.svg" class="d-none">
+          <img src="assets/icons/editor/no-image-active.svg">
+        </div>
+        <div class="img-block">
+          <img src="assets/icons/editor/image-horizantal.svg">
+          <img src="assets/icons/editor/image-horizantal-active.svg" class="d-none">
+        </div>
+        <div class="img-block">
+          <img src="assets/icons/editor/image-vertical.svg">
+          <img src="assets/icons/editor/image-vertical-active.svg" class="d-none">
+        </div>
+      </div>
+      <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div>
+    </div>
+    <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
+    <div class="text-area-editor">
+      <div class="upload-content-wrapper">
+        <div class="image-selections">
+            <div class="img_block"><img src="assets/icons/editor/upload-image.svg"></div>
+            <div class="info-text">Upload Image or Video</div>
+        </div>
+        <input type="file" name="myfile"/>
+        <div class="uploaded-image-preview d-none">
+          <img src="assets/icons/sidemenu/card-image.png">
+        </div>        
+      </div>
+      <div class="kr-sg-input-text-area"> 
+        <div class="tabs-sec">
+          <span class="tab-title active">editor</span>
+          <span class="tab-title">&lt;/&gt; CODE</span>
+        </div>
+        <div class="editor-actons">
+          <span class="edit-action">
+            <img src="assets/icons/editor/alphabits.svg">
+          </span>
+          <span class="edit-action">
+            <img src="assets/icons/editor/italic.svg">
+          </span>
+          <span class="edit-action">
+            <img src="assets/icons/editor/bold.svg">
+          </span>
+          <span class="edit-action">
+            <img src="assets/icons/editor/link.svg">
+          </span>
+          <span class="edit-action">
+            <img src="assets/icons/editor/align-left.svg">
+          </span>
+          <span class="edit-action">
+            <img src="assets/icons/editor/align-center.svg">
+          </span>
+          <span class="edit-action">
+            <img src="assets/icons/editor/align-right.svg">
+          </span>
+        </div>       
+        <textarea placeholder="Placeholder text" class="input-text">It is extremely important that you keep your contact information on your account updated at all times. To update your address, phone numbers and email address, please login to your account and edit your contact details under the “Your Contact Details” link on the left navigation. To make changes to your account, you will also need to enter an Online Authorization Code (OAC) that will be sent to your registered mobile phone on your account and to your registered email address to authenticate this transaction.</textarea>                                
+      </div>
+    </div>
     <div class="btn-sec">
-      <button class="kr-sg-button-primary mr-2" (click)="save()" [disabled]="form.invalid || loading">{{loading ? 'Saving..' : 'Save'}}</button>
-      <button class="kr-sg-button-secondary" (click)="cancel()">Cancel</button>
+      <div class="left-btns">
+        <button class="kr-sg-button-primary btn_lg" (click)="save()" [disabled]="form.invalid || loading">{{loading ? 'Saving..' : 'Save'}}</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="right-btns">        
+        <button class="kr-sg-button-secondary btn_lg mr-0"><img src="assets/icons/editor/plus-add.svg" class="mr-2">Another Bot Response</button>
+      </div>
     </div>
   </form>
 </div>

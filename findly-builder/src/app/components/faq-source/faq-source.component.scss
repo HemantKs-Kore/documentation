@@ -72,8 +72,13 @@
             height: 100vh;
             background: #E4E5E7;
             display: flex;
-            .content{
-                width: 50%;
+            .content{                
+                &.left-content{
+                    width: 45%;
+                }
+                &.right-content{
+                    width: 55%;
+                }
             }
             .content-boxes{                                                
                 background: #fff;    
@@ -387,9 +392,12 @@
                     .header-info-que{
                         display: flex;
                         align-items: center;                       
-                        padding: 20px 0px;
-                        margin: 0 30px;
-                        border-bottom: 1px solid #E5E8EC;
+                        // padding: 20px 0px;
+                        // margin: 0 30px;
+                        // border-bottom: 1px solid #E5E8EC;
+                        padding: 20px 30px;
+                        background: #EFF0F1;
+                        border-bottom: 0px;
                         &.with-info{                            
                             .elipse-dropdown{
                                 width: auto;
@@ -414,15 +422,15 @@
                             }
                         }
                         .col_{
-                            width: 23%;
+                            width: 25%;
                             &.source{
                                 width: 21%;
                             }
                             &.type{
-                                width: 16%;
+                                width: 19%;
                             }
                             &.review-btn{
-                                width: 40%;
+                                width: 35%;
                                 text-align: right;
                                 display: flex;
                                 align-items: center;
@@ -458,7 +466,7 @@
                         }
                     }
                     .train-questions-body-scroll{
-                        height: calc(100vh - 310px);
+                        height: calc(100vh - 226px);
                     }
                     .body-content{                        
                         .body-top-content{
@@ -622,6 +630,7 @@
                 -webkit-box-pack: center;                       
                 -ms-flex-pack: center;                       
                 justify-content: center;   
+                height: calc(100% - 146px);
                 img{
                     width: 75%;
                     margin: 0 auto;
