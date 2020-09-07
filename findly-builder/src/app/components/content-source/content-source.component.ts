@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  isConfig = false;
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
@@ -33,6 +34,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   serachIndexId;
   filterResourcesBack;
   btnCount;
+  btnAllCount;
   pagingData : any[] = [];
   statusArr= [];
   docTypeArr =[];
@@ -116,7 +118,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
-      this.filterResourcesBack = res;
+      this.filterResourcesBack = [...res];
+      // let noPage = 0;
+      // res.forEach(element => {
+      //   if(element.recentStatus =="success"){
+      //     noPage =  element.numPages;
+      //   }
+      // });
+      if(res.numPages)
+        this.pageination(res.numPages,5);
       if(this.resources.length){
         this.resources.forEach(element => {
           this.statusArr.push(element.recentStatus);
@@ -124,6 +134,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         });
         this.statusArr = [...new Set(this.statusArr)]
         this.docTypeArr = [...new Set(this.docTypeArr)]
+        
       }
       _.map(this.resources, (source)=> {
         source.name = source.name || source.title;
@@ -176,21 +187,24 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
-  getCrawledPages() {
+  getCrawledPages(limit,skip) {
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       webDomainId: this.selectedSource._id,
-      limit: 50,
-      skip: 0
+      limit: limit,
+      skip: skip
     };
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       /** Paging */
-      this.pagingData = res;
-      this.pageination(res)
+     
+      const data = [...res]
+      this.pagingData = data.slice(0,5);
+      
     /** Paging */
       this.sliderStep = 0;
+      this.isConfig = false;
       this.loadingSliderContent = false;
     }, errRes => {
       this.loadingSliderContent = false;
@@ -202,43 +216,64 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   viewPages() {
-    this.sliderStep = 1;
+    this.sliderStep = 0;
   }
   viewPageDetails() {
-    this.sliderStep = 2;
+    this.sliderStep = 1;
   }
   sliderBack() {
     if(this.sliderStep){
       this.sliderStep =  this.sliderStep - 1;
     }
   }
-  openStatusSlider(source) {
-    if(source.recentStatus === 'success'){
-      if(source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))){
-        this.notificationService.notify('Source extraction is still in progress','error');
-        return;
-        }
-        this.openStatusModal();
-        this.selectedSource = source;
-        this.loadingSliderContent = true;
-        // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-        this.getCrawledPages();
+  swapSlider(){
+    $('.tabname').toggleClass("active");
+    if(this.isConfig){
+      this.isConfig = false;
+    }else{
+      this.isConfig = true;
     }
   }
-  pageination(pages){
+  openStatusSlider(source) {
+    if(source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))){
+      this.notificationService.notify('Source extraction is still in progress','error');
+      return;
+      }
+    if(source.recentStatus === 'success'){
+      
+        this.openStatusModal();
+        this.selectedSource = source;
+        this.pageination(source.numPages,5)
+        this.loadingSliderContent = true;
+        // this.sliderComponent.openSlider('#sourceSlider', 'right500');
+        this.getCrawledPages(5,0);
+    }
+  }
+  pageination(pages,perPage){
     let count = 0;
-    let divisor = Math.floor(pages.length/10) 
-    let remainder = pages.length%10;
+    
+    let divisor = Math.floor(pages/perPage) 
+    let remainder = pages%perPage;
+    //let btnAllCount = 0;
     if(remainder>0){
-      this.btnCount =  divisor+1;
+      this.btnCount = divisor +1;
+      this.btnAllCount = this.btnCount;
     }else{
       this.btnCount =  divisor;
+      this.btnAllCount = this.btnCount;
+    }
+
+    if(this.btnCount > 5){
+      this.btnCount = 5
     }
   }
   numArr(n: number): any[] {
     return Array(n);
   }
-  onClickPageNo(index,noRows){
+  onClickPageNo(noRows,index){
+    this.getCrawledPages(noRows,index);
+    // $('.numbers').toggleClass('active')
+    // $('#number_'+index).toggleClass('active')
   }
   deletePages(from,record,event) {
     if(event){
@@ -319,13 +354,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   filterTable(source,headerOption){
     console.log(this.resources,source)
-    this.resources = [...this.filterResourcesBack]; // For new Filter..
-    const resourceData =  this.resources.filter((data)=>{
-      console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-     return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+      this.resources = [...this.filterResourcesBack]; // For new Filter..
+      if(source != 'all'){
+      const resourceData =  this.resources.filter((data)=>{
+        console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+      return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
 
-    })
-    if(resourceData.length)this.resources = [...resourceData];
+      })
+      if(resourceData.length)this.resources = [...resourceData];
+    }
+    
   }
   transform(date: string): any {
     const _date = new Date(date);

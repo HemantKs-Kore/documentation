@@ -17,7 +17,7 @@ declare const $: any;
   templateUrl: './add-faq.component.html',
   styleUrls: ['./add-faq.component.scss']
 })
-export class AddFaqComponent implements OnInit {
+export class AddFaqComponent implements OnInit  {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @Input() inputClass: string;
   @Input() faqData: any;

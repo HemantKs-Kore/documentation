@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="93px" height="26px" viewBox="0 0 93 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>ksaLogo</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ksaLogo" fill="#FFFFFF">
+            <path d="M13,0 L26,13 L13,26 L0,13 L13,0 Z M13,8.125 L8.125,13 L13,17.875 L17.875,13 L13,8.125 Z" id="Shape"></path>
+            <text id="Future" font-family="Helvetica" font-size="20" font-weight="normal">
+                <tspan x="36" y="20">Future</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
