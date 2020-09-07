@@ -83,8 +83,8 @@
                                 <span *ngFor="let eachSyn of synonym.synonyms;let i = index"> <span *ngIf="i != synonym.synonyms.length-1;else last" > {{eachSyn + ' , '}}</span><ng-template #last>{{eachSyn + ' )'}}</ng-template></span>
                             </div>
                             <div class="col-md-1">                  
-                                <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                                <span class="actions-links" (click) = "deleteSynRecord(synonym,$event)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
+                                <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip='Refresh'><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                                <span class="actions-links" (click) = "deleteSynRecord(synonym,$event)" ngbTooltip='Delete'><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
                             </div>
                         </div>
                     <div id="collapse_{{i}}" class="panel-collapse collapse">

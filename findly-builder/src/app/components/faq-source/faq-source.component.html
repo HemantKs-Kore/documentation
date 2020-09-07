@@ -106,7 +106,7 @@
                         </div>
                         <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')"></button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
                             <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                         </div>
@@ -133,19 +133,19 @@
                     <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
                         <div class="col-2 p-0 col_">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
+                            <div class="">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-1 p-0 col_">
                             <div class="heading">Type</div>
-                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
+                            <div class="">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0 col_">
                             <div class="heading">Editor</div>
-                            <div class="info-title">{{selectedFaq.createdBy}}</div>
+                            <div class="">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col-3 p-0 col_">
                             <div class="heading">Req. Date & Time</div>
-                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:ss:sss'}}</span></div>
+                            <div class="">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:ss:sss'}}</span></div>
                         </div>
                         <div class="col-4 p-0 col_">
                             <div class="d-flex align-items-center justify-content-end">
@@ -167,48 +167,48 @@
                     <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
                         <div class="col_ p-0 source">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
+                            <div class="">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col_ p-0 type">
                             <div class="heading">Type</div>
-                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
+                            <div class="">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col_ p-0">
                             <div class="heading">Created</div>
-                            <div class="info-title">{{selectedFaq.createdBy}}</div>
+                            <div class="">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col_ p-0 review-btn">
-                            <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
-                            <img src="assets/icons/delete-table.svg" class="cursor" (click)="deleteInfividualQuestion(selectedFaq)">
+                            <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')"></button>
+                            <img src="assets/icons/delete-table.svg" class="cursor" (click)="deleteInfividualQuestion(selectedFaq)" >
                         </div>                    
                     </div>
                     <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
                         <div class="col-2 p-0" [ngClass]="{'col-3': !selectedFaq.reviewedBy}">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
+                            <div class="">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-1 p-0">
                             <div class="heading">Type</div>
-                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
+                            <div class="">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0" [ngClass]="{'col-3': !selectedFaq.reviewedBy}">
                             <div class="heading">Edited by</div>
-                            <div class="info-title">{{selectedFaq.createdBy}}</div>
+                            <div class="">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col-3 p-0" *ngIf="selectedFaq.reviewedBy">
                             <div class="heading">Reviewed by</div>
-                            <div class="info-title">{{selectedFaq.reviewedBy || '--'}}</div>
+                            <div class="">{{selectedFaq.reviewedBy || '--'}}</div>
                         </div>
                         <div class="col-3 p-0" [ngClass]="{'col-4': !selectedFaq.reviewedBy}">
                             <div class="heading">Approved at</div>
-                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
+                            <div class="">{{selectedFaq.modifiedOn | dateFormatPipe:dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
                         </div>
                         <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                   <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>      
-                                  <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>                                   
+                                  <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')"></li>                                   
                                   <li class="delete-text" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                   
                                 </ul>
                             </div>
@@ -221,7 +221,7 @@
                                 <div class="question-content">
                                     <div class="title-que">
                                         <span class="">{{selectedFaq.question}}</span>
-                                        <img src="assets/icons/edit.svg" (click)="editThisQa()">
+                                        <img src="assets/icons/edit.svg" (click)="editThisQa()" ngbTooltip='edit'  placement="bottom">
                                     </div>
                                     <div class="keywords">
                                         <span class="key-title">Keywords :</span>
@@ -263,7 +263,7 @@
                                 <div class="added-tags text-truncate">
                                     <span class="tags-data" *ngFor="let keyword of alternateQuestion.keywords">{{keyword}}</span>
                                 </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon">
+                                <img src="assets/icons/delete-table.svg" class="delete-icon" ngbTooltip='delete'>
                             </div>
                            </ng-container>
                             <div class="add-alternative-questions row">
@@ -343,7 +343,7 @@
                         <div class="col">{{source.staged || '0'}}</div>
                         <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
                         <div class="col text-right last-child">
-                            <span class="actions-links" (click)="deleteSource(source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                             <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
                         </div>
                     </div>
@@ -378,7 +378,7 @@
                       </div>
                         <div class="actions-delete">                           
                             <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
-                            <span class="actions-links" (click)="deleteSource(source,$event)"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                         </div>
                     </div>
                   </div>          
