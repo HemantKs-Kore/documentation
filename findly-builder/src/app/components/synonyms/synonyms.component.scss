@@ -278,7 +278,7 @@ input[type=text]:focus {
                             min-height: 26px;
                             &:hover{
                                 &::after{
-                                    opacity: 0.09;
+                                    opacity: 0;
                                 }
                             }
                             .mat-val{

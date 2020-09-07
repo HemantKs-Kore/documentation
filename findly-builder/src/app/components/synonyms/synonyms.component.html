@@ -16,7 +16,7 @@
                 <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
               </div>
               <div class="search">
-                <img src="assets/icons/grid-view.svg">
+                <!-- <img src="assets/icons/grid-view.svg"> -->
               </div>
           </div>                       
     </div>   
@@ -79,12 +79,12 @@
                         <div class="row"data-toggle="collapse" (click) = "editSynRecord(synonym,$event,i)">
                
                             <div class="col-md-11">
-                                <b><span [innerHTML] = "synonym.keyword + ' '"></span></b><span> ( </span>
+                                <b><span [innerHTML] = "synonym.keyword + ' '"></span></b> <span *ngIf="synonym.synonyms.length">  (</span>
                                 <span *ngFor="let eachSyn of synonym.synonyms;let i = index"> <span *ngIf="i != synonym.synonyms.length-1;else last" > {{eachSyn + ' , '}}</span><ng-template #last>{{eachSyn + ' )'}}</ng-template></span>
                             </div>
                             <div class="col-md-1">                  
-                                <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                                <span class="actions-links" (click) = "deleteSynRecord(synonym,$event)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
+                                <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip=edit><img class="action_icon"  src="assets/icons/edit.svg"></span>
+                                <span class="actions-links" (click) = "deleteSynRecord(synonym,$event)" ngbTooltip='Delete'><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
                             </div>
                         </div>
                     <div id="collapse_{{i}}" class="panel-collapse collapse">
