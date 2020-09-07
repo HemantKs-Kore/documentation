@@ -170,6 +170,7 @@ export class SynonymsComponent implements OnInit {
       if(res){
         //record.synonym =  this.synArr;
         this.synonymData.push(res);
+        this.synonymDataBack.push(res);
         this.synArr = []
         this.synonymObj = new SynonymClass();
        }
@@ -197,7 +198,8 @@ export class SynonymsComponent implements OnInit {
   applyFilter(value){
     /** Work in Progress */
     if(value){
-      this.synonymData= [...this.synonymDataBack];
+      let oprData = [...this.synonymData]
+      this.synonymData= [...oprData];
     let data = [];
     for(let i=0; i< this.synonymData.length ; i++){
       let dataoBJ = {};
