@@ -1,0 +1,10 @@
+<div class="markdowntoolBar" [ngClass]="{'contentEditableEle': contentEditableElement}">
+    <span (click)="onSelected('keyboardShortCut')" class="toolIcon" placement="top" ngbTooltip="Use key board shortcuts" [container]='"body"'><img src="assets/images/markup/keyboard.svg" class="bold-outlined"></span>
+    <span (click)="onSelected('bold')" class="toolIcon"><img src="assets/images/markup/bold-outlined.svg" class="bold-outlined"></span>
+    <span (click)="onSelected('italic')" class="toolIcon"><img src="assets/images/markup/italic-outlined.svg" class="italic-outlined"></span>
+    <span (click)="onSelected('indentLeft')" class="toolIcon"><img src="assets/images/markup/text-indent-left.svg" class="text-indent-left"></span>
+    <span (click)="onSelected('indentRight')" class="toolIcon"><img src="assets/images/markup/text-indent-right.svg" class="text-indent-right"></span> 
+    <span (click)="onSelected('line')" class="toolIcon"><img src="assets/images/markup/add-text-line.svg" class="add-text-line"></span>
+    <span (click)="onSelected('ordered')" class="toolIcon"><img src="assets/images/markup/list-ordered.svg" class="list-ordered"></span>
+    <span (click)="onSelected('unordered')" class="toolIcon"><img src="assets/images/markup/list-unordered.svg" class="list-unordered"></span>
+</div>

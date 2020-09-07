@@ -1,5 +1,5 @@
 <div class="add-questions-form pb-0" *ngIf="selectedFaq">                        
-  <!-- <div class="kr-sg-dropdowns mb-8">
+  <!-- <div class="kr-sg-dropdowns mb-15">
     <div class="label-text">{{selectedFaq.questionPayload.question}}</div>
     <div class="dropdown dropdown-open drp_custon_input">                       
         <div class="kr-sg-input-search dropdown-toggle dropdown-input p-0 border-0" data-toggle="dropdown">                               
@@ -15,11 +15,11 @@
         </ul>
     </div>
   </div> -->
-  <div class="kr-sg-input-text mb-8">
+  <div class="kr-sg-input-text mb-15">
     <div class="label-text font-weight-bold" *ngIf="altQuestionIndex === null">{{selectedFaq.questionPayload.question}}</div>                  
     <input type="text" placeholder="Add alternate questions" class="input-text" name="altQuestion" [(ngModel)]="altQuestion">             
   </div>
-  <mat-form-field class="example-chip-list mb-8" [floatLabel]="'never'">
+  <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
     <mat-chip-list #chipList aria-label="tag selection">
       <mat-chip *ngFor="let tag of altTags; let index = index " (removed)="removeAltTag(tag)"
       >

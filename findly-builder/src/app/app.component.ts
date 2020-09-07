@@ -42,11 +42,6 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
   }
-  ngAfterViewInit(){
-    setTimeout( (a) => {
-      this.initSearchSDK();
-    },2000)
-  }
    restorepreviousState(){
     let route = '/apps';
     if(this.previousState && this.previousState.selectedApp){
@@ -63,6 +58,7 @@ export class AppComponent implements OnInit {
          }
          try {
           this.router.navigate([route], { skipLocationChange: true });
+          $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
               this.preview(this.pathsObj[route]);
@@ -115,11 +111,13 @@ export class AppComponent implements OnInit {
       if (event && event.url === '/apps') {
         this.setPreviousState();
         $('.krFindlyAppComponent').removeClass('appSelected');
+        $('.start-search-icon-div').addClass('hide');
       } else {
         const path = event.url.split('?')[0];
         if(path){
           this.setPreviousState(path);
         }
+        $('.start-search-icon-div').removeClass('hide');
         $('.krFindlyAppComponent').addClass('appSelected');
       }
       this.authService.findlyApps.subscribe((res) => {

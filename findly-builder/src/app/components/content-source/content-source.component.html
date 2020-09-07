@@ -56,10 +56,8 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg"
-              [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
-              class="ml-1 sortImg"></div>
-          <div class="col d-flex align-items-center" (click)="sortBy('type')">Type<span
+          <div class="col_ col-4" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}" class="ml-1 sortImg"></div>
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">Type<span
               class="selected-length-doc-web hide">(2)</span>
             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
@@ -75,9 +73,8 @@
                 </ul>
               </div>
             </div>
-          </div>
-          <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-          <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status<span
+          </div>         
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('recentStatus')">Status<span
               class="selected-length-doc-web hide">(2)</span>
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
@@ -95,18 +92,14 @@
               </div>
             </div>
           </div>
-          <div class="col" (click)="sortBy('createdOn')">Crawled<img src="assets/icons/caretDown.svg"
-              [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
-              class="ml-1 sortImg"></div>
-          <div class="col last-child" (click)="sortBy('name')"></div>
+          <div class="col_ col-3" (click)="sortBy('createdOn')">Crawled<img src="assets/icons/caretDown.svg" [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}" class="ml-1 sortImg"></div>          
         </header>
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)">
-              <div class="col">{{source.title || source.name}}</div>
-              <div class="col">{{source.type | titlecase}}</div>
-              <!-- <div class="col">Default</div> -->
-              <div class="col">
+              <div class="col_ col-4">{{source.title || source.name}}</div>
+              <div class="col_ col-2">{{source.type | titlecase}}</div>            
+              <div class="col_ col-2">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
                     src="assets/icons/failed-status.svg" class="ml-2"
@@ -114,8 +107,8 @@
                     class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
               </div>
-              <div class="col">{{source.createdOn | dateFormatPipe}}</div>
-              <div class="col text-right last-child">
+              <div class="col_ col-3">{{source.createdOn | dateFormatPipe}}</div>
+              <div class="col_ col-1 text-right p-0">
                 <span class="actions-links d-none"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg"></span>
@@ -134,10 +127,10 @@
                 <div class="box">
                   <div class="title">{{source.title || source.name}}</div>
                   <div class="type" [ngClass]="{'doc': (source.type==='document')}">
-                    {{contentTypes[source.source] | titlecase}}</div>
+                    {{contentTypes[source.type] | titlecase}}</div>
                   <div class="status-data">
                     <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span
-                        class="pagelength">{{source.extractedFaqsCount}}</span> Extracted FAQs</div>
+                        class="pagelength">{{source.numPages}}</span> Pages</div>
                     <div class="status-info"
                       *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') "
                       [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">

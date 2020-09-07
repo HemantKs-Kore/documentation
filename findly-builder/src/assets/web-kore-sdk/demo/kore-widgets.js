@@ -233,12 +233,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      var baseUrl = "https://dev.findly.ai/searchAssistant";
+      var baseUrl = "https://app.findly.ai/searchAssistant";
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        queryConfig:"https://dev.findly.ai/api/1.1/findly/"+SearchIndexID+"/search/queryConfig",
+        queryConfig:"https://app.findly.ai/api/1.1/findly/"+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51'
       };

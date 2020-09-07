@@ -48,6 +48,7 @@ import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
+import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -76,6 +77,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     EditorUrlDialogComponent,
     ImportFaqsModalComponent,
     SynonymsComponent,
+    ResultsRulesComponent,
     BotActionComponent
     ],
   imports: [
