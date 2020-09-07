@@ -1,0 +1,25 @@
+<mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList aria-label="group selection">
+      <mat-chip
+        *ngFor="let group of groups"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(group)">
+        {{group}}
+        <mat-icon matChipRemove *ngIf="removable"><img src="assets/images/close.svg"></mat-icon>
+      </mat-chip>
+      <input
+        placeholder="New group..."
+        #groupInput
+        [formControl]="groupCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let group of filteredgroups | async" [value]="group">
+        {{group}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>

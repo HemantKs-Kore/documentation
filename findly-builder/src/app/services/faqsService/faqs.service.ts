@@ -8,6 +8,7 @@ export class FaqsService {
     addFollowQues = new Subject();
     cancel = new Subject();
     updateAltQues = new Subject();
+    groupAdded = new Subject();
     addVariation: {
         alternate: boolean,
         followUp: boolean

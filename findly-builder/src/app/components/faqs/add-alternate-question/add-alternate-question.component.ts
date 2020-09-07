@@ -86,6 +86,9 @@ export class AddAlternateQuestionComponent implements OnInit {
   }
 
   addFaq() {
+    if(this.f.question == '') {
+      return;
+    }
     let params = {
       question: this.faqServ.faqData.question,
       answer: this.faqServ.faqData.answer,

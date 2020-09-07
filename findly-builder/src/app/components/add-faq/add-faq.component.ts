@@ -9,6 +9,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { FaqsService } from '../../services/faqsService/faqs.service';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -33,11 +34,14 @@ export class AddFaqComponent implements OnInit  {
   suggestionTags = [];
   typedQuery = '';
   container ='#mainChatInputContainer'
+  isAlt: boolean = false;
+  isAdd: boolean = false;
   // options:any = {maxLines: 20, printMargin: false};
   options: MdEditorOption = {
     showPreviewPanel: false,
     hideIcons: ['TogglePreview']
   }
+  groupsAdded: any = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   loading: boolean;
   constructor(private fb: FormBuilder,
@@ -45,7 +49,8 @@ export class AddFaqComponent implements OnInit  {
     private service: ServiceInvokerService,
     private authService: AuthService,
     private kgService: KgDataService,
-    private notify: NotificationService) {
+    private notify: NotificationService,
+    private faqService: FaqsService) {
       config.container = 'body'
      }
 
@@ -63,6 +68,9 @@ export class AddFaqComponent implements OnInit  {
         botResponse: ['', Validators.required]
       });
     }
+    this.faqService.groupAdded.subscribe(res=>{
+      this.groupsAdded = res;
+    })
   }
   getAltTags(e) {
     // console.log(e);
