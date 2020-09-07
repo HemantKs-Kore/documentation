@@ -233,16 +233,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
+      if(window.selectedFindlyApp && window.selectedFindlyApp._id){
+        SearchIndexID = window.selectedFindlyApp._id
+      }
       var baseUrl = "https://app.findly.ai/searchAssistant";
+      var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        queryConfig:"https://app.findly.ai/api/1.1/findly/"+SearchIndexID+"/search/queryConfig",
+        queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
-        streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51'
+        streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
+        jstBarrer:'"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"'
       };
       _self.API.uuid = uuid.v4();
+      var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
+      if(window.selectedFindlyApp && window.selectedFindlyApp._id){
+        $.ajax({
+          url: botIntigrationUrl,
+          type: 'GET',
+          dataType: 'json',
+          headers: {
+            "Authorization": 'bearer '+window.findlyAccessToken,
+            "AccountId":window.findlyAccountId,
+            "Content-Type": "application/json"
+          },
+          data: {},
+          success: function (data) {
+            _self.API.streamId = data.findlyLinkedBotId;
+            _self.API.jstBarrer = data.app.jwt;
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        })
+      }
     };
 
     KoreWidgetSDK.prototype.maintainCache = function () {
@@ -1603,15 +1629,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
         $(dataHTML).off('click', '.search-button').on('click', '.search-button', function(e) {
           e.stopPropagation();
-          if($('#search').val()) {
-            e.preventDefault();
-            if($('.search-container').hasClass('conversation')){
-              $('.search-body').addClass('hide');
-              $('#searchChatContainer').removeClass('bgfocus');
-            };
-            _self.sendMessageToSearch('user');
-            _self.bindLiveDataToChat();
-          }
+          // if($('#search').val()) {
+          //   e.preventDefault();
+          //   if($('.search-container').hasClass('conversation')){
+          //     $('.search-body').addClass('hide');
+          //     $('#searchChatContainer').removeClass('bgfocus');
+          //   };
+          //   _self.sendMessageToSearch('user');
+          //   _self.bindLiveDataToChat();
+          // }
+          
+          //$('#search').trigger(jQuery.Event('keydown', { keycode: 13 }));
+          $('#search').focus().trigger({ type : 'keydown', which : 13 });
         })
         $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
           if(!$('#search').val()) {
@@ -2254,12 +2283,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#searchChatContainer').addClass('bgfocus');
     };
     KoreWidgetSDK.prototype.getFrequentlySearched = function (url, type, payload) {
+      var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       return $.ajax({
         url: url,
         type: type,
         dataType: 'json',
         headers: {
-          "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
+          "Authorization": bearer,
           "Content-Type": "application/json"
         },
         data: payload,
