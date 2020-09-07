@@ -42,7 +42,7 @@
 .rank-bar-item{
     display: inline;
     padding: 1px 10px;
-    background: #716d6d;
+    /* background: #716d6d; */
     border-radius: 15px;
     color: #ffff;
     cursor: pointer;
