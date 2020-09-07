@@ -10,6 +10,8 @@ import { FaqSourceComponent } from './components/faq-source/faq-source.component
 import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
+import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
+import { TraitsComponent } from './components/traits/traits.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,8 @@ const routes: Routes = [
       { path: 'faqs', component: FaqSourceComponent },
       { path: 'botActions', component: BotActionComponent },
       { path: 'synonyms', component: SynonymsComponent },
+      { path: 'ml-threshold', component: MlThresholdComponent },
+      { path: 'traits', component: TraitsComponent },
       { path: '**', component: AppsListingComponent},
     ]
   }

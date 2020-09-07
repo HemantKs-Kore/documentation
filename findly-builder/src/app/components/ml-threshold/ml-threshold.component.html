@@ -1,0 +1,372 @@
+<div class="ml-threshold-container">
+    <perfect-scrollbar class="accordian-content-sec">
+        <div class="SMtrainDiv ml-threshold-train" *ngIf="true">
+            <div class="helphint col-xs-12 marginB20T0">
+                <div class="col-xs-1 bulbicon">
+                    <span><img class="layer" src='assets/images/24x29-bulbicon.png'></span>
+                </div>
+                <div class="col-xs-10 textDiv"><span class="name">{{'Some of the Machine Learning parameters have been updated. Unless the engine is trained, the bot will not identify intents based on the updated settings. Click on ‘Train’ button to update the bot with new settings.'}}</span>
+                </div>
+                <div class="trainUtteraceBtn col-xs-1">
+                    <button type="button" class="pull-right kr-sg-button-primary" (click)="trainBot();"> {{'Train'}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="inputFields-accordions">
+            <div class="accr-sec" [ngClass]="{'line-activate': fundamentalFlag}">
+                <div class="acc-names-sec">
+                    <div class="arrow-btn">
+                        <img src="assets/icons/carrot-right.svg" (click)="switchFundamentalMean()"
+                            *ngIf="!fundamentalFlag" class="arrow-icons">
+                        <img src="assets/icons/carrot-down-comp.svg" (click)="switchFundamentalMean()"
+                            *ngIf="fundamentalFlag" class="arrow-icons">
+                    </div>
+                    <div class="text-header" (click)="switchFundamentalMean()">
+                        <div class="title">Fundamental Meaning
+                            <span class="settings">1 settings</span>
+                        </div>
+                        <div class="desc">Configure the thresholds and configurations associated with Fundamental
+                            Meaning model</div>
+                    </div>
+                </div>
+                <div class="scope-table-list" *ngIf="fundamentalFlag">
+                    <div class="protip-info">
+                        <div class="bulb-icon">
+                            <img class="layer" src='assets/images/24x29-bulbicon.png'>
+                        </div>
+                        <div class="info-tip">
+                            The Fundamental Meaning and the Ranking and Resolver engines are using the Dependency Parsing
+                            model for intent identification and scoring. You can customize the configuration
+                        </div>
+                    </div>
+                    <div class="label">
+                        Intent Detection using Task Name Words
+                    </div>
+                    <div class="info">
+                        Choose whether the FM engine should identify the intents using the words present in Task Name.
+                        This configuration will not impact the intent detection using Patterns.
+                    </div>
+                    <div class="col-12">
+                        <label class="kr-sg-toggle with-label">
+                            <input type="checkbox" checked>
+                            <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="accr-sec" [ngClass]="{'line-activate': knowledgeGraphFlag}">
+                <div class="acc-names-sec">
+                    <div class="arrow-btn">
+                        <img src="assets/icons/carrot-right.svg" (click)="switchKnowledgeGraph()"
+                            *ngIf="!knowledgeGraphFlag" class="arrow-icons">
+                        <img src="assets/icons/carrot-down-comp.svg" (click)="switchKnowledgeGraph()"
+                            *ngIf="knowledgeGraphFlag" class="arrow-icons">
+                    </div>
+                    <div class="text-header" (click)="switchKnowledgeGraph()">
+                        <div class="title"> Knowledge Graph
+                            <span class="settings">10 settings</span>
+                        </div>
+                        <div class="desc"> Configure the thresholds and configurations associated with Knowledge Graph
+                        </div>
+                    </div>
+                </div>
+                <div class="scope-table-list" *ngIf="knowledgeGraphFlag">
+                    <div class="auto-corr">
+                        <div class="label">
+                            Auto Correction
+                        </div>
+                        <div class="info">
+                            Enable to auto correct the user's input to a nearest word present in Knowledge Task terms
+                            and questions
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bot-synonyms">
+                        <div class="label">
+                            Bot Synonyms
+                        </div>
+                        <div class="info">
+                            Use Bot Synonyms to detect Knowledge Graph intents
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle">
+                                <input type="checkbox" checked>
+                                <div class="slider"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="Lemmatization">
+                        <div class="label">
+                            Lemmatization using Parts of Speech
+                        </div>
+                        <div class="info">
+                            Use of parts of speech associated with the words in the utterance to lemmatize
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="Path">
+                        <div class="label">
+                            Path Coverage
+                        </div>
+                        <div class="info">
+                            Define the minimum percentage of terms in the user's utterance to be present in a path to
+                            qualify the path.
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="Minimum">
+                        <div class="label">
+                            Minimum and Definitive Level for Knowledge Tasks
+                        </div>
+                        <div class="info">
+                            Define minimum and definitive threshold to identify and respond in case of a Knowledge task.
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                            <div class="note">
+                                The Knowledge Task intents identified in this range will be ignored
+                            </div>
+                            <div class="note">
+                                Low confidence range for Knowledge Task intents. If no other intents are identified, the low confidence matches are presented to the end-user for intent confirmation.
+                            </div>
+                            <div class="note">
+                                Probable range for Knowledge Task. The intents identified in this range are considered for Rescoring and Ranking.
+                            </div>
+                            <div class="note">
+                                Definitive range for Knowledge Task. The intents identified in this range are considered and any other probable matches are discarded.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kg-Suggestions">
+                        <div class="label">
+                            KG Suggestions Count
+                        </div>
+                        <div class="info">
+                            Define the maximum number of KG / FAQ suggestions to be presented when definite KG / FAQ match is not available.
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="kg-Suggestions">
+                        <div class="label">
+                            Proximity of Suggested Matches
+                        </div>
+                        <div class="info">
+                            Define the maximum difference to be allowed between top scoring and immediate next suggested questions to consider them as equally important.
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="Responses">
+                        <div class="label">
+                            Manage Long Responses
+                        </div>
+                        <div class="info">
+                            Define how long responses are to be displayed when the response size exceeds channel specific limitations
+                        </div>
+                        <div class="col-12">
+                            <div class="kr-sg-radiobutton d-block">
+                                <input id="1" type="radio" value="true" name="scopesRadio"
+                                  class="radio-custom">
+                                <label for="1" class="radio-custom-label">Do not show 'read more' link</label>
+                              </div>
+                              <div class="kr-sg-radiobutton d-block">
+                                <input id="2" type="radio" value="false" name="scopesRadio"
+                                  class="radio-custom">
+                                <label for="2" class="radio-custom-label">Show 'read more' link</label>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="Search">
+                        <div class="label">
+                            Search in Answer
+                        </div>
+                        <div class="info">
+                            Choose whether answer text should be used for identifying FAQ intents if standard search does not find any matches
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="Qualify">
+                        <div class="label">
+                            Qualify Contextual Paths
+                        </div>
+                        <div class="info">
+                            Qualify paths in the Knowledge Graph using the context tags available in the context.
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">No</span><span class="yes">Yes</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accr-sec" [ngClass]="{'line-activate': MLflag}">
+                <div class="acc-names-sec">
+                    <div class="arrow-btn">
+                        <img src="assets/icons/carrot-right.svg" (click)="switchMachineLearn()"
+                            *ngIf="!MLflag" class="arrow-icons">
+                        <img src="assets/icons/carrot-down-comp.svg" (click)="switchMachineLearn()"
+                            *ngIf="MLflag" class="arrow-icons">
+                    </div>
+                    <div class="text-header" (click)="switchMachineLearn()">
+                        <div class="title"> Machine Learning
+                            <span class="settings">7 settings</span>
+                        </div>
+                        <div class="desc"> Configure the thresholds and configurations associated with Machine Learning model</div>
+                    </div>
+                </div>
+                <div class="scope-table-list" *ngIf="MLflag">
+                    <div class="bot-synonyms">
+                        <div class="label">
+                            Bot Synonyms
+                        </div>
+                        <div class="info">
+                            Use bot synonyms for intent detection.
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bot-Stopwords">
+                        <div class="label">
+                            Stopwords
+                        </div>
+                        <div class="info">
+                            Discard stop words present in user utterance for detecting intents. 
+                            <a rel="noopener noreferrer">Manage</a>
+
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="ml-def">
+                        <div class="label">
+                            ML Definitive Score
+                        </div>
+                        <div class="info">
+                            Configure the threshold score for definite matches
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="n-gram">
+                        <div class="label">
+                            n-gram Sequence Length
+                        </div>
+                        <div class="info">
+                            Define maximum length of n-gram sequences.
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="ml-Threshold">
+                        <div class="label">
+                            ML Threshold
+                        </div>
+                        <div class="info">
+                            Define the minimum ML score to qualify an intent as a probable match.
+                        </div>
+                        <div class="col-12">
+                            <input type="range" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="ml-NER">
+                        <div class="title">
+                            NER Model
+                        </div>
+                        <div class="info">
+                            Choose the NER model to be used for entity detection
+                        </div>
+                        <div class="col-12">
+                            <div class="kr-sg-radiobutton d-block">
+                                <input id="NER1" type="radio" value="true" name="NERRadio"
+                                  class="radio-custom">
+                                <label for="NER1" class="radio-custom-label">Conditional Random Field</label>
+                              </div>
+                              <div class="kr-sg-radiobutton d-block">
+                                <input id="NER2" type="radio" value="false" name="NERRadio"
+                                  class="radio-custom">
+                                <label for="NER2" class="radio-custom-label">Deep Neural Network</label>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="Entity">
+                        <div class="label">
+                            Entity Placeholders
+                        </div>
+                        <div class="info">
+                            Enable to replace entity values present in the training utterances with the corresponding entity placeholders in the training model
+                        </div>
+                        <div class="col-12">
+                            <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" checked>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accr-sec" [ngClass]="{'line-activate': rankingResolverFlag}">
+                <div class="acc-names-sec">
+                    <div class="arrow-btn">
+                        <img src="assets/icons/carrot-right.svg" (click)="switchrankingResolver()"
+                            *ngIf="!rankingResolverFlag" class="arrow-icons">
+                        <img src="assets/icons/carrot-down-comp.svg" (click)="switchrankingResolver()"
+                            *ngIf="rankingResolverFlag" class="arrow-icons">
+                    </div>
+                    <div class="text-header" (click)="switchrankingResolver()">
+                        <div class="title">Ranking and Resolver Engine
+                            <span class="settings">1 settings</span>
+                        </div>
+                        <div class="desc">Configure the ranking and resolver engine</div>
+                    </div>
+                </div>
+                <div class="scope-table-list" *ngIf="rankingResolverFlag">
+                    <div class="label">
+                        Proximity of Probable Matches
+                    </div>
+                    <div class="info">
+                        Define the maximum difference to be allowed between top scoring and immediate next possible intents to consider them as equally important.
+                    </div>
+                    <div class="col-12">
+                        <input type="range" min="0" max="100" value="50">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+</div>

@@ -1,0 +1,110 @@
+<div class="traits-container">
+    <perfect-scrollbar class="perfect-scroll">
+        <!-- NO DATA FOUND -->
+        <div *ngIf="true" class="noTraits">
+            <img src="assets/images/empty-illustration.png">
+            <div class='noTraitsInfo'><span class='infoHeader'> {{'No traits created yet!'}}</span>
+                <p class='infoP'> {{'Looks like there are no traits created yet Create and manage bot traits'}}<br>
+                    {{'Create and manage bot traits'}}
+                </p>
+                <button class='kr-sg-button-primary' (click)='openStatusModal()'>{{'Create New'}}</button>
+            </div>
+            <div class="emptyNote">
+                <p class="emptyTitle"> {{'What are Traits?'}}</p>
+                <p class="emptyDesc">
+                    {{'Traits are entities or attributes that can be extracted from user input, before intent recognition. You can train the bot to identify traits specific to your business domain and use them for intent and entity detection.'}}
+                </p>
+                <p class="emptyTitle">{{'How to create Traits?'}}</p>
+                <p class="emptyDesc marginBottom10">
+                    {{'Identify all possible traits that your users are like to express in their conversations, group traits that are mutually exclusive and provide adequate training.'}}
+                </p>
+                <ul class="emptyListDesc">
+                    <li>{{'Traits can be identified based on keywords/phrases and their synonyms. Examples:'}}
+                        <ul class="emptyListDesc">
+                            <li> {{"Trait-Color: Blue – 'Blue', 'Sapphire', 'Teal' , Trait-Color-Red – Red, Maroon, Crimson."}}
+                            </li>
+                            <li> {{"Trait-Status: NotWorking: 'doesn’t work', 'switched off', Trait-Status:Working: 'working', 'turned on'"}}
+                            </li>
+                        </ul>
+                    </li>
+                    <li> {{"Traits can also be inferred from a keyword or specific phrase in the sentence. There may not be any obvious association between certain words in the sentence and the value of the trait, but rather the sentence as a whole is needed to determine the value. Example:"}}
+                        <ul class="emptyListDesc">
+                            <li> {{"Trait-Greeting-Emotion: Positive – 'Good Morning', 'How are you'"}}</li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <p class="emptyTitle"> {{'Where to use Traits'}}</p>
+                <p class="emptyDesc">
+                    {{'Traits can be used to define intent detection rules, path qualification criteria in Knowledge Graph, entity detection or for any defining conversation flows.'}}
+                </p>
+            </div>
+        </div>
+    </perfect-scrollbar>
+    <!-- TABLE CONTENT -->
+    <div class="traits">
+        <div class="kr-sg-inline-notification">
+            <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
+            <div class="tost-text">Please click on 'Train' button to update your traits model with the latest changes. Your bot will identify the traits using latest changes only after the training is completed.</div>                                   
+            <button class="kr-sg-button-primary">Train</button>
+        </div>
+        <div class="table-list-content" *ngIf="false">
+            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources"
+                class="input-search tbsearchbar" [(ngModel)]="searchSources">
+            <div class="search">
+                <img *ngIf="searchSources" class="search-icon" src="assets/images/close.svg">
+                <span *ngIf="!searchSources" class="search-name"><img class="search-img"
+                        src="assets/icons/sidemenu/search-table.svg"></span>
+            </div>
+            <div class="kr-sg-data-table with-checkbox" *ngIf="traits.traitGroups && traits.traitGroups.length">
+                <section class="table-content">
+                    <header class="table-header">
+                        <div class="col" (click)="sortBy('name')">TRAIT TYPE<img src="assets/icons/caretDown.svg"
+                                class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('type')">TRAITS <img src="assets/icons/caretDown.svg"
+                                class="ml-1 hide"></div>
+                    </header>
+                    <perfect-scrollbar class="trailts">
+                        <div class="content-body" *ngFor="let source of traits.traitGroups">
+                            <div class="col">{{source.title || source.name}}</div>
+                            <div class="col">{{source.source | titlecase}}</div>
+                        </div>
+                        <div class="empty">No Search Results found</div>
+                    </perfect-scrollbar>
+    
+                </section>
+            </div>
+            <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
+        </div>
+    </div>
+
+    <!-- CREATE NEW TRAIT MODAL-->
+    <kr-modal modalType="slide" modalClass="addTraitModalComponent" #statusModalPop>
+        <div class="modal-header">
+            <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png"
+                    class="closeCross">
+                Create New
+            </div>
+        </div>
+        <div class="modal-body traits-modal-popup">
+            <div class="kr-sg-input-text">
+                <div class="label-text">Trait Type</div>
+                <p class="text">Provide a name that represents group of traits. System will try to identify the closest
+                    trait in the group from user utterances.
+                    Example - 'vehicle type', 'device type'.
+                </p>
+                <input type="text" placeholder="Enter trait type" class="input-text">
+            </div>
+            <div class="kr-sg-input-text">
+                <div class="label-text">Traits</div>
+                <p class="text">Add one or more traits and provide the required training sentences. E.g. 'car', 'bus', 'modem', 'router'.
+                </p>
+                <input type="text" placeholder="Type & enter to add" class="input-text">
+            </div>
+            <div class="action">
+                <button class="kr-sg-button-primary" (click)="closeStatusModal()">Save</button>
+            </div>
+        </div>
+
+    </kr-modal>
+</div>
