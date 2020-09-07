@@ -7935,13 +7935,13 @@ html , body{
     z-index: 1;
   }
 
- .panel {
+  .search-container .panel {
     padding: 0 20px;    
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
-  .panel .content-inner{
+  .search-container .panel .content-inner{
     padding: 0 0 20px 0;
     font-size: 13px;
     color: #000000;
