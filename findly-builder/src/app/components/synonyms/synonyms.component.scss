@@ -391,3 +391,9 @@ input[type=text]:focus {
         display: none;
     }
 } 
+input:focus::-webkit-input-placeholder {
+    color: #9898bd !important;
+}
+input::-webkit-input-placeholder {
+    color: #9898bd !important;
+}
