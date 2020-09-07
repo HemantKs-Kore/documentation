@@ -22,6 +22,13 @@ import { MatDialog } from '@angular/material/dialog';
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   isConfig = false;
+  filterSystem : any = {
+    'typeHeader' : 'type',
+    'statusHeader' : 'status',
+    'typefilter' : 'all',
+    'statusFilter' : 'all'
+  }
+  filterText: "all";
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
@@ -352,17 +359,53 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
+  filterTableType(){
+
+  }
   filterTable(source,headerOption){
     console.log(this.resources,source)
+    let firstFilterDataBack = [];
       this.resources = [...this.filterResourcesBack]; // For new Filter..
-      if(source != 'all'){
-      const resourceData =  this.resources.filter((data)=>{
-        console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-      return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+      if(headerOption == "type"){
+        this.filterSystem.typeHeader = headerOption;
+        this.filterSystem.typefilter = source;
+      }else {
+        this.filterSystem.statusHeader = headerOption;
+        this.filterSystem.statusFilter = source;
+      }
+      
+      //this.filterText  = source;
+      /** TYpe */
+      if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
+        this.resources = [...this.filterResourcesBack];
+      } else {
+       if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
+        firstFilterDataBack = [...this.resources];
+          const resourceData =  firstFilterDataBack.filter((data)=>{
+            console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+            return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+            })
+          if(resourceData.length)this.resources = [...resourceData];
+       }else{
+        const resourceData =  this.resources.filter((data)=>{
+          console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+          return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+          })
+        if(resourceData.length)this.resources = [...resourceData];
+       }
+       
+      }
 
-      })
-      if(resourceData.length)this.resources = [...resourceData];
-    }
+
+      /** previous working logic */ 
+    //   if(source != 'all'){
+    //   const resourceData =  this.resources.filter((data)=>{
+    //     console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+    //   return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+
+    //   })
+    //   if(resourceData.length)this.resources = [...resourceData];
+    // }
     
   }
   transform(date: string): any {
