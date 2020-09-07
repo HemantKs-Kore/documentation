@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>thumbs-down</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="thumbs-down" fill="#006BB0" fill-rule="nonzero">
+            <path d="M11.529,0 C11.789,0 12,0.207 12,0.462 L12,6 C12,6.255 11.789,6.462 11.529,6.462 L9.317,6.461 L7.87,11.66 C7.814,11.86 7.628,12 7.415,12 C6.303,12 5.401,11.117 5.401,10.028 L5.401,7.468 L2.014,7.468 C0.78,7.468 -0.164,6.391 0.024,5.197 L0.577,1.672 C0.73,0.71 1.574,0 2.567,0 L11.529,0 Z M8.429,1 L2.568,1 C2.063,1 1.64,1.355 1.565,1.827 L1.012,5.352 C0.92,5.934 1.388,6.469 2.014,6.469 L6.401,6.469 L6.401,10.028 C6.401,10.433 6.661,10.785 7.035,10.93 L8.429,5.925 L8.429,1 Z M9.428,5.538 L11.058,5.538 L11.058,0.923 L9.428,0.923 L9.428,5.538 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,47 @@
+.start-search-icon-div{
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+    width: 50px;
+    height: 50px;
+    background: #13a7d4;
+    border-radius: 50%;
+    z-index: 1;
+}
+.search-container{
+    left: 50px !important;
+    /* height: calc(100% - 110px) !important; */
+
+}
+.search-background-div{
+    width: 100%;
+    height: 100%;
+    background:#fff;
+    position: absolute;
+    top: 0;
+    border: 0;
+    display: none;
+    z-index: 1;
+}
+
+
+
+#searchChatContainer .ranking-action-bar{
+    display: block !important;    
+}
+#searchChatContainer .action-wrp{
+    display: block !important;
+}
+.ranking-action-bar{
+    background: #eee;
+    display: none; 
+}
+.rank-bar-item{
+    display: inline;
+    padding: 1px 10px;
+    background: #716d6d;
+    border-radius: 15px;
+    color: #ffff;
+    cursor: pointer;
+}
+

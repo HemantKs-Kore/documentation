@@ -6,6 +6,7 @@ import {WorkflowService} from '@kore.services/workflow.service';
 import { Observer, from, Subject } from 'rxjs';
 import { Observable } from 'rxjs';
 import {ReplaySubject} from 'rxjs';
+declare let window:any;
 
 
 @Injectable({
@@ -54,6 +55,7 @@ export class AuthService {
       } catch (error) {
         return false;
       }
+      window.findlyAccessToken=_accessToken;
       return _accessToken;
     } else {
       return false;

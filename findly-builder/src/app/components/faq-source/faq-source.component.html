@@ -362,9 +362,9 @@
                     (click)="openStatusSlider(source)">
                     <div class="box">
                       <div class="title">{{source.title || source.name}}</div>
-                      <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.type] | titlecase}}</div>
+                      <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.source] | titlecase}}</div>
                       <div class="status-data">
-                        <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.numPages}}</span> Pages</div>
+                        <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
                         <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                           <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
                           <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
