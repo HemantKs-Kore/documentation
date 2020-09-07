@@ -8,25 +8,6 @@
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
-          <!-- <ng-template #ngbTemplate>
-            <div class="container" (mouseenter)="containFocused(true)" (mouseleave)="containFocused(false)" (click)="$event.stopPropagation()"> 
-              <div class="sys-content">
-                <span class="title-syn">Synonyms:</span>
-                <span *ngFor="let synonym of tag.synonyms; let i = index" class="sys-chip">
-                  <span class="sys-name">{{synonym}}</span>
-                  <img src="assets/images/close.svg" (click)="removeSynonym(tag, i)">
-                </span>
-              </div>
-              <input class="sys-input" placeholder="Type & enter" [(ngModel)]="newSynonym" (keyDown.enter)="addSynonym(tag)"
-              [ngModelOptions]="{standalone: true}">
-            </div>               
-        </ng-template>
-          <div #popOver="ngbPopover"
-           (mouseenter)="showpopup(popOver)" (mouseleave)="toggle(popOver)"  [ngbPopover]="ngbTemplate" [placement]='"bottom"' [container]='"body"'
-           [autoClose]='"outside"' [triggers]='"manual"' [popoverClass]='"intent_question_chip_sys_tooltip"'
-            id="hoverContent_{{index + tag.tag}}" class="mat-val"
-             (click)="$event.stopPropagation()">
-            {{tag.tag}}</div>-->
             <div class="mat-val" (click)="$event.stopPropagation()"> {{tag}}</div>
             <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
         </mat-chip>
@@ -46,9 +27,9 @@
         </ng-container>
       </mat-autocomplete>
     </mat-form-field>
-    <div class="label-text bot-res-title">Bot Response <img src="assets/icons/sidemenu/delete-table.svg"></div>
-    <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
-    <div class="layout-select">
+    <div class="label-text bot-res-title">Bot Response <img *ngIf="false" src="assets/icons/sidemenu/delete-table.svg"></div>
+    <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor>
+    <div class="layout-select hide">
       <div class="d-flex align-items-center m-0 col-7 p-0">
         <div class="title">Select Layout</div>
         <div class="img-block active">
@@ -67,7 +48,7 @@
       <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div>
     </div>
     <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
-    <div class="text-area-editor">
+    <div class="text-area-editor" *ngIf="false">
       <div class="upload-content-wrapper">
         <div class="image-selections">
             <div class="img_block"><img src="assets/icons/editor/upload-image.svg"></div>
@@ -84,29 +65,36 @@
           <span class="tab-title">&lt;/&gt; CODE</span>
         </div>
         <div class="editor-actons">
-          <span class="edit-action">
+          <!-- <span class="edit-action">
             <img src="assets/icons/editor/alphabits.svg">
-          </span>
-          <span class="edit-action">
+          </span> -->
+          <span (click)="onSelected('italic')" class="edit-action">
             <img src="assets/icons/editor/italic.svg">
           </span>
-          <span class="edit-action">
+          <span (click)="onSelected('bold')" class="edit-action">
             <img src="assets/icons/editor/bold.svg">
           </span>
-          <span class="edit-action">
+          <span  class="edit-action">
             <img src="assets/icons/editor/link.svg">
           </span>
-          <span class="edit-action">
+          <span (click)="onSelected('indentLeft')" class="edit-action">
             <img src="assets/icons/editor/align-left.svg">
           </span>
-          <span class="edit-action">
+          <!-- <span class="edit-action">
             <img src="assets/icons/editor/align-center.svg">
-          </span>
-          <span class="edit-action">
+          </span> -->
+          <span (click)="onSelected('indentRight')" class="edit-action">
             <img src="assets/icons/editor/align-right.svg">
           </span>
+          <span class="edit-action" (click)="onSelected('ordered')">
+            <img src="assets/images/markup/list-ordered.svg">
+          </span>
+          <span (click)="onSelected('unordered')"  class="edit-action">
+            <img src="assets/images/markup/list-unordered.svg">
+          </span>
+          
         </div>       
-        <textarea placeholder="Placeholder text" class="input-text">It is extremely important that you keep your contact information on your account updated at all times. To update your address, phone numbers and email address, please login to your account and edit your contact details under the “Your Contact Details” link on the left navigation. To make changes to your account, you will also need to enter an Online Authorization Code (OAC) that will be sent to your registered mobile phone on your account and to your registered email address to authenticate this transaction.</textarea>                                
+        <textarea  formControlName="botResponse" class="input-text" id="mainChatInputContainer"></textarea>                                
       </div>
     </div>
     <div class="btn-sec">
@@ -120,3 +108,4 @@
     </div>
   </form>
 </div>
+<!-- <tui-editor [options] = "markOptions" ></tui-editor> -->

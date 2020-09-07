@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
@@ -17,8 +17,13 @@ declare const $: any;
   templateUrl: './add-faq.component.html',
   styleUrls: ['./add-faq.component.scss']
 })
-export class AddFaqComponent implements OnInit {
+export class AddFaqComponent implements OnInit , AfterViewInit {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
+  @Input() inputClass: string;
+  @Input() faqData: any;
+  @Output() addFaq = new EventEmitter();
+  @Output() cancelfaqEvent = new EventEmitter();
+  @Output() editFaq = new EventEmitter();
   form: FormGroup;
   tags: any[] = [];
   text = '';
@@ -27,6 +32,7 @@ export class AddFaqComponent implements OnInit {
   newSynonym = ''
   suggestionTags = [];
   typedQuery = '';
+  container ='#mainChatInputContainer'
   // options:any = {maxLines: 20, printMargin: false};
   options: MdEditorOption = {
     showPreviewPanel: false,
@@ -34,11 +40,6 @@ export class AddFaqComponent implements OnInit {
   }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   loading: boolean;
-  @Input() inputClass: string;
-  @Input() faqData: any;
-  @Output() addFaq = new EventEmitter();
-  @Output() cancelfaqEvent = new EventEmitter();
-  @Output() editFaq = new EventEmitter();
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
     private service: ServiceInvokerService,
@@ -63,7 +64,6 @@ export class AddFaqComponent implements OnInit {
       });
     }
   }
-
   getAltTags(e) {
     // console.log(e);
     const payload = {
@@ -150,7 +150,168 @@ export class AddFaqComponent implements OnInit {
       }
       )
   }
+  chatInputUpdate(event){
+    alert(event.text);
+  }
   checkTags(suggestion){
     return this.tags.find(f=>f=== suggestion)
   }
+  getMessage() {
+    let text = '';
+      text = $(this.container).val();
+    return text;
+    }
+    getRange() {
+      const startIndex = $(this.container)[0].selectionStart;
+      const endIndex = $(this.container)[0].selectionEnd;
+      const selectedText = this.getMessage().substring(startIndex, endIndex);
+      const stringMarkInfo = {
+        startIndex,
+        endIndex,
+        text: selectedText
+      };
+      return stringMarkInfo;
+    }
+    getSelectionCharOffsetsWithin(element) {
+      element = element[0];
+      let  start = 0;
+      let  end = 0;
+      let  range;
+      let  priorRange;
+      if (typeof window.getSelection !== undefined) {
+        range = window.getSelection().getRangeAt(0);
+        priorRange = range.cloneRange();
+        priorRange.selectNodeContents(element);
+        priorRange.setEnd(range.startContainer, range.startOffset);
+        start = priorRange.toString().length;
+        end = start + range.toString().length;
+        const selectedText = this.getMessage().substring(start, end);
+        return {
+          startIndex: start,
+          endIndex: end,
+          text: selectedText
+        };
+      }
+    }
+    getTextStartEndIndex() {
+      const mainDiv = $($(this.container)[0]);
+      const sel = this.getSelectionCharOffsetsWithin(mainDiv);
+      return sel;
+    }
+    onSelected(type) {
+        const _self: any = this;
+        let range: any = {
+          startIndex: 0,
+            endIndex: 0,
+            text: ''
+        };
+          range = this.getRange();
+        _self[type](range.text, range);
+      }
+   replaceAt(range, replacement , mainText) {
+      if (range.startIndex >= mainText.length) {
+        return mainText + replacement;
+      }
+      return mainText.substring(0, range.startIndex) + replacement + mainText.substring(range.endIndex);
+  }
+   handleToolBarAction(text, range) {
+      const replaceValue = this.getMessage() || '';
+      const replacedValue = this.replaceAt(range, text, replaceValue);
+      const newMessage = replacedValue;
+        const _event = {
+          action: 'save',
+          text: newMessage
+        };
+        this.form.get('botResponse').setValue(newMessage);
+        $(this.container).focus();
+    }
+    bold(text, range) {
+      const verifyForUndo = (tex) => {
+          let chunk;
+          chunk = tex.replace(/\*/g, '');
+          return ('*' + chunk + '*') === tex;
+      };
+      if (verifyForUndo(text)) {
+          text = text.replace(/\*/g, '');
+          this.handleToolBarAction(text, range);
+          return;
+      }
+      text = '*' + text + '*';
+      this.handleToolBarAction(text, range);
+   }
+   italic(text , range) {
+    const verifyForUndo = (tex) => {
+      let chunk;
+      chunk = tex.replace(/~/g, '');
+      return ('_' + chunk + '_') === tex;
+      };
+    if (verifyForUndo(text)) {
+          text = text.replace(/_/g, '');
+          this.handleToolBarAction(text, range);
+          return;
+      }
+    text = '_' + text + '_';
+    this.handleToolBarAction(text , range);
+  }
+  ordered(text, range) {
+    text = text.split('\n');
+    text = text.map((chunk, i) => {
+        // tslint:disable-next-line:triple-equals
+        if (chunk.search(/^([0-9]+?\.\s)/) != -1) {
+            // tslint:disable-next-line:whitespace
+            return chunk.replace(/^([0-9]+?\.\s)/,'');
+        } else {
+            return (i + 1) + '. ' + chunk;
+        }
+    });
+    text = text.join('\n');
+    this.handleToolBarAction(text, range);
+  }
+  unordered(text, range) {
+    text = text.split('\n');
+    text = text.map((chunk, i) => {
+        // tslint:disable-next-line:triple-equals
+        if (chunk.search(/\*\s/) != -1) {
+            // tslint:disable-next-line:whitespace
+            return chunk.replace(/\*\s/,'');
+        } else {
+            return '* ' + chunk;
+        }
+    });
+    text = text.join('\n');
+    this.handleToolBarAction(text, range);
+  }
+  indentLeft(text, range) {
+    const verifyForUndo = (txt) => {
+      let chunk;
+      chunk = txt.replace(/^>>/, '');
+      return ('>>' + chunk) === txt;
+  };
+    if (verifyForUndo(text)) {
+        text = text.replace(/^>>/, '');
+        this.handleToolBarAction(text, range);
+        return;
+    }
+    text = '>>' + text;
+    this.handleToolBarAction(text, range);
+  }
+  indentRight(text, range) {
+    const verifyForUndo = (txt) => {
+      let chunk;
+      chunk = txt.replace(/^<</, '');
+      return ('<<' + chunk) === txt;
+  };
+    if (verifyForUndo(text)) {
+        text = text.replace(/^<</, '');
+        this.handleToolBarAction(text, range);
+        return;
+    }
+    text = '<<' + text;
+    this.handleToolBarAction(text, range);
+  }
+  line(text, range) {
+    text = text + '\n___';
+    this.handleToolBarAction(text, range);
+  }
 }
+
