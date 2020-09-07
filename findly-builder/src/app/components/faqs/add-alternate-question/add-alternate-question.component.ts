@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NotificationService } from '../../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
@@ -21,7 +20,6 @@ export class AddAlternateQuestionComponent implements OnInit {
   typedQuery = '';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
-  form: FormGroup;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   f: any = {
     question: ''
@@ -31,13 +29,10 @@ export class AddAlternateQuestionComponent implements OnInit {
   constructor(private authService: AuthService,
               private kgService: KgDataService,
               private notify: NotificationService,
-              private service: ServiceInvokerService,
-              private fb: FormBuilder) { }
+              private service: ServiceInvokerService) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      question: ['', Validators.required]
-    });
+
   }
 
   updateAltQues(ques) {
