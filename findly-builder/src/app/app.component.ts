@@ -42,11 +42,6 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
   }
-  ngAfterViewInit(){
-    setTimeout( (a) => {
-      this.initSearchSDK();
-    },2000)
-  }
    restorepreviousState(){
     let route = '/apps';
     if(this.previousState && this.previousState.selectedApp){
