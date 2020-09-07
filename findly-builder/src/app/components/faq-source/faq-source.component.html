@@ -106,7 +106,7 @@
                         </div>
                         <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')"></button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
                             <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                         </div>
@@ -133,19 +133,19 @@
                     <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
                         <div class="col-2 p-0 col_">
                             <div class="heading">Source</div>
-                            <div class="">{{selectedFaq.source | titlecase}}</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-1 p-0 col_">
                             <div class="heading">Type</div>
-                            <div class="">{{selectedFaq.source | titlecase}}</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0 col_">
                             <div class="heading">Editor</div>
-                            <div class="">{{selectedFaq.createdBy}}</div>
+                            <div class="info-title">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col-3 p-0 col_">
                             <div class="heading">Req. Date & Time</div>
-                            <div class="">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:ss:sss'}}</span></div>
+                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:ss:sss'}}</span></div>
                         </div>
                         <div class="col-4 p-0 col_">
                             <div class="d-flex align-items-center justify-content-end">
@@ -178,7 +178,7 @@
                             <div class="">{{selectedFaq.createdBy}}</div>
                         </div>
                         <div class="col_ p-0 review-btn">
-                            <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')" ></button>
+                            <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')" >Send for Review</button>
                             <img src="assets/icons/delete-table.svg" class="cursor" (click)="deleteInfividualQuestion(selectedFaq)"ngbTooltip='delete' >
                         </div>                    
                     </div>
@@ -189,19 +189,19 @@
                         </div>
                         <div class="col-1 p-0">
                             <div class="heading">Type</div>
-                            <div class="">{{selectedFaq.source | titlecase}}</div>
+                            <div class="info-title">{{selectedFaq.source | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0" [ngClass]="{'col-3': !selectedFaq.reviewedBy}">
                             <div class="heading">Edited by</div>
-                            <div class="">{{selectedFaq.createdBy}}</div>
+                            <div class="info-title">{{selectedFaq.userDetails.fullName}}</div>
                         </div>
                         <div class="col-3 p-0" *ngIf="selectedFaq.reviewedBy">
                             <div class="heading">Reviewed by</div>
-                            <div class="">{{selectedFaq.reviewedBy || '--'}}</div>
+                            <div class="info-title">{{selectedFaq.reviewedBy || selectedFaq.userDetails.fullName}}</div>
                         </div>
                         <div class="col-3 p-0" [ngClass]="{'col-4': !selectedFaq.reviewedBy}">
                             <div class="heading">Approved at</div>
-                            <div class="">{{selectedFaq.modifiedOn | dateFormatPipe:dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
+                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
                         </div>
                         <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
@@ -308,8 +308,7 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
                     <ul class="dropdown-menu content-menu">                                                              
                       <li (click)="addFaqSource('faqWeb')">Web URL</li>
-                      <li (click)="addFaqSource('faqDoc')">Upload File</li>   Can I open a Rupee Checking Account or Term Deposit Accounts for a minor?
-
+                      <li (click)="addFaqSource('faqDoc')">Upload File</li>
                     </ul>
                 </div>
               </div>
