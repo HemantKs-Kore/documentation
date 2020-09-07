@@ -25,12 +25,12 @@
   <!-- synonyms Card Header -->
   <div class="list-group" *ngIf = "!loadingContent">
     <div class="list-group-item-header">
-        <form #synonymForm="ngForm">
+        <!-- <form #synonymForm="ngForm"> -->
             <div class="row container-fluid">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><b>Set Name</b></label>
-                        <input type="text" class="form-control" id="name" [(ngModel)]="synonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Name" required>
+                        <label for="exampleInputEmail1"><b>Keyword</b></label>
+                        <input type="text" class="form-control" id="name" autocomplete="off" [(ngModel)]="synonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Keyword" required>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -48,7 +48,7 @@
                                      [matChipInputFor]="chipList"
                                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                      [matChipInputAddOnBlur]="addOnBlur"
-                                     (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.synonyms" [ngModelOptions]="{standalone: true}">
+                                     (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.synonyms" [ngModelOptions]="{standalone: true}" autocomplete="off">
                             </mat-chip-list>
                           </mat-form-field>
                     </div>
@@ -56,11 +56,12 @@
                 <!-- <div class="col-md-1">
                     <button type="button" class="btn btn-mt btn-light" (click)="synonymForm.reset()">x</button>                  
                 </div> -->
+                <!--  [disabled]="synonymForm.invalid"  -->
                 <div class="col-md-1">
-                    <button type="button" class="btn btn-mt btn-light" [disabled]="synonymForm.invalid" (click)="addSynonyms(synonymObj)">+</button>           
+                    <button type="button" class="btn btn-mt btn-light"(click)="addSynonyms(synonymObj)">+</button>           
                 </div>
             </div>
-        </form>
+        <!-- </form> -->
     </div>
     
  </div>
@@ -78,8 +79,8 @@
                         <div class="row"data-toggle="collapse" (click) = "editSynRecord(synonym,$event,i)">
                
                             <div class="col-md-11">
-                                <b><span [innerHTML] = "synonym.keyword + ' ~ '"></span></b>
-                                <span *ngFor="let eachSyn of synonym.synonyms;let i = index"> <span *ngIf="i != synonym.synonyms.length-1;else last" > {{eachSyn + ' , '}}</span><ng-template #last>{{eachSyn}}</ng-template></span>
+                                <b><span [innerHTML] = "synonym.keyword + ' '"></span></b><span> ( </span>
+                                <span *ngFor="let eachSyn of synonym.synonyms;let i = index"> <span *ngIf="i != synonym.synonyms.length-1;else last" > {{eachSyn + ' , '}}</span><ng-template #last>{{eachSyn + ' )'}}</ng-template></span>
                             </div>
                             <div class="col-md-1">                  
                                 <span class="actions-links" (click) = "editSynRecord(synonym,$event,i)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
