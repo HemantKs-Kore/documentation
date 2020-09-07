@@ -9,7 +9,6 @@ declare const KoreWidgetSDK: any;
 declare const KoreSDK: any;
 declare const koreBotChat: any;
 koreBotChat
-declare let window:any;
 import * as _ from 'underscore';
 @Component({
   selector: 'app-root',
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit {
   loading = true;
   previousState;
   appsData: any;
-  searchInstance:any;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -79,7 +77,6 @@ export class AppComponent implements OnInit {
      };
      if(route){
        if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
-         this.resetFindlySearchSDK(this.workflowService.selectedApp());
          path.selectedApp = this.workflowService.selectedApp()._id;
          path.route = route
          window.localStorage.setItem('krPreviousState',JSON.stringify(path));
@@ -102,17 +99,6 @@ export class AppComponent implements OnInit {
      }
      return previOusState;
    }
-  resetFindlySearchSDK(appData){
-    if(this.searchInstance && this.searchInstance.setAPIDetails) {
-      if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
-        const searchData = {
-          _id:appData.searchIndexes[0]._id
-        }
-        window.selectedFindlyApp = searchData;
-        this.searchInstance.setAPIDetails();
-      }
-    }
-  }
   navigationInterceptor(event: RouterEvent): void {
     const self = this;
     if (event instanceof NavigationStart) {
@@ -124,7 +110,6 @@ export class AppComponent implements OnInit {
     if (event instanceof NavigationEnd) {
       if (event && event.url === '/apps') {
         this.setPreviousState();
-        this.showHideSearch(false);
         $('.krFindlyAppComponent').removeClass('appSelected');
         $('.start-search-icon-div').addClass('hide');
       } else {
@@ -158,29 +143,22 @@ export class AppComponent implements OnInit {
   ngOnDistroy(){
     this.authService.findlyApps.unsubscribe();
   }
-  showHideSearch(show){
-    if(show){
-      $('.search-background-div').show();
-      $('.start-search-icon-div').addClass('active');
-    }else{
-      $('.search-background-div').hide();
-      $('.start-search-icon-div').removeClass('active');
-    }
-  }
   initSearchSDK(){
-    const _self = this;
+
     $('body').append('<div class="start-search-icon-div"></div>');
     $('app-body').append('<div class="search-background-div"></div>');
 
     $('.start-search-icon-div').click(function(){
       if(!$('.search-background-div:visible').length){
-        _self.showHideSearch(true);
+        $('.search-background-div').show();
+        $('.start-search-icon-div').addClass('active');
       }else{
-        _self.showHideSearch(false);
+        $('.search-background-div').hide();
+        $('.start-search-icon-div').removeClass('active');
 
       }
     });
-
+    
    
     var chatConfig = KoreSDK.chatConfig;
     //chatConfig.botOptions.assertionFn = assertion;
@@ -197,7 +175,6 @@ export class AppComponent implements OnInit {
         content: ".kr-wiz-content-chat"
     }
     var wSdk = new KoreWidgetSDK(widgetsConfig);
-    this.searchInstance = wSdk;
            wSdk.setJWT('dummyJWT');
             wSdk.show(widgetsConfig, wizSelector);
             wSdk.showSearch();

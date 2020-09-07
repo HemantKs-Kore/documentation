@@ -233,42 +233,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      if(window.selectedFindlyApp && window.selectedFindlyApp._id){
-        SearchIndexID = window.selectedFindlyApp._id
-      }
       var baseUrl = "https://app.findly.ai/searchAssistant";
-      var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
+        queryConfig:"https://app.findly.ai/api/1.1/findly/"+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
-        streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
-        jstBarrer:'"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"'
+        streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51'
       };
       _self.API.uuid = uuid.v4();
-      var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
-      if(window.selectedFindlyApp && window.selectedFindlyApp._id){
-        $.ajax({
-          url: botIntigrationUrl,
-          type: 'GET',
-          dataType: 'json',
-          headers: {
-            "Authorization": 'bearer '+window.findlyAccessToken,
-            "AccountId":window.findlyAccountId,
-            "Content-Type": "application/json"
-          },
-          data: {},
-          success: function (data) {
-            _self.API.streamId = data.findlyLinkedBotId;
-            _self.API.jstBarrer = data.app.jwt;
-          },
-          error: function (err) {
-            console.log(err)
-          }
-        })
-      }
     };
 
     KoreWidgetSDK.prototype.maintainCache = function () {
@@ -776,16 +750,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <input id="suggestion"style="position: absolute; bottom: 0px;" name="search" class="search" disabled="disabled">\
             <input autocomplete="off" style="position: absolute; bottom: 0px;" id="search" name="search" class="search" placeholder="Ask anything">\
             <div class="ksa-SpeakIcon"><img src="./libs/images/newtheme/speaker.svg"></div>\
-            <div class="sdkFooterIcon microphoneBtn"> \
-                <button class="notRecordingMicrophone" title="Microphone On"> \
-                    <i class="microphone"></i> \
-                </button> \
-                <button class="recordingMicrophone" title="Microphone Off" > \
-                    <i class="microphone"></i> \
-                    <span class="recordingGif"></span> \
-                </button> \
-                <div id="textFromServer"></div> \
-            </div> \
             <button class="search-button">Go</button>\
           </div>\
         </div>\
@@ -908,7 +872,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var searchFullData = '<script type="text/x-jqury-tmpl">\
       <div class="ksa-results-tabesHeader">\
       <div class="title-backbutton">\
-      <div class="title">Search results</div>\
+      <div class="title">Future Banking</div>\
       <div class=""><button class="full-search-close">Close</button>\
       </div>\
       </div>\
@@ -1622,7 +1586,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (code == '13') {
             e.preventDefault();
-            prevStr="";
             if($('.search-container').hasClass('conversation')){
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
@@ -1640,18 +1603,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
         $(dataHTML).off('click', '.search-button').on('click', '.search-button', function(e) {
           e.stopPropagation();
-          // if($('#search').val()) {
-          //   e.preventDefault();
-          //   if($('.search-container').hasClass('conversation')){
-          //     $('.search-body').addClass('hide');
-          //     $('#searchChatContainer').removeClass('bgfocus');
-          //   };
-          //   _self.sendMessageToSearch('user');
-          //   _self.bindLiveDataToChat();
-          // }
-          
-          //$('#search').trigger(jQuery.Event('keydown', { keycode: 13 }));
-          $('#search').focus().trigger({ type : 'keydown', which : 13 });
+          if($('#search').val()) {
+            e.preventDefault();
+            if($('.search-container').hasClass('conversation')){
+              $('.search-body').addClass('hide');
+              $('#searchChatContainer').removeClass('bgfocus');
+            };
+            _self.sendMessageToSearch('user');
+            _self.bindLiveDataToChat();
+          }
         })
         $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
           if(!$('#search').val()) {
@@ -2294,13 +2254,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#searchChatContainer').addClass('bgfocus');
     };
     KoreWidgetSDK.prototype.getFrequentlySearched = function (url, type, payload) {
-      var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       return $.ajax({
         url: url,
         type: type,
         dataType: 'json',
         headers: {
-          "Authorization": bearer,
+          "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
           "Content-Type": "application/json"
         },
         data: payload,
@@ -2338,303 +2297,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.closeGreetingMsg();
       })
     };
-
-    var final_transcript = '';
-            var recognizing = false;
-            var recognition = null;
-            var prevStr = "";
-    function getSIDToken() {
-     // if (allowGoogleSpeech) {
-        if (recognition) { // using webkit speech recognition
-          startGoogleWebKitRecognization();
-        }
-        else { // using google cloud speech API
-          micEnable();
-        }
-      // }
-      // else {
-      //   if (!speechPrefixURL) {
-      //     console.warn("Please provide speech socket url");
-      //     return false;
-      //   }
-      //   $.ajax({
-      //     url: speechPrefixURL + "asr/wss/start?email=" + userIdentity,
-      //     type: 'post',
-      //     headers: { "Authorization": (bearerToken) ? bearerToken : assertionToken },
-      //     dataType: 'json',
-      //     success: function (data) {
-      //       sidToken = data.link;
-      //       micEnable();
-      //     },
-      //     error: function (err) {
-      //       console.log(err);
-      //     }
-      //   });
-      // }
-    }
-    var two_line = /\n\n/g;
-    var one_line = /\n/g;
-    function linebreak(s) {
-        return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
-    }
-
-    function capitalize(s) {
-        return s.replace(s.substr(0, 1), function (m) { return m.toUpperCase(); });
-    }
-    function startGoogleWebKitRecognization() {
-        if (recognizing) {
-            recognition.stop();
-            return;
-        }
-        final_transcript = '';
-        recognition.lang = 'en-US';
-        recognition.start();
-    }
-    function startGoogleSpeech() {
-        if (rec) {
-            rec.record();
-            $('.recordingMicrophone').css('display', 'block');
-            $('.notRecordingMicrophone').css('display', 'none');
-            console.log('recording...');
-            intervalKey = setInterval(function () {
-                rec.export16kMono(function (blob) {
-                    console.log(new Date());
-                    if (allowGoogleSpeech) {
-                        sendBlobToSpeech(blob, 'LINEAR16', 16000);
-                    }
-                    else {
-                        socketSend(blob);
-                    }
-                    rec.clear();
-                }, 'audio/x-raw');
-            }, 1000);
-        }
-    }
-
-    function startGoogleWebKitRecognization() {
-      if (recognizing) {
-          recognition.stop();
-          return;
-      }
-      final_transcript = '';
-      recognition.lang = 'en-US';
-      recognition.start();
-  }
-  function startGoogleSpeech() {
-      if (rec) {
-          rec.record();
-          $('.recordingMicrophone').css('display', 'block');
-          $('.notRecordingMicrophone').css('display', 'none');
-          console.log('recording...');
-          intervalKey = setInterval(function () {
-              rec.export16kMono(function (blob) {
-                  console.log(new Date());
-                  if (allowGoogleSpeech) {
-                      sendBlobToSpeech(blob, 'LINEAR16', 16000);
-                  }
-                  else {
-                      socketSend(blob);
-                  }
-                  rec.clear();
-              }, 'audio/x-raw');
-          }, 1000);
-      }
-  }
-
-    function micEnable() {
-      if (isRecordingStarted) {
-        return;
-      }
-      if (!navigator.getUserMedia) {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-      }
-      if (navigator.getUserMedia) {
-        isRecordingStarted = true;
-        navigator.getUserMedia({
-          audio: true
-        }, success, function (e) {
-          isRecordingStarted = false;
-          alert('Please enable the microphone permission for this page');
-          return;
-        });
-      } else {
-        isRecordingStarted = false;
-        alert('getUserMedia is not supported in this browser.');
-      }
-    }
-
-    function afterMicEnable() {
-      if (navigator.getUserMedia) {
-        if (!rec) {
-          isRecordingStarted = false;
-          console.error("Recorder undefined");
-          return;
-        }
-        if (_connection) {
-          cancel();
-        }
-        try {
-          _connection = createSocket();
-        } catch (e) {
-          isRecordingStarted = false;
-          console.log(e);
-          console.error('Web socket not supported in the browser');
-        }
-      }
-    }
-    function stop() {
-      // if ($('.chatInputBox').text() !== '' && autoEnableSpeechAndTTS) {
-      //     var me = window.chatContainerConfig;
-      //     me.sendMessage($('.chatInputBox'));
-      // }
-      // clearInterval(intervalKey);
-      $('.recordingMicrophone').css('display', 'none');
-      $('.notRecordingMicrophone').css('display', 'block');
-      // if (rec) {
-      //     rec.stop();
-      //     isListening = false;
-      //     console.log('stopped recording..');
-      //     setTimeout(function () {
-      //         if (_connection) {
-      //             _connection.close();
-      //             _connection = null;
-      //         }
-      //     }, 1000); // waiting to send and receive last message
-
-      //     rec.export16kMono(function (blob) {
-      //         socketSend(blob);
-      //         rec.clear();
-      //         if (_connection) {
-      //             _connection.close();
-      //         }
-      //         var track = mediaStream.getTracks()[0];
-      //         track.stop();
-      //         rec.destroy();
-      //         isRecordingStarted = false;
-      //     }, 'audio/x-raw');
-      // } else {
-      //     console.error('Recorder undefined');
-      // }
-      if (recognizing) {
-          recognition.stop();
-          recognizing = false;
-      }
-  };
-    KoreWidgetSDK.prototype.initWebKitSpeech = function () {
-      var _self = this;
-      if ('webkitSpeechRecognition' in window && isChrome()) {
-        recognition = new window.webkitSpeechRecognition;
-        final_transcript = '';
-        recognition.continuous = true;
-        recognition.interimResults = true;
-
-        recognition.onstart = function () {
-          prevStr = "";
-          recognizing = true;
-          $('.recordingMicrophone').css('display', 'block');
-          $('.notRecordingMicrophone').css('display', 'none');
-        };
-
-        recognition.onerror = function (event) {
-          console.log(event.error);
-          $('.recordingMicrophone').trigger('click');
-          $('.recordingMicrophone').css('display', 'none');
-          $('.notRecordingMicrophone').css('display', 'block');
-        };
-
-        recognition.onend = function () {
-          recognizing = false;
-          $('.recordingMicrophone').trigger('click');
-          $('.recordingMicrophone').css('display', 'none');
-          $('.notRecordingMicrophone').css('display', 'block');
-        };
-
-        recognition.onresult = function (event) {
-          final_transcript = '';
-          var interim_transcript = '';
-          for (var i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-              final_transcript += event.results[i][0].transcript;
-            } else {
-              interim_transcript += event.results[i][0].transcript;
-            }
-          }
-          final_transcript = capitalize(final_transcript);
-          final_transcript = linebreak(final_transcript);
-          interim_transcript = linebreak(interim_transcript);
-          if (final_transcript !== "") {
-            prevStr += final_transcript;
-          }
-          //console.log('Interm: ',interim_transcript);
-          //console.log('final: ',final_transcript);
-          if (recognizing) {
-            //$('.chatInputBox').html(prevStr + "" + interim_transcript);
-
-            $("#search").val((prevStr + "" + interim_transcript));
-            $('#search').focus().trigger({ type : 'keyup', which : 32 });
-            //8
-            //$('.sendButton').removeClass('disabled');
-          }
-
-          // setTimeout(function () {
-          //   setCaretEnd(document.getElementsByClassName("chatInputBox"));
-          //   document.getElementsByClassName('chatInputBox')[0].scrollTop = document.getElementsByClassName('chatInputBox')[0].scrollHeight;
-          // }, 350);
-        };
-      }
-    };
-    function isChrome() {
-      var isChromium = window.chrome,
-          winNav = window.navigator,
-          vendorName = winNav.vendor,
-          isOpera = winNav.userAgent.indexOf("OPR") > -1,
-          isIEedge = winNav.userAgent.indexOf("Edge") > -1,
-          isIOSChrome = winNav.userAgent.match("CriOS");
-
-      if (isIOSChrome) {
-          return true;
-      } else if (
-          isChromium !== null &&
-          typeof isChromium !== "undefined" &&
-          vendorName === "Google Inc." &&
-          isOpera === false &&
-          isIEedge === false
-      ) {
-          return true;
-      } else {
-          return false;
-      }
-  }
-
     KoreWidgetSDK.prototype.showSearch = function () {
       var _self = this;
-      _self.initWebKitSpeech();
       _self.setAPIDetails();
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
       var left = ((windowWidth / 2) - 250) + 'px';
       var dataHTML = $(_self.getSearchTemplate('searchContainer')).tmplProxy({
       });
-      // $(dataHTML).off('click', '.search-logo').on('click', '.search-logo', function (event) {
-      //   $('.search-container').toggleClass('conversation');
-      // });
-
-
-      $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
-        // if (ttsAudioSource) {
-        //     ttsAudioSource.stop();
-        // }
-        // if (isSpeechEnabled) {
-            getSIDToken();
-        //}
-    });
-    $(dataHTML).off('click', '.recordingMicrophone').on('click', '.recordingMicrophone', function (event) {
-        stop();
-        // setTimeout(function () {
-        //     setCaretEnd(document.getElementsByClassName("chatInputBox"));
-        // }, 350);
-    });
-
+      $(dataHTML).off('click', '.search-logo').on('click', '.search-logo', function (event) {
+        $('.search-container').toggleClass('conversation');
+      });
       _self.bindSearchAccordion();
       $(dataHTML).css('left', left);
       var container=$('.search-background-div');
