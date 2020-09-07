@@ -28,7 +28,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'typefilter' : 'all',
     'statusFilter' : 'all'
   }
-  filterText: "all";
+  firstFilter: any = {'header': '' , 'source' : ''};
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
@@ -365,7 +365,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTable(source,headerOption){
     console.log(this.resources,source)
     let firstFilterDataBack = [];
-      this.resources = [...this.filterResourcesBack]; // For new Filter..
+      //this.resources = [...this.filterResourcesBack]; // For new Filter..
       if(headerOption == "type"){
         this.filterSystem.typeHeader = headerOption;
         this.filterSystem.typefilter = source;
@@ -376,27 +376,91 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       //this.filterText  = source;
       /** TYpe */
+      // if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
+      //   this.resources = [...this.filterResourcesBack];
+      //   this.firstFilter = {'header': '' , 'source' : ''};
+      // } else {
+      //  if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
+      //   if(!this.firstFilter['header'])this.firstFilter = {'header': headerOption , 'source' : source};
+      //   if(source == "all") {
+      //     firstFilterDataBack = [...this.filterResourcesBack];
+      //     const resourceData =  firstFilterDataBack.filter((data)=>{
+      //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+      //       })
+      //     if(resourceData.length)this.resources = [...resourceData];
+      //   }else{
+      //     firstFilterDataBack = [...this.filterResourcesBack];
+      //     const resourceData =  firstFilterDataBack.filter((data)=>{
+            
+      //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+      //       })
+      //     if(resourceData.length)this.resources = [...resourceData];
+      //   }
+       
+      //  }else {
+      //   this.resources = [...this.filterResourcesBack];
+      //   //firstFilter
+      //   const firstResourceData =  this.resources.filter((data)=>{
+      //     console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+      //     return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+      //     })
+      //     const secondResourceData =  firstResourceData.filter((data)=>{
+      //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+      //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+      //       })
+      //   if(secondResourceData.length)this.resources = [...secondResourceData];
+      //  }
+       
+      // }
+
+      //a/
       if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
         this.resources = [...this.filterResourcesBack];
-      } else {
-       if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
-        firstFilterDataBack = [...this.resources];
+        this.firstFilter = {'header': '' , 'source' : ''};
+      } 
+      else if(this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all"){
+        if(!this.firstFilter['header']){
+          this.firstFilter = {'header': headerOption , 'source' : source};
+        } 
+        firstFilterDataBack = [...this.filterResourcesBack];
           const resourceData =  firstFilterDataBack.filter((data)=>{
+            return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
+            })
+          if(resourceData.length)this.resources = [...resourceData];
+       }
+       else if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all"){
+        if(!this.firstFilter['header']){
+          this.firstFilter = {'header': headerOption , 'source' : source};
+        } 
+        firstFilterDataBack = [...this.filterResourcesBack];
+        const resourceData =  firstFilterDataBack.filter((data)=>{
+          return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
+          })
+        if(resourceData.length)this.resources = [...resourceData];
+       
+      }
+      else if(this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all"){
+        this.resources = [...this.filterResourcesBack];
+        //firstFilter
+        if(this.firstFilter['header'] == headerOption){
+          if(headerOption == "type"){
+            this.firstFilter = {'header': this.filterSystem.statusHeader , 'source' : this.filterSystem.statusFilter};
+          }else {
+            this.firstFilter = {'header': this.filterSystem.typeHeader , 'source' : this.filterSystem.typefilter};
+          }
+        }
+        const firstResourceData =  this.resources.filter((data)=>{
+          console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+          return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+          })
+          const secondResourceData =  firstResourceData.filter((data)=>{
             console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
             return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
             })
-          if(resourceData.length)this.resources = [...resourceData];
-       }else{
-        const resourceData =  this.resources.filter((data)=>{
-          console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-          return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-          })
-        if(resourceData.length)this.resources = [...resourceData];
-       }
-       
+        if(secondResourceData.length)this.resources = [...secondResourceData];
       }
 
-
+      //a/
       /** previous working logic */ 
     //   if(source != 'all'){
     //   const resourceData =  this.resources.filter((data)=>{
