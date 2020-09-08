@@ -10,14 +10,52 @@ app-mainmenu{
 		background:#EFF0F1;
 		width:55px;
     	z-index: 9;
-    	height: calc(100% - 60px);
+    	height: calc(100% - 55px);
 		transition: .33s;
 		overflow: hidden;		
 		&.activeMenu{
 			width: 245px;
 			transition: 0.33s;	
-			padding: 15px;	
 			z-index: 2;
+			.perfect-scroll{
+				.list-group{
+					padding: 15px;	
+				}
+				.kr-sg-dropdowns{
+					width: auto;
+					// margin-left: 10px;
+			
+					.faq-filter-add{
+						max-height: 200px;
+						overflow: hidden;;
+						width: 100%;
+					}
+					&.show {
+						.dropdown-open{
+							.dropdown-input{
+								background: #E4E5E7;
+							}
+						}
+					}
+					.dropdown-open{
+						margin-bottom: 15px;
+						.dropdown-input{
+							border: 1px solid #E4E5E7;
+							box-sizing: border-box;
+							border-radius: 4px;
+							padding: 0 15px;
+							font-size: 14px;
+							color: #3C4043;
+							img{
+								margin-left: 6px;
+							}
+							// &::before{
+							// 	display: none;
+							// }
+						}
+					}
+				}
+			}
 			.sub-title{
 				padding: 0 13px;
 				color: #5F6368;
@@ -25,6 +63,9 @@ app-mainmenu{
 				font-size: 10px;
 				margin: 10px 0 7px 0;
 				text-transform: uppercase;
+				&.marginTop15{
+					margin-top: 15px;
+				}
 				img{
 					float: right;
 					cursor: pointer;
@@ -49,6 +90,13 @@ app-mainmenu{
 			border-radius: 4px;		
 			font-family: Inter !important;
 			margin-bottom: 5px;
+			line-height: 34px;
+			.defaultIcon{
+				display: inline-block;
+			}
+			.activeIcon{
+				display: none;
+			}
 			&.settings-menu{
 				position: absolute;
 				bottom: 0px;
@@ -58,6 +106,7 @@ app-mainmenu{
 				background: #E4E5E7;
 				margin-bottom: 0;
 				border-radius: 0;
+				padding-top: 2px;
 			}
 			.inlineIconBox{
 				display: inline-block;
@@ -65,7 +114,7 @@ app-mainmenu{
 				outline: none;   
 				img{
 					position: relative;
-					top: -2px;
+					top: -1px;
 				}            
 			}
 			.linkTitle{
@@ -75,11 +124,23 @@ app-mainmenu{
 				outline: 0 !important;
 			}			
 			&.active{				
-				background-color: $whiteColor;				
+				background-color: $whiteColor;	
+				.defaultIcon{
+					display: none;
+				}
+				.activeIcon{
+					display: inline-block;
+				}			
 			}			
 			&:hover{
 				color: #3C4043;
-				background-color: $whiteColor;			
+				background-color: $whiteColor;		
+				.defaultIcon{
+					display: none;
+				}
+				.activeIcon{
+					display: inline-block;
+				}		
 			}			
 		}
 		.sub-menu {

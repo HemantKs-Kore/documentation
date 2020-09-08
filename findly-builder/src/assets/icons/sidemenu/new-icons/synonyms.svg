@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="14px" viewBox="0 0 12 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>synonyms</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="synonyms" transform="translate(1.000000, 1.000000)" fill="#3C4043">
+            <path d="M4,8 L4,6.994 L6,6.994 L6,8 L7,8 L7,6 C7,5.93743 6.98826,5.87541 6.96538,5.81717 L5.59038,2.31717 C5.51521,2.12583 5.33058,2 5.125,2 L4.875,2 C4.66942,2 4.48479,2.12583 4.40962,2.31717 L3.03462,5.81717 C3.01174,5.87541 3,5.93743 3,6 L3,8 L4,8 Z M5,3.54924 L5.96044,5.994 L4.03956,5.994 L5,3.54924 Z" id="Shape"></path>
+            <path d="M0,1.5 C0,0.671858 0.671858,0 1.5,0 L10,0 L10,10 L1.5,10 C1.22414,10 1,10.2241 1,10.5 C1,10.7759 1.22414,11 1.5,11 L10,11 L10,12 L1.5,12 C0.671858,12 0,11.3281 0,10.5 L0,1.5 Z M1,9.08542 C1.1564,9.0301 1.3247,9 1.5,9 L9,9 L9,1 L1.5,1 C1.22414,1 1,1.22414 1,1.5 L1,9.08542 Z" id="Shape" stroke="#3C4043" stroke-width="0.3"></path>
+        </g>
+    </g>
+</svg>

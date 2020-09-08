@@ -1,32 +1,44 @@
 <!-- Sidebar -->
 <div class="sidebar-fixed position-fixed activeMenu">
-	<div class="list-group list-group-flush">	
-		<div [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active" mat-button class="mat-button">
+	<perfect-scrollbar class="perfect-scroll">	<div class="list-group list-group-flush">	
+		<!-- <div [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active" mat-button class="mat-button">
 			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/summery.svg" class="dashboard">			
 			</span>
 			<span class="linkTitle">Summary</span>
+		</div> -->
+		<div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">                                        
+			<div class="dropdown dropdown-open">
+				<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Default</button>                                            
+				<ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+					<li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">Default</span></li>
+					<li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">Create new</span></li>
+				
+				</ul>
+			</div>
 		</div>
-
 		<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')"></div>
 
 		<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>			
 			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/content.svg">				
+				<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/page-active.svg" class="activeIcon">				
 			</span>
 			<span class="linkTitle">Content</span>
 		</div>
 		<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active" (click)="preview('Faqs')" mat-button>
 			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/faq.svg">				
+				<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/faq-active.svg" class="activeIcon">		
 			</span>
 			<span class="linkTitle">Faqs</span>		
 		</div>
 		<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>			
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/botactions.svg">				
+			<span class="inlineIconBox">	
+				<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/actions-active.svg" class="activeIcon">				
 			</span>
-			<span class="linkTitle">Bot Actions</span>
+			<span class="linkTitle">Actions</span>
 		</div>		
 		
 		<!-- <button mat-button>
@@ -36,57 +48,79 @@
 			<span class="linkTitle">Preview</span>
 		</button> -->
 
-		<div class="sub-title">Training</div>
-		<!-- <div class="sub-menu" *ngIf="trainingMenu">
+		<div class="sub-title marginTop15">Configurations</div>
 			<div mat-button class="mat-button" [routerLink]="['/ml-threshold']" skipLocationChange routerLinkActive="active" (click)="preview('ml')" mat-button>			
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/synonyms.svg" class="callHistory">				
+				<span class="inlineIconBox">	
+					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">			
+				</span>
+				<span class="linkTitle">Index</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>			
+				<span class="inlineIconBox">	
+					<img src="assets/icons/sidemenu/new-icons/query.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/query-active.svg" class="activeIcon">			
+				</span>
+				<span class="linkTitle">Query</span>
+			</div>
+			<div mat-button class="mat-button" [routerLink]="['/ml-threshold']" skipLocationChange routerLinkActive="active" (click)="preview('ml')" mat-button>
+				<span class="inlineIconBox leftAdjust">	
+					<img src="assets/icons/sidemenu/new-icons/ml.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/ml-active.svg" class="activeIcon">			
 				</span>
 				<span class="linkTitle">ML configuration</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>			
-				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/synonyms.svg" class="callHistory">				
-				</span>
-				<span class="linkTitle">Traits</span>
-			</div>
-		</div> -->
-		<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>			
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/synonyms.svg" class="callHistory">				
-			</span>
-			<span class="linkTitle">Synonyms</span>
-		</div>
-		<div mat-button class="mat-button">
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/metrics.svg" class="publish">				
-			</span>
-			<span class="linkTitle">Metrics</span>
-		</div>
-		<div mat-button class="mat-button" [routerLink]="['/rules']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/metrics.svg" class="publish">				
-			</span>
-			<span class="linkTitle">Rules</span>
-		</div>
-		<div mat-button class="mat-button" [routerLink]="['/ml-threshold']" skipLocationChange routerLinkActive="active" (click)="preview('ml')" mat-button>
-			<span class="inlineIconBox leftAdjust">
-				<img src="assets/icons/sidemenu/training.svg" class="callHistory">				
-			</span>
-			<span class="linkTitle">ML configuration</span>
-		</div>
+
 		<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 			<span class="inlineIconBox leftAdjust">
-				<img src="assets/icons/sidemenu/training.svg" class="callHistory">				
+				<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/traits-active.svg" class="activeIcon">				
 			</span>
 			<span class="linkTitle">Traits</span>
 		</div>
-		<div mat-button class="mat-button settings-menu">
+		<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>			
+			<span class="inlineIconBox">
+				<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/synonyms-active.svg" class="activeIcon">					
+			</span>
+			<span class="linkTitle">Synonyms</span>
+		</div>
+		<div mat-button class="mat-button" [routerLink]="['/rules']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
+			<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/rules-active.svg" class="activeIcon">				
+			</span>
+			<span class="linkTitle">Rules & Personalization</span>
+		</div>
+		<div mat-button class="mat-button">
+			<span class="inlineIconBox">
+				<img src="assets/icons/sidemenu/new-icons/attributes.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/attributes-active.svg" class="activeIcon">				
+			</span>
+			<span class="linkTitle">Attributs & Factes</span>
+		</div>
+		<div mat-button class="mat-button">
+			<span class="inlineIconBox">
+				<img src="assets/icons/sidemenu/new-icons/demo.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/demo-active.svg" class="activeIcon">				
+			</span>
+			<span class="linkTitle">Demo</span>
+		</div>
+		<div mat-button class="mat-button">
+			<span class="inlineIconBox">
+				<img src="assets/icons/sidemenu/new-icons/general-settings.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/general-settings-active.svg" class="activeIcon">				
+			</span>
+			<span class="linkTitle">General Settins</span>
+		</div>
+
+		<!-- <div mat-button class="mat-button settings-menu">
 			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/settings.svg" class="publish">				
 			</span>
 			<span class="linkTitle">Settings</span>
-		</div>
-	</div>
+		</div> -->
+	</div></perfect-scrollbar>
+
 </div>
 <!-- Sidebar -->
