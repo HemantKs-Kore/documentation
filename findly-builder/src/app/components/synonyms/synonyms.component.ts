@@ -171,6 +171,7 @@ export class SynonymsComponent implements OnInit {
         //record.synonym =  this.synArr;
         this.synonymData.push(res);
         this.synonymDataBack.push(res);
+        this.haveRecord = true;
         this.synArr = []
         this.synonymObj = new SynonymClass();
        }

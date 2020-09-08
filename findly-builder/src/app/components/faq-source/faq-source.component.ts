@@ -76,7 +76,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   apiLoading = false;
   isAsc = true;
   selectedSort = '';
-  faqLimit = 50;
+  faqLimit = 150;
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
@@ -196,6 +196,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
+    this.getfaqsBy();
+    this.getStats();
     this.showSourceAddition = null;
    }
    addFaqSource(type){
@@ -334,7 +336,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       if(concat){
         this.faqs = this.faqs.concat(res);
       } else {
-        this.faqs = [...res] || [];
+        this.faqs = _.filter(res,(faq)=>{
+              return faq.action!=='delete';
+        })
       }
       this.faqsObj.faqs = this.faqs;
       if(this.faqs.length){

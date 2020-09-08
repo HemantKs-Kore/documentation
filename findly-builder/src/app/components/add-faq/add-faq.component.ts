@@ -336,12 +336,14 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           text: newMessage
         };
         $(this.contentEditableElement)[0].innerText = newMessage;
+        this.form.get('botResponse').setValue(newMessage);
       } else {
         const _event = {
           action: 'save',
           text: newMessage
         };
         $(this.container).val(newMessage);
+        this.form.get('botResponse').setValue(newMessage);
         $(this.container).focus();
       }
     }
