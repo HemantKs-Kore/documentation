@@ -2,7 +2,7 @@
   <form [formGroup]="form">
     <div class="kr-sg-input-text mb-15">
       <div class="label-text">Question</div>
-      <input type="text" placeholder="Enter your question" class="input-text" formControlName="question">             
+      <input type="text" placeholder="Enter your question" class="input-text" formControlName="question" autocomplete="off">             
     </div>
     <div for="tagInput" class="label-text">Tags</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
@@ -17,7 +17,7 @@
                [matChipInputFor]="chipList"
                [matAutocomplete]="suggestedItems"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               (matChipInputTokenEnd)="add($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()">
+               (matChipInputTokenEnd)="add($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
         </mat-chip-list>
       <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event)">
         <ng-container *ngFor = "let suggestion of suggestionTags">
@@ -136,11 +136,11 @@
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">URL</div>
-          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="imgInfo.url" name="appName">
+          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="imgInfo.url" name="appName" autocomplete="off">
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">ALT</div>
-          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="imgInfo.alt" name="appName">
+          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="imgInfo.alt" name="appName" autocomplete="off">
         </div>
       </div>
       <div class="modal-footer">
@@ -155,11 +155,11 @@
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">URL</div>
-          <input maxlength="1024" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="linkInfo.link" name="LinkURL">
+          <input maxlength="1024" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="linkInfo.link" name="LinkURL" autocomplete="off">
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Link Text</div>
-          <input maxlength="1024" type="text" placeholder="Enter Link Trxt" autocomplete="off" class="input-text" [(ngModel)]="linkInfo.linkText" name="LinkText">
+          <input maxlength="1024" type="text" placeholder="Enter Link Trxt" autocomplete="off" class="input-text" [(ngModel)]="linkInfo.linkText" name="LinkText" autocomplete="off">
         </div>
       </div>
       <div class="modal-footer">
