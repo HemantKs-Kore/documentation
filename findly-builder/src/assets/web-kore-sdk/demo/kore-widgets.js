@@ -1503,6 +1503,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         
       });
       $('.search-container').addClass('full-page');
+      $('.start-search-icon-div').hide();   
       $('.search-body-full').removeClass('hide');
       $('.search-body-full').html(searchFullData);
       $('.search-container').removeClass('active');
@@ -1530,6 +1531,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       $('.full-search-close').off('click').on('click', function (e) {
         $('.search-container').removeClass('full-page');
+        $('.start-search-icon-div').show();
         $('.search-body-full').html('');
         $('.search-body-full').addClass('hide');
         e.keyCode = 13;
@@ -1918,6 +1920,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           
           if($('.search-container').hasClass('full-page')) {
             $('.search-container').removeClass('full-page');
+            $('.start-search-icon-div').show();
             $('.search-body-full').html('');
             if(!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
