@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AuthService } from '@kore.services/auth.service';
@@ -24,6 +24,7 @@ export class TagsInpComponent implements OnInit {
   f: any = {
     question: ''
   };
+  @Input() faqServ: any;
 
   constructor(private authService: AuthService,
               private kgService: KgDataService,
@@ -36,6 +37,7 @@ export class TagsInpComponent implements OnInit {
   selectedTag(data: MatAutocompleteSelectedEvent) {
     this.suggestedInput.nativeElement.value = '';
     this.tags.push(data.option.viewValue);
+    this.faqServ.inpKeywordsAdd.next(this.tags);
   }
   getAltTags(e) {
     const payload = {
@@ -50,10 +52,12 @@ export class TagsInpComponent implements OnInit {
     }, err=> {} )
   }
 
+
   remove(tag): void {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
+      this.faqServ.inpKeywordsAdd.next(this.tags);
     }
   }
 
@@ -65,11 +69,16 @@ export class TagsInpComponent implements OnInit {
         this.notify.notify('Duplicate tags are not allowed', 'warning');
       } else {
         this.tags.push(value.trim());
+        this.faqServ.inpKeywordsAdd.next(this.tags);
       }
     }
     if (input) {
       input.value = '';
     }
+  }
+
+  enterText() {
+    this.faqServ.inpQuesAdd.next(this.f.question);
   }
 
   checkDuplicateTags(suggestion: string = ''): boolean {

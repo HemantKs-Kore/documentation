@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
@@ -16,7 +16,9 @@ declare const $: any;
 @Component({
   selector: 'app-add-faq',
   templateUrl: './add-faq.component.html',
-  styleUrls: ['./add-faq.component.scss']
+  styleUrls: ['./add-faq.component.scss'],
+  providers: [ { provide: 'instance1', useClass: FaqsService },
+            { provide: 'instance2', useClass: FaqsService }, ]
 })
 export class AddFaqComponent implements OnInit  {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -44,13 +46,20 @@ export class AddFaqComponent implements OnInit  {
   groupsAdded: any = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   loading: boolean;
+  quesList: any = {
+    alternateQuestions: [],
+    followupQuestions: []
+  };
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
     private service: ServiceInvokerService,
     private authService: AuthService,
     private kgService: KgDataService,
     private notify: NotificationService,
-    private faqService: FaqsService) {
+    private faqService: FaqsService,
+    @Inject('instance1') private faqServiceAlt: FaqsService,
+    @Inject('instance2') private faqServiceFollow: FaqsService
+    ) {
       config.container = 'body'
      }
 
@@ -116,6 +125,7 @@ export class AddFaqComponent implements OnInit  {
       tags: this.tags,
       response: this.form.get('botResponse').value,
       _id: this.faqData ? this.faqData._id : null,
+      quesList: this.quesList,
       cb: (res => { this.loading = false })
     })
   }
@@ -320,6 +330,43 @@ export class AddFaqComponent implements OnInit  {
   line(text, range) {
     text = text + '\n___';
     this.handleToolBarAction(text, range);
+  }
+
+  addAltQues() {
+    this.isAdd=true;
+    this.faqServiceAlt.inpKeywordsAdd.subscribe(res=>{
+      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].keywords = res; }
+      else {
+        this.quesList.alternateQuestions[0] = {};
+        this.quesList.alternateQuestions[0].keywords = res;
+      }
+    });
+    this.faqServiceAlt.inpQuesAdd.subscribe(res=>{
+      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].question = res; }
+      else {
+        this.quesList.alternateQuestions[0] = {};
+        this.quesList.alternateQuestions[0].question = res;
+      }
+    });
+  }
+
+  addFollowupQues() {
+    this.isAlt=true;
+    this.faqServiceFollow.inpKeywordsAdd.subscribe(res=>{
+      if(this.quesList.followupQuestions[0]) { this.quesList.followupQuestions[0].keywords = res; }
+      else {
+        this.quesList.followupQuestions[0] = {};
+        this.quesList.followupQuestions[0].keywords = res;
+      }
+    });
+    this.faqServiceFollow.inpQuesAdd.subscribe(res=>{
+      if(this.quesList.followupQuestions[0]) { this.quesList.followupQuestions[0].question = res; }
+      else {
+        this.quesList.followupQuestions[0] = {};
+        this.quesList.followupQuestions[0].question = res;
+      }
+    });
+
   }
 }
 

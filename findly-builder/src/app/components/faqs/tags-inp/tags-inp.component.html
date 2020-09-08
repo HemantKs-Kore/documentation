@@ -1,6 +1,6 @@
 <div class="kr-sg-input-text">
     <div class="label-text">Question</div>
-    <input type="text" placeholder="Question" class="input-text" [(ngModel)]='f.question'>
+    <input type="text" placeholder="Question" class="input-text" [(ngModel)]='f.question' (blur)='enterText()'>
 </div>
 <div for="tagInput" class="label-text">Tags</div>
 <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">

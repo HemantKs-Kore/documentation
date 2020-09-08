@@ -9,6 +9,8 @@ export class FaqsService {
     cancel = new Subject();
     updateAltQues = new Subject();
     groupAdded = new Subject();
+    inpQuesAdd = new Subject();
+    inpKeywordsAdd = new Subject();
     addVariation: {
         alternate: boolean,
         followUp: boolean

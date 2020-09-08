@@ -363,12 +363,15 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       type: 'faq',
       faqType:'manual'
     };
-    const payload: any = {
-      desc: event.response,
-      name: event.question,
+    let payload: any = {
+      // desc: event.response,
+      // name: event.question,
       question: event.question,
-      answer: event.response
+      answer: event.response,
+      keywords: event.tags
       };
+    payload = _.extend(payload, event.quesList);
+
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.selectedSourceType = null;
        event.cb('success');

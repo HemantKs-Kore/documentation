@@ -27,8 +27,8 @@
         </ng-container>
       </mat-autocomplete>
     </mat-form-field>
-    <p>Group</p>
-    <app-group-input></app-group-input>
+    <p class="d-none">Group</p>
+    <app-group-input class="d-none"></app-group-input>
     <div class="label-text bot-res-title">Bot Response <img *ngIf="false" src="assets/icons/sidemenu/delete-table.svg"></div>
     <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor>
     <div class="layout-select hide">
@@ -106,18 +106,18 @@
       </div>
       <div class="right-btns">        
         <button class="kr-sg-button-secondary btn_lg mr-0 d-none"><img src="assets/icons/editor/plus-add.svg" class="mr-2">Another Bot Response</button>
-        <button class="kr-sg-button-tertiary" (click)='isAdd=true'>Add Alternate Question</button>
-        <button class="kr-sg-button-tertiary" (click)='isAlt=true'>Add Followup Question</button>
+        <button class="kr-sg-button-tertiary" (click)='addAltQues()'>Add Alternate Question</button>
+        <button class="kr-sg-button-tertiary" (click)='addFollowupQues()'>Add Followup Question</button>
       </div>
     </div>
   </form>
   <div *ngIf='isAdd'>
     <p>Add Alternate Question</p>
-    <app-tags-inp></app-tags-inp>
+    <app-tags-inp [faqServ]='faqServiceAlt'></app-tags-inp>
   </div>
   <div *ngIf='isAlt'>
     <p>Add Followup Question</p>
-    <app-tags-inp></app-tags-inp>
+    <app-tags-inp [faqServ]='faqServiceFollow'></app-tags-inp>
   </div>
 </div>
 <!-- <tui-editor [options] = "markOptions" ></tui-editor> -->
