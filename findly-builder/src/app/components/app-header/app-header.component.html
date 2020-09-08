@@ -1,9 +1,17 @@
 <header>
     <nav class="findlyHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
         <div class="container-fluid p-0">
-            <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange>
-            <div class="homePageTitle d-none">
-                <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
+            <div class="logoTabsContainer">
+                <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange>
+                <div class="homePageTitle d-none">
+                    <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
+                </div>
+                <div class="headerTabsContainer">
+                    <div class="headerMenuTab active" [routerLink]="['/summary']" (click)="preview('Summary')" skipLocationChange routerLinkActive="active">Summary</div>
+                    <div class="headerMenuTab">Indices</div>
+                    <div class="headerMenuTab">Analytics</div>
+                    <div class="headerMenuTab">Settings</div>
+                </div>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end"> 
                 <ng-template #rt let-r="result" let-t="term">

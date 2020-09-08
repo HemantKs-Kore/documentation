@@ -78,6 +78,73 @@
             }
         }
     }
+    .defineTraitsContainer{
+        // height: 98px;
+        border-radius: 4px;
+        border: solid 1px $borderColor;
+        background-color: $backgroundColor;
+        padding: 15px 40px;
+        .leftDiv{
+          padding: 0;
+          .defineTitle{
+            font-size: 14px;
+            font-weight: normal;
+            margin-bottom: 5px;
+          }
+          .defineDesc{
+            font-size: 12px;
+            font-weight: normal;
+            color: $secondaryColor;
+            margin-bottom: 5px;
+          }
+          .defineLink{
+            font-size: 14px;
+            color: $buttonhoverBgColor;
+            // text-decoration: underline;
+            border-bottom: 1px solid $buttonhoverBgColor;
+            padding-bottom: 2px;
+            &:hover{
+              color: $hoverColor;
+              border-bottom: 1px solid $hoverColor;
+            }
+          }
+        }
+        .backArrowDiv{
+          min-height: 60px;
+          text-align: center;
+          .backArrow{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+  
+        .rightDiv{
+          padding: 0;
+          .defineTitle{
+            font-size: 14px;
+            font-weight: normal;
+            margin-bottom: 5px;
+          }
+          .defineDesc{
+            font-size: 12px;
+            font-weight: normal;
+            color: $secondaryColor;
+            margin-bottom: 5px;
+          }
+          .defineLink{
+            font-size: 14px;
+            color: $buttonhoverBgColor;
+            // text-decoration: underline;
+            border-bottom: 1px solid $buttonhoverBgColor;
+            padding-bottom: 2px;
+            &:hover{
+              color: $hoverColor;
+              border-bottom: 1px solid $hoverColor;
+            }
+          }
+        }
+      }
 }
 .kr-modal.addTraitModalComponent {
     // text-align: right;
@@ -117,7 +184,7 @@
                 }
             }
             .traits-modal-scroller {
-                height: calc(100vh - 165px);
+                height: calc(100vh - 128px);
             }
             .modal-body {
                 padding: 25px 30px;
@@ -139,7 +206,7 @@
                         height: 34px;
                         border-radius: 2px;
                         box-shadow: 0 1.5px 1px 0 rgba(38, 52, 74, 0.2);
-                        border: solid 1px #e5e8ec;
+                        border: solid 1px #E4E5E7;
                         line-height: 28px;
                         background-color: #fff;
                         padding: 0 15px;
@@ -151,6 +218,7 @@
                         }
                         .title {
                             display: inline-block;
+                            color: #202124;
                         }
                         .edit-icon {
                             display: none;
@@ -168,8 +236,8 @@
                     .add-utterances {
                         border-radius: 2px;
                         box-shadow: 0 2px 4px 0 rgba(38, 52, 74, 0.1);
-                        border: solid 1px #e5e8ec;
-                        background-color: #f2f3f5;
+                        border: solid 1px #E4E5E7;
+                        background-color: #EFF0F1;
                         padding: 15px;
                         min-height: 95px;
                         height: auto !important;
@@ -177,13 +245,14 @@
                         .sub-title {
                             font-size: 12px;
                             font-weight: bold;
+                            color: #202124;
                         }
                         .utterance-list {
                             .item {
                                 position: relative;
                                 margin-bottom: 5px;
                                 width: 100%;
-                                border: 1px solid #e5e8ec;
+                                border: 1px solid #E4E5E7;
                                 background: #fff;
                                 border-radius: 3px;
                                 z-index: 0;
