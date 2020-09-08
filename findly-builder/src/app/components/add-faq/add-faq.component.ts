@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
@@ -12,6 +12,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { Subscription } from 'rxjs';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -22,7 +23,7 @@ declare const $: any;
   providers: [ { provide: 'instance1', useClass: FaqsService },
             { provide: 'instance2', useClass: FaqsService }, ]
 })
-export class AddFaqComponent implements OnInit  {
+export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('createImagePop') createImagePop: KRModalComponent;
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
@@ -77,6 +78,12 @@ export class AddFaqComponent implements OnInit  {
     alternateQuestions: [],
     followupQuestions: []
   };
+  followInpKeySub: Subscription;
+  followInpQuesSub: Subscription;
+  altInpKeySub: Subscription;
+  altInpQuesSub: Subscription;
+  groupAddSub: Subscription;
+
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
     private service: ServiceInvokerService,
@@ -119,7 +126,7 @@ export class AddFaqComponent implements OnInit  {
         botResponse: ['', Validators.required]
       });
     }
-    this.faqService.groupAdded.subscribe(res=>{
+    this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{
       this.groupsAdded = res;
     })
   }
@@ -444,14 +451,14 @@ export class AddFaqComponent implements OnInit  {
 
   addAltQues() {
     this.isAdd=true;
-    this.faqServiceAlt.inpKeywordsAdd.subscribe(res=>{
+    this.altInpKeySub = this.faqServiceAlt.inpKeywordsAdd.subscribe(res=>{
       if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}}); }
       else {
         this.quesList.alternateQuestions[0] = {};
         this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}});
       }
     });
-    this.faqServiceAlt.inpQuesAdd.subscribe(res=>{
+    this.altInpQuesSub = this.faqServiceAlt.inpQuesAdd.subscribe(res=>{
       if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].question = res; }
       else {
         this.quesList.alternateQuestions[0] = {};
@@ -462,21 +469,27 @@ export class AddFaqComponent implements OnInit  {
 
   addFollowupQues() {
     this.isAlt=true;
-    this.faqServiceFollow.inpKeywordsAdd.subscribe(res=>{
+    this.followInpKeySub =  this.faqServiceFollow.inpKeywordsAdd.subscribe(res=>{
       if(this.quesList.followupQuestions[0]) { this.quesList.followupQuestions[0].keywords = _.map(res, o=>{return {keyword: o}}); }
       else {
         this.quesList.followupQuestions[0] = {};
         this.quesList.followupQuestions[0].keywords = _.map(res, o=>{return {keyword: o}});
       }
     });
-    this.faqServiceFollow.inpQuesAdd.subscribe(res=>{
+    this.followInpQuesSub = this.faqServiceFollow.inpQuesAdd.subscribe(res=>{
       if(this.quesList.followupQuestions[0]) { this.quesList.followupQuestions[0].question = res; }
       else {
         this.quesList.followupQuestions[0] = {};
         this.quesList.followupQuestions[0].question = res;
       }
     });
-
+  }
+  ngOnDestroy() {
+    this.followInpKeySub?this.followInpKeySub.unsubscribe():false;
+    this.followInpQuesSub?this.followInpQuesSub.unsubscribe():false;
+    this.altInpKeySub?this.altInpKeySub.unsubscribe():false;
+    this.altInpQuesSub?this.altInpQuesSub.unsubscribe():false;
+    this.groupAddSub?this.groupAddSub.unsubscribe():false;
   }
 }
 

@@ -30,12 +30,7 @@ export class FaqsService {
         this.addVariation[flag] = true;
     }
 
-    updateFaqData(data) {
-        this.faqData = data;
-    }
+    updateFaqData(data) { this.faqData = data; }
 
-    getVariation() {
-        return this.addVariation;
-    }
-
+    getVariation() { return this.addVariation; }
 }

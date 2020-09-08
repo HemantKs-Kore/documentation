@@ -8,7 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { tempdata } from './tempdata';
 import * as _ from 'underscore';
-import { from, interval } from 'rxjs';
+import { from, interval, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -87,6 +87,10 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   addSourceModalPopRef: any = [];
   showSourceAddition:any = null;
   moreLoading:any = {};
+  altAddSub: Subscription;
+  altCancelSub: Subscription;
+  followAddSub: Subscription;
+  followCancelSub: Subscription;
   @ViewChild('editQaScrollContainer' , { static: true })editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer' , { static: true })fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -121,20 +125,18 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       $('#searchFaqs').focus();
     }, 100);
-    this.faqServiceAlt.addAltQues.subscribe(params => {
+
+
+    this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
       this.updateFaq(this.selectedFaq, 'updateQA', params);
     });
-    this.faqServiceFollow.addFollowQues.subscribe(params=> {
+    this.followAddSub = this.faqServiceFollow.addFollowQues.subscribe(params=> {
       this.selectedFaq.isAddFollow = false;
       this.updateFaq(this.selectedFaq, 'updateQA', params);
     });
-    this.faqServiceFollow.cancel.subscribe(data=>{
-      this.selectedFaq.isAddFollow = false;
-    });
-    this.faqServiceAlt.cancel.subscribe(data=>{
-      this.selectedFaq.isAlt = false;
-    });
+    this.followCancelSub = this.faqServiceFollow.cancel.subscribe(data=>{ this.selectedFaq.isAddFollow = false; });
+    this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data=>{ this.selectedFaq.isAlt = false; });
   }
   filterApply(type,value){
     if(this.filterObject[type] === value){
@@ -757,5 +759,9 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     if(this.pollingSubscriber){
       this.pollingSubscriber.unsubscribe();
     }
+    this.altAddSub?this.altAddSub.unsubscribe(): false;
+    this.altCancelSub?this.altCancelSub.unsubscribe(): false;
+    this.followAddSub?this.followAddSub.unsubscribe(): false;
+    this.followCancelSub?this.followCancelSub.unsubscribe(): false;
   }
 }
