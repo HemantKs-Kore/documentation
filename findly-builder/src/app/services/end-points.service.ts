@@ -194,7 +194,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks=true?',
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?allTasks=true?',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
