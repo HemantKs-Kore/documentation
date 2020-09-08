@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject } from '@angular/core';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -16,6 +16,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { JAN } from '@angular/material/core';
+import { FaqsService } from '../../services/faqsService/faqs.service';
 declare const $: any;
 declare const koreBotChat : any
 
@@ -23,7 +24,9 @@ declare const koreBotChat : any
   selector: 'app-faq-source',
   templateUrl: './faq-source.component.html',
   styleUrls: ['./faq-source.component.scss'],
-  animations: [fadeInOutAnimation]
+  animations: [fadeInOutAnimation],
+  providers: [ { provide: 'instance1', useClass: FaqsService },
+            { provide: 'instance2', useClass: FaqsService }, ]
 })
 export class FaqSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
@@ -89,6 +92,9 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+
+
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -97,7 +103,11 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     private convertMDtoHTML:ConvertMDtoHTML,
-  ) { }
+    @Inject('instance1') private faqServiceAlt: FaqsService,
+    @Inject('instance2') private faqServiceFollow: FaqsService
+  ) { 
+
+  }
 
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -111,6 +121,20 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       $('#searchFaqs').focus();
     }, 100);
+    this.faqServiceAlt.addAltQues.subscribe(params => {
+      this.selectedFaq.isAlt = false;
+      this.updateFaq(this.selectedFaq, 'updateQA', params);
+    });
+    this.faqServiceFollow.addFollowQues.subscribe(params=> {
+      this.selectedFaq.isAddFollow = false;
+      this.updateFaq(this.selectedFaq, 'updateQA', params);
+    });
+    this.faqServiceFollow.cancel.subscribe(data=>{
+      this.selectedFaq.isAddFollow = false;
+    });
+    this.faqServiceAlt.cancel.subscribe(data=>{
+      this.selectedFaq.isAlt = false;
+    });
   }
   filterApply(type,value){
     if(this.filterObject[type] === value){
@@ -383,7 +407,10 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     }, errRes => {
     });
   }
-  selectedFaqToTrain(faq) {
+  selectedFaqToTrain(faq, e) {
+    if(!faq.alternateQuestions || !faq.alternateQuestions.length) {
+      e.stopImmediatePropagation();
+    }
     this.selectedFaq = faq;
   }
   addfaqs(type) {
@@ -651,6 +678,75 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
         }
       })
   }
+  addFollowUp() {
+    this.faqServiceFollow.updateVariation('followUp');
+    this.faqServiceFollow.updateFaqData(this.selectedFaq);
+    this.selectedFaq.isAddFollow = true;
+    setTimeout(function(){
+      let sel = $('#questionList').closest('.ps.ps--active-y');
+      sel.scrollTop(sel[0].scrollHeight);
+    }, 100);
+  }
+  addAlternate() {
+    this.faqServiceAlt.updateVariation('alternate');
+    this.faqServiceAlt.updateFaqData(this.selectedFaq);
+    this.selectedFaq.isAlt = true;
+  }
+
+  delAltQues(ques) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Alternate Question',
+        text: 'Are you sure you want to delete this alternate question?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.selectedFaq.alternateQuestions = _.without(this.selectedFaq.alternateQuestions, _.findWhere(this.selectedFaq.alternateQuestions, { _id: ques._id }));
+          let params = {
+            question: this.selectedFaq.question,
+            answer: this.selectedFaq.answer,
+            alternateQuestions: this.selectedFaq.alternateQuestions || [],
+            followupQuestions: this.selectedFaq.followupQuestions || []
+          };
+          this.updateFaq(this.selectedFaq, 'updateQA', params);
+          dialogRef.close();
+        } else if (result === 'no') { dialogRef.close(); }
+      });
+  }
+
+  delFollowQues(ques) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Followup Question',
+        text: 'Are you sure you want to delete this followup question?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.selectedFaq.followupQuestions = _.without(this.selectedFaq.followupQuestions, _.findWhere(this.selectedFaq.followupQuestions, {_id: ques._id }));
+          let params = {
+            question: this.selectedFaq.question,
+            answer: this.selectedFaq.answer,
+            alternateQuestions: this.selectedFaq.alternateQuestions || [],
+            followupQuestions: this.selectedFaq.followupQuestions || []
+          };
+          this.updateFaq(this.selectedFaq, 'updateQA', params);
+          dialogRef.close();
+        } else if (result === 'no') { dialogRef.close(); }
+      });
+  }
+
   openStatusSlider() {
     this.sliderComponent.openSlider('#faqsSourceSlider', 'right500');
   }

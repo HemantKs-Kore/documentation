@@ -21,6 +21,9 @@
 }
 
 .faqmain-container{
+    .cursor-pointer {
+        cursor: pointer;
+    }
     .faqsListContainer{
         .faq-header-sec{
             background: #F8F9FA;
@@ -430,7 +433,8 @@
                                 width: 19%;
                             }
                             &.review-btn{
-                                width: 35%;
+                                // width: 35%;
+                                width: 50%;
                                 text-align: right;
                                 display: flex;
                                 align-items: center;

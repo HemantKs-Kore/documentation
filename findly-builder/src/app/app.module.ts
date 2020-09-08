@@ -50,6 +50,10 @@ import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
+import { AddAlternateQuestionComponent } from './components/faqs/add-alternate-question/add-alternate-question.component';
+import { GroupInputComponent } from './components/faqs/group-input/group-input.component';
+import { TagsInpComponent } from './components/faqs/tags-inp/tags-inp.component';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -78,7 +82,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ImportFaqsModalComponent,
     SynonymsComponent,
     ResultsRulesComponent,
-    BotActionComponent
+    BotActionComponent,
+    AddAlternateQuestionComponent,
+    GroupInputComponent,
+    TagsInpComponent
     ],
   imports: [
     BrowserModule,
@@ -97,6 +104,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatProgressSpinnerModule,
     MatProgressBarModule,
     FileUploadModule,
+    CodemirrorModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

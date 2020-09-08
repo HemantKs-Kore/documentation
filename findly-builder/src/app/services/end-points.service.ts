@@ -52,6 +52,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'get'
     };
+    this.serviceList['train.app'] = {
+      endpoint: this.API_SERVER_URL + '/searchAssistant/train/:searchIndexId',
+      method: 'post'
+    };
     this.serviceList['get.extracted.pags'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:webDomainId/pages?limit=:limit&skip=:skip',
       method: 'get'

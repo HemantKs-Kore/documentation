@@ -59,7 +59,7 @@
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
-                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
@@ -80,7 +80,6 @@
                                                         <div class="desc">{{altQuestion.answer}}</div>
                                                     </div>
                                                 </ng-container>
-                                                <div class="divBlockEmptylastChild emptyAltQuestions"> No Alternate Questions</div>
                                             </div>
                                         </div>
                                     </div> 
@@ -167,11 +166,11 @@
                     <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
                         <div class="col_ p-0 source" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                            <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
                         </div>
                         <div class="col_ p-0 type" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Type</div>
-                            <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                            <div class="info-title">{{(contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
                         </div>
                         <div class="col_ p-0" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top">
                             <div class="heading">Created</div>
@@ -179,11 +178,12 @@
                         </div>
                         <div class="col_ p-0 review-btn">
                             <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')" >Send for Review</button>
+                            <div class="comments-img">
+                                <img class="cursor" src="assets/icons/comment.svg">
+                            </div> 
                             <img src="assets/icons/delete-table.svg" class="cursor" (click)="deleteInfividualQuestion(selectedFaq)" ngbTooltip='Delete' >
                         </div>    
-                        <div class="comments-img">
-                            <img class="cursor" src="assets/icons/comment.svg">
-                        </div>                
+                                      
                     </div>
                     <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
                         <div class="col-2 p-0" ngbTooltip='{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}'  placement="top">
@@ -206,6 +206,9 @@
                             <div class="heading">Approved at</div>
                             <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
                         </div>
+                        <div class="comments-img">
+                            <img class="cursor" src="assets/icons/comment.svg">
+                        </div>  
                         <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
@@ -216,14 +219,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="comments-img">
-                            <img class="cursor" src="assets/icons/comment.svg">
-                        </div>  
                     </div>
                     <perfect-scrollbar class="train-questions-body-scroll" #editQaScrollContainer>               
-                        <div class="body-content">
+                        <div class="body-content" id="questionList">
                             <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq>
-                            <div class="body-top-content">
+                            <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
                                         <span class="">{{selectedFaq.question}}</span>
@@ -260,16 +260,19 @@
                                     <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
-                                    <button class="kr-sg-button-primary btn_lg">Add</button>
+                                    <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
                                 </div>
                             </div>
-                            <ng-container *ngIf="selectedFaq.alternateQuestions && selectedFaq.alternateQuestions.length">
-                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq.alternateQuestions">
+                            <div *ngIf="selectedFaq.isAlt">
+                                <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
+                            </div>
+                            <ng-container *ngIf="selectedFaq.alternateQuestions?.length">
+                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq?.alternateQuestions">
                                 <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
                                 <div class="added-tags text-truncate">
-                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion.keywords">{{keyword}}</span>
+                                    <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                 </div>
-                                <img src="assets/icons/delete-table.svg" class="delete-icon" ngbTooltip='Delete'>
+                                <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer">
                             </div>
                            </ng-container>
                             <div class="add-alternative-questions row">
@@ -278,16 +281,20 @@
                                     <div class="added-tags text-truncate">Add followup the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
-                                    <button class="kr-sg-button-primary btn_lg">Add</button>
+                                    <button class="kr-sg-button-primary btn_lg" (click)="addFollowUp()">Add</button>
                                 </div>
                             </div>
-                            <ng-container *ngIf="selectedFaq.followupQuestions && selectedFaq.followupQuestions.length">
-                                <div class="added-questions-list">
-                                    <div class="question-name text-truncate">How do I access my account online at Citibank Online?</div>
+                            <div *ngIf="selectedFaq.isAddFollow">
+                                <app-add-alternate-question [faqServ]="faqServiceFollow"></app-add-alternate-question>
+                            </div>
+
+                            <ng-container *ngIf="selectedFaq.followupQuestions?.length">
+                                <div class="added-questions-list" *ngFor="let followQues of selectedFaq.followupQuestions">
+                                    <div class="question-name text-truncate">{{followQues.question}}</div>
                                     <div class="added-tags text-truncate">
-                                        <span class="tags-data" *ngFor="let keyword of followupQuestions.keywords">{{keyword}}</span>
+                                        <span class="tags-data" *ngFor="let keyword of followQues?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                     </div>
-                                    <img src="assets/icons/delete-table.svg" class="delete-icon">
+                                    <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer">
                                 </div>
                             </ng-container>
                         </div>
