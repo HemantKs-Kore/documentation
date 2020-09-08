@@ -79,19 +79,70 @@
         }
     }
 }
-::ng-deep.addTraitModalComponent {
-    text-align: right;
-    .modal-header {
-        font-size: 20px;
-        font-weight: normal;
-        line-height: 1.0;
-        color: #26344a;
-        display: inline-block;
-    }
-    .modal-dialog {
+.kr-modal.addTraitModalComponent {
+    // text-align: right;
+    .modal-dialog{        
         height: 100%;
         .action {
             margin-top: 10px;
         }
+        .modal-content{
+            .modal-header {
+                font-size: 20px;
+                font-weight: normal;
+                line-height: 1.0;
+                display: inline-block;
+                background-color: #fff;
+                height: 69px;
+                border-bottom: 1px solid #BDC1C6;
+                padding: 26px 30px;
+                .header-title{
+                    color: #202124;
+                    font-size: 14px;
+                    .closeCross{
+                        position: absolute;
+                        right: 30px;
+                        background: #fff;
+                        display: inline-block;
+                        width: 30px;
+                        height: 30px;
+                        top: 20px;
+                        border-radius: 50%;
+                        padding: 8px;
+                        cursor: pointer;
+                        &:hover{
+                            background: #F8F9FA;
+                        }
+                    }
+                }
+            }
+            .modal-body{
+                padding: 25px 30px;
+                .kr-sg-input-text{
+                    margin-bottom: 25px;
+                    .label-text{
+                        color: #202124;
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+                    .text{
+                        color: #202124;
+                        font-size: 12px;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+            .modal-footer{
+                background-color: #fff;
+                height: 60px;
+                border-top: 1px solid #BDC1C6;
+                justify-content: left !important;
+                padding-left: 30px;
+                .kr-sg-button-primary{
+                    height: 34px;
+                }
+            }
+        }
     }
+
 }
