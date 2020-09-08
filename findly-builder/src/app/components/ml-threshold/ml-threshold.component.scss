@@ -1,13 +1,18 @@
 @import "./../../../app/scss/variables/variables.scss";
 
 .ml-threshold-container {
-    padding-left: 20px;
-    padding-right: 10px;
+    // padding-left: 20px;
+    // padding-right: 10px;
+    padding: 30px 5px 0 70px;
+    margin-right: 0;
     .accordian-content-sec {
         width: 100%;
-        height: calc(100vh - 50px);
+        height: calc(100vh - 94px); 
+        padding-right: 60px;
         .inputFields-accordions {
             padding-right: 10px;
+            padding-left: 10px;
+            clear: both;
             .accr-sec {
                 padding: 15px 0px;
                 position: relative;
@@ -17,7 +22,7 @@
                         position: absolute;
                         left: 6px;
                         width: 1px;
-                        border-left: 2px solid $borderColor;
+                        border-left: 1px solid #E4E5E7;
                         height: 100%;
                         height: calc(100% - 38px);
                         top: 38px;
@@ -28,7 +33,7 @@
                     position: absolute;
                     left: 30px;
                     width: calc(100% - 30px);
-                    border-bottom: 1px solid $borderColor;
+                    border-bottom: 1px solid #E4E5E7;
                     bottom: 0;
                 }
                 .acc-names-sec {
@@ -48,16 +53,16 @@
                         width: 100%;
                         .title {
                             font-size: 14px;
-                            color: #26344a;
+                            color: #202124;
                         }
                         .settings {
                             font-size: 12px;
                             float: right;
-                            color: #8a959f;
+                            color: #5F6368;
                         }
                         .desc {
-                            color: $secondaryColor;
-                            font-size: 14px;
+                            color: #5F6368;
+                            font-size: 12px;
                         }
                     }
                 }
@@ -75,14 +80,38 @@
                     }
                     .label {
                         font-size: 14px;
-                        font-weight: bold;
-                        color: #26344a;
+                        font-weight: 600;
+                        color: #202124;
                     }
                     .info {
                         font-size: 12px;
-                        color: #8a959f;
-                        margin: 0;
+                        color: #5F6368;
+                        margin: 0 0 10px 0;
                     }
+                    .with-label{
+                        margin-left: 40px;
+                    }
+                    .kr-sg-toggle.with-label.yesNo{
+                        margin-left: 10px;
+                    }
+                    .kr-sg-toggle .slider span.no {
+                        position: absolute;
+                        top: -4px;
+                        margin-left: -55px;
+                        &.leftMargin{
+                            margin-left: -26px;
+                        }
+                    }
+                    .kr-sg-toggle .slider span.yes {
+                        top: -4px;
+                    }
+                    .kr-sg-toggle input:checked + .slider{
+                        background-color: #0e6efd;
+                        box-shadow: 0 0 1px #0e6efd;
+                    }
+                }
+                .trashSlider{
+                    width: 300px;
                 }
             }
         }
@@ -93,7 +122,7 @@
         padding: 9px 15px;
         border-radius: 4px;
         border: solid 1px #f3d19b;
-        background-color: rgba(245, 166, 35, 0.12);
+        background-color: #F8F9FA;
         margin-bottom: 10px;
         .bulb-icon {
             margin-right: 22px;
@@ -117,5 +146,81 @@
     }
 }
 ::ng-deep.accordian-content-sec{
-    padding-right: 22px
+    padding-right: 22px;
+    .SMtrainDiv{
+        .helphint{
+            border-radius: 5px;
+            display: flex;
+            .bulbicon{
+                float: left;
+                padding-right: 10px;
+            }
+            .textDiv{
+                float: left;
+                .name{
+                    color: #3C4043;
+                }
+            }
+            .trainUtteraceBtn{
+                display:none;
+            }
+        }
+    }
 }
+.ml-NERP{
+    margin-bottom: 20px;
+}
+.ml-NER{
+    margin-bottom: 20px;
+}
+.kr-sg-radiobutton .radio-custom:checked + .radio-custom-label::before{
+    background-color: #0e6efd;
+    border: 1px solid #0e6efd;
+}
+.note.margin_btm-20{
+    margin-bottom: 20px;
+}
+.single-slider{
+    margin-bottom: 25px;
+    .countThreshold{
+        width: 300px;
+        text-align: center;
+        font-size: 10px;
+        color: #5F6368;
+    }
+}
+ .dual-slider{
+    margin-bottom: 25px;
+    .countThreshold{
+        width: 300px;
+        text-align: center;
+        font-size: 10px;
+        color: #5F6368;
+    }
+}
+.circle{
+    width: 10px;
+    height: 10px;
+    /*box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.09), 0 4px 40px 0 rgba(0, 0, 0, 0.09);*/
+    border: 0;
+    border-radius: 50%;
+    display: inline-block;
+}
+.cb-1{
+    background-color: $borderColor;
+}
+.cb-2{
+    background-color: #ff9e33;
+}
+.cb-3{
+    background-color: #36ba5a;
+}
+.cb-4{
+    background-color: #8a959f;
+}
+.iconDesc{
+    font-size: 12px;
+    color: #5F6368;
+    margin-left: 6px !important;
+}
+
