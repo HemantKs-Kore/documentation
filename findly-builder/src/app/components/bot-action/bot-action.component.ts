@@ -47,6 +47,7 @@ export class BotActionComponent implements OnInit {
             return task.type === 'dialog';
           });
         };
+        console.log(this.bots);
       }, errRes => {
         this.errorToaster(errRes,'Failed to get Synonyms');
       });

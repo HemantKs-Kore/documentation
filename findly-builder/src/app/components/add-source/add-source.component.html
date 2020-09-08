@@ -107,7 +107,7 @@
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
         <div class="message-success text-center" *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
-          {{(initialValidations.urlValidation && initialValidations.network && initialValidations.ristrictions)?'Successfully Configured':'Configuration In Progress'}}
+          {{(statusObject.validation.urlValidation && statusObject.validation.validated)?'Successfully Configured':'Configuration In Progress'}}
         </div>
         <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
          Source added Successfully
@@ -115,34 +115,48 @@
         <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
           Failed to add Source
         </div>
-        <ng-container *ngIf="statusObject && statusObject.validation && !((statusObject.status==='success') || (statusObject.status==='failed'))">
+        <ng-container *ngIf="statusObject && statusObject.validation && !(statusObject.status==='failed')">
         <div class="status-identification-content">
           <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
-            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.urlValidation">
-            <img *ngIf="initialValidations.urlValidation" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.urlValidation">
+            <img *ngIf="statusObject.validation.urlValidation" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
             <span>Initial URL validation done</span>
           </div>
           <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'document')">
-            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.fileValidation">
-            <img *ngIf="initialValidations.fileValidation" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
+            <img *ngIf="statusObject.validation.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
             <span>Initial file validation done</span>
           </div>
+         
+          <!-- <div class="content-title">
+            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
+            <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+            <span>Network Connectivity</span>
+          </div>  -->
           <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')">
-            <div class="content-title">
+            <!-- <div class="content-title">
               <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
               <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>Network Connectivity</span>
-            </div>
+            </div> -->
+            
             <div class="content-title">
-              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
-              <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
+              <img *ngIf="statusObject.validation.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>Indexing Ristrictions</span>
             </div>
           </div>
           <div class="content-title" *ngIf="selectedSourceType.sourceType === 'faq'">
-            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!initialValidations.validated">
-            <img *ngIf="initialValidations.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
+            <img *ngIf="statusObject.validation.validated" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
             <span>Indexing Ristrictions</span>
+          </div>
+          <div class="content-title" *ngIf="statusObject.validation && statusObject.validation.sitemaps">
+            <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
+            <img *ngIf="statusObject.validation.sitemaps" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
+            <span *ngIf="!statusObject.validation.sitemaps">Sitemaps</span>
+            <!-- <span *ngIf="!statusObject.validation.sitemaps">No Sitemaps</span> -->
+            <span *ngIf="statusObject.validation.sitemaps">{{statusObject.validation.sitemaps.length}} Sitemaps</span>
           </div>
         </div>
         </ng-container>

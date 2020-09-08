@@ -2,7 +2,7 @@
   <form [formGroup]="form">
     <div class="kr-sg-input-text mb-15">
       <div class="label-text">Question</div>
-      <input type="text" placeholder="Enter your question" class="input-text" formControlName="question">             
+      <input type="text" placeholder="Enter your question" class="input-text" formControlName="question" autocomplete="off">             
     </div>
     <div for="tagInput" class="label-text">Tags</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
@@ -17,7 +17,7 @@
                [matChipInputFor]="chipList"
                [matAutocomplete]="suggestedItems"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               (matChipInputTokenEnd)="add($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()">
+               (matChipInputTokenEnd)="add($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
         </mat-chip-list>
       <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event)">
         <ng-container *ngFor = "let suggestion of suggestionTags">
