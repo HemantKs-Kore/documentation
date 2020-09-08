@@ -5,11 +5,12 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MdEditorOption } from 'src/app/helpers/lib/md-editor.types';
 import {NgbTooltipConfig} from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '@kore.services/auth.service';
+import  { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -20,22 +21,47 @@ declare const $: any;
 })
 export class AddFaqComponent implements OnInit  {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
+  @ViewChild('createImagePop') createImagePop: KRModalComponent;
+  @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
   @Input() inputClass: string;
   @Input() faqData: any;
   @Output() addFaq = new EventEmitter();
   @Output() cancelfaqEvent = new EventEmitter();
   @Output() editFaq = new EventEmitter();
+  createLinkPopRef
+  createImagePopRef
+  codeMirrorOptions: any = {
+    theme: 'idea',
+    mode: 'javascript',
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: true
+  };
+  obj;
   form: FormGroup;
   tags: any[] = [];
   text = '';
+  image:any = {
+    url:'',
+    alt:''
+  }
+  responseMethod  = 'basic';
+  imgInfo :any ={};
+  linkInfo:any = {}
+  responseType:any= 'default'
   isFocused = false;
   synonyms = [];
   newSynonym = ''
   suggestionTags = [];
   typedQuery = '';
   container ='#mainChatInputContainer'
-  isAlt: boolean = false;
-  isAdd: boolean = false;
+  isAlt = false;
+  isAdd = false;
+  contentEditableElement =  false  // '#mainChatInputContainerDiv';
   // options:any = {maxLines: 20, printMargin: false};
   options: MdEditorOption = {
     showPreviewPanel: false,
@@ -55,10 +81,25 @@ export class AddFaqComponent implements OnInit  {
      }
 
   ngOnInit() {
+    this.obj= JSON.stringify({
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+      title: 'Object',
+      additionalProperties: false,
+      properties: {
+        string: {
+          type: 'string',
+          title: 'String'
+        }
+      }
+    }, null, ' ');
     if (this.faqData) {
+      if(this.faqData.templateSettings){
+        this.responseType = this.faqData.templateSettings.responseType
+      }
       this.form = this.fb.group({
         question: [this.faqData.question, Validators.required],
-        botResponse: [this.faqData.answer, Validators.required]
+        botResponse: [this.faqData.answer, Validators.required],
       });
       this.tags = this.faqData.keywords;
       this.text = this.faqData.answer;
@@ -71,6 +112,13 @@ export class AddFaqComponent implements OnInit  {
     this.faqService.groupAdded.subscribe(res=>{
       this.groupsAdded = res;
     })
+  }
+  setResponseType(type){
+    this.responseType = type;
+  }
+  setEditorContent(event) {
+    // console.log(event, typeof event);
+    console.log(this.obj);
   }
   getAltTags(e) {
     // console.log(e);
@@ -164,9 +212,40 @@ export class AddFaqComponent implements OnInit  {
   checkTags(suggestion){
     return this.tags.find(f=>f=== suggestion)
   }
+  openImgApp() {
+    this.createImagePopRef  = this.createImagePop.open();
+   }
+   closeImgApp() {
+    this.image = {};
+    this.createImagePopRef.close();
+   }
+   addImage(){
+    this.image = this.imgInfo;
+    this.closeImgApp();
+   }
+   openLinkApp(range) {
+     this.linkInfo.range = range;
+     this.linkInfo.type = 'link';
+    this.createLinkPopRef  = this.createLinkPop.open();
+   }
+   closeLinkApp() {
+    this.linkInfo = {};
+    this.createLinkPopRef.close();
+   }
+   responseChnge(event){
+     if(event){
+       console.log(event);
+      // $(event.currentTarget)[0].innet
+     }
+    // this.form.get('question').setValue();
+   }
   getMessage() {
     let text = '';
+    if (this.contentEditableElement) {
+      text = $(this.container)[0].innerText;
+    } else {
       text = $(this.container).val();
+    }
     return text;
     }
     getRange() {
@@ -213,9 +292,17 @@ export class AddFaqComponent implements OnInit  {
             endIndex: 0,
             text: ''
         };
+        if (this.contentEditableElement) {
+          range = this.getTextStartEndIndex();
+        } else {
           range = this.getRange();
-        _self[type](range.text, range);
-      }
+        }
+        if(type==='link'){
+           this.openLinkApp(range);
+        } else{
+          _self[type](range.text, range);
+        }
+   }
    replaceAt(range, replacement , mainText) {
       if (range.startIndex >= mainText.length) {
         return mainText + replacement;
@@ -226,13 +313,35 @@ export class AddFaqComponent implements OnInit  {
       const replaceValue = this.getMessage() || '';
       const replacedValue = this.replaceAt(range, text, replaceValue);
       const newMessage = replacedValue;
+      if (this.contentEditableElement) {
+        const event = {
+          action: 'save',
+          text: newMessage
+        };
+        $(this.contentEditableElement)[0].innerText = newMessage;
+      } else {
         const _event = {
           action: 'save',
           text: newMessage
         };
-        this.form.get('botResponse').setValue(newMessage);
+        $(this.container).val(newMessage);
         $(this.container).focus();
+      }
     }
+    saveLink() {
+      let text;
+      let link;
+      text = this.linkInfo.link;
+      link = this.linkInfo.linkText;
+
+      if (this.linkInfo.type === 'link') {
+          text = '[' + link + '](' + text + ')';
+      } else if (this.linkInfo.type === 'image') {
+          text = '![' + link + '](' + text + ')';
+      }
+      this.handleToolBarAction(text,this.linkInfo.range);
+    this.closeLinkApp()
+  };
     bold(text, range) {
       const verifyForUndo = (tex) => {
           let chunk;

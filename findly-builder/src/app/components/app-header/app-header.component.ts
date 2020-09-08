@@ -7,6 +7,8 @@ import { AppUrlsService } from '@kore.services/app.urls.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 import * as _ from 'underscore';
 @Component({
@@ -41,7 +43,9 @@ export class AppHeaderComponent implements OnInit {
     private router: Router,
     private ref: ChangeDetectorRef,
     private appUrlsService: AppUrlsService,
-    private localStoreService: LocalStoreService
+    private localStoreService: LocalStoreService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService
   ) { }
 
   logoutClick() {
@@ -106,7 +110,19 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
-
+  train(){
+    const selectedApp = this.workflowService.selectedApp();
+    if(selectedApp &&  selectedApp.searchIndexes &&  selectedApp.searchIndexes.length){
+      const quaryparms = {
+        searchIndexId : selectedApp.searchIndexes[0]._id
+      }
+      this.service.invoke('train.app', quaryparms).subscribe(res => {
+        this.notificationService.notify('Training has been initated','success');
+      }, errRes => {
+        this.notificationService.notify('Failed to train the app','error');
+      });
+    }
+  }
   switchAccount() {
     localStorage.removeItem('selectedAccount');
     localStorage.setItem('queryParams', JSON.stringify({

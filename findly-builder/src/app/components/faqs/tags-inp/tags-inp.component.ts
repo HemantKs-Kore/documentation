@@ -15,7 +15,6 @@ import { NotificationService } from '../../../services/notification.service';
 })
 
 export class TagsInpComponent implements OnInit {
-  
   suggestionTags = [];
   typedQuery = '';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
