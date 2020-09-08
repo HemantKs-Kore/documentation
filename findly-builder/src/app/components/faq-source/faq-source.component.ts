@@ -109,7 +109,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     private convertMDtoHTML:ConvertMDtoHTML,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
-  ) { 
+  ) {
 
   }
 
@@ -319,6 +319,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     if(this.searchFaq){
       this.loadingTab = true;
       this.getfaqsBy(null,null,null,this.searchFaq);
+    } else {
+      this.getfaqsBy();
     }
   }
   faqsApiService(serviceId, params?,concat?) {
@@ -379,6 +381,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     if (resourceId) {
       serviceId = 'get.allFaqsByResources';
       quaryparms.resourceId = resourceId;
+    }
+    if(quary){
+      serviceId = 'get.faqs.search';
     }
     if(skip){
       quaryparms.offset = skip;
