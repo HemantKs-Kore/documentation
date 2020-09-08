@@ -275,7 +275,7 @@
                                 <div class="added-tags text-truncate">
                                     <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                 </div>
-                                <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer">
+                                <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
                             </div>
                            </ng-container>
                             <div class="add-alternative-questions row">
@@ -299,7 +299,7 @@
                                     <div class="added-tags text-truncate">
                                         <span class="tags-data" *ngFor="let keyword of followQues?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                     </div>
-                                    <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer">
+                                    <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
                             </ng-container>
                         </div>
