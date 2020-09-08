@@ -154,8 +154,8 @@
           <div class="content-title" *ngIf="statusObject.validation && statusObject.validation.sitemaps">
             <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
             <img *ngIf="statusObject.validation.sitemaps" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-            <span *ngIf="!statusObject.validation.validated">Sitemaps</span>
-            <span *ngIf="!statusObject.validation.sitemaps">No Sitemaps</span>
+            <span *ngIf="!statusObject.validation.sitemaps">Sitemaps</span>
+            <!-- <span *ngIf="!statusObject.validation.sitemaps">No Sitemaps</span> -->
             <span *ngIf="statusObject.validation.sitemaps">{{statusObject.validation.sitemaps.length}} Sitemaps</span>
           </div>
         </div>
