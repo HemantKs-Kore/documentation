@@ -16,12 +16,22 @@
     box-shadow:14px 4px 64px 12px rgba(18, 61, 101, 0.4), -16px -16px 64px 0 rgba(255, 255, 255, 0.8), inset -8px -6px 80px 0 rgba(255, 255, 255, 0.18)
 }
 .start-search-icon-div.active{
+    top: 70px;
     background-size: auto;
     background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==');
 }
 .search-container{
     left: 63px !important;  
+    left: -245px !important;
+    right: 0 !important;
+    width: calc(70% - 245px);
 }
+.search-container .search-bar, .search-container .search, .search-container.conversation .search-body{
+  width: 100%;
+}
+/* .search-container.conversation .search-body, .search-container .search-bar, .search-container .search-body, .search-container .search, .ksa-searchContainer .ksa-searchdiv input{
+  width: calc(70% - 245px);
+} */
 .faqs-bottom-actions {   
     display: table !important;
 }
@@ -36,7 +46,7 @@
 }
 .search-background-div{
     width: 100%;
-    height: calc(100% - 63px);
+    height: calc(100% - 20px);
     background: #ffffff;
     position: absolute;
     top: 63px;
@@ -45,13 +55,13 @@
     z-index: 999;
 }
 .search-container #searchChatContainer{
-    height: calc(100vh - 230px);
+  height: calc(100vh - 185px);
 }
 #searchChatContainer .action-wrp{
     /* display: block !important; */
 }
 .search-container.conversation.active{
-    box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18) !important;
+    box-shadow: -3px 0px 30px rgba(18, 61, 101, 0.2), inset -2px -4px 80px rgba(255, 255, 255, 0.18) !important;
 }
 
 .show-in-findly{
@@ -119,6 +129,7 @@ img.logo-img{
     z-index: 999999;
     padding: 25px 0 0px 60px;
     height: 100%;
+    width: 100%;
   }
   .search-container.conversation.full-page .ksa-resultsContainer {
     height: calc(100vh - 120px);
@@ -153,3 +164,10 @@ img.logo-img{
     box-shadow: 0 0 1px #8BB7F0;
     border: 1px solid #4E7AB5;
   }
+  .search-container{
+    bottom: 60px;
+  }
+  .search-container .heading .right-side-icons img.close-icon{
+    display: none !important;
+  }
+  
