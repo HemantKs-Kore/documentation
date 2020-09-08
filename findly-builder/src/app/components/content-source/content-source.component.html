@@ -34,7 +34,7 @@
       <div class="table-action-header">
         <div>
           <div class="kr-sg-input-search m-0">                               
-            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">           
+            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)" autocomplete="off">           
             <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
           </div>
@@ -228,7 +228,7 @@
                 </div>
                 <div class="right-side">
                   <div class="kr-sg-input-search">
-                    <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch">
+                    <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch" autocomplete="off">
                     <img src="assets/images/search-input.svg" class="search-icon">
                   </div>
                   <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->

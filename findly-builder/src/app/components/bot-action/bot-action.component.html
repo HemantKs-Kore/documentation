@@ -1,4 +1,4 @@
-<div class="contentContainer">
+<div class="botContainer">
     <div class="mainLoadingSpinner" *ngIf="loadingContent">
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
@@ -27,15 +27,15 @@
             <div class="row row_list">
               <div class="box-content" *ngFor="let source of bots"
                 (click)="openStatusSlider(source)">
-                <div class="box">
-                  <div class="title">{{source.name}}</div>
+                <div class="bot-box">
+                  <div class="title-bot btm-title">{{source.name}}</div>
+                  <div class="title-desc">{{source.shortDesc}}</div>
                   
-                  <div class="status-data">
-                    <div class="created-date"> {{source.shortDesc}}</div>
-                    <!-- <div class="created-date"> {{source.lMod | dateFormatPipe}}</div> -->
-                  </div>
-                  <div class="created-date">{{source.lMod | dateFormatPipe}}</div>
-                  <div class="actions-delete">                   
+                  <div class="icon-gap">{{source.shortDesc}}</div>
+
+                  <div class="title-btm btm" >No Appearances</div>
+                  <div class="title-btm btm"> No Clicks</div>
+                  <div class="actions-bot">                   
                     <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
                     <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' ><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                 </div>
