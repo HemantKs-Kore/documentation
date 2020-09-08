@@ -51,8 +51,8 @@
     </div>
     <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
     <div class="text-area-editor" [ngClass]="{'swap-positions': responseType==='horizontalSplit','image-split-mode': responseType ==='verticalSplit'}">
-      <div class="upload-content-wrapper">
-        <div class="image-selections" (click)="openImgApp()" *ngIf="(responseType !== 'default') && !image.url">
+      <div class="upload-content-wrapper"  *ngIf="(responseType !== 'default') && !image.url">
+        <div class="image-selections" (click)="openImgApp()">
             <div class="img_block"><img  src="assets/icons/editor/upload-image.svg"></div>
             <div class="info-text">Upload Image or Video</div>
         </div>
