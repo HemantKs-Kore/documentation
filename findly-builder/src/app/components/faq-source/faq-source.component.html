@@ -130,11 +130,11 @@
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
                     <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
-                        <div class="col_ p-0 source" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
                             <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}</div>
                         </div>
-                        <div class="col_ p-0 type" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 type col-1" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Type</div>
                             <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
                         </div>
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
-                        <div class="col_ p-0 source" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
                             <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
                         </div>
