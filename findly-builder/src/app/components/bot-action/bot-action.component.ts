@@ -5,7 +5,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
+import * as _ from 'underscore';
 @Component({
   selector: 'app-bot-action',
   templateUrl: './bot-action.component.html',
@@ -30,69 +30,30 @@ export class BotActionComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.streamId = this.workflowService.selectedApp()._id;
+    this.streamId = this.workflowService.selectedApp().findlyLinkedBotId ;
     this.getBots();
   }
   getBots(){
-    const quaryparms: any = {
-      streamId:this.streamId
-    };
-    this.service.invoke('get.bots', quaryparms).subscribe(res => {
-      console.log(res);
-      this.currentView = 'grid';
+    if(this.streamId){
+      const quaryparms: any = {
+        streamId:this.streamId
+      };
+      this.service.invoke('get.bots', quaryparms).subscribe(res => {
+        console.log(res);
+        this.currentView = 'grid';
+        this.loadingContent = false;
+        if(res.tasks && res.tasks.published && res.tasks.published.items && res.tasks.published.items.length) {
+          this.bots = _.filter(res.tasks.published.items, (task) => {
+            return task.type === 'dialog';
+          });
+        };
+      }, errRes => {
+        this.errorToaster(errRes,'Failed to get Synonyms');
+      });
+    } else {
+      this.bots = [];
       this.loadingContent = false;
-      this.bots =  [
-        {
-          lMod: "2020-09-06T11:32:35.000Z",
-          name: "Transfer",
-          shortDesc: "Transfer fund to other account",
-          state: "configured",
-          type: "dialog",
-          _id: "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e49"
-        },
-          {
-            lMod: "2020-09-06T11:32:35.000Z",
-          name: "Pay",
-          shortDesc: "Pay bills online",
-          state: "configured",
-          type: "dialog",
-          _id: "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e59"
-        },
-          {
-          lMod: "2020-09-06T11:32:35.000Z",
-          name: "Close",
-          shortDesc: "Close existing account",
-          state: "configured",
-          type: "dialog",
-          _id: "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e69"
-        },{
-          lMod: "2020-09-06T11:32:35.000Z",
-          name: "Transfer",
-          shortDesc: "Transfer fund to other account",
-          state: "configured",
-          type: "dialog",
-          _id: "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e49"
-        },
-          {
-            lMod: "2020-09-06T11:32:35.000Z",
-          name: "Pay",
-          shortDesc: "Pay bills online",
-          state: "configured",
-          type: "dialog",
-          _id: "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e59"
-        },
-          {
-          lMod: "2020-09-06T11:32:35.000Z",
-          name: "Close",
-          shortDesc: "Close existing account",
-          state: "configured",
-          type: "dialog",
-          _id: "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e69"
-        }
-    ];
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to get Synonyms');
-    });
+    }
   }
   errorToaster(errRes,message){
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -103,5 +64,4 @@ export class BotActionComponent implements OnInit {
         this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  
 }

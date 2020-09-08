@@ -103,9 +103,10 @@
                             Use Bot Synonyms to detect Knowledge Graph intents
                         </div>
                         <div class="col-12">
-                            <label class="kr-sg-toggle">
+                            <label class="kr-sg-toggle with-label">
                                 <input type="checkbox" checked>
-                                <div class="slider"></div>
+                                <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -133,9 +134,10 @@
                             qualify the path.
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                         </div>
                     </div>
+                    
                     <div class="Minimum">
                         <div class="label">
                             Minimum and Definitive Level for Knowledge Tasks
@@ -144,18 +146,18 @@
                             Define minimum and definitive threshold to identify and respond in case of a Knowledge task.
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                             <div class="note">
-                                The Knowledge Task intents identified in this range will be ignored
+                                <span class="circle cb-1"></span><span class="iconDesc">The Knowledge Task intents identified in this range will be ignored</span>
                             </div>
                             <div class="note">
-                                Low confidence range for Knowledge Task intents. If no other intents are identified, the low confidence matches are presented to the end-user for intent confirmation.
+                                <span class="circle cb-2"></span><span class="iconDesc">Low confidence range for Knowledge Task intents. If no other intents are identified, the low confidence matches are presented to the end-user for intent confirmation.</span>
                             </div>
                             <div class="note">
-                                Probable range for Knowledge Task. The intents identified in this range are considered for Rescoring and Ranking.
+                                <span class="circle cb-3"></span><span class="iconDesc">Probable range for Knowledge Task. The intents identified in this range are considered for Rescoring and Ranking.</span>
                             </div>
-                            <div class="note">
-                                Definitive range for Knowledge Task. The intents identified in this range are considered and any other probable matches are discarded.
+                            <div class="note margin_btm-20">
+                                <span class="circle cb-4"></span><span class="iconDesc">Definitive range for Knowledge Task. The intents identified in this range are considered and any other probable matches are discarded.</span>
                             </div>
                         </div>
                     </div>
@@ -167,7 +169,7 @@
                             Define the maximum number of KG / FAQ suggestions to be presented when definite KG / FAQ match is not available.
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                         </div>
                     </div>
                     <div class="kg-Suggestions">
@@ -178,7 +180,7 @@
                             Define the maximum difference to be allowed between top scoring and immediate next suggested questions to consider them as equally important.
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                         </div>
                     </div>
                     <div class="Responses">
@@ -224,9 +226,9 @@
                             Qualify paths in the Knowledge Graph using the context tags available in the context.
                         </div>
                         <div class="col-12">
-                            <label class="kr-sg-toggle with-label">
+                            <label class="kr-sg-toggle with-label yesNo">
                                 <input type="checkbox" checked>
-                                <div class="slider"> <span class="no">No</span><span class="yes">Yes</span>
+                                <div class="slider"> <span class="no leftMargin">No</span><span class="yes">Yes</span>
                                 </div>
                             </label>
                         </div>
@@ -287,7 +289,7 @@
                             Configure the threshold score for definite matches
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                         </div>
                     </div>
                     <div class="n-gram">
@@ -298,7 +300,7 @@
                             Define maximum length of n-gram sequences.
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                         </div>
                     </div>
                     <div class="ml-Threshold">
@@ -309,11 +311,11 @@
                             Define the minimum ML score to qualify an intent as a probable match.
                         </div>
                         <div class="col-12">
-                            <input type="range" min="0" max="100" value="50">
+                            <input type="range" min="0" max="100" value="50" class="trashSlider">
                         </div>
                     </div>
                     <div class="ml-NER">
-                        <div class="title">
+                        <div class="label">
                             NER Model
                         </div>
                         <div class="info">
@@ -371,7 +373,7 @@
                         Define the maximum difference to be allowed between top scoring and immediate next possible intents to consider them as equally important.
                     </div>
                     <div class="col-12">
-                        <input type="range" min="0" max="100" value="50">
+                        <input type="range" min="0" max="100" value="50" class="trashSlider">
                     </div>
                 </div>
             </div>

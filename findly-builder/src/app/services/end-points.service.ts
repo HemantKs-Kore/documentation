@@ -101,7 +101,11 @@ export class EndPointsService {
       method:'get'
     };
     this.serviceList['get.allFaqsByState']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&serach=:searchQuary',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all',
+      method:'get'
+    };
+    this.serviceList['get.faqs.search']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&search=:searchQuary',
       method:'get'
     };
     this.serviceList['get.allFaqsByResources']={
@@ -194,7 +198,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks=true?',
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?allTasks=true?',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
