@@ -144,8 +144,9 @@
                     background-color: #fff;
                     text-align: left;
                     width: 80%;
-                    left: calc(10% - 2px);
+                    left: 10%;
                     padding-left: 30px;
+                    box-shadow: inset 0px 1px 0px #BDC1C6;
                 }
             }
         }
@@ -408,7 +409,7 @@
     }
 }
 
-::ng-deep perfect-scrollbar{
+::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
         width: 3px !important;
     }

@@ -1,6 +1,10 @@
 
 <div class="contentContainer" [ngClass]="{'fullHeight':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual')),'modalBody':resourceIDToOpen}">
-  <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4>
+  <div class="modal-type-header" *ngIf="resourceIDToOpen">
+    <div class="title">{{selectedSourceType.name}}</div>
+    <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <!-- <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4> -->
   <perfect-scrollbar>
     <div class="h-100 position-relative addNewSource">
       <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
@@ -19,7 +23,7 @@
       </div>
       <!-- FAQ Extract Doc-->
       <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
-        <div class="crawl-form-title" >{{selectedSourceType.name}}</div>
+        <div class="crawl-form-title" *ngIf="!resourceIDToOpen">{{selectedSourceType.name}}</div>
         <app-add-faq (addFaq)="addManualFaq($event)" (cancelfaqEvent)="faqCancle()" *ngIf="selectedSourceType.resourceType === 'manual'"></app-add-faq>  
         <form #sourceCreation="ngForm" *ngIf="selectedSourceType.resourceType !== 'manual'">
           <div class="kr-sg-input-text mb-4">

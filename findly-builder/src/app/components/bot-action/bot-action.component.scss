@@ -258,7 +258,7 @@
         }
     }   
 }
-::ng-deep perfect-scrollbar{
+::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
         width: 3px !important;
     }

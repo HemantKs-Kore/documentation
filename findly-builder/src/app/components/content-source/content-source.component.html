@@ -371,9 +371,25 @@
   </div>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="addSourceModalComponent" #addSourceModalPop>
+<kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file">
   <ng-container *ngIf="showSourceAddition">
     <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
       (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
   </ng-container>
 </kr-modal>
+
+<!-- <kr-modal modalType="center" #addSourceModalPop modalClass="modal_popups_">
+  <div class="modal-header">
+    <div class="title">Crawl Web Domain</div>
+    <div class="close_icon"><img class="ng-tns-c11-2" src="assets/icons/modal-close.svg"></div>
+  </div>
+<perfect-scrollbar class="perfect-scroll-modal-body">
+  <div class="modal-body">
+
+  </div>
+</perfect-scrollbar> 
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg">Proceed</button>
+      <button class="kr-sg-button-secondary btn_lg">Back</button>
+  </div>
+</kr-modal> -->

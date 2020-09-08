@@ -409,11 +409,15 @@
                         padding: 20px 30px;
                         background: #EFF0F1;
                         border-bottom: 0px;
-                        &.with-info{                            
+                        &.with-info{      
+                            .comments-img{
+                                cursor: pointer;
+                            }                      
                             .elipse-dropdown{
                                 width: auto;
                                 padding: 0;
                                 text-align: right;
+                                margin-left: 15px;
                                 .dropdown-open {
                                     .dropdown-input{
                                         border: 0px solid #BDC1C6;
@@ -425,6 +429,7 @@
                                         width: auto;
                                         text-align: center;
                                         margin-left: 0px;
+                                        background: transparent;
                                         &::before{
                                             display: none;
                                         }

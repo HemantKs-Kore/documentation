@@ -205,20 +205,22 @@
                         <div class="col-3 p-0" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}">
                             <div class="heading">Approved at</div>
                             <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
-                        </div>
-                        <div class="comments-img" cursor-pointer>
-                            <img class="cursor" src="assets/icons/comment.svg">
-                        </div>  
-                        <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
-                                <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                  <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>      
-                                  <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>                                
-                                  <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                   
-                                </ul>
+                        </div>                       
+                        <div class="col-1 p-0 text-right d-flex align-items-center">
+                            <div class="comments-img">
+                                <img class="cursor" src="assets/icons/comment.svg">
+                            </div>  
+                            <div class="kr-sg-dropdowns elipse-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="dropdown dropdown-open">
+                                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
+                                    <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                      <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>      
+                                      <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>                                
+                                      <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                   
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        </div>                       
                     </div>
                     <perfect-scrollbar class="train-questions-body-scroll" #editQaScrollContainer>               
                         <div class="body-content" id="questionList">
@@ -313,26 +315,28 @@
 
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
-    <div class="modal-header">
-        <div class="header-title" (click)='closeStatusModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
-        <div class="table-action-header modal-table-actions"> 
-            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" autocomplete="off">              
-              <div class="search">
-                <img *ngIf="searchSources" class="search-icon" src="assets/images/close.svg">
-                <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
-              </div>
-              <div class="kr-sg-dropdowns">            
-                <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
-                    <ul class="dropdown-menu content-menu">                                                              
-                      <li (click)="addFaqSource('faqWeb')">Web URL</li>
-                      <li (click)="addFaqSource('faqDoc')">Upload File</li>
-                    </ul>
-                </div>
-              </div>
-              <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
-              <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
-          </div> 
+    <div class="modal-header modal-table-actions">               
+        <div class="table-action-header row m-0"> 
+            <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div> 
+            <div class="d-flex align-items-center">
+                <div class="kr-sg-input-search">                               
+                    <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources" autocomplete="off">
+                    <img *ngIf="!searchSources" src="assets/images/search_gray.svg" class="search-icon">
+                    <img *ngIf="searchSources" src="assets/images/close.svg" class="search-icon close-modal">                
+                </div>                         
+                  <div class="kr-sg-dropdowns">            
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                              
+                          <li (click)="addFaqSource('faqWeb')">Web URL</li>
+                          <li (click)="addFaqSource('faqDoc')">Upload File</li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
+                  <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
+            </div>
+        </div> 
     </div>
     <div class="modal-body source-modal-popup" *ngIf="resources && resources.length" ngbtooly="ee23">
         <ng-container  *ngIf="currentView === 'list'">
@@ -405,7 +409,7 @@
     </div>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="addSourceModalComponent" #addfaqSourceModalPop>
+<kr-modal modalType="center" modalClass="add-web-croling-upload-file" #addfaqSourceModalPop>
     <ng-container *ngIf="showSourceAddition">
         <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
     </ng-container>
