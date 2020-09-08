@@ -23,7 +23,7 @@
             .infoP {
                 font-size: 14px;
                 text-align: center;
-                color:  #5F6368;;
+                color: #5f6368;
                 margin-top: 10px;
             }
             .createNewTrait {
@@ -47,7 +47,7 @@
         .emptyNote {
             font-size: 14px;
             // border: solid 1px #f3d19b;
-            background-color: #F8F9FA;
+            background-color: #f8f9fa;
             margin-top: 30px;
             width: 80%;
             // height: 114px;
@@ -64,7 +64,7 @@
             .emptyDesc {
                 font-size: 12px;
                 font-weight: normal;
-                color: #5F6368;
+                color: #5f6368;
                 margin-bottom: 15px;
                 &.marginBottom10 {
                     margin-bottom: 10px;
@@ -81,25 +81,25 @@
 }
 .kr-modal.addTraitModalComponent {
     // text-align: right;
-    .modal-dialog{        
+    .modal-dialog {
         height: 100%;
         .action {
             margin-top: 10px;
         }
-        .modal-content{
+        .modal-content {
             .modal-header {
                 font-size: 20px;
                 font-weight: normal;
-                line-height: 1.0;
+                line-height: 1;
                 display: inline-block;
                 background-color: #fff;
                 height: 69px;
-                border-bottom: 1px solid #BDC1C6;
+                border-bottom: 1px solid #bdc1c6;
                 padding: 26px 30px;
-                .header-title{
+                .header-title {
                     color: #202124;
                     font-size: 14px;
-                    .closeCross{
+                    .closeCross {
                         position: absolute;
                         right: 30px;
                         background: #fff;
@@ -110,39 +110,110 @@
                         border-radius: 50%;
                         padding: 8px;
                         cursor: pointer;
-                        &:hover{
-                            background: #F8F9FA;
+                        &:hover {
+                            background: #f8f9fa;
                         }
                     }
                 }
             }
-            .modal-body{
+            .traits-modal-scroller {
+                height: calc(100vh - 165px);
+            }
+            .modal-body {
                 padding: 25px 30px;
-                .kr-sg-input-text{
+                .kr-sg-input-text {
                     margin-bottom: 25px;
-                    .label-text{
+                    .label-text {
                         color: #202124;
                         font-size: 14px;
                         font-weight: 500;
                     }
-                    .text{
+                    .text {
                         color: #202124;
                         font-size: 12px;
                         margin-bottom: 5px;
                     }
                 }
+                .traits-group {
+                    .traits-header {
+                        height: 34px;
+                        border-radius: 2px;
+                        box-shadow: 0 1.5px 1px 0 rgba(38, 52, 74, 0.2);
+                        border: solid 1px #e5e8ec;
+                        line-height: 28px;
+                        background-color: #fff;
+                        padding: 0 15px;
+                        cursor: pointer;
+                        position: relative;
+                        .icon {
+                            margin-right: 10px;
+                            position: relative;
+                        }
+                        .title {
+                            display: inline-block;
+                        }
+                        .edit-icon {
+                            display: none;
+                            &:hover {
+                                display: block;
+                            }
+                        }
+                        .delete-icon {
+                            opacity: 0.5;
+                            float: right;
+                            position: absolute;
+                            right: 10px;
+                        }
+                    }
+                    .add-utterances {
+                        border-radius: 2px;
+                        box-shadow: 0 2px 4px 0 rgba(38, 52, 74, 0.1);
+                        border: solid 1px #e5e8ec;
+                        background-color: #f2f3f5;
+                        padding: 15px;
+                        min-height: 95px;
+                        height: auto !important;
+                        margin-bottom: 10px;
+                        .sub-title {
+                            font-size: 12px;
+                            font-weight: bold;
+                        }
+                        .utterance-list {
+                            .item {
+                                position: relative;
+                                margin-bottom: 5px;
+                                width: 100%;
+                                border: 1px solid #e5e8ec;
+                                background: #fff;
+                                border-radius: 3px;
+                                z-index: 0;
+                                min-height: 30px;
+                                margin-top: 2px;
+                                padding: 5px 10px;
+                                clear: both;
+                            }
+                            .delete-icon {
+                                // display: none;
+                                position: absolute;
+                                right: 10px;
+                                &:hover {
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            .modal-footer{
+            .modal-footer {
                 background-color: #fff;
                 height: 60px;
-                border-top: 1px solid #BDC1C6;
+                border-top: 1px solid #bdc1c6;
                 justify-content: left !important;
                 padding-left: 30px;
-                .kr-sg-button-primary{
+                .kr-sg-button-primary {
                     height: 34px;
                 }
             }
         }
     }
-
 }

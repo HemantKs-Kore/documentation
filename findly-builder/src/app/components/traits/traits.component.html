@@ -1,7 +1,7 @@
 <div class="traits-container row">
     <perfect-scrollbar class="perfect-scroll">
         <!-- NO DATA FOUND -->
-        <div *ngIf="true" class="noTraits">
+        <div *ngIf="emptyData" class="noTraits">
             <img src="assets/images/empty-illustration.png">
             <div class='noTraitsInfo'><span class='infoHeader'> {{'No traits created yet!'}}</span>
                 <p class='infoP'> {{'Looks like there are no traits created yet Create and manage bot traits'}}<br>
@@ -40,44 +40,87 @@
                 </p>
             </div>
         </div>
-    </perfect-scrollbar>
-    <!-- TABLE CONTENT -->
-    <div class="traits">
-        <div class="kr-sg-inline-notification">
-            <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
-            <div class="tost-text">Please click on 'Train' button to update your traits model with the latest changes. Your bot will identify the traits using latest changes only after the training is completed.</div>                                   
-            <button class="kr-sg-button-primary">Train</button>
-        </div>
-        <div class="table-list-content" *ngIf="false">
-            <input type="text" name='searchSources' placeholder="Search" id="searchContentSources"
-                class="input-search tbsearchbar" [(ngModel)]="searchSources">
-            <div class="search">
-                <img *ngIf="searchSources" class="search-icon" src="assets/images/close.svg">
-                <span *ngIf="!searchSources" class="search-name"><img class="search-img"
-                        src="assets/icons/sidemenu/search-table.svg"></span>
+        <!-- TABLE CONTENT -->
+        <div class="traits" *ngIf="!emptyData">
+            <div class="kr-sg-inline-notification">
+                <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
+                <div class="tost-text">Please click on 'Train' button to update your traits model with the latest
+                    changes.
+                    Your bot will identify the traits using latest changes only after the training is completed.</div>
+                <button class="kr-sg-button-primary">Train</button>
             </div>
-            <div class="kr-sg-data-table with-checkbox" *ngIf="traits.traitGroups && traits.traitGroups.length">
-                <section class="table-content">
-                    <header class="table-header">
-                        <div class="col" (click)="sortBy('name')">TRAIT TYPE<img src="assets/icons/caretDown.svg"
-                                class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('type')">TRAITS <img src="assets/icons/caretDown.svg"
-                                class="ml-1 hide"></div>
-                    </header>
-                    <perfect-scrollbar class="trailts">
-                        <div class="content-body" *ngFor="let source of traits.traitGroups">
-                            <div class="col">{{source.title || source.name}}</div>
-                            <div class="col">{{source.source | titlecase}}</div>
-                        </div>
-                        <div class="empty">No Search Results found</div>
-                    </perfect-scrollbar>
-    
-                </section>
+            <div class="defineTraitsContainer col-xs-12">
+                <div class="col-xs-5 leftDiv">
+                    <div class="defineTitle">
+                        Define traits
+                    </div>
+                    <div class="defineDesc">
+                        Define traits and train using phrases or utterances
+                    </div>
+                    <a class="defineLink" (click)="openStatusModal()">
+                        Add New Trait
+                    </a>
+                </div>
+                <div class="col-xs-2 backArrowDiv">
+                    <img src="assets/images/arrow.svg" class="ml-1">
+                </div>
+                <div class="col-xs-5 rightDiv">
+                    <div class="defineTitle">
+                        Train intents with traits
+                    </div>
+                    <div class="defineDesc">
+                        Configure intent identification rules using traits
+                    </div>
+                    <a class="defineLink" (click)="openStatusModal()">
+                        Add New Rule
+                    </a>
+                </div>
             </div>
-            <div class="divBlockEmptylastChild">{{searchSources?'No Data Found': 'No search results'}}</div>
-        </div>
-    </div>
+            <div class="table-list-content">
+                <div class="kr-sg-input-inline-search">                               
+                    <input type="text" placeholder="Search" class="input-search">
+                    <img src="assets/icons/search.svg" class="search-icon">
+                </div>
+                <div class="kr-sg-data-table" *ngIf="traitsTableData && traitsTableData.length">
+                    <section class="table-content">
+                        <header class="table-header">
+                            <div class="col" >TRAIT TYPE<img src="assets/icons/caretDown.svg"
+                                    class="ml-1 hide"></div>
+                            <div class="col" >TRAITS <img src="assets/icons/caretDown.svg"
+                                    class="ml-1 hide"></div>
+                            <div class="col">
 
+                            </div>
+                        </header>
+                        <perfect-scrollbar class="trailts">
+                            <div class="content-body" *ngFor="let trait of traitsTableData">
+                                <div class="col">{{trait.traitType || '---'}}</div>
+                                <div class="col" >
+                                    <span *ngFor="let type of trait.traits">
+                                        {{type.traits || '---'}}
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <span class="dropdown kr-sg-overflow-menu open toggle-icon m-0">
+                                        <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
+                                          <img class="action_icon" src="assets/icons/overflow.svg">
+                                        </div>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                          <li class="edit-btn" (click)="updateView(false, item)">Edit</li>
+                                          <li class="edit-btn" (click)="export(item)">Export view</li>
+                                          <li class="delete-btn text-danger" (click)="deleteView(item)">Delete</li>      
+                                        </ul>
+                                      </span>
+                                </div>
+                            </div>
+                        </perfect-scrollbar>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+
+    </perfect-scrollbar>
     <!-- CREATE NEW TRAIT MODAL-->
     <kr-modal modalType="center" modalClass="addTraitModalComponent" #statusModalPop>
         <div class="modal-header">
@@ -86,25 +129,68 @@
                 Create New
             </div>
         </div>
-        <div class="modal-body traits-modal-popup">
-            <div class="kr-sg-input-text">
-                <div class="label-text">Trait Type</div>
-                <p class="text">Provide a name that represents group of traits. System will try to identify the closest
-                    trait in the group from user utterances.
-                    Example - 'vehicle type', 'device type'.
-                </p>
-                <input type="text" placeholder="Enter trait type" class="input-text">
+        <perfect-scrollbar class="traits-modal-scroller">
+            <div class="modal-body traits-modal-popup">
+
+                <div class="kr-sg-input-text">
+                    <div class="label-text">Trait Type</div>
+                    <p class="text">Provide a name that represents group of traits. System will try to identify the
+                        closest
+                        trait in the group from user utterances.
+                        Example - 'vehicle type', 'device type'.
+                    </p>
+                    <input type="text" placeholder="Enter trait type" class="input-text" [(ngModel)]="traitType">
+                </div>
+                <div class="kr-sg-input-text">
+                    <div class="label-text">Traits</div>
+                    <p class="text">Add one or more traits and provide the required training sentences. E.g. 'car',
+                        'bus', 'modem', 'router'.
+                    </p>
+                    <input type="text" placeholder="Type & enter to add" class="input-text" #traitValue
+                        (keyup.enter)="addTraits(traitValue)">
+                </div>
+                <div class="traits-group" *ngIf="traitsObj && traitsObj.length">
+                    <ng-container *ngFor="let item of traitsObj;let index = index;">
+                        <div class="traits-header">
+                            <span class="icon">
+                                <img src="assets/images/arrow.svg" class="ml-1">
+                            </span>
+                            <div class="title">
+                                {{item.traits}}
+                                <span class="edit-icon">
+                                    <img src="assets/images/icons/edit-black.svg" class="ml-1">
+                                </span>
+                                <span class="delete-icon" (click)="removeTraits(index)">
+                                    <img src="assets/images/trashIcon.svg" class="ml-1 ">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="add-utterances">
+                            <div class="sub-title">
+                                Add utterances or phrases
+                            </div>
+                            <div class="kr-sg-input-text">
+                                <input type="text" placeholder="Type & enter to add" class="input-text" #utterancesValue
+                                    (keyup.enter)="addUtterances(utterancesValue, index)">
+                            </div>
+                            <div class="utterance-list" *ngIf="item.utterances && item.utterances.length">
+                                <ng-container *ngFor="let list of item.utterances; let uIndex = index;">
+                                    <div class="item">
+                                        {{list}}
+                                        <span class="delete-icon" (click)="removeUtterances(uIndex, index)">
+                                            <img src="assets/images/trashIcon.svg" class="ml-1 ">
+                                        </span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
-            <div class="kr-sg-input-text">
-                <div class="label-text">Traits</div>
-                <p class="text">Add one or more traits and provide the required training sentences. E.g. 'car', 'bus', 'modem', 'router'.
-                </p>
-                <input type="text" placeholder="Type & enter to add" class="input-text">
-            </div>
-        </div>
+        </perfect-scrollbar>
 
         <div class="modal-footer">
-            <button class="kr-sg-button-primary" (click)="closeStatusModal()">Save</button>
+            <button class="kr-sg-button-primary" (click)="saveTraitsData()">Save</button>
         </div>
     </kr-modal>
 </div>
