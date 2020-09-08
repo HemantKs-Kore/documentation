@@ -32,27 +32,35 @@
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
-        <input type="text" name='searchSources' placeholder="Search" id="searchContentSources"
-          class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">
+        <div>
+          <div class="kr-sg-input-search m-0">                               
+            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">           
+            <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+            <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
+          </div>
+        </div>
+        <!-- <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">
         <div class="search">
           <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
           <span *ngIf="!searchSources" class="search-name"><img class="search-img"
               src="assets/icons/sidemenu/search-table.svg"></span>
-        </div>
-        <div class="kr-sg-dropdowns">
-          <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
-                src="assets/icons/sidemenu/plus-table.svg">Add Content</button>
-            <ul class="dropdown-menu content-menu">
-              <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
-              <li (click)="addNewContentSource('contentDoc')">Upload File</li>
-            </ul>
+        </div> -->
+        <div>
+          <div class="kr-sg-dropdowns">
+            <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img
+                  src="assets/icons/sidemenu/plus-table.svg">Add Content</button>
+              <ul class="dropdown-menu content-menu">
+                <li (click)="addNewContentSource('contentWeb')">Web Crawling</li>
+                <li (click)="addNewContentSource('contentDoc')">Upload File</li>
+              </ul>
+            </div>
           </div>
+          <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'" ngbTooltip='Grid'><img
+              src="assets/icons/grid-view.svg"></div>
+          <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
+              src="assets/icons/list-view.svg"></div>
         </div>
-        <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'" ngbTooltip='Grid'><img
-            src="assets/icons/grid-view.svg"></div>
-        <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
-            src="assets/icons/list-view.svg"></div>
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">

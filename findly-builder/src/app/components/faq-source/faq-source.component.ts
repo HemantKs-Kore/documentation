@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, AfterViewInit } from '@angular/core';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -28,7 +28,7 @@ declare const koreBotChat : any
   providers: [ { provide: 'instance1', useClass: FaqsService },
             { provide: 'instance2', useClass: FaqsService }, ]
 })
-export class FaqSourceComponent implements OnInit, OnDestroy {
+export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   loadingSliderContent = false;
   serachIndexId;
   currentView = 'list'
@@ -109,7 +109,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     private convertMDtoHTML:ConvertMDtoHTML,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
-  ) { 
+  ) {
 
   }
 
@@ -122,11 +122,6 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.getSourceList();
     this.getStats();
     this.userInfo = this.authService.getUserInfo() || {};
-    setTimeout(() => {
-      $('#searchFaqs').focus();
-    }, 100);
-
-
     this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
       this.selectedFaq.isAlt = false;
       this.updateFaq(this.selectedFaq, 'updateQA', params);
@@ -138,6 +133,11 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.followCancelSub = this.faqServiceFollow.cancel.subscribe(data=>{ this.selectedFaq.isAddFollow = false; });
     this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data=>{ this.selectedFaq.isAlt = false; });
   }
+    ngAfterViewInit(){
+      setTimeout(() => {
+        $('#searchFaqs').focus();
+      }, 100);
+    }
   filterApply(type,value){
     if(this.filterObject[type] === value){
        delete this.filterObject[type]
@@ -319,6 +319,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     if(this.searchFaq){
       this.loadingTab = true;
       this.getfaqsBy(null,null,null,this.searchFaq);
+    } else {
+      this.getfaqsBy();
     }
   }
   faqsApiService(serviceId, params?,concat?) {
@@ -337,6 +339,7 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
       this.faqsObj.faqs = this.faqs;
       if(this.faqs.length){
          this.moreLoading.loadingText = 'Loading...';
+         this.selectedFaq = this.faqs[0];
       } else {
         this.moreLoading.loadingText = 'No more results available';
         const self = this;
@@ -378,6 +381,9 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     if (resourceId) {
       serviceId = 'get.allFaqsByResources';
       quaryparms.resourceId = resourceId;
+    }
+    if(quary){
+      serviceId = 'get.faqs.search';
     }
     if(skip){
       quaryparms.offset = skip;
@@ -463,7 +469,8 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     const _payload = {
       question: event.question,
    answer: event.response,
-   alternateQuestions: [],
+   alternateQuestions: event.alternateQuestions || [],
+   followupQuestions: event.followupQuestions || [],
    keywords: event.tags,
    state: event.state
     };
@@ -685,14 +692,20 @@ export class FaqSourceComponent implements OnInit, OnDestroy {
     this.faqServiceFollow.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAddFollow = true;
     setTimeout(function(){
-      let sel = $('#questionList').closest('.ps.ps--active-y');
-      sel.scrollTop(sel[0].scrollHeight);
+      $('#questionList').closest('.ps.ps--active-y').animate({
+        'scrollTop' : Math.abs($('#questionList').position().top) + $('#followQue').position().top
+      });
     }, 100);
   }
   addAlternate() {
     this.faqServiceAlt.updateVariation('alternate');
     this.faqServiceAlt.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAlt = true;
+    setTimeout(function(){
+      $('#questionList').closest('.ps.ps--active-y').animate({
+        'scrollTop' : Math.abs($('#questionList').position().top) + $('#altQue').position().top
+      });
+    }, 100);
   }
 
   delAltQues(ques) {

@@ -36,6 +36,9 @@ app-mainmenu{
 					&.active{
 						background: #fff;
 					}
+					&:hover{
+						background: #fff;
+					}
 				}
 			}
 	   }		
@@ -45,6 +48,7 @@ app-mainmenu{
 			padding: 1px 13px;
 			border-radius: 4px;		
 			font-family: Inter !important;
+			margin-bottom: 5px;
 			&.settings-menu{
 				position: absolute;
 				bottom: 0px;

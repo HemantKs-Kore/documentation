@@ -6,7 +6,7 @@ import { KgDataService } from '@kore.services/componentsServices/kg-data.service
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+declare const $: any;
 import * as _ from 'underscore';
 
 @Component({
@@ -32,7 +32,9 @@ export class AddAlternateQuestionComponent implements OnInit {
               private service: ServiceInvokerService) { }
 
   ngOnInit(): void {
-
+    setTimeout(()=>{
+      this.faqServ.addVariation.alternate?$('#alt').focus():$('#follow').focus();
+    }, 200);
   }
 
   updateAltQues(ques) {

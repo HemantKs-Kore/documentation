@@ -101,7 +101,11 @@ export class EndPointsService {
       method:'get'
     };
     this.serviceList['get.allFaqsByState']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&serach=:searchQuary',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all',
+      method:'get'
+    };
+    this.serviceList['get.faqs.search']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&search=:searchQuary',
       method:'get'
     };
     this.serviceList['get.allFaqsByResources']={
@@ -185,7 +189,6 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/synonyms?offset=:offset&limit=:limit',
       method: 'get'
     };
-    
     this.serviceList['update.synonym'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/synonyms/:synonymId',
       method: 'put'
@@ -195,7 +198,7 @@ export class EndPointsService {
       method: 'delete'
     };
     this.serviceList['get.bots'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?',
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?allTasks=true?',
       method: 'get'
     };
     this.serviceList['get.traitgroup'] = {
@@ -210,6 +213,37 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/bt/streams/:streamId/autoTrainStatus?sentences=true&speech=false',
       method: 'get'
     };
-    
+    this.serviceList['create.group'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
+      method: 'post'
+    };
+    this.serviceList['get.group'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
+      method: 'get'
+    };
+    this.serviceList['updateBulk.group'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups/:groupId',
+      method: 'put'
+    };
+    this.serviceList['delete.group'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups?offset=0&limit=50',
+      method: 'delete'
+    };
+    this.serviceList['create.rule'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
+      method: 'post'
+    };
+    this.serviceList['delete.rule'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
+      method: 'post'
+    };
+    this.serviceList['updateBulk.rule'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
+      method: 'post'
+    };
+    this.serviceList['add.rule'] = {
+      endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
+      method: 'post'
+    };
   }
 }

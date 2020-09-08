@@ -795,15 +795,18 @@ div.divBlockEmptylastChild:first-child {
                 .actions-delete{
                     position: absolute;
                     right: 15px;
-                    bottom: 10px;
+                    top: 10px;
                     display: none;
                     .actions-links{
-                        margin-left: 15px;
+                        margin-left: 0px;
+                        margin-bottom: 10px;
+                        display: block;
                         cursor: pointer;
                     }
                 }  
                 &:hover{
                     transition: 0.3s all ease;
+                    background: #F3F8FF;
                     .actions-delete{
                         display: block;
                     }
