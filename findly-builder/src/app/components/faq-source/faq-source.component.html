@@ -125,7 +125,7 @@
                         <div class="empty-questions-selected">
                         <img src="assets/images/icons/empty_ill.svg">
                         <div class="heading">No Questions</div>
-                        <div class="desc">Please select a questions</div>
+                        <div class="desc">Please select a question</div>
                        </div>
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
@@ -256,7 +256,10 @@
                             </div>
                             <div class="add-alternative-questions row">
                                 <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">Alternate Questions ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}})</div>
+                                    <div class="question-name text-truncate">Alternate Questions
+                                        <span>{{selectedFaq.alternateQuestions?.length>0?'('+selectedFaq.alternateQuestions?.length+')':''}}</span>
+                                        <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
+                                    </div>
                                     <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
@@ -277,7 +280,9 @@
                            </ng-container>
                             <div class="add-alternative-questions row">
                                 <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">Followup Questions ({{(selectedFaq.followupQuestions?selectedFaq.followupQuestions.length:0)}})</div>
+                                    <div class="question-name text-truncate">Followup Questions 
+                                        {{(selectedFaq.followupQuestions?.length>0?'('+selectedFaq.followupQuestions.length+')':'')}}
+                                    </div>
                                     <div class="added-tags text-truncate">Add followup the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
