@@ -56,10 +56,10 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg"
+          <div class="col_ col-4" (click)="sortBy('name')">Source<img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"></div>
-          <div class="col d-flex align-items-center" (click)="sortBy('type')">Type<span
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">Type<span
               class="selected-length-doc-web hide">({{this.filterSystem.typefilter}})</span>
             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
@@ -77,7 +77,7 @@
             </div>
           </div>
           <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-          <div class="col d-flex align-items-center" (click)="sortBy('recentStatus')">Status<span
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('recentStatus')">Status<span
               class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">

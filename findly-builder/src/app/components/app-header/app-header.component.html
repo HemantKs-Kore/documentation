@@ -5,7 +5,7 @@
             <div class="homePageTitle d-none">
                 <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
             </div>
-            <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row"> 
+            <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end"> 
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                   </ng-template>

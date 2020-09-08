@@ -5,7 +5,10 @@
     margin-bottom: 15px;
 }
 .alternative-question {
-    padding: 0 20px;
+    padding: 20px 30px;
+    .label_text{
+        font-weight: 500;
+    }
 }
 
 :host ::ng-deep .example-chip-list {
@@ -20,13 +23,17 @@
                 .mat-chip-list{
                     .mat-chip-list-wrapper{
                         border-radius: 3px;
-                        border: solid 1px #e5e8ec;        
+                        border: solid 1px #BDC1C6;       
                         margin: 0;
                         font-family: Inter !important;
                         .mat-input-element{
                             margin: 0;
                             border: 0;
                             height: 32px;
+                            &:focus{   
+                                border: 0 !important;                             
+                                outline: 0 !important;
+                            }
                         }
                         .mat-chip{
                             border-radius: 4px;
@@ -53,7 +60,7 @@
                                     height: 11px;
                                     vertical-align: middle;
                                     position: relative;
-                                    top: -3px;
+                                    top: -1px;
                                     left: 2px;
                                 }
                             }

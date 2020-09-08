@@ -1,9 +1,9 @@
 <div class="alternative-question">
-    <div class="kr-sg-input-text">
-        <div class="label-text">Question</div>
+    <div class="kr-sg-input-text mb-2">
+        <div class="label_text">Question</div>
         <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]='f.question'>
     </div>
-    <div for="tagInput" class="label-text">Tags</div>
+    <div for="tagInput" class="label_text">Tags</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
@@ -27,7 +27,7 @@
       </mat-autocomplete>
     </mat-form-field>
     <div>
-      <button class="kr-sg-button-primary" (click)="addFaq()">Add</button>
-      <button class="kr-sg-button-secondary" (click)="cancelFaq()">Cancel</button>
+      <button class="kr-sg-button-primary btn_lg mr-3" (click)="addFaq()">Add</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="cancelFaq()">Cancel</button>
     </div>
 </div>
