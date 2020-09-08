@@ -21,8 +21,8 @@
 }
 
 
-.mb-8{
-    margin-bottom: 8px;
+.mb-15{
+    margin-bottom: 15px;
 }
 
 :host ::ng-deep .example-chip-list {
@@ -39,7 +39,7 @@
                         border-radius: 3px;
                         border: solid 1px #e5e8ec;        
                         margin: 0;
-                        font-family: Lato !important;
+                        font-family: Inter !important;
                         .mat-input-element{
                             margin: 0;
                             border: 0;

@@ -1,0 +1,27 @@
+<div class="kr-sg-input-text">
+    <div class="label-text">Question</div>
+    <input type="text" placeholder="Question" class="input-text" [(ngModel)]='f.question' (blur)='enterText()'>
+</div>
+<div for="tagInput" class="label-text">Tags</div>
+<mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+  <mat-chip-list #chipList aria-label="tag selection">
+    <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
+        <div class="mat-val" (click)="$event.stopPropagation()"> {{tag}}</div>
+        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+    </mat-chip>
+    <input placeholder="Type & enter"
+          (focus)= "getAltTags($event)"
+          [value] = "typedQuery"
+          [matChipInputFor]="chipList"
+          [matAutocomplete]="suggestedItems"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()">
+  </mat-chip-list>
+  <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event)">
+    <ng-container *ngFor = "let suggestion of suggestionTags">
+      <mat-option *ngIf="checkDuplicateTags(suggestion)">
+        {{suggestion}}
+      </mat-option>
+    </ng-container>
+  </mat-autocomplete>
+</mat-form-field>

@@ -9,6 +9,7 @@ import { ContentSourceComponent } from './components/content-source/content-sour
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
 import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
+import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { TraitsComponent } from './components/traits/traits.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'ml-threshold', component: MlThresholdComponent },
       { path: 'traits', component: TraitsComponent },
+      { path: 'rules', component: ResultsRulesComponent },
       { path: '**', component: AppsListingComponent},
     ]
   }
