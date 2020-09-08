@@ -14,9 +14,15 @@
     .trainBlock{
         display: none;
     }
+    .headerTabsContainer{
+        visibility: hidden;
+    }
     &.appSelected{
         .trainBlock{
             display: block !important;
+        }
+        .headerTabsContainer{
+            visibility: visible !important;
         }
         .toShowAppHeader{
             display: block !important;
