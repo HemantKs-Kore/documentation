@@ -9,6 +9,7 @@ declare const KoreWidgetSDK: any;
 declare const KoreSDK: any;
 declare const koreBotChat: any;
 koreBotChat
+declare let window:any;
 import * as _ from 'underscore';
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   loading = true;
   previousState;
   appsData: any;
+  searchInstance:any;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -42,11 +44,6 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
   }
-  ngAfterViewInit(){
-    setTimeout( (a) => {
-      this.initSearchSDK();
-    },2000)
-  }
    restorepreviousState(){
     let route = '/apps';
     if(this.previousState && this.previousState.selectedApp){
@@ -63,6 +60,7 @@ export class AppComponent implements OnInit {
          }
          try {
           this.router.navigate([route], { skipLocationChange: true });
+          $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
               this.preview(this.pathsObj[route]);
@@ -81,6 +79,7 @@ export class AppComponent implements OnInit {
      };
      if(route){
        if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
+         this.resetFindlySearchSDK(this.workflowService.selectedApp());
          path.selectedApp = this.workflowService.selectedApp()._id;
          path.route = route
          window.localStorage.setItem('krPreviousState',JSON.stringify(path));
@@ -103,6 +102,17 @@ export class AppComponent implements OnInit {
      }
      return previOusState;
    }
+  resetFindlySearchSDK(appData){
+    if(this.searchInstance && this.searchInstance.setAPIDetails) {
+      if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
+        const searchData = {
+          _id:appData.searchIndexes[0]._id
+        }
+        window.selectedFindlyApp = searchData;
+        this.searchInstance.setAPIDetails();
+      }
+    }
+  }
   navigationInterceptor(event: RouterEvent): void {
     const self = this;
     if (event instanceof NavigationStart) {
@@ -114,12 +124,15 @@ export class AppComponent implements OnInit {
     if (event instanceof NavigationEnd) {
       if (event && event.url === '/apps') {
         this.setPreviousState();
+        this.showHideSearch(false);
         $('.krFindlyAppComponent').removeClass('appSelected');
+        $('.start-search-icon-div').addClass('hide');
       } else {
         const path = event.url.split('?')[0];
         if(path){
           this.setPreviousState(path);
         }
+        $('.start-search-icon-div').removeClass('hide');
         $('.krFindlyAppComponent').addClass('appSelected');
       }
       this.authService.findlyApps.subscribe((res) => {
@@ -145,22 +158,38 @@ export class AppComponent implements OnInit {
   ngOnDistroy(){
     this.authService.findlyApps.unsubscribe();
   }
+  showHideSearch(show){
+    if(show){
+      $('.search-background-div').show();
+      $('.start-search-icon-div').addClass('active');
+      $('.advancemode-checkbox').css({"display":"block"});
+    }else{
+      $('.search-background-div').hide();
+      $('.start-search-icon-div').removeClass('active');
+      $('.advancemode-checkbox').css({"display":"none"});
+    }
+  }
   initSearchSDK(){
-
+    const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
     $('app-body').append('<div class="search-background-div"></div>');
+    $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
 
     $('.start-search-icon-div').click(function(){
       if(!$('.search-background-div:visible').length){
-        $('.search-background-div').show();
-        $('.start-search-icon-div').addClass('active');
+        _self.showHideSearch(true);
       }else{
-        $('.search-background-div').hide();
-        $('.start-search-icon-div').removeClass('active');
+        _self.showHideSearch(false);
 
       }
     });
-    
+    $('#advanceModeSdk').change(function(){
+      if($(this).is(":checked")) {
+        $('.search-container').removeClass('advanced-mode');          
+      } else {
+        $('.search-container').addClass('advanced-mode');
+      }
+  });
    
     var chatConfig = KoreSDK.chatConfig;
     //chatConfig.botOptions.assertionFn = assertion;
@@ -177,6 +206,7 @@ export class AppComponent implements OnInit {
         content: ".kr-wiz-content-chat"
     }
     var wSdk = new KoreWidgetSDK(widgetsConfig);
+    this.searchInstance = wSdk;
            wSdk.setJWT('dummyJWT');
             wSdk.show(widgetsConfig, wizSelector);
             wSdk.showSearch();

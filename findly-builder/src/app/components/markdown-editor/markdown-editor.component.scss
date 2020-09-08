@@ -1,0 +1,25 @@
+@import './../../@core/scss/variables/variables.scss';
+.markdowntoolBar{
+    bottom: 92px;
+    position: absolute;
+    width: auto;
+    height: 40px;
+    background: #ffff;
+    z-index: 9999;
+    border: 1px solid #e5e8ec;
+    border-radius: 4px;
+    margin-left: 5px;
+    padding: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.14);
+    border: solid 1px #e5e8ec;
+    &.contentEditableEle{
+        bottom: 60px;
+    }
+    .toolIcon{
+        padding: 0px 4px;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+    }
+}

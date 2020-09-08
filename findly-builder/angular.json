@@ -32,7 +32,10 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/app/scss/styles.scss",
-              "src/assets/fonts/inter/inter-font.css"
+              "src/assets/fonts/inter/inter-font.css",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/addon/fold/foldgutter.css",
+              "node_modules/codemirror/addon/lint/lint.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

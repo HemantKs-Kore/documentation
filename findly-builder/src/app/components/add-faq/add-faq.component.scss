@@ -1,7 +1,7 @@
 
 @import './../../../app/scss/variables/variables.scss';
 .add-questions-form{
-    padding: 0 18px;
+    padding: 20px 30px;
     padding-bottom: 20px;
     &.followup{
         background-color: $backgroundColor;
@@ -17,21 +17,250 @@
             top: 10px;
         }
     }
+    .label-text{
+        color: #202124;
+        font-weight: 500;
+        font-size: 12px;
+        &.bot-res-title{
+            color: #9B9B9B;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            img{
+                float: right;
+                position: relative;
+                top: 3px;
+                cursor: pointer;
+            }
+        }
+    }
+    .layout-select{
+        display: flex;
+        background: #E7F1FF;
+        border-radius: 4px;
+        padding: 11px 20px;
+        align-items: center;
+        margin: 5px 0 10px 0;
+        .title{
+            color: #202124;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+        .img-block{
+            padding: 9px 0px;
+            border: 1px solid transparent;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 55px;
+            height: 55px;
+            text-align: center;
+            margin-right: 6px;
+            cursor: pointer;
+            img{
+                padding: 4px;
+                background: #fff;
+                border-radius: 5px;        
+            }
+            &.active{               
+                background: #FFFFFF;
+                border: 1px solid #0D6EFD;                           
+                img{
 
-    // .ace-editor {
-    //     min-height: 240px;
-    //     width: 100%;
-    //     overflow: auto;
-    //     border: 1px solid rgb(229, 232, 236);
-    //     box-sizing: content-box;
-    //     margin-bottom: 15px;
-    // }
-         
+                }
+            }
+        }
+        .drag-info-title{
+            color: #85B7FE;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    }   
+    .text-area-editor{
+        &.image-split-mode{
+            display: flex;
+            justify-content: space-between;
+            .upload-content-wrapper{
+                margin: 0;
+                width: 49%;
+                .image-selections{
+                    flex-direction: column;
+                    height: 100%;
+                    .info-text{
+                        margin-left: 0;
+                        margin-top: 15px;
+                    }
+                }
+            }
+            .kr-sg-input-text-area{
+                width: 49%;
+                .editorContainer {
+                    outline: none;
+                    overflow: auto;
+                    .editorDivContainer{
+                        min-height: 200px;
+                        outline: none;
+                        overflow: auto;
+                        padding-bottom: 50px;
+                    }
+                }
+                .editor-actons{
+                    .edit-action{
+                        width: 25px;
+                        padding: 4px 0px;
+                        img{
+                            width: 12px;
+                            height: 12px;
+                        }
+                    }
+                }
+            }
+        }
+        &.swap-positions{
+            .upload-content-wrapper{
+                background: #F8F9FA;
+                border: 2px dashed #A8C8DD;               
+                border-radius: 4px;
+            }
+            .kr-sg-input-text-area{
+                background: #F8F9FA;
+                border: 2px dashed #A8C8DD;               
+                border-radius: 4px;
+            }
+        }
+        .upload-content-wrapper{
+            position: relative;
+            overflow: hidden;
+            background: #F8F9FA;
+            border: 1px solid #BDC1C6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            text-align: center;
+            padding: 17px;
+            margin: 10px 0;
+            cursor: pointer;
+            .image-selections{
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                .img_block{
+                    img{
+
+                    }
+                }
+                .info-text{
+                    color: #4788C7;
+                    font-weight: 600;
+                    font-size: 14px;
+                    margin-left: 20px;
+                }
+            }
+            input{
+                font-size: 100px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                border: 0;
+                border-radius: 0;
+                cursor: pointer;
+            }
+            .uploaded-image-preview{
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .kr-sg-input-text-area{
+            position: relative;
+            border: 1px solid #BDC1C6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 0 0px 0 20px;            
+            line-height: normal;
+            .tabs-sec{
+                border-bottom: 1px solid #D8D8D8;
+                margin-right: 20px;
+                .tab-title{
+                    padding: 11px 20px;
+                    display: inline-block;
+                    color: #8A959F;
+                    font-weight: 600;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    position: relative;
+                    cursor: pointer;
+                    &.active{
+                        color: #0D6EFD;
+                        &::before{
+                            content: "";
+                            position: absolute;
+                            width: 100%;
+                            bottom: -1px;
+                            left: 0;
+                            transition: 0.4s all ease;
+                            border-bottom: 2px solid #0D6EFD;
+                        }
+                    }
+                }
+            }
+            .editor-actons{
+                position: absolute;
+                bottom: 10px;
+                border: 0;
+                left: 20px;
+                .edit-action{
+                    background: #EFF0F1;
+                    border-radius: 4px;
+                    text-align: center;                   
+                    padding: 10px 0px;
+                    width: 40px;
+                    margin-right: 6px;                    
+                    display: inline-block;
+                    cursor: pointer;                   
+                    img{
+
+                    }
+                }                
+            }
+            textarea{
+                min-height: 320px;
+                resize: vertical;
+                border: 0;
+                padding: 18px 20px 0 0;
+                color: #292929;
+                font-size: 14px;
+                line-height: 24px;
+                background: transparent;
+                &::-webkit-resizer {                    
+                    border-color: 0;
+                    background-image: url("^assets/icons/editor/bg-resize.svg");
+                    width: 15px;
+                    height: 15px;                                        
+                }
+            }
+        }
+    }   
+    .btn-sec{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+        button{
+            margin-right: 20px;
+            font-size: 14px;
+        }
+    }   
 }
 
 
-.mb-8{
-    margin-bottom: 8px;
+.mb-15{
+    margin-bottom: 15px;
 }
 
 :host ::ng-deep .example-chip-list {
@@ -48,7 +277,7 @@
                         border-radius: 3px;
                         border: solid 1px #e5e8ec;        
                         margin: 0;
-                        font-family: Lato !important;
+                        font-family: Inter !important;
                         .mat-input-element{
                             margin: 0;
                             border: 0;

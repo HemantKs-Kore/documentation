@@ -98,12 +98,12 @@
             }
           }
           .dropdown-menu{
-            color: #26344a;
+            color: #202124;
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.32);
             border: solid 1px #e5e8ec;
             background-color: #ffffff;
             .dropdown-item{
-              color: #26344a !important;
+              color: #202124 !important;
               background: #ffffff !important;
               cursor: pointer;
             }
@@ -214,10 +214,10 @@
         .ace-editor {
           height: 100%;
           min-height: 100%;
-          // font-family: lato !important;
+          // font-family: Inter !important;
           // font-size: 12px;
           // color: #8a959f !important;
-          // font: 12px/normal lato !important;
+          // font: 12px/normal Inter !important;
           // &:focus{
           //   border: solid 1px #1372ff;
           //   outline: 0;

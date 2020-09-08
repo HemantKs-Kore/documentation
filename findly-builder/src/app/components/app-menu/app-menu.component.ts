@@ -12,6 +12,7 @@ import { ActivatedRoute, Routes, Router } from '@angular/router';
 export class AppMenuComponent implements OnInit {
 
   selected = '';
+  trainingMenu: boolean = false;
   constructor( private headerService: SideBarService, private workflowService: WorkflowService, private router: Router) { }
   goHome(){
     this.workflowService.selectedApp(null);
@@ -26,6 +27,10 @@ export class AppMenuComponent implements OnInit {
 
   ngOnInit() {
     // this.selected = "accounts";
+  }
+  // toggle sub-menu
+  toggleTranningMenu() {
+    this.trainingMenu === false ? this.trainingMenu = true: this.trainingMenu = false;
   }
 
 }
