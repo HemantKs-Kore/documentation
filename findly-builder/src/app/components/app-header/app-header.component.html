@@ -5,7 +5,7 @@
             <div class="homePageTitle d-none">
                 <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
             </div>
-            <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row">   
+            <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row"> 
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                   </ng-template>
@@ -15,7 +15,10 @@
                         <input type="text" placeholder="Search" class="input-search" (keydown.enter)="triggerRoute(searchText)" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt"  [inputFormatter]="formatter">
                         <img src="assets/images/close.svg" class="search-icon" (click)="toggleSearch(false)">
                     </div>
-                </li>            
+                </li>   
+                <div class="col-2 p-0 text-right nav-item pr-4 mr-2">
+                    <button class="kr-sg-button-primary btn_lg" (click)="train()">Train</button>
+                </div>         
                 <li class="nav-item pr-4 mr-2">
                     <img src="assets/icons/sidemenu/notification.svg">
                 </li>

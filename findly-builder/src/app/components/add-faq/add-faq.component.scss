@@ -93,6 +93,16 @@
             }
             .kr-sg-input-text-area{
                 width: 49%;
+                .editorContainer {
+                    outline: none;
+                    overflow: auto;
+                    .editorDivContainer{
+                        min-height: 200px;
+                        outline: none;
+                        overflow: auto;
+                        padding-bottom: 50px;
+                    }
+                }
                 .editor-actons{
                     .edit-action{
                         width: 25px;
