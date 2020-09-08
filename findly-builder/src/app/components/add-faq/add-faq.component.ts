@@ -10,6 +10,7 @@ import { NotificationService } from '../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
@@ -444,10 +445,10 @@ export class AddFaqComponent implements OnInit  {
   addAltQues() {
     this.isAdd=true;
     this.faqServiceAlt.inpKeywordsAdd.subscribe(res=>{
-      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].keywords = res; }
+      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}}); }
       else {
         this.quesList.alternateQuestions[0] = {};
-        this.quesList.alternateQuestions[0].keywords = res;
+        this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}});
       }
     });
     this.faqServiceAlt.inpQuesAdd.subscribe(res=>{
@@ -462,10 +463,10 @@ export class AddFaqComponent implements OnInit  {
   addFollowupQues() {
     this.isAlt=true;
     this.faqServiceFollow.inpKeywordsAdd.subscribe(res=>{
-      if(this.quesList.followupQuestions[0]) { this.quesList.followupQuestions[0].keywords = res; }
+      if(this.quesList.followupQuestions[0]) { this.quesList.followupQuestions[0].keywords = _.map(res, o=>{return {keyword: o}}); }
       else {
         this.quesList.followupQuestions[0] = {};
-        this.quesList.followupQuestions[0].keywords = res;
+        this.quesList.followupQuestions[0].keywords = _.map(res, o=>{return {keyword: o}});
       }
     });
     this.faqServiceFollow.inpQuesAdd.subscribe(res=>{
