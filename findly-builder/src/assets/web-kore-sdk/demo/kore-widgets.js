@@ -1846,6 +1846,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
                   if (res.templateType === 'liveSearch') {
                     $('.search-body').show();
+                    $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
                     var faqs = [], pages = [], tasks = [], facets;
                     if (!$('.search-container').hasClass('active')) {
@@ -1942,6 +1943,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     _self.searchEventBinding(searchData, "livesearch", e);
                   }else if(res.templateType === 'liveSearchEmpty'){
                     $('.search-body').hide();
+                    $('#searchChatContainer').addClass('bgfocus-override');
                   }
                 })
               }
@@ -2399,6 +2401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
         $('#searchChatContainer').append(template);
         $('.search-body').hide();
+        $('#searchChatContainer').addClass('bgfocus-override');
         _self.bindLiveDataToChat(true);
         
       }
