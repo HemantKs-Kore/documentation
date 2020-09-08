@@ -53,19 +53,7 @@ export class BotActionComponent implements OnInit {
        
       });
     } else {
-      this.bots = [{'lMod': "2020-09-06T11:32:35.000Z",
-        'name': "dew",
-        'shortDesc': "",
-        'state': "configured",
-        'type': "dialog",
-        '_id': "dg-193fe2c6-7062-50ce-ac6e-5f4a13641e69"},
-        {
-        'lMod': "2020-09-08T11:37:53.000Z",
-        'name': "Add a New Payee",
-        'shortDesc': "",
-        'state': "published",
-        'type': "dialog",
-        '_id': "dg-788d72fd-f7ae-5306-9966-5b80103f82e9"}]
+      this.bots = [];
       this.loadingContent = false;
     }
   }

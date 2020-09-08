@@ -235,7 +235,7 @@
                 </div>
               </div>
               <div *ngIf= "isConfig">
-                <div class="info-content bg-color text-left" *ngIf="sliderStep === 0 && !loadingSliderContent && selectedSource">
+                <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep === 0 && !loadingSliderContent && selectedSource">
                   <div class="row m-0 row_content">
                     <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
                     <div class="col-10 right-info-title">{{selectedSource.name}}</div>
@@ -266,7 +266,21 @@
                         *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">View
                         Pages</a></div>
                   </div>
+                </div> -->
+                <!-- Conf Configuration-->
+                <div class="accordion-content-info text-left" *ngIf = "isConfig">
+                  <div class="header-sec row m-0">
+                    <div class="col-1 label_text m-0 p-0">Title</div>
+                    <div class="col-3 label_text m-0 p-0">Url </div>
+                    <div class="col-2 label_text m-0 p-0">Description </div>
+                    <div class="col-2 label_text m-0 p-0">Crawled </div>
+                    <div class="col-1 label_text m-0 p-0">Status </div>
+                    <div class="col-1 label_text m-0 p-0">Pages </div>
+                    <div class="col-2 label_text m-0 p-0">Actions </div>
+                  </div>
                 </div>
+                <!-- Conf Configuration-->
+
               </div>
               <div class="accordion-content-info text-left" *ngIf = "!isConfig">
                 <div class="header-sec row m-0">
