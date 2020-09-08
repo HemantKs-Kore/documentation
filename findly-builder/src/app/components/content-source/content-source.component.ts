@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
-  isConfig = false;
+  isConfig : boolean = false;
   filterSystem : any = {
     'typeHeader' : 'type',
     'statusHeader' : 'status',
@@ -211,6 +211,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
     /** Paging */
       this.sliderStep = 0;
+      
+      if(this.isConfig){
+        $('.tabname')[1].classList.remove('active');
+        $('.tabname')[0].classList.add('active');
+      }
       this.isConfig = false;
       this.loadingSliderContent = false;
     }, errRes => {
