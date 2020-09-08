@@ -126,9 +126,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         botResponse: ['', Validators.required]
       });
     }
-    this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{
-      this.groupsAdded = res;
-    })
+    this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
   setResponseType(type){
     this.responseType = type;

@@ -245,5 +245,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
       method: 'post'
     };
+    this.serviceList['get.allGroups'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/groups?offset=:offset&limit=:limit',
+      method: 'get'
+    };
   }
 }
