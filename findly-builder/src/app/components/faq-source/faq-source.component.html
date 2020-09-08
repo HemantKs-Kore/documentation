@@ -96,7 +96,7 @@
                             <div class="heading">{{'please_wait' | translate}}</div>
                         </div>
                       </div>
-                        <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
+                        <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
                                 <div class="heading">No Questions</div>
