@@ -51,8 +51,8 @@
     </div>
     <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
     <div class="text-area-editor" [ngClass]="{'swap-positions': responseType==='horizontalSplit','image-split-mode': responseType ==='verticalSplit'}">
-      <div class="upload-content-wrapper"  *ngIf="(responseType !== 'default') && !image.url">
-        <div class="image-selections" (click)="openImgApp()">
+      <div class="upload-content-wrapper"  *ngIf="(responseType !== 'default')">
+        <div class="image-selections" (click)="openImgApp()" *ngIf="!image.url">
             <div class="img_block"><img  src="assets/icons/editor/upload-image.svg"></div>
             <div class="info-text">Upload Image or Video</div>
         </div>
@@ -155,11 +155,11 @@
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">URL</div>
-          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="linkInfo.link" name="LinkURL">
+          <input maxlength="1024" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="linkInfo.link" name="LinkURL">
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">Link Text</div>
-          <input maxlength="128" type="text" placeholder="Enter Link Trxt" autocomplete="off" class="input-text" [(ngModel)]="linkInfo.linkText" name="LinkText">
+          <input maxlength="1024" type="text" placeholder="Enter Link Trxt" autocomplete="off" class="input-text" [(ngModel)]="linkInfo.linkText" name="LinkText">
         </div>
       </div>
       <div class="modal-footer">

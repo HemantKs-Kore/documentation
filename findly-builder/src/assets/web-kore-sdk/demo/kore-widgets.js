@@ -245,7 +245,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
-        jstBarrer:'"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"'
+        jstBarrer:"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"
       };
       _self.API.uuid = uuid.v4();
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
@@ -826,9 +826,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var liveSearchData = '<script type="text/x-jqury-tmpl">\
       <div class="finalResults">\
           <div class="resultsOfSearch">\
+          {{if showAllResults}}\
+                <div>\
+                  <span class="pointer show-all-results" >See all results<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBlZDBDYUwDEOdin/+sEGkMhBMACOwCSuwASMwAwMglQ3YICTAAQ6lwpdUkV9lB4iImXPmsrd537sYEELYAClA2XiHosAJLS1EVrhfjy9i9gN739ibNGenM09SJA3E1RqJNqT1t7+1U0Up51GYskm7zNaJvpht595zP83JKNdBHtoBNXcrtgi1OOQAAAAASUVORK5CYII="></span>\
+                </div>\
+          {{/if}}\
           {{if faqs && faqs.length}}\
               <div class="matched-faq-containers">\
-                <div class="search-heads">MATCHED FAQS</div>\
+                <div class="search-heads">SUGGESTED FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
                 <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
@@ -874,7 +879,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if pages && pages.length}}\
               <div class="matched-faq-containers matched-pages-container">\
-              <div class="search-heads">MATCHED PAGES</div>\
+              <div class="search-heads">SUGGESTED PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
               <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
@@ -953,11 +958,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
               </div>\
               {{/if}}\
-              {{if showAllResults}}\
-                <div style="order:4;">\
-                  <span class="pointer show-all-results" >See all results<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBlZDBDYUwDEOdin/+sEGkMhBMACOwCSuwASMwAwMglQ3YICTAAQ6lwpdUkV9lB4iImXPmsrd537sYEELYAClA2XiHosAJLS1EVrhfjy9i9gN739ibNGenM09SJA3E1RqJNqT1t7+1U0Up51GYskm7zNaJvpht595zP83JKNdBHtoBNXcrtgi1OOQAAAAASUVORK5CYII="></span>\
-                </div>\
-              {{/if}}\
               {{if noResults}} <span class="text-center">No results found</span> {{/if}}\
           </div>\
       </div>\
@@ -986,7 +986,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <p class="resultsText">Showing ${totalResultsCount} results for "${search}"</p>\
                 {{if tasks.length && (selectedFacet === "task" || selectedFacet === "all results") }}\
                     <div class="quickAction fullAsstTask">\
-                        <p class="quickTitle">SUGGESTED ACTIONS</p>\
+                        <p class="quickTitle">MATCHED ACTIONS</p>\
                         {{each(key, task) selectedFacet === "all results" ? tasks.slice(0,4) : tasks }}\
                         <div class="creditCard ">\
                             <div class="creditCardIconDiv">\

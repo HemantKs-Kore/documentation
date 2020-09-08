@@ -7007,7 +7007,7 @@ body, html{
     max-height: calc(100% - 64px);
     overflow: hidden;
     background: #FFFFFF;
-    box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
+    box-shadow: -7px 4px 30px 6px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
     border-radius: 6px;
 }
 .search-container #searchChatContainer{
@@ -7029,6 +7029,7 @@ body, html{
 .search-container.conversation #searchChatContainer.bgfocus{   
     background: rgba(32, 33, 36, 0.1);
     border-radius: 0;
+    opacity: 0;
 }
 .search-container.conversation #searchChatContainer .messageBubble{
     position: relative;    
@@ -7084,7 +7085,11 @@ body, html{
 .search-container.conversation #searchChatContainer .messageBubble .botMessage .bot_Img{
     position: absolute;
     left: 11px;
+<<<<<<< HEAD
+    margin-top: -1px;
+=======
     margin-top: 2px;
+>>>>>>> KI0498/new-changes
 }
 .search-container.conversation #searchChatContainer .messageBubble .messageBubble-content{
     display: inline-block;
@@ -7103,7 +7108,7 @@ body, html{
 .search-container.conversation .search-body{
     max-height: calc(100% - 200px);
     width: 485px;
-    padding: 30px 20px;
+    padding: 30px 20px 50px 20px;
     height: auto;
     position: absolute;
     bottom: 41px;
@@ -7734,11 +7739,13 @@ html , body{
     line-height: 19px;  
     font-weight: 500;     
     display: inline-block;
+    float: right;
 }
 .show-all-results img{
     margin-left: 8px;    
     position: relative;
     top: 1px;
+    display: none;
 }
 .Search-BG-Copy .recentContainer{
     margin: 0;
@@ -8619,6 +8626,9 @@ ngb-accordion .card-header {
     text-decoration: none;
     font-size: 14px;
 }
+.ksa-results-tabesHeader{
+    padding-left: 15px;
+}
 .ksa-results-tabesHeader .title-backbutton {
     display: flex;
     align-items: center;
@@ -8781,6 +8791,7 @@ ngb-accordion .card-header {
   .ksa-resultsContainer .ksa-resultsRight {   
        padding: 26px 0 0 0;
        width: 30%;
+       display: none;
   }
   .ksa-resultsContainer .ksa-resultsRight .rightContentSubTitle {
     color: #000000;
@@ -9435,6 +9446,147 @@ body::-webkit-scrollbar {
 .faqs-bottom-actions .actions span.img-action.boostdown img{
     padding: 8px 8px;
 }
+.search-container .sdkFooterIcon button {
+    margin-bottom: -1px;
+    background: none;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+}
+.matched-faq-containers{
+    margin-bottom: 0px;
+}
+.matched-faq-containers .faqs-shadow {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
+    border-radius: 8px;
+    margin-bottom: 19px;
+    display: block;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content {
+    padding: 16px 20px;
+    box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.07), 0px 0px 10.0172px rgba(0, 0, 0, 0.035);
+    border-radius: 8px;
+    display: inline-block;
+    width: 100%;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content .title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    color: #161928;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content .title .accordion {
+    color: #161928;
+    font-weight: 600;
+    padding: 0;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content .title .accordion:before{
+      display: none;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content .title .panel{
+    padding: 0px;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content .title .panel  .content-inner{
+    color: #161928;
+    font-weight: 400;
+    margin: 20px 0 0 0;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-wrp-content .desc-info {
+    font-weight: normal;
+    font-size: 12px;
+    color: #979797;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    height: 17px;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions {
+    padding: 8px 0px 8px 0px;
+    position: relative;
+    display: none;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .appearences {
+    display: inline-block;
+    width: 59%;
+    padding-left: 20px;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .appearences img {
+    vertical-align: middle;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .appearences .appearences-count {
+    margin-left: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #9B9B9B;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .actions {
+    display: inline-block;
+    width: 40%;
+    text-align: right;
+    padding-right: 20px;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .actions span.img-action {
+    padding: 6px 0;
+    width: 26px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s all ease;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .actions span.img-action:hover{
+    background: #E7F1FF;
+  }
+  .matched-faq-containers .faqs-shadow .faqs-bottom-actions .actions span.img-action.active {
+    background: #E7F1FF;
+  }
+  
+  .matched-pages-container .faqs-shadow .faqs-wrp-content {
+    padding: 15px;
+    display: table;
+  }
+  .matched-pages-container .faqs-shadow .faqs-wrp-content .image-url-sec {
+    display: inline-block;
+    width: 24%;
+    float: left;
+  }
+  .matched-pages-container .faqs-shadow .faqs-wrp-content .image-url-sec img {
+    width: 100%;
+    background: #eee;
+  }
+  .matched-pages-container .faqs-shadow .faqs-wrp-content .pages-content {
+    display: inline-block;
+    width: 74%;
+    padding-left: 23px;
+    position: relative;
+    top: -2px;
+    float: left;
+  }
+  .matched-pages-container .faqs-shadow .faqs-wrp-content .pages-content .title {
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    height: 15px;
+  }
+  .matched-pages-container .faqs-shadow .faqs-wrp-content .pages-content .desc-info {
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    height: 37px;
+    line-height: 20px;
+  }
+  
+  .show-in-findly{
+      display: none;
+  }
 
 .faqs-bottom-actions .actions span.img-action:hover{
     background: #E7F1FF;
