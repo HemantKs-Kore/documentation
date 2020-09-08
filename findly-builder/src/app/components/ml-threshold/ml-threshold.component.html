@@ -133,8 +133,8 @@
                             Define the minimum percentage of terms in the user's utterance to be present in a path to
                             qualify the path.
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]="pathCoverData"></app-range-slider>
                         </div>
                     </div>
                     
@@ -145,8 +145,8 @@
                         <div class="info">
                             Define minimum and definitive threshold to identify and respond in case of a Knowledge task.
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]="minDefKgData"></app-range-slider>
                             <div class="note">
                                 <span class="circle cb-1"></span><span class="iconDesc">The Knowledge Task intents identified in this range will be ignored</span>
                             </div>
@@ -168,8 +168,8 @@
                         <div class="info">
                             Define the maximum number of KG / FAQ suggestions to be presented when definite KG / FAQ match is not available.
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]="kgSuggestionsData"></app-range-slider>
                         </div>
                     </div>
                     <div class="kg-Suggestions">
@@ -179,8 +179,8 @@
                         <div class="info">
                             Define the maximum difference to be allowed between top scoring and immediate next suggested questions to consider them as equally important.
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]="proxSuggData"></app-range-slider>
                         </div>
                     </div>
                     <div class="Responses">
@@ -288,8 +288,8 @@
                         <div class="info">
                             Configure the threshold score for definite matches
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]="mlDefData"></app-range-slider>
                         </div>
                     </div>
                     <div class="n-gram">
@@ -299,8 +299,8 @@
                         <div class="info">
                             Define maximum length of n-gram sequences.
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]='nGramData'></app-range-slider>
                         </div>
                     </div>
                     <div class="ml-Threshold">
@@ -310,8 +310,8 @@
                         <div class="info">
                             Define the minimum ML score to qualify an intent as a probable match.
                         </div>
-                        <div class="col-12">
-                            <input type="range" min="0" max="100" value="50" class="trashSlider">
+                        <div class="col-12 pl-0">
+                            <app-range-slider [allData]='mlThreshData'></app-range-slider>
                         </div>
                     </div>
                     <div class="ml-NER">
@@ -372,8 +372,8 @@
                     <div class="info">
                         Define the maximum difference to be allowed between top scoring and immediate next possible intents to consider them as equally important.
                     </div>
-                    <div class="col-12">
-                        <input type="range" min="0" max="100" value="50" class="trashSlider">
+                    <div class="col-12 pl-0">
+                        <app-range-slider [allData]='proxProbData'></app-range-slider>
                     </div>
                 </div>
             </div>
