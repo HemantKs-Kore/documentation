@@ -1,10 +1,13 @@
 @import "./../../../app/scss/variables/variables.scss";
 
 .ml-threshold-container {
+    padding-left: 20px;
+    padding-right: 10px;
     .accordian-content-sec {
         width: 100%;
         height: calc(100vh - 50px);
         .inputFields-accordions {
+            padding-right: 10px;
             .accr-sec {
                 padding: 15px 0px;
                 position: relative;
@@ -101,6 +104,8 @@
         }
     }
     .ml-threshold-train {
+        padding-left: 10px;
+        padding-top: 10px;
         .helphint {
             background-color: #f2f3f5;
             padding: 15px;
@@ -110,4 +115,7 @@
             margin-bottom: 20px;
         }
     }
+}
+::ng-deep.accordian-content-sec{
+    padding-right: 22px
 }

@@ -11,7 +11,13 @@
     .autoSearchTools{
         display: none;
     }
+    .trainBlock{
+        display: none;
+    }
     &.appSelected{
+        .trainBlock{
+            display: block !important;
+        }
         .toShowAppHeader{
             display: block !important;
         }

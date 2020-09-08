@@ -157,7 +157,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="comments-img">
+                                <div class="comments-img cursor-pointer">
                                     <img class="cursor" src="assets/icons/comment.svg">
                                 </div>
                             </div>
@@ -178,10 +178,10 @@
                         </div>
                         <div class="col_ p-0 review-btn">
                             <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')" >Send for Review</button>
-                            <div class="comments-img">
+                            <div class="comments-img cursor-pointer">
                                 <img class="cursor" src="assets/icons/comment.svg">
                             </div> 
-                            <img src="assets/icons/delete-table.svg" class="cursor" (click)="deleteInfividualQuestion(selectedFaq)" ngbTooltip='Delete' >
+                            <img src="assets/icons/delete-table.svg" class="cursor cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)" ngbTooltip='Delete' >
                         </div>    
                                       
                     </div>
@@ -206,7 +206,7 @@
                             <div class="heading">Approved at</div>
                             <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
                         </div>
-                        <div class="comments-img">
+                        <div class="comments-img" cursor-pointer>
                             <img class="cursor" src="assets/icons/comment.svg">
                         </div>  
                         <div class="kr-sg-dropdowns elipse-dropdown col-1" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -215,7 +215,7 @@
                                 <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                   <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>      
                                   <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>                                
-                                  <li class="delete-text" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                   
+                                  <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                   
                                 </ul>
                             </div>
                         </div>
@@ -245,11 +245,11 @@
                                         <span class="count">{{selectedFaq.feedback.click}}</span>
                                     </div>
                                     <div class="col-2 p-0">
-                                        <span class="source"><img src="assets/icons/like.svg"></span>
+                                        <span class="source cursor-pointer"><img src="assets/icons/like.svg"></span>
                                         <span class="count">{{selectedFaq.feedback.thumbsup}}</span>
                                     </div>
                                     <div class="col-3 p-0">
-                                        <span class="source"><img src="assets/icons/dislike.svg"></span>
+                                        <span class="sourc cursor-pointer"><img src="assets/icons/dislike.svg"></span>
                                         <span class="count">{{selectedFaq.feedback.thumbsdown}}</span>
                                     </div>
                                 </div>
