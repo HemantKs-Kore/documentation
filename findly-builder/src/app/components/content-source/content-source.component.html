@@ -276,9 +276,87 @@
                     <div class="col-2 label_text m-0 p-0">Crawled </div>
                     <div class="col-1 label_text m-0 p-0">Status </div>
                     <div class="col-1 label_text m-0 p-0">Pages </div>
-                    <div class="col-2 label_text m-0 p-0">Actions </div>
+                    <div class="col-2 label_text m-0 p-0"> </div>
+                  </div>
+                  <div class="header-sec row m-0 content">
+                    <div class="col-1 link-name p-0" >{{selectedSource.name}}</div>
+                    <div class="col-3 link-name p-0" >{{selectedSource.url}}</div>
+                    <div class="col-2 link-name p-0" >Description</div>
+                    <div class="col-2 date">{{selectedSource.createdOn | dateFormatPipe}}</div>
+                    <div class="col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+                    [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
+                    {{statusObj[selectedSource.recentStatus].name}}</div>
+                    <div class="col-1 date"><a class="ViewPages"
+                    *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}</a></div>
+                    <div class="col-2 actions">
+                      <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
+                      <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
+                      <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)" ngbTooltip='delete'>
+                    </div>
+                </div>
+                
+                <div class = "config-title">Sitemap URLS</div>
+                <div class="config-box">
+                  <div class="config-txt">https://finshots.in/</div>
+                  <div class="config-txt">https://finshots.in/corrections-policy/</div>
+                </div>
+
+                <div class="header-sec row m-0 content">
+                  <div class="col-10 link-name p-0 config-txt" >Schedule</div>
+                  <div class="col-2 link-name p-0" >
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="customSwitches">
+                    </div>
                   </div>
                 </div>
+                <div class="header-sec row m-0 content">
+                  <div class="col-10 link-name p-0 config-txt" >Crwal Everything</div>
+                  <div class="col-2 link-name p-0" >
+                    <input type="checkbox" class="custom-control-input" id="customSwitches">
+                  </div>
+                </div>
+                <div class = "config-title">Allow List</div>
+                <div class = "alw-url">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <span class="config-txt">Allow Urls</span>
+                    </div>
+                    <div class="col-md-4">
+                      <select class="alw-select">
+                        <option></option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <input class= "txt" type="text" autocomplete="off">
+                    </div>
+                    <div class="col-md-1">
+                      <button class="alw-btn"><img src="assets/images/add.svg"></button>
+                    </div>
+
+                    <!-- <div class="col-md-9">
+                      <div class="row">
+                        <div clas="col-md-4">
+                          <select class="alw-select">
+                            <option></option>
+                          </select>
+                        </div>
+                        <div clas="col-md-4">
+                          <input class= "txt" type="text" autocomplete="off">
+                        </div>
+                        <div clas="col-md-1">
+                          <button class="alw-btn"><img src="assets/images/add.svg"></button>
+                        </div>
+                      </div>
+                    </div> -->
+                
+                      
+                  
+                  </div>
+                  <div class="alw-list"> 1. Contains archive <img class="closeCross" src="assets/images/close.svg"></div>
+                      <div class="alw-list"> 2. begins with demo <img class="closeCross" src="assets/images/close.svg"></div>
+                </div>
+              </div>
+
                 <!-- Conf Configuration-->
 
               </div>
