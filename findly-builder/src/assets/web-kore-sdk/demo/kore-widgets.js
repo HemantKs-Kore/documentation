@@ -242,6 +242,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
+        popularSearchesUrl: baseUrl + '/' + SearchIndexID + '/popularSearches',
         queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
@@ -857,18 +858,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </span>\
                     <span class="actions">\
                     <span class="img-action active dont-show">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADISURBVHgBrZCxEcIwDEUFNJQZIXSULtkGb2JvkIyQDTxCjgnCBklJZ5gA5Dsb5I9JCqK7d2fZ1pe+iP6MnTiPTMVcYq6YE3Nk9sxtScwyT8bEvIt5IjTQcwKhuwcRy/TiPjAwdal4gI5GvNfwnuy+o4HitiBSwSSNVJfFfbz3BREHf9WWvv08ILdCZIK3ezq0QtXHcXX0ipN0wmbmb6Tfm8adWCpETfmmQ+ewD0f58gwthIZppKBDkc2MkKKPjYm5ivHPzIHWiBftN1TqKHNJjAAAAABJRU5ErkJggg==">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
                     <span class="img-action pin">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB8SURBVHgBldABEYAgDAXQRbCBRDCCEWgAEWhgBG1iFCMQgQg67ubdjtvc3N2/U+AxAMCuiJngRy2YG3N5YV9UCbnhzoAK+09QuvDEF2RMo8FKE2GA/XvlXYKwc2LjByj3kaDrubcBNQskWliGjrMFsnBUFwAGi4ZOAXzWA9ixNEz1wRORAAAAAElFTkSuQmCC">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                     </span>\
                     <span class="img-action boostup">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACWSURBVHgBfY6xDYMwFERPIgNkgzhVypANGCEjZIOMkBVIR8cojAAbAB0dNRWc0RkZMJz09GX/r7sDwvqR28EOhow4UUkK97hsll/SkDZ0YMib/MkVAeUkJqnmyiHRrMhTUZDbrEIRkH2ssvOffXy8GDdtH0Skk3VC7uRBBpL5HZxTI7cXArI9aq/LTr3XZVGkaZSbbg8mYAgYxTIE26kAAAAASUVORK5CYII=">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
                     </span>\
                     <span class="img-action boostdown">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
                     </span>\
                     </span>\
                 </div>\
@@ -899,18 +900,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  </span>\
                  <span class="actions">\
                  <span class="img-action active dont-show">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADISURBVHgBrZCxEcIwDEUFNJQZIXSULtkGb2JvkIyQDTxCjgnCBklJZ5gA5Dsb5I9JCqK7d2fZ1pe+iP6MnTiPTMVcYq6YE3Nk9sxtScwyT8bEvIt5IjTQcwKhuwcRy/TiPjAwdal4gI5GvNfwnuy+o4HitiBSwSSNVJfFfbz3BREHf9WWvv08ILdCZIK3ezq0QtXHcXX0ipN0wmbmb6Tfm8adWCpETfmmQ+ewD0f58gwthIZppKBDkc2MkKKPjYm5ivHPzIHWiBftN1TqKHNJjAAAAABJRU5ErkJggg==">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB8SURBVHgBldABEYAgDAXQRbCBRDCCEWgAEWhgBG1iFCMQgQg67ubdjtvc3N2/U+AxAMCuiJngRy2YG3N5YV9UCbnhzoAK+09QuvDEF2RMo8FKE2GA/XvlXYKwc2LjByj3kaDrubcBNQskWliGjrMFsnBUFwAGi4ZOAXzWA9ixNEz1wRORAAAAAElFTkSuQmCC">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                  </span>\
                  <span class="img-action boostup">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACWSURBVHgBfY6xDYMwFERPIgNkgzhVypANGCEjZIOMkBVIR8cojAAbAB0dNRWc0RkZMJz09GX/r7sDwvqR28EOhow4UUkK97hsll/SkDZ0YMib/MkVAeUkJqnmyiHRrMhTUZDbrEIRkH2ssvOffXy8GDdtH0Skk3VC7uRBBpL5HZxTI7cXArI9aq/LTr3XZVGkaZSbbg8mYAgYxTIE26kAAAAASUVORK5CYII=">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action boostdown">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
                  </span>\
                  </span>\
              </div>\
@@ -937,18 +938,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </span>\
                               <span class="actions">\
                               <span class="img-action active dont-show">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADISURBVHgBrZCxEcIwDEUFNJQZIXSULtkGb2JvkIyQDTxCjgnCBklJZ5gA5Dsb5I9JCqK7d2fZ1pe+iP6MnTiPTMVcYq6YE3Nk9sxtScwyT8bEvIt5IjTQcwKhuwcRy/TiPjAwdal4gI5GvNfwnuy+o4HitiBSwSSNVJfFfbz3BREHf9WWvv08ILdCZIK3ezq0QtXHcXX0ipN0wmbmb6Tfm8adWCpETfmmQ+ewD0f58gwthIZppKBDkc2MkKKPjYm5ivHPzIHWiBftN1TqKHNJjAAAAABJRU5ErkJggg==">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action pin">\
                               <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB8SURBVHgBldABEYAgDAXQRbCBRDCCEWgAEWhgBG1iFCMQgQg67ubdjtvc3N2/U+AxAMCuiJngRy2YG3N5YV9UCbnhzoAK+09QuvDEF2RMo8FKE2GA/XvlXYKwc2LjByj3kaDrubcBNQskWliGjrMFsnBUFwAGi4ZOAXzWA9ixNEz1wRORAAAAAElFTkSuQmCC">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                               </span>\
                               <span class="img-action boostup">\
                               <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACWSURBVHgBfY6xDYMwFERPIgNkgzhVypANGCEjZIOMkBVIR8cojAAbAB0dNRWc0RkZMJz09GX/r7sDwvqR28EOhow4UUkK97hsll/SkDZ0YMib/MkVAeUkJqnmyiHRrMhTUZDbrEIRkH2ssvOffXy8GDdtH0Skk3VC7uRBBpL5HZxTI7cXArI9aq/LTr3XZVGkaZSbbg8mYAgYxTIE26kAAAAASUVORK5CYII=">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action boostdown">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
                               </span>\
                               </span>\
                           </div>\
@@ -1021,18 +1022,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  </span>\
                  <span class="actions">\
                  <span class="img-action active dont-show">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADISURBVHgBrZCxEcIwDEUFNJQZIXSULtkGb2JvkIyQDTxCjgnCBklJZ5gA5Dsb5I9JCqK7d2fZ1pe+iP6MnTiPTMVcYq6YE3Nk9sxtScwyT8bEvIt5IjTQcwKhuwcRy/TiPjAwdal4gI5GvNfwnuy+o4HitiBSwSSNVJfFfbz3BREHf9WWvv08ILdCZIK3ezq0QtXHcXX0ipN0wmbmb6Tfm8adWCpETfmmQ+ewD0f58gwthIZppKBDkc2MkKKPjYm5ivHPzIHWiBftN1TqKHNJjAAAAABJRU5ErkJggg==">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB8SURBVHgBldABEYAgDAXQRbCBRDCCEWgAEWhgBG1iFCMQgQg67ubdjtvc3N2/U+AxAMCuiJngRy2YG3N5YV9UCbnhzoAK+09QuvDEF2RMo8FKE2GA/XvlXYKwc2LjByj3kaDrubcBNQskWliGjrMFsnBUFwAGi4ZOAXzWA9ixNEz1wRORAAAAAElFTkSuQmCC">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                  </span>\
                  <span class="img-action boostup">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACWSURBVHgBfY6xDYMwFERPIgNkgzhVypANGCEjZIOMkBVIR8cojAAbAB0dNRWc0RkZMJz09GX/r7sDwvqR28EOhow4UUkK97hsll/SkDZ0YMib/MkVAeUkJqnmyiHRrMhTUZDbrEIRkH2ssvOffXy8GDdtH0Skk3VC7uRBBpL5HZxTI7cXArI9aq/LTr3XZVGkaZSbbg8mYAgYxTIE26kAAAAASUVORK5CYII=">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action boostdown">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
                  </span>\
                  </span>\
              </div>\
@@ -1069,18 +1070,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </span>\
                     <span class="actions">\
                     <span class="img-action active dont-show">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADISURBVHgBrZCxEcIwDEUFNJQZIXSULtkGb2JvkIyQDTxCjgnCBklJZ5gA5Dsb5I9JCqK7d2fZ1pe+iP6MnTiPTMVcYq6YE3Nk9sxtScwyT8bEvIt5IjTQcwKhuwcRy/TiPjAwdal4gI5GvNfwnuy+o4HitiBSwSSNVJfFfbz3BREHf9WWvv08ILdCZIK3ezq0QtXHcXX0ipN0wmbmb6Tfm8adWCpETfmmQ+ewD0f58gwthIZppKBDkc2MkKKPjYm5ivHPzIHWiBftN1TqKHNJjAAAAABJRU5ErkJggg==">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
                     <span class="img-action pin">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB8SURBVHgBldABEYAgDAXQRbCBRDCCEWgAEWhgBG1iFCMQgQg67ubdjtvc3N2/U+AxAMCuiJngRy2YG3N5YV9UCbnhzoAK+09QuvDEF2RMo8FKE2GA/XvlXYKwc2LjByj3kaDrubcBNQskWliGjrMFsnBUFwAGi4ZOAXzWA9ixNEz1wRORAAAAAElFTkSuQmCC">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                     </span>\
                     <span class="img-action boostup">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACWSURBVHgBfY6xDYMwFERPIgNkgzhVypANGCEjZIOMkBVIR8cojAAbAB0dNRWc0RkZMJz09GX/r7sDwvqR28EOhow4UUkK97hsll/SkDZ0YMib/MkVAeUkJqnmyiHRrMhTUZDbrEIRkH2ssvOffXy8GDdtH0Skk3VC7uRBBpL5HZxTI7cXArI9aq/LTr3XZVGkaZSbbg8mYAgYxTIE26kAAAAASUVORK5CYII=">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
                     </span>\
                     <span class="img-action boostdown">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
                     </span>\
                     </span>\
                 </div>\
@@ -1148,54 +1149,69 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </script>';
 
       var freqData = '<script type="text/x-jqury-tmpl" >\
-        <div class="searchBox Search-BG-Copy">\
-          <div class="recentContainer">\
-            <div class="recent-conversations hide">\
-              <div class="mb-30">\
-                  <span class="search-heads mb-0">RECENT CONVERSATIONS</span>\
-                  <div class="conversations-list">\
-                    <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
-                    </div>\
-                    <div class="conversation-content">\
-                      <div class="c-name">\Findly.ai</div>\
-                      <div class="c-data">\Good morning! How can I help you today?</div>\
-                      <div class="c-date">\Today</div>\
-                    </div>\
-                  </div>\
-                  <div class="conversations-list">\
-                    <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
-                    </div>\
-                    <div class="conversation-content">\
-                      <div class="c-name">\ Ranak</div>\
-                      <div class="c-data">\ Ranak here. what brings you to future bank?</div>\
-                      <div class="c-date">\ 2w ago</div>\
-                    </div>\
-                  </div>\
-                  <div class="conversations-list">\
-                    <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
-                    </div>\
-                    <div class="conversation-content">\
-                      <div class="c-name">\Findly.ai</div>\
-                      <div class="c-data">\Good morning! How can I help you today?</div>\
-                      <div class="c-date">\Today</div>\
-                    </div>\
-                  </div>\
+      <div class="searchBox Search-BG-Copy">\
+      <div class="recentContainer">\
+        <div class="recent-conversations hide">\
+          <div class="mb-30">\
+              <span class="search-heads mb-0">RECENT CONVERSATIONS</span>\
+              <div class="conversations-list">\
+                <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
                 </div>\
-            </div>\
-            {{if recents && recents.length}}\
-              <div class="search-heads">RECENTLY ASKED</div>\
-                <div class="search-recent-column" >\
-                  {{each(key, recent) recents }}\
-                  {{if recent}}\
-                    <div class="recentSearch">\
-                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBdY+9DcIwEIXvHYJQZgVGYAPYgDoUkSUEJWyA2ABKJCSTJjVMAKuwAa358WEXSIZcvso+f767h72tJxRYmOJECtba/MX9JffIXQFaH6q61KQnsot4f0NaYNB2VhZVWiOR3dxMj/j/HeWOd+dUiu/QRoVjHqTNV4owtcAM+bk3uoVxXXFDL7RKA0JbXAsITdIC8oOykSZFjDH3sMb47WXwASvra91JumNaAAAAAElFTkSuQmCC" id="${key}" class="recentCloseIcon">\
-                      <span id="${recent}" action-type="textTask" class="pointer recentText">${recent}</span>\
-                    </div>\
-                    {{/if}}\
-                  {{/each}}\
+                <div class="conversation-content">\
+                  <div class="c-name">\Findly.ai</div>\
+                  <div class="c-data">\Good morning! How can I help you today?</div>\
+                  <div class="c-date">\Today</div>\
                 </div>\
               </div>\
-            {{/if}}\
+              <div class="conversations-list">\
+                <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
+                </div>\
+                <div class="conversation-content">\
+                  <div class="c-name">\ Ranak</div>\
+                  <div class="c-data">\ Ranak here. what brings you to future bank?</div>\
+                  <div class="c-date">\ 2w ago</div>\
+                </div>\
+              </div>\
+              <div class="conversations-list">\
+                <div class="conversation-logo">\<img src="./libs/images/newtheme/recentcovicon.svg">\
+                </div>\
+                <div class="conversation-content">\
+                  <div class="c-name">\Findly.ai</div>\
+                  <div class="c-data">\Good morning! How can I help you today?</div>\
+                  <div class="c-date">\Today</div>\
+                </div>\
+              </div>\
+            </div>\
+        </div>\
+      {{if popularSearches && popularSearches.length}}\
+          <div class="search-heads">POPULAR SEARCHES</div>\
+            <div class="search-recent-column" >\
+              {{each(key, term) popularSearches }}\
+                {{if term}}\
+                  <div class="recentSearch pl-0">\
+                    <span id="${key}" action-type="textTask" class="pointer recentText">${term.query}</span>\
+                  </div>\
+                  {{/if}}\
+              {{/each}}\
+            </div>\
+          </div>\
+      {{/if}}\
+        {{if recents && recents.length}}\
+        <div class="recentContainer">\
+          <div class="search-heads">RECENTLY ASKED</div>\
+            <div class="search-recent-column" >\
+              {{each(key, recent) recents }}\
+                {{if recent}}\
+                  <div class="recentSearch">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBdY+9DcIwEIXvHYJQZgVGYAPYgDoUkSUEJWyA2ABKJCSTJjVMAKuwAa358WEXSIZcvso+f767h72tJxRYmOJECtba/MX9JffIXQFaH6q61KQnsot4f0NaYNB2VhZVWiOR3dxMj/j/HeWOd+dUiu/QRoVjHqTNV4owtcAM+bk3uoVxXXFDL7RKA0JbXAsITdIC8oOykSZFjDH3sMb47WXwASvra91JumNaAAAAAElFTkSuQmCC" id="${key}" class="recentCloseIcon">\
+                    <span id="${recent}" action-type="textTask" class="pointer recentText">${recent}</span>\
+                  </div>\
+                {{/if}}\
+              {{/each}}\
+            </div>\
+          </div>\
+        {{/if}}\
+        </div>\
             {{if recentTasks && recentTasks.length}}\
               <div class="resultsButtons finalResults asstTask" >\
                   <span class="search-heads">RECENT ACTIONS</span>\
@@ -1571,11 +1587,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.recentCloseIcon').off('click').on('click', function (e) {
         var recentIndex = $(this).attr('id');
         _self.vars.searchObject.recents.splice(recentIndex, 1);
+        _self.vars.searchObject.popularSearches.splice(recentIndex, 1);
         window.localStorage.setItem('recents', JSON.stringify(_self.vars.searchObject.recents));
         var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
           searchResults: _self.vars.searchObject.recentAPIResponse,
           recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2)
+          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
         });
         $('.search-body').html(freqData);
         setTimeout(function () {
@@ -1774,6 +1792,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.bindFrequentData();
           }
         })
+        initPopularSearchList();
+        function initPopularSearchList() {
+          _self.vars.searchObject.popularSearches = [];
+          var popSearchUrl = _self.API.popularSearchesUrl;
+          var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+            searchResults: _self.vars.searchObject.recentAPIResponse,
+            recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+            recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+            popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+          });
+          $('.search-body').html(freqData);
+          _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
+            console.log(response);
+            _self.vars.searchObject.popularSearches = response;
+            freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+              searchResults: _self.vars.searchObject.recentAPIResponse,
+              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+            });
+            $('.search-body').html(freqData);
+          })
+        }
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
           if(!$('#search').val()) {
             if((!_self.vars.searchObject.recentTasks.length || !_self.vars.searchObject.recents.length) && $('.search-container').hasClass('active')) {
@@ -1938,7 +1979,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
               searchResults: searchResults,
               recents : _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0,6),
-              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0,2)
+              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0,2),
+              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
             });
             $('.search-body').html(freqData);
             setTimeout(function(){
@@ -2289,7 +2331,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
         // searchResults: _self.vars.searchObject.recentAPIResponse,
         recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-        recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2)
+        recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+        popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
       });
       $('.search-body').html(freqData);
       setTimeout(function () {
@@ -2429,7 +2472,43 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
-
+    KoreWidgetSDK.prototype.getPopularSearchList = function (url, type) {
+      var bearer = this.API.jstBarrer;
+      return $.ajax({
+        url: url,
+        type: type,
+        headers: {
+          // "Authorization": bearer,
+          "Content-Type": "application/json"
+        },
+        data: {},
+        success: function (data) {
+          // console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    };
+    KoreWidgetSDK.prototype.newsSearchFeedback = function (url, type, payload) {
+      var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: {
+          "Authorization": bearer,
+          "Content-Type": "application/json"
+        },
+        data: payload,
+        success: function (data) {
+          // console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    };
     KoreWidgetSDK.prototype.makeAPItoFindly = function (url, type, payload) {
       return $.ajax({
         url: url,
