@@ -125,16 +125,16 @@
                         <div class="empty-questions-selected">
                         <img src="assets/images/icons/empty_ill.svg">
                         <div class="heading">No Questions</div>
-                        <div class="desc">Please select a questions</div>
+                        <div class="desc">Please select a question</div>
                        </div>
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
                     <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
-                        <div class="col_ p-0 source" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
                             <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}</div>
                         </div>
-                        <div class="col_ p-0 type" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 type col-1" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Type</div>
                             <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
                         </div>
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
-                        <div class="col_ p-0 source" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
                             <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
                         </div>
@@ -256,7 +256,10 @@
                             </div>
                             <div class="add-alternative-questions row">
                                 <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">Alternate Questions ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}})</div>
+                                    <div class="question-name text-truncate">Alternate Questions
+                                        <span>{{selectedFaq.alternateQuestions?.length>0?'('+selectedFaq.alternateQuestions?.length+')':''}}</span>
+                                        <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
+                                    </div>
                                     <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
@@ -272,12 +275,14 @@
                                 <div class="added-tags text-truncate">
                                     <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                 </div>
-                                <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer">
+                                <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
                             </div>
                            </ng-container>
                             <div class="add-alternative-questions row">
                                 <div class="col-10 pl-0 pr-2">
-                                    <div class="question-name text-truncate">Followup Questions ({{(selectedFaq.followupQuestions?selectedFaq.followupQuestions.length:0)}})</div>
+                                    <div class="question-name text-truncate">Followup Questions 
+                                        {{(selectedFaq.followupQuestions?.length>0?'('+selectedFaq.followupQuestions.length+')':'')}}
+                                    </div>
                                     <div class="added-tags text-truncate">Add followup the question, key tags and add synonyms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
@@ -294,7 +299,7 @@
                                     <div class="added-tags text-truncate">
                                         <span class="tags-data" *ngFor="let keyword of followQues?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                     </div>
-                                    <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer">
+                                    <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
                             </ng-container>
                         </div>

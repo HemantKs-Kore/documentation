@@ -53,22 +53,24 @@
     .table-list-content{
         .kr-sg-data-table{
             .table-action-header{
-                justify-content: flex-end;
+                justify-content: space-between;
                 height: auto;
                 background: #F8F9FA;
-                padding: 5px 30px;
+                padding: 5px 20px 5px 5px;
                 border-radius: 4px; 
                 margin: 0 15px 0 10px;               
-                .search{
-                    margin-left: 15px;
-                    .search-name{
-                        img{
-                            margin-right: 5px;
-                            position: relative;
-                            top: -1px;
-                        }
+                .kr-sg-input-search{
+                    width: 300px;
+                    input{
+                        padding-left: 34px;
+                        padding-right: 10px;
                     }
-                }
+                    .search-icon{
+                        left: 10px;
+                        width: 16px;
+                        height: 16px;
+                    }
+                 } 
                 .kr-sg-dropdowns{
                     width: 124px;
                     margin-left: 15px;
