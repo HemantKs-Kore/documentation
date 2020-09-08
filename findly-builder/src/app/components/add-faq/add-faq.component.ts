@@ -179,6 +179,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     emmiter.emit({
       question: this.form.get('question').value,
       tags: this.tags,
+      alternateQuestions: this.faqData.alternateQuestions || [],
+      followupQuestions: this.faqData.followupQuestions || [],
       response: this.form.get('botResponse').value,
       _id: this.faqData ? this.faqData._id : null,
       quesList: this.quesList,
@@ -234,7 +236,6 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.createImagePopRef  = this.createImagePop.open();
    }
    closeImgApp() {
-    this.image = {};
     this.createImagePopRef.close();
    }
    addImage(){

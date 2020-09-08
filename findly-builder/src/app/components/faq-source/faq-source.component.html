@@ -68,7 +68,7 @@
                                                 </div>
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{faq.question}}</div>
-                                                    <div class="desc">{{faq.answer}}</div>
+                                                    <div class="desc" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq.answer)'></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,7 +107,7 @@
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft') || (selectedtab === 'approved')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
+                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                         </div>
                     </div>
                 </div>
