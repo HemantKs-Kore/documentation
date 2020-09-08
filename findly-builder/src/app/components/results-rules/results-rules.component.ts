@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { NotificationService } from '../../services/notification.service';
+import { MdEditorOption } from 'src/app/helpers/lib/md-editor.types';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 @Component({
   selector: 'app-results-rules',
   templateUrl: './results-rules.component.html',
@@ -50,10 +56,50 @@ export class ResultsRulesComponent implements OnInit {
        rules:[]
    }
 }
-  constructor() { }
- 
-  ngOnInit(): void {
+selectedTab = 'attributes';
+loadingTabDetails
+addAttributesModalPopRef:any;
+addRulesModalPopRef:any;
+addSignalsModalPopRef:any;
+addEditattribute= {
+  name:'',
+  attributes:[],
+  type:'',
+  isFacet:''
+}
+addEditRule:any= {};
+typedQuery;
+options: MdEditorOption = {
+  showPreviewPanel: false,
+  hideIcons: ['TogglePreview']
+}
+attributes:any= [];
+rules:any = [];
+selectedApp
+serachIndexId
+groupsAdded: any = [];
+readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  @ViewChild('addRulesModalPop') addRulesModalPop: KRModalComponent;
+  @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
+  @ViewChild('addSignalsModalPop') addSignalsModalPop: KRModalComponent;
+  constructor(
+    private notify: NotificationService,
+    private service: ServiceInvokerService,
+    private workflowService: WorkflowService
+  ) { }
+  ngOnInit() {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.addNewSimpleRuleSet();
+    this.getRules();
+    this.getAttributes();
+  }
+  selectTab(tab){
+    this.selectedTab = tab;
+    if(tab === 'attributes'){
+      this.getAttributes();
+    }
+    this.loadingTabDetails = true;
   }
   addSimpleRule(ruleSet,type){
     const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
@@ -86,5 +132,166 @@ export class ResultsRulesComponent implements OnInit {
       this.validationRules.rules.push(tempRuleSet);
      }
   }
+  addEditAttibutes(group?){
+    if(group){
+      this.addEditattribute = group
+    } else{
+      this.addEditattribute= {
+        name:'',
+        attributes:[],
+        type:'',
+        isFacet:''
+      }
+      this.openAddAttributesModal();
+    }
+   }
+   addEditRules(rule){
+     if(rule){
+
+     } else{
+      this.addEditRule= {
+        name:'',
+        attributes:[],
+        type:'',
+        isFacet:''
+      }
+     }
+   }
+   deleteAttributes(attribute){
+    const quaryparamats = {
+      searchIndexId : this.serachIndexId,
+      groupId:attribute._id
+   }
+   this.service.invoke('delete.group', quaryparamats).subscribe(
+    res => {
+      console.log(res);
+    },
+    errRes => {
+    }
+  );
+   }
+   getRules(){
+    const quaryparamats = {
+      searchIndexId : this.serachIndexId,
+   }
+   this.service.invoke('get.rules', quaryparamats).subscribe(
+    res => {
+      this.rules = res;
+      console.log(res);
+    },
+    errRes => {
+    }
+  );
+   }
+   getAttributes(){
+    const quaryparamats = {
+      searchIndexId : this.serachIndexId,
+   }
+   this.service.invoke('get.groups', quaryparamats).subscribe(
+    res => {
+      this.attributes = res;
+    },
+    errRes => {
+    }
+  );
+   }
+   errorToaster(errRes,message){
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notify.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notify.notify(message, 'error');
+    } else {
+      this.notify.notify('Somthing went worng', 'error');
+  }
+ }
+   saveAttributes(){
+     const quaryparamats = {
+        searchIndexId : this.serachIndexId
+     }
+     console.log(this.addEditattribute);
+     const payload = {
+      attributes :this.addEditattribute.attributes,
+      name: this.addEditattribute.name
+     }
+     this.service.invoke('create.group', quaryparamats , payload).subscribe(
+      res => {
+        console.log(res);
+      },
+      errRes => {
+        this.errorToaster(errRes,'Failed to create group');
+      }
+    );
+   }
+   saveRyules(){
+    const quaryparamats = {
+      searchIndexId : this.serachIndexId
+   }
+   console.log(this.addEditattribute);
+   const payload = {
+    attributes :this.addEditattribute.attributes,
+    name: this.addEditattribute.name
+   }
+   this.service.invoke('create.group', quaryparamats , payload).subscribe(
+    res => {
+      console.log(res);
+    },
+    errRes => {
+      this.errorToaster(errRes,'Failed to create group');
+    }
+  );
+  }
+  checkDuplicateTags(suggestion: string): boolean {
+    return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);
+  }
+  addAltTag(event: MatChipInputEvent): void {
+    // debugger;
+    const input = event.input;
+    const value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+
+      if (!this.checkDuplicateTags((value || '').trim())) {
+        this.notify.notify('Duplicate tags are not allowed', 'warning');
+      } else {
+        this.addEditattribute.attributes.push({ value: value.trim()});
+      }
+    }
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeAltTag(tag): void {
+    const index = this.addEditattribute.attributes.indexOf(tag);
+    if (index >= 0) {
+      this.addEditattribute.attributes.splice(index, 1);
+    }
+  }
+  openAddRulesModal() {
+    this.addRulesModalPopRef  = this.addRulesModalPop.open();
+   }
+   closeAddRulesModal() {
+    if (this.addRulesModalPopRef &&  this.addRulesModalPopRef.close) {
+      this.addRulesModalPopRef.close();
+    }
+   }
+   openAddAttributesModal() {
+    this.addAttributesModalPopRef  = this.addAttributesModalPop.open();
+   }
+   closeAddAttributesModal() {
+    if (this.addAttributesModalPopRef &&  this.addAttributesModalPopRef.close) {
+      this.addAttributesModalPopRef.close();
+    }
+   }
+   openAddSignalseModal() {
+    this.addSignalsModalPopRef  = this.addSignalsModalPopRef.open();
+   }
+   closeAddSignalseModal() {
+    if (this.addSignalsModalPopRef &&  this.addSignalsModalPopRef.close) {
+      this.addSignalsModalPopRef.close();
+    }
+   }
 
 }
