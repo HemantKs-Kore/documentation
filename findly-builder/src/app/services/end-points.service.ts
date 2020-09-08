@@ -198,6 +198,18 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/allTasks?',
       method: 'get'
     };
+    this.serviceList['get.traitgroup'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup',
+      method: 'get'
+    };
+    this.serviceList['post.traitgroup'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup',
+      method: 'post'
+    };
+    this.serviceList['get.autoTrainStatus'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/bt/streams/:streamId/autoTrainStatus?sentences=true&speech=false',
+      method: 'get'
+    };
     
   }
 }
