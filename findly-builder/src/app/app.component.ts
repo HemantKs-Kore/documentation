@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.onResize();
     this.previousState = this.getPreviousState();
+    this.showHideSearch(false);
   }
    restorepreviousState(){
     let route = '/apps';
@@ -122,6 +123,9 @@ export class AppComponent implements OnInit {
       });
     }
     if (event instanceof NavigationEnd) {
+      if(event && event.url === '/apps'){
+        this.showHideSearch(false);
+      }
       if (event && event.url === '/apps') {
         this.setPreviousState();
         this.showHideSearch(false);
@@ -129,11 +133,15 @@ export class AppComponent implements OnInit {
         $('.start-search-icon-div').addClass('hide');
       } else {
         const path = event.url.split('?')[0];
-        if(path){
+        if(path && (path !=='/')){
           this.setPreviousState(path);
+          $('.start-search-icon-div').removeClass('hide');
+          $('.krFindlyAppComponent').addClass('appSelected');
+        } else {
+          this.showHideSearch(false);
+          $('.krFindlyAppComponent').removeClass('appSelected');
+          $('.start-search-icon-div').addClass('hide');
         }
-        $('.start-search-icon-div').removeClass('hide');
-        $('.krFindlyAppComponent').addClass('appSelected');
       }
       this.authService.findlyApps.subscribe((res) => {
         this.appsData = res;
