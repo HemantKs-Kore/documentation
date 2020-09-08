@@ -86,7 +86,7 @@ export class AddAlternateQuestionComponent implements OnInit {
   }
 
   addFaq() {
-    if(this.f.question == '') {
+    if(this.f.question.trim() == '') {
       return;
     }
     let params = {
