@@ -227,6 +227,9 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     };
     this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
       this.notify.notify('Rules deleted successfully', 'success');
+      this.showReviewFooter = false;
+      this.isCheckAll = false;
+      this.getRules();
     }, err=>{
 
     })
@@ -245,6 +248,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
       this.notify.notify(res.msg, 'success');
       this.showReviewFooter = false;
+      this.isCheckAll = false;
       this.getRules();
     }, err=>{
 
