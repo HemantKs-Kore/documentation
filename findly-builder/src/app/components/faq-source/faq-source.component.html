@@ -281,7 +281,7 @@
                                         <span>{{selectedFaq.alternateQuestions?.length>0?'('+selectedFaq.alternateQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
-                                    <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
+                                    <div class="added-tags text-truncate">Add alternate forms of the question, key terms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
@@ -304,14 +304,15 @@
                                     <div class="question-name text-truncate">Followup Questions 
                                         {{(selectedFaq.followupQuestions?.length>0?'('+selectedFaq.followupQuestions.length+')':'')}}
                                     </div>
-                                    <div class="added-tags text-truncate">Add followup the question, key tags and add synonyms.</div>
+                                    <div class="added-tags text-truncate">Add followup the question, key terms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addFollowUp()">Add</button>
                                 </div>
                             </div>
                             <div *ngIf="selectedFaq.isAddFollow">
-                                <app-add-alternate-question [faqServ]="faqServiceFollow"></app-add-alternate-question>
+                                <app-add-faq (addFaq)="addNewFollowUp($event)" (cancelfaqEvent)="selectedFaq.isAddFollow = null"></app-add-faq>  
+                                <!-- <app-add-alternate-question [faqServ]="faqServiceFollow"></app-add-alternate-question> -->
                             </div>
 
                             <ng-container *ngIf="selectedFaq.followupQuestions?.length">

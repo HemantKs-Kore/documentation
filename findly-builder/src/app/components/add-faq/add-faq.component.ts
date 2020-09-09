@@ -251,6 +251,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         this.notify.notify('Duplicate tags are not allowed', 'warning');
       } else {
         this.tags.push(value.trim());
+        this.typedQuery = '';
       }
     }
   }

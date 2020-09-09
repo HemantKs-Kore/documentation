@@ -27,7 +27,7 @@
           <div class="info-text">Upload Image or Video</div>
       </div>
       <!-- <input type="file" name="myfile"/> -->
-      <div class="uploaded-image-preview"  *ngIf="responseObj && responseObj.image && responseObj.image.url && ((responseObj.responseType==='horizontalSplit') || (responseObj.responseType ==='verticalSplit'))">
+      <div (click)="openImgApp(responseObj,index,type)" class="uploaded-image-preview"  *ngIf="responseObj && responseObj.image && responseObj.image.url && ((responseObj.responseType==='horizontalSplit') || (responseObj.responseType ==='verticalSplit'))">
         <img src="{{responseObj.image.url}}">
       </div>        
     </div>
@@ -80,7 +80,7 @@
       <div class="label-text">Question</div>
       <input type="text" placeholder="Enter your question" class="input-text" formControlName="question" autocomplete="off">             
     </div>
-    <div for="tagInput" class="label-text">Tags</div>
+    <div for="tagInput" class="label-text">Key Terms</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
@@ -89,7 +89,7 @@
         </mat-chip>
         <input placeholder="Type & enter"
               (focus)= "getAltTags($event)"
-              [value] = "typedQuery"
+              [(ngModel)]="typedQuery"
                [matChipInputFor]="chipList"
                [matAutocomplete]="suggestedItems"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -103,8 +103,8 @@
         </ng-container>
       </mat-autocomplete>
     </mat-form-field>
-    <p class="d-none">Group</p>
-    <app-group-input class="d-none"></app-group-input>
+    <p >Fields</p>
+    <app-group-input ></app-group-input>
   </form>
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index" >
     <label class="kr-sg-toggle">

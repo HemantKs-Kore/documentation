@@ -274,6 +274,27 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.getfaqsBy(null,this.selectedtab);
     }
   }
+  addNewFollowUp(event){
+    const followUPpayload: any = {
+      question: event.question,
+      defaultAnswers: event.defaultAnswers || [],
+      conditionalAnswers: event.conditionalAnswers || [],
+      keywords: event.tags
+      };
+      const existingfollowups =  this.selectedFaq.followupQuestions || [];
+      existingfollowups.push(followUPpayload);
+    const _payload = {
+        question: this.selectedFaq.question,
+    //  answer: event.response,
+     defaultAnswers: this.selectedFaq.defaultAnswers || [],
+     conditionalAnswers: this.selectedFaq.conditionalAnswers || [],
+     alternateQuestions: this.selectedFaq.alternateQuestions || [],
+     followupQuestions: existingfollowups || [],
+     keywords: this.selectedFaq.tags,
+     state: this.selectedFaq.state
+      };
+      this.updateFaq(this.selectedFaq,'updateQA',_payload)
+  }
   addManualFaq(event){
     console.log(event);
     const quaryparms: any = {
