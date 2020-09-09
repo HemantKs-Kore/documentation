@@ -323,6 +323,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    this.service.invoke('create.rule', params, payload).subscribe(
      res=>{
       console.log(res);
+      this.closeAddRulesModal();
+      this.getRules();
      }, err=>{
        
      }

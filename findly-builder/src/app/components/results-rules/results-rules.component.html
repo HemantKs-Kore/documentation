@@ -108,7 +108,29 @@
             </header>
             <ng-container >
               <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
-                <div class="content-body">
+                <div class="content-body" *ngFor="let rool of rules">
+                    <div class="col_ col-2">
+                      <div class="kr-sg-checkbox">
+                        <input id="checkbox-13" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox-13" class="checkbox-custom-label"></label>
+                      </div> 
+                      <span>{{rool.name}}</span>
+                    </div>                    
+                    <div class="col_ col-7 definatation">{{rool.definitionStr}}</div>               
+                    <div class="actions draft-state col_ col-3 text-right pr-3">
+                      <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal()">
+                      <img src="assets/icons/return.svg" class="ml-4">
+                      <img src="assets/icons/delete-table.svg" class="ml-4">
+                    </div>
+                    <div class="actions approve-state d-none col-3 text-right pr-3">
+                      <button class="kr-sg-button-primary btn_lg ml-4">Approve</button>
+                      <img src="assets/icons/return.svg" class="ml-4">
+                      <img src="assets/icons/delete-table.svg" class="ml-4">
+                    </div>
+                </div> 
+
+
+                <div class="content-body d-none">
                     <div class="col_ col-2">
                       <div class="kr-sg-checkbox">
                         <input id="checkbox-13" class="checkbox-custom" type="checkbox">
@@ -128,7 +150,7 @@
                       <img src="assets/icons/delete-table.svg" class="ml-4">
                     </div>
                 </div>  
-                <div class="content-body check-all-bg">
+                <div class="content-body check-all-bg d-none">
                   <div class="col_ col-2">
                     <div class="kr-sg-checkbox">
                       <input id="checkbox-13" class="checkbox-custom" type="checkbox">
