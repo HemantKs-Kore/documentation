@@ -40,7 +40,8 @@
         border-radius: 4px;
         padding: 11px 20px;
         align-items: center;
-        margin: 5px 0 10px 0;
+        margin: 20px 0 10px 0;
+        position: relative;
         .title{
             color: #202124;
             font-size: 14px;
@@ -73,6 +74,11 @@
             color: #85B7FE;
             font-weight: 500;
             font-size: 14px;
+        }
+        .delete-icon{
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
         }
     }   
     .text-area-editor{
@@ -255,7 +261,64 @@
             margin-right: 20px;
             font-size: 14px;
         }
-    }   
+    }  
+    .bot_rsponse_advance_mode{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        margin: 30px 0 5px 0;
+        .delete-response{
+            position: absolute;
+            right: -16px;
+            margin-top: -2px;
+            cursor: pointer;
+        }
+        .advanced_mode_faq{
+            .kr-sg-toggle{
+                margin-left: -117px;
+                width: 30px;
+                height: 16px;
+                input{
+                    height: auto !important;
+                        &:checked{
+                        + .slider{
+                            border: 1px solid #1372ff;
+                            background: #0D6EFD;
+                        }
+                    }
+                }
+                .slider{
+                    border: 1px solid #3671C0;
+                    background: #fff;
+                    &::before{
+                        position: absolute;
+                        content: "";
+                        height: 12px;
+                        top: 1px;
+                        width: 12px;
+                        left: 2px;
+                        right: 0;
+                        background-color: #ffffff;
+                        transition: 0.4s;
+                        border-radius: 50%;
+                    }
+                    span{
+                        &.no{
+                            margin-left: -60px;
+                            font-size: 14px;
+                            color: #161620;
+                        }
+                        &.yes{
+                            padding-left: 40px;
+                            color: #3636C0;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }    
+    }
 }
 
 
@@ -265,6 +328,12 @@
 
 :host ::ng-deep .example-chip-list {
     width: 100%;
+    .and{
+        text-transform: uppercase;
+        font-size: 10px;
+        color: #6D6868;
+        padding: 0 7px 0 10px;
+    }
     .mat-form-field-wrapper{
         padding: 0;
         .mat-form-field-flex{
@@ -301,7 +370,7 @@
                             .mat-val{
                                 color: #8a959f;
                                 font-size: 12px;
-                                font-weight: bold;
+                                font-weight: bold;                                
                             }
                             .mat-icon{
                                 width: auto;

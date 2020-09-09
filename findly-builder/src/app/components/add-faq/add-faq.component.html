@@ -1,5 +1,4 @@
-<ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>
-  <div class="label-text bot-res-title">Bot Response <img *ngIf="false" src="assets/icons/sidemenu/delete-table.svg"></div>
+<ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>  
   <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
   <div class="layout-select">
     <div class="d-flex align-items-center m-0 col-7 p-0">
@@ -17,6 +16,7 @@
         <img *ngIf="(responseObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
       </div>
     </div>
+    <div class="delete-icon"><img src="assets/icons/sidemenu/delete-table.svg"></div>
     <!-- <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div> -->
   </div>
   <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
@@ -103,21 +103,33 @@
         </ng-container>
       </mat-autocomplete>
     </mat-form-field>
-    <p >Fields</p>
-    <app-group-input ></app-group-input>
+    <div class="mb-15">
+      <div class="label-text">Fields</div>
+      <app-group-input></app-group-input>
+    </div>
   </form>
-  <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index" >
-    <label class="kr-sg-toggle">
-      <input type="checkbox" [checked]='(faqObj.selected === "condition")' (click)="changeResponseType(faqObj)">
-      <div class="slider"></div>
-  </label>
+  <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
+    <div class="bot_rsponse_advance_mode">
+      <div class="label-text bot-res-title">Bot Response</div>
+      <div class="advanced_mode_faq">
+        <label class="kr-sg-toggle with-label">
+          <input type="checkbox" [checked]='(faqObj.selected === "condition")' (click)="changeResponseType(faqObj)">
+          <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
+        </label>
+      </div>
+      <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response">
+    </div>    
   <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
-    <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+    <div class="label-text">Conditions</div>
+    <mat-form-field class="example-chip-list" [floatLabel]="'never'">
       <mat-chip-list #chipList2 aria-label="tag selection">
-        <mat-chip *ngFor="let tag of faqObj.conditions; let index = index;" (removed)="removeConditionTag(tag,faqObj,index)">
-            <div class="mat-val" (click)="$event.stopPropagation()"> {{tag.value}}</div>
+        <ng-container *ngFor="let tag of faqObj.conditions; let index = index;">
+          <span class="and" *ngIf="(index)">and</span>
+          <mat-chip (removed)="removeConditionTag(tag,faqObj,index)">
+            <div class="mat-val" (click)="$event.stopPropagation()">{{tag.value}}</div>
             <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-        </mat-chip>
+          </mat-chip>
+        </ng-container>                           
         <input placeholder="Type & enter"
                [(ngModel)]="conditionQuary"
                [matChipInputFor]="chipList2"
