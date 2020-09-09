@@ -3,6 +3,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '../../services/notification.service';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 
 @Component({
@@ -20,9 +22,10 @@ export class AttributesListComponent implements OnInit {
     attributes:[],
     type:'custom',
     isFacet:''
-  }
+  };
+  searchBlock = '';
   addAttributesModalPopRef:any;
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
   
   constructor( private service: ServiceInvokerService,
@@ -33,6 +36,30 @@ export class AttributesListComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getAttributes();
+  }
+
+  checkDuplicateTags(suggestion: string): boolean {
+    return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);
+  }
+
+  addAltTag(event: MatChipInputEvent): void {
+    // debugger;
+    const input = event.input;
+    const value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+
+      if (!this.checkDuplicateTags((value || '').trim())) {
+        this.notify.notify('Duplicate tags are not allowed', 'warning');
+      } else {
+        this.addEditattribute.attributes.push({ value: value.trim()});
+      }
+    }
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
   addEditAttibutes(group?){
