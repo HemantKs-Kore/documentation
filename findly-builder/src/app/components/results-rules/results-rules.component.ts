@@ -61,7 +61,7 @@ loadingTabDetails
 addAttributesModalPopRef:any;
 addRulesModalPopRef:any;
 addSignalsModalPopRef:any;
-addEditattribute= {
+addEditattribute : any = {
   name:'',
   attributes:[],
   type:'',
@@ -73,6 +73,8 @@ options: MdEditorOption = {
   showPreviewPanel: false,
   hideIcons: ['TogglePreview']
 }
+selectedRulesOnj:any ={};
+selectedAttributesObj:any = {};
 attributes:any= [];
 rules:any = [];
 selectedApp
@@ -132,6 +134,9 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.validationRules.rules.push(tempRuleSet);
      }
   }
+  addedGroupToRule(event,rule,type?){
+    console.log(event);
+  }
   addEditAttibutes(group?){
     if(group){
       this.addEditattribute = group
@@ -147,7 +152,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    addEditRules(rule){
      if(rule){
-
+         this.validationRules = rule.rules;
      } else{
       this.addEditRule= {
         name:'',
@@ -215,7 +220,9 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      }
      this.service.invoke('create.group', quaryparamats , payload).subscribe(
       res => {
-        console.log(res);
+        this.notify.notify('Attribute saved successfully','success');
+        this.closeAddAttributesModal();
+        this.getAttributes();
       },
       errRes => {
         this.errorToaster(errRes,'Failed to create group');

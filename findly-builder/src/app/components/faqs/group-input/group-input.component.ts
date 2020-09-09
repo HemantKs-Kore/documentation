@@ -1,5 +1,5 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import {Component, ElementRef, ViewChild, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { WorkflowService } from '@kore.services/workflow.service';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
@@ -29,6 +29,9 @@ export class GroupInputComponent implements OnInit {
   groupVal: any;
   allValues: any;
   currentSugg: any;
+  enteredValue;
+  @Input() customEmitter;
+  @Output() emitValues = new EventEmitter();
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
@@ -87,7 +90,12 @@ export class GroupInputComponent implements OnInit {
         return;
       }
       this.groups.push(gg + ":" +event.option.viewValue);
-      this.faqService.groupAdded.next(this.groups);
+      if(this.customEmitter){
+         this.emitValues.emit(this.groups);
+         this.groupCtrl.setValue(' ');
+      } else {
+        this.faqService.groupAdded.next(this.groups);
+      }
       this.groupCtrl.setValue(null);
       this.groupInput.nativeElement.value = '';
       // this.groupCtrl.setValue(null);
