@@ -135,7 +135,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     alternateQuestions: [],
     followupQuestions: []
   };
-  conditionInterface:any = { key: '', op: '', value: '' };
+  conditionInterface:any = { key: '', op: 'exist', value: '' };
   defaultAnsInterface:any =  {
     answerType:'default', // default/conditional
     responseType: 'default',
@@ -283,9 +283,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
               payload:answer.payload,
               answerType:'default',
               responseType: 'default',
-              conditions:[
-                { key: '', op: '', value: '' },
-              ],
+              conditions:[],
               image:answer.multimedia
             }
             if(answer.type === 'javascript' && answer.payload){
@@ -313,8 +311,22 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
               payload:'',
               answerType:'condition',
               responseType: 'default',
-              conditions: answer.conditions || []
+              // conditions: answer.conditions || []
             }
+            const _conditions = [];
+            answer.conditions.forEach(element => {
+              const tempobj = {
+                key:'',
+                op:'exist',
+                value:element.value,
+              }
+              if(element && element.op === 'eq'){
+                tempobj.value = element.key+'='+element.value;
+                tempobj.op = 'eq';
+              }
+              _conditions.push(tempobj);
+            });
+            answerObj.conditions = _conditions || []
             if(answer && answer.answers && answer.answers.length){
               answerObj.type =  answer.answers[0].type;
               answerObj.payload =  answer.answers[0].payload;
@@ -377,9 +389,25 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
               url:answer.image.url,
             }
           }
+          const _conditions = [];
+          if(answer.conditions){
+            answer.conditions.forEach(element => {
+              const tempobj = {
+                key:'',
+                op:'exist',
+                value:element.value,
+              }
+              if(element.value && element.value.includes('=')){
+                tempobj.value = element.value.split('=')[1];
+                tempobj.key = element.value.split('=')[0];
+                tempobj.op = 'eq';
+              }
+              _conditions.push(tempobj);
+            });
+          }
           const conditionAnswerObj:any = {
               answers: [],
-              conditions:answer.conditions || [],
+              conditions:_conditions || [],
           }
           conditionAnswerObj.answers.push(answerObj1);
           conditionalAnswers.push(conditionAnswerObj);

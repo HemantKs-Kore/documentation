@@ -274,9 +274,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.getfaqsBy(null,this.selectedtab);
     }
   }
-  logAns(a){
-    console.log(a);
-  }
+
   addNewFollowUp(event){
     const followUPpayload: any = {
       question: event.question,
