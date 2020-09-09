@@ -78,15 +78,15 @@
     <div class="tab-sec-top">
         <div class="d-flex">
           <div (click)='selectTab("attributes")' class="tab-name" [ngClass]="{'active': selectedTab==='attributes'}">Attributes</div>
-          <!-- <div (click)='selectTab("rules")' class="tab-name" [ngClass]="{'active': selectedTab==='rules'}">Rules</div>
-          <div  (click)='selectTab("signals")' class="tab-name" [ngClass]="{'active': selectedTab==='signals'}">Signals</div> -->
+          <div (click)='selectTab("rules")' class="tab-name" [ngClass]="{'active': selectedTab==='rules'}">Rules</div>
+          <div  (click)='selectTab("signals")' class="tab-name" [ngClass]="{'active': selectedTab==='signals'}">Signals</div>
         </div>
         <div class="header-sec">
             <div class="kr-sg-input-search">                               
-                <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch'>
+                <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch' [(ngModel)]="searchBlock">
                 <img src="assets/icons/search-gray.svg" class="search-icon">
             </div>
-            <button class="kr-sg-button-secondary btn_lg" (click)="addEditRule()" *ngIf="selectedTab==='rules'">Add</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="addEditRules()" *ngIf="selectedTab==='rules'">Add</button>
             <button class="kr-sg-button-secondary btn_lg" (click)="addEditAttibutes()" *ngIf="selectedTab ==='attributes'">Add</button>
         </div>
     </div>
@@ -100,7 +100,7 @@
             </div>
         </div>       
     </div>
-    <div class="table-list-content" *ngIf="selectedRulesOnj && rules && rules.length">
+    <div class="table-list-content" *ngIf="selectedRulesOnj && rules && rules.length && !loadingRules">
         <div class="kr-sg-data-table">      
           <section class="table-content">
             <header class="table-header">
@@ -164,12 +164,15 @@
           </section>       
         </div>
     </div>
-    <div *ngIf="!(rules && rules.length)" class="p-5">
+    <div *ngIf="loadingRules" class="p-5 text-center">
+      Lading....
+    </div>
+    <div *ngIf="!(rules && rules.length) && !loadingRules" class="p-5 text-center">
       No rules added yet
     </div>
    </ng-container>
    <ng-container  *ngIf="selectedTab==='attributes'">
-    <div class="table-list-content attributes-rules-tab-content" *ngIf="attributes && attributes.groups && attributes.groups.length && !loadingContent">
+    <div class="table-list-content attributes-rules-tab-content" *ngIf="attributes && attributes.groups && attributes.groups.length && !loading">
         <div class="kr-sg-data-table with-checkbox">
           <section class="table-content">
             <header class="table-header">
@@ -186,7 +189,7 @@
             </header>
             <perfect-scrollbar class="table-scroll-perfect if-select-all">
               <ng-container>
-                <div class="content-body" *ngFor="let attribute of attributes.groups">
+                <div class="content-body" *ngFor="let attribute of attributes.groups  |  filter:[ searchBlock ,'name']">
                   <div class="col_ col-3">
                     <div class="kr-sg-checkbox hide">
                       <input id="checkbox-10" class="checkbox-custom" type="checkbox">
@@ -212,7 +215,10 @@
           </section>
         </div>
       </div>
-      <div *ngIf="!(attributes.groups && attributes.groups.length)" class="p-5 text-center">
+      <div *ngIf="loading" class="p-5 text-center">
+        Lading....
+      </div>
+      <div *ngIf="!(attributes.groups && attributes.groups.length) && !loading" class="p-5 text-center">
         No Attributes added yet
      </div>
    </ng-container>
@@ -220,7 +226,7 @@
 
 <kr-modal modalType="center" modalClass="addRulesModalComponent" #addRulesModalPop>
     <div class="modal-header">
-        <div class="header-title" (click)='closeAddRulesModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
+        <div class="header-title" (click)='closeAddRulesModal()'><img src="assets/images/closeCross.png" class="closeCross closeRules pr-2"> <span class="">Add Rules</span></div>        
     </div>
     <div class="modal-body">
     <div class="col-12 pl-5 pr-0" *ngIf="validationRules && validationRules.rules && validationRules.rules.length">

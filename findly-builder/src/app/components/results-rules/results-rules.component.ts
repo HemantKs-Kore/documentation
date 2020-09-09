@@ -80,6 +80,9 @@ rules:any = [];
 selectedApp
 serachIndexId
 groupsAdded: any = [];
+searchBlock = '';
+loading = true;
+loadingRules = true;
 readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('addRulesModalPop') addRulesModalPop: KRModalComponent;
   @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
@@ -98,6 +101,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   }
   selectTab(tab){
     this.selectedTab = tab;
+    this.searchBlock = '';
     if(tab === 'attributes'){
       this.getAttributes();
     }
@@ -156,10 +160,9 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      } else{
       this.addEditRule= {
         name:'',
-        attributes:[],
-        type:'',
-        isFacet:''
+        definition:[],
       }
+      this.openAddRulesModal();
      }
    }
    deleteAttributes(attribute){
@@ -183,8 +186,11 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     res => {
       this.rules = res;
       console.log(res);
+      this.loadingRules = false
     },
     errRes => {
+      this.errorToaster(errRes)
+      this.loadingRules = false
     }
   );
    }
@@ -195,12 +201,15 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    this.service.invoke('get.groups', quaryparamats).subscribe(
     res => {
       this.attributes = res;
+      this.loading = false;
     },
     errRes => {
+      this.loading = false;
+    this.errorToaster(errRes)
     }
   );
    }
-   errorToaster(errRes,message){
+   errorToaster(errRes,message?){
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
       this.notify.notify(errRes.error.errors[0].msg, 'error');
     } else if (message){
