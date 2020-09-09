@@ -3,8 +3,14 @@
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
     </div>
-    <div class="mainLoadingSpinner" *ngIf="!(bots && bots.length) && !loadingContent">
-      <span class="please-wait-message">No Content Available</span>
+    <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
+      <img src="assets/images/empty-illustration.png">
+      <div class='noTraitsInfo'><span class='infoHeader'> No Bots created yet!</span>
+        <p class='infoP'> Looks like there are no Bots created'<br>
+            <!-- Create and manage bot traits -->
+        </p>
+        <!-- <button class='kr-sg-button-primary'>{{'Create New'}}</button> -->
+    </div>
     </div>
     <div class="table-list-content" *ngIf="bots && bots.length && !loadingContent">
       <div class="kr-sg-data-table with-checkbox">

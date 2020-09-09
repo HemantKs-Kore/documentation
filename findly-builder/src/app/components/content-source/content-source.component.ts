@@ -133,7 +133,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   }
       // });
       if(res.numPages)
-        this.pageination(res.numPages,5);
+        this.pageination(res.numPages,10);
       if(this.resources.length){
         this.resources.forEach(element => {
           this.statusArr.push(element.recentStatus);
@@ -207,7 +207,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       /** Paging */
      
       const data = [...res]
-      this.pagingData = data.slice(0,5);
+      this.pagingData = data.slice(0,10);
       
     /** Paging */
       this.sliderStep = 0;
@@ -255,10 +255,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
         this.openStatusModal();
         this.selectedSource = source;
-        this.pageination(source.numPages,5)
+        this.pageination(source.numPages,10)
         this.loadingSliderContent = true;
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-        this.getCrawledPages(5,0);
+        this.getCrawledPages(10,0);
     }
   }
   pageination(pages,perPage){
@@ -288,7 +288,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       $('.numbers').removeClass("active")
     })
     $('#number_'+index).addClass("active");
-     //$('#number_'+index).toggleClass('active')
   }
   deletePages(from,record,event) {
     if(event){

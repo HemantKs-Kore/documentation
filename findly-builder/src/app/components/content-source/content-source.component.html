@@ -417,7 +417,7 @@
                   <div class="paginations-custon">
                     <div class="previous">Previous</div>
                     <!-- <div class="previous" *ngIf="btnAllCount > 5"> ... </div> -->
-                    <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(5,i)"
+                    <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
                       id="number_{{i}}" [ngClass]="{'active': i === 0}" class="numbers">{{i+1}}
                       <!-- <div *ngif="">{{i+1}}</div> -->
                     </div>

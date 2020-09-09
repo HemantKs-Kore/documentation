@@ -27,6 +27,80 @@
     height: calc(100vh - 62px);
     overflow: hidden;    
     background: #fff;
+    .noTraits {
+        text-align: center;
+        .noTraitsImg {
+            width: 245px;
+            height: 182px;
+        }
+        .noTraitsInfo {
+            .infoHeader {
+                width: 218px;
+                font-family: Lato;
+                font-size: 24px;
+                font-weight: 300;
+                text-align: center;
+                color: $primaryColor;
+                margin-top: 20px;
+                display: inline-block;
+            }
+            .infoP {
+                font-family: Lato;
+                font-size: 14px;
+                text-align: center;
+                color: $secondaryColor;
+                margin-top: 10px;
+            }
+            .createNewTrait {
+                margin-top: 10px;
+                font-size: 14px;
+                color: #fff;
+                background: #009dab;
+                height: 30px;
+                padding: 0px 20px !important;
+                width: auto;
+                border-radius: 3px;
+                border: 1px solid #009dab;
+                margin-left: 0;
+                outline: 0;
+                &:hover {
+                    background: $hoverColor;
+                    border: 1px solid $hoverColor;
+                }
+            }
+        }
+        .emptyNote {
+            font-size: 14px;
+            border: solid 1px $borderColor;
+            background-color: $backgroundColor;
+            margin-top: 30px;
+            width: 80%;
+            // height: 114px;
+            border-radius: 4px;
+            margin: 30px auto 0;
+            text-align: left;
+            padding: 24px 30px;
+            .emptyTitle {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+            .emptyDesc {
+                font-size: 12px;
+                font-weight: normal;
+                margin-bottom: 15px;
+                &.marginBottom10 {
+                    margin-bottom: 10px;
+                }
+            }
+            .emptyListDesc {
+                font-size: 12px;
+                font-weight: normal;
+                margin-bottom: 15px;
+                padding-left: 15px;
+            }
+        }
+    }
     .empty-case-showing-cotent{
         margin: 0 -5px;
     }
