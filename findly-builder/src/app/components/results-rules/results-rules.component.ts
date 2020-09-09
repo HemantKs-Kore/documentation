@@ -83,10 +83,12 @@ addEditattribute : any = {
   attributes:[],
   type:'',
   isFacet:''
-}
+};
+isCheckAll: boolean = false;
 name = {
   na: ''
 };
+showReviewFooter: boolean = false;
 addEditRule:any= {};
 typedQuery;
 options: MdEditorOption = {
@@ -124,10 +126,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.addNewSimpleRuleSet();
     this.getRules();
     this.getAttributes();
-    setInterval(()=>{
-      console.log('validation rules . rules', this.validationRules.rules);
-    }, 1000);
-
   }
 
   resetRule() {
@@ -209,6 +207,48 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.validationRules.rules.push(tempRuleSet);
      }
   }
+  updateFooter(ruleData) {
+    console.log('rules ', this.rules);
+    this.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
+  }
+  selectAll() {
+    this.rules = _.map(this.rules, o=> {o.isChecked = !this.isCheckAll; return o;})
+    this.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
+  }
+
+  bulkDelete() {
+    let selectedIds = _.map(_.where(this.rules, {isChecked: true}), o=> _.pick(o, '_id'));
+    let params = {
+      searchIndexId: this.serachIndexId
+    }
+    let payload = {
+      rules: selectedIds,
+      action: 'delete'
+    };
+    this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
+      this.notify.notify('Rules deleted successfully', 'success');
+    }, err=>{
+
+    })
+  }
+
+  bulkSend() {
+    let selectedIds = _.map(_.where(this.rules, {isChecked: true}), o=> _.pick(o, '_id'));
+    let params = {
+      searchIndexId: this.serachIndexId
+    }
+    let payload = {
+      rules: selectedIds,
+      state: 'in-review',
+      action: 'edit'
+    };
+    this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
+      this.notify.notify(res.msg, 'success');
+    }, err=>{
+
+    })
+  }
+
   addedGroupToRule(event,rule,type?){
     if(type == 'if') {
       rule.values = [];
@@ -299,7 +339,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
-      this.rules = res.rules;
+      this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
       console.log(res);
       this.loadingRules = false
     },

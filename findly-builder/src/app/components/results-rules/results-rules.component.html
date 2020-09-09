@@ -87,7 +87,7 @@
     <div class="faq-header-sec row m-0">
         <div class="col-12 left-sec p-0">
             <div class="tab-sec d-flex">
-                <div class="tab_title active">Drafts<span>(0)</span></div>
+                <div class="tab_title active">Drafts<span>({{rules.length}})</span></div>
                 <div class="tab_title">In-review<span>(0)</span></div>
                 <div class="tab_title">Approved<span>(0)</span></div>
             </div>
@@ -99,8 +99,8 @@
             <header class="table-header">
               <div class="col-3 col_">
                 <div class="kr-sg-checkbox">
-                  <input id="checkbox-12" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox-12" class="checkbox-custom-label"></label>
+                  <input id="checkbox-all" (click)='selectAll()' [(ngModel)]='isCheckAll' class="checkbox-custom" type="checkbox">
+                  <label for="checkbox-all" class="checkbox-custom-label"></label>
                 </div> 
                 <span>RULE NAME<img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></span>
               </div>
@@ -108,12 +108,12 @@
             </header>
             <ng-container >
               <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
-                <div class="content-body" *ngFor="let rool of rules">
+                <div class="content-body" *ngFor="let rool of rules; let i = index">
                     <ng-container>
                       <div class="col_ col-2">
-                        <div class="kr-sg-checkbox">
-                          <input id="checkbox-13" class="checkbox-custom" type="checkbox">
-                          <label for="checkbox-13" class="checkbox-custom-label"></label>
+                        <div class="kr-sg-checkbox" [ngClass]="{'visible': rool.isChecked}">
+                          <input id="checkbox-{{i}}" class="checkbox-custom" type="checkbox" (change)="updateFooter(rool)" [(ngModel)]='rool.isChecked'>
+                          <label for="checkbox-{{i}}" class="checkbox-custom-label"></label>
                         </div> 
                         <span>{{rool.name}}</span>
                       </div>                    
@@ -132,9 +132,9 @@
                 </div>     
             </perfect-scrollbar>
             </ng-container>
-            <div class="footer-btns d-none">
-              <button class="kr-sg-button-primary btn_lg">Send for Review</button>
-              <button class="kr-sg-button-danger btn_lg">Delete</button>
+            <div class="footer-btns" *ngIf="showReviewFooter">
+              <button class="kr-sg-button-primary btn_lg" (click)='bulkSend()'>Send for Review</button>
+              <button class="kr-sg-button-danger btn_lg" (click)='bulkDelete()'>Delete</button>
             </div>
           </section>       
         </div>
