@@ -33,10 +33,11 @@
     </div>
     <div class="kr-sg-input-text-area"> 
       <div class="tabs-sec">
-        <span class="tab-title " (click)="responseObj.type='string'" [ngClass]="{'active': responseObj.type === 'string'}">editor</span>
+        <span class="tab-title " (click)="responseObj.type='string'" [ngClass]="{'active': responseObj.type === 'string'}">Editor</span>
         <span class="tab-title" (click)="responseObj.type='javascript'" [ngClass]="{'active': responseObj.type==='javascript'}">&lt;/&gt; CODE</span>
+        <span class="tab-title" (click)="responseObj.type='external'" [ngClass]="{'active': responseObj.type==='external'}">External</span>
       </div>
-      <div class="editor-actons">
+      <div class="editor-actons" *ngIf="responseObj.type==='string'">
         <!-- <span class="edit-action">
           <img src="assets/icons/editor/alphabits.svg">
         </span> -->
@@ -65,12 +66,26 @@
           <img src="assets/images/markup/list-unordered.svg">
         </span>
       </div>     
-      <div>
-      </div>  
       <div *ngIf="responseObj.type==='javascript'" >
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
       <textarea *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
+      <div *ngIf="responseObj.type==='external'" class="external" >
+        <div class="kr-sg-dropdowns w-100">
+          <div class="label-text p-3">Source</div>
+          <div class="dropdown dropdown-open p-3">
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Custom</button>                                            
+              <ul class="dropdown-menu content-menu">
+                <li>Custom</li>
+              </ul>
+          </div>
+        </div>
+       <div class="kr-sg-input-text p-3">
+        <div class="label-text">ReferenceId</div>
+        <input type="text" placeholder="Placeholder text" class="input-text">
+      </div>
+      <button class="kr-sg-button-primary p-3" (click)="openPreviewModal()">Preiew</button>
+     </div>
     </div>
   </div>
 </ng-template>
@@ -200,4 +215,19 @@
         <button [disabled]="!linkInfo.link"  type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='saveLink()' >Save</button>
         <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeLinkApp()">Close</button>
       </div>
+</kr-modal>
+
+<kr-modal modalType="default" #externalResponsePop modalClass="modal_popups_">
+  <div class="modal-header">
+    <div class="title">External</div>
+    <div class="close_icon"><img class="ng-tns-c11-2" (click)="closeExternalPopUpRef()" src="assets/icons/modal-close.svg"></div>
+  </div>
+<perfect-scrollbar class="perfect-scroll-modal-body">
+  <div class="modal-body textAlignLeft">
+    <div>It is extremely important that you keep your contact information on your account updated at all times. To update your address, phone numbers and email address, please login to your account and edit your contact details under the “Your Contact Details” link on the left navigation. To make changes to your account, you will also need to enter an Online Authorization Code (OAC) that will be sent to your registered mobile phone on your account and to your registered email address to authenticate this transaction.</div>
+   </div>
+</perfect-scrollbar> 
+  <div class="modal-footer text-left">
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeExternalPopUpRef()">Close</button>
+  </div>
 </kr-modal>

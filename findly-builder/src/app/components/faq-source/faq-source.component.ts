@@ -180,6 +180,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
    }
    openAddSourceModal() {
+     this.editFaq = null;
     this.addSourceModalPopRef  = this.addSourceModalPop.open();
    }
    closeAddsourceModal() {
@@ -376,6 +377,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       if(serviceId === 'get.allFaqs'){
         this.faqsAvailable = res.length?true:false;
       }
+      this.editFaq = null
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
@@ -533,7 +535,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.selectAll(true);
       this.selectedFaq = res;
       this.selectedtab = res.state;
-      this.getfaqsBy();
+      const index = _.findIndex(this.faqs,(faqL)=>{
+        return faqL._id ===  this.selectedFaq._id;
+         })
+         if(index > -1){
+           this.faqs[index] = res;
+         }
+      // this.getfaqsBy();
       this.getStats();
       this.editfaq = false;
     }, errRes => {
@@ -573,6 +581,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
       this.getfaqsBy();
       this.getStats();
+      this.editFaq = null
       this.notificationService.notify(custSucessMsg,'success');
       if(dialogRef){
         dialogRef.close();
@@ -616,7 +625,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
        this.faqs.splice(deleteIndex,1);
       }
       this.getStats();
-      this.selectedFaq = null;
+      if( !(this.faqs && this.faqs.length)){
+        this.selectedFaq = null;
+      } else {
+        if(this.faqs && this.faqs.length){
+          if(this.faqs && this.faqs[deleteIndex]) { // best next possible selection
+                this.selectedFaq = this.faqs[deleteIndex];
+          } else if (this.faqs[deleteIndex -1]){
+            this.selectedFaq = this.faqs[deleteIndex -1];
+          } else {
+            this.selectedFaq = null;
+          }
+        }
+      }
     }, errRes => {
       this.errorToaster(errRes,'Failed to delete faq');
     });

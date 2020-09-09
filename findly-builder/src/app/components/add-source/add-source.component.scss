@@ -36,7 +36,10 @@
         left: 10px;    
     }
     &.fullHeight{
-        height: calc(100vh - 62px) !important;
+        height: calc(100vh - 5px) !important;
+        .fullHeightPS{
+            height: calc(100vh - 65px) !important;
+        }
     }   
     .addNewSource{       
         padding-top: 30px; 

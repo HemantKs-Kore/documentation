@@ -27,6 +27,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('createImagePop') createImagePop: KRModalComponent;
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
+  @ViewChild('externalResponsePop') externalResponsePop: KRModalComponent;
   @Input() inputClass: string;
   @Input() faqData: any;
   @Output() addFaq = new EventEmitter();
@@ -34,6 +35,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @Output() editFaq = new EventEmitter();
   createLinkPopRef
   createImagePopRef
+  externalResponsePopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
   codeMirrorOptions: any = {
@@ -52,56 +54,6 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   faqResponse ={
     defaultAnswers:[]
   }
- faqResponse1 ={
-   conditionalAnswers:[
-   {
-   conditions:[
-   { key: 'a.b.c.d', op: 'exists', value: '' },
-   { key: 'x.y', op: 'eq', value: 'somvalue' },
-   { key: 'y', op: 'noteq', value: 'someothervalue' }
-   ],
-   answers:[
-   {
-   payload: 'actual answer text',
-   type: 'string/javascript'
-   },
-   {
-   payload: 'actual answer text',
-   type: 'string/javascript'
-   }
-   ]
-   },
-   {
-   conditions: [
-   { key: 'a.b.c.d', op: 'exists', value: '' },
-   { key: 'x.y', op: 'eq', value: 'somvalue' },
-   { key: 'y', op: 'noteq', value: 'someothervalue' }
-   ],
-   answers: [
-   {
-   payload: 'actual answer text',
-   type: 'simple/javascript'
-   },
-   {
-   payload: 'actual answer text',
-   type: 'simple/javascript'
-   }
-   ]
-   }
-   ],
-   defaultAnswers:
-   [
-   {
-   payload: 'actual answer text',
-   type: 'javascript'
-   },
-   {
-   payload: 'actual answer text',
-   type: 'string'
-   }
-   ]
- }
-
   form: FormGroup;
   tags: any[] = [];
   text = '';
@@ -503,6 +455,14 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       this.selectedResponseToEdit.id = id;
       this.container = '#mainChatInputContainer' + type + '_' + index;
     }
+  }
+  openPreviewModal(){
+   this.externalResponsePopRef = this.externalResponsePop.open();
+  }
+  closeExternalPopUpRef(){
+   if(this.externalResponsePopRef && this.externalResponsePopRef.close){
+    this.externalResponsePopRef.close();
+   }
   }
   openImgApp(resposneObj,index,type) {
     this.selectedResponseToEdit.resposneObj = resposneObj;

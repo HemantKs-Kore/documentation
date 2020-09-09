@@ -70,7 +70,7 @@
           <div (click)='selectTab("rules")' class="tab-name" [ngClass]="{'active': selectedTab==='rules'}">Rules</div>
           <div  (click)='selectTab("signals")' class="tab-name" [ngClass]="{'active': selectedTab==='signals'}">Signals</div>
         </div>
-        <div class="header-sec" *ngIf="selectedRulesOnj && rules && rules.length && !loadingRules">
+        <div class="header-sec" *ngIf="rules && rules.length && !loadingRules">
             <div class="kr-sg-input-search">                               
                 <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch' [(ngModel)]="searchBlock">
                 <img src="assets/icons/search-gray.svg" class="search-icon">

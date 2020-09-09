@@ -12,6 +12,7 @@ import * as _ from 'underscore';
 export class KRModalComponent implements OnInit, AfterViewInit {
   @Input() modalType: string;
   @Input() modalClass: string;
+  @Input() hasFooter: boolean;
   modalTypes = {
     FULL: 'full',
     SLIDE: 'slide',
@@ -43,6 +44,9 @@ export class KRModalComponent implements OnInit, AfterViewInit {
     };
     if (this.modalClass) {
       config.windowClass = config.windowClass + ' ' + this.modalClass;
+    }
+    if (this.hasFooter) {
+      config.windowClass = config.windowClass + ' ' + 'containsFooter';
     }
     if (this.modalType === this.modalTypes.FULL) {
       _.extend(config, {

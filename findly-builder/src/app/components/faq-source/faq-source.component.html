@@ -245,7 +245,7 @@
                                             <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
                                             <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                 <div *ngFor="let ans of consitionalAnswer.answers">
-                                                    <div class="img-view-mode desc-info" *ngIf="ans.multimedia && ans.multimedia.url">
+                                                    <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
                                                         <img src="{{ans.multimedia.url}}">
                                                     </div>
                                                     <ng-container>
@@ -261,7 +261,7 @@
                                         <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
                                             <ng-container *ngFor="let answer of selectedFaq.defaultAnswers">
                                                 <div class="bot-response-title">Bot Response</div> 
-                                                <div class="img-view-mode desc-info" *ngIf="answer && answer.multimedia && answer.multimedia.url">
+                                                <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                     <img src="{{answer.multimedia.url}}">
                                                 </div>
                                                 <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
