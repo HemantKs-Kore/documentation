@@ -37,11 +37,23 @@
             font-size: 12px;
             padding: 0 5px;
             outline: none;
+            position: relative;
             &.active{
               border-bottom: 2px solid #0D6EFD;
             }
             &:hover{
               border-bottom: 2px solid #0D6EFD;
+            }
+            .statusIndicator{
+              display: inline-block;
+              background-color: #FF2661;
+              width: 4px;
+              height: 4px;
+              position: absolute;
+              left: 30px;
+              top: 10px;
+              border-radius: 50%;
+
             }
           }
         }
