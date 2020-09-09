@@ -339,7 +339,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     const conditionalAnswers = [];
     if(this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length){
       $.each(this.faqResponse.defaultAnswers,(i,answer)=>{
-        if(answer.answerType !== 'conditional'){
+        if(answer.answerType !== 'condition'){
           const answerObj:any = {
             type: answer.type,
             payload:answer.payload,
@@ -405,7 +405,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       question: this.form.get('question').value,
       tags: this.tags,
       defaultAnswers:this.anwerPayloadObj.defaultAnswers,
-      conditionalAnswers:this.anwerPayloadObj.defaultAnswers,
+      conditionalAnswers:this.anwerPayloadObj.conditionalAnswers,
       alternateQuestions: this.faqData ? this.faqData.alternateQuestions : [],
       followupQuestions: this.faqData ? this.faqData.followupQuestions : [],
       response: this.form.get('botResponse').value,
