@@ -99,7 +99,8 @@ export class AttributesListComponent implements OnInit {
     const payload = {
      attributes :this.addEditattribute.attributes,
      name: this.addEditattribute.name,
-     type: this.addEditattribute.type
+     type: this.addEditattribute.type,
+     isFacet: this.addEditattribute.isFacet
     }
     this.service.invoke('create.group', quaryparamats , payload).subscribe(
      res => {

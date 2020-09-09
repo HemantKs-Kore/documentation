@@ -235,7 +235,7 @@ export class EndPointsService {
     };
     this.serviceList['create.rule'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/rules',
-      method: 'put'
+      method: 'post'
     };
     this.serviceList['get.rules'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/rules?offset=0&limit=50',
