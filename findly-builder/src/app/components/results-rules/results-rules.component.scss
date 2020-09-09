@@ -1,59 +1,43 @@
 .validation-setting-rules{
     position: relative;
     // margin-bottom: 25px;
+    .drop-down-sec{
+        padding-left: 90px;
+    }
     .rule-info{
         font-size: 10px;
         text-transform: uppercase;
-        margin: 5px 0;
-        padding-left: 35px;
-        color: #6D6A6A;
+        color: #202124;
         font-weight: bold;
+        position: absolute;
+        left: 20px;
+        margin-top: 22px;
     }
     &::before{
         content: "";
-        position: absolute;               
-        width: 1px;                
-        height: calc(100% - 25px);
-        left: 6px;
-        top: 10px;
+        position: absolute;
+        width: 1px;
+        height: calc(100% - 50px);
+        left: 53px;
+        top: 25px;
         opacity: 0.5;
-        border: dashed 1px #6D6A6A;
-    }
-    .validation-rules-add-edit{        
-        .drop-down-sec{
-            display: flex;                               
-            align-items: center;
-            flex-wrap: wrap;
-            .pl-10{
-                padding-left: 10px;
-            }
-            .pb-10{
-                padding-bottom: 10px;
-            }
-            .close-minus-btn{
-                position: absolute;
-                left: -15px;
-                top: 10px;
-                align-items: self-start;
-            }
-        }                        
+        border: dashed 1px #BDC1C6;
     }
     .add-rule-plus-icon{
-        margin-top: 25px;
-        margin-bottom: 16px;
+        margin-bottom: 10px;
     }
     .error-message-text-box{
-        padding-left: 15px;
         position: relative;
+        padding-left: 90px;
         &::before{
             content: "";
             position: absolute;
             width: 16px;
             height: 16px;
-            background: #01A0AD;
-            left: -1px;
-            bottom: 8px;
-            border-radius: 100px;
+            background: #BDC1C6;
+            left: 46px;
+            bottom: 21px;
+            border-radius: 100%;
         }
         .kr-sg-input-text{
             .label-text{
@@ -69,14 +53,17 @@
     }  
     .info-rule{
         position: absolute;
-        left: -48px;
-        top: 6px;
-        color: #7B7070;
+        top: 25px;
+        margin-left: 4px;
+        color:#202124;
         font-weight: bold;
         font-size: 14px;
+        left: 00px;
         text-transform: uppercase;
-        &.if{
-            left: -38px;
+        &.if{      
+            left: 30px;      
+            top: 22px;
+            margin: 0;
         }
     }                     
 }        
@@ -85,17 +72,20 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    top: 25px;
     z-index: 100;
+    position: absolute;
+    left: 46px;
     &.add-plus{
+        left: 57px;
+        top: -6px;
         span{
-            width: 16px;
-            height: 20px;
-            background-color: #fff;
-            font-size: 15px;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background: #0D6EFD;                        
             font-weight: 900;
-            line-height: 18px;
-            color: #7B7070;
+            line-height: 21px;           
         }
     }
     span{               
@@ -112,9 +102,12 @@
     }
 }
 .rule-name-input{
-    padding-right: 30px;
-}
 
+}
+.add-ruleinputs{
+    padding: 0 10px;
+    margin: 15px 0;
+}
 .rules-table-container{
     padding: 30px 80px;
     position: relative;
@@ -312,10 +305,6 @@
         }                      
     }
 }
-.header-title{
-    position: absolute;
-    left: 10px;
-}
 ::ng-deep perfect-scrollbar{
     .ps__thumb-y{
         width: 3px !important;
@@ -412,3 +401,37 @@
         display: none;
     }
 }
+
+.empty-questions-selected{
+    margin: 0 auto;
+    width: 250px;
+    margin: 0 auto;
+    text-align: center;
+    height: calc(100vh - 199px);
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;                       
+    -webkit-box-pack: center;                       
+    -ms-flex-pack: center;                       
+    justify-content: center;   
+    img{
+        width: 100%;
+    }     
+    .heading{
+        margin: 10px 0;
+        color: #202124;
+    }
+    .desc{
+        font-size: 12px;
+        color: #9AA0A6;
+    }
+    button{
+        display: inline-block;
+        margin: 0 auto;
+    }
+} 

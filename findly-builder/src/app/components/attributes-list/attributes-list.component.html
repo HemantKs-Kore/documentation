@@ -1,5 +1,5 @@
 <div class="rules-table-container">
-    <div class="tab-sec-top">
+    <div class="tab-sec-top" *ngIf="attributes && attributes.groups && attributes.groups.length && !loading">
         <div class="header-sec">
             <div class="kr-sg-input-search">                               
                 <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch' [(ngModel)]="searchBlock">
@@ -53,9 +53,14 @@
     </div>
     <div *ngIf="loading" class="p-5 text-center">
         Loading....
-    </div>
-    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="p-5 text-center">
-        No Attributes added yet
+    </div>    
+    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="p-5 text-center">    
+        <div class="empty-questions-selected" *ngIf="!(rules && rules.length) && !loadingRules">
+            <img src="assets/images/icons/empty_ill.svg">
+            <div class="heading">No Attributes added yet</div>
+            <!-- <div class="desc">Please add rules</div> -->
+            <button class="kr-sg-button-secondary btn_lg" (click)="addEditAttibutes()">Add</button>
+        </div>
     </div>
 </div>
 

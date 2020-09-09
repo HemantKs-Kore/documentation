@@ -1,7 +1,7 @@
 <ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>  
   <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
   <div class="layout-select">
-    <div class="d-flex align-items-center m-0 col-7 p-0">
+    <div class="d-flex align-items-center m-0 col-10 p-0">
       <div class="title">Select Layout</div>
       <div class="img-block" (click)="setResponseType('default',responseObj)" [ngClass]="{'active': (responseObj.responseType === 'default') || (!responseObj.responseType)}">
         <img *ngIf="(responseObj.responseType !== 'default')" src="assets/icons/editor/no-image.svg">

@@ -18,7 +18,7 @@
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         (matChipInputTokenEnd)="add($event)">
     </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event)">
         <!-- <mat-option *ngFor="let group of filteredgroups | async" [value]="group"> -->
         <mat-option *ngFor="let group of currentSugg" [value]="group">
           {{group}}

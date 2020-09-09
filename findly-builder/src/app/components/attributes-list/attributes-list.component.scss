@@ -412,3 +412,37 @@
         display: none;
     }
 }
+
+.empty-questions-selected{
+    margin: 0 auto;
+    width: 250px;
+    margin: 0 auto;
+    text-align: center;
+    height: calc(100vh - 199px);
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;                       
+    -webkit-box-pack: center;                       
+    -ms-flex-pack: center;                       
+    justify-content: center;   
+    img{
+        width: 100%;
+    }     
+    .heading{
+        margin: 10px 0;
+        color: #202124;
+    }
+    .desc{
+        font-size: 12px;
+        color: #9AA0A6;
+    }
+    button{
+        display: inline-block;
+        margin: 0 auto;
+    }
+} 
