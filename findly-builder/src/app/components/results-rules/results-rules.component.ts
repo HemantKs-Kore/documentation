@@ -124,6 +124,30 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.addNewSimpleRuleSet();
     this.getRules();
     this.getAttributes();
+    setInterval(()=>{
+      console.log('validation rules . rules', this.validationRules.rules);
+    }, 1000);
+
+  }
+
+  resetRule() {
+    this.name.na = '';
+    this.rulesObjOO ={
+      then:{
+       resultCategory : '',
+       values:[]
+       }
+    }
+    this.validationRules.rules = [
+      {
+        "condition": "AND",
+        "rules": [
+          {
+            "operator": ""
+          }
+        ]
+      }
+    ];
   }
   selectTab(tab){
     this.selectedTab = tab;
@@ -339,6 +363,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       console.log(res);
       this.closeAddRulesModal();
       this.getRules();
+      this.resetRule();
      }, err=>{})
   }
   checkDuplicateTags(suggestion: string): boolean {

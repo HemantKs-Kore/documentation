@@ -9,7 +9,7 @@
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
                     <ul class="dropdown-menu content-menu">
-                      <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of listContextTypes">{{conType}}</li>
+                      <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of listContextTypes"><a>{{conType}}</a></li>
                     </ul>
                   </div>
               </div>
@@ -20,7 +20,7 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:'Choose'}}</button>                                            
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let contCate of dispContextCategories" (click)='updateContextCategory(rule, contCate)'>
-                        {{contCate}}
+                        <a>{{contCate}}</a>
                       </li>
                     </ul>
                   </div>
@@ -31,9 +31,9 @@
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.operator?rule.operator:'Choose'}}</button>                                            
                     <ul class="dropdown-menu content-menu">
-                      <li (click)="rule.operator='Starts With'">Starts With</li>
-                      <li (click)="rule.operator='Contains'">Contains</li>
-                      <li (click)="rule.operator='Equals to'">Equals to</li>
+                      <li (click)="rule.operator='Starts With'"><a>Starts With</a></li>
+                      <li (click)="rule.operator='Contains'"><a>Contains</a></li>
+                      <li (click)="rule.operator='Equals to'"><a>Equals to</a></li>
                     </ul>
                   </div>
               </div>
@@ -54,9 +54,9 @@
         <div class="kr-sg-dropdowns col-3">          
           <div class="kr-sg-dropdowns">                                        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rulesObjOO.then.resultCategory}}</button>                                            
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rulesObjOO.then.resultCategory?rulesObjOO.then.resultCategory:'Choose'}}</button>                                            
                 <ul class="dropdown-menu content-menu">
-                  <li (click)='updateResCat(rulesObjOO, resCat)' *ngFor="let resCat of listResultsCategories">{{resCat}}</li>
+                  <li (click)='updateResCat(rulesObjOO, resCat)' *ngFor="let resCat of listResultsCategories"><a>{{resCat}}</a></li>
                 </ul>
               </div>
           </div>
