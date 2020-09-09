@@ -327,11 +327,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                  console.log('Bad JSON');
               }
             }
-            if(answer && answer.image && answer.image.url){
-              answerObj.multimedia = {
+            if(answer && answer.multimedia && answer.multimedia.url){
+              answerObj.image = {
                 type:'image',
-                url:answer.image.url,
-                responseType:answer.responseType,
+                url:answer.multimedia.url,
+                responseType:answer.multimedia.responseType,
               }
           }
           this.faqResponse.defaultAnswers.push(answerObj);
@@ -355,10 +355,10 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           if(answer.type === 'javascript' && answer.payload){
             answerObj.payload = JSON.stringify(answer.payload);
           }
-          if(answer && answer.image && answer.image.imageUrl){
+          if(answer && answer.image && answer.image.url){
             answerObj.multimedia = {
               type:'image',
-              url:'answer.image.imageUrl',
+              url:answer.image.url,
             }
           }
           defaultAnswers.push(answerObj);
@@ -371,10 +371,10 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           if(answer.type === 'javascript' && answer.payload){
             answerObj1.payload = JSON.stringify(answer.payload);
           }
-          if(answer && answer.image && answer.image.imageUrl){
+          if(answer && answer.image && answer.image.url){
             answerObj1.multimedia = {
               type:'image',
-              url:'answer.image.imageUrl',
+              url:answer.image.url,
             }
           }
           const conditionAnswerObj:any = {
