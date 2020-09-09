@@ -58,6 +58,8 @@ import { TagsInpComponent } from './components/faqs/tags-inp/tags-inp.component'
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { RangeSliderComponent } from './helpers/components/range-slider/range-slider.component';
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
+import { IndexComponent } from './components/index/index.component';
+import { QueryComponent } from './components/query/query.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -94,7 +96,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GroupInputComponent,
     TagsInpComponent,
     RangeSliderComponent,
-    AttributesListComponent
+    AttributesListComponent,
+    IndexComponent,
+    QueryComponent
     ],
   imports: [
     BrowserModule,
