@@ -298,12 +298,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           this.faqResponse.defaultAnswers.push(answerObj);
         })
       }
-      if(faqdata && faqdata.defaultAnswers && faqdata.conditionalAnswers.length){
+      if(faqdata && faqdata.conditionalAnswers && faqdata.conditionalAnswers && faqdata.conditionalAnswers.length){
+
         $.each(faqdata.conditionalAnswers,(i,answer)=>{
             const answerObj:any = {
               type: 'string',
               payload:'',
-              answerType:'default',
+              answerType:'condition',
               responseType: 'default',
               conditions: answer.conditions || []
             }
@@ -325,8 +326,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                 url:answer.image.url,
                 responseType:answer.responseType,
               }
-            this.faqResponse.defaultAnswers.push(answerObj);
           }
+          this.faqResponse.defaultAnswers.push(answerObj);
         })
       }
     } else {

@@ -113,7 +113,7 @@
       <div class="label-text bot-res-title">Bot Response</div>
       <div class="advanced_mode_faq">
         <label class="kr-sg-toggle with-label">
-          <input type="checkbox" [checked]='(faqObj.selected === "condition")' (click)="changeResponseType(faqObj)">
+          <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
           <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
         </label>
       </div>

@@ -238,9 +238,9 @@
                                         <span class="key-title">Keywords :</span>
                                         <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
                                     </div>  
-                                    <div class="conditionalBlock">
+                                    <div class="conditionalBlock" (click)="logAns(selectedFaq.conditionalAnswers)">
                                         <ng-container *ngIf="selectedFaq && selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.answers && selectedFaq.conditionalAnswers.answers.length">
-                                            <ng-container *ngFor="let answer of selectedFaq.conditionalAnswers.answers">
+                                            <ng-container *ngFor="let answer of selectedFaq.conditionalAnswers.answers" (click)="logAns(answer)">
                                                 <div *ngIf="selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.conditions && selectedFaq.conditionalAnswers.conditions.length">
                                                     <span *ngFor="let tags of selectedFaq.conditionalAnswers.conditions">{{tags.value}}</span>
                                                 </div>
