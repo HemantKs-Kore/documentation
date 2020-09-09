@@ -261,7 +261,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
-      this.rules = res;
+      this.rules = res.rules;
       console.log(res);
       this.loadingRules = false
     },
