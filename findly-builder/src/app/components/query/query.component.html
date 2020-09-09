@@ -4,24 +4,24 @@
             <div class="label">Tokenizer </div>
             <div class="info">Tokenizer tokenizes the given user input into smaller tokens which are useful for parsing.</div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio"  checked>
+                    <input id="radio-1" name="tokenizer" class="radio-custom" type="radio"  checked>
                     <label for="radio-1" class="radio-custom-label">Classic</label>
                 </div>  
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-2" name="radio" class="radio-custom" type="radio"  >
+                    <input id="radio-2" name="tokenizer" class="radio-custom" type="radio"  >
                     <label for="radio-2" class="radio-custom-label">Standard</label>
                 </div>  
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-3" name="radio" class="radio-custom" type="radio"  >
+                    <input id="radio-3" name="tokenizer" class="radio-custom" type="radio"  >
                     <label for="radio-3" class="radio-custom-label">Word Tokenizer</label>
                 </div>  
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-4" name="radio" class="radio-custom" type="radio"  >
+                    <input id="radio-4" name="tokenizer" class="radio-custom" type="radio"  >
                     <label for="radio-4" class="radio-custom-label">Character</label>
                 </div>  
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-4" name="radio" class="radio-custom" type="radio"  >
-                    <label for="radio-4" class="radio-custom-label">Sentense</label>
+                    <input id="radio-5" name="tokenizer" class="radio-custom" type="radio"  >
+                    <label for="radio-5" class="radio-custom-label">Sentense</label>
                 </div>  
         </div>
 
@@ -29,16 +29,16 @@
             <div class="label">Stemmer </div>
             <div class="info">Stemmer will stem each eligible word removing the suffixes like ing, tion etc.</div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-5" name="radio" class="radio-custom" type="radio"  checked>
-                    <label for="radio-5" class="radio-custom-label">Porter</label>
+                    <input id="Stemmer-5" name="stemmer" class="radio-custom" type="radio"  checked>
+                    <label for="Stemmer-5" class="radio-custom-label">Porter</label>
                 </div>  
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-6" name="radio" class="radio-custom" type="radio"  >
-                    <label for="radio-6" class="radio-custom-label">Snowball</label>
+                    <input id="Stemmer-6" name="stemmer" class="radio-custom" type="radio"  >
+                    <label for="Stemmer-6" class="radio-custom-label">Snowball</label>
                 </div>  
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-7" name="radio" class="radio-custom" type="radio"  >
-                    <label for="radio-7" class="radio-custom-label">Hunspell</label>
+                    <input id="Stemmer-7" name="stemmer" class="radio-custom" type="radio"  >
+                    <label for="Stemmer-7" class="radio-custom-label">Hunspell</label>
                 </div>   
         </div>
 
@@ -46,7 +46,7 @@
             <div class="label">Case Sesitivity</div>
             <div class="info">Retain the case or convert to lowercase before querying</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -54,7 +54,7 @@
             <div class="label">Entity Placeholder</div>
             <div class="info">Reduces the relvancy of entity values. Ex: "How do I transfer 100$ to John." Enabling this will remove relenacy of $100 and John.</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -62,7 +62,7 @@
             <div class="label">Stopwords</div>
             <div class="info">Discard stop words present in user utterance for detecting intents. </div>
                 <label class="kr-sg-toggle with-label stopwords">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
                 </label>
         </div>
@@ -70,7 +70,7 @@
             <div class="label">Sentiment</div>
             <div class="info">Enable identification of Sentiment for the user input</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -79,7 +79,7 @@
             <div class="label">Acronym Expanstion</div>
             <div class="info">Automatically expands local slangs like IMHO, DIY,TY etc into full words</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -87,7 +87,7 @@
             <div class="label">Traits</div>
             <div class="info">Enable the identification of traits in user input</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox"checked >
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -95,7 +95,7 @@
             <div class="label">POS tagging</div>
             <div class="info">Use Parts of Speech information for Querying</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -103,7 +103,7 @@
             <div class="label">Emoticon Expansion</div>
             <div class="info">Automatically expands emoticons. Can be useful to understand sentiment. In some case acknowledgements like thank you, "done" etc.</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox" checked>
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
@@ -111,7 +111,7 @@
             <div class="label">Negation Handling</div>
             <div class="info">Handles cases where user explicity mentions negation. Ex: I do not want to transfer funds, should not identify the intent to Transfer funds</div>
                 <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" >
+                    <input type="checkbox"checked >
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>

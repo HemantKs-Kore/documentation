@@ -1,4 +1,81 @@
 <div class="ml-threshold-container row">
+    <perfect-scrollbar class="scrollBarContainer">
+        <div class="toggleContainer paddinTop-30">
+            <div class="label">Auto Suggestion</div>
+            <div class="info">Enabling will start showing the Suggestions while query is being typed.</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" >
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <div class="toggleContainer">
+            <div class="label">Spell correction</div>
+            <div class="info">Enabling this will Spell Correct the user input to the nearest valid term in the current language</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" >
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <div class="toggleContainer">
+            <div class="label">Highlighting</div>
+            <div class="info">Helps in Highlighting the words or phrases in the Page response which matched the user input</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" >
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <div class="toggleContainer d-none">
+            <div class="label">Language Detection</div>
+            <div class="info">Detects the language from user input. </div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" >
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <h2 class="headerTitle">NLP & Machine Learning</h2>
+        <div class="sliderContainer">
+            <div class="label">ML Definitive Score</div>
+            <div class="info">Configure the threshold score for definite matches</div>
+            <div class="col-12 pl-0">
+                <app-range-slider [allData]="mlDefData"></app-range-slider>
+            </div>
+        </div>
+        <div class="sliderContainer">
+            <div class="label">n-gram Sequence Length</div>
+            <div class="info">Define maximum length of n-gram sequences.</div>
+            <div class="col-12 pl-0">
+                <app-range-slider [allData]='nGramData'></app-range-slider>
+            </div>
+        </div>
+        <div class="sliderContainer">
+            <div class="label">ML Threshold</div>
+            <div class="info">Define the minimum ML score to qualify an intent as a probable match.</div>
+            <div class="col-12 pl-0">
+                <app-range-slider [allData]='mlThreshData'></app-range-slider>
+            </div>
+        </div>
+        <div class="sliderContainer">
+            <div class="label">NER Model </div>
+            <div class="info">Choose the NER model to be used for entity detection</div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER1" type="radio" value="true" name="NERRadio"
+                    class="radio-custom">
+                <label for="NER1" class="radio-custom-label">Conditional Random Field</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                <input id="NER2" type="radio" value="false" name="NERRadio"
+                    class="radio-custom">
+                <label for="NER2" class="radio-custom-label">Deep Neural Network</label>
+            </div>
+        </div>
+  
+       
+    </perfect-scrollbar>
+</div>
+
+
+
+<div class="ml-threshold-container row d-none">
     <perfect-scrollbar class="accordian-content-sec">
         <div class="SMtrainDiv ml-threshold-train" *ngIf="true">
             <div class="helphint col-xs-12 marginB20T0">
