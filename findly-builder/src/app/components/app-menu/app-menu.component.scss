@@ -29,6 +29,7 @@ app-mainmenu{
 						max-height: 200px;
 						overflow: hidden;;
 						width: 100%;
+						padding: 0;
 					}
 					&.show {
 						.dropdown-open{
@@ -53,6 +54,20 @@ app-mainmenu{
 							// 	display: none;
 							// }
 						}
+					}
+					.dropdown-menu {
+						li{
+							cursor: pointer;
+							padding: 10px 10px 4px 10px;
+							&.create{
+								color: #0D6EFD;
+								background-color: rgb(13 110 253 / .3);
+							}
+							.plus{
+								float: right;
+								font-size: 22px;
+							}
+						} 
 					}
 				}
 			}
