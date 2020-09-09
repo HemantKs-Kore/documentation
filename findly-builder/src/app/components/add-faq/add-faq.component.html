@@ -89,7 +89,7 @@
         </mat-chip>
         <input placeholder="Type & enter"
               (focus)= "getAltTags($event)"
-              [(ngModel)]="typedQuery"
+                [value]="typedQuery"
                [matChipInputFor]="chipList"
                [matAutocomplete]="suggestedItems"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

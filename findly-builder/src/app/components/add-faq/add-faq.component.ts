@@ -237,7 +237,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
   removeConditionTag(tag,faqObj,index){
     if(faqObj && faqObj.conditions.length){
-      faqObj.slice(index,1);
+      faqObj.conditions.slice(index,1);
     }
   }
   changeResponseType(faqObj){
@@ -288,10 +288,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                  console.log('Bad JSON');
               }
             }
-            if(answer && answer.image && answer.image.imageUrl){
+            if(answer && answer.image && answer.image.url){
               answerObj.multimedia = {
                 type:'image',
-                url:'answer.image.imageUrl',
+                url:answer.image.url,
+                viewType:answer.responseType,
               }
            }
           this.faqResponse.defaultAnswers.push(answerObj);
