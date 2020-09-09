@@ -1048,6 +1048,7 @@ div.divBlockEmptylastChild:first-child {
                             margin: 0;
                             border: 0;
                             height: 32px;
+                            padding-left: 10px;
                             &:focus{   
                                 border: 0 !important;                             
                                 outline: 0 !important;
@@ -1138,6 +1139,13 @@ div.divBlockEmptylastChild:first-child {
     }
     .modal-body{
         padding: 25px 30px !important;
+        .label-text, .label_text{
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .mb-20{
+            margin-bottom: 20px;
+        }
     }
     .modal-footer{
         padding: 13px 30px !important;

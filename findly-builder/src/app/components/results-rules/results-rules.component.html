@@ -4,45 +4,43 @@
             <span class="info-rule if">If</span>
             <div *ngIf="validationMode==='simple'" class="close-minus-btn" (click)="removeSimpleRule(rulesSet,ruleIndex)"><span>-</span></div>
             <div *ngIf="validationMode==='advanced'" class="close-minus-btn" (click)="removeAdvancedRule(ruleIndex,rulesSet,rule)"><span>-</span></div>
-            <div class="col-3">                        
-                <div class="kr-sg-dropdowns">                           
-                    <div class="dropdown dropdown-open" ngbDropdown>
-                        <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
-                        <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                        <li (click)="rule.contextType==='Search Context'" >Search Context</li>  
-                        <li (click)="rule.contextType==='Search Context'">User Context</li>  
-                        <li (click)="rule.contextType==='Search Context'">Page Context</li>  
-                        </ul>
-                    </div>
-                </div>
+            <div class="col-3">   
+              <div class="kr-sg-dropdowns">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
+                    <ul class="dropdown-menu content-menu">
+                      <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of listContextTypes">{{conType}}</li>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+            <div class="col-3">   
+              <div class="kr-sg-dropdowns">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:'Choose'}}</button>                                            
+                    <ul class="dropdown-menu content-menu">
+                      <li *ngFor="let contCate of dispContextCategories" (click)='updateContextCategory(rule, contCate)'>
+                        {{contCate}}
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+            <div class="col-3">      
+              <div class="kr-sg-dropdowns">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.operator?rule.operator:'Choose'}}</button>                                            
+                    <ul class="dropdown-menu content-menu">
+                      <li (click)="rule.operator='Starts With'">Starts With</li>
+                      <li (click)="rule.operator='Contains'">Contains</li>
+                      <li (click)="rule.operator='Equals to'">Equals to</li>
+                    </ul>
+                  </div>
+              </div>
             </div>
             <div class="col-3">                        
-                <div class="kr-sg-input-text">
-                    <input type="text" [(ngModel)]="rule.contextCategory"  placeholder="" class="input-text">
-                </div>
-            </div>
-            <div class="col-3">                        
-                <div class="kr-sg-dropdowns">                           
-                    <div class="dropdown dropdown-open" ngbDropdown>
-                        <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
-                        <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                           <li (click)="rule.operator==='Starts With'">Starts With</li> 
-                           <li (click)="rule.operator==='Contains'">Contains</li> 
-                           <li (click)="rule.operator==='Equals to'">Equals to</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">                        
-                <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
-                    <mat-chip-list #chipList1 aria-label="tag selection">
-                      <mat-chip *ngFor="let tag of rule.values; let index = index" (removed)="removeAltTag(tag)">
-                         <div class="mat-value" *ngIf="tag">{{tag.value}}</div> 
-                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                      </mat-chip>
-                      <input placeholder="Type & enter" [matChipInputFor]="chipList1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" name = "tagInput"  (matChipInputTokenEnd)="addAltTag($event,rule)" id="tagInput" (click)="$event.stopPropagation()">
-                    </mat-chip-list>
-                  </mat-form-field> 
+              <app-group-input  [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'if')"></app-group-input>
+              <!-- <app-autocomplete-multi-chip [allSuggestions]="allValues"></app-autocomplete-multi-chip> -->
             </div>
         </div>        
     </div>
@@ -53,19 +51,15 @@
     </div>
     <div class="error-message-text-box w-100 mb-2 col-12 row m-0" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
         <span class="info-rule">then</span>
-        <div class="kr-sg-dropdowns col-3">                           
-            <div class="dropdown dropdown-open" ngbDropdown>
-                <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
-                <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                    <ng-container *ngIf="rulesObj && rulesObj.then">
-                        <li (click)='rulesObj.then.resultCategory==="FilterResults"'>Filter Results</li>  
-                        <li (click)='rulesObj.then.resultCategory==="HidetResults"'>Hide Results</li>  
-                        <li (click)='rulesObj.then.resultCategory==="BoostResults"'>Boost Results</li>  
-                        <li (click)='rulesObj.then.resultCategory==="BurryResults"'>Burry Results</li>
-                        <li (click)='rulesObj.then.resultCategory==="RewriteQuery"'>Rewrite Query</li>         
-                    </ng-container>
+        <div class="kr-sg-dropdowns col-3">          
+          <div class="kr-sg-dropdowns">                                        
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rulesObjOO.then.resultCategory}}</button>                                            
+                <ul class="dropdown-menu content-menu">
+                  <li (click)='updateResCat(rulesObjOO, resCat)' *ngFor="let resCat of listResultsCategories">{{resCat}}</li>
                 </ul>
-            </div>
+              </div>
+          </div>
         </div>
         <div class="kr-sg-input-text col-9">
             <app-group-input [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'then')"></app-group-input>           
@@ -77,7 +71,7 @@
 <div class="rules-table-container">
     <div class="tab-sec-top">
         <div class="d-flex">
-          <div (click)='selectTab("attributes")' class="tab-name" [ngClass]="{'active': selectedTab==='attributes'}">Attributes</div>
+          <!-- <div (click)='selectTab("attributes")' class="tab-name" [ngClass]="{'active': selectedTab==='attributes'}">Attributes</div> -->
           <div (click)='selectTab("rules")' class="tab-name" [ngClass]="{'active': selectedTab==='rules'}">Rules</div>
           <div  (click)='selectTab("signals")' class="tab-name" [ngClass]="{'active': selectedTab==='signals'}">Signals</div>
         </div>
@@ -87,7 +81,6 @@
                 <img src="assets/icons/search-gray.svg" class="search-icon">
             </div>
             <button class="kr-sg-button-secondary btn_lg" (click)="addEditRules()" *ngIf="selectedTab==='rules'">Add</button>
-            <button class="kr-sg-button-secondary btn_lg" (click)="addEditAttibutes()" *ngIf="selectedTab ==='attributes'">Add</button>
         </div>
     </div>
    <ng-container *ngIf="selectedTab==='rules'">
@@ -115,7 +108,29 @@
             </header>
             <ng-container >
               <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
-                <div class="content-body">
+                <div class="content-body" *ngFor="let rool of rules">
+                    <div class="col_ col-2">
+                      <div class="kr-sg-checkbox">
+                        <input id="checkbox-13" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox-13" class="checkbox-custom-label"></label>
+                      </div> 
+                      <span>{{rool.name}}</span>
+                    </div>                    
+                    <div class="col_ col-7 definatation">{{rool.definitionStr}}</div>               
+                    <div class="actions draft-state col_ col-3 text-right pr-3">
+                      <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal()">
+                      <img src="assets/icons/return.svg" class="ml-4">
+                      <img src="assets/icons/delete-table.svg" class="ml-4">
+                    </div>
+                    <div class="actions approve-state d-none col-3 text-right pr-3">
+                      <button class="kr-sg-button-primary btn_lg ml-4">Approve</button>
+                      <img src="assets/icons/return.svg" class="ml-4">
+                      <img src="assets/icons/delete-table.svg" class="ml-4">
+                    </div>
+                </div> 
+
+
+                <div class="content-body d-none">
                     <div class="col_ col-2">
                       <div class="kr-sg-checkbox">
                         <input id="checkbox-13" class="checkbox-custom" type="checkbox">
@@ -135,7 +150,7 @@
                       <img src="assets/icons/delete-table.svg" class="ml-4">
                     </div>
                 </div>  
-                <div class="content-body check-all-bg">
+                <div class="content-body check-all-bg d-none">
                   <div class="col_ col-2">
                     <div class="kr-sg-checkbox">
                       <input id="checkbox-13" class="checkbox-custom" type="checkbox">
@@ -172,55 +187,7 @@
     </div>
    </ng-container>
    <ng-container  *ngIf="selectedTab==='attributes'">
-    <div class="table-list-content attributes-rules-tab-content" *ngIf="attributes && attributes.groups && attributes.groups.length && !loading">
-        <div class="kr-sg-data-table with-checkbox">
-          <section class="table-content">
-            <header class="table-header">
-              <div class="col_ col-3">
-                <div class="kr-sg-checkbox hide">
-                  <input id="checkbox-10" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox-10" class="checkbox-custom-label"></label>
-                </div> 
-                <span>ATTRIBUTE NAME<img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></span>
-              </div>
-              <div class="col_ col-4">DEFINITION</div>
-              <div class="col_ col-2">TYPE</div>
-              <div class="col_ col-2">IS FACET</div>
-            </header>
-            <perfect-scrollbar class="table-scroll-perfect if-select-all">
-              <ng-container>
-                <div class="content-body" *ngFor="let attribute of attributes.groups  |  filter:[ searchBlock ,'name']">
-                  <div class="col_ col-3">
-                    <div class="kr-sg-checkbox hide">
-                      <input id="checkbox-10" class="checkbox-custom" type="checkbox">
-                      <label for="checkbox-10" class="checkbox-custom-label"></label>
-                    </div> 
-                    <span>{{attribute.name}}</span>
-                    </div>
-                  <div class="col_ col-4"><span class='eachAttr' *ngFor="let value of attribute.attributes; let i = index ">{{value.value + ((index === (attribute.attributes.length-1))?'':',')}} </span></div>  
-                  <div class="col_ col-2" >{{attribute.type || 'Systom/Auto'}}</div>  
-                  <div class="col_ col-2">{{attribute.isFacet || 'Yes' }}</div>         
-                  <div class="col_ col-1 pl-0 text-right pr-4 actions">
-                    <img src="assets/images/edit-pencil.svg" class="mr-4 hide">
-                    <img src="assets/icons/delete-table.svg">
-                  </div>   
-                </div>
-              </ng-container>
-              <div class="divBlockEmptylastChild">No Results found</div>
-            </perfect-scrollbar>
-            <div class="footer-btns" *ngIf="selectedRulesOnj && selectedRulesOnj.selectedCount">
-              <button class="kr-sg-button-primary btn_lg">Send for Review</button>
-              <button class="kr-sg-button-danger btn_lg">Delete</button>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div *ngIf="loading" class="p-5 text-center">
-        Lading....
-      </div>
-      <div *ngIf="!(attributes.groups && attributes.groups.length) && !loading" class="p-5 text-center">
-        No Attributes added yet
-     </div>
+      <!-- <app-attributes-list [attributes]='attributes' [loading]='loading'></app-attributes-list> -->
    </ng-container>
  </div>
 
@@ -232,65 +199,20 @@
     <div class="col-12 pl-5 pr-0" *ngIf="validationRules && validationRules.rules && validationRules.rules.length">
         <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
             <div class="kr-sg-input-text mb-3 rule-name-input">
-                <input type="text" placeholder="" class="input-text">
+                <input type="text" placeholder="" class="input-text" [(ngModel)]='name.na'>
             </div>
             <div class="validation-setting-rules" >
                 <ng-container *ngFor="let rule of simpleRule.rules; index as i">
                     <ng-container 
-                        *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:'simple'}">
+                        *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:'simple', rulesObj: validationRules.then}">
                     </ng-container>
                 </ng-container>
             </div>  
         </ng-container>
     </div>
- </div>
- <div class="modal-footer">                               
-    <button class="kr-sg-button-primary btn_md" (click)="saveAttributes()" >Ok</button>
-    <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddAttributesModal()">Cancel</button>
-   </div>
-</kr-modal>
-<kr-modal modalType="center" modalClass="addRulesModalComponent" #addAttributesModalPop>
-    <div class="modal-header">
-        <div class="header-title" (click)='closeAddAttributesModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
-    </div>
-    <div class="modal-body">
-            <div class="kr-sg-input-text mb-15">
-              <div class="label-text">Addtribute name</div>
-              <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="addEditattribute.name" required autocomplete="off">             
-           </div>
-           <div for="tagInput" class="label_text">values</div>
-           <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
-            <mat-chip-list #chipList aria-label="tag selection">
-              <mat-chip *ngFor="let tag of addEditattribute.attributes; let index = index" (removed)="removeAltTag(tag)">
-                 <div class="mat-value" *ngIf="tag">{{tag.value}}</div> 
-                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-              </mat-chip>
-              <input placeholder="Type & enter" [(ngModel)]="addEditattribute.newTag" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" name = "tagInput"  (matChipInputTokenEnd)="addAltTag($event)" id="tagInput" (click)="$event.stopPropagation()">
-            </mat-chip-list>
-          </mat-form-field> 
-           <div class="kr-sg-dropdowns w-100">
-            <div class="label-text">Label</div>
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditattribute.type?addEditattribute.type:'Choose'}}</button>                                            
-                <ul class="dropdown-menu content-menu">
-                  <li (click)="addEditattribute.type='systemAuto'">System/Auto</li>
-                  <li (click)="addEditattribute.type='custom'">Custom</li>
-                </ul>
-             </div>
-           </div>
-           <div class="kr-sg-dropdowns w-100">
-            <div class="label-text">Label</div>
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditattribute.isFacet?addEditattribute.isFacet:'Choose'}}</button>                                            
-                <ul class="dropdown-menu content-menu">
-                  <li (click)="addEditattribute.isFacet='Yes'">Yes</li>
-                  <li (click)="addEditattribute.isFacet='No'">No</li>
-                </ul>
-              </div>
-           </div>
-     </div>
-   <div class="modal-footer">                               
-    <button class="kr-sg-button-primary btn_md" (click)="saveAttributes()" >Ok</button>
-    <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddAttributesModal()">Cancel</button>
+  </div>
+  <div class="modal-footer">                               
+    <button class="kr-sg-button-primary btn_md" (click)="saveRules()" >Ok</button>
+    <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddRulesModal()">Cancel</button>
    </div>
 </kr-modal>

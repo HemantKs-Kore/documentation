@@ -1,4 +1,213 @@
 <div class="ml-threshold-container row">
+    <perfect-scrollbar class="scrollBarContainer">
+        <div class="toggleContainer paddinTop-30">
+            <div class="label">Auto Suggestion</div>
+            <div class="info">Enabling will start showing the Suggestions while query is being typed.</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" checked>
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <div class="toggleContainer">
+            <div class="label">Spell correction</div>
+            <div class="info">Enabling this will Spell Correct the user input to the nearest valid term in the current language</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" checked>
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <div class="toggleContainer">
+            <div class="label">Highlighting</div>
+            <div class="info">Helps in Highlighting the words or phrases in the Page response which matched the user input</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" checked>
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <div class="toggleContainer d-none">
+            <div class="label">Language Detection</div>
+            <div class="info">Detects the language from user input. </div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" >
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <h2 class="headerTitle">NLP & Machine Learning</h2>
+
+        <div class="sliderContainer">
+            <div class="label">NER Model </div>
+            <div class="info">Choose the NER model to be used for entity detection</div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER33" type="radio" value="true" name="NERRadio4"
+                    class="radio-custom" checked>
+                <label for="NER33" class="radio-custom-label">Conditional Random Field</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                <input id="NER44" type="radio" value="false" name="NERRadio4"
+                    class="radio-custom">
+                <label for="NER44" class="radio-custom-label">Deep Neural Network</label>
+            </div>
+        </div>
+        <!-- <h2 class="headerTitle">NLP & Machine Learning</h2> -->
+        <div class="sliderContainer">
+            <div class="label">Traits</div>
+            <div class="info">Choose one or many classifiers you would like to enable so that they can be added to the Index or Query Pipelines</div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER55" type="radio" value="true" name="NERRadio5"
+                    class="radio-custom" checked>
+                <label for="NER55" class="radio-custom-label">Traits</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                <input id="NER66" type="radio" value="false" name="NERRadio5"
+                    class="radio-custom">
+                <label for="NER66" class="radio-custom-label">Custom Model</label>
+            </div>
+        </div>
+        <div class="toggleContainer">
+            <div class="label">Sentiment Model</div>
+            <div class="info">Sentiment: Classifies the sentiment of the user input into Positive, Negative, Neutral</div>
+                <label class="kr-sg-toggle with-label">
+                    <input type="checkbox" checked>
+                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
+                </label>
+        </div>
+        <h5 class="subSection">NLP Settings</h5>
+        <div class="sliderContainer">
+            <div class="label">Embeddings</div>
+            <div class="info">On Selection of Custom we should show a browse button to upload</div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER1" type="radio" value="true" name="NERRadio"
+                    class="radio-custom" checked>
+                <label for="NER1" class="radio-custom-label">BERT</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                <input id="NER2" type="radio" value="false" name="NERRadio"
+                    class="radio-custom">
+                <label for="NER2" class="radio-custom-label">Sentence</label>
+            </div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER3" type="radio" value="false" name="NERRadio"
+                    class="radio-custom">
+                <label for="NER3" class="radio-custom-label">Encoder</label>
+            </div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER4" type="radio" value="false" name="NERRadio"
+                    class="radio-custom">
+                <label for="NER4" class="radio-custom-label">Custom</label>
+            </div>
+        </div>
+        <div class="sliderContainer">
+            <div class="label">n-gram Sequence Length</div>
+            <div class="info">Number of grams to be used for generating features eg 1,1 or 1,2 or 2,2 etc. Applicable if the network preprocessor is CountVectorizer or TFIDF vectorizer</div>
+            <div class="col-12 pl-0">
+                <app-range-slider [allData]='nGramData'></app-range-slider>
+            </div>
+        </div>
+    
+        <h5 class="subSection">Classification Settings</h5>
+
+        <div class="sliderContainer">
+            <div class="label">n-gram Sequence Length</div>
+            <div class="info">Number of grams to be used for generating features eg 1,1 or 1,2 or 2,2 etc. Applicable if the network preprocessor is CountVectorizer or TFIDF vectorizer</div>
+            <div class="col-12 pl-0">
+                <app-range-slider [allData]='proxProbData'></app-range-slider>
+            </div>
+        </div>
+
+        <div class="sliderContainer">
+            <div class="label">Network Type</div>
+            <div class="info">Predefined networks available for intent training</div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER111" type="radio" value="true" name="NERRadio01"
+                    class="radio-custom" checked>
+                <label for="NER111" class="radio-custom-label">MLP</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                <input id="NER123" type="radio" value="false" name="NERRadio01"
+                    class="radio-custom">
+                <label for="NER123" class="radio-custom-label">LSTM</label>
+            </div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER222" type="radio" value="false" name="NERRadio01"
+                    class="radio-custom">
+                <label for="NER222" class="radio-custom-label">CNN</label>
+            </div>
+        </div>        
+        <div class="sliderContainer">
+            <div class="label">Embeddings</div>
+            <div class="info">On Selection of Custom we should show a browse button to upload</div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER11" type="radio" value="true" name="NERRadio1"
+                    class="radio-custom" checked>
+                <label for="NER11" class="radio-custom-label">BERT</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                <input id="NER23" type="radio" value="false" name="NERRadio1"
+                    class="radio-custom">
+                <label for="NER23" class="radio-custom-label">Sentence</label>
+            </div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER22" type="radio" value="false" name="NERRadio1"
+                    class="radio-custom">
+                <label for="NER22" class="radio-custom-label">Encoder</label>
+            </div>
+            <div class="kr-sg-radiobutton">
+                <input id="NER21" type="radio" value="false" name="NERRadio1"
+                    class="radio-custom">
+                <label for="NER21" class="radio-custom-label">Custom</label>
+            </div>
+        </div>  
+        <div class="sliderContainer">
+            <div class="label">Embeddings Dimensions</div>
+            <div class="info">Embedding dimension in the network</div>
+            <input class="fieldInput" value="300">
+        </div>   
+        <div class="sliderContainer">
+            <div class="label">Epochs</div>
+            <div class="info">Number of epochs while training</div>
+            <input class="fieldInput" value="25">
+        </div>   
+        <div class="sliderContainer">
+            <div class="label">Batch size</div>
+            <div class="info">Batch size while training</div>
+            <input class="fieldInput" value="10">
+        </div>   
+        <div class="sliderContainer">
+            <div class="label">Learning rate</div>
+            <div class="info">learning rate provided in the optimizer while training for updating weights</div>
+            <input class="fieldInput" value="0.001">
+        </div>   
+        <div class="sliderContainer">
+            <div class="label">Dropout</div>
+            <div class="info">Dropout value to be used in the training</div>
+            <input class="fieldInput" value="Dropout">
+        </div>   
+        <div class="sliderContainer">
+            <div class="label">Vectorizer</div>
+            <div class="info">TFIDF or word counts</div>
+            <div class="kr-sg-radiobutton">
+                <input id="Vectorizer1" type="radio" value="true" name="Vectorizer"
+                    class="radio-custom" checked>
+                <label for="Vectorizer1" class="radio-custom-label">Count</label>
+            </div>
+            <div class="kr-sg-radiobutton">
+                <input id="Vectorizer2" type="radio" value="false" name="Vectorizer"
+                    class="radio-custom">
+                <label for="Vectorizer2" class="radio-custom-label">TFIDF</label>
+            </div>
+          
+        </div> 
+        <div class="sliderContainer">
+            <div class="label">Field ID</div>
+            <div class="info">Provide the field id from the documents which will be used for classification</div>
+            <input class="fieldInput" value="">
+        </div>  
+    </perfect-scrollbar>
+</div>
+
+
+
+<div class="ml-threshold-container row d-none">
     <perfect-scrollbar class="accordian-content-sec">
         <div class="SMtrainDiv ml-threshold-train" *ngIf="true">
             <div class="helphint col-xs-12 marginB20T0">

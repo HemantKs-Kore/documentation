@@ -8,9 +8,22 @@
                 </div>
                 <div class="headerTabsContainer">
                     <div class="headerMenuTab" [routerLink]="['/summary']" skipLocationChange routerLinkActive="active">Summary</div>
-                    <div class="headerMenuTab">Indices</div>
+                    <div class="headerMenuTab" [routerLink]="['/source']" skipLocationChange  routerLinkActive="active" >
+                       <span >Indices</span>
+                       <span routerLink="/content" class="d-none"></span>
+                       <span routerLink="/faqs" class="d-none"></span>
+                       <span routerLink="/indices" class="d-none"></span>
+                       <span routerLink="/botActions" class="d-none"></span>
+                       <span routerLink="/ml-threshold" class="d-none"></span>
+                       <span routerLink="/traits" class="d-none"></span>
+                       <span routerLink="/rules" class="d-none"></span>
+                       <span routerLink="/index" class="d-none"></span>
+                       <span routerLink="/query" class="d-none"></span>
+                       <span routerLink="/attributes" class="d-none"></span>
+                       
+                    </div>
                     <div class="headerMenuTab">Analytics</div>
-                    <div class="headerMenuTab">Experments</div>
+                    <div class="headerMenuTab">Experiments</div>
                     <div class="headerMenuTab">Settings <span class="statusIndicator"></span></div>
                 </div>
             </div>

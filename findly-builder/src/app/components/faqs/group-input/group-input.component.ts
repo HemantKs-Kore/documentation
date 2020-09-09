@@ -5,7 +5,6 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 import { FaqsService } from '../../../services/faqsService/faqs.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import * as _ from 'underscore';
@@ -29,7 +28,6 @@ export class GroupInputComponent implements OnInit {
   groupVal: any;
   allValues: any;
   currentSugg: any;
-  enteredValue;
   @Input() customEmitter;
   @Output() emitValues = new EventEmitter();
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;

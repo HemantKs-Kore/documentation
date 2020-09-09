@@ -6,6 +6,7 @@ import { MdEditorOption } from 'src/app/helpers/lib/md-editor.types';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-results-rules',
   templateUrl: './results-rules.component.html',
@@ -14,7 +15,11 @@ import { WorkflowService } from '@kore.services/workflow.service';
 export class ResultsRulesComponent implements OnInit {
   validationRules:any={
     condition:'OR',
-    rules:[]
+    rules:[],
+    then:{
+      resultCategory : 'BoostResults',
+      values:[]
+    }
   }
   validationOperators:any ={
     operatorsObj:{
@@ -42,10 +47,14 @@ export class ResultsRulesComponent implements OnInit {
        {operator:'onlyAlphaNumeric',type:'onlyAlphaNumeric',valueTypes:[],inputType:'text'},
        {operator:'onlyAlphabet',type:'onlyAlphabet',valueTypes:[],inputType:'text'},
    ],
-   ruleObj:{
+   rulesObj:{
        operator:'',
        valueType:'',
        value:'',
+       then:{
+        resultCategory : '',
+        values:[]
+        }
      },
    ruleConditionOr:{
        condition:'OR',
@@ -56,7 +65,17 @@ export class ResultsRulesComponent implements OnInit {
        rules:[]
    }
 }
-selectedTab = 'attributes';
+  listContextTypes = ['Search Context', 'User Context', 'Page Context'];
+  listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
+  dispContextCategories = [];
+  listResultsCategories = ['Filter Results', 'Hide Results', 'Boost Results', 'Surplus Results', 'Rewrite Query'];
+  rulesObjOO ={
+    then:{
+     resultCategory : '',
+     values:[]
+     }
+  }
+selectedTab = 'rules';
 loadingTabDetails
 addAttributesModalPopRef:any;
 addRulesModalPopRef:any;
@@ -67,6 +86,9 @@ addEditattribute : any = {
   type:'',
   isFacet:''
 }
+name = {
+  na: ''
+};
 addEditRule:any= {};
 typedQuery;
 options: MdEditorOption = {
@@ -83,6 +105,11 @@ groupsAdded: any = [];
 searchBlock = '';
 loading = true;
 loadingRules = true;
+allGroups: string[] = [];
+allValues: any;
+groupVal: any;
+groupIds: any;
+valueIds: any;
 readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('addRulesModalPop') addRulesModalPop: KRModalComponent;
   @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
@@ -107,8 +134,29 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     }
     this.loadingTabDetails = true;
   }
+  updateContextCategory(ruleData, val) {
+    ruleData.contextCategory = val;
+  }
+  updatedContextType(ruleData, val) {
+    ruleData.contextType = val;
+    ruleData.contextCategory = null;
+    if(val == 'User Context') {
+      this.dispContextCategories = ['Customer Type', 'Accounts'];
+    }
+    else if(val == 'Search Context') {
+      this.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
+    }
+    else if(val == 'Page Context') {
+      this.dispContextCategories = ['Page Name', ' Page Id'];
+    }
+  }
+
+  updateResCat(ruleObjData, val) {
+    ruleObjData.then.resultCategory = val;
+  }
+
   addSimpleRule(ruleSet,type){
-    const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
+    const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     ruleSet.rules.push(rule);
   }
   removeSimpleRule(ruleSet,index,type){
@@ -117,20 +165,27 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   }
   }
   addRuleToRuleSet(ruleSet){
-    const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
+    const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     ruleSet.rules.push(rule);
   }
   addRuleSetToRuleSet(ruleSet){
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd));
-    const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
+    const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     tempRuleSet.rules.push(rule);
     ruleSet.rules.push(tempRuleSet);
   }
   addNewSimpleRuleSet(){
     const tempObj = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionOr));
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd))
-    const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
+    const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
+    rule.then = {
+      resultCategory: ""
+    };
     tempRuleSet.rules.push(rule);
+    tempRuleSet.then = {
+      resultCategory : 'BoostResults',
+      values:[]
+    };
     if(!(this.validationRules.rules && this.validationRules.rules.length)){
       tempObj.rules.push(tempRuleSet);
       this.validationRules = tempObj
@@ -139,21 +194,43 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      }
   }
   addedGroupToRule(event,rule,type?){
-    console.log(event);
-  }
-  addEditAttibutes(group?){
-    if(group){
-      this.addEditattribute = group
-    } else{
-      this.addEditattribute= {
-        name:'',
-        attributes:[],
-        type:'',
-        isFacet:''
+    if(type == 'if') {
+      // if(!rule.values) {
+      //   rule.values = [];
+      // }
+      rule.values = [];
+      for(var i=0; i<event.length; i++) {
+        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id};
+        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id};
+        let temp3 = {
+          "type" : "string",
+          "value" : "Search"
+        }
+        rule.values.push(temp1);
+        rule.values.push(temp2);
+        rule.values.push(temp3);
       }
-      this.openAddAttributesModal();
     }
-   }
+    else if(type == 'then') {
+      // if(!this.rulesObjOO.then.values) {
+      //   this.rulesObjOO.then.values = [];
+      // }
+      this.rulesObjOO.then.values = [];
+      for(var i=0; i<event.length; i++) {
+        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id};
+        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id};
+        let temp3 = {
+          "type" : "string",
+          "value" : "Search"
+        }
+        this.rulesObjOO.then.values.push(temp1);
+        this.rulesObjOO.then.values.push(temp2);
+        this.rulesObjOO.then.values.push(temp3);
+      }
+    }
+    // console.log(event);
+  }
+
    addEditRules(rule){
      if(rule){
          this.validationRules = rule.rules;
@@ -184,7 +261,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
-      this.rules = res;
+      this.rules = res.rules;
       console.log(res);
       this.loadingRules = false
     },
@@ -200,6 +277,14 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    this.service.invoke('get.groups', quaryparamats).subscribe(
     res => {
+      this.allGroups = _.pluck(res.groups, 'name');
+      this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
+      this.groupVal = _.object(this.allGroups, this.allValues);
+      this.groupIds = _.map(res.groups, function(o){return _.pick(o, 'name', '_id')});
+      let temp = _.pluck(res.groups, 'attributes').filter(o=>{return o.length !=0});
+      let tempVals = [];
+      temp.forEach(o=>{tempVals.push(...o)});
+      this.valueIds = tempVals;
       this.attributes = res;
       this.loading = false;
     },
@@ -218,43 +303,45 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.notify.notify('Somthing went worng', 'error');
   }
  }
-   saveAttributes(){
-     const quaryparamats = {
-        searchIndexId : this.serachIndexId
-     }
-     console.log(this.addEditattribute);
-     const payload = {
-      attributes :this.addEditattribute.attributes,
-      name: this.addEditattribute.name
-     }
-     this.service.invoke('create.group', quaryparamats , payload).subscribe(
-      res => {
-        this.notify.notify('Attribute saved successfully','success');
-        this.closeAddAttributesModal();
-        this.getAttributes();
-      },
-      errRes => {
-        this.errorToaster(errRes,'Failed to create group');
-      }
-    );
-   }
-   saveRyules(){
+
+   saveRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId
    }
-   console.log(this.addEditattribute);
-   const payload = {
-    attributes :this.addEditattribute.attributes,
-    name: this.addEditattribute.name
-   }
-   this.service.invoke('create.group', quaryparamats , payload).subscribe(
-    res => {
+   console.log(this.validationRules);
+  //  return;
+  const params = {
+    searchIndexId : this.serachIndexId
+  }
+ let payload = {
+   name: this.name.na,
+   type: 'web',
+   definition:{ if: {}, then: {}}
+ }
+ payload.definition.if = this.validationRules;
+ payload.definition.then = this.rulesObjOO.then;
+   this.service.invoke('create.rule', params, payload).subscribe(
+     res=>{
       console.log(res);
-    },
-    errRes => {
-      this.errorToaster(errRes,'Failed to create group');
-    }
-  );
+      this.closeAddRulesModal();
+      this.getRules();
+     }, err=>{
+       
+     }
+   )
+
+  //  const payload = {
+  //   attributes :this.addEditattribute.attributes,
+  //   name: this.addEditattribute.name
+  //  }
+  //  this.service.invoke('create.group', quaryparamats , payload).subscribe(
+  //   res => {
+  //     console.log(res);
+  //   },
+  //   errRes => {
+  //     this.errorToaster(errRes,'Failed to create group');
+  //   }
+  // );
   }
   checkDuplicateTags(suggestion: string): boolean {
     return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);

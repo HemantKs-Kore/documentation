@@ -383,8 +383,12 @@
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}</span>
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                         </div>
-                        <div class="col">{{source.extracted || '0'}}</div>
-                        <div class="col">{{source.staged || '0'}}</div>
+
+                        <div class="col">{{source.extractedFaqsCount || '0'}}</div>
+                        <div class="col" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
+
+                        <!-- <div class="col">{{source.extracted || '0'}}</div>
+                        <div class="col">{{source.staged || '0'}}</div> -->
                         <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
                         <div class="col text-right last-child">
                             <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='Delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
