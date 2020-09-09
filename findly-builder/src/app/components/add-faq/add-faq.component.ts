@@ -237,7 +237,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
   removeConditionTag(tag,faqObj,index){
     if(faqObj && faqObj.conditions.length){
-      faqObj.conditions.slice(index,1);
+      faqObj.conditions.splice(index,1);
     }
   }
   changeResponseType(faqObj){
@@ -266,6 +266,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
+  }
+  delete(index){
+ if(this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length >1){
+  this.faqResponse.defaultAnswers.splice(index,1);
+   } else {
+    this.notify.notify('Atlease one answer is required', 'error');
+   }
   }
   setDataforEditDelete(faqdata){
     if(faqdata){

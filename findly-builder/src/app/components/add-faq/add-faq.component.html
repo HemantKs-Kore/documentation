@@ -16,7 +16,7 @@
         <img *ngIf="(responseObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
       </div>
     </div>
-    <div class="delete-icon"><img src="assets/icons/sidemenu/delete-table.svg"></div>
+    <div class="delete-icon"><img src="assets/icons/sidemenu/delete-table.svg" (click)="delete(index)"></div>
     <!-- <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div> -->
   </div>
   <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
@@ -104,7 +104,7 @@
       </mat-autocomplete>
     </mat-form-field>
     <div class="mb-15">
-      <div class="label-text">Fields</div>
+      <div class="label-text">Groups</div>
       <app-group-input></app-group-input>
     </div>
   </form>
@@ -117,7 +117,7 @@
           <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
         </label>
       </div>
-      <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response">
+      <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
     </div>    
   <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
     <div class="label-text">Conditions</div>
