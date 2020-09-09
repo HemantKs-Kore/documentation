@@ -99,14 +99,13 @@
           }
           .defineLink{
             font-size: 14px;
-            color: $buttonhoverBgColor;
+            color: #0D6EFD;
             // text-decoration: underline;
-            border-bottom: 1px solid $buttonhoverBgColor;
+            border-bottom: 1px solid #0D6EFD;
+            cursor: default;
             padding-bottom: 2px;
-            &:hover{
-              color: $hoverColor;
-              border-bottom: 1px solid $hoverColor;
-            }
+            text-decoration: none;
+  
           }
         }
         .backArrowDiv{
@@ -134,17 +133,44 @@
           }
           .defineLink{
             font-size: 14px;
-            color: $buttonhoverBgColor;
+            color: #0D6EFD;
             // text-decoration: underline;
-            border-bottom: 1px solid $buttonhoverBgColor;
+            border-bottom: 1px solid #0D6EFD;
+            cursor: default;
             padding-bottom: 2px;
-            &:hover{
-              color: $hoverColor;
-              border-bottom: 1px solid $hoverColor;
-            }
+            text-decoration: none;
+            // &:hover{
+            //   color: $hoverColor;
+            //   border-bottom: 1px solid $hoverColor;
+            // }
           }
         }
       }
+      .traits{
+        padding: 30px 30px 30px 70px;
+        .defineTraitsContainer{
+            display: flex;
+            .backArrowDiv{
+                padding-top: 22px;
+            }
+        }
+        .trailts{
+            .content-body{
+                .utteranceTag{
+                  padding: 5px;
+                  border: solid 1px rgba(138, 149, 159, 0.4);
+                  border-radius: 2px;
+                  background-color: #e5e8ec;
+                  margin-right: 5px;
+                  margin-bottom: 5px;
+                  float: left;
+                  width: auto;
+                }
+                cursor: default;
+            }
+        }
+      }
+
 }
 .kr-modal.addTraitModalComponent {
     // text-align: right;
@@ -185,6 +211,9 @@
             }
             .traits-modal-scroller {
                 height: calc(100vh - 128px);
+                .ps__rail-x{
+                    display: none !important;
+                }
             }
             .modal-body {
                 padding: 25px 30px;

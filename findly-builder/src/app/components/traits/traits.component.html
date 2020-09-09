@@ -42,45 +42,42 @@
         </div>
         <!-- TABLE CONTENT -->
         <div class="traits" *ngIf="!emptyData">
-            <div class="kr-sg-inline-notification">
+            <!-- <div class="kr-sg-inline-notification">
                 <div class="bulb-icon"><img src="assets/images/24x29-bulbicon.png"></div>
                 <div class="tost-text">Please click on 'Train' button to update your traits model with the latest
                     changes.
                     Your bot will identify the traits using latest changes only after the training is completed.</div>
                 <button class="kr-sg-button-primary">Train</button>
-            </div>
-            <div class="defineTraitsContainer col-xs-12">
-                <div class="col-xs-5 leftDiv">
+            </div> -->
+            <div class="defineTraitsContainer">
+                <div class="col-5 leftDiv">
                     <div class="defineTitle">
                         Define traits
                     </div>
                     <div class="defineDesc">
                         Define traits and train using phrases or utterances
                     </div>
-                    <a class="defineLink" (click)="openStatusModal()">
+                    <a class="defineLink" >
                         Add New Trait
                     </a>
                 </div>
-                <div class="col-xs-2 backArrowDiv">
+                <div class="col-2 backArrowDiv">
                     <img src="assets/images/arrow.svg" class="ml-1">
                 </div>
-                <div class="col-xs-5 rightDiv">
+                <div class="col-5 rightDiv">
                     <div class="defineTitle">
                         Train intents with traits
                     </div>
                     <div class="defineDesc">
                         Configure intent identification rules using traits
                     </div>
-                    <a class="defineLink" (click)="openStatusModal()">
+                    <a class="defineLink" >
                         Add New Rule
                     </a>
                 </div>
             </div>
             <div class="table-list-content">
-                <div class="kr-sg-input-inline-search">                               
-                    <input type="text" placeholder="Search" class="input-search">
-                    <img src="assets/icons/search.svg" class="search-icon">
-                </div>
+ 
                 <div class="kr-sg-data-table" *ngIf="traitsTableData && traitsTableData.length">
                     <section class="table-content">
                         <header class="table-header">
@@ -89,19 +86,22 @@
                             <div class="col" >TRAITS <img src="assets/icons/caretDown.svg"
                                     class="ml-1 hide"></div>
                             <div class="col">
-
+                                <div class="kr-sg-input-inline-search">                               
+                                    <input type="text" placeholder="Search" class="input-search">
+                                    <img src="assets/icons/search.svg" class="search-icon">
+                                </div>
                             </div>
                         </header>
                         <perfect-scrollbar class="trailts">
                             <div class="content-body" *ngFor="let trait of traitsTableData">
                                 <div class="col">{{trait.traitType || '---'}}</div>
                                 <div class="col" >
-                                    <span *ngFor="let type of trait.traits">
+                                    <span *ngFor="let type of trait.traits" class="utteranceTag">
                                         {{type.traits || '---'}}
                                     </span>
                                 </div>
                                 <div class="col">
-                                    <span class="dropdown kr-sg-overflow-menu open toggle-icon m-0">
+                                    <!-- <span class="dropdown kr-sg-overflow-menu open toggle-icon m-0">
                                         <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
                                           <img class="action_icon" src="assets/icons/overflow.svg">
                                         </div>
@@ -110,7 +110,7 @@
                                           <li class="edit-btn" (click)="export(item)">Export view</li>
                                           <li class="delete-btn text-danger" (click)="deleteView(item)">Delete</li>      
                                         </ul>
-                                      </span>
+                                      </span> -->
                                 </div>
                             </div>
                         </perfect-scrollbar>
