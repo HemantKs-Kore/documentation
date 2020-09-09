@@ -39,12 +39,6 @@
             <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
           </div>
         </div>
-        <!-- <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">
-        <div class="search">
-          <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-          <span *ngIf="!searchSources" class="search-name"><img class="search-img"
-              src="assets/icons/sidemenu/search-table.svg"></span>
-        </div> -->
         <div>
           <div class="kr-sg-dropdowns">
             <div class="dropdown dropdown-open">
@@ -268,97 +262,95 @@
                   </div>
                 </div> -->
                 <!-- Conf Configuration-->
-                <div class="accordion-content-info text-left" *ngIf = "isConfig">
-                  <div class="header-sec row m-0">
-                    <div class="col-1 label_text m-0 p-0">Title</div>
-                    <div class="col-3 label_text m-0 p-0">Url </div>
-                    <div class="col-2 label_text m-0 p-0">Description </div>
-                    <div class="col-2 label_text m-0 p-0">Crawled </div>
-                    <div class="col-1 label_text m-0 p-0">Status </div>
-                    <div class="col-1 label_text m-0 p-0">Pages </div>
-                    <div class="col-2 label_text m-0 p-0"> </div>
+                <div class="accordion-content-info text-left" *ngIf="isConfig">                  
+                <div class="table-list-content">
+                  <div class="kr-sg-data-table with-checkbox">
+                    <section class="table-content">
+                      <header class="table-header">
+                        <div class="col_ col-2">Title</div>
+                        <div class="col_ col-3">Url</div>
+                        <div class="col_ col-2">Description</div>
+                        <div class="col_ col-2">Crawled</div>  
+                        <div class="col_ col-1">Status</div>  
+                        <div class="col_ col-1">Pages</div>          
+                      </header>
+                      <ng-container>
+                          <div class="content-body">
+                              <div class="col_ col-2">{{selectedSource.name}}</div>
+                              <div class="col_ col-3">{{selectedSource.url}}</div>
+                              <div class="col_ col-2">Description</div>
+                              <div class="col_ col-2">{{selectedSource.createdOn | dateFormatPipe}}</div>  
+                              <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]" [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">{{statusObj[selectedSource.recentStatus].name}}</div>  
+                              <div class="col_ col-1">
+                                  <a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}</a>
+                              </div>
+                              <div class="col_ col-1 p-0 text-right actions-images">
+                                  <img src="assets/icons/return.svg" title="Refresh">
+                                  <img src="assets/icons/edit-rule.svg" title="Edit">
+                                  <img src="assets/icons/delete-table.svg" (click)="deletePages('pages',page ,$event)" title="Delete">
+                              </div> 
+                          </div>
+                      </ng-container>  
+                    </section>
                   </div>
-                  <div class="header-sec row m-0 content">
-                    <div class="col-1 link-name p-0" >{{selectedSource.name}}</div>
-                    <div class="col-3 link-name p-0" >{{selectedSource.url}}</div>
-                    <div class="col-2 link-name p-0" >Description</div>
-                    <div class="col-2 date">{{selectedSource.createdOn | dateFormatPipe}}</div>
-                    <div class="col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
-                    [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
-                    {{statusObj[selectedSource.recentStatus].name}}</div>
-                    <div class="col-1 date"><a class="ViewPages"
-                    *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}</a></div>
-                    <div class="col-2 actions">
-                      <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
-                      <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
-                      <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)" ngbTooltip='delete'>
-                    </div>
                 </div>
                 
-                <div class = "config-title">Sitemap URLS</div>
-                <div class="config-box">
-                  <div class="config-txt">https://finshots.in/</div>
-                  <div class="config-txt">https://finshots.in/corrections-policy/</div>
-                </div>
-
-                <div class="header-sec row m-0 content">
-                  <div class="col-10 link-name p-0 config-txt" >Schedule</div>
-                    <label class="kr-sg-toggle">
-                      <input type="checkbox" name = "scheduleOpts" checked>
-                      <div class="slider"></div>
-                  </label>
-                </div>
-                <div class="header-sec row m-0 content">
-                  <div class="col-10 link-name p-0 config-txt" >Crwal Everything</div>
-                  <label class="kr-sg-toggle">
-                    <input type="checkbox" name = "scheduleOpts" checked>
-                    <div class="slider"></div>
-                </label>
-                </div>
-                <!--  -->
-
-                <!--  -->
-                <div class = "config-title">Allow List</div>
-                <div class = "alw-url">
-                  <div class="row">
-                    <div class="col-md-2">
-                      <span class="config-txt">Allow Urls</span>
+                <div class="site-map-url-sec">
+                  <div class="label_text">Sitemap URLS</div>
+                    <div class="urls_">
+                      <div class="site-url">https://finshots.in /path/sample</div>
+                      <div class="site-url">https://finshots.in /path/sample</div>
                     </div>
-                    <div class="col-md-4">
-                      <select class="alw-select">
-                        <option></option>
-                      </select>
-                    </div>
-                    <div class="col-md-4">
-                      <input class= "txt" type="text" autocomplete="off">
-                    </div>
-                    <div class="col-md-1">
-                      <button class="alw-btn"><img src="assets/images/add.svg"></button>
-                    </div>
-
-                    <!-- <div class="col-md-9">
-                      <div class="row">
-                        <div clas="col-md-4">
-                          <select class="alw-select">
-                            <option></option>
-                          </select>
-                        </div>
-                        <div clas="col-md-4">
-                          <input class= "txt" type="text" autocomplete="off">
-                        </div>
-                        <div clas="col-md-1">
-                          <button class="alw-btn"><img src="assets/images/add.svg"></button>
-                        </div>
+                </div>     
+                <div class="toggle-swich-row">
+                    <div class="row m-0 row_data">
+                      <div class="col-10 title pl-pr-10">Schedule</div>
+                      <div class="toggle-label col-2 pl-pr-10 text-right">
+                        <label class="kr-sg-toggle">
+                          <input type="checkbox">
+                          <div class="slider"></div>
+                        </label>
                       </div>
-                    </div> -->
-                
-                      
-                  
+                    </div>
+                    <div class="row m-0 row_data">
+                      <div class="col-10 title pl-pr-10">Crawl Everything</div>
+                      <div class="toggle-label col-2 pl-pr-10 text-right">
+                        <label class="kr-sg-toggle">
+                          <input type="checkbox">
+                          <div class="slider"></div>
+                        </label>
+                      </div>
+                    </div>
+                </div>  
+                <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
+                  <div class="allow-urls-sec row">
+                    <div class="col-2 p-0 title">Allow URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Enter/Path</button>                                            
+                            <ul class="dropdown-menu content-menu">                                               
+                              <li><a>Option 1</a></li>
+                              <li><a>Option 2</a></li>
+                              <li><a>Option 3</a></li>
+                            </ul>
+                          </div>
+                      </div>
+                      <div class="kr-sg-input-text">                      
+                        <input type="text" placeholder="Enter/Path" class="input-text" autocomplete="off">                        
+                      </div>
+                      <div class="add-urls"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
                   </div>
-                  <div class="alw-list"> 1. Contains archive <img class="closeCross" src="assets/images/close.svg"></div>
-                      <div class="alw-list"> 2. begins with demo <img class="closeCross" src="assets/images/close.svg"></div>
+                  <div class="path-data row m-0">
+                    <div class="col-11 p-0 title">1. Contains / archive</div>
+                    <div class="close-path col-1 p-0 text-right"><img src="assets/images/close-cross.svg"></div>
+                  </div>
+                  <div class="path-data row m-0">
+                    <div class="col-11 p-0 title">1. Contains / archive</div>
+                    <div class="close-path col-1 p-0 text-right"><img src="assets/images/close-cross.svg"></div>
+                  </div>
                 </div>
-              </div>
 
                 <!-- Conf Configuration-->
 

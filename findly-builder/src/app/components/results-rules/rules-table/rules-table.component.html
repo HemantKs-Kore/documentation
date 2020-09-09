@@ -1,7 +1,7 @@
 <div class="kr-sg-data-table">      
     <section class="table-content">
       <header class="table-header">
-        <div class="col-3 col_">
+        <div class="col-2 col_">
           <div class="kr-sg-checkbox">
             <input id="checkbox-all" (click)='rulesService.selectAll.next()' [(ngModel)]='rulesService.isCheckAll' class="checkbox-custom" type="checkbox">
             <label for="checkbox-all" class="checkbox-custom-label"></label>
@@ -14,7 +14,7 @@
         <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
           <div class="content-body" *ngFor="let rool of rulesData; let i = index">
               <ng-container>
-                <div class="col_ col-2">
+                <div class="col_ col-2 d-flex align-items-center">
                   <div class="kr-sg-checkbox" [ngClass]="{'visible': rool.isChecked}">
                     <input id="checkbox-{{i}}" class="checkbox-custom" type="checkbox" (change)="updateFooter(rool)" [(ngModel)]='rool.isChecked'>
                     <label for="checkbox-{{i}}" class="checkbox-custom-label"></label>

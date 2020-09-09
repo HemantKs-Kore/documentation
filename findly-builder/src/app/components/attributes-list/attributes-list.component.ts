@@ -14,7 +14,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class AttributesListComponent implements OnInit {
   attributes: any;
-  loading: boolean;
+  loading: boolean = true;
   selectedApp;
   searchIndexId;
   addEditattribute : any = {

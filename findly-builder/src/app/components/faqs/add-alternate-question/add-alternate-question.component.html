@@ -2,7 +2,7 @@
     <div class="kr-sg-input-text mb-2">
         <div class="label_text" *ngIf="faqServ?.addVariation?.alternate">Alternate Question</div>
         <div class="label_text" *ngIf="!faqServ?.addVariation?.alternate">Followup Question</div>
-        <input type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text" [(ngModel)]='f.question'>
+        <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text" [(ngModel)]='f.question'>
     </div>
     <div for="tagInput" class="label_text">Tags</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">

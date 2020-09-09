@@ -54,7 +54,7 @@
     <div *ngIf="loading" class="p-5 text-center">
         Loading....
     </div>    
-    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="p-5 text-center">    
+    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="text-center">    
         <div class="empty-questions-selected" *ngIf="!(rules && rules.length) && !loadingRules">
             <img src="assets/images/icons/empty_ill.svg">
             <div class="heading">No Attributes added yet</div>
