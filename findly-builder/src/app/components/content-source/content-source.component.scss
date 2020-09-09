@@ -547,3 +547,78 @@
     .hide {
         display: block !important;
     }
+    .paginations-custon.numbers:first{
+        color: #0D6EFD !important;
+        border-bottom: 1px solid #0D6EFD !important;
+    }
+    .accordion-content-info{
+        .config-title{
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .config-box{
+            background: #FFFFFF;
+            border: 1px solid #E4E5E7;
+            box-sizing: border-box;
+            border-radius: 4px;
+            margin-bottom: 2%;
+            .config-txt{
+                font-size: 14px;
+                line-height: 17px;
+                margin: 2%;
+            }
+        }
+        .alw-btn{
+            background: #EFF0F1;
+            border-radius: 4px;
+            width: 34px;
+            height: 34px;
+            border: none;
+            margin-left: 10%;
+        }
+        .alw-select{
+            display: flex;
+            flex-direction: column;
+            padding: 7px 10px;
+            position: absolute;
+            //left: 352px;
+            width: 350px;
+            height: 34px;
+            background: #FFFFFF;
+            border: 1px solid #BDC1C6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            
+        }
+        .txt {
+            display: flex;
+            flex-direction: column;
+            padding: 7px 10px;
+            position: absolute;
+            //left: 762px;
+            width: 350px;
+            height: 34px;
+            background: #FFFFFF;
+            border: 1px solid #BDC1C6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            
+        }
+        .alw-list{
+            background: #FFFFFF;
+            border: 1px solid #E4E5E7;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 1046px;
+            height: 50px;
+            padding: 0.90rem;
+           
+        }
+        .closeCross{
+            float: right;
+        }
+    }
+    

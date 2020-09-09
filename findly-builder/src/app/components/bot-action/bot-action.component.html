@@ -3,7 +3,16 @@
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
     </div>
-    
+    <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
+      <img src="assets/images/empty-illustration.png">
+       <div class='noTraitsInfo'>
+         <!--<span class='infoHeader'></span> -->
+        <p class='infoP'>No actions available<br>
+            <!-- Create and manage bot traits -->
+        </p>
+        <!-- <button class='kr-sg-button-primary'>{{'Create New'}}</button> -->
+    </div>
+    </div>
     <div class="table-list-content" *ngIf="bots && bots.length && !loadingContent">
       <div class="kr-sg-data-table with-checkbox">
         <div class="table-action-header">
@@ -21,8 +30,9 @@
             </div>
       </div>
     </div>
+    </div>
     <ng-container >
-        <perfect-scrollbar class="table-scroll-perfect list">
+        <perfect-scrollbar class="table-scroll-perfect-bot list">
           <div class="list-view-data">
             <div class="row row_list">
               <div class="box-content" *ngFor="let source of bots"
@@ -43,8 +53,7 @@
               </div>
             </div>
           </div>
+          
         </perfect-scrollbar>
       </ng-container>
-  </div>
-  
  </div> 

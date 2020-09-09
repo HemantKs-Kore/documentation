@@ -46,10 +46,11 @@ export class BotActionComponent implements OnInit {
           this.bots = _.filter(res.tasks.published.items, (task) => {
             return task.type === 'dialog';
           });
-        };
+        };  
         console.log(this.bots);
       }, errRes => {
-        this.errorToaster(errRes,'Failed to get Synonyms');
+        this.errorToaster(errRes,'Failed to get Bot Actions');
+       
       });
     } else {
       this.bots = [];
