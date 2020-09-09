@@ -14,7 +14,11 @@ import { WorkflowService } from '@kore.services/workflow.service';
 export class ResultsRulesComponent implements OnInit {
   validationRules:any={
     condition:'OR',
-    rules:[]
+    rules:[],
+    then:{
+      resultCategory : 'BoostResults',
+      values:[]
+    }
   }
   validationOperators:any ={
     operatorsObj:{
@@ -56,7 +60,7 @@ export class ResultsRulesComponent implements OnInit {
        rules:[]
    }
 }
-selectedTab = 'attributes';
+selectedTab = 'rules';
 loadingTabDetails
 addAttributesModalPopRef:any;
 addRulesModalPopRef:any;
@@ -131,6 +135,10 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd))
     const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
     tempRuleSet.rules.push(rule);
+    tempRuleSet.then = {
+      resultCategory : 'BoostResults',
+      values:[]
+    };
     if(!(this.validationRules.rules && this.validationRules.rules.length)){
       tempObj.rules.push(tempRuleSet);
       this.validationRules = tempObj
@@ -141,19 +149,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addedGroupToRule(event,rule,type?){
     console.log(event);
   }
-  addEditAttibutes(group?){
-    if(group){
-      this.addEditattribute = group
-    } else{
-      this.addEditattribute= {
-        name:'',
-        attributes:[],
-        type:'',
-        isFacet:''
-      }
-      this.openAddAttributesModal();
-    }
-   }
+
    addEditRules(rule){
      if(rule){
          this.validationRules = rule.rules;
@@ -218,31 +214,13 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.notify.notify('Somthing went worng', 'error');
   }
  }
-   saveAttributes(){
-     const quaryparamats = {
-        searchIndexId : this.serachIndexId
-     }
-     console.log(this.addEditattribute);
-     const payload = {
-      attributes :this.addEditattribute.attributes,
-      name: this.addEditattribute.name
-     }
-     this.service.invoke('create.group', quaryparamats , payload).subscribe(
-      res => {
-        this.notify.notify('Attribute saved successfully','success');
-        this.closeAddAttributesModal();
-        this.getAttributes();
-      },
-      errRes => {
-        this.errorToaster(errRes,'Failed to create group');
-      }
-    );
-   }
-   saveRyules(){
+
+   saveRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId
    }
-   console.log(this.addEditattribute);
+   console.log(this.validationRules);
+   return;
    const payload = {
     attributes :this.addEditattribute.attributes,
     name: this.addEditattribute.name
