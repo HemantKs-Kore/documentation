@@ -657,4 +657,53 @@
     }
 }
 
+.ad-title{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 600; 
+}
+.ad-txt{
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 1%;
+}
+.ad-sch{
+    //position: absolute;
+    background: #FFFFFF;
+    border: 1px solid #BDC1C6;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+.ad-select{
+    width: 415px !important
+}
+.ad-op{
+   
+    margin-left:2px;
+}
+.ad-allow{
+    height: 74px;
+}
 
+.kr-sg-toggle{
+    float: right;
+}
+.row{
+    margin-bottom: 1rem;
+    position: relative;
+    width: 100%;
+    //padding-right: 15px;
+    //padding-left: 15px;
+}
+.alw-btn{
+    background: #EFF0F1;
+    border-radius: 4px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    margin-left: 10%;
+}

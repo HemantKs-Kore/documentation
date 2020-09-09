@@ -71,6 +71,58 @@
               <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
                 class="input-text">
             </div>
+            <div class="advance" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
+              <span class="ad-title">Advance Settings</span>
+              <div class="row">
+                <div class="col-md-6 ad-sch" >
+                  <span class="ad-txt">Schedule</span>
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" checked>
+                    <div class="slider"></div>
+                </label>
+                </div>
+                <div class="col-md-6 ">
+                   <select class="ad-sch ad-select">
+                    <option>Monthly</option>
+                    <option>Weekly</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row ad-sch">
+                  <span class="ad-txt">Crwal Everything</span>
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" checked>
+                    <div class="slider"></div>
+                </label>
+              </div>
+              <span class="ad-title">Allow urls</span>
+                <div class="row ad-sch ad-allow">
+                  <div class="col-md-2 ad-txt">Alow Urls : </div>
+                  <div class="col-md-4">
+                    <input type="text" autocomplete="off">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" autocomplete="off">
+                  </div>
+                  <div class="col-md-1">
+                    <button class="alw-btn"><img src="assets/images/add.svg"></button>
+                  </div>
+              </div>
+              <span class="ad-title">Block Urls</span>
+              <div class="row ad-sch ad-allow">
+                <div class="col-md-2 ad-txt">Block Urls :</div>
+                  <div class="col-md-4">
+                    <input type="text" autocomplete="off">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" autocomplete="off">
+                  </div>
+                  <div class="col-md-1">
+                    <button class="alw-btn"><img src="assets/images/add.svg"></button>
+                  </div>
+            </div>
+            </div>
+
             <div class="kr-sg-input-text-area mb-4 radio-pad" *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false"> <!-- Not supporting for now-->
               <div class="kr-sg-radiobutton d-block">
                 <input id="radio-17" name="radio" class="radio-custom" type="radio">
