@@ -49,7 +49,7 @@ export class BotActionComponent implements OnInit {
         };  
         console.log(this.bots);
       }, errRes => {
-        this.errorToaster(errRes,'Failed to get Synonyms');
+        this.errorToaster(errRes,'Failed to get Bot Actions');
        
       });
     } else {

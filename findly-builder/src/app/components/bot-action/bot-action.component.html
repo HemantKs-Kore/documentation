@@ -3,7 +3,9 @@
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
     </div>
-    
+    <div class="mainLoadingSpinner" *ngIf="!(bots && bots.length) && !loadingContent">
+      <span class="please-wait-message">No Content Available</span>
+    </div>
     <div class="table-list-content" *ngIf="bots && bots.length && !loadingContent">
       <div class="kr-sg-data-table with-checkbox">
         <div class="table-action-header">
