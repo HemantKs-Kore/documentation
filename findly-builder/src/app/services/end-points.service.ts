@@ -241,5 +241,15 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + 'findly/:searchIndexId/groups',
       method: 'post'
     };
+     /** Crwaler  */
+    this.serviceList['create.crawler'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source?',
+      method: 'post'
+    };
+   
+    this.serviceList['update.crawler'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId',
+      method: 'post'
+    };
   }
 }

@@ -122,7 +122,8 @@
                   <br>
                   <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length">
                       <span class=" " *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                      <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div>
+                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                      <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
                     </span>
                   </div>
 
@@ -150,7 +151,8 @@
                 <br>
                 <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length">
                   <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                    <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div>
+                    <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                    <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
                   </span>
                 </div>
             </div>
