@@ -49,14 +49,14 @@
 		</button> -->
 
 		<div class="sub-title marginTop15">Configurations</div>
-			<div mat-button class="mat-button"  mat-button>			
+			<div mat-button class="mat-button"  [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>			
 				<span class="inlineIconBox">	
 					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">	
 					<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">			
 				</span>
 				<span class="linkTitle">Index</span>
 			</div>
-			<div mat-button class="mat-button" mat-button>			
+			<div mat-button class="mat-button" [routerLink]="['/query']" skipLocationChange routerLinkActive="active" (click)="preview('query')" mat-button>			
 				<span class="inlineIconBox">	
 					<img src="assets/icons/sidemenu/new-icons/query.svg" class="defaultIcon">	
 					<img src="assets/icons/sidemenu/new-icons/query-active.svg" class="activeIcon">			
@@ -97,7 +97,7 @@
 				<img src="assets/icons/sidemenu/new-icons/attributes.svg" class="defaultIcon">	
 				<img src="assets/icons/sidemenu/new-icons/attributes-active.svg" class="activeIcon">				
 			</span>
-			<span class="linkTitle">Attributs & Factes</span>
+			<span class="linkTitle">Fields & Facets</span>
 		</div>
 		<div mat-button class="mat-button">
 			<span class="inlineIconBox">
@@ -111,7 +111,7 @@
 				<img src="assets/icons/sidemenu/new-icons/general-settings.svg" class="defaultIcon">	
 				<img src="assets/icons/sidemenu/new-icons/general-settings-active.svg" class="activeIcon">				
 			</span>
-			<span class="linkTitle">General Settins</span>
+			<span class="linkTitle">General Settings</span>
 		</div>
 
 		<!-- <div mat-button class="mat-button settings-menu">
