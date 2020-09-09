@@ -212,12 +212,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     /** Paging */
       this.sliderStep = 0;
       
+      
+      this.loadingSliderContent = false;
       if(this.isConfig){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
       }
       this.isConfig = false;
-      this.loadingSliderContent = false;
     }, errRes => {
       this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -467,17 +468,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(secondResourceData.length)this.resources = [...secondResourceData];
       }
 
-      //a/
-      /** previous working logic */ 
-    //   if(source != 'all'){
-    //   const resourceData =  this.resources.filter((data)=>{
-    //     console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-    //   return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-
-    //   })
-    //   if(resourceData.length)this.resources = [...resourceData];
-    // }
-    
+     
   }
   transform(date: string): any {
     const _date = new Date(date);
@@ -555,6 +546,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
+   }
+   allowUrls(allowUrl){
+     
    }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);

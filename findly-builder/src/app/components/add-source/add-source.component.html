@@ -75,6 +75,95 @@
               <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
                 class="input-text">
             </div>
+            <span class="ad-title cur"  *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</span>
+            <div class="advance" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse">
+              
+              <div class="row" >
+                <div class="col-md-6 ad-sch" >
+                  <span class="ad-txt">Schedule</span>
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" name = "scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
+                    <div class="slider"></div>
+                </label>
+                </div>
+                <div class="col-md-6 ">
+                   <select class="alw-btn" [disabled]="!crwalObject.advanceOpts.scheduleOpts" name = "crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" style="width: 378px;">
+                    <option value="">Select</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Weekly"> Weekly</option>
+                    <option value="Daily">Daily</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row ad-sch">
+                  <span class="ad-txt">Crwal Everything</span>
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" id="crwalEveryId" name = "crwalEvery" [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
+                    <div class="slider"></div>
+                </label>
+              </div>
+              <div *ngIf ="!crwalObject.advanceOpts.crawlEverything">
+                <span class="ad-title">Allow urls</span>
+                <div class="row ad-sch ad-allow">
+                  <div class="row">
+                    <div class="col-md-2 ad-txt">Alow Urls : </div>
+                    <div class="col-md-4">
+                      <select class="alw-btn" [(ngModel)] = "allowUrl.condition" name= "allowcon" style="width: 250px;">
+                        <option value="">Select</option>
+                        <option value="Contains">Contains</option>
+                        <option value="begins"> begins</option>
+                        <option value="ends">ends</option>
+                      </select>
+                     
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" autocomplete="off" [(ngModel)] = "allowUrl.url" name= "allowVal" style="width: 280px;">
+                    </div>
+                    <div class="col-md-1">
+                      <button class="alw-btn" (click)="allowUrls(allowUrl)"><img src="assets/images/add.svg"></button>
+                    </div>
+                  </div>
+                  <br>
+                  <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length">
+                      <span class=" " *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
+                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                      <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
+                    </span>
+                  </div>
+
+                  
+              </div>
+              <span class="ad-title">Block Urls</span>
+              <div class="row ad-sch ad-allow">
+                <div class="row">
+                  <div class="col-md-2 ad-txt">Block Urls :</div>
+                  <div class="col-md-4">
+                    <select class="alw-btn" [(ngModel)] = "blockUrl.condition" name= "blockCon" style="width: 250px;">
+                      <option value="">Select</option>
+                      <option value="Contains">Contains</option>
+                      <option value="begins"> begins</option>
+                      <option value="ends">ends</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" autocomplete="off" [(ngModel)] = "blockUrl.url" name= "blockVal" style="width: 280px;">
+                  </div>
+                  <div class="col-md-1">
+                    <button class="alw-btn" (click)="blockUrls(blockUrl)"><img src="assets/images/add.svg"></button>
+                  </div>
+                </div>
+                <br>
+                <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length">
+                  <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
+                    <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                    <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
+                  </span>
+                </div>
+            </div>
+              </div>
+              
+            </div>
+
             <div class="kr-sg-input-text-area mb-4 radio-pad" *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false"> <!-- Not supporting for now-->
               <div class="kr-sg-radiobutton d-block">
                 <input id="radio-17" name="radio" class="radio-custom" type="radio">

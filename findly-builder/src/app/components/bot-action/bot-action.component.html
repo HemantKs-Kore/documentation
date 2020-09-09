@@ -43,8 +43,8 @@
                   
                   <div class="icon-gap">{{source.shortDesc}}</div>
 
-                  <div class="title-btm btm" >No Appearances</div>
-                  <div class="title-btm btm"> No Clicks</div>
+                  <div class="title-btm btm" >{{source.noOfClicks || 'No Appearances' }} </div>
+                  <div class="title-btm btm"> {{source.noOfAppearences || 'No Clicks' }}</div>
                   <div class="actions-bot">                   
                     <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
                     <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' ><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>

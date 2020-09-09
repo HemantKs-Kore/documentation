@@ -19,7 +19,11 @@ import { startWith } from 'rxjs/operators';
   animations: [fadeInOutAnimation]
 })
 export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
-  fileObj:any = {}
+  fileObj:any = {};
+  crwalEvery : boolean = false;
+  crwalObject : CrwalObj = new CrwalObj();
+  allowUrl : AllowUrl = new AllowUrl();
+  blockUrl : BlockUrl = new BlockUrl();
   receivedQuaryparms: any;
   searchIndexId;
   selectedSourceType: any = null;
@@ -348,6 +352,30 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         this.notificationService.notify('Failed to add sources ', 'error');
       }
     });
+    this.callWebCraller(this.crwalObject,searchIndex)
+  }
+  callWebCraller(crawler,searchIndex){
+    let payload = {}
+    let resourceType = this.selectedSourceType.resourceType;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      type: this.selectedSourceType.sourceType,
+    };
+    crawler.name = this.newSourceObj.name;
+    crawler.url = this.newSourceObj.url;
+    crawler.desc = this.newSourceObj.desc || '';
+    crawler.resourceType = resourceType;
+    payload = crawler;
+    console.log(payload);
+
+    this.service.invoke('create.crawler', quaryparms, payload).subscribe(res => {
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed to crawl ', 'error');
+       }
+     });
   }
   faqCancle(event){
     this.selectedSourceType = null
@@ -399,6 +427,18 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     }
   }
   /** proceed Source API */
+
+  /**Crwaler */
+  allowUrls(data){
+    this.crwalObject.advanceOpts.allowedURLs.push(data);
+    this.allowUrl = new AllowUrl();
+
+  }
+  blockUrls(data){
+    this.crwalObject.advanceOpts.blockedURLs.push(data);
+    this.blockUrl = new BlockUrl
+  }
+  /**Crwaler */
   ngOnDestroy() {
      const self= this;
      if (this.pollingSubscriber) {
@@ -407,4 +447,32 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       console.log('PolingDistroyed');
       this.fileObj.fileAdded = false;
   }
+}
+
+
+class CrwalObj{  
+  
+    url: String = '';
+    desc: String = '';
+    name: String = '';
+    resourceType: String = '';
+    advanceOpts: AdvanceOpts = new AdvanceOpts()
+
+  
+}
+class AdvanceOpts{
+  scheduleOpts:boolean = true;
+      schedulePeriod: String ="";
+      repeatInterval: String ="";
+      crawlEverything: boolean = true; 
+         allowedURLs:AllowUrl[] = [];
+         blockedURLs: BlockUrl[] = [];
+}
+class AllowUrl {
+  condition:String = '';
+   url: String = '';
+}
+class BlockUrl {
+  condition:String = '';
+   url: String = '';
 }

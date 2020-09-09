@@ -77,9 +77,9 @@
                     [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
                     class="ml-1 sortImg"></button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name" >All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
-                  <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
-                    <span class="list-name">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                  <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name" >All</span><img [ngClass]="{'hide': filterSystem.typefilter === 'all'}" src="assets/icons/check-blue.svg"></li>
+                  <li  *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
+                    <span class="list-name">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img [ngClass]="{'hide': filterSystem.typefilter === docType}"  src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
             </div>
@@ -178,8 +178,8 @@
     <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table">
       <div class="sliderBody call-history-filter">
         <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
-          <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-          <span class="please-wait-message">Please Wait!</span>
+          <mat-spinner diameter="18" strokeWidth="2" ></mat-spinner>
+          <span class="please-wait-message" style="margin-left:5%">Please Wait!</span>
         </div>
         
         <!-- <div class="info-content bg-color text-left" *ngIf="sliderStep! && !loadingSliderContent && selectedSource">
@@ -303,18 +303,21 @@
 
                 <div class="header-sec row m-0 content">
                   <div class="col-10 link-name p-0 config-txt" >Schedule</div>
-                  <div class="col-2 link-name p-0" >
-                    <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="customSwitches">
-                    </div>
-                  </div>
+                    <label class="kr-sg-toggle">
+                      <input type="checkbox" name = "scheduleOpts" checked>
+                      <div class="slider"></div>
+                  </label>
                 </div>
                 <div class="header-sec row m-0 content">
                   <div class="col-10 link-name p-0 config-txt" >Crwal Everything</div>
-                  <div class="col-2 link-name p-0" >
-                    <input type="checkbox" class="custom-control-input" id="customSwitches">
-                  </div>
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" name = "scheduleOpts" checked>
+                    <div class="slider"></div>
+                </label>
                 </div>
+                <!--  -->
+
+                <!--  -->
                 <div class = "config-title">Allow List</div>
                 <div class = "alw-url">
                   <div class="row">
