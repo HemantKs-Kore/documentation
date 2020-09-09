@@ -548,6 +548,10 @@
     .hide {
         display: block !important;
     }
+    .paginations-custon.numbers:first{
+        color: #0D6EFD !important;
+        border-bottom: 1px solid #0D6EFD !important;
+    }
     .accordion-content-info{
         .config-title{
             font-weight: 600;

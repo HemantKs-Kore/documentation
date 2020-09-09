@@ -284,8 +284,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   onClickPageNo(noRows,index){
     this.getCrawledPages(noRows,index);
-    // $('.numbers').toggleClass('active')
-    // $('#number_'+index).toggleClass('active')
+    $('.numbers').each( (key , valyue)=>{
+      $('.numbers').removeClass("active")
+    })
+    $('#number_'+index).addClass("active");
+     //$('#number_'+index).toggleClass('active')
   }
   deletePages(from,record,event) {
     if(event){
