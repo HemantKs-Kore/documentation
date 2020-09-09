@@ -241,6 +241,9 @@
                                     <div class="conditionalBlock">
                                         <ng-container *ngIf="selectedFaq && selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.answers && selectedFaq.conditionalAnswers.answers.length">
                                             <ng-container *ngFor="let answer of selectedFaq.conditionalAnswers.answers">
+                                                <div *ngIf="selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.conditions && selectedFaq.conditionalAnswers.conditions.length">
+                                                    <span *ngFor="let tags of selectedFaq.conditionalAnswers.conditions">{{tag.value}}</span>
+                                                </div>
                                                 <div class="desc" *ngIf="answer.type==='javascript'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
                                                  <div class="desc" *ngIf="answer.type==='javascript'">Javascript message</div>
                                             </ng-container> 
