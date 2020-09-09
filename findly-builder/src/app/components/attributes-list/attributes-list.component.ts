@@ -71,7 +71,8 @@ export class AttributesListComponent implements OnInit {
     console.log(this.addEditattribute);
     const payload = {
      attributes :this.addEditattribute.attributes,
-     name: this.addEditattribute.name
+     name: this.addEditattribute.name,
+     type: this.addEditattribute.type
     }
     this.service.invoke('create.group', quaryparamats , payload).subscribe(
      res => {

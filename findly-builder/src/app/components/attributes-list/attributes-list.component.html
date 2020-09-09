@@ -34,7 +34,7 @@
                     <span>{{attribute.name}}</span>
                     </div>
                     <div class="col_ col-4"><span class='eachAttr' *ngFor="let value of attribute.attributes; let i = index ">{{value.value + ((index === (attribute.attributes.length-1))?'':',')}} </span></div>  
-                    <div class="col_ col-2" >{{attribute.type || 'Systom/Auto'}}</div>  
+                    <div class="col_ col-2" >{{attribute.type || 'System/Auto'}}</div>  
                     <div class="col_ col-2">{{attribute.isFacet || 'Yes' }}</div>         
                     <div class="col_ col-1 pl-0 text-right pr-4 actions">
                     <img src="assets/images/edit-pencil.svg" class="mr-4 hide">
