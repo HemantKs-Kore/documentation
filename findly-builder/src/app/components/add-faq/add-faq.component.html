@@ -1,3 +1,79 @@
+<ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>
+  <div class="label-text bot-res-title">Bot Response <img *ngIf="false" src="assets/icons/sidemenu/delete-table.svg"></div>
+  <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
+  <div class="layout-select">
+    <div class="d-flex align-items-center m-0 col-7 p-0">
+      <div class="title">Select Layout</div>
+      <div class="img-block" (click)="setResponseType('default',responseObj)" [ngClass]="{'active': (responseObj.responseType === 'default') || (!responseObj.responseType)}">
+        <img *ngIf="(responseObj.responseType !== 'default')" src="assets/icons/editor/no-image.svg">
+        <img  *ngIf="(responseObj.responseType === 'default')" src="assets/icons/editor/no-image-active.svg">
+      </div>
+      <div class="img-block" (click)="setResponseType('horizontalSplit',responseObj)"  [ngClass]="{'active': (responseType === 'horizontalSplit')}">
+        <img *ngIf="(responseObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
+        <img *ngIf="(responseObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
+      </div>
+      <div class="img-block" (click)="setResponseType('verticalSplit',responseObj)"  [ngClass]="{'active': (responseType === 'verticalSplit')}">
+        <img *ngIf="(responseObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
+        <img *ngIf="(responseObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
+      </div>
+    </div>
+    <!-- <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div> -->
+  </div>
+  <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
+  <div class="text-area-editor" [ngClass]="{'swap-positions': responseObj.responseType==='horizontalSplit','image-split-mode': responseObj.responseType ==='verticalSplit'}">
+    <div class="upload-content-wrapper"  *ngIf="(responseObj.responseType !== 'default')">
+      <div class="image-selections" (click)="openImgApp(responseObj,index,type)" *ngIf="!(responseObj && responseObj.image && responseObj.image.url)">
+          <div class="img_block"><img  src="assets/icons/editor/upload-image.svg"></div>
+          <div class="info-text">Upload Image or Video</div>
+      </div>
+      <!-- <input type="file" name="myfile"/> -->
+      <div class="uploaded-image-preview"  *ngIf="responseObj && responseObj.image && responseObj.image.url && ((responseObj.responseType==='horizontalSplit') || (responseObj.responseType ==='verticalSplit'))">
+        <img src="{{responseObj.image.url}}">
+      </div>        
+    </div>
+    <div class="kr-sg-input-text-area"> 
+      <div class="tabs-sec">
+        <span class="tab-title " (click)="responseObj.type='string'" [ngClass]="{'active': responseObj.type === 'string'}">editor</span>
+        <span class="tab-title" (click)="responseObj.type='javascript'" [ngClass]="{'active': responseObj.type==='javascript'}">&lt;/&gt; CODE</span>
+      </div>
+      <div class="editor-actons">
+        <!-- <span class="edit-action">
+          <img src="assets/icons/editor/alphabits.svg">
+        </span> -->
+        <span (click)="onSelected('italic')" class="edit-action">
+          <img src="assets/icons/editor/italic.svg">
+        </span>
+        <span (click)="onSelected('bold')" class="edit-action">
+          <img src="assets/icons/editor/bold.svg">
+        </span>
+        <span  class="edit-action" (click)="onSelected('link')">
+          <img src="assets/icons/editor/link.svg">
+        </span>
+        <span (click)="onSelected('indentLeft')" class="edit-action">
+          <img src="assets/icons/editor/align-left.svg">
+        </span>
+        <!-- <span class="edit-action">
+          <img src="assets/icons/editor/align-center.svg">
+        </span> -->
+        <span (click)="onSelected('indentRight')" class="edit-action">
+          <img src="assets/icons/editor/align-right.svg">
+        </span>
+        <span class="edit-action" (click)="onSelected('ordered')">
+          <img src="assets/images/markup/list-ordered.svg">
+        </span>
+        <span (click)="onSelected('unordered')"  class="edit-action">
+          <img src="assets/images/markup/list-unordered.svg">
+        </span>
+      </div>     
+      <div>
+      </div>  
+      <div  [ngClass]="{'hide': responseObj.type==='string' }" >
+         <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
+      </div>
+      <textarea [ngClass]="{'hide': responseObj.type==='javascript' }" (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
+    </div>
+  </div>
+</ng-template>
 <div class="add-questions-form" [ngClass]="inputClass">
   <form [formGroup]="form">
     <div class="kr-sg-input-text mb-15">
@@ -29,95 +105,41 @@
     </mat-form-field>
     <p class="d-none">Group</p>
     <app-group-input class="d-none"></app-group-input>
-    <div class="label-text bot-res-title">Bot Response <img *ngIf="false" src="assets/icons/sidemenu/delete-table.svg"></div>
-    <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
-    <div class="layout-select">
-      <div class="d-flex align-items-center m-0 col-7 p-0">
-        <div class="title">Select Layout</div>
-        <div class="img-block" (click)="setResponseType('default')" [ngClass]="{'active': (responseType === 'default')}">
-          <img *ngIf="(responseType !== 'default')" src="assets/icons/editor/no-image.svg">
-          <img  *ngIf="(responseType === 'default')" src="assets/icons/editor/no-image-active.svg">
-        </div>
-        <div class="img-block" (click)="setResponseType('horizontalSplit')"  [ngClass]="{'active': (responseType === 'horizontalSplit')}">
-          <img *ngIf="(responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
-          <img *ngIf="(responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
-        </div>
-        <div class="img-block" (click)="setResponseType('verticalSplit')"  [ngClass]="{'active': (responseType === 'verticalSplit')}">
-          <img *ngIf="(responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
-          <img *ngIf="(responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
-        </div>
-      </div>
-      <!-- <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div> -->
-    </div>
-    <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
-    <div class="text-area-editor" [ngClass]="{'swap-positions': responseType==='horizontalSplit','image-split-mode': responseType ==='verticalSplit'}">
-      <div class="upload-content-wrapper"  *ngIf="(responseType !== 'default')">
-        <div class="image-selections" (click)="openImgApp()" *ngIf="!image.url">
-            <div class="img_block"><img  src="assets/icons/editor/upload-image.svg"></div>
-            <div class="info-text">Upload Image or Video</div>
-        </div>
-        <!-- <input type="file" name="myfile"/> -->
-        <div class="uploaded-image-preview"  *ngIf="image.url && ((responseType==='horizontalSplit') || (responseType ==='verticalSplit'))">
-          <img src="{{image.url}}">
-        </div>        
-      </div>
-      <div class="kr-sg-input-text-area"> 
-        <div class="tabs-sec">
-          <span class="tab-title " (click)="responseMethod='basic'" [ngClass]="{'active': responseMethod==='basic'}">editor</span>
-          <span class="tab-title" (click)="responseMethod='uxmap'" [ngClass]="{'active': responseMethod==='uxmap'}">&lt;/&gt; CODE</span>
-        </div>
-        <div class="editor-actons">
-          <!-- <span class="edit-action">
-            <img src="assets/icons/editor/alphabits.svg">
-          </span> -->
-          <span (click)="onSelected('italic')" class="edit-action">
-            <img src="assets/icons/editor/italic.svg">
-          </span>
-          <span (click)="onSelected('bold')" class="edit-action">
-            <img src="assets/icons/editor/bold.svg">
-          </span>
-          <span  class="edit-action" (click)="onSelected('link')">
-            <img src="assets/icons/editor/link.svg">
-          </span>
-          <span (click)="onSelected('indentLeft')" class="edit-action">
-            <img src="assets/icons/editor/align-left.svg">
-          </span>
-          <!-- <span class="edit-action">
-            <img src="assets/icons/editor/align-center.svg">
-          </span> -->
-          <span (click)="onSelected('indentRight')" class="edit-action">
-            <img src="assets/icons/editor/align-right.svg">
-          </span>
-          <span class="edit-action" (click)="onSelected('ordered')">
-            <img src="assets/images/markup/list-ordered.svg">
-          </span>
-          <span (click)="onSelected('unordered')"  class="edit-action">
-            <img src="assets/images/markup/list-unordered.svg">
-          </span>
-        </div>     
-        <div>
-        </div>  
-        <div  [ngClass]="{'hide': responseMethod==='basic' }">
-           <ngx-codemirror #codemirror [options]="codeMirrorOptions" formControlName="botResponse" (ngModelChange)="setEditorContent($event)"> </ngx-codemirror>
-        </div>
-        <textarea [ngClass]="{'hide': responseMethod==='uxmap' }"  formControlName="botResponse" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer"></textarea>
-        <div class="editorContaine hide">
-          <!-- <div contenteditable formControlName="botResponse"  style="height: 200px;" class="input-text editorDivContainer"  id="mainChatInputContainerDiv"></div>      -->
-        </div>
-      </div>
-    </div>
-    <div class="btn-sec">
-      <div class="left-btns">
-        <button class="kr-sg-button-primary btn_lg" (click)="save()" [disabled]="form.invalid || loading">{{loading ? 'Saving..' : 'Save'}}</button>
-        <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
-      </div>
-      <div class="right-btns">        
-        <button class="kr-sg-button-secondary btn_lg mr-0 d-none"><img src="assets/icons/editor/plus-add.svg" class="mr-2">Another Bot Response</button>
-        <button class="kr-sg-button-tertiary d-none" (click)='addAltQues()'>Add Alternate Question</button>
-        <button class="kr-sg-button-tertiary d-none" (click)='addFollowupQues()'>Add Followup Question</button>
-      </div>
-    </div>
   </form>
+  <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index" >
+    <label class="kr-sg-toggle">
+      <input type="checkbox" [checked]='(faqObj.selected === "condition")' (click)="changeResponseType(faqObj)">
+      <div class="slider"></div>
+  </label>
+  <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
+    <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+      <mat-chip-list #chipList2 aria-label="tag selection">
+        <mat-chip *ngFor="let tag of faqObj.conditions; let index = index;" (removed)="removeConditionTag(tag,faqObj,index)">
+            <div class="mat-val" (click)="$event.stopPropagation()"> {{tag.value}}</div>
+            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+        </mat-chip>
+        <input placeholder="Type & enter"
+               [(ngModel)]="conditionQuary"
+               [matChipInputFor]="chipList2"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               (matChipInputTokenEnd)="addConditionTag($event,faqObj)" id="tagInput12" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
+        </mat-chip-list>
+    </mat-form-field>
+  </ng-container>
+    <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+  </ng-container>
+  <div class="btn-sec">
+    <div class="left-btns">
+      <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
+    </div>
+    <div class="right-btns">        
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
+      <button class="kr-sg-button-tertiary d-none" (click)='addAltQues()'>Add Alternate Question</button>
+      <button class="kr-sg-button-tertiary d-none" (click)='addFollowupQues()'>Add Followup Question</button>
+    </div>
+  </div>
+  
   <div *ngIf='isAdd'>
     <p>Add Alternate Question</p>
     <app-tags-inp [faqServ]='faqServiceAlt'></app-tags-inp>
@@ -126,7 +148,7 @@
     <p>Add Followup Question</p>
     <app-tags-inp [faqServ]='faqServiceFollow'></app-tags-inp>
   </div>
-
+ 
 </div>
 
 <kr-modal modalType="default" #createImagePop>

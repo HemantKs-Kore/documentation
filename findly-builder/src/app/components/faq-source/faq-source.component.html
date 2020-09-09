@@ -68,7 +68,8 @@
                                                 </div>
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{faq.question}}</div>
-                                                    <div class="desc" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq.answer)'></div>
+                                                    <div class="desc" *ngIf="faq && faq.defaultAnswers && faq.defaultAnswers.length && faq.defaultAnswers[0] && faq.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq.defaultAnswers[0].payload)'></div>
+                                                    <div class="desc" *ngIf="faq && faq.defaultAnswers && faq.defaultAnswers.length && faq.defaultAnswers[0] && faq.defaultAnswers[0].type==='javascript'">Javascript message</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,7 +78,9 @@
                                                 <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
                                                     <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._is]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
                                                         <div class="title">{{altQuestion.question}}</div>
-                                                        <div class="desc">{{altQuestion.answer}}</div>
+                                                        <div class="desc" *ngIf="altQuestion && altQuestion.answer">{{altQuestion.answer}}</div>
+                                                        <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(altQuestion.defaultAnswers[0].payload)'></div>
+                                                       <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='javascript'">Javascript message</div>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -234,8 +237,24 @@
                                     <div class="keywords">
                                         <span class="key-title">Keywords :</span>
                                         <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
-                                    </div>                        
-                                    <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div>
+                                    </div>  
+                                    <div class="conditionalBlock">
+                                        <ng-container *ngIf="selectedFaq && selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.answers && selectedFaq.conditionalAnswers.answers.length">
+                                            <ng-container *ngFor="let answer of selectedFaq.conditionalAnswers.answers">
+                                                <div class="desc" *ngIf="answer.type==='javascript'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                 <div class="desc" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                            </ng-container> 
+                                        </ng-container>
+                                    </div>
+                                    <div>
+                                        <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
+                                            <ng-container *ngFor="let answer of selectedFaq.defaultAnswers">
+                                                <div class="desc" *ngIf="answer.type==='javascript'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                 <div class="desc" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                            </ng-container> 
+                                        </ng-container>
+                                    </div>
+                                    <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">

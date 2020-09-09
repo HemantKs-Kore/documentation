@@ -282,10 +282,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       faqType:'manual'
     };
     const payload: any = {
-      desc: event.response,
-      name: event.question,
       question: event.question,
-      answer: event.response
+      defaultAnswers: event.defaultAnswers || [],
+      conditionalAnswers: event.conditionalAnswers || [],
+      keywords: event.tags
       };
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.showAddFaqSection = false;
@@ -472,7 +472,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   editFaq(event){
     const _payload = {
       question: event.question,
-   answer: event.response,
+  //  answer: event.response,
+   defaultAnswers: event.defaultAnswers || [],
+   conditionalAnswers: event.conditionalAnswers || [],
    alternateQuestions: event.alternateQuestions || [],
    followupQuestions: event.followupQuestions || [],
    keywords: event.tags,

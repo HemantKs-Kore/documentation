@@ -34,6 +34,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @Output() editFaq = new EventEmitter();
   createLinkPopRef
   createImagePopRef
+  faqs:any = {}
+  anwerPayloadObj:any = {};
   codeMirrorOptions: any = {
     theme: 'idea',
     mode: 'javascript',
@@ -45,7 +47,61 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     matchBrackets: true,
     lint: true
   };
+  conditionQuary:any = ''
   obj;
+  faqResponse ={
+    defaultAnswers:[]
+  }
+ faqResponse1 ={
+   conditionalAnswers:[
+   {
+   conditions:[
+   { key: 'a.b.c.d', op: 'exists', value: '' },
+   { key: 'x.y', op: 'eq', value: 'somvalue' },
+   { key: 'y', op: 'noteq', value: 'someothervalue' }
+   ],
+   answers:[
+   {
+   payload: 'actual answer text',
+   type: 'string/javascript'
+   },
+   {
+   payload: 'actual answer text',
+   type: 'string/javascript'
+   }
+   ]
+   },
+   {
+   conditions: [
+   { key: 'a.b.c.d', op: 'exists', value: '' },
+   { key: 'x.y', op: 'eq', value: 'somvalue' },
+   { key: 'y', op: 'noteq', value: 'someothervalue' }
+   ],
+   answers: [
+   {
+   payload: 'actual answer text',
+   type: 'simple/javascript'
+   },
+   {
+   payload: 'actual answer text',
+   type: 'simple/javascript'
+   }
+   ]
+   }
+   ],
+   defaultAnswers:
+   [
+   {
+   payload: 'actual answer text',
+   type: 'javascript'
+   },
+   {
+   payload: 'actual answer text',
+   type: 'string'
+   }
+   ]
+ }
+
   form: FormGroup;
   tags: any[] = [];
   text = '';
@@ -53,6 +109,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     url:'',
     alt:''
   }
+  defaultResponse:any = {}
   responseMethod  = 'basic';
   imgInfo :any ={};
   linkInfo:any = {}
@@ -78,12 +135,24 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     alternateQuestions: [],
     followupQuestions: []
   };
+  conditionInterface:any = { key: '', op: '', value: '' };
+  defaultAnsInterface:any =  {
+    answerType:'default', // default/conditional
+    responseType: 'default',
+    payload: '',
+    conditions:[],
+    type: 'string',
+    image:{
+      imageUrl:'',
+      alt:'',
+    }
+  }
   followInpKeySub: Subscription;
   followInpQuesSub: Subscription;
   altInpKeySub: Subscription;
   altInpQuesSub: Subscription;
   groupAddSub: Subscription;
-
+  selectedResponseToEdit:any = {};
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
     private service: ServiceInvokerService,
@@ -110,6 +179,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         }
       }
     }, null, ' ');
+    this.setDataforEditDelete(this.faqData);
     if (this.faqData) {
       if(this.faqData.templateSettings){
         this.responseType = this.faqData.templateSettings.responseType
@@ -128,10 +198,10 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     }
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
-  setResponseType(type){
-    this.responseType = type;
+  setResponseType(type,responseObj){
+    responseObj.responseType = type;
   }
-  setEditorContent(event) {
+  setEditorContent(event,responseObj,type,index) {
     // console.log(event, typeof event);
     console.log(this.obj);
   }
@@ -148,7 +218,31 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       this.suggestionTags = res;
     }, err=> {} )
   }
-
+  checkDuplicateConditions(suggestion: string = '',conditions): boolean {
+    return conditions.every(f => f.value.toLowerCase() !== suggestion.toLowerCase());
+  }
+  addConditionTag(event: MatChipInputEvent,faqObj){
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateConditions((value || '').trim(),faqObj.conditions)) {
+        this.notify.notify('Duplicate tags are not allowed', 'warning');
+      } else {
+        const conditionTags:any = JSON.parse(JSON.stringify(this.conditionInterface));
+        conditionTags.value = value;
+        faqObj.conditions.push(conditionTags);
+        this.conditionQuary = '';
+      }
+    }
+  }
+  removeConditionTag(tag,faqObj,index){
+    if(faqObj && faqObj.conditions.length){
+      faqObj.slice(index,1);
+    }
+  }
+  changeResponseType(faqObj){
+    faqObj.answerType = (faqObj.answerType ==='condition')?'default':'condition';
+  }
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -159,24 +253,156 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         this.tags.push(value.trim());
       }
     }
-    if (input) {
-      input.value = '';
-    }
   }
-
+  addAnotherResponse(type){
+   if(type==='default'){
+     const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
+     this.faqResponse.defaultAnswers.push(tempResponseObj);
+   }
+  }
   remove(tag): void {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
   }
-
+  setDataforEditDelete(faqdata){
+    if(faqdata){
+      if(faqdata && faqdata.defaultAnswers && faqdata.defaultAnswers.length){
+        $.each(faqdata.defaultAnswers,(i,answer)=>{
+            const answerObj:any = {
+              type: answer.type,
+              payload:answer.payload,
+              answerType:'default',
+              responseType: 'default',
+              conditions:[
+                { key: '', op: '', value: '' },
+              ],
+              image:answer.multimedia
+            }
+            if(answer.type === 'javascript' && answer.payload){
+              try {
+                answerObj.payload = JSON.parse(answer.payload);
+              } catch(e){
+                 console.log('Bad JSON');
+              }
+            }
+            if(answer && answer.image && answer.image.imageUrl){
+              answerObj.multimedia = {
+                type:'image',
+                url:'answer.image.imageUrl',
+              }
+           }
+          this.faqResponse.defaultAnswers.push(answerObj);
+        })
+      }
+      if(faqdata && faqdata.defaultAnswers && faqdata.conditionalAnswers.length){
+        $.each(faqdata.conditionalAnswers,(i,answer)=>{
+            const answerObj:any = {
+              type: 'string',
+              payload:'',
+              answerType:'default',
+              responseType: 'default',
+              conditions: answer.conditions || []
+            }
+            if(answer && answer.answers && answer.answers.length){
+              answerObj.type =  answer.answers[0].type;
+              answerObj.payload =  answer.answers[0].payload;
+              answerObj.image = answer.answers[0].multimedia;
+            }
+            if(answer.type === 'javascript' && answer.payload){
+              try {
+                answerObj.payload = JSON.parse(answer.payload);
+              } catch(e){
+                 console.log('Bad JSON');
+              }
+            }
+            if(answer && answer.image && answer.image.imageUrl){
+              answerObj.multimedia = {
+                type:'image',
+                url:'answer.image.imageUrl',
+              }
+            this.faqResponse.defaultAnswers.push(answerObj);
+          }
+        })
+      }
+    } else {
+      const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
+      this.faqResponse.defaultAnswers.push(tempResponseObj);
+    }
+  }
+  prpaerFaqsResponsePayload(){
+    const defaultAnswers = [];
+    const conditionalAnswers = [];
+    if(this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length){
+      $.each(this.faqResponse.defaultAnswers,(i,answer)=>{
+        if(answer.answerType !== 'conditional'){
+          const answerObj:any = {
+            type: answer.type,
+            payload:answer.payload,
+          }
+          if(answer.type === 'javascript' && answer.payload){
+            answerObj.payload = JSON.stringify(answer.payload);
+          }
+          if(answer && answer.image && answer.image.imageUrl){
+            answerObj.multimedia = {
+              type:'image',
+              url:'answer.image.imageUrl',
+            }
+          }
+          defaultAnswers.push(answerObj);
+        }
+        if(answer.answerType === 'condition'){
+          const answerObj1:any = {
+            type: answer.type,
+            payload:answer.payload,
+          }
+          if(answer.type === 'javascript' && answer.payload){
+            answerObj1.payload = JSON.stringify(answer.payload);
+          }
+          if(answer && answer.image && answer.image.imageUrl){
+            answerObj1.multimedia = {
+              type:'image',
+              url:'answer.image.imageUrl',
+            }
+          }
+          const conditionAnswerObj:any = {
+              answers: [],
+              conditions:answer.conditions || [],
+          }
+          conditionAnswerObj.answers.push(answerObj1);
+          conditionalAnswers.push(conditionAnswerObj);
+        }
+      })
+    }
+    this.anwerPayloadObj.defaultAnswers = defaultAnswers;
+    this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
+  }
   save() {
+    this.prpaerFaqsResponsePayload();
+    if(this.anwerPayloadObj.defaultAnswers && this.anwerPayloadObj.defaultAnswers.length){
+      const oneValidRespone = _.filter(this.anwerPayloadObj.defaultAnswers,(answer) =>{
+         return ((answer.payload !== '') && (answer.payload !== undefined) && ( answer.payload !==null ));
+      })
+       if(!(oneValidRespone && oneValidRespone.length)){
+        this.notify.notify('Default answer is required','error');
+        return;
+       }
+    } else {
+      this.notify.notify('Default answer is required','error');
+      return ;
+    }
+    if(!(this.form && this.form.get('question') &&  this.form.get('question').value)){
+      this.notify.notify('Please add atleast question','error');
+      return ;
+    }
     const emmiter = this.faqData ? this.editFaq : this.addFaq;
     this.loading = true;
     emmiter.emit({
       question: this.form.get('question').value,
       tags: this.tags,
+      defaultAnswers:this.anwerPayloadObj.defaultAnswers,
+      conditionalAnswers:this.anwerPayloadObj.defaultAnswers,
       alternateQuestions: this.faqData ? this.faqData.alternateQuestions : [],
       followupQuestions: this.faqData ? this.faqData.followupQuestions : [],
       response: this.form.get('botResponse').value,
@@ -230,7 +456,19 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   checkTags(suggestion){
     return this.tags.find(f=>f=== suggestion)
   }
-  openImgApp() {
+  selectCurrentFocusedResponse(id,responseObj,type,index){
+    if(responseObj){
+      this.selectedResponseToEdit.resposneObj = responseObj;
+      this.selectedResponseToEdit.index = index;
+      this.selectedResponseToEdit.type = type;
+      this.selectedResponseToEdit.id = id;
+      this.container = '#mainChatInputContainer' + type + '_' + index;
+    }
+  }
+  openImgApp(resposneObj,index,type) {
+    this.selectedResponseToEdit.resposneObj = resposneObj;
+    this.selectedResponseToEdit.index = index;
+    this.selectedResponseToEdit.type = type;
     this.createImagePopRef  = this.createImagePop.open();
    }
    closeImgApp() {
@@ -238,6 +476,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
    }
    addImage(){
     this.image = this.imgInfo;
+    this.selectedResponseToEdit.resposneObj.image = this.imgInfo;
     this.closeImgApp();
    }
    openLinkApp(range) {
