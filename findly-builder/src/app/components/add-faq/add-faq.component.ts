@@ -621,6 +621,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           text: newMessage
         };
         $(this.container).val(newMessage);
+        if(this.selectedResponseToEdit && this.selectedResponseToEdit.index > -1){
+          $.each(this.faqResponse.defaultAnswers,(i,key)=>{
+              if(i === this.selectedResponseToEdit.index) {
+                key.payload = newMessage;
+              }
+          })
+        }
         this.form.get('botResponse').setValue(newMessage);
         $(this.container).focus();
       }

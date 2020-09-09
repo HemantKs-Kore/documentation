@@ -68,7 +68,7 @@
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"></div>
           <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">Type<span
-              class="selected-length-doc-web hide">({{this.filterSystem.typefilter}})</span>
+              class="selected-length-doc-web d-none">({{this.filterSystem.typefilter}})</span>
             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">

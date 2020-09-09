@@ -67,10 +67,10 @@
       </div>     
       <div>
       </div>  
-      <div  [ngClass]="{'hide': responseObj.type==='string' }" >
+      <div *ngIf="responseObj.type==='javascript'" >
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
-      <textarea [ngClass]="{'hide': responseObj.type==='javascript' }" (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
+      <textarea *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
     </div>
   </div>
 </ng-template>

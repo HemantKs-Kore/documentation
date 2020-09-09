@@ -31,7 +31,7 @@
                         </div>
                         <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                             <div class="dropdown dropdown-open">
-                                <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span>
+                                <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Filter<img src="assets/icons/filter.svg"></button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id)" src="assets/icons/check-blue.svg"></li>
