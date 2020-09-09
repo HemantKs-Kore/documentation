@@ -4,45 +4,43 @@
             <span class="info-rule if">If</span>
             <div *ngIf="validationMode==='simple'" class="close-minus-btn" (click)="removeSimpleRule(rulesSet,ruleIndex)"><span>-</span></div>
             <div *ngIf="validationMode==='advanced'" class="close-minus-btn" (click)="removeAdvancedRule(ruleIndex,rulesSet,rule)"><span>-</span></div>
-            <div class="col-3">                        
-                <div class="kr-sg-dropdowns">                           
-                    <div class="dropdown dropdown-open" ngbDropdown>
-                        <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
-                        <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                        <li (click)="rule.contextType='Search Context'" >Search Context</li>  
-                        <li (click)="rule.contextType='Search Context'">User Context</li>  
-                        <li (click)="rule.contextType='Search Context'">Page Context</li>  
-                        </ul>
-                    </div>
-                </div>
+            <div class="col-3">   
+              <div class="kr-sg-dropdowns">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
+                    <ul class="dropdown-menu content-menu">
+                      <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of listContextTypes">{{conType}}</li>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+            <div class="col-3">   
+              <div class="kr-sg-dropdowns">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:'Choose'}}</button>                                            
+                    <ul class="dropdown-menu content-menu">
+                      <li *ngFor="let contCate of dispContextCategories" (click)='updateContextCategory(rule, contCate)'>
+                        {{contCate}}
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+            <div class="col-3">      
+              <div class="kr-sg-dropdowns">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.operator?rule.operator:'Choose'}}</button>                                            
+                    <ul class="dropdown-menu content-menu">
+                      <li (click)="rule.operator='Starts With'">Starts With</li>
+                      <li (click)="rule.operator='Contains'">Contains</li>
+                      <li (click)="rule.operator='Equals to'">Equals to</li>
+                    </ul>
+                  </div>
+              </div>
             </div>
             <div class="col-3">                        
-                <div class="kr-sg-input-text">
-                    <input type="text" [(ngModel)]="rule.contextCategory"  placeholder="" class="input-text">
-                </div>
-            </div>
-            <div class="col-3">                        
-                <div class="kr-sg-dropdowns">                           
-                    <div class="dropdown dropdown-open" ngbDropdown>
-                        <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
-                        <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                           <li (click)="rule.operator='Starts With'">Starts With</li> 
-                           <li (click)="rule.operator='Contains'">Contains</li> 
-                           <li (click)="rule.operator='Equals to'">Equals to</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">                        
-                <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
-                    <mat-chip-list #chipList1 aria-label="tag selection">
-                      <mat-chip *ngFor="let tag of rule.values; let index = index" (removed)="removeAltTag(tag)">
-                         <div class="mat-value" *ngIf="tag">{{tag.value}}</div> 
-                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                      </mat-chip>
-                      <input placeholder="Type & enter" [matChipInputFor]="chipList1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" name = "tagInput"  (matChipInputTokenEnd)="addAltTag($event,rule)" id="tagInput" (click)="$event.stopPropagation()">
-                    </mat-chip-list>
-                  </mat-form-field> 
+              <app-group-input  [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'if')"></app-group-input>
+              <!-- <app-autocomplete-multi-chip [allSuggestions]="allValues"></app-autocomplete-multi-chip> -->
             </div>
         </div>        
     </div>
@@ -53,19 +51,15 @@
     </div>
     <div class="error-message-text-box w-100 mb-2 col-12 row m-0" *ngIf="ruleIndex === (rulesSet.rules.length-1)">
         <span class="info-rule">then</span>
-        <div class="kr-sg-dropdowns col-3">                           
-            <div class="dropdown dropdown-open" ngbDropdown>
-                <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
-                <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                    <ng-container *ngIf="rulesObj && rulesObj.then">
-                        <li (click)='rulesObj.then.resultCategory="FilterResults"'>Filter Results</li>  
-                        <li (click)='rulesObj.then.resultCategory="HidetResults"'>Hide Results</li>  
-                        <li (click)='rulesObj.then.resultCategory="BoostResults"'>Boost Results</li>  
-                        <li (click)='rulesObj.then.resultCategory="BurryResults"'>Burry Results</li>
-                        <li (click)='rulesObj.then.resultCategory="RewriteQuery"'>Rewrite Query</li>         
-                    </ng-container>
+        <div class="kr-sg-dropdowns col-3">          
+          <div class="kr-sg-dropdowns">                                        
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rulesObjOO.then.resultCategory}}</button>                                            
+                <ul class="dropdown-menu content-menu">
+                  <li (click)='updateResCat(rulesObjOO, resCat)' *ngFor="let resCat of listResultsCategories">{{resCat}}</li>
                 </ul>
-            </div>
+              </div>
+          </div>
         </div>
         <div class="kr-sg-input-text col-9">
             <app-group-input [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'then')"></app-group-input>           
@@ -183,12 +177,12 @@
     <div class="col-12 pl-5 pr-0" *ngIf="validationRules && validationRules.rules && validationRules.rules.length">
         <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
             <div class="kr-sg-input-text mb-3 rule-name-input">
-                <input type="text" placeholder="" class="input-text">
+                <input type="text" placeholder="" class="input-text" [(ngModel)]='name.na'>
             </div>
             <div class="validation-setting-rules" >
                 <ng-container *ngFor="let rule of simpleRule.rules; index as i">
                     <ng-container 
-                        *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:'simple'}">
+                        *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:'simple', rulesObj: validationRules.then}">
                     </ng-container>
                 </ng-container>
             </div>  

@@ -54,7 +54,7 @@
     <div *ngIf="loading" class="p-5 text-center">
         Loading....
     </div>
-    <div *ngIf="!(attributes.groups && attributes.groups.length) && !loading" class="p-5 text-center">
+    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="p-5 text-center">
         No Attributes added yet
     </div>
 </div>

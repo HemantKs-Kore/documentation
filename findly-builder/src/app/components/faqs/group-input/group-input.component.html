@@ -9,7 +9,6 @@
         <mat-icon matChipRemove *ngIf="removable"><img src="assets/images/close.svg"></mat-icon>
       </mat-chip>
       <input
-      [(ngModel)]="enteredValue"
         placeholder="New group..."
         #groupInput
         (ngModelChange)="changeList($event)"
