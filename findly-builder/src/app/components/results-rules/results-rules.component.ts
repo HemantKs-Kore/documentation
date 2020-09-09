@@ -6,6 +6,10 @@ import { MdEditorOption } from 'src/app/helpers/lib/md-editor.types';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+
+
 import * as _ from 'underscore';
 @Component({
   selector: 'app-results-rules',
@@ -49,13 +53,7 @@ export class ResultsRulesComponent implements OnInit {
    ],
    rulesObj:{
        operator:'',
-       valueType:'',
-       value:'',
-       then:{
-        resultCategory : '',
-        values:[]
-        }
-     },
+   },
    ruleConditionOr:{
        condition:'OR',
        rules:[]
@@ -117,7 +115,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     private notify: NotificationService,
     private service: ServiceInvokerService,
-    private workflowService: WorkflowService
+    private workflowService: WorkflowService,
+    public dialog: MatDialog
   ) { }
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -178,14 +177,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     const tempObj = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionOr));
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd))
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
-    rule.then = {
-      resultCategory: ""
-    };
     tempRuleSet.rules.push(rule);
-    tempRuleSet.then = {
-      resultCategory : 'BoostResults',
-      values:[]
-    };
     if(!(this.validationRules.rules && this.validationRules.rules.length)){
       tempObj.rules.push(tempRuleSet);
       this.validationRules = tempObj
@@ -195,40 +187,33 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   }
   addedGroupToRule(event,rule,type?){
     if(type == 'if') {
-      // if(!rule.values) {
-      //   rule.values = [];
-      // }
       rule.values = [];
       for(var i=0; i<event.length; i++) {
-        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id};
-        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id};
+        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
+        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
         let temp3 = {
           "type" : "string",
           "value" : "Search"
         }
         rule.values.push(temp1);
         rule.values.push(temp2);
-        rule.values.push(temp3);
+        // rule.values.push(temp3);
       }
     }
     else if(type == 'then') {
-      // if(!this.rulesObjOO.then.values) {
-      //   this.rulesObjOO.then.values = [];
-      // }
       this.rulesObjOO.then.values = [];
       for(var i=0; i<event.length; i++) {
-        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id};
-        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id};
+        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
+        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
         let temp3 = {
           "type" : "string",
           "value" : "Search"
         }
         this.rulesObjOO.then.values.push(temp1);
         this.rulesObjOO.then.values.push(temp2);
-        this.rulesObjOO.then.values.push(temp3);
+        // this.rulesObjOO.then.values.push(temp3);
       }
     }
-    // console.log(event);
   }
 
    addEditRules(rule){
@@ -255,6 +240,35 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     }
   );
    }
+   deleteRule(ruleData) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Rule',
+        text: 'Are you sure you want to delete this rule?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          const params = {
+            searchIndexId: this.serachIndexId,
+            ruleId: ruleData._id
+          };
+          this.service.invoke('delete.rule', params).subscribe(
+            res => {
+             this.getRules();
+            }, err => {
+     
+            })
+          dialogRef.close();
+        } else if (result === 'no') { dialogRef.close(); }
+      });
+   }
+
    getRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
@@ -325,23 +339,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       console.log(res);
       this.closeAddRulesModal();
       this.getRules();
-     }, err=>{
-       
-     }
-   )
-
-  //  const payload = {
-  //   attributes :this.addEditattribute.attributes,
-  //   name: this.addEditattribute.name
-  //  }
-  //  this.service.invoke('create.group', quaryparamats , payload).subscribe(
-  //   res => {
-  //     console.log(res);
-  //   },
-  //   errRes => {
-  //     this.errorToaster(errRes,'Failed to create group');
-  //   }
-  // );
+     }, err=>{})
   }
   checkDuplicateTags(suggestion: string): boolean {
     return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);
