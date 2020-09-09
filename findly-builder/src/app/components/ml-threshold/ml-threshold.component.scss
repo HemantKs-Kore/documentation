@@ -13,6 +13,12 @@
             font-weight: 500;
             font-size: 20px;
         }
+        .subSection{
+            color: #202124;
+            font-weight: bold;
+            font-size: 16px;
+            // margin-top: 30px;
+        }
         .toggleContainer{
             &.paddinTop-30{
                 padding-top: 30px;
@@ -34,6 +40,7 @@
             }
         }
         .sliderContainer{
+            margin-bottom: 25px;
             .label{
                 color: #202124;
                 font-weight: 500;
