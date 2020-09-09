@@ -26,35 +26,48 @@
         .headerTabsContainer{
           padding-left: 120px;
           .headerMenuTab{
-            text-transform: uppercase;
-            color: #202124;
-            border-bottom: 1px solid #fff;
-            line-height: 58px;
-            float: left;
-            margin-right: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 12px;
-            padding: 0 5px;
-            outline: none;
-            position: relative;
-            &.active{
-              border-bottom: 2px solid #0D6EFD;
-            }
-            &:hover{
-              border-bottom: 2px solid #0D6EFD;
-            }
-            .statusIndicator{
-              display: inline-block;
-              background-color: #FF2661;
-              width: 4px;
-              height: 4px;
-              position: absolute;
-              left: 30px;
-              top: 10px;
-              border-radius: 50%;
-
-            }
+              text-transform: uppercase;
+              color: #202124;
+              border-bottom: 0px solid #fff;
+              line-height: 60px;
+              float: left;
+              margin-right: 20px;
+              cursor: pointer;
+              font-weight: 600;
+              font-size: 12px;
+              padding: 0 5px;
+              outline: none;
+              position: relative;
+              transition: 0.3s all ease;
+              &::before{                
+                content: "";
+                position: absolute;
+                width: 100%;   
+                border-bottom: 2px solid #0D6EFD;            
+                bottom: 0;
+                left: 0;
+                display: none;
+              }
+              &.active{
+                &::before{                                 
+                  display: block;
+                }
+              }
+              &:hover{
+                &::before{                                 
+                  display: block;
+                }
+              }
+              .statusIndicator{
+                display: inline-block;
+                background-color: #FF2661;
+                width: 4px;
+                height: 4px;
+                position: absolute;
+                left: 30px;
+                top: 10px;
+                border-radius: 50%;
+              }
           }
         }
       }

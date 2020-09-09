@@ -23,7 +23,7 @@
                 <div class="col_ col-2">TYPE</div>
                 <div class="col_ col-2">IS FACET</div>
             </header>
-            <perfect-scrollbar class="table-scroll-perfect if-select-all">
+            <perfect-scrollbar class="table-scroll-perfect">
                 <ng-container>
                 <div class="content-body" *ngFor="let attribute of attributes.groups  |  filter:[ searchBlock ,'name']">
                     <div class="col_ col-3">
@@ -59,48 +59,51 @@
     </div>
 </div>
 
-<kr-modal modalType="center" modalClass="addRulesModalComponent" #addAttributesModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_" #addAttributesModalPop>
     <div class="modal-header">
-        <div class="header-title" (click)='closeAddAttributesModal()'><img src="assets/images/closeCross.png" class="closeCross"></div>        
-    </div>
-    <div class="modal-body">
-            <div class="kr-sg-input-text mb-15">
-              <div class="label-text">Field Name</div>
-              <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="addEditattribute.name" required autocomplete="off">             
-           </div>
-           <div for="tagInput" class="label_text">Values</div>
-           <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+        <div class="title">Add Fields</div>
+        <div class="close_icon"><img class="ng-tns-c11-2" src="assets/icons/modal-close.svg" (click)='closeAddAttributesModal()'></div>
+      </div>
+      <perfect-scrollbar class="perfect-scroll-modal-body">
+        <div class="modal-body">
+            <div class="kr-sg-input-text mb-20">
+                <div class="label-text">Field Name</div>
+                <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="addEditattribute.name" required autocomplete="off">             
+            </div>
+            <div for="tagInput" class="label_text">Values</div>
+            <mat-form-field class="example-chip-list mb-20" [floatLabel]="'never'">
             <mat-chip-list #chipList aria-label="tag selection">
-              <mat-chip *ngFor="let tag of addEditattribute.attributes; let index = index" (removed)="removeAltTag(tag)">
-                 <div class="mat-value" *ngIf="tag">{{tag.value}}</div> 
+                <mat-chip *ngFor="let tag of addEditattribute.attributes; let index = index" (removed)="removeAltTag(tag)">
+                    <div class="mat-value" *ngIf="tag">{{tag.value}}</div> 
                 <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-              </mat-chip>
-              <input placeholder="Type & enter" [(ngModel)]="addEditattribute.newTag" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" name = "tagInput"  (matChipInputTokenEnd)="addAltTag($event)" id="tagInput" (click)="$event.stopPropagation()">
+                </mat-chip>
+                <input placeholder="Type & enter" [(ngModel)]="addEditattribute.newTag" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" name = "tagInput"  (matChipInputTokenEnd)="addAltTag($event)" id="tagInput" (click)="$event.stopPropagation()">
             </mat-chip-list>
-          </mat-form-field> 
-           <div class="kr-sg-dropdowns w-100 d-none">
+            </mat-form-field> 
+            <div class="kr-sg-dropdowns w-100 d-none">
             <div class="label-text">Label</div>
             <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditattribute.type?addEditattribute.type:'Choose'}}</button>                                            
                 <ul class="dropdown-menu content-menu">
-                  <li (click)="addEditattribute.type='systemAuto'">System/Auto</li>
-                  <li (click)="addEditattribute.type='custom'">Custom</li>
+                    <li (click)="addEditattribute.type='systemAuto'">System/Auto</li>
+                    <li (click)="addEditattribute.type='custom'">Custom</li>
                 </ul>
-             </div>
-           </div>
-           <div class="kr-sg-dropdowns w-100">
-            <div class="label-text">Type</div>
+            </div>
+            </div>
+            <div class="kr-sg-dropdowns w-100">
+            <div class="label-text">is Facet?</div>
             <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditattribute.isFacet?addEditattribute.isFacet:'Choose'}}</button>                                            
                 <ul class="dropdown-menu content-menu">
-                  <li (click)="addEditattribute.isFacet='Yes'">Yes</li>
-                  <li (click)="addEditattribute.isFacet='No'">No</li>
+                    <li (click)="addEditattribute.isFacet='Yes'"><a>Yes</a></li>
+                    <li (click)="addEditattribute.isFacet='No'"><a>No</a></li>
                 </ul>
-              </div>
-           </div>
-     </div>
+                </div>
+            </div>
+        </div>
+      </perfect-scrollbar> 
    <div class="modal-footer">                               
-    <button class="kr-sg-button-primary btn_md" (click)="saveAttributes()" >Ok</button>
-    <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddAttributesModal()">Cancel</button>
+        <button class="kr-sg-button-primary btn_md" (click)="saveAttributes()">Add</button>
+        <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddAttributesModal()">Cancel</button>
    </div>
 </kr-modal>

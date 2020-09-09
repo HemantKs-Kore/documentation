@@ -58,8 +58,10 @@ import { TagsInpComponent } from './components/faqs/tags-inp/tags-inp.component'
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { RangeSliderComponent } from './helpers/components/range-slider/range-slider.component';
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
-import { AutocompleteSingleChipComponent } from './helpers/components/autocomplete-single-chip/autocomplete-single-chip.component';
-import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
+// import { AutocompleteSingleChipComponent } from './helpers/components/autocomplete-single-chip/autocomplete-single-chip.component';
+// import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
+import { IndexComponent } from './components/index/index.component';
+import { QueryComponent } from './components/query/query.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -97,8 +99,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TagsInpComponent,
     RangeSliderComponent,
     AttributesListComponent,
-    AutocompleteSingleChipComponent,
-    AutocompleteMultiChipComponent
+    IndexComponent,
+    QueryComponent
     ],
   imports: [
     BrowserModule,
