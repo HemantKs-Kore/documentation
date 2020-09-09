@@ -12,7 +12,6 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 
 import * as _ from 'underscore';
 import { ResultsRulesService } from '../../services/componentsServices/results-rules.service';
-import { resolve6 } from 'dns';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-results-rules',
@@ -141,6 +140,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.getAttributes();
     this.addNewSimpleRuleSet();
     this.getRules();
+    this.allSubscribe();
   }
 
   resetRule() {
@@ -324,7 +324,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
     this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res=>{
       this.addRulesModalPopRef  = this.addRulesModalPop.open();
-      // this.openAddRulesModalSub.unsubscribe();
     });
     this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -342,7 +341,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
           if (result === 'yes') {
             const params = {
               searchIndexId: this.serachIndexId,
-              ruleId: res._id
+              ruleId: res
             };
             this.service.invoke('delete.rule', params).subscribe(
               res => {
@@ -353,7 +352,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
             dialogRef.close();
           } else if (result === 'no') { dialogRef.close(); }
         });
-        this.deleteRuleSub.unsubscribe();
     });
     this.bulkSendSub = this.rulesService.bulkSend.subscribe(res=>{
       let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
@@ -381,7 +379,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       }, err=>{
   
       });
-      this.bulkSendSub.unsubscribe();
     });
     this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe(res=>{
       let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
@@ -408,7 +405,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       }, err=>{
   
       });
-      this.bulkDeleteSub.unsubscribe();
     });
 
    }
@@ -427,7 +423,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.tabsList[1].count = this.inReviewRules.length;
       this.tabsList[2].count = this.approvedRules.length;
       this.loadingRules = false;
-      this.allSubscribe();
     },
     errRes => {
       this.errorToaster(errRes)

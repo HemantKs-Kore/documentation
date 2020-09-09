@@ -25,7 +25,7 @@
                 <div class="actions draft-state col_ col-3 text-right pr-3">
                   <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal()">
                   <img src="assets/icons/return.svg" class="ml-4">
-                  <img (click)="rulesService.deleteRule.next(rool)" src="assets/icons/delete-table.svg" class="ml-4">
+                  <img (click)="rulesService.deleteRule.next(rool._id)" src="assets/icons/delete-table.svg" class="ml-4">
                 </div>
                 <div class="actions approve-state d-none col-3 text-right pr-3">
                   <button class="kr-sg-button-primary btn_lg ml-4">Approve</button>

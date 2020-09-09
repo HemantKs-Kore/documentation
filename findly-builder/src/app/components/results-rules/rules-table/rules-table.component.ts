@@ -12,7 +12,7 @@ export class RulesTableComponent implements OnInit {
 
   @Input() rulesData;
 
-  constructor(private rulesService: ResultsRulesService) { }
+  constructor(public rulesService: ResultsRulesService) { }
 
   ngOnInit(): void {
   }
