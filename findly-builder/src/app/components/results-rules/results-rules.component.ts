@@ -138,6 +138,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getAttributes();
     this.addNewSimpleRuleSet();
     this.getRules();
   }
@@ -218,21 +219,29 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.validationRules.rules.push(tempRuleSet);
      }
   }
-
-  selectAll() {
-    let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
-    if(tabActive == 'Drafts') {
-      this.draftRules = _.map(this.draftRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-      this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
-    } else if(tabActive == 'In-review'){
-      this.inReviewRules = _.map(this.inReviewRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-    } else if(tabActive == 'Approved') {
-      this.approvedRules = _.map(this.approvedRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+  getAttributes(){
+    const quaryparamats = {
+      searchIndexId : this.serachIndexId,
+   }
+   this.service.invoke('get.groups', quaryparamats).subscribe(
+    res => {
+      this.allGroups = _.pluck(res.groups, 'name');
+      this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
+      this.groupVal = _.object(this.allGroups, this.allValues);
+      this.groupIds = _.map(res.groups, function(o){return _.pick(o, 'name', '_id')});
+      let temp = _.pluck(res.groups, 'attributes').filter(o=>{return o.length !=0});
+      let tempVals = [];
+      temp.forEach(o=>{tempVals.push(...o)});
+      this.valueIds = tempVals;
+      this.attributes = res;
+      this.loading = false;
+    },
+    errRes => {
+      this.loading = false;
+    this.errorToaster(errRes)
     }
-  }
-
-
-
+  );
+    }
   addedGroupToRule(event,rule,type?){
     if(type == 'if') {
       rule.values = [];
@@ -272,7 +281,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         name:'',
         definition:[],
       }
-      this.openAddRulesModal();
+      this.addRulesModalPopRef  = this.addRulesModalPop.open();
      }
    }
    deleteAttributes(attribute){
@@ -288,34 +297,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     }
   );
    }
-   deleteRule(ruleData) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Delete Rule',
-        text: 'Are you sure you want to delete this rule?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          const params = {
-            searchIndexId: this.serachIndexId,
-            ruleId: ruleData._id
-          };
-          this.service.invoke('delete.rule', params).subscribe(
-            res => {
-             this.getRules();
-            }, err => {
-     
-            })
-          dialogRef.close();
-        } else if (result === 'no') { dialogRef.close(); }
-      });
-   }
+ 
 
    tabActive(tab) {
     this.tabsList.map(o=>{o.isSelected = false; return o;});
@@ -323,19 +305,55 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.inReviewRules.map(o=>{o.isChecked = false; return o;});
     this.approvedRules.map(o=>{o.isChecked = false; return o;});
     this.rulesService.isCheckAll = false;
+    this.rulesService.showReviewFooter = false;
     tab.isSelected = true;
    }
 
    allSubscribe() {
     this.selectAllSub =  this.rulesService.selectAll.subscribe(res=>{
-      this.selectAll();
+      let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
+      if(tabActive == 'Drafts') {
+        this.draftRules = _.map(this.draftRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
+      } else if(tabActive == 'In-review'){
+        this.inReviewRules = _.map(this.inReviewRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+      } else if(tabActive == 'Approved') {
+        this.approvedRules = _.map(this.approvedRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+      }
      });
 
     this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res=>{
-      this.openAddRulesModal();
+      this.addRulesModalPopRef  = this.addRulesModalPop.open();
+      // this.openAddRulesModalSub.unsubscribe();
     });
     this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
-      this.deleteRule(res);
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '446px',
+        height: '306px',
+        panelClass: 'delete-popup',
+        data: {
+          title: 'Delete Rule',
+          text: 'Are you sure you want to delete this rule?',
+          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        }
+      });
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            const params = {
+              searchIndexId: this.serachIndexId,
+              ruleId: res._id
+            };
+            this.service.invoke('delete.rule', params).subscribe(
+              res => {
+               this.getRules();
+              }, err => {
+       
+              })
+            dialogRef.close();
+          } else if (result === 'no') { dialogRef.close(); }
+        });
+        this.deleteRuleSub.unsubscribe();
     });
     this.bulkSendSub = this.rulesService.bulkSend.subscribe(res=>{
       let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
@@ -362,7 +380,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         this.getRules();
       }, err=>{
   
-      })
+      });
+      this.bulkSendSub.unsubscribe();
     });
     this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe(res=>{
       let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
@@ -388,7 +407,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         this.getRules();
       }, err=>{
   
-      })
+      });
+      this.bulkDeleteSub.unsubscribe();
     });
 
    }
@@ -478,9 +498,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.addEditattribute.attributes.splice(index, 1);
     }
   }
-  openAddRulesModal() {
-    this.addRulesModalPopRef  = this.addRulesModalPop.open();
-   }
+
    closeAddRulesModal() {
     if (this.addRulesModalPopRef &&  this.addRulesModalPopRef.close) {
       this.addRulesModalPopRef.close();
