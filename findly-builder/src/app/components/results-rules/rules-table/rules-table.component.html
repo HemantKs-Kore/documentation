@@ -1,0 +1,44 @@
+<div class="kr-sg-data-table">      
+    <section class="table-content">
+      <header class="table-header">
+        <div class="col-3 col_">
+          <div class="kr-sg-checkbox">
+            <input id="checkbox-all" (click)='rulesService.selectAll.next()' [(ngModel)]='rulesService.isCheckAll' class="checkbox-custom" type="checkbox">
+            <label for="checkbox-all" class="checkbox-custom-label"></label>
+          </div> 
+          <span>RULE NAME<img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></span>
+        </div>
+        <div class="col_ col-7">DEFINITION</div>                            
+      </header>
+      <ng-container >
+        <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
+          <div class="content-body" *ngFor="let rool of rulesData; let i = index">
+              <ng-container>
+                <div class="col_ col-2">
+                  <div class="kr-sg-checkbox" [ngClass]="{'visible': rool.isChecked}">
+                    <input id="checkbox-{{i}}" class="checkbox-custom" type="checkbox" (change)="updateFooter(rool)" [(ngModel)]='rool.isChecked'>
+                    <label for="checkbox-{{i}}" class="checkbox-custom-label"></label>
+                  </div> 
+                  <span>{{rool.name}}</span>
+                </div>                    
+                <div class="col_ col-7 definatation">{{rool.definitionStr}}</div>               
+                <div class="actions draft-state col_ col-3 text-right pr-3">
+                  <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal()">
+                  <img src="assets/icons/return.svg" class="ml-4">
+                  <img (click)="rulesService.deleteRule.next(rool)" src="assets/icons/delete-table.svg" class="ml-4">
+                </div>
+                <div class="actions approve-state d-none col-3 text-right pr-3">
+                  <button class="kr-sg-button-primary btn_lg ml-4">Approve</button>
+                  <img src="assets/icons/return.svg" class="ml-4">
+                  <img src="assets/icons/delete-table.svg" class="ml-4">
+                </div>
+              </ng-container>
+          </div>     
+      </perfect-scrollbar>
+      </ng-container>
+      <div class="footer-btns" *ngIf="rulesService.showReviewFooter">
+        <button class="kr-sg-button-primary btn_lg" (click)='rulesService.bulkSend.next()'>Send for Review</button>
+        <button class="kr-sg-button-danger btn_lg" (click)='rulesService.bulkDelete.next()'>Delete</button>
+      </div>
+    </section>       
+  </div>

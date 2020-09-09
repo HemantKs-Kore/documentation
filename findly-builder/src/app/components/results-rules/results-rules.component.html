@@ -86,67 +86,38 @@
     <div class="faq-header-sec row m-0">
         <div class="col-12 left-sec p-0">
             <div class="tab-sec d-flex">
-                <div class="tab_title active">Drafts<span>({{rules.length}})</span></div>
-                <div class="tab_title">In-review<span>(0)</span></div>
-                <div class="tab_title">Approved<span>(0)</span></div>
+                <div class="tab_title" (click)="tabActive(tab)" [ngClass]="{'active': tab.isSelected}" *ngFor="let tab of tabsList">
+                  {{tab.name}}
+                  <span>({{tab.count || 0}})</span>
+                </div>
             </div>
         </div>       
     </div>
-    <div class="table-list-content" *ngIf="selectedRulesOnj && rules && rules.length && !loadingRules">
-        <div class="kr-sg-data-table">      
-          <section class="table-content">
-            <header class="table-header">
-              <div class="col-3 col_">
-                <div class="kr-sg-checkbox">
-                  <input id="checkbox-all" (click)='selectAll()' [(ngModel)]='isCheckAll' class="checkbox-custom" type="checkbox">
-                  <label for="checkbox-all" class="checkbox-custom-label"></label>
-                </div> 
-                <span>RULE NAME<img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></span>
-              </div>
-              <div class="col_ col-7">DEFINITION</div>                            
-            </header>
-            <ng-container >
-              <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
-                <div class="content-body" *ngFor="let rool of rules; let i = index">
-                    <ng-container>
-                      <div class="col_ col-2">
-                        <div class="kr-sg-checkbox" [ngClass]="{'visible': rool.isChecked}">
-                          <input id="checkbox-{{i}}" class="checkbox-custom" type="checkbox" (change)="updateFooter(rool)" [(ngModel)]='rool.isChecked'>
-                          <label for="checkbox-{{i}}" class="checkbox-custom-label"></label>
-                        </div> 
-                        <span>{{rool.name}}</span>
-                      </div>                    
-                      <div class="col_ col-7 definatation">{{rool.definitionStr}}</div>               
-                      <div class="actions draft-state col_ col-3 text-right pr-3">
-                        <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal()">
-                        <img src="assets/icons/return.svg" class="ml-4">
-                        <img (click)="deleteRule(rool)" src="assets/icons/delete-table.svg" class="ml-4">
-                      </div>
-                      <div class="actions approve-state d-none col-3 text-right pr-3">
-                        <button class="kr-sg-button-primary btn_lg ml-4">Approve</button>
-                        <img src="assets/icons/return.svg" class="ml-4">
-                        <img src="assets/icons/delete-table.svg" class="ml-4">
-                      </div>
-                    </ng-container>
-                </div>     
-            </perfect-scrollbar>
-            </ng-container>
-            <div class="footer-btns" *ngIf="showReviewFooter">
-              <button class="kr-sg-button-primary btn_lg" (click)='bulkSend()'>Send for Review</button>
-              <button class="kr-sg-button-danger btn_lg" (click)='bulkDelete()'>Delete</button>
-            </div>
-          </section>       
-        </div>
+    <div class="table-list-content" *ngIf="tabsList[0].isSelected && draftRules && draftRules.length && !loadingRules">
+      <app-rules-table [rulesData]='draftRules'></app-rules-table>
     </div>
+    <div class="table-list-content" *ngIf="tabsList[1].isSelected &&inReviewRules && inReviewRules.length && !loadingRules">
+      <app-rules-table [rulesData]='inReviewRules'></app-rules-table>
+    </div>
+    <div class="table-list-content" *ngIf="tabsList[2].isSelected &&approvedRules && approvedRules.length && !loadingRules">
+      <app-rules-table [rulesData]='approvedRules'></app-rules-table>
+    </div>
+    
     <div *ngIf="loadingRules" class="p-5 text-center">
       Lading....
     </div>
     <div *ngIf="!(rules && rules.length) && !loadingRules" class="p-5 text-center">
       No rules added yet
     </div>
-   </ng-container>
-   <ng-container  *ngIf="selectedTab==='attributes'">
-      <!-- <app-attributes-list [attributes]='attributes' [loading]='loading'></app-attributes-list> -->
+    <div *ngIf="tabsList[0].isSelected && !(draftRules && draftRules.length) && !loadingRules" class="p-5 text-center">
+      No Draft rules
+    </div>
+    <div *ngIf="tabsList[1].isSelected && !(approvedRules && approvedRules.length) && !loadingRules" class="p-5 text-center">
+      No In-review rules
+    </div>
+    <div *ngIf="tabsList[2].isSelected && !(inReviewRules && inReviewRules.length) && !loadingRules" class="p-5 text-center">
+      No Approved rules
+    </div>
    </ng-container>
  </div>
 

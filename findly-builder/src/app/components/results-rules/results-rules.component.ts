@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { NotificationService } from '../../services/notification.service';
@@ -11,12 +11,16 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 
 
 import * as _ from 'underscore';
+import { ResultsRulesService } from '../../services/componentsServices/results-rules.service';
+import { resolve6 } from 'dns';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-results-rules',
   templateUrl: './results-rules.component.html',
-  styleUrls: ['./results-rules.component.scss']
+  styleUrls: ['./results-rules.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class ResultsRulesComponent implements OnInit {
+export class ResultsRulesComponent implements OnInit, OnDestroy {
   validationRules:any={
     condition:'OR',
     rules:[],
@@ -84,21 +88,21 @@ addEditattribute : any = {
   type:'',
   isFacet:''
 };
-isCheckAll: boolean = false;
 name = {
   na: ''
 };
-showReviewFooter: boolean = false;
 addEditRule:any= {};
 typedQuery;
 options: MdEditorOption = {
   showPreviewPanel: false,
   hideIcons: ['TogglePreview']
 }
-selectedRulesOnj:any ={};
 selectedAttributesObj:any = {};
 attributes:any= [];
 rules:any = [];
+draftRules: any = [];
+inReviewRules: any = [];
+approvedRules: any = [];
 selectedApp
 serachIndexId
 groupsAdded: any = [];
@@ -110,6 +114,16 @@ allValues: any;
 groupVal: any;
 groupIds: any;
 valueIds: any;
+tabsList: any = [
+  {name: 'Drafts', isSelected: true, count: 0},
+  {name: 'In-review', isSelected: false, count: 0},
+  {name: 'Approved', isSelected: false, count: 0}
+]
+selectAllSub :Subscription;
+openAddRulesModalSub :Subscription;
+deleteRuleSub :Subscription;
+bulkSendSub :Subscription;
+bulkDeleteSub :Subscription;
 readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('addRulesModalPop') addRulesModalPop: KRModalComponent;
   @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
@@ -118,14 +132,14 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     private notify: NotificationService,
     private service: ServiceInvokerService,
     private workflowService: WorkflowService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private rulesService: ResultsRulesService
   ) { }
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.addNewSimpleRuleSet();
     this.getRules();
-    this.getAttributes();
   }
 
   resetRule() {
@@ -150,9 +164,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectTab(tab){
     this.selectedTab = tab;
     this.searchBlock = '';
-    if(tab === 'attributes'){
-      this.getAttributes();
-    }
     this.loadingTabDetails = true;
   }
   updateContextCategory(ruleData, val) {
@@ -207,53 +218,20 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.validationRules.rules.push(tempRuleSet);
      }
   }
-  updateFooter(ruleData) {
-    console.log('rules ', this.rules);
-    this.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
-  }
+
   selectAll() {
-    this.rules = _.map(this.rules, o=> {o.isChecked = !this.isCheckAll; return o;})
-    this.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
-  }
-
-  bulkDelete() {
-    let selectedIds = _.map(_.where(this.rules, {isChecked: true}), o=> _.pick(o, '_id'));
-    let params = {
-      searchIndexId: this.serachIndexId
+    let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
+    if(tabActive == 'Drafts') {
+      this.draftRules = _.map(this.draftRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+      this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
+    } else if(tabActive == 'In-review'){
+      this.inReviewRules = _.map(this.inReviewRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+    } else if(tabActive == 'Approved') {
+      this.approvedRules = _.map(this.approvedRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
     }
-    let payload = {
-      rules: selectedIds,
-      action: 'delete'
-    };
-    this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
-      this.notify.notify('Rules deleted successfully', 'success');
-      this.showReviewFooter = false;
-      this.isCheckAll = false;
-      this.getRules();
-    }, err=>{
-
-    })
   }
 
-  bulkSend() {
-    let selectedIds = _.map(_.where(this.rules, {isChecked: true}), o=> _.pick(o, '_id'));
-    let params = {
-      searchIndexId: this.serachIndexId
-    }
-    let payload = {
-      rules: selectedIds,
-      state: 'in-review',
-      action: 'edit'
-    };
-    this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
-      this.notify.notify(res.msg, 'success');
-      this.showReviewFooter = false;
-      this.isCheckAll = false;
-      this.getRules();
-    }, err=>{
 
-    })
-  }
 
   addedGroupToRule(event,rule,type?){
     if(type == 'if') {
@@ -339,6 +317,82 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       });
    }
 
+   tabActive(tab) {
+    this.tabsList.map(o=>{o.isSelected = false; return o;});
+    this.draftRules.map(o=>{o.isChecked = false; return o;});
+    this.inReviewRules.map(o=>{o.isChecked = false; return o;});
+    this.approvedRules.map(o=>{o.isChecked = false; return o;});
+    this.rulesService.isCheckAll = false;
+    tab.isSelected = true;
+   }
+
+   allSubscribe() {
+    this.selectAllSub =  this.rulesService.selectAll.subscribe(res=>{
+      this.selectAll();
+     });
+
+    this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res=>{
+      this.openAddRulesModal();
+    });
+    this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
+      this.deleteRule(res);
+    });
+    this.bulkSendSub = this.rulesService.bulkSend.subscribe(res=>{
+      let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
+      let selectedIds = [];
+      if(tabActive == 'Drafts') {
+        selectedIds = _.map(_.where(this.draftRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      } else if(tabActive == 'In-review'){
+        selectedIds = _.map(_.where(this.inReviewRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      } else if(tabActive == 'Approved') {
+        selectedIds = _.map(_.where(this.approvedRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      }
+      let params = {
+        searchIndexId: this.serachIndexId
+      }
+      let payload = {
+        rules: selectedIds,
+        state: 'in-review',
+        action: 'edit'
+      };
+      this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
+        this.notify.notify(res.msg, 'success');
+        this.rulesService.showReviewFooter = false;
+        this.rulesService.isCheckAll = false;
+        this.getRules();
+      }, err=>{
+  
+      })
+    });
+    this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe(res=>{
+      let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
+      let selectedIds = [];
+      if(tabActive == 'Drafts') {
+        selectedIds = _.map(_.where(this.draftRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      } else if(tabActive == 'In-review'){
+        selectedIds = _.map(_.where(this.inReviewRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      } else if(tabActive == 'Approved') {
+        selectedIds = _.map(_.where(this.approvedRules, {isChecked: true}), o=> _.pick(o, '_id'));
+      }
+      let params = {
+        searchIndexId: this.serachIndexId
+      }
+      let payload = {
+        rules: selectedIds,
+        action: 'delete'
+      };
+      this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
+        this.notify.notify('Rules deleted successfully', 'success');
+        this.rulesService.showReviewFooter = false;
+        this.rulesService.isCheckAll = false;
+        this.getRules();
+      }, err=>{
+  
+      })
+    });
+
+   }
+
    getRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
@@ -346,38 +400,21 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
       this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
-      console.log(res);
-      this.loadingRules = false
+      this.draftRules = _.where(this.rules, {state: 'draft'});
+      this.inReviewRules = _.where(this.rules, {state: 'in-review'});
+      this.approvedRules = _.where(this.rules, {state: 'approved'});
+      this.tabsList[0].count = this.draftRules.length;
+      this.tabsList[1].count = this.inReviewRules.length;
+      this.tabsList[2].count = this.approvedRules.length;
+      this.loadingRules = false;
+      this.allSubscribe();
     },
     errRes => {
       this.errorToaster(errRes)
       this.loadingRules = false
-    }
-  );
+    });  
    }
-   getAttributes(){
-    const quaryparamats = {
-      searchIndexId : this.serachIndexId,
-   }
-   this.service.invoke('get.groups', quaryparamats).subscribe(
-    res => {
-      this.allGroups = _.pluck(res.groups, 'name');
-      this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
-      this.groupVal = _.object(this.allGroups, this.allValues);
-      this.groupIds = _.map(res.groups, function(o){return _.pick(o, 'name', '_id')});
-      let temp = _.pluck(res.groups, 'attributes').filter(o=>{return o.length !=0});
-      let tempVals = [];
-      temp.forEach(o=>{tempVals.push(...o)});
-      this.valueIds = tempVals;
-      this.attributes = res;
-      this.loading = false;
-    },
-    errRes => {
-      this.loading = false;
-    this.errorToaster(errRes)
-    }
-  );
-   }
+
    errorToaster(errRes,message?){
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
       this.notify.notify(errRes.error.errors[0].msg, 'error');
@@ -464,6 +501,14 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     if (this.addSignalsModalPopRef &&  this.addSignalsModalPopRef.close) {
       this.addSignalsModalPopRef.close();
     }
+   }
+
+   ngOnDestroy() {
+    this.selectAllSub?this.selectAllSub.unsubscribe():false;
+    this.openAddRulesModalSub?this.openAddRulesModalSub.unsubscribe():false;
+    this.deleteRuleSub?this.deleteRuleSub.unsubscribe():false;
+    this.bulkSendSub?this.bulkSendSub.unsubscribe():false;
+    this.bulkDeleteSub?this.bulkDeleteSub.unsubscribe():false;
    }
 
 }

@@ -61,6 +61,7 @@ import { AttributesListComponent } from './components/attributes-list/attributes
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
+import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -100,7 +101,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AttributesListComponent,
     AutocompleteMultiChipComponent,
     IndexComponent,
-    QueryComponent
+    QueryComponent,
+    RulesTableComponent
     ],
   imports: [
     BrowserModule,
