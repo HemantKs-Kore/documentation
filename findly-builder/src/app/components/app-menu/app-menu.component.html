@@ -92,7 +92,7 @@
 			</span>
 			<span class="linkTitle">Rules & Personalization</span>
 		</div>
-		<div mat-button class="mat-button">
+		<div mat-button class="mat-button" [routerLink]="['/attributes']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
 			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/new-icons/attributes.svg" class="defaultIcon">	
 				<img src="assets/icons/sidemenu/new-icons/attributes-active.svg" class="activeIcon">				

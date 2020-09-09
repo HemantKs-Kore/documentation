@@ -60,7 +60,7 @@ export class ResultsRulesComponent implements OnInit {
        rules:[]
    }
 }
-selectedTab = 'attributes';
+selectedTab = 'rules';
 loadingTabDetails
 addAttributesModalPopRef:any;
 addRulesModalPopRef:any;
@@ -149,19 +149,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addedGroupToRule(event,rule,type?){
     console.log(event);
   }
-  addEditAttibutes(group?){
-    if(group){
-      this.addEditattribute = group
-    } else{
-      this.addEditattribute= {
-        name:'',
-        attributes:[],
-        type:'',
-        isFacet:''
-      }
-      this.openAddAttributesModal();
-    }
-   }
+
    addEditRules(rule){
      if(rule){
          this.validationRules = rule.rules;
@@ -226,26 +214,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.notify.notify('Somthing went worng', 'error');
   }
  }
-   saveAttributes(){
-     const quaryparamats = {
-        searchIndexId : this.serachIndexId
-     }
-     console.log(this.addEditattribute);
-     const payload = {
-      attributes :this.addEditattribute.attributes,
-      name: this.addEditattribute.name
-     }
-     this.service.invoke('create.group', quaryparamats , payload).subscribe(
-      res => {
-        this.notify.notify('Attribute saved successfully','success');
-        this.closeAddAttributesModal();
-        this.getAttributes();
-      },
-      errRes => {
-        this.errorToaster(errRes,'Failed to create group');
-      }
-    );
-   }
+
    saveRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId

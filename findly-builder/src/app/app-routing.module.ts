@@ -13,6 +13,7 @@ import { ResultsRulesComponent } from './components/results-rules/results-rules.
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { TraitsComponent } from './components/traits/traits.component';
+import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'ml-threshold', component: MlThresholdComponent },
       { path: 'traits', component: TraitsComponent },
       { path: 'rules', component: ResultsRulesComponent },
+      { path: 'attributes', component: AttributesListComponent },
       { path: '**', component: AppsListingComponent},
     ]
   }
