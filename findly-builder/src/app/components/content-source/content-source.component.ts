@@ -212,12 +212,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     /** Paging */
       this.sliderStep = 0;
       
+      
+      this.loadingSliderContent = false;
       if(this.isConfig){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
       }
       this.isConfig = false;
-      this.loadingSliderContent = false;
     }, errRes => {
       this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
