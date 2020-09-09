@@ -355,10 +355,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           txtArr[i] = '\r\n';
           _lineBreakAdded = true;
         } else if (txtArr[i].indexOf('*') === 0) {
-          if (!isEven(txtArr[i].split('*').length - 1)) {
-            txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
-            _lineBreakAdded = true;
-          }
+          // if (!isEven(txtArr[i].split('*').length - 1)) {
+          //   txtArr[i] = '\r\n&#9679; ' + txtArr[i].substring(1);
+          //   _lineBreakAdded = true;
+          // }
         } else if (txtArr[i].indexOf('>>') === 0) {
           txtArr[i] = '<p class="indent">' + txtArr[i].substring(2) + '</p>';
           _lineBreakAdded = true;
@@ -799,7 +799,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
           <span class="greeting-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg=="></span>\
-          <span class="search-greeting-text">Good morning! How can I help you today?</span>\
+          <span class="search-greeting-text">Hello! How can I help you today?</span>\
         </div>\
         <div class="search-greeting-close-container pointer" >\
           <span class="search-greeting-close-body">\
@@ -840,7 +840,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                      <span class="accordion" id="${key}">${faq.question}</span>\
+                      <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
                       <div class="panel">\
                         <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
                         <div class="divfeedback">\
@@ -849,7 +849,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>\
                     </div>\
                   </div>\
-                  <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
                 </div>\
                 <div class="faqs-bottom-actions">\
                     <span class="appearences">\
@@ -1159,7 +1158,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 <div class="conversation-content">\
                   <div class="c-name">\Findly.ai</div>\
-                  <div class="c-data">\Good morning! How can I help you today?</div>\
+                  <div class="c-data">\Hello! How can I help you today?</div>\
                   <div class="c-date">\Today</div>\
                 </div>\
               </div>\
@@ -1177,7 +1176,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 <div class="conversation-content">\
                   <div class="c-name">\Findly.ai</div>\
-                  <div class="c-data">\Good morning! How can I help you today?</div>\
+                  <div class="c-data">\Hello! How can I help you today?</div>\
                   <div class="c-date">\Today</div>\
                 </div>\
               </div>\
@@ -1652,8 +1651,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
         //   _self.userLogin(e.target.title.toLowerCase());
         // }
-        _self.vars.searchObject.searchText = e.target.title.toLowerCase();
-        _self.sendMessageToSearch('botAction');
+
+        if (_self.vars.loggedInUser) {
+          _self.vars.searchObject.searchText = e.target.title.toLowerCase();
+          _self.sendMessageToSearch('botAction');
+        } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
+          _self.userLogin(e.target.title.toLowerCase());
+        }else{
+          _self.userLogin(e.target.title.toLowerCase());
+
+        }
+        
       })
       $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
         _self.performRankActions(e,{visible:false});
@@ -1975,7 +1983,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-container').addClass('active');
             if(_self.showGreetingMsg){
               _self.showGreetingMsg = false;
-              _self.sendMessageToSearch('bot','&#128075; Good morning! How can I help you today?');
+              _self.sendMessageToSearch('bot','&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
             var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
@@ -2238,6 +2246,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         payload.isBotAction=true;
       }
       payload.smallTalk= true;
+      var contextObj=$("#contextjsonfield").val();
+      if(contextObj){
+        contextObj.trim();
+        if(contextObj){
+          try {
+            contextObj=JSON.parse(contextObj);
+          } catch (error) {
+            contextObj="";
+          }
+        }
+        if(contextObj){
+          payload.context=contextObj;
+        }
+
+      }
+      
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
@@ -2282,7 +2306,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                            if(dataObj.smallTalk) {
                             _self.sendMessageToSearch('bot',dataObj.smallTalk);
                           } else {
-                            var _botMessage = 'Sure, please find the below matched results';
+                            var _botMessage = 'Sure, please find the matched results below';
                             searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                               faqs:dataObj.faqs,
                               pages:dataObj.pages,
@@ -2445,7 +2469,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.menu-link.login').addClass('hide');
           $('.menu-link.loggedIn').removeClass('hide');
           $('.errorMsg').addClass('hide');
-          _self.searchEventBinding('pay bill', action, event);
+          if (action === 'pay bill') {
+            _self.searchEventBinding('pay bill', action, event);
+          } else {
+            _self.vars.searchObject.searchText = action;
+            _self.sendMessageToSearch('botAction');
+          }
+
         } else {
           $('.errorMsg').removeClass('hide');
         }
