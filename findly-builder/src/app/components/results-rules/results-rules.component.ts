@@ -244,6 +244,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     };
     this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
       this.notify.notify(res.msg, 'success');
+      this.showReviewFooter = false;
+      this.getRules();
     }, err=>{
 
     })
