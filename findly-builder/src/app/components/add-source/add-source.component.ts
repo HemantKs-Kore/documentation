@@ -114,14 +114,6 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
    @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
    @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   ngOnInit() {
-    this.selectedSourceType =  {
-      name:'Add FAQs Manually',
-      description:'Manually Input FAQs',
-      icon: 'assets/images/source-icos/addfaqmanually.svg',
-      id:'manual',
-      sourceType:'faq',
-      resourceType:'manual'
-    }
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     }
