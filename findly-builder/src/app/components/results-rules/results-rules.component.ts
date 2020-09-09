@@ -14,7 +14,11 @@ import { WorkflowService } from '@kore.services/workflow.service';
 export class ResultsRulesComponent implements OnInit {
   validationRules:any={
     condition:'OR',
-    rules:[]
+    rules:[],
+    then:{
+      resultCategory : 'BoostResults',
+      values:[]
+    }
   }
   validationOperators:any ={
     operatorsObj:{
@@ -131,6 +135,10 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd))
     const rule = JSON.parse(JSON.stringify(this.validationOperators.ruleObj));
     tempRuleSet.rules.push(rule);
+    tempRuleSet.then = {
+      resultCategory : 'BoostResults',
+      values:[]
+    };
     if(!(this.validationRules.rules && this.validationRules.rules.length)){
       tempObj.rules.push(tempRuleSet);
       this.validationRules = tempObj
@@ -238,11 +246,12 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       }
     );
    }
-   saveRyules(){
+   saveRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId
    }
-   console.log(this.addEditattribute);
+   console.log(this.validationRules);
+   return;
    const payload = {
     attributes :this.addEditattribute.attributes,
     name: this.addEditattribute.name

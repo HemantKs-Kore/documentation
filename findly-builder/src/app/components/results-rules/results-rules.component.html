@@ -9,9 +9,9 @@
                     <div class="dropdown dropdown-open" ngbDropdown>
                         <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
                         <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                        <li (click)="rule.contextType==='Search Context'" >Search Context</li>  
-                        <li (click)="rule.contextType==='Search Context'">User Context</li>  
-                        <li (click)="rule.contextType==='Search Context'">Page Context</li>  
+                        <li (click)="rule.contextType='Search Context'" >Search Context</li>  
+                        <li (click)="rule.contextType='Search Context'">User Context</li>  
+                        <li (click)="rule.contextType='Search Context'">Page Context</li>  
                         </ul>
                     </div>
                 </div>
@@ -26,9 +26,9 @@
                     <div class="dropdown dropdown-open" ngbDropdown>
                         <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
                         <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
-                           <li (click)="rule.operator==='Starts With'">Starts With</li> 
-                           <li (click)="rule.operator==='Contains'">Contains</li> 
-                           <li (click)="rule.operator==='Equals to'">Equals to</li>
+                           <li (click)="rule.operator='Starts With'">Starts With</li> 
+                           <li (click)="rule.operator='Contains'">Contains</li> 
+                           <li (click)="rule.operator='Equals to'">Equals to</li>
                         </ul>
                     </div>
                 </div>
@@ -58,11 +58,11 @@
                 <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Choose </button>                                            
                 <ul class="dropdown-menu content-menu p-0" ngbDropdownMenu (click)="$event.stopImmediatePropagation()"> 
                     <ng-container *ngIf="rulesObj && rulesObj.then">
-                        <li (click)='rulesObj.then.resultCategory==="FilterResults"'>Filter Results</li>  
-                        <li (click)='rulesObj.then.resultCategory==="HidetResults"'>Hide Results</li>  
-                        <li (click)='rulesObj.then.resultCategory==="BoostResults"'>Boost Results</li>  
-                        <li (click)='rulesObj.then.resultCategory==="BurryResults"'>Burry Results</li>
-                        <li (click)='rulesObj.then.resultCategory==="RewriteQuery"'>Rewrite Query</li>         
+                        <li (click)='rulesObj.then.resultCategory="FilterResults"'>Filter Results</li>  
+                        <li (click)='rulesObj.then.resultCategory="HidetResults"'>Hide Results</li>  
+                        <li (click)='rulesObj.then.resultCategory="BoostResults"'>Boost Results</li>  
+                        <li (click)='rulesObj.then.resultCategory="BurryResults"'>Burry Results</li>
+                        <li (click)='rulesObj.then.resultCategory="RewriteQuery"'>Rewrite Query</li>         
                     </ng-container>
                 </ul>
             </div>
@@ -243,10 +243,10 @@
             </div>  
         </ng-container>
     </div>
- </div>
- <div class="modal-footer">                               
-    <button class="kr-sg-button-primary btn_md" (click)="saveAttributes()" >Ok</button>
-    <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddAttributesModal()">Cancel</button>
+  </div>
+  <div class="modal-footer">                               
+    <button class="kr-sg-button-primary btn_md" (click)="saveRules()" >Ok</button>
+    <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddRulesModal()">Cancel</button>
    </div>
 </kr-modal>
 <kr-modal modalType="center" modalClass="addRulesModalComponent" #addAttributesModalPop>
