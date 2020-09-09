@@ -685,8 +685,20 @@
    
     margin-left:2px;
 }
+.cur{
+    cursor: pointer;
+}
 .ad-allow{
-    height: 74px;
+    
+}
+.ad-pannel{
+    background: #FFFFFF;
+    border: 1px solid #BDC1C6;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top: 5px;
+    font-weight: 500;
+    font-size: 12px;
 }
 
 .kr-sg-toggle{
