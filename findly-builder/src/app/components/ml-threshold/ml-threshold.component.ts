@@ -18,6 +18,10 @@ export class MlThresholdComponent implements OnInit {
   proxSuggData: any;
   proxProbData: any;
   minDefKgData: any;
+  radioList = {
+    embedding: 'bert',
+    nlpEmbedding: 'bert'
+  };
   constructor() { }
 
   ngOnInit(): void {
@@ -45,4 +49,8 @@ export class MlThresholdComponent implements OnInit {
   switchrankingResolver() {
     this.rankingResolverFlag = !this.rankingResolverFlag;
   }
+
+  embedChange(val) { this.radioList.embedding = val; }
+
+  nlpEmbedChange(val) { this.radioList.nlpEmbedding = val; }
 }
