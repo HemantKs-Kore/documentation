@@ -16,18 +16,44 @@
     <div class="table-list-content" *ngIf="bots && bots.length && !loadingContent">
       <div class="kr-sg-data-table with-checkbox">
         <div class="table-action-header">
-          <input type="text" name='searchSources' placeholder="Search" id="searchContentSources"
-            class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">
-          <div class="search">
+          <div class="kr-sg-input-search m-0">                               
+            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)" autocomplete="off">           
+            <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
+            <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
+          </div>
+        
+          <!-- <div class="search">
             <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <span *ngIf="!searchSources" class="search-name"><img class="search-img"
                 src="assets/icons/sidemenu/search-table.svg"></span>
-          </div>
+          </div> -->
+          <div>
             <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'" ngbTooltip='Grid'><img
-            src="assets/icons/grid-view.svg"></div>
-            <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
-            src="assets/icons/list-view.svg">
+              src="assets/icons/grid-view.svg"></div>
+              <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
+              src="assets/icons/list-view.svg">
+              </div>
+              <div class="kr-sg-dropdowns"  ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="dropdown dropdown-open">
+                    <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
+                    <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                        <li ><span class="list-name">All</span></li>
+                     
+                    </ul>
+                </div>
             </div>
+              <!-- <span class="dropdown kr-sg-overflow-menu open">
+                <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon" src="assets/icons/elipse.svg">
+                </div>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                  <li><a href="#">Option1</a></li>
+                  <li><a href="#">Option1</a></li>
+                  <li><a href="#" class="disable">Option1</a></li>
+                  <li><a href="#">Option1</a></li>
+                </ul>
+              </span> -->
+          </div>
       </div>
     </div>
     </div>
@@ -39,15 +65,24 @@
                 (click)="openStatusSlider(source)">
                 <div class="bot-box text-left">
                   <div class="boxContent">
-                    <span class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></span>
-                    <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' ><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                    <div class="title-bot btm-title">{{source.name}}</div>
-                    <div class="title-desc">{{source.shortDesc || " dwqe ewq e wqe wq e w e wewewewe wewewewe wewewew "}}</div>
+                    <div class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></div>
+                    <div class="detailsContainer">
+                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' >
+                        <img class="action_icon" src="assets/icons/sidemenu/delete-table.svg">
+                      </span>
+                      <div class="title-bot btm-title">{{source.name}}</div>
+                      <div class="title-desc">{{source.shortDesc || " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et purus euismod, congue eros eu, congue mauris. Nunc suscipit convallis lectus, sit amet placerat urna porttitor eget. Mauris convallis tincidunt lacinia. Phasellus in ex ante.  "}}</div>
+                      <div class="bottomText">                    
+                        <div class="title-btm " >{{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
+                        <div class="title-btm right"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
+                    </div>
+  
+                    </div>
+
+                
                     
                     <!-- <div class="icon-gap">{{source.shortDesc}}</div> -->
-  
-                    <div class="title-btm btm" >{{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
-                    <div class="title-btm btm"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
+
                   </div>
                 </div>
               </div>
