@@ -227,7 +227,7 @@ export class EndPointsService {
     };
     this.serviceList['update.group'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/groups/:groupId',
-      method: 'post'
+      method: 'put'
     };
     this.serviceList['delete.group'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/groups/:groupId',

@@ -245,7 +245,8 @@
                     }
                     &:hover{
                         .actions{                               
-                            display: block;                 
+                            display: flex;
+                            justify-content: space-between;            
                         }
                         .kr-sg-checkbox{
                             visibility: visible;

@@ -7,7 +7,6 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
-import { from } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-add-alt-faq',
