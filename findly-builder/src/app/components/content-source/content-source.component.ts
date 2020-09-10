@@ -22,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   isConfig : boolean = false;
-  allowUrlArr = [];
+  allowUrlArr : AllowUrl[] = [];
   filterSystem : any = {
     'typeHeader' : 'type',
     'statusHeader' : 'status',
@@ -554,8 +554,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       let data = {};
      data['contains'] = contains;
      data['url'] = allowUrl.value;
+     this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs]
      if(data['url'])
-      this.updateRecord(this.selectedSource['advanceSettings'].length-1,data,'add')
+      this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length-1,data,'add');
+      $('#enterPathInput')[0].value = '';
    }
    updateRecord(i,allowUrls,option){
     //selectedSource.advanceSettings.allowedURLs
@@ -570,7 +572,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
     crawler.desc = this.selectedSource.desc || '';
-    crawler.advanceOpts.allowedURLs = this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
+    crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
+    if(option == 'add'){
+      
+      crawler.advanceOpts.allowedURLs.push(allowUrls);
+    }else{
+      crawler.advanceOpts.allowedURLs.splice(i,1);
+    }
+    
     crawler.resourceType = resourceType;
     payload = crawler;
     console.log(payload);
@@ -579,8 +588,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if(option == 'add'){
         this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
       }else{
-        this.selectedSource['advanceSettings'].allowedURLs.filter(
-          (el) => { return el.url != allowUrls.url});
+        this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
       
       allowUrls.forEach(element => {
