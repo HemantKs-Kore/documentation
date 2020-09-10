@@ -214,7 +214,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       
       this.loadingSliderContent = false;
-      if(this.isConfig){
+      if(this.isConfig && $('.tabname') && $('.tabname').length){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
       }
@@ -550,6 +550,31 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
    allowUrls(allowUrl){
      
    }
+   deleteRecord(){
+    //selectedSource.advanceSettings.allowedURLs
+    let payload = {}
+    let resourceType = this.selectedSource.type;
+    let crawler = new CrwalObj()
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId ,
+      //type: this.selectedSourceType.sourceType,
+    };
+    crawler.name = this.selectedSource.name;
+    crawler.url = this.selectedSource.url;
+    crawler.desc = this.selectedSource.desc || '';
+    crawler.resourceType = resourceType;
+    payload = crawler;
+    console.log(payload);
+
+    this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed to delete ', 'error');
+       }
+     });
+   }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
    if (timerObjects && timerObjects.length) {
@@ -558,4 +583,31 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
    }
   }
+}
+
+class CrwalObj{  
+  
+  url: String = '';
+  desc: String = '';
+  name: String = '';
+  resourceType: String = '';
+  advanceOpts: AdvanceOpts = new AdvanceOpts()
+
+
+}
+class AdvanceOpts{
+scheduleOpts:boolean = true;
+    schedulePeriod: String ="";
+    repeatInterval: String ="";
+    crawlEverything: boolean = true; 
+       allowedURLs:AllowUrl[] = [];
+       blockedURLs: BlockUrl[] = [];
+}
+class AllowUrl {
+condition:String = '';
+ url: String = '';
+}
+class BlockUrl {
+condition:String = '';
+ url: String = '';
 }
