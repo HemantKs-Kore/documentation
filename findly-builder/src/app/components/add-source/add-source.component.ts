@@ -464,7 +464,7 @@ class AdvanceOpts{
   scheduleOpts:boolean = true;
       schedulePeriod: String ="";
       repeatInterval: String ="";
-      crawlEverything: boolean = true; 
+      crawlEverything: boolean = false; 
          allowedURLs:AllowUrl[] = [];
          blockedURLs: BlockUrl[] = [];
 }
@@ -473,6 +473,6 @@ class AllowUrl {
    url: String = '';
 }
 class BlockUrl {
-  condition:String = '';
+  condition:String = 'contains';
    url: String = '';
 }
