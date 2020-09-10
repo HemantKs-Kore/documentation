@@ -59,7 +59,7 @@
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
-                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
