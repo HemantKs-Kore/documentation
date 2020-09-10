@@ -247,29 +247,37 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     if(type == 'if') {
       rule.values = [];
       for(var i=0; i<event.length; i++) {
-        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
-        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
-        let temp3 = {
-          "type" : "string",
-          "value" : "Search"
+        if(event[i].indexOf(':') == -1) {
+          let temp3 = {
+            "type" : "string",
+            "value" : event[i]
+          }
+          rule.values.push(temp3);
         }
-        rule.values.push(temp1);
-        rule.values.push(temp2);
-        // rule.values.push(temp3);
+        else {
+          let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
+          let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
+          rule.values.push(temp1);
+          rule.values.push(temp2);
+        }
       }
     }
     else if(type == 'then') {
       this.rulesObjOO.then.values = [];
       for(var i=0; i<event.length; i++) {
-        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
-        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
-        let temp3 = {
-          "type" : "string",
-          "value" : "Search"
+        if(event[i].indexOf(':') == -1) {
+          let temp3 = {
+            "type" : "string",
+            "value" : event[i]
+          }
+          this.rulesObjOO.then.values.push(temp3);
         }
-        this.rulesObjOO.then.values.push(temp1);
-        this.rulesObjOO.then.values.push(temp2);
-        // this.rulesObjOO.then.values.push(temp3);
+        else {
+          let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
+          let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
+          this.rulesObjOO.then.values.push(temp1);
+          this.rulesObjOO.then.values.push(temp2);
+        }
       }
     }
   }

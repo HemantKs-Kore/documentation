@@ -45,22 +45,23 @@ export class GroupInputComponent implements OnInit {
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getAllGroups();
     if(this.valuesAdded) {
-      this.groups = _.pluck(_.where(this.valuesAdded, {type: 'groupValue'}), 'value')
+      this.groups = _.pluck(_.filter(this.valuesAdded, o=> o.type =='groupValue' || o.type == 'string'), 'value')
     }
   }
 
   add(event: MatChipInputEvent): void {
-    if(this.allGroups.indexOf(event.value) == -1) {
-      event.value = '';
-      this.groupCtrl.setValue(null);
-      return;
-    }
+    // if(this.allGroups.indexOf(event.value) == -1) {
+    //   event.value = '';
+    //   this.groupCtrl.setValue(null);
+    //   return;
+    // }
     const input = event.input;
     const value = event.value;
     // Add our group
     if ((value || '').trim()) {
       this.groups.push(value.trim());
     }
+    this.emitValues.emit(this.groups);
     // Reset the input value
     if (input) {
       input.value = '';
