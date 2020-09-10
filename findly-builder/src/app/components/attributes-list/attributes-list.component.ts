@@ -147,14 +147,14 @@ export class AttributesListComponent implements OnInit {
   };
 
   editAttributes() {
-    console.log(this.addEditattribute);
+    if(!this.addEditattribute.name.trim()) {return;}
     let params = {
       searchIndexId: this.searchIndexId,
       groupId: this.addEditattribute._id
     };
     let payload = {
       attributes: this.addEditattribute.attributes,
-      name: this.addEditattribute.name
+      name: this.addEditattribute.name.trim()
     };
     this.service.invoke('update.group', params, payload).subscribe(res=>{
       this.getAttributes();
@@ -167,13 +167,13 @@ export class AttributesListComponent implements OnInit {
   }
 
    saveAttributes(){
+     if(!this.addEditattribute.name.trim()) { return; }
     const quaryparamats = {
        searchIndexId : this.searchIndexId
     }
-    console.log(this.addEditattribute);
     const payload = {
      attributes :this.addEditattribute.attributes,
-     name: this.addEditattribute.name,
+     name: this.addEditattribute.name.trim(),
      type: this.addEditattribute.type,
      isFacet: this.addEditattribute.isFacet
     }
