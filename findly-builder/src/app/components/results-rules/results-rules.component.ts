@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-
+import { cloneDeep } from "lodash";
 
 import * as _ from 'underscore';
 import { ResultsRulesService } from '../../services/componentsServices/results-rules.service';
@@ -330,8 +330,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    addEditRules(rule){
      if(rule){
       this.name.na = rule.name;
-      this.validationRules.rules = rule.definition.if.rules;
-      this.rulesObjOO.then = rule.definition.then;
+      this.validationRules.rules = cloneDeep(rule.definition.if.rules);
+      this.rulesObjOO.then = cloneDeep(rule.definition.then);
       this.ruleEditId = rule._id;
       this.isEdit = true;
       this.isAdd = false;
