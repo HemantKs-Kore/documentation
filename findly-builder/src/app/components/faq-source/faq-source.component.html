@@ -361,7 +361,7 @@
                 </div>                         
                   <div class="kr-sg-dropdowns">            
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add Content</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add FAQs</button>                                            
                         <ul class="dropdown-menu content-menu">                                                              
                           <li (click)="addFaqSource('faqWeb')">Web URL</li>
                           <li (click)="addFaqSource('faqDoc')">Upload File</li>
@@ -372,6 +372,12 @@
                   <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
             </div>
         </div> 
+    </div>
+    <div *ngIf="!(resources && resources.length)">
+        <div class="empty-sources">
+            <img src="assets/images/icons/empty_ill.svg">
+            <div class="heading">No FAQ sources are available</div>
+        </div>
     </div>
     <div class="modal-body source-modal-popup" *ngIf="resources && resources.length">
         <ng-container  *ngIf="currentView === 'list'">
