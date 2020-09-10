@@ -75,19 +75,73 @@
               <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
                 class="input-text">
             </div>
-            <span class="ad-title cur"  *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</span>
-            <div class="advance" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse">
+            <div class="advanced-settings-title"  *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</div>
+            <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse advance-setttings">
               
-              <div class="row" >
+              <div class="inner-content row m-0">
+                <div class="col-6 input-paddings pl-0">
+                  <div class="kr-sg-input-text">                   
+                    <input type="text" class="input-text pointer-none" value="Schedule">                
+                  </div>
+                    <label class="kr-sg-toggle">
+                      <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
+                      <div class="slider"></div>
+                    </label>
+                </div>
+                <div class="col-6 input-paddings pr-0">
+                  <div class="kr-sg-dropdowns">
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="!crwalObject.advanceOpts.scheduleOpts" name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod">Weekly</button>                                            
+                        <ul class="dropdown-menu content-menu">                                             
+                          <li><a>Monthly</a></li>
+                          <li><a>Weekly</a></li>
+                          <li><a>Daily</a></li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-12 p-0 input-paddings">
+                  <div class="kr-sg-input-text">                   
+                    <input type="text" value="Crawl Everything" class="input-text pointer-none">                
+                  </div>
+                  <label class="kr-sg-toggle full-input">
+                    <input type="checkbox" id="crwalEveryId" name = "crwalEvery" [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
+                    <div class="slider"></div>
+                  </label>
+                </div>
+                <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
+                  <div class="allow-urls-sec row">
+                    <div class="col-2 p-0 title">Allow URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Enter/Path</button>                                            
+                            <ul class="dropdown-menu content-menu">                                               
+                              <li><a>Contains</a></li>
+                              <li><a>begins</a></li>
+                              <li><a>ends</a></li>
+                            </ul>
+                          </div>
+                      </div>
+                      <div class="kr-sg-input-text">                      
+                        <input type="text" autocomplete="off" [(ngModel)] = "allowUrl.url" name= "allowVal" placeholder="Enter/Path" class="input-text">                        
+                      </div>
+                      <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row m-0">
                 <div class="col-md-6 ad-sch" >
                   <span class="ad-txt">Schedule</span>
                   <label class="kr-sg-toggle">
-                    <input type="checkbox" name = "scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
+                    <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
                     <div class="slider"></div>
-                </label>
+                  </label>
                 </div>
                 <div class="col-md-6 ">
-                   <select class="alw-btn" [disabled]="!crwalObject.advanceOpts.scheduleOpts" name = "crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" style="width: 378px;">
+                   <select class="alw-btn" [disabled]="!crwalObject.advanceOpts.scheduleOpts" name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" style="width: 378px;">
                     <option value="">Select</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Weekly"> Weekly</option>
@@ -101,8 +155,8 @@
                     <input type="checkbox" id="crwalEveryId" name = "crwalEvery" [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
                     <div class="slider"></div>
                 </label>
-              </div>
-              <div *ngIf ="!crwalObject.advanceOpts.crawlEverything">
+              </div> -->
+              <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="d-none">
                 <span class="ad-title">Allow urls</span>
                 <div class="row ad-sch ad-allow">
                   <div class="row">
@@ -160,8 +214,7 @@
                   </span>
                 </div>
             </div>
-              </div>
-              
+              </div>              
             </div>
 
             <div class="kr-sg-input-text-area mb-4 radio-pad" *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false"> <!-- Not supporting for now-->
