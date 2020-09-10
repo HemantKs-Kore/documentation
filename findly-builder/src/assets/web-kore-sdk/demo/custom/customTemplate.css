@@ -953,3 +953,197 @@
     cursor: pointer !important;
 }
 /* --TABBLE LIST ENDS HERE--*/
+
+
+
+
+.kore-list-template-div{
+    --sdk-chat-widow-default-white: #ffffff;
+    --sdk-chat-widow-primary-font-color: #26344a;
+    --sdk-chat-widow-primary-blue-color: #009dab;
+    --sdk-chat-widow-primary-border-color: #e5e8ec;
+    --sdk-chat-widow-primary-bg-color: #f2f3f5;
+    --sdk-chat-widow-panel-header-bg-color:#f2f3f5;
+    --sdk-chat-widow-secondary-font-color: #8a959f;
+    --sdk-chat-widow-btn-light-color: #e5f5f6;
+    --sdk-chat-widow-primary-box-shadow: 0 1px 5px 0 rgba(179, 186, 200, 0.58);
+    --sdk-chat-widow-top-box-shadow: 0 0 24px 0 #8a959f;
+    --sdk-chat-window-list-template-close-btn-color:#AAAAAA;
+    --sdk-chat-window-list-view-color:#333;
+    --sdk-chat-window-checkbox-border:#F2F2F2;
+    --sdk-chat-window-list-template-sub-title-color:#77869e;
+    --sdk-chat-window-list-template-value-color:#9d9d9d;
+    --sdk-chat-window-list-view-value-color:#008000; 
+    --sdk-chat-window-viewmore-btn-color:#0079FF;
+    --sdk-chat-window-pie-chart-background:#fff;
+    --sdk-chat-window-list-template-heading-background-color:#f4f4f4;
+    --sdk-chat-window-list-template-title-color:#222222;
+    --sdk-chat-window-list-template-choose-color:#000000;
+    --sdk-chat-window-input-border:#ccc;
+    --sdk-chat-window-btn-label-color:#1E90FF;
+    --sdk-chat-widow-accordion-icon: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMTAiIGZpbGw9IiNFNUY1RjYiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjMDA5REFCIiBkPSJNMTQuMTcyIDEyLjA0Yy4zOS0uMzkuMzktMS4wMyAwLTEuNDJsLTMuMTctMy4xN2EuOTk2Ljk5NiAwIDAgMC0xLjQxIDBsLTMuMTcgMy4xN2MtLjQuMzktLjQgMS4wMy0uMDEgMS40Mi4zOS4zOSA3LjM3LjM5IDcuNzYgMHoiLz4KICAgIDwvZz4KPC9zdmc+Cg==');
+    --sdk-chat-widow-show-more: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA0IDgiPgogICAgPHBhdGggZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMwMDlEQUIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTS40NDIgMWwzLjMzMyAzTC40NDIgNyIvPgo8L3N2Zz4K');
+    --sdk-chat-widow-vertical-ellipsis:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iM3B4IiBoZWlnaHQ9IjEycHgiIHZpZXdCb3g9IjAgMCAzIDEyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA1My4yICg3MjY0MykgLSBodHRwczovL3NrZXRjaGFwcC5jb20gLS0+CiAgICA8dGl0bGU+dmVydGljYWxFbGxpcHNpczwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ2ZXJ0aWNhbEVsbGlwc2lzIiBmaWxsPSIjMDA5REFCIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8cGF0aCBkPSJNMS41LDkgQzIuMzI4NDI3MTIsOSAzLDkuNjcxNTcyODggMywxMC41IEMzLDExLjMyODQyNzEgMi4zMjg0MjcxMiwxMiAxLjUsMTIgQzAuNjcxNTcyODc1LDEyIDEuMDE0NTMwNjNlLTE2LDExLjMyODQyNzEgMCwxMC41IEMtMS4wMTQ1MzA2M2UtMTYsOS42NzE1NzI4OCAwLjY3MTU3Mjg3NSw5IDEuNSw5IFogTTEuNSw0LjUgQzIuMzI4NDI3MTIsNC41IDMsNS4xNzE1NzI4OCAzLDYgQzMsNi44Mjg0MjcxMiAyLjMyODQyNzEyLDcuNSAxLjUsNy41IEMwLjY3MTU3Mjg3NSw3LjUgMS4wMTQ1MzA2M2UtMTYsNi44Mjg0MjcxMiAwLDYgQy0xLjAxNDUzMDYzZS0xNiw1LjE3MTU3Mjg4IDAuNjcxNTcyODc1LDQuNSAxLjUsNC41IFogTTEuNSwwIEMyLjMyODQyNzEyLDUuMDcyNjUzMTNlLTE3IDMsMC42NzE1NzI4NzUgMywxLjUgQzMsMi4zMjg0MjcxMiAyLjMyODQyNzEyLDMgMS41LDMgQzAuNjcxNTcyODc1LDMgMS4wMTQ1MzA2M2UtMTYsMi4zMjg0MjcxMiAwLDEuNSBDLTEuMDE0NTMwNjNlLTE2LDAuNjcxNTcyODc1IDAuNjcxNTcyODc1LDEuNTIxNzk1OTRlLTE2IDEuNSwwIFoiIGlkPSJTaGFwZSI+PC9wYXRoPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+');
+    --sdk-chat-widow-back-arrow:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTJweCIgaGVpZ2h0PSI3cHgiIHZpZXdCb3g9IjAgMCAxMiA3IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPHRpdGxlPkdyb3VwIDU8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUHJvcGVydHktcGFubmVsIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iMTAuMS1JVlItQ29weSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzMzQuMDAwMDAwLCAtMTAwNi4wMDAwMDApIiBzdHJva2U9IiM4QTk1OUYiPgogICAgICAgICAgICA8ZyBpZD0iR3JvdXAtNiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA2NC4wMDAwMDAsIDk5NS4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJHcm91cC01IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNzAuMDAwMDAwLCAxMS4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMC41LDMuNSBMMTAuNSwzLjUiIGlkPSJMaW5lLTIiIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cG9seWxpbmUgaWQ9IlJlY3RhbmdsZS04IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3LjUzNTUzNCwgMy41MzU1MzQpIHJvdGF0ZSgtMzE1LjAwMDAwMCkgdHJhbnNsYXRlKC03LjUzNTUzNCwgLTMuNTM1NTM0KSAiIHBvaW50cz0iNS4wMzU1MzM5MSAxLjAzNTUzMzkxIDEwLjAzNTUzMzkgMS4wMzU1MzM5MSAxMC4wMzU1MzM5IDYuMDM1NTMzOTEiPjwvcG9seWxpbmU+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
+
+ }
+
+.kore-list-template-div{
+    list-style: none;
+ }
+.kore-list-template-div .listViewTmplContent .listViewTmplContentBox{
+    list-style: none;
+    float:left;
+    color:var(--sdk-chat-window-list-view-color);
+    border-radius: 12px;
+   padding: 0;
+    font-size: 14px;
+    -webkit-animation: message-left ease-in-out 2s forwards;
+   -moz-animation: message-left ease-in-out 2s forwards;
+   animation: message-left ease-in-out 2s forwards;
+    margin: 0;
+    width:85%;
+}
+.kore-list-template-div .listViewTmplContent .listViewLeftContent{
+   /* width: 77%;    */ 
+   vertical-align: middle;
+   display: table-cell;
+   padding: 0 10px;
+   width: 100%;
+}
+.kore-list-template-div .listViewTmplContent .listViewRightContent{
+   cursor: pointer;
+   display: table-cell;
+   width: 60px;
+   vertical-align: middle;
+   padding-left: 10px;
+
+ }
+.kore-list-template-div .listViewRightContent img{
+    height: 36px;
+    width: 36px;
+   border-radius: 50%;
+
+ }
+.kore-list-template-div .listViewTmplContent .listViewTmplContentChild{
+    border-top: 1px solid var(--sdk-chat-window-checkbox-border);
+    margin-bottom:10px;
+   width: 100%;
+   border-radius: 10px;
+   box-shadow: var(--sdk-chat-widow-primary-box-shadow);
+   background-color: var(--sdk-chat-widow-default-white);
+   height: 56px;   
+   cursor: pointer;
+   display: table;
+   vertical-align: middle;
+
+ }
+.kore-list-template-div .listViewTmplContent .listViewItemSubtitle{
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   /* width: 102px;
+   height: 18px; */
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: normal;
+   letter-spacing: 0.27px;
+   color: var(--sdk-chat-window-list-template-sub-title-color);
+
+ }
+.kore-list-template-div .listViewTmplContent .listViewItemValue{
+
+    display: inline-block;
+    /* margin-left: 15px;  */
+   color: #5158cd;
+   /* width: 66px;
+   height: 22px; */
+   font-size: 14px;
+   font-weight: 500;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: normal;
+   letter-spacing: 0.4px;
+   text-align: right;
+   overflow: hidden;
+   text-overflow: ellipsis; 
+   white-space: nowrap;
+   width: 33%;
+}
+.kore-list-template-div .listViewTmplContent .listItemPath{
+    font-size:12px;
+    color: var(--sdk-chat-window-viewmore-btn-color);
+   cursor: pointer;
+}
+.kore-list-template-div .listViewTmplContent .buyBtn{
+    background: var(--sdk-chat-window-pie-chart-background);
+   border: 0;
+   color: var(--sdk-chat-window-viewmore-btn-color)!important;
+   cursor: pointer;
+   float: right;
+   font-weight: bold;
+   letter-spacing: -0.3px;
+   font-size: 12px;
+   text-align: right;
+}
+.kore-list-template-div .listViewTmplContentBox li:first-child{
+    margin-top:0!important;
+    border-top:0;
+}
+.kore-list-template-div .listViewTmplContent .listViewTmplContentHeading{
+    display: none;
+    padding:10px;
+   background: var(--sdk-chat-window-list-template-heading-background-color);
+   margin-bottom: 10px;
+   border-radius: 12px 12px 0 0;
+   font-size: 15px;
+   width: 100%;
+   font-size: 15px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.33;
+   letter-spacing: -0.11px;
+   color: var(--sdk-chat-widow-primary-font-color);
+}
+.kore-list-template-div .listViewTmplContent .listViewLeftContent .titleDesc{
+   display: inline-block;
+   width:65%;
+}
+
+ .kore-list-template-div .listViewItemTitle {	
+   font-size: 13px;	
+   font-weight: 600;	
+   line-height: 1.54;	
+   letter-spacing: -0.1px;	
+   color: var(--sdk-chat-window-list-template-title-color);	
+   overflow: hidden;	
+   text-overflow: ellipsis;	
+   white-space: nowrap;	
+}
+.kore-list-template-div .listViewTmplContent .seeMoreList{
+    text-align: center;
+   border-top: 1px solid var(--sdk-chat-window-checkbox-border);
+   padding: 10px;
+   margin: 0;
+}
+.kore-list-template-div .listViewTmplContent .seeMoreList{
+   display: none !important;
+   border: 0;
+   background: none;
+   color: var(--sdk-chat-widow-primary-blue-color)!important;
+   cursor: pointer;
+   float: right;
+   font-size: 14px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 5px;
+   letter-spacing: normal;
+   display: inline-block;	
+   border-bottom: 1px solid var(--sdk-chat-widow-primary-blue-color);	
+   padding: 10px 0;	
+   text-align: center;
+} 

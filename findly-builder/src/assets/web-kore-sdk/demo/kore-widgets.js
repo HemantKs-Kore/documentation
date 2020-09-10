@@ -242,7 +242,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        popularSearchesUrl: baseUrl + '/' + SearchIndexID + '/popularSearches',
+        popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
+        newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID +"/search/feedback",
         queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
@@ -764,6 +765,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
               </div>\
+              <div class="contest_variables_dropdown hide">\
+              <div class="actions-link">Context</div>\
+              </div>\
             <div id="searchChatContainer"></div>\
               <div class="search-body">\
             </div>\
@@ -834,7 +838,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           {{/if}}\
           {{if faqs && faqs.length}}\
               <div class="matched-faq-containers">\
-                <div class="search-heads">SUGGESTED FAQS</div>\
+                <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
                 <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
@@ -844,8 +848,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="panel">\
                         <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
                         <div class="divfeedback">\
-                        <span class="yesLike"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIfSURBVHgB7ZTLaxNBHMe/sw/FxNaibXNQMY09iK/uQUVUcA5BJBUaSlokYMG/QMWTp7anIj5vghcpeCvSCoJCkEQQtSfTVqVYk66Pg5s9mEMjQrMZZxZRaXbbWWiglH5g2eE3P+Y7v/k9gPUCkXGiZ5NRTdUe8GULq7Hh508fTSAAioyTrqrZ3p5ueiHdbxCFjFOabEEApEQYSLS3J4GBdB8ikXYoISWJAEiJEMbMQvGzu97bsQcqiIEASInUGF5Mzbx3112HDoAR0oUAyEWikHyhaLrrM3EqfjR+LkUhieq3IZLbue/g8Vjn/igD+2XZ9nmDR7F7104sVCqYnZ2LFuc+jEICz0jiidSgFtZ+8CtkxScqStgXKj/d/YF0Py+ANhrvTt2BBHV9QhN9hkbY25sjQ+77+2GVbFy9NgjLsu/CweO/BzqknMmM5bFcJDpgRNrblhUQCJ9bI8PYGg5dDjWFsq2RHVnxxyaML/XVlhoWa4s5cUvxNPwArCQUi3Xg2NEjOHXyBM/TR1y/cbvOry6S3LMJkwHlkmVjtfBMPE+U+ak4j4aK8CE4VZg30VCR/5uvYSKMiFllQhZVVbFZ16DrqryIU3XyoqutUgkyNIe3oHV7M7Y1eVej5mUUFca7OXfv/igVI96Pw3966Tu/zDQfoH7Ra34HVJ3qxZdvJodevZ487bXPJ3E582Tsytcv3y7NTL8zHv6zm9hgzfMbPQCy+bppPcUAAAAASUVORK5CYII=" class="thumbs-up"></span>\
-                        <span class="noDislike"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAATCAYAAAB2pebxAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGQSURBVHgBnZRdTsJAEMdnP/C5RygnsN6gGkhINbEEeJcTEE9QbuARiM9CLAlEHyDWG9QT2CP00YR2x9m1TQyWgv0nzbazs7/O/veDQSG359tSyBlDtKFCyFi6Wc8vuteDGSC4v+KJLD8I8KwDyPCeAUv3IZn6iSEwGwGXjLOQPhzKnRiI6/sW7MDJs10/eg0TOCKCxNvVIur0hgACgJsqvqRDTXoKoEoGQjQNiaGheFHeORn6AQ1lIGSOrRAiaKiiEnJZ/F2RkyGuN6JlAmuzmkfQUFIqtKiK5JRkvSEZoM0Zf+h6g8DMgcyQGWepBLR0Qt0S6/6WEG80bkkmhLQxTTxTkJq3zs1wSp3B/kBU2N++LMISQAMfadrT/TxjrO7I8qxNlV3qR6Eam86MJ7oVQgSKUqsAYCZUoStvdEfVBtv1U7s4mJ/6J4emyyvJHG45qqVJ4C2XmqjOr2oIXQfl5tNA8usdasQPxJ3SDw1ExNpzJQ/EY3UGk443TDQwxzz+dyVkYl9vKrLdV1yNj10R3zHZqLxWCFHLAAAAAElFTkSuQmCC" class="thumbs-down"></span>\
+                        <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
+                        <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
                         </div>\
                     </div>\
                   </div>\
@@ -856,7 +860,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="appearences-count">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
                     </span>\
                     <span class="actions">\
-                    <span class="img-action active dont-show">\
+                    <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
                     <span class="img-action pin">\
@@ -879,7 +883,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if pages && pages.length}}\
               <div class="matched-faq-containers matched-pages-container">\
-              <div class="search-heads">SUGGESTED PAGES</div>\
+              <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
               <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
@@ -891,6 +895,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                    <div class="title" title="${page.title}">${page.title}</div>\
                    <div class="desc-info">${page.searchResultPreview}</div>\
                  </div>\
+                 <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
                  <div class="faqs-bottom-actions">\
                  <span class="appearences">\
@@ -898,7 +903,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
                  </span>\
                  <span class="actions">\
-                 <span class="img-action active dont-show">\
+                 <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
@@ -921,7 +926,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/if}}\
               {{if tasks && tasks.length}}\
               <div class="resultsButtons asstTask" >\
-                  <span class="search-heads">SUGGESTED ACTIONS</span>\
+                  <span class="search-heads">${taskPrefix} ACTIONS</span>\
                   <div class="faqBtnContainer suggestion_actions_container">\
                       <div class="tasks-wrp action-wrp btn_block_actions">\
                         {{each(key, task) tasks}}\
@@ -936,7 +941,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <span class="appearences-count">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
                               </span>\
                               <span class="actions">\
-                              <span class="img-action active dont-show">\
+                              <span class="img-action  dont-show">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action pin">\
@@ -972,7 +977,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <ul class="nav nav-tabs">\
           <li class="tabTitle">\
             {{each(key, facet) facets}}\
-                <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">${facet.key}\
+                <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
                     <span class="resultCount">(${facet.value})</span>\
                 </a>\
             {{/each}}\
@@ -1013,6 +1018,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                    <div class="title" title="${page.title}">${page.title}</div>\
                    <div class="desc-info">${page.searchResultPreview}</div>\
                  </div>\
+                 <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\<img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
                  <div class="faqs-bottom-actions">\
                  <span class="appearences">\
@@ -1020,7 +1026,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">155 Appearances - 138 Clicks</span>\
                  </span>\
                  <span class="actions">\
-                 <span class="img-action active dont-show">\
+                 <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
@@ -1055,8 +1061,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="panel">\
                         <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
                         <div class="divfeedback">\
-                        <span class="yesLike"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIfSURBVHgB7ZTLaxNBHMe/sw/FxNaibXNQMY09iK/uQUVUcA5BJBUaSlokYMG/QMWTp7anIj5vghcpeCvSCoJCkEQQtSfTVqVYk66Pg5s9mEMjQrMZZxZRaXbbWWiglH5g2eE3P+Y7v/k9gPUCkXGiZ5NRTdUe8GULq7Hh508fTSAAioyTrqrZ3p5ueiHdbxCFjFOabEEApEQYSLS3J4GBdB8ikXYoISWJAEiJEMbMQvGzu97bsQcqiIEASInUGF5Mzbx3112HDoAR0oUAyEWikHyhaLrrM3EqfjR+LkUhieq3IZLbue/g8Vjn/igD+2XZ9nmDR7F7104sVCqYnZ2LFuc+jEICz0jiidSgFtZ+8CtkxScqStgXKj/d/YF0Py+ANhrvTt2BBHV9QhN9hkbY25sjQ+77+2GVbFy9NgjLsu/CweO/BzqknMmM5bFcJDpgRNrblhUQCJ9bI8PYGg5dDjWFsq2RHVnxxyaML/XVlhoWa4s5cUvxNPwArCQUi3Xg2NEjOHXyBM/TR1y/cbvOry6S3LMJkwHlkmVjtfBMPE+U+ak4j4aK8CE4VZg30VCR/5uvYSKMiFllQhZVVbFZ16DrqryIU3XyoqutUgkyNIe3oHV7M7Y1eVej5mUUFca7OXfv/igVI96Pw3966Tu/zDQfoH7Ra34HVJ3qxZdvJodevZ487bXPJ3E582Tsytcv3y7NTL8zHv6zm9hgzfMbPQCy+bppPcUAAAAASUVORK5CYII=" class="thumbs-up"></span>\
-                        <span class="noDislike"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAATCAYAAAB2pebxAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGQSURBVHgBnZRdTsJAEMdnP/C5RygnsN6gGkhINbEEeJcTEE9QbuARiM9CLAlEHyDWG9QT2CP00YR2x9m1TQyWgv0nzbazs7/O/veDQSG359tSyBlDtKFCyFi6Wc8vuteDGSC4v+KJLD8I8KwDyPCeAUv3IZn6iSEwGwGXjLOQPhzKnRiI6/sW7MDJs10/eg0TOCKCxNvVIur0hgACgJsqvqRDTXoKoEoGQjQNiaGheFHeORn6AQ1lIGSOrRAiaKiiEnJZ/F2RkyGuN6JlAmuzmkfQUFIqtKiK5JRkvSEZoM0Zf+h6g8DMgcyQGWepBLR0Qt0S6/6WEG80bkkmhLQxTTxTkJq3zs1wSp3B/kBU2N++LMISQAMfadrT/TxjrO7I8qxNlV3qR6Eam86MJ7oVQgSKUqsAYCZUoStvdEfVBtv1U7s4mJ/6J4emyyvJHG45qqVJ4C2XmqjOr2oIXQfl5tNA8usdasQPxJ3SDw1ExNpzJQ/EY3UGk443TDQwxzz+dyVkYl9vKrLdV1yNj10R3zHZqLxWCFHLAAAAAElFTkSuQmCC" class="thumbs-down"></span>\
+                        <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
+                        <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
                         </div>\
                     </div>\
                   </div>\
@@ -1068,7 +1074,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="appearences-count">155 Appearances - 138 Clicks</span>\
                     </span>\
                     <span class="actions">\
-                    <span class="img-action active dont-show">\
+                    <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
                     <span class="img-action pin">\
@@ -1128,18 +1134,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIxOSIgdmlld0JveD0iMCAwIDMwIDE5Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0ZGNUUwMCIgZD0iTTIwLjkwMiAwQzI1LjkyNyAwIDMwIDQuMTEgMzAgOS4xOGMwIDUuMDY5LTQuMDczIDkuMTc4LTkuMDk4IDkuMTc4LTIuMjUyIDAtNC4zMTMtLjgyNS01LjkwMi0yLjE5My0xLjU4OCAxLjM2Ny0zLjY1IDIuMTkzLTUuOTAyIDIuMTkzQzQuMDczIDE4LjM1OCAwIDE0LjI0OCAwIDkuMTggMCA0LjExIDQuMDczIDAgOS4wOTggMGMyLjI1MyAwIDQuMzE0LjgyNiA1LjkwMyAyLjE5NEMxNi41ODkuODI1IDE4LjY1IDAgMjAuOTAxIDB6Ii8+CiAgICAgICAgPHBhdGggZmlsbD0iI0VEMDAwNiIgZD0iTTkuMDk4IDBjMi4yNTMgMCA0LjMxNC44MjYgNS45MDMgMi4xOTQtMS45NTcgMS42ODItMy4xOTggNC4xODgtMy4xOTggNi45ODUgMCAyLjc5OCAxLjI0IDUuMzAzIDMuMTk3IDYuOTg2LTEuNTg4IDEuMzY3LTMuNjUgMi4xOTMtNS45MDIgMi4xOTNDNC4wNzMgMTguMzU4IDAgMTQuMjQ4IDAgOS4xOCAwIDQuMTEgNC4wNzMgMCA5LjA5OCAweiIvPgogICAgICAgIDxwYXRoIGZpbGw9IiNGOUEwMDAiIGQ9Ik0yMC45MDIgMEMyNS45MjcgMCAzMCA0LjExIDMwIDkuMThjMCA1LjA2OS00LjA3MyA5LjE3OC05LjA5OCA5LjE3OC0yLjI1MyAwLTQuMzE0LS44MjUtNS45MDMtMi4xOTMgMS45NTctMS42ODQgMy4xOTgtNC4xODkgMy4xOTgtNi45ODYgMC0yLjc5Ny0xLjI0LTUuMzAyLTMuMTk2LTYuOTg2QzE2LjU4OC44MjYgMTguNjQ5IDAgMjAuOSAweiIvPgogICAgPC9nPgo8L3N2Zz4K" alt="">\
                   {{/if}}\
                   </div>\
-                  <div>&bull;&bull;&bull;&bull; <span>${cardValue.card_number}</span></div>\
+                  <div><span>${cardValue.card_number}</span></div>\
                 </div>\
-                <div class="due-amount btm-margin">\
-                  <div class="card-sm-text">Due amount</div>\
-                  <div class="card-bold-text card-amount"><span>$</span> ${cardValue.bill_amount}</div>\
+                <div class="due-wrap">\
+                    <div class="due-amount btm-margin">\
+                      <div class="card-sm-text">Due amount</div>\
+                      <div class="card-bold-text card-amount"><span></span> ${cardValue.bill_amount}</div>\
+                    </div>\
+                    <div class="due-date btm-margin">\
+                      <div class="card-sm-text">Due date</div>\
+                      <div class="card-bold-text card-date">${cardValue.due_date}</div>\
+                    </div>\
                 </div>\
-                <div class="due-date btm-margin">\
-                  <div class="card-sm-text">Due date</div>\
-                  <div class="card-bold-text card-date">${cardValue.due_date}</div>\
-                </div>\
-                <div>\
-                  <button msgData="${JSON.stringify(cardValue)}" class="pay-button">Pay Now</button>\
+                <div class="pay-button-wrp">\
+                  <button msgData="${JSON.stringify(cardValue)}" class="pay-button">Pay now</button>\
                 </div>\
               </div>\
             {{/each}}\
@@ -1188,7 +1196,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{each(key, term) popularSearches }}\
                 {{if term}}\
                   <div class="recentSearch pl-0">\
-                    <span id="${key}" action-type="textTask" class="pointer recentText">${term.query}</span>\
+                    <span id="${term.query || term._id}" action-type="textTask" class="pointer recentText">${term.query || term._id}</span>\
                   </div>\
                   {{/if}}\
               {{/each}}\
@@ -1212,7 +1220,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         {{/if}}\
         </div>\
             {{if recentTasks && recentTasks.length}}\
-              <div class="resultsButtons finalResults asstTask" >\
+              <div class="resultsButtons finalResults asstTask hide" >\
                   <span class="search-heads">RECENT ACTIONS</span>\
                   <div class="faqBtnContainer">\
                       {{each(key, task) recentTasks }}\
@@ -1412,6 +1420,56 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
+    KoreWidgetSDK.prototype.getListTemplate = function (type) {
+      var listT =
+        '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
+            {{if msgData.message}} \
+                <li {{if msgData.type !== "bot_response"}}id="msg_${msgItem.clientMessageId}"{{/if}} class="kore-list-template-div {{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon listView"> \
+                    <div class="listViewTmplContent {{if msgData.message[0].component.payload.boxShadow}}noShadow{{/if}}"> \
+                        {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
+                        {{if msgData.icon}}<div aria-live="off" class="profile-photo"> <div class="user-account avtar" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
+                        <ul class="listViewTmplContentBox"> \
+                            {{if msgData.message[0].component.payload.text || msgData.message[0].component.payload.heading}} \
+                                <li class="listViewTmplContentHeading"> \
+                                    {{if msgData.type === "bot_response" && msgData.message[0].component.payload.heading}} {{html msgData.message[0].component.payload.text}} {{else}} {{html msgData.message[0].component.payload.text}} {{/if}} \
+                                    {{if msgData.message[0].component.payload.sliderView}} <button class="close-button" title="Close"><img src="data:image/svg+xml;base64,           PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUyLjMgKDY3Mjk3KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5jbG9zZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJBcnRib2FyZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTM0NC4wMDAwMDAsIC0yMjkuMDAwMDAwKSIgZmlsbD0iIzhBOTU5RiI+CiAgICAgICAgICAgIDxnIGlkPSJjbG9zZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzQ0LjAwMDAwMCwgMjI5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlNoYXBlIiBwb2ludHM9IjE0IDEuNCAxMi42IDAgNyA1LjYgMS40IDAgMCAxLjQgNS42IDcgMCAxMi42IDEuNCAxNCA3IDguNCAxMi42IDE0IDE0IDEyLjYgOC40IDciPjwvcG9seWdvbj4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"></button>{{/if}}\
+                                    {{if msgData.message[0].cInfo && msgData.message[0].cInfo.emoji}} \
+                                        <span class="emojione emojione-${msgData.message[0].cInfo.emoji[0].code}">${msgData.message[0].cInfo.emoji[0].title}</span> \
+                                    {{/if}} \
+                                </li> \
+                            {{/if}} \
+                            <div class="listItems">\
+                            {{each(key, msgItem) msgData.message[0].component.payload.elements}} \
+                            {{if (msgData.message[0].component.payload.seeMore && key < msgData.message[0].component.payload.moreCount) || (!msgData.message[0].component.payload.seeMore)}}\
+                                        <li class="listViewTmplContentChild"> \
+                                            {{if msgItem.image_url}} \
+                                                <div class="listViewRightContent" {{if msgItem.default_action && msgItem.default_action.url}}url="${msgItem.default_action.url}"{{/if}} {{if msgItem.default_action && msgItem.default_action.title}}data-value="${msgItem.default_action.title}"{{/if}} {{if msgItem.default_action && msgItem.default_action.type}}type="${msgItem.default_action.type}"{{/if}} {{if msgItem.default_action && msgItem.default_action.payload}} value="${msgItem.default_action.payload}"{{/if}}> \
+                                                    <img alt="image" src="${msgItem.image_url}" onerror="this.onerror=null;this.src=\'../libs/img/no_image.png\';"/> \
+                                                </div> \
+                                            {{/if}} \
+                                            <div class="listViewLeftContent" data-url="${msgItem.default_action.url}" data-title="${msgItem.default_action.title}" data-value="${msgItem.default_action.title}"> \
+                                                <span class="titleDesc">\
+                                                <div class="listViewItemTitle" title="${msgItem.title}">{{if msgData.type === "bot_response"}} {{html msgItem.title}} {{else}} {{html msgItem.title}} {{/if}}</div> \
+                                                {{if msgItem.subtitle}}<div class="listViewItemSubtitle" title="${msgItem.subtitle}">{{if msgData.type === "bot_response"}} {{html msgItem.subtitle}} {{else}} {{html msgItem.subtitle}} {{/if}}</div>{{/if}} \
+                                                </span>\
+                                            {{if msgItem.value}}<div class="listViewItemValue" title="${msgItem.value}">{{if msgData.type === "bot_response"}} {{html msgItem.value}} {{else}} {{html msgItem.value}} {{/if}}</div>{{/if}} \
+                                            </div>\
+                                        </li> \
+                                        {{/if}}\
+                            {{/each}} \
+                            </div>\
+                            {{if msgData.message[0].component.payload.seeMore}}\
+                            <li class="seeMore"> \
+                                <span class="seeMoreList">${msgData.message[0].component.payload.buttons[0].title}</span> \
+                            </li> \
+                            {{/if}}\
+                        </ul> \
+                    </div> \
+                </li> \
+            {{/if}} \
+          </script>';
+      return listT;
+    }
     KoreWidgetSDK.prototype.getSuggestion = function (suggestions) {
       var $suggest = $('#suggestion');
       // some other key was pressed
@@ -1470,6 +1528,45 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
+    $(document).mouseup(function(e){
+      var contextVarAreaContainer = $(".context_variables_textarea"); // Text area dialog
+      var contestVarContainer = $(".contest_variables_dropdown"); // Context menu
+      if((!contextVarAreaContainer.is(e.target) && contextVarAreaContainer.has(e.target).length === 0) && (!contestVarContainer.is(e.target) && contestVarContainer.has(e.target).length === 0)){
+        contextVarAreaContainer.hide();
+        contestVarContainer.hide();
+      }
+    });
+    KoreWidgetSDK.prototype.bindContextVariable = function () {
+      $(document).off('click', '.elipse-overflow').on('click', '.elipse-overflow', function (event) {
+        $(event.target).toggleClass('context-active');
+        if($(event.target).hasClass('context-active')) {
+          // $('.contest_variables_dropdown').removeClass('hide');
+          // $('.contest_variables_dropdown').show();
+          $('.context_variables_textarea').removeClass('hide');
+          $('.context_variables_textarea').show();
+          $('#contextjsonfield').focus();
+        } else {
+          $('.contest_variables_dropdown').hide();
+          $('.context_variables_textarea').hide();
+        }
+      });
+      // $(document).off('mouseover', '.contest_variables_dropdown').on('mouseover', '.contest_variables_dropdown', function (event) {
+      //   $(event.target).toggleClass('contest-active');
+      //   if($(event.target).hasClass('contest-active')) {
+      //     $('.context_variables_textarea').removeClass('hide');
+      //     $('.context_variables_textarea').show();
+      //   }
+      // });
+      $(document).off('click', '.button_secondary').on('click', '.button_secondary', function (event) {
+        $('#contextjsonfield').val('');
+      });
+      $(document).off('click', '.button_blue').on('click', '.button_blue', function (event) {
+        // $('#contextjsonfield').val('');
+        $('.contest_variables_dropdown').hide();
+        $('.context_variables_textarea').hide();
+      });
+    }
+
     KoreWidgetSDK.prototype.bindSearchAccordion = function () {
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).toggleClass('acc-active');
@@ -1478,6 +1575,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           panel[0].style.maxHeight = null;
         } else {
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
+        }
+        if($(evet.target).hasClass('acc-active')) {
+          $(evet.target).next().parent().next().hide();
+        } else {
+          $(evet.target).next().parent().next().show();
         }
       });
       // var acc = document.getElementsByClassName("accordion");
@@ -1494,6 +1596,51 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //     } 
       //   });
       // }
+    }
+    KoreWidgetSDK.prototype.bindFeedbackEvent = function () {
+      var _self = this;
+      var payload = {
+        requestId: null,
+        query: null,
+        contentId: null,
+        contentType: null,
+        feedbackType: null,
+        userId: _self.API.uuid
+      };
+      $(document).off('click', '.faqs-shadow').on('click', '.faqs-shadow', function (event) {
+        console.log($(event.target));
+        var currentActiveEle = $('.accordion.acc-active').parent();
+        payload.contentId = $(currentActiveEle).attr('contentid');
+        payload.contentType = $(currentActiveEle).attr('contenttype');
+        payload.requestId = _self.vars.previousSearchObj.requestId;
+        payload.query = _self.vars.previousSearchObj.searchText;
+      });
+      $(document).off('click', '.yesLike').on('click', '.yesLike', function (event) {
+        $(event.target).toggleClass('icon-active');
+        if($(event.target).hasClass('icon-active')) {
+          $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtYmx1ZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtYmx1ZSIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+          $(event.target).parent().next().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+           payload.feedbackType = "thumbsup";
+          _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function(res) {
+            console.log(res);
+          });
+        } else {
+          $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+        }
+      });
+      $(document).off('click', '.noDislike').on('click', '.noDislike', function (event) {
+        $(event.target).toggleClass('icon-active');
+        if($(event.target).hasClass('icon-active')) {
+          $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ibHVlPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWJsdWUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+          $(event.target).parent().prev().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+          payload.feedbackType = "thumbsdown";
+          _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function(res) {
+            console.log(res);
+          });
+        } else {
+          $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+        }
+      });
     }
     KoreWidgetSDK.prototype.prepAllSearchData = function (selectedFacet) {
       var _self = this, facets = [], totalResultsCount = null;
@@ -1514,7 +1661,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         tasks : _self.vars.searchObject.liveData.tasks,
         pages : _self.vars.searchObject.liveData.pages,
         selectedFacet : selectedFacet ? selectedFacet : "all results",
-        faqs : _self.vars.searchObject.liveData.faqs,
+        faqs: _self.vars.searchObject.liveData.faqs,
+        getFacetDisplayName: function (key) {
+          if (key.toLowerCase() === 'faq') {
+            return "FAQ's"
+          } else if (key.toLowerCase() === 'page') {
+            return "Pages"
+          } else if (key.toLowerCase() === 'task') {
+            return "Actions"
+          } else {
+            return key;
+          }
+        }
         
       });
       $('.search-container').addClass('full-page');
@@ -1533,6 +1691,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   _self.bindSearchAccordion();
       // }
 
+      var topMatchFAQ;
+      if(_self.vars.searchObject &&_self.vars.searchObject.liveData && _self.vars.searchObject.liveData.faqs){
+        var faqs=_self.vars.searchObject.liveData.faqs;
+        topMatchFAQ=faqs.filter(function(faq){
+          return faq.bestMatch
+        });
+        if(topMatchFAQ.length){
+          //highlight faq;
+          topMatchFAQ=topMatchFAQ[0];
+        }else{
+          topMatchFAQ=false;
+        }
+      }
+      setTimeout(function(){
+        debugger;
+        if (topMatchFAQ) {
+          var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
+
+          var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
+          bestFAQDiv.addClass('faq-highlight');
+          bestFAQTitleDiv.find(".accordion").trigger('click');
+        }
+      },500);
     }
     KoreWidgetSDK.prototype.bindAllResultsView = function () {
       var _self = this;
@@ -1543,6 +1724,30 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.prepAllSearchData();
         _self.bindAllResultsView();
         _self.bindSearchActionEvents();
+        // var topMatchFAQ;
+        // if(data && data.faqs){
+        //   var faqs=data.faqs;
+        //   topMatchFAQ=faqs.filter(function(faq){
+        //     return faq.bestMatch
+        //   });
+        //   if(topMatchFAQ.length){
+        //     //highlight faq;
+        //     topMatchFAQ=topMatchFAQ[0];
+        //   }else{
+        //     topMatchFAQ=false;
+        //   }
+        // }
+        // setTimeout(function(){
+        //   debugger;
+        //   if (topMatchFAQ) {
+        //     var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
+
+        //     var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
+        //     bestFAQDiv.addClass('faq-highlight');
+        //     bestFAQTitleDiv.find(".accordion").trigger('click');
+        //   }
+        // },500);
+
       })
       $('.full-search-close').off('click').on('click', function (e) {
         $('.search-container').removeClass('full-page');
@@ -1652,7 +1857,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   _self.userLogin(e.target.title.toLowerCase());
         // }
 
-        if (_self.vars.loggedInUser) {
+        if (_self.isDev || _self.vars.loggedInUser) {
           _self.vars.searchObject.searchText = e.target.title.toLowerCase();
           _self.sendMessageToSearch('botAction');
         } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
@@ -1774,10 +1979,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
             _self.bindLiveDataToChat();
-            if(!_self.vars.searchObject.recents.length || ( _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
-              _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
+            if($('.search-body:visible').length){
+              if(!_self.vars.searchObject.recents.length || ( _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
+                _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
+              }
+              window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
             }
-            window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
           }
         })
         $(dataHTML).off('click', '.search-button').on('click', '.search-button', function(e) {
@@ -1812,7 +2019,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
           $('.search-body').html(freqData);
           _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
-            console.log(response);
             _self.vars.searchObject.popularSearches = response;
             freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
               searchResults: _self.vars.searchObject.recentAPIResponse,
@@ -1846,12 +2052,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 "streamId": _self.API.streamId,
                 "lang": "en"
               }
+              var contextObj=$("#contextjsonfield").val();
+              if(contextObj){
+                contextObj.trim();
+                if(contextObj){
+                  try {
+                    contextObj=JSON.parse(contextObj);
+                  } catch (error) {
+                    contextObj="";
+                  }
+                }
+                if(contextObj){
+                  payload.context=contextObj;
+                }
+        
+              }
               var url = _self.API.livesearchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
               var searchData;
               if(code== '13') {
                 $('#search').val('');
               } else {
                 _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+                  if(res && res.requestId && res.template && res.template.originalQuery) {
+                    _self.vars.previousSearchObj = {};
+                    _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+                    _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
+                  } else {
+                    console.log('Previous requestId or orinigal query is mising');
+                  }
                   if (res.templateType === 'liveSearch') {
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
@@ -1881,12 +2109,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         facets: facets,
                         originalQuery: res.originalQuery,
                       }
+                      //livesearch
                       searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                         faqs: faqs.slice(0,2),
                         pages: pages.slice(0,2),
                         tasks: tasks.slice(0,2),
                         showAllResults: true,
-                        noResults: false
+                        noResults: false,
+                        taskPrefix:'SUGGESTED'
                       });
                       $(searchData).data(dataObj);
                       $('.search-body').html(searchData);
@@ -1928,7 +2158,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages: pages,
                           tasks: tasks,
                           showAllResults: false,
-                          noResults: true
+                          noResults: true,
+                          taskPrefix:'MATCHED'
                         });
                         $(searchData).data(dataObj);
                         console.log("no results found");
@@ -1979,7 +2210,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             e.stopPropagation();
           }
-          if( (_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length) && !$('#search').val()) {
+          if( (_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && !$('#search').val()) {
             $('.search-container').addClass('active');
             if(_self.showGreetingMsg){
               _self.showGreetingMsg = false;
@@ -1999,7 +2230,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.deleteRecents();
             _self.bindSearchActionEvents();
             _self.recentClick();
-          } else if((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length) && $('#search').val()){
+          } else if((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && $('#search').val()){
             _self.closeGreetingMsg();
             if(!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
@@ -2266,9 +2497,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
         var faqs = [], pages = [], tasks = [], facets; 
+        if(res && res.requestId && res.template && res.template.originalQuery) {
+          _self.vars.previousSearchObj = {};
+          _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+          _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
+        } else {
+          console.log('Previous requestId or orinigal query is mising');
+        }
         if (res.templateType === 'search') {
           res = res.template;
           var liveResult = res.results;
+          var topMatchFAQ;
+          var topMatchTask;
+
                       // liveResult.forEach(function (result) {
                       //   if (result.contentType === "faq") {
                       //     faqs.push(result);
@@ -2282,6 +2523,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       pages=res.results.page;
                       tasks=res.results.task;
                       facets = res.facets;
+
+
+                      if(tasks.length){
+                        //trigger dialog;
+                        topMatchTask=tasks[0];                       
+                      }
+
+
+                      topMatchFAQ=faqs.filter(function(faq){
+                        return faq.bestMatch
+                      });
+                      if(topMatchFAQ.length){
+                        //highlight faq;
+                        topMatchFAQ=topMatchFAQ[0];
+                      }else{
+                        topMatchFAQ=false;
+                      }
+
                       var dataObj = {
                         faqs: faqs,
                         pages: pages,
@@ -2289,6 +2548,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         facets: facets,
                         originalQuery: res.originalQuery || '',
                       }
+                      // if(!_self.isDev){
+                      //   dataObj = {
+                      //     faqs: faqs.slice(0,2),
+                      //     pages: pages.slice(0,2),
+                      //     tasks: tasks.slice(0,2),
+                      //     facets: facets,
+                      //     originalQuery: res.originalQuery || '',
+                      //   }
+                      // }
                       _self.vars.searchObject.liveData = {
                         faqs: faqs,
                         pages: pages,
@@ -2312,17 +2580,31 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               pages:dataObj.pages,
                               tasks:dataObj.tasks,
                               showAllResults: true,
-                              noResults:false
+                              noResults:false,
+                              taskPrefix:'MATCHED'
                             });
                             $(searchData).data(dataObj);
-                            _self.sendMessageToSearch('bot',_botMessage);
+                            if(!topMatchTask){
+                              _self.sendMessageToSearch('bot',_botMessage);
+                            }
                             $(searchData).find(".tasks-wrp").sortable();
                             $(searchData).attr('queryString',dataObj.originalQuery)
+                            if(topMatchTask){
+                              searchData.addClass("hide");
+                            }
                             $('#searchChatContainer').append(searchData);
                           }
                           setTimeout(function(){
                             var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
                            $('#searchChatContainer').animate({scrollTop: scrollBottom});
+
+                            if (topMatchTask) {
+                              $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
+                            } else if (topMatchFAQ) {
+                              var bestFAQDiv=$(".resultsOfSearch .task-wrp[contentid='" + topMatchFAQ.contentId + "']:last");
+                              bestFAQDiv.addClass('faq-highlight');
+                              bestFAQDiv.find(".accordion").trigger('click');
+                            }
                           },200);
                           if($('.search-container').hasClass('conversation')){
                             $('.search-body').addClass('hide');
@@ -2411,11 +2693,76 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       if (type === 'bot') {
-        messageData.text = mesageData;
-        var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-          msgData: messageData
-        });
-        $('#searchChatContainer').append(template);
+        try {
+          messageData = JSON.parse(mesageData);
+        } catch (error) {
+          messageData.text = mesageData;
+        }
+        if (messageData && messageData.type && messageData.type === "template") {
+
+          if (messageData.payload && messageData.payload.template_type === "cardTemplate") {
+            var y = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "cardTemplate", "elements": [{ "biller_name": "REWARD AND SIGNATURE CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "95.20", "due_date": "03/07/2020" }, { "biller_name": "DINERS CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "64.45", "due_date": "13/07/2020" }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
+            var cardData = messageData.payload.elements;//y.message[0].component.payload.elements;
+            
+            var template1 = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+              msgData: {
+                from: "bot",
+                text: "Choose the credit card to pay bill"
+              }
+            });
+            $('#searchChatContainer').append(template1);
+
+            var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
+              selectedBiller: "XYZ",
+              data: cardData
+            });
+            $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
+              var payData = $(e.currentTarget).attr('msgData');
+
+              payData=JSON.parse(payData);
+              _self.vars.searchObject.searchText=payData.postback_value
+              messageData.text = payData.postback_value;//"Pay nowwww";
+              messageData.from = 'user';
+              var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                msgData: messageData
+              });
+              $('#searchChatContainer').append(template);
+              _self.bindLiveDataToChat();
+              setTimeout(function () {
+                var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+                $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+              }, 200);
+
+            });
+            $('#searchChatContainer').append(creditCard);
+          } else if (messageData.payload && messageData.payload.template_type === "listView") {
+
+            var listDefaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "listView", "seeMore": true, "moreCount": 4, "text": "Here are your details", "heading": "Speed Analysis", "buttons": [{ "title": "See more", "type": "postback", "payload": "payload" }], "elements": [{ "title": "Checking", "subtitle": "XXXX192", "value": "$7,496.13", "default_action": { "title": "Checking", "type": "payload", "payload": "Checking" } }, { "title": "Trading", "subtitle": "XXXX045", "value": " $22,053.47", "default_action": { "title": "Trading", "type": "payload", "payload": "Trading" } }, { "title": "Credit Card", "subtitle": "XXXX100", "value": "$3,596.00", "default_action": { "title": "Credit Card", "type": "payload", "payload": "Credit Card" } }, { "title": "Savings", "subtitle": "XXXX277", "value": "$17,290.00", "default_action": { "title": "Savings", "type": "payload", "payload": "Savings" } }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
+            listDefaultMessage.message[0].component=messageData;
+
+            var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+              msgData: {
+                from: "bot",
+                text: messageData.payload.text
+              }
+            });
+            $('#searchChatContainer').append(template);
+
+
+            var template = $(_self.getListTemplate()).tmpl({
+              'msgData': listDefaultMessage,
+              'helpers': helpers,
+              'extension': {}
+            });
+            $('#searchChatContainer').append(template);	 
+          }
+        } else {
+          //simple text message
+          var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+            msgData: messageData
+          });
+          $('#searchChatContainer').append(template);
+        }  
       }
       if (type === 'botAction') {
         messageData.text = _self.vars.searchObject.searchText;
@@ -2423,7 +2770,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData
         });
-        $('#searchChatContainer').append(template);
+        //$('#searchChatContainer').append(template);
         $('.search-body').hide();
         $('#searchChatContainer').addClass('bgfocus-override');
         _self.bindLiveDataToChat(true);
@@ -2469,7 +2816,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.menu-link.login').addClass('hide');
           $('.menu-link.loggedIn').removeClass('hide');
           $('.errorMsg').addClass('hide');
-          if (action === 'pay bill') {
+          //static pay bill removed
+          if (false && action === 'pay bill') {
             _self.searchEventBinding('pay bill', action, event);
           } else {
             _self.vars.searchObject.searchText = action;
@@ -2519,11 +2867,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // console.log(data);
         },
         error: function (err) {
-          console.log(err)
+          console.log(err);
         }
       })
     };
-    KoreWidgetSDK.prototype.newsSearchFeedback = function (url, type, payload) {
+    KoreWidgetSDK.prototype.newSearchFeedbackPost = function (url, type, payload) {
       var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       return $.ajax({
         url: url,
@@ -2533,12 +2881,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "Authorization": bearer,
           "Content-Type": "application/json"
         },
-        data: payload,
+        data: JSON.stringify(payload),
         success: function (data) {
-          // console.log(data);
+          console.log(data);
         },
         error: function (err) {
-          console.log(err)
+          console.log(err);
         }
       })
     };
@@ -2839,6 +3187,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       _self.initWebKitSpeech();
       _self.setAPIDetails();
+
+      _self.isDev=false;
+      if(!$('body').hasClass('demo')){
+        _self.isDev=true;
+      }
+
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
       var left = ((windowWidth / 2) - 250) + 'px';
@@ -2863,8 +3217,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     setCaretEnd(document.getElementsByClassName("chatInputBox"));
         // }, 350);
     });
-
+      _self.bindContextVariable();
       _self.bindSearchAccordion();
+      _self.bindFeedbackEvent();
       $(dataHTML).css('left', left);
       var container=$('.search-background-div');
       if(!container.length){
@@ -8086,7 +8441,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         };
       }
     };
-
     return KoreWidgetSDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
