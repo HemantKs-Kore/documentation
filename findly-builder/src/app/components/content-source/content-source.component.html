@@ -351,8 +351,8 @@
                     </div>
                   </div>
                   <div *ngIf="selectedSource.advanceSettings">
-                    <div *ngFor ="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"class="path-data row m-0">
-                      <div class="col-11 p-0 title">{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
+                    <div *ngFor ="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"class="path-data row m1010">
+                      <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
                       <div class="close-path col-1 p-0 text-right" (click)="deleteRecord()"><img src="assets/images/close-cross.svg"></div>
                     </div>
                   </div >
