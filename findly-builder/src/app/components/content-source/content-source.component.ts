@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   isConfig : boolean = false;
+  allowUrlArr = [];
   filterSystem : any = {
     'typeHeader' : 'type',
     'statusHeader' : 'status',
@@ -214,6 +215,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       
       this.loadingSliderContent = false;
+      this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       if(this.isConfig && $('.tabname') && $('.tabname').length){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
@@ -547,31 +549,48 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.getSourceList();
     this.showSourceAddition = null;
    }
-   allowUrls(allowUrl){
-     
+   allowUrls(contains , allowUrl){
+      console.log(contains , allowUrl.value)
+      let data = {};
+     data['contains'] = contains;
+     data['url'] = allowUrl.value;
+     if(data['url'])
+      this.updateRecord(this.selectedSource['advanceSettings'].length-1,data,'add')
    }
-   deleteRecord(){
+   updateRecord(i,allowUrls,option){
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
     let resourceType = this.selectedSource.type;
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId ,
+      sourceId : this.selectedSource._id
       //type: this.selectedSourceType.sourceType,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
     crawler.desc = this.selectedSource.desc || '';
+    crawler.advanceOpts.allowedURLs = this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
     crawler.resourceType = resourceType;
     payload = crawler;
     console.log(payload);
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
+      if(option == 'add'){
+        this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
+      }else{
+        this.selectedSource['advanceSettings'].allowedURLs.filter(
+          (el) => { return el.url != allowUrls.url});
+      }
+      
+      allowUrls.forEach(element => {
+        
+      });
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
        } else {
-         this.notificationService.notify('Failed to delete ', 'error');
+         this.notificationService.notify('Failed ', 'error');
        }
      });
    }
