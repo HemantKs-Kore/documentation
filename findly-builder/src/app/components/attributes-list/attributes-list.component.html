@@ -67,7 +67,8 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_" #addAttributesModalPop>
     <div class="modal-header">
-        <div class="title">Add Fields</div>
+        <div class="title" *ngIf="isAdd">Add Fields</div>
+        <div class="title" *ngIf="isEdit">Edit Fields</div>
         <div class="close_icon"><img class="ng-tns-c11-2" src="assets/icons/modal-close.svg" (click)='closeAddAttributesModal()'></div>
       </div>
       <perfect-scrollbar class="perfect-scroll-modal-body">

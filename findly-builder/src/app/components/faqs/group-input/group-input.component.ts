@@ -74,6 +74,7 @@ export class GroupInputComponent implements OnInit {
     if (index >= 0) {
       this.groups.splice(index, 1);
     }
+    this.emitValues.emit(this.groups);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {

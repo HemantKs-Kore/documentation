@@ -56,6 +56,8 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
    ],
    rulesObj:{
        operator:'',
+       listContextTypes: ['Search Context', 'User Context', 'Page Context'],
+       listContextCategories: ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id']
    },
    ruleConditionOr:{
        condition:'OR',
@@ -90,12 +92,15 @@ addEditattribute : any = {
 name = {
   na: ''
 };
+ruleEditId: string;
 addEditRule:any= {};
 typedQuery;
 options: MdEditorOption = {
   showPreviewPanel: false,
   hideIcons: ['TogglePreview']
-}
+};
+isAdd: boolean;
+isEdit: boolean;
 selectedAttributesObj:any = {};
 attributes:any= [];
 rules:any = [];
@@ -161,6 +166,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         ]
       }
     ];
+    this.validationRules.rules[0].rules[0].listContextTypes = ['Search Context', 'User Context', 'Page Context'];
+    this.validationRules.rules[0].rules[0].listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
   }
   selectTab(tab){
     this.selectedTab = tab;
@@ -174,13 +181,13 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     ruleData.contextType = val;
     ruleData.contextCategory = null;
     if(val == 'User Context') {
-      this.dispContextCategories = ['Customer Type', 'Accounts'];
+      ruleData.dispContextCategories = ['Customer Type', 'Accounts'];
     }
     else if(val == 'Search Context') {
-      this.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
+      ruleData.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
     }
     else if(val == 'Page Context') {
-      this.dispContextCategories = ['Page Name', ' Page Id'];
+      ruleData.dispContextCategories = ['Page Name', ' Page Id'];
     }
   }
 
@@ -282,17 +289,60 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     }
   }
 
+  editRules() {
+
+    if(this.name.na.trim() == '') {
+      this.notify.notify('Please enter rule name', 'error');
+      return;
+    }
+    let rulesCheck = this.validateRules(this.validationRules.rules[0].rules);
+    if(rulesCheck.length == 0) {
+      this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
+      return;
+    }
+    if(this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+      this.notify.notify('THEN rule is mandatory to proceed', 'error');
+      return;
+    }
+    rulesCheck = _.map(rulesCheck, o=> {return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values')});
+    this.validationRules.rules[0].rules = rulesCheck;
+    let params = {
+      searchIndexId: this.serachIndexId,
+      ruleId: this.ruleEditId
+    };
+    let payload = {
+      name: this.name.na,
+      type: 'web',
+      definition:{ if: {}, then: {}}
+    }
+    payload.definition.if = this.validationRules;
+    payload.definition.then = this.rulesObjOO.then;
+
+    this.service.invoke('update.rule', params, payload).subscribe(res=>{
+      this.closeAddRulesModal();
+      this.notify.notify('Rule has been updated', 'success');
+      this.getRules();
+    }, err => {
+      this.closeAddRulesModal()
+    })
+  }
+
    addEditRules(rule){
      if(rule){
       this.name.na = rule.name;
       this.validationRules.rules = rule.definition.if.rules;
       this.rulesObjOO.then = rule.definition.then;
+      this.ruleEditId = rule._id;
+      this.isEdit = true;
+      this.isAdd = false;
      } else{
       this.addEditRule= {
         name:'',
         definition:[],
       }
       this.resetRule();
+      this.isEdit = false;
+      this.isAdd = true;
      }
      this.addRulesModalPopRef  = this.addRulesModalPop.open();
     }
@@ -432,6 +482,25 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     res => {
       this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
       this.rules = _.filter(res.rules, function(o){ return o.action != "delete"; });
+
+      this.rules.forEach(o=>{
+        o.definition.if.rules.map(oo=>{
+          oo.rules.map(ooo=>{
+            ooo.listContextTypes = ['Search Context', 'User Context', 'Page Context'];
+            ooo.listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
+            if(ooo.contextType == 'User Context') {
+              ooo.dispContextCategories = ['Customer Type', 'Accounts'];
+            }
+            else if(ooo.contextType == 'Search Context') {
+              ooo.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
+            }
+            else if(ooo.contextType == 'Page Context') {
+              ooo.dispContextCategories = ['Page Name', ' Page Id'];
+            }
+            return ooo;
+          })
+        })
+      });
       this.draftRules = _.where(this.rules, {state: 'draft'});
       this.inReviewRules = _.where(this.rules, {state: 'in-review'});
       this.approvedRules = _.where(this.rules, {state: 'approved'});
@@ -479,6 +548,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      this.notify.notify('THEN rule is mandatory to proceed', 'error');
      return;
    }
+   rulesCheck = _.map(rulesCheck, o=> {return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values')});
+   this.validationRules.rules[0].rules = rulesCheck;
   const params = {
     searchIndexId : this.serachIndexId
   }
