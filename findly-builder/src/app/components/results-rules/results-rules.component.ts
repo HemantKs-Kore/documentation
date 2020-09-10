@@ -276,15 +276,18 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
    addEditRules(rule){
      if(rule){
-         this.validationRules = rule.rules;
+      this.name.na = rule.name;
+      this.validationRules.rules = rule.definition.if.rules;
+      this.rulesObjOO.then = rule.definition.then;
      } else{
       this.addEditRule= {
         name:'',
         definition:[],
       }
-      this.addRulesModalPopRef  = this.addRulesModalPop.open();
+      this.resetRule();
      }
-   }
+     this.addRulesModalPopRef  = this.addRulesModalPop.open();
+    }
    deleteAttributes(attribute){
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
@@ -326,7 +329,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      });
 
     this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res=>{
-      this.addRulesModalPopRef  = this.addRulesModalPop.open();
+      this.addEditRules(res);
+      // this.addRulesModalPopRef  = this.addRulesModalPop.open();
     });
     this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -467,27 +471,25 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      this.notify.notify('THEN rule is mandatory to proceed', 'error');
      return;
    }
-
-  //  return;
   const params = {
     searchIndexId : this.serachIndexId
   }
- let payload = {
-   name: this.name.na,
-   type: 'web',
-   definition:{ if: {}, then: {}}
- }
- payload.definition.if = this.validationRules;
- payload.definition.then = this.rulesObjOO.then;
-   this.service.invoke('create.rule', params, payload).subscribe(
-     res=>{
-      console.log(res);
-      this.closeAddRulesModal();
-      this.getRules();
-      this.resetRule();
-     }, err=>{
-      this.errorToaster(err, 'Unable to save the rule');
-     });
+  let payload = {
+    name: this.name.na,
+    type: 'web',
+    definition:{ if: {}, then: {}}
+  }
+  payload.definition.if = this.validationRules;
+  payload.definition.then = this.rulesObjOO.then;
+    this.service.invoke('create.rule', params, payload).subscribe(
+      res=>{
+        console.log(res);
+        this.closeAddRulesModal();
+        this.getRules();
+        this.resetRule();
+      }, err=>{
+        this.errorToaster(err, 'Unable to save the rule');
+      });
   }
   checkDuplicateTags(suggestion: string): boolean {
     return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);

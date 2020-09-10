@@ -23,7 +23,7 @@
                 </div>                    
                 <div class="col_ col-7 definatation">{{rool.definitionStr}}</div>               
                 <div class="actions draft-state col_ col-3 text-right pr-3">
-                  <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal()">
+                  <img src="assets/icons/edit-rule.svg" class="ml-4" (click)="openAddRulesModal(rool)">
                   <img src="assets/icons/return.svg" class="ml-4">
                   <img (click)="rulesService.deleteRule.next(rool._id)" src="assets/icons/delete-table.svg" class="ml-4">
                 </div>

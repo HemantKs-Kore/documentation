@@ -23,8 +23,8 @@ export class RulesTableComponent implements OnInit {
   updateFooter () {
     this.rulesService.showReviewFooter = _.where(this.rulesData, {isChecked: true}).length;
   }
-  openAddRulesModal () {
-    this.rulesService.openAddRulesModal.next();
+  openAddRulesModal (ruleData) {
+    this.rulesService.openAddRulesModal.next(ruleData);
   }
 
 }

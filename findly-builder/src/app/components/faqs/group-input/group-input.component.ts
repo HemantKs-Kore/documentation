@@ -32,6 +32,7 @@ export class GroupInputComponent implements OnInit {
   @Output() emitValues = new EventEmitter();
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @Input() valuesAdded;
 
   constructor(  private faqService: FaqsService,
                 private service: ServiceInvokerService,
@@ -43,9 +44,9 @@ export class GroupInputComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getAllGroups();
-    setInterval(()=>{
-      // console.log(this.currentSugg);
-    }, 1000)
+    if(this.valuesAdded) {
+      this.groups = _.pluck(_.where(this.valuesAdded, {type: 'groupValue'}), 'value')
+    }
   }
 
   add(event: MatChipInputEvent): void {
@@ -112,6 +113,7 @@ export class GroupInputComponent implements OnInit {
       limit: 100
     };
     this.service.invoke('get.allGroups', params).subscribe(res => {
+      res.groups = _.filter(res.groups, o=>{return o.action != 'delete'})
       this.allGroups = _.pluck(res.groups, 'name');
       this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
       this.groupVal = _.object(this.allGroups, this.allValues);
