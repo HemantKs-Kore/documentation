@@ -37,7 +37,7 @@
           <div class="divBlockEmptylastChild">{{searchBlock?'No search results':'No Data Found'}}</div>
       </perfect-scrollbar>
       </ng-container>
-      <div class="footer-btns" *ngIf="rulesService.showReviewFooter">
+      <div class="footer-btns" *ngIf="rulesService.showReviewFooter && searchBlock.length == 0">
         <button class="kr-sg-button-primary btn_lg" *ngIf="tabActive == 'draft' || tabActive == 'approved'" (click)='rulesService.bulkSend.next("in-review")'>Send for Review</button>
         <button class="kr-sg-button-primary btn_lg" *ngIf="tabActive == 'in-review'" (click)='rulesService.bulkSend.next("approved")'>Send for Approve</button>
         <button class="kr-sg-button-danger btn_lg" (click)='rulesService.bulkDelete.next()'>Delete</button>

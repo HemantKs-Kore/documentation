@@ -345,6 +345,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.isAdd = true;
      }
      this.addRulesModalPopRef  = this.addRulesModalPop.open();
+     this.searchBlock = '';
     }
    deleteAttributes(attribute){
     const quaryparamats = {
