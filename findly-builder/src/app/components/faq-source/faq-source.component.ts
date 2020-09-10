@@ -450,7 +450,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Confirm',
-        text: 'The changes made on this FAQ are not yet saved, Do you want to switch to another FAQ?',
+      text: 'The changes made on this FAQ are not yet saved.',
+      text1:'Do you want to switch to another FAQ?',
         buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }]
       }
     });
