@@ -55,6 +55,7 @@ export class GroupInputComponent implements OnInit {
     //   this.groupCtrl.setValue(null);
     //   return;
     // }
+    if(event.value.indexOf('.') > -1) { return; }
     const input = event.input;
     const value = event.value;
     // Add our group
