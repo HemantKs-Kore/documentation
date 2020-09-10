@@ -103,7 +103,7 @@
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)">
               <div class="col_ col-4">{{source.title || source.name}}</div>
-              <div class="col_ col-2">{{source.type | titlecase}}</div>            
+              <div class="col_ col-2">{{(source.type == 'webdomain' ? 'Web' :(source.type == 'document'? 'Doc': '')) | uppercase }}</div>            
               <div class="col_ col-2">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
@@ -112,11 +112,11 @@
                     class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
               </div>
-              <div class="col_ col-3">{{source.createdOn | dateFormatPipe}}</div>
+              <div class="col_ col-3">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div>
               <div class="col_ col-1 text-right p-0">
                 <span class="actions-links d-none"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
-                    src="assets/icons/delete-table.svg" ngbTooltip='delete' placement='left'></span>
+                    src="assets/icons/delete-table.svg" ngbTooltip='delete' container="body"></span>
               </div>
             </div>
           </ng-container>
@@ -147,7 +147,7 @@
                     </div>
                     <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
                     <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
-                      {{source.createdOn | dateFormatPipe}}</div>
+                      {{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
                   </div>
                   <div class="actions-delete">                   
                     <span class="actions-links d-none"><img class="action_icon" ngbTooltip='Refresh'src="assets/icons/sidemenu/table-refresh.svg"></span>
@@ -279,7 +279,7 @@
                               <div class="col_ col-2">{{selectedSource.name}}</div>
                               <div class="col_ col-3">{{selectedSource.url}}</div>
                               <div class="col_ col-2">Description</div>
-                              <div class="col_ col-2">{{selectedSource.createdOn | dateFormatPipe}}</div>  
+                              <div class="col_ col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div>  
                               <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]" [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">{{statusObj[selectedSource.recentStatus].name}}</div>  
                               <div class="col_ col-1">
                                   <a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}</a>
@@ -368,10 +368,10 @@
                         <div class="row m-0 content">
                           <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
                             {{page.url || selectedSource.url}}</div>
-                          <div class="col-2 date">{{page.createdOn | dateFormatPipe}}</div>
-                          <div class="col-2 actions">
+                          <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
+                          <div class="col-1 actions p-0">
                             <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
-                            <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)" ngbTooltip='delete'>
+                            <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)" ngbTooltip='Delete' placement="left">
                           </div>
                         </div>
                       </a>
@@ -389,7 +389,7 @@
                           </div>
                           <div class="row m-0 row_content">
                             <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-                            <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe}}
+                            <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}
                               <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
                                   Details</a></span>
                             </div>
