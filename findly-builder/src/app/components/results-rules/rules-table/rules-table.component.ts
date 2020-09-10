@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { ResultsRulesService } from '../../../services/componentsServices/results-rules.service';
 import * as _ from 'underscore';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-rules-table',
@@ -11,10 +12,12 @@ import * as _ from 'underscore';
 export class RulesTableComponent implements OnInit {
 
   @Input() rulesData;
-
+  tabActive: string;
   constructor(public rulesService: ResultsRulesService) { }
 
   ngOnInit(): void {
+    this.tabActive = this.rulesData[0].state;
+    setInterval(()=>{console.log(this.rulesService.showReviewFooter);}, 2000);
   }
 
   updateFooter () {
