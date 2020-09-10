@@ -64,6 +64,35 @@
             .kr-sg-radiobutton .radio-custom:hover:not([disabled]) + .radio-custom-label {
                 color: #0D6EFD;
             }
+            .customUpload{
+                background-color: #E4E5E7;
+                position: relative;
+                width: 415px;
+                padding: 20px;
+                border-radius: 5px;
+                margin-top: 15px;
+                text-align: center;
+                display: none;
+                input{
+                    opacity: 0;
+                    position: absolute;
+                    z-index: 9;
+                    cursor: pointer;
+                    width: 278px;
+                    left: 19px;
+                }
+                button{
+                    color: #ffffff;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    background-color: #0D6EFD;
+                    border: 1px solid #0D6EFD;
+                    cursor: pointer;
+                    width: 178px;
+                    height: 34px;
+                    border-radius: 5px;
+                }
+            }
         }
     }
 }
