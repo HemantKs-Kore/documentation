@@ -130,12 +130,12 @@
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
-                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length">
-                      <span class="" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
+                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length" class="w-100">
+                      <div class="alw-data w-100" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
                         <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
-                        <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
-                      </span>
-                    </div>
+                        <div class="alw-list w-100"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
+                      </div>
+                    </div>                    
                   </div>
                   <!-- Block List -->
                   <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg" class="ml-1"></div>

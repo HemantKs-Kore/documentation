@@ -282,7 +282,7 @@
                               <div class="col_ col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div>  
                               <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]" [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">{{statusObj[selectedSource.recentStatus].name}}</div>  
                               <div class="col_ col-1">
-                                  <a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">{{(selectedSource && selectedSource.pages)?selectedSource.pages.length:0}}</a>
+                                  <a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length" (click)="swapSlider()">{{selectedSource.numPages}}</a>
                               </div>
                               <div class="col_ col-1 p-0 text-right actions-images">
                                   <img src="assets/icons/return.svg" title="Refresh">
