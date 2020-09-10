@@ -55,6 +55,7 @@ export class GroupInputComponent implements OnInit {
     //   this.groupCtrl.setValue(null);
     //   return;
     // }
+    if(event.value.indexOf('.') > -1) { return; }
     const input = event.input;
     const value = event.value;
     // Add our group
@@ -74,6 +75,7 @@ export class GroupInputComponent implements OnInit {
     if (index >= 0) {
       this.groups.splice(index, 1);
     }
+    this.emitValues.emit(this.groups);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {

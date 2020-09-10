@@ -5,7 +5,7 @@
     <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
   </div>
   <!-- <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4> -->
-  <perfect-scrollbar [ngClass]="{'fullHeightPS': (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
+  <perfect-scrollbar [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
     <div class="h-100 position-relative addNewSource">
       <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
         <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">

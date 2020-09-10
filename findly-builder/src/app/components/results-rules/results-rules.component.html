@@ -8,7 +8,7 @@
         <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:'Choose Type'}}</button>                                            
             <ul class="dropdown-menu content-menu">
-              <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of listContextTypes"><a>{{conType}}</a></li>
+              <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of rule.listContextTypes"><a>{{conType}}</a></li>
             </ul>
           </div>
       </div>
@@ -18,7 +18,7 @@
         <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:'Choose Category'}}</button>                                            
             <ul class="dropdown-menu content-menu">
-              <li *ngFor="let contCate of dispContextCategories" (click)='updateContextCategory(rule, contCate)'>
+              <li *ngFor="let contCate of rule.dispContextCategories" (click)='updateContextCategory(rule, contCate)'>
                 <a>{{contCate}}</a>
               </li>
             </ul>
@@ -90,13 +90,13 @@
         </div>       
     </div>
     <div class="table-list-content" *ngIf="tabsList[0].isSelected && draftRules && draftRules.length && !loadingRules">
-      <app-rules-table [rulesData]='draftRules'></app-rules-table>
+      <app-rules-table [rulesData]='draftRules' [searchBlock]='searchBlock'></app-rules-table>
     </div>
     <div class="table-list-content" *ngIf="tabsList[1].isSelected &&inReviewRules && inReviewRules.length && !loadingRules">
-      <app-rules-table [rulesData]='inReviewRules'></app-rules-table>
+      <app-rules-table [rulesData]='inReviewRules' [searchBlock]='searchBlock'></app-rules-table>
     </div>
     <div class="table-list-content" *ngIf="tabsList[2].isSelected &&approvedRules && approvedRules.length && !loadingRules">
-      <app-rules-table [rulesData]='approvedRules'></app-rules-table>
+      <app-rules-table [rulesData]='approvedRules' [searchBlock]='searchBlock'></app-rules-table>
     </div>
     
     <div *ngIf="loadingRules" class="p-5 text-center">
@@ -109,20 +109,21 @@
         <button class="kr-sg-button-secondary btn_lg" (click)="addEditRules()">Add</button>
     </div>
     <div *ngIf="tabsList[0].isSelected && !(draftRules && draftRules.length) && !loadingRules" class="p-5 text-center">
-      No Draft rules
+      No Draft Rules
     </div>
     <div *ngIf="tabsList[1].isSelected && !(inReviewRules && inReviewRules.length) && !loadingRules" class="p-5 text-center">
-      No In-review rules
+      No In-review Rules
     </div>
     <div *ngIf="tabsList[2].isSelected && !(approvedRules && approvedRules.length) && !loadingRules" class="p-5 text-center">
-      No Approved rules
+      No Approved Rules
     </div>
    </ng-container>
  </div>
 
 <kr-modal modalType="center" #addRulesModalPop modalClass="modal_popups_">
   <div class="modal-header">   
-    <div class="title">Add Rules</div>
+    <div class="title" *ngIf="isAdd">Add Rules</div>
+    <div class="title" *ngIf="isEdit">Edit Rules</div>
     <div class="close_icon" (click)='closeAddRulesModal()'><img src="assets/icons/modal-close.svg"></div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -145,7 +146,8 @@
     </div>
   </perfect-scrollbar> 
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" (click)="saveRules()">Add</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="isAdd" (click)="saveRules()">Add</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="isEdit" (click)="editRules()">Edit</button>
       <button class="kr-sg-button-secondary btn_lg" (click)='closeAddRulesModal()'>Cancel</button>
   </div>
 </kr-modal>

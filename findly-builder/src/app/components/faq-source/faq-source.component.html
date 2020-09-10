@@ -59,7 +59,7 @@
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
-                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
@@ -133,9 +133,9 @@
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
                     <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
-                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                            <div class="info-title">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}</div>
                         </div>
                         <div class="col_ p-0 type col-1" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Type</div>
@@ -167,9 +167,9 @@
                         </div>
                     </div>
                     <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
-                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
+                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
+                            <div class="info-title">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
                         </div>
                         <div class="col_ p-0 type" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
                             <div class="heading">Type</div>
@@ -189,9 +189,9 @@
                                       
                     </div>
                     <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
-                        <div class="col-2 p-0" ngbTooltip='{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}'  placement="top">
+                        <div class="col-2 p-0" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}'  placement="top">
                             <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                            <div class="info-title">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
                         </div>
                         <div class="col-2 p-0" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top">
                             <div class="heading">Type</div>
@@ -203,7 +203,7 @@
                         </div>
                         <div class="col-2 p-0" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}" placement="top">
                             <div class="heading">Reviewed by</div>
-                            <div class="info-title">{{selectedFaq.reviewedBy || (selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---')}}</div>
+                            <div class="info-title">{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}</div>
                         </div>
                         <div class="col-3 p-0" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}">
                             <div class="heading">Approved at</div>

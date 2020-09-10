@@ -5,55 +5,62 @@
     </div>
     <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
       <img class="noTraitsImg" src="assets/images/empty-illustration.png">
-       <div class='noTraitsInfo'>
-         <!--<span class='infoHeader'></span> -->
+       <div class='noTraitsInfo'>        
         <p class='infoP'>No actions available<br>
-            <!-- Create and manage bot traits -->
         </p>
-        <!-- <button class='kr-sg-button-primary'>{{'Create New'}}</button> -->
     </div>
     </div>
     <div class="table-list-content" *ngIf="bots && bots.length && !loadingContent">
       <div class="kr-sg-data-table with-checkbox">
         <div class="table-action-header">
-          <input type="text" name='searchSources' placeholder="Search" id="searchContentSources"
-            class="input-search tbsearchbar" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)">
-          <div class="search">
+          <div class="kr-sg-input-search m-0">                               
+            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)" autocomplete="off">           
             <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-            <span *ngIf="!searchSources" class="search-name"><img class="search-img"
-                src="assets/icons/sidemenu/search-table.svg"></span>
+            <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
           </div>
+          <div>
             <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'" ngbTooltip='Grid'><img
-            src="assets/icons/grid-view.svg"></div>
-            <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
-            src="assets/icons/list-view.svg">
+              src="assets/icons/grid-view.svg"></div>
+              <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
+              src="assets/icons/list-view.svg">
+              </div>
+              <div class="kr-sg-dropdowns"  ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="dropdown dropdown-open">                  
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
+                    <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                        <li ><span class="list-name">All</span></li>                     
+                    </ul>
+                </div>
             </div>
+          </div>
       </div>
     </div>
     </div>
     <ng-container >
-        <perfect-scrollbar class="table-scroll-perfect-bot list">
+        <perfect-scrollbar class="table-scroll-perfect-bot">
           <div class="list-view-data">
             <div class="row row_list">
               <div class="box-content" *ngFor="let source of bots"
                 (click)="openStatusSlider(source)">
-                <div class="bot-box">
-                  <div class="title-bot btm-title">{{source.name}}</div>
-                  <div class="title-desc">{{source.shortDesc}}</div>
-                  
-                  <div class="icon-gap">{{source.shortDesc}}</div>
-
-                  <div class="title-btm btm" >{{source.noOfClicks || 'No Appearances' }} </div>
-                  <div class="title-btm btm"> {{source.noOfAppearences || 'No Clicks' }}</div>
-                  <div class="actions-bot">                   
-                    <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
-                    <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' ><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                </div>
+                <div class="bot-box text-left">
+                  <div class="boxContent">
+                    <div class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></div>
+                    <div class="detailsContainer">
+                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='Delete' [container]="'body'">
+                        <img class="action_icon" src="assets/icons/sidemenu/delete-table.svg">
+                      </span>
+                      <div class="title-bot btm-title">{{source.name}}</div>
+                      <div class="title-desc" ngbTooltip='{{source.shortDesc}}' >{{source.shortDesc}}</div>
+                      <div class="bottomText">                    
+                        <div class="title-btm " >{{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
+                        <div class="title-btm right"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
+                    </div>  
+                    </div>                                                      
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
+          </div>          
         </perfect-scrollbar>
       </ng-container>
  </div> 

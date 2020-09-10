@@ -12,12 +12,12 @@ import { ThrowStmt } from '@angular/compiler';
 export class RulesTableComponent implements OnInit {
 
   @Input() rulesData;
+  @Input() searchBlock;
   tabActive: string;
   constructor(public rulesService: ResultsRulesService) { }
 
   ngOnInit(): void {
     this.tabActive = this.rulesData[0].state;
-    setInterval(()=>{console.log(this.rulesService.showReviewFooter);}, 2000);
   }
 
   updateFooter () {

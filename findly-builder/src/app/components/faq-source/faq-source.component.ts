@@ -443,11 +443,39 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }, errRes => {
     });
   }
+  confirmFAQswitch(faq) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Confirm',
+      text: 'The changes made on this FAQ are not yet saved.',
+      text1:'Do you want to switch to another FAQ?',
+        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.selectedFaq = faq;
+          this.editfaq = null;
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
   selectedFaqToTrain(faq, e) {
     if(!faq.alternateQuestions || !faq.alternateQuestions.length) {
       e.stopImmediatePropagation();
     }
-    this.selectedFaq = faq;
+    if(this.editfaq){
+      this.confirmFAQswitch(faq);
+    } else {
+      this.selectedFaq = faq;
+    }
   }
   addfaqs(type) {
     if (type === 'manual') {

@@ -243,7 +243,7 @@ export class EndPointsService {
     };
     this.serviceList['update.rule'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/rules/:ruleId',
-      method: 'post'
+      method: 'put'
     };
     this.serviceList['updateBulk.rule'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/rules/bulk',
