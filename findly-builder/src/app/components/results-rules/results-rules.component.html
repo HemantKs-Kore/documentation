@@ -6,7 +6,7 @@
     <div class="col-3 add-ruleinputs">   
       <div class="kr-sg-dropdowns">                                        
         <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:'Choose'}}</button>                                            
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:'Choose Type'}}</button>                                            
             <ul class="dropdown-menu content-menu">
               <li (click)='updatedContextType(rule, conType)' *ngFor="let conType of listContextTypes"><a>{{conType}}</a></li>
             </ul>
@@ -16,7 +16,7 @@
     <div class="col-3 add-ruleinputs">   
       <div class="kr-sg-dropdowns">                                        
         <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:'Choose'}}</button>                                            
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:'Choose Category'}}</button>                                            
             <ul class="dropdown-menu content-menu">
               <li *ngFor="let contCate of dispContextCategories" (click)='updateContextCategory(rule, contCate)'>
                 <a>{{contCate}}</a>
@@ -28,7 +28,7 @@
     <div class="col-3 add-ruleinputs">      
       <div class="kr-sg-dropdowns">                                        
         <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.operator?rule.operator:'Choose'}}</button>                                            
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.operator?rule.operator:'Choose Operator'}}</button>                                            
             <ul class="dropdown-menu content-menu">
               <li (click)="rule.operator='Starts With'"><a>Starts With</a></li>
               <li (click)="rule.operator='Contains'"><a>Contains</a></li>
@@ -100,7 +100,7 @@
     </div>
     
     <div *ngIf="loadingRules" class="p-5 text-center">
-      Lading....
+      Loading....
     </div>
     <div class="empty-questions-selected" *ngIf="!(rules && rules.length) && !loadingRules">
         <img src="assets/images/icons/empty_ill.svg">
@@ -111,10 +111,10 @@
     <div *ngIf="tabsList[0].isSelected && !(draftRules && draftRules.length) && !loadingRules" class="p-5 text-center">
       No Draft rules
     </div>
-    <div *ngIf="tabsList[1].isSelected && !(approvedRules && approvedRules.length) && !loadingRules" class="p-5 text-center">
+    <div *ngIf="tabsList[1].isSelected && !(inReviewRules && inReviewRules.length) && !loadingRules" class="p-5 text-center">
       No In-review rules
     </div>
-    <div *ngIf="tabsList[2].isSelected && !(inReviewRules && inReviewRules.length) && !loadingRules" class="p-5 text-center">
+    <div *ngIf="tabsList[2].isSelected && !(approvedRules && approvedRules.length) && !loadingRules" class="p-5 text-center">
       No Approved rules
     </div>
    </ng-container>

@@ -225,6 +225,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    this.service.invoke('get.groups', quaryparamats).subscribe(
     res => {
+      res.groups = _.filter(res.groups, o=>o.action!='delete')
       this.allGroups = _.pluck(res.groups, 'name');
       this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
       this.groupVal = _.object(this.allGroups, this.allValues);
@@ -314,11 +315,13 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
       if(tabActive == 'Drafts') {
         this.draftRules = _.map(this.draftRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
       } else if(tabActive == 'In-review'){
         this.inReviewRules = _.map(this.inReviewRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
       } else if(tabActive == 'Approved') {
         this.approvedRules = _.map(this.approvedRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
       }
      });
 
@@ -368,7 +371,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       }
       let payload = {
         rules: selectedIds,
-        state: 'in-review',
+        state: res,
         action: 'edit'
       };
       this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
@@ -416,7 +419,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
       this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
-      this.rules = _.where(res.rules, {action: 'edit'});
+      this.rules = _.filter(res.rules, function(o){ return o.action != "delete"; });
       this.draftRules = _.where(this.rules, {state: 'draft'});
       this.inReviewRules = _.where(this.rules, {state: 'in-review'});
       this.approvedRules = _.where(this.rules, {state: 'approved'});
@@ -441,11 +444,30 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   }
  }
 
+ validateRules(rulesList) {
+  return _.filter(rulesList, o=>{
+    return o.operator != '' && o.hasOwnProperty('contextType') && o.hasOwnProperty('contextCategory') && o.hasOwnProperty('values') && o.values.length > 0;
+  });
+ }
+
    saveRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId
    }
-   console.log(this.validationRules);
+   if(this.name.na.trim() == '') {
+     this.notify.notify('Please enter rule name', 'error');
+     return;
+   }
+   let rulesCheck = this.validateRules(this.validationRules.rules[0].rules);
+   if(rulesCheck.length == 0) {
+     this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
+     return;
+   }
+   if(this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+     this.notify.notify('THEN rule is mandatory to proceed', 'error');
+     return;
+   }
+
   //  return;
   const params = {
     searchIndexId : this.serachIndexId
