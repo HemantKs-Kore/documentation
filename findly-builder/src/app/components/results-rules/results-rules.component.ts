@@ -416,7 +416,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
       this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
-      this.rules = _.where(res.rules, {action: 'edit'});
+      this.rules = _.filter(res.rules, function(o){ return o.action != "delete"; });
       this.draftRules = _.where(this.rules, {state: 'draft'});
       this.inReviewRules = _.where(this.rules, {state: 'in-review'});
       this.approvedRules = _.where(this.rules, {state: 'approved'});
@@ -441,10 +441,30 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   }
  }
 
+ validateRules(rulesList) {
+  return _.filter(rulesList, o=>{
+    return o.operator != '' && o.hasOwnProperty('contextType') && o.hasOwnProperty('contextCategory') && o.hasOwnProperty('values') && o.values.length > 0;
+  });
+ }
+
    saveRules(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId
    }
+   if(this.name.na.trim() == '') {
+     this.notify.notify('Please enter rule name', 'error');
+     return;
+   }
+   let rulesCheck = this.validateRules(this.validationRules.rules[0].rules);
+   if(rulesCheck.length == 0) {
+     this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
+     return;
+   }
+   if(this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+     this.notify.notify('THEN rule is mandatory to proceed', 'error');
+     return;
+   }
+
    console.log(this.validationRules);
   //  return;
   const params = {
