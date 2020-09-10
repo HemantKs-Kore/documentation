@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="col-3 add-ruleinputs pr-0">                        
-      <app-group-input  [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'if')"></app-group-input>
+      <app-group-input [valuesAdded]='rule.values' [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'if')"></app-group-input>
     </div>
 </div>  
     <ng-container *ngIf="validationMode==='simple'">
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="kr-sg-input-text col-7 add-ruleinputs">
-            <app-group-input [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'then')"></app-group-input>           
+            <app-group-input [valuesAdded]="rulesObjOO.then.values" [customEmitter]='true' (emitValues)="addedGroupToRule($event,rule,'then')"></app-group-input>           
         </div>     
     </div>
     </ng-container>

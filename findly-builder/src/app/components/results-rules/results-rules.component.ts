@@ -247,44 +247,55 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     if(type == 'if') {
       rule.values = [];
       for(var i=0; i<event.length; i++) {
-        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
-        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
-        let temp3 = {
-          "type" : "string",
-          "value" : "Search"
+        if(event[i].indexOf(':') == -1) {
+          let temp3 = {
+            "type" : "string",
+            "value" : event[i]
+          }
+          rule.values.push(temp3);
         }
-        rule.values.push(temp1);
-        rule.values.push(temp2);
-        // rule.values.push(temp3);
+        else {
+          let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
+          let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
+          rule.values.push(temp1);
+          rule.values.push(temp2);
+        }
       }
     }
     else if(type == 'then') {
       this.rulesObjOO.then.values = [];
       for(var i=0; i<event.length; i++) {
-        let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
-        let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
-        let temp3 = {
-          "type" : "string",
-          "value" : "Search"
+        if(event[i].indexOf(':') == -1) {
+          let temp3 = {
+            "type" : "string",
+            "value" : event[i]
+          }
+          this.rulesObjOO.then.values.push(temp3);
         }
-        this.rulesObjOO.then.values.push(temp1);
-        this.rulesObjOO.then.values.push(temp2);
-        // this.rulesObjOO.then.values.push(temp3);
+        else {
+          let temp1 = {type: 'group', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, value: event[i].split(':')[0]};
+          let temp2 = {type: 'groupValue', groupId: _.findWhere(this.groupIds, {name: event[i].split(':')[0]})._id, groupValueId: _.findWhere(this.valueIds, {value: event[i].split(':')[1]})._id, value: event[i]};
+          this.rulesObjOO.then.values.push(temp1);
+          this.rulesObjOO.then.values.push(temp2);
+        }
       }
     }
   }
 
    addEditRules(rule){
      if(rule){
-         this.validationRules = rule.rules;
+      this.name.na = rule.name;
+      this.validationRules.rules = rule.definition.if.rules;
+      this.rulesObjOO.then = rule.definition.then;
      } else{
       this.addEditRule= {
         name:'',
         definition:[],
       }
-      this.addRulesModalPopRef  = this.addRulesModalPop.open();
+      this.resetRule();
      }
-   }
+     this.addRulesModalPopRef  = this.addRulesModalPop.open();
+    }
    deleteAttributes(attribute){
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
@@ -326,7 +337,8 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      });
 
     this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res=>{
-      this.addRulesModalPopRef  = this.addRulesModalPop.open();
+      this.addEditRules(res);
+      // this.addRulesModalPopRef  = this.addRulesModalPop.open();
     });
     this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -467,27 +479,25 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      this.notify.notify('THEN rule is mandatory to proceed', 'error');
      return;
    }
-
-  //  return;
   const params = {
     searchIndexId : this.serachIndexId
   }
- let payload = {
-   name: this.name.na,
-   type: 'web',
-   definition:{ if: {}, then: {}}
- }
- payload.definition.if = this.validationRules;
- payload.definition.then = this.rulesObjOO.then;
-   this.service.invoke('create.rule', params, payload).subscribe(
-     res=>{
-      console.log(res);
-      this.closeAddRulesModal();
-      this.getRules();
-      this.resetRule();
-     }, err=>{
-      this.errorToaster(err, 'Unable to save the rule');
-     });
+  let payload = {
+    name: this.name.na,
+    type: 'web',
+    definition:{ if: {}, then: {}}
+  }
+  payload.definition.if = this.validationRules;
+  payload.definition.then = this.rulesObjOO.then;
+    this.service.invoke('create.rule', params, payload).subscribe(
+      res=>{
+        console.log(res);
+        this.closeAddRulesModal();
+        this.getRules();
+        this.resetRule();
+      }, err=>{
+        this.errorToaster(err, 'Unable to save the rule');
+      });
   }
   checkDuplicateTags(suggestion: string): boolean {
     return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);
