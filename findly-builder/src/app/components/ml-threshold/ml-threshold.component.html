@@ -8,22 +8,6 @@
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
-        <div class="toggleContainer">
-            <div class="label">Spell correction</div>
-            <div class="info">Enabling this will Spell Correct the user input to the nearest valid term in the current language</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-        <div class="toggleContainer">
-            <div class="label">Highlighting</div>
-            <div class="info">Helps in Highlighting the words or phrases in the Page response which matched the user input</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
         <div class="toggleContainer d-none">
             <div class="label">Language Detection</div>
             <div class="info">Detects the language from user input. </div>
@@ -32,7 +16,7 @@
                     <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
                 </label>
         </div>
-        <h2 class="subSection">Machine Learning</h2>
+        <!-- <h2 class="subSection">Machine Learning</h2> -->
 
         <div class="sliderContainer">
             <div class="label">NER Model </div>
@@ -76,26 +60,20 @@
             <div class="label">Embeddings</div>
             <div class="info">Embeddings map the words or phrases from the vocabulary are into vectors of real numbers</div>
             <div class="kr-sg-radiobutton">
-                <input id="NER1" type="radio" value="true" name="NERRadio"
-                    class="radio-custom" checked>
-                <label for="NER1" class="radio-custom-label">BERT</label>
-                </div>
-                <div class="kr-sg-radiobutton">
-                <input id="NER2" type="radio" value="false" name="NERRadio"
-                    class="radio-custom">
-                <label for="NER2" class="radio-custom-label">Sentence</label>
+                <input id="NER001" type="radio" value="bert" [checked]='radioList.nlpEmbedding == "bert"' (change)="nlpEmbedChange('bert')" name="NERRadio001" class="radio-custom">
+                <label for="NER001" class="radio-custom-label">BERT</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="NER3" type="radio" value="false" name="NERRadio"
+                <input id="NER002" type="radio" value="sent" [checked]='radioList.nlpEmbedding == "sent"' (change)="nlpEmbedChange('sent')" name="NERRadio001"
                     class="radio-custom">
-                <label for="NER3" class="radio-custom-label">Encoder</label>
+                <label for="NER002" class="radio-custom-label">Sentence Encoder</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="NER4" type="radio" value="false" name="NERRadio"
+                <input id="NER003" type="radio" value="cust" [checked]='radioList.nlpEmbedding == "cust"' (change)="nlpEmbedChange('cust')" name="NERRadio001"
                     class="radio-custom">
-                <label for="NER4" class="radio-custom-label">Custom</label>
+                <label for="NER003" class="radio-custom-label">Custom</label>
             </div>
-            <div class="customUpload">
+            <div class="customUpload" *ngIf="radioList.nlpEmbedding == 'cust'">
                 <input type="file">
                 <button>Upload</button>
             </div>
@@ -141,26 +119,20 @@
             <div class="label">Embeddings</div>
             <div class="info">Embeddings map the words or phrases from the vocabulary are into vectors of real numbers</div>
             <div class="kr-sg-radiobutton">
-                <input id="NER11" type="radio" value="true" name="NERRadio1"
-                    class="radio-custom" checked>
+                <input id="NER11" type="radio" value="bert" [checked]='radioList.embedding == "bert"' (change)="embedChange('bert')" name="NERRadio1" class="radio-custom">
                 <label for="NER11" class="radio-custom-label">BERT</label>
-                </div>
-                <div class="kr-sg-radiobutton">
-                <input id="NER23" type="radio" value="false" name="NERRadio1"
-                    class="radio-custom">
-                <label for="NER23" class="radio-custom-label">Sentence</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="NER22" type="radio" value="false" name="NERRadio1"
+                <input id="NER23" type="radio" value="sent" [checked]='radioList.embedding == "sent"' (change)="embedChange('sent')" name="NERRadio1"
                     class="radio-custom">
-                <label for="NER22" class="radio-custom-label">Encoder</label>
+                <label for="NER23" class="radio-custom-label">Sentence Encoder</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="NER21" type="radio" value="false" name="NERRadio1"
+                <input id="NER21" type="radio" value="cust" [checked]='radioList.embedding == "cust"' (change)="embedChange('cust')" name="NERRadio1"
                     class="radio-custom">
                 <label for="NER21" class="radio-custom-label">Custom</label>
             </div>
-            <div class="customUpload">
+            <div class="customUpload" *ngIf="radioList.embedding == 'cust'">
                 <input type="file">
                 <button>Upload</button>
             </div>
