@@ -70,21 +70,22 @@
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
       <textarea *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
-      <div *ngIf="responseObj.type==='external'" class="external" >
-        <div class="kr-sg-dropdowns w-100">
-          <div class="label-text p-3">Source</div>
-          <div class="dropdown dropdown-open p-3">
+      <div *ngIf="responseObj.type==='external'" class="external-tab-content" >
+        <div class="kr-sg-dropdowns mb-3">
+          <div class="label-text">Source</div>
+          <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Custom</button>                                            
               <ul class="dropdown-menu content-menu">
-                <li>Custom</li>
+                <li><a>Custom</a></li>
+                <li><a>Add new options</a></li>
               </ul>
           </div>
         </div>
-       <div class="kr-sg-input-text p-3">
-        <div class="label-text">ReferenceId</div>
-        <input type="text" placeholder="Placeholder text" class="input-text">
-      </div>
-      <button class="kr-sg-button-primary p-3" (click)="openPreviewModal()">Preiew</button>
+        <div class="kr-sg-input-text mb-3">
+            <div class="label-text">ReferenceId</div>
+            <input type="text" placeholder="Enter ReferenceId" class="input-text" autocomplete="off">
+        </div>
+        <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preiew</button>
      </div>
     </div>
   </div>

@@ -33,12 +33,13 @@
                     </div> 
                     <span>{{attribute.name}}</span>
                     </div>
-                    <div class="col_ col-4"><span class='eachAttr' *ngFor="let value of attribute.attributes; let i = index ">{{value.value + ((index === (attribute.attributes.length-1))?'':',')}} </span></div>  
+                    <div class="col_ col-4"><span class='eachAttr' *ngFor="let value of attribute.attributes; let i = index ">{{value.value + ((i === (attribute.attributes.length-1))?'':',')}} </span></div>  
                     <div class="col_ col-2" >{{attribute.type || 'System/Auto'}}</div>  
                     <div class="col_ col-2">{{attribute.isFacet || 'Yes' }}</div>         
                     <div class="col_ col-1 pl-0 text-right pr-4 actions">
-                    <img src="assets/images/edit-pencil.svg" class="mr-4 hide">
-                    <img src="assets/icons/delete-table.svg">
+                    <!-- <img src="assets/images/edit-pencil.svg" class="mr-4 hide"> -->
+                    <img src="assets/icons/edit.svg" (click)="addEditAttibutes(attribute)">
+                    <img (click)='deleteField(attribute)' src="assets/icons/delete-table.svg">
                     </div>   
                 </div>
                 </ng-container>
@@ -54,10 +55,10 @@
     <div *ngIf="loading" class="p-5 text-center">
         Loading....
     </div>    
-    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="p-5 text-center">    
+    <div *ngIf="!(attributes?.groups && attributes?.groups.length) && !loading" class="text-center">    
         <div class="empty-questions-selected" *ngIf="!(rules && rules.length) && !loadingRules">
             <img src="assets/images/icons/empty_ill.svg">
-            <div class="heading">No Attributes added yet</div>
+            <div class="heading">No fields added yet</div>
             <!-- <div class="desc">Please add rules</div> -->
             <button class="kr-sg-button-secondary btn_lg" (click)="addEditAttibutes()">Add</button>
         </div>
@@ -108,7 +109,8 @@
         </div>
       </perfect-scrollbar> 
    <div class="modal-footer">                               
-        <button class="kr-sg-button-primary btn_md" (click)="saveAttributes()">Add</button>
+        <button class="kr-sg-button-primary btn_md" *ngIf="isAdd" (click)="saveAttributes()">Add</button>
+        <button class="kr-sg-button-primary btn_md" *ngIf="isEdit" (click)="editAttributes()">Edit</button>
         <button class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeAddAttributesModal()">Cancel</button>
    </div>
 </kr-modal>

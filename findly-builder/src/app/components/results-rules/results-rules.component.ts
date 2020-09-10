@@ -416,6 +416,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    this.service.invoke('get.rules', quaryparamats).subscribe(
     res => {
       this.rules = _.map(res.rules, o=>{o.isChecked = false; return o});
+      this.rules = _.where(res.rules, {action: 'edit'});
       this.draftRules = _.where(this.rules, {state: 'draft'});
       this.inReviewRules = _.where(this.rules, {state: 'in-review'});
       this.approvedRules = _.where(this.rules, {state: 'approved'});
@@ -462,7 +463,9 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       this.closeAddRulesModal();
       this.getRules();
       this.resetRule();
-     }, err=>{})
+     }, err=>{
+      this.errorToaster(err, 'Unable to save the rule');
+     });
   }
   checkDuplicateTags(suggestion: string): boolean {
     return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);

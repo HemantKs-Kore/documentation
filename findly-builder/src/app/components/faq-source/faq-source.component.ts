@@ -180,7 +180,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
    }
    openAddSourceModal() {
-     this.editFaq = null;
+     this.editfaq = null;
     this.addSourceModalPopRef  = this.addSourceModalPop.open();
    }
    closeAddsourceModal() {
@@ -377,7 +377,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       if(serviceId === 'get.allFaqs'){
         this.faqsAvailable = res.length?true:false;
       }
-      this.editFaq = null
+      this.editfaq = null
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
@@ -581,7 +581,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
       this.getfaqsBy();
       this.getStats();
-      this.editFaq = null
+      this.editfaq = null
       this.notificationService.notify(custSucessMsg,'success');
       if(dialogRef){
         dialogRef.close();

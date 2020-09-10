@@ -5,6 +5,11 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '../../services/notification.service';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { cloneDeep } from "lodash";
+
+import * as _ from 'underscore';
 
 
 @Component({
@@ -14,7 +19,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class AttributesListComponent implements OnInit {
   attributes: any;
-  loading: boolean;
+  loading: boolean = true;
   selectedApp;
   searchIndexId;
   addEditattribute : any = {
@@ -23,6 +28,8 @@ export class AttributesListComponent implements OnInit {
     type:'custom',
     isFacet:''
   };
+  isAdd: boolean = false;
+  isEdit: boolean = false;
   searchBlock = '';
   addAttributesModalPopRef:any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -30,7 +37,9 @@ export class AttributesListComponent implements OnInit {
   
   constructor( private service: ServiceInvokerService,
               private workflowService: WorkflowService,
-              private notify: NotificationService) { }
+              private notify: NotificationService,
+              public dialog: MatDialog,
+            ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -64,17 +73,28 @@ export class AttributesListComponent implements OnInit {
 
   addEditAttibutes(group?){
     if(group){
-      this.addEditattribute = group
+      this.isAdd = false;
+      this.isEdit = true;
+      this.addEditattribute = cloneDeep(group);
     } else{
+      this.isAdd = true;
+      this.isEdit = false;
       this.addEditattribute= {
         name:'',
         attributes:[],
         type:'custom',
         isFacet:''
       }
-      this.openAddAttributesModal();
     }
-   }
+    this.openAddAttributesModal();
+  }
+
+  removeAltTag(tag): void {
+    const index = this.addEditattribute.attributes.indexOf(tag);
+    if (index >= 0) {
+      this.addEditattribute.attributes.splice(index, 1);
+    }
+  }
 
   getAttributes(){
     const quaryparamats = {
@@ -82,7 +102,10 @@ export class AttributesListComponent implements OnInit {
    }
    this.service.invoke('get.groups', quaryparamats).subscribe(
     res => {
-      this.attributes = res;
+      this.attributes = {
+        groups: []
+      };
+      this.attributes.groups = _.where(res.groups, {action: 'new'});
       this.loading = false;
     },
     errRes => {
@@ -91,14 +114,66 @@ export class AttributesListComponent implements OnInit {
     }
   );
    }
+
+  deleteField (fieldData) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Field',
+        text: 'Are you sure you want to delete "'+ fieldData.name +'" field?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          const params = {
+            searchIndexId: this.searchIndexId,
+            groupId: fieldData._id
+          };
+          this.service.invoke('delete.group', params).subscribe(
+            res => {
+            //  this.getRules();
+            this.getAttributes();
+
+            }, err => {
+     
+            })
+          dialogRef.close();
+        } else if (result === 'no') { dialogRef.close(); }
+      });
+  };
+
+  editAttributes() {
+    if(!this.addEditattribute.name.trim()) {return;}
+    let params = {
+      searchIndexId: this.searchIndexId,
+      groupId: this.addEditattribute._id
+    };
+    let payload = {
+      attributes: this.addEditattribute.attributes,
+      name: this.addEditattribute.name.trim()
+    };
+    this.service.invoke('update.group', params, payload).subscribe(res=>{
+      this.getAttributes();
+      this.notify.notify('Attribute updated successfully','success');
+      this.closeAddAttributesModal();
+    }, err=> {
+      this.errorToaster(err,'Failed to create group');
+      this.closeAddAttributesModal();
+    });
+  }
+
    saveAttributes(){
+     if(!this.addEditattribute.name.trim()) { return; }
     const quaryparamats = {
        searchIndexId : this.searchIndexId
     }
-    console.log(this.addEditattribute);
     const payload = {
      attributes :this.addEditattribute.attributes,
-     name: this.addEditattribute.name,
+     name: this.addEditattribute.name.trim(),
      type: this.addEditattribute.type,
      isFacet: this.addEditattribute.isFacet
     }

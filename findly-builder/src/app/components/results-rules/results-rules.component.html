@@ -131,7 +131,7 @@
           <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
               <div class="kr-sg-input-text rule-name-input">
                 <div class="label-text">Rule Name</div>
-                  <input type="text" placeholder="Enter Rule Name" class="input-text" [(ngModel)]='name.na'>
+                  <input autocomplete="off" type="text" placeholder="Enter Rule Name" class="input-text" [(ngModel)]='name.na'>
               </div>
               <div class="validation-setting-rules" >
                   <ng-container *ngFor="let rule of simpleRule.rules; index as i">

@@ -201,6 +201,7 @@
                     text-transform: uppercase;
                     position: relative;
                     cursor: pointer;
+                    background: transparent;
                     &.active{
                         color: #0D6EFD;
                         &::before{
@@ -236,6 +237,9 @@
 
                     }
                 }                
+            }
+            .external-tab-content{
+                padding: 20px 20px 20px 0px;
             }
             textarea{
                 min-height: 320px;

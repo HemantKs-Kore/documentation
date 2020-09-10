@@ -139,14 +139,14 @@
                         trait in the group from user utterances.
                         Example - 'vehicle type', 'device type'.
                     </p>
-                    <input type="text" placeholder="Enter trait type" class="input-text" [(ngModel)]="traitType">
+                    <input type="text" autocomplete="off" placeholder="Enter trait type" class="input-text" [(ngModel)]="traitType">
                 </div>
                 <div class="kr-sg-input-text">
                     <div class="label-text">Traits</div>
                     <p class="text">Add one or more traits and provide the required training sentences. E.g. 'car',
                         'bus', 'modem', 'router'.
                     </p>
-                    <input type="text" placeholder="Type & enter to add" class="input-text" #traitValue
+                    <input autocomplete="off" type="text" placeholder="Type & enter to add" class="input-text" #traitValue
                         (keyup.enter)="addTraits(traitValue)">
                 </div>
                 <div class="traits-group" *ngIf="traitsObj && traitsObj.length">
@@ -170,7 +170,7 @@
                                 Add utterances or phrases
                             </div>
                             <div class="kr-sg-input-text">
-                                <input type="text" placeholder="Type & enter to add" class="input-text" #utterancesValue
+                                <input autocomplete="off" type="text" placeholder="Type & enter to add" class="input-text" #utterancesValue
                                     (keyup.enter)="addUtterances(utterancesValue, index)">
                             </div>
                             <div class="utterance-list" *ngIf="item.utterances && item.utterances.length">
