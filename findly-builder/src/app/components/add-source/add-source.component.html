@@ -91,11 +91,12 @@
                 <div class="col-6 input-paddings pr-0">
                   <div class="kr-sg-dropdowns">
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="!crwalObject.advanceOpts.scheduleOpts" name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod">Weekly</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="crwalObject.advanceOpts.scheduleOpts" >Monthly</button>                                            
                         <ul class="dropdown-menu content-menu">                                             
                           <li><a>Monthly</a></li>
-                          <li><a>Weekly</a></li>
-                          <li><a>Daily</a></li>
+                          <!-- name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" -->
+                          <!-- <li><a>Weekly</a></li>
+                          <li><a>Daily</a></li> -->
                         </ul>
                       </div>
                   </div>
@@ -109,18 +110,18 @@
                     <div class="slider"></div>
                   </label>
                 </div>
-                <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
+                <div *ngIf ="crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
                   <div class="allow-urls-sec row">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Enter/Path</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
                               <li><a>Contains</a></li>
-                              <li><a>begins</a></li>
-                              <li><a>ends</a></li>
+                              <!-- <li><a>begins</a></li>
+                              <li><a>ends</a></li> -->
                             </ul>
                           </div>
                       </div>
@@ -128,6 +129,37 @@
                         <input type="text" autocomplete="off" [(ngModel)] = "allowUrl.url" name= "allowVal" placeholder="Enter/Path" class="input-text">                        
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length">
+                      <span class="" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
+                        <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                        <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
+                      </span>
+                    </div>
+                  </div>
+                  <!-- Block List -->
+                  <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
+                  <div class="allow-urls-sec row">
+                    <div class="col-2 p-0 title">Block URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
+                            <ul class="dropdown-menu content-menu">                                               
+                              <li ><a>Contains</a></li>
+                            </ul>
+                          </div>
+                      </div>
+                      <div class="kr-sg-input-text">                      
+                        <input type="text" autocomplete="off" [(ngModel)] = "blockUrl.url" name= "blockVal" placeholder="Enter/Path" class="input-text">                        
+                      </div>
+                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length">
+                      <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
+                        <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                        <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -187,7 +219,7 @@
 
                   
               </div>
-              <span class="ad-title">Block Urls</span>
+              <!-- <span class="ad-title">Block Urls</span>
               <div class="row ad-sch ad-allow">
                 <div class="row">
                   <div class="col-md-2 ad-txt">Block Urls :</div>
@@ -209,11 +241,10 @@
                 <br>
                 <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length">
                   <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                    <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
                     <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
                   </span>
                 </div>
-            </div>
+            </div> -->
               </div>              
             </div>
 
