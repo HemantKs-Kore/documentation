@@ -46,11 +46,11 @@
                   <div class="boxContent">
                     <div class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></div>
                     <div class="detailsContainer">
-                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' [container]="'body'">
+                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='Delete' [container]="'body'">
                         <img class="action_icon" src="assets/icons/sidemenu/delete-table.svg">
                       </span>
                       <div class="title-bot btm-title">{{source.name}}</div>
-                      <div class="title-desc">{{source.shortDesc}}</div>
+                      <div class="title-desc" ngbTooltip='{{source.shortDesc}}' >{{source.shortDesc}}</div>
                       <div class="bottomText">                    
                         <div class="title-btm " >{{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
                         <div class="title-btm right"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
