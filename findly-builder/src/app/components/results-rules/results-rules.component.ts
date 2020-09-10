@@ -225,6 +225,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
    }
    this.service.invoke('get.groups', quaryparamats).subscribe(
     res => {
+      res.groups = _.filter(res.groups, o=>o.action!='delete')
       this.allGroups = _.pluck(res.groups, 'name');
       this.allValues = _.map(_.pluck(res.groups, 'attributes'), o=>{ return _.pluck(o, 'value')});
       this.groupVal = _.object(this.allGroups, this.allValues);
@@ -314,11 +315,13 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       let tabActive = _.findWhere(this.tabsList, {isSelected: true}).name;
       if(tabActive == 'Drafts') {
         this.draftRules = _.map(this.draftRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
-        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length;
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
       } else if(tabActive == 'In-review'){
         this.inReviewRules = _.map(this.inReviewRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
       } else if(tabActive == 'Approved') {
         this.approvedRules = _.map(this.approvedRules, o=> {o.isChecked = !this.rulesService.isCheckAll; return o;});
+        this.rulesService.showReviewFooter = _.where(this.rules, {isChecked: true}).length > 0;
       }
      });
 
@@ -368,7 +371,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
       }
       let payload = {
         rules: selectedIds,
-        state: 'in-review',
+        state: res,
         action: 'edit'
       };
       this.service.invoke('updateBulk.rule',params,payload).subscribe(res=>{
@@ -465,7 +468,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
      return;
    }
 
-   console.log(this.validationRules);
   //  return;
   const params = {
     searchIndexId : this.serachIndexId
