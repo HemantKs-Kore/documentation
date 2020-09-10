@@ -29,6 +29,11 @@
     background: #fff;
     .noTraits {
         text-align: center;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: calc(100% - 30px);
+        justify-content: center;
         .noTraitsImg {
             width: 245px;
             height: 182px;

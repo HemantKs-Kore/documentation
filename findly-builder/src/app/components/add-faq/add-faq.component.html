@@ -155,8 +155,19 @@
     </mat-form-field>
   </ng-container>
     <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+    <div class="btn-sec" *ngIf="faqData">
+      <div class="left-btns">
+        <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="right-btns">        
+        <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
+        <button class="kr-sg-button-tertiary d-none" (click)='addAltQues()'>Add Alternate Question</button>
+        <button class="kr-sg-button-tertiary d-none" (click)='addFollowupQues()'>Add Followup Question</button>
+      </div>
+    </div>
   </ng-container>
-  <div class="btn-sec">
+  <div class="btn-sec" *ngIf="!faqData">
     <div class="left-btns">
       <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>

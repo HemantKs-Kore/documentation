@@ -155,7 +155,7 @@
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
-                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length">
+                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length" class="w-100">
                       <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
                         <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
                         <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>

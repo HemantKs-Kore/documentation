@@ -531,6 +531,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       payload = params;
     }
     this.service.invoke('update.faq', quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Selected FAQ updated succesfully','success');
       this.addRemoveFaqFromSelection(null,null,true);
       this.selectAll(true);
       this.selectedFaq = res;
@@ -618,6 +619,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
       dialogRef.close();
+      this.notificationService.notify('Faq deleted succesfully','success')
       const deleteIndex = _.findIndex(this.faqs,(fq)=>{
            return fq._id === faq._id;
       })
