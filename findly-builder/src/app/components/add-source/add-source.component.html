@@ -90,8 +90,8 @@
                 </div>
                 <div class="col-6 input-paddings pr-0">
                   <div class="kr-sg-dropdowns">
-                    <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="crwalObject.advanceOpts.scheduleOpts" >Monthly</button>                                            
+                    <div class="dropdown dropdown-open"> 
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="!crwalObject.advanceOpts.scheduleOpts" >Monthly</button>                                            
                         <ul class="dropdown-menu content-menu">                                             
                           <li><a>Monthly</a></li>
                           <!-- name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" -->
