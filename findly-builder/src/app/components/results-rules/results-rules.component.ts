@@ -200,7 +200,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     ruleSet.rules.push(rule);
   }
   removeSimpleRule(ruleSet,index,type){
-  if(index>-1 && ruleSet && ruleSet.rules && ruleSet.rules.length){
+  if(index>-1 && ruleSet && ruleSet.rules && ruleSet.rules.length > 1){
     ruleSet.rules.splice(index,1);
   }
   }
