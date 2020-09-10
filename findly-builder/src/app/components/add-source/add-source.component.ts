@@ -319,6 +319,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
 
    proceedSource(){
     let payload: any = {};
+    let crawler = this.crwalObject;
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -338,6 +339,14 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       }
       quaryparms.faqType = resourceType;
     }
+      if(resourceType == 'webdomain'){
+      crawler.name = this.newSourceObj.name;
+      crawler.url = this.newSourceObj.url;
+      crawler.desc = this.newSourceObj.desc || '';
+      crawler.resourceType = this.selectedSourceType.resourceType;
+      payload = crawler
+    }
+   
     if(resourceType === 'document'){
       payload.fileId = this.fileObj.fileId;
       if(payload.hasOwnProperty('url')) delete payload.url;
@@ -352,7 +361,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         this.notificationService.notify('Failed to add sources ', 'error');
       }
     });
-    this.callWebCraller(this.crwalObject,searchIndex)
+    //this.callWebCraller(this.crwalObject,searchIndex)
   }
   callWebCraller(crawler,searchIndex){
     let payload = {}
@@ -469,7 +478,7 @@ class AdvanceOpts{
          blockedURLs: BlockUrl[] = [];
 }
 class AllowUrl {
-  condition:String = '';
+  condition:String = 'contains';
    url: String = '';
 }
 class BlockUrl {

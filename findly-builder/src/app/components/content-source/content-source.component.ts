@@ -214,7 +214,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       
       this.loadingSliderContent = false;
-      if(this.isConfig){
+      if(this.isConfig && $('.tabname') && $('.tabname').length){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
       }
