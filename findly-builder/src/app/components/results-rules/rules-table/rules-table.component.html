@@ -12,7 +12,7 @@
       </header>
       <ng-container >
         <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
-          <div class="content-body" *ngFor="let rool of rulesData; let i = index">
+          <div class="content-body" *ngFor="let rool of rulesData | filter: [searchBlock, 'name']; let i = index">
               <ng-container>
                 <div class="col_ col-2 d-flex align-items-center">
                   <div class="kr-sg-checkbox" [ngClass]="{'visible': rool.isChecked}">

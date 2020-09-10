@@ -90,13 +90,13 @@
         </div>       
     </div>
     <div class="table-list-content" *ngIf="tabsList[0].isSelected && draftRules && draftRules.length && !loadingRules">
-      <app-rules-table [rulesData]='draftRules'></app-rules-table>
+      <app-rules-table [rulesData]='draftRules' [searchBlock]='searchBlock'></app-rules-table>
     </div>
     <div class="table-list-content" *ngIf="tabsList[1].isSelected &&inReviewRules && inReviewRules.length && !loadingRules">
-      <app-rules-table [rulesData]='inReviewRules'></app-rules-table>
+      <app-rules-table [rulesData]='inReviewRules' [searchBlock]='searchBlock'></app-rules-table>
     </div>
     <div class="table-list-content" *ngIf="tabsList[2].isSelected &&approvedRules && approvedRules.length && !loadingRules">
-      <app-rules-table [rulesData]='approvedRules'></app-rules-table>
+      <app-rules-table [rulesData]='approvedRules' [searchBlock]='searchBlock'></app-rules-table>
     </div>
     
     <div *ngIf="loadingRules" class="p-5 text-center">

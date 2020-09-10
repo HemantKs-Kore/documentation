@@ -366,6 +366,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.draftRules.map(o=>{o.isChecked = false; return o;});
     this.inReviewRules.map(o=>{o.isChecked = false; return o;});
     this.approvedRules.map(o=>{o.isChecked = false; return o;});
+    this.searchBlock = '';
     this.rulesService.isCheckAll = false;
     this.rulesService.showReviewFooter = false;
     tab.isSelected = true;
