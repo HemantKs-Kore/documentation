@@ -37,18 +37,18 @@
             <div class="row row_list">
               <div class="box-content" *ngFor="let source of bots"
                 (click)="openStatusSlider(source)">
-                <div class="bot-box">
-                  <div class="title-bot btm-title">{{source.name}}</div>
-                  <div class="title-desc">{{source.shortDesc}}</div>
-                  
-                  <div class="icon-gap">{{source.shortDesc}}</div>
-
-                  <div class="title-btm btm" >{{source.noOfClicks || 'No Appearances' }} </div>
-                  <div class="title-btm btm"> {{source.noOfAppearences || 'No Clicks' }}</div>
-                  <div class="actions-bot">                   
-                    <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
+                <div class="bot-box text-left">
+                  <div class="boxContent">
+                    <span class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></span>
                     <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='delete' ><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                </div>
+                    <div class="title-bot btm-title">{{source.name}}</div>
+                    <div class="title-desc">{{source.shortDesc || " dwqe ewq e wqe wq e w e wewewewe wewewewe wewewew "}}</div>
+                    
+                    <!-- <div class="icon-gap">{{source.shortDesc}}</div> -->
+  
+                    <div class="title-btm btm" >{{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
+                    <div class="title-btm btm"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
+                  </div>
                 </div>
               </div>
             </div>
