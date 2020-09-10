@@ -3,7 +3,7 @@
       <header class="table-header">
         <div class="col-2 col_">
           <div class="kr-sg-checkbox">
-            <input id="checkbox-all" (click)='rulesService.selectAll.next()' [(ngModel)]='rulesService.isCheckAll' class="checkbox-custom" type="checkbox">
+            <input id="checkbox-all" (click)='rulesService.selectAll.next()' [(ngModel)]='rulesService.isCheckAll' class="checkbox-custom" *ngIf="searchBlock.length == 0" type="checkbox">
             <label for="checkbox-all" class="checkbox-custom-label"></label>
           </div> 
           <span>RULE NAME<img src="assets/icons/caretDown.svg" class="ml-1 sortImg"></span>
@@ -11,7 +11,7 @@
         <div class="col_ col-7">DEFINITION</div>                            
       </header>
       <ng-container >
-        <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all">
+        <perfect-scrollbar class="table-scroll-perfect rulse_tab if-select-all table-rules-list">
           <div class="content-body" *ngFor="let rool of rulesData | filter: [searchBlock, 'name']; let i = index">
               <ng-container>
                 <div class="col_ col-2 d-flex align-items-center">
@@ -34,6 +34,7 @@
                 </div>
               </ng-container>
           </div>     
+          <div class="divBlockEmptylastChild">{{searchBlock?'No search results':'No Data Found'}}</div>
       </perfect-scrollbar>
       </ng-container>
       <div class="footer-btns" *ngIf="rulesService.showReviewFooter">
