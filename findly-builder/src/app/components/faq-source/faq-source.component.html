@@ -201,7 +201,7 @@
                             <div class="heading">Edited by</div>
                             <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                         </div>
-                        <div class="col-2 p-0" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}" placement="top">
+                        <div class="col-2 p-0" ngbTooltip="{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}" placement="top">
                             <div class="heading">Reviewed by</div>
                             <div class="info-title">{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}</div>
                         </div>
