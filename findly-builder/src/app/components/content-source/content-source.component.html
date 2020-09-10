@@ -307,7 +307,7 @@
                       <div class="col-10 title pl-pr-10">Schedule</div>
                       <div class="toggle-label col-2 pl-pr-10 text-right">
                         <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle" >
-                          <input type="checkbox" [checked] = "selectedSource.advanceSettings.scheduleOpts">
+                          <input type="checkbox" name="scheduleOpts" [(ngModel)] = "selectedSource.advanceSettings.scheduleOpts">
                           <div class="slider"></div>
                         </label>
                         <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
@@ -320,7 +320,7 @@
                       <div class="col-10 title pl-pr-10">Crawl Everything</div>
                       <div class="toggle-label col-2 pl-pr-10 text-right">
                         <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle" >
-                          <input type="checkbox" [checked] = "selectedSource.advanceSettings.crawlEverything">
+                          <input type="checkbox" name="crawlEverything" [(ngModel)] = "selectedSource.advanceSettings.crawlEverything">
                           <div class="slider"></div>
                         </label>
                         <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle" >
@@ -330,7 +330,9 @@
                       </div>
                     </div>
                 </div>  
-                <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
+                
+                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
                   <div class="allow-urls-sec row">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
@@ -356,7 +358,7 @@
                       <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete')"><img src="assets/images/close-cross.svg"></div>
                     </div>
                   </div >
-                  
+                </div>
                   <!-- <div class="path-data row m-0">
                     <div class="col-11 p-0 title">1. Contains / archive</div>
                     <div class="close-path col-1 p-0 text-right"><img src="assets/images/close-cross.svg"></div>

@@ -470,10 +470,10 @@ class CrwalObj{
   
 }
 class AdvanceOpts{
-  scheduleOpts:boolean = true;
+  scheduleOpts:boolean = false;
       schedulePeriod: String ="";
       repeatInterval: String ="";
-      crawlEverything: boolean = false; 
+      crawlEverything: boolean = true; 
          allowedURLs:AllowUrl[] = [];
          blockedURLs: BlockUrl[] = [];
 }
