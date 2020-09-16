@@ -4,7 +4,7 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
-    <div class="crawlContent row m-0 mb-4">
+    <div *ngIf="!showSourceAddition" class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
       <div class="webDomain" (click)="addNewContentSource('contentWeb')">
         <div class="box-block">
@@ -28,6 +28,10 @@
         </div>
       </div>
     </div>
+    <ng-container *ngIf="showSourceAddition">
+      <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
+        (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+    </ng-container>
   </div>
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
@@ -471,12 +475,12 @@
   </div>
 </kr-modal>
 
-<kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file">
+<!-- <kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file">
   <ng-container *ngIf="showSourceAddition">
     <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
       (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
   </ng-container>
-</kr-modal>
+</kr-modal> -->
 
 <!-- <kr-modal modalType="center" #addSourceModalPop modalClass="modal_popups_">
   <div class="modal-header">
