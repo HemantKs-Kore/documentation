@@ -169,7 +169,13 @@
     <img src="assets/images/close.svg" class="closeCross" (click)="sliderStep?sliderBack():closeStatusModal();">
   </div>
   <div class="modal-body source-modal-popup">
-    <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table">
+    <perfect-scrollbar 
+        [disabled]="workflowService.disablePerfectScroll" class="scroll-table"
+        #perfectScroll
+        [config]="psConfig"
+        [scrollIndicators]="true"
+        (psScrollY)="onListScroll()"
+    >
       <div class="sliderBody call-history-filter">
         <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
           <mat-spinner diameter="18" strokeWidth="2" ></mat-spinner>
@@ -422,15 +428,22 @@
                     </div>
                   </div>
                   <!-- pageination -->
-                  <div class="paginations-custon">
+                  <!-- <div class="paginations-custon">
                     <div class="previous">Previous</div>
-                    <!-- <div class="previous" *ngIf="btnAllCount > 5"> ... </div> -->
+                    
                     <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
                       id="number_{{i}}" [ngClass]="{'active': i === 0}" class="numbers">{{i+1}}
-                      <!-- <div *ngif="">{{i+1}}</div> -->
                     </div>
                     <div class="next" *ngIf="btnAllCount > 5"> ... </div>
                     <div class="next">Next</div>
+                  </div> -->
+
+                  <div class="paginations-custon">
+                    <div class="previous pre-arrow dis-arow" (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,500)">  </div>
+                    <div id="number"class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }}   of   {{ totalRecord }}
+                    </div>
+
+                    <div class="next nxt-arrow" (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,500)"></div>
                   </div>
                   <!-- pageination -->
                 </div>

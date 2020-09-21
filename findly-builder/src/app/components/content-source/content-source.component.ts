@@ -13,6 +13,9 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -70,6 +73,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   showSourceAddition:any = null;
   isAsc = true;
   selectedSort = '';
+  recordStr : number = 1;
+  recordEnd : number = 10;
+  totalRecord : number = 0;
+  limitpage : number = 10;
+  limitAllpage : number = 10;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
@@ -87,7 +96,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getSourceList();
     this.userInfo = this.authService.getUserInfo() || {};
+    window.addEventListener('scroll', this.scroll, true);
   }
+  scroll = (event): void => {
+    //console.log(event)
+  };
   addNewContentSource(type){
     this.showSourceAddition = type;
     this.openAddSourceModal();
@@ -261,12 +274,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.pageination(source.numPages,10)
         this.loadingSliderContent = true;
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-        this.getCrawledPages(10,0);
+        this.recordStr = 1
+        this.recordEnd = this.limitpage;
+        this.getCrawledPages(this.limitpage,0);
     }
   }
   pageination(pages,perPage){
     let count = 0;
-    
     let divisor = Math.floor(pages/perPage) 
     let remainder = pages%perPage;
     //let btnAllCount = 0;
@@ -281,9 +295,53 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if(this.btnCount > 5){
       this.btnCount = 5
     }
+    /** new Paging Logic */
+    this.totalRecord = pages;
+    
   }
   numArr(n: number): any[] {
     return Array(n);
+  }
+  onListScroll(){
+      if(this.perfectScroll.states.top){
+        if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,20,1000)
+      }else if(this.perfectScroll.states.bottom){
+        if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,20,1000)
+      }
+  }
+  onClickArrow(newStart,newEnd,offset,time){
+    let preStart = this.recordStr;
+    let preEnd = this.recordEnd;
+    if((newStart < 1 )|| newEnd > (this.totalRecord + this.limitpage)){
+      // if(newStart < 1){
+      //   $('.pre-arrow').addClass("dis-arow")
+      //   $('.nxt-arrow').removeClass("dis-arow")
+      // }else if(newEnd > this.totalRecord + this.limitpage){
+      //   $('.nxt-arrow').addClass("dis-arow")
+      //   $('.pre-arrow').removeClass("dis-arow")
+      // }
+    }else{
+      if(preEnd == this.totalRecord){
+        newEnd = newStart + (this.limitpage-1);
+      }
+      newStart < 0 ? this.recordStr = 1: this.recordStr = newStart;
+      newStart > this.totalRecord ? this.recordStr =  this.recordStr - this.limitpage : this.recordStr = newStart;
+      newEnd > this.totalRecord ? this.recordEnd = this.totalRecord: this.recordEnd = newEnd;
+      /** Apply scroller on last record **/
+      if(newEnd >= this.totalRecord){
+        this.recordStr = this.recordStr-(this.limitpage);
+        this.getCrawledPages(this.limitpage,this.recordStr-(this.limitpage-1));
+        this.perfectScroll.directiveRef.update();
+      }else{
+        this.getCrawledPages(this.limitpage,this.recordStr-1);
+      }
+       /** Apply scroller on last record **/
+
+      //this.getCrawledPages(this.limitpage,this.recordStr-1);
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(offset, time);
+      
+    }
   }
   onClickPageNo(noRows,index){
     this.getCrawledPages(noRows,index);
@@ -609,6 +667,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       clearInterval(this.polingObj[job]);
     });
    }
+   window.removeEventListener('scroll', this.scroll, true);
   }
 }
 
