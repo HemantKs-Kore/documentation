@@ -777,12 +777,16 @@
                 .accordion-header-container {
                     display: flex !important;
                     align-items: center !important;
-                    border-bottom: 2px solid #eee !important;
+                    // border-bottom: 2px solid #eee !important;
                     padding: 0px 5px !important;
                     height: 41px !important;
                     background: #fff !important;
                     &:hover {
                         background: #e5e8ec !important;
+                        .button-link {
+                            display: block !important;
+                            margin-left: auto !important;
+                        }
                     }
                     .chevron-icon {
                         height: 14px !important;
@@ -799,13 +803,23 @@
                         background: inherit !important;
                         border: none !important;
                     }
+                    .button-link {
+                        display: none !important;
+                        margin-left: auto !important;
+                    }
                 }
                 .acc-active {
-                    border-bottom: none !important;
+                    // border-bottom: none !important;
                      .chevron-icon {
                     //     transform: rotate(90deg);
                          transition: 0.33s;
                      }
+                    //  &:hover {
+                    //     .button-link {
+                    //         display: none !important;
+                    //         margin-left: auto !important;
+                    //     }
+                    // } 
                 }
                 .card-body {
                     position: relative !important;
@@ -816,6 +830,21 @@
                 .accordion-content-container {
                     position: relative !important;
                     padding: 5px 15px 0 35px !important;
+                    // .sub-heading-title {
+                    //     width: fit-content !important;
+                    //     border-bottom: 2px solid #00d0ec !important;
+                    // }
+                    .table {
+                        thead {
+                            th {
+                                border-top: none !important;
+                                border-bottom: 1px solid #dee2e6 !important;
+                            }
+                        }
+                        td {
+                            border-top: none !important;
+                        }
+                    }
                 }
             }
         

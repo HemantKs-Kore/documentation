@@ -267,5 +267,15 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId',
       method: 'put'
     };
+
+    /* Service End-Points for Integrating APIs in bot-action Component */
+    this.serviceList['get.AssociatedBots'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userID/builder/streams',
+      method: 'get'
+    };
+    this.serviceList['get.AssociatedBotTasks'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
+      method: 'get'
+    }
   }
 }

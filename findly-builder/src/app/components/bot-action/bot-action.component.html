@@ -88,14 +88,29 @@
           <ng-container *ngFor="let bot of associatedBots | filter: [ searchBots, 'name' ]; let i = index">
             <ngb-panel id="{{'bot' + i}}">
               <ng-template ngbPanelHeader let-opened="opened">
-                <div class="accordion-header-container" (click)="accordionList.toggle('bot' + i); modifyStyles('bot'+ i +'-header', opened)">
+                <div class="accordion-header-container" [ngStyle]="{'border-bottom': opened === false ? '2px solid #eee' : 'none'}" (click)="accordionList.toggle('bot' + i); modifyStyles('bot'+ i +'-header', opened); getAssociatedTasks(bot._id)">
                   <!-- <img class="chevron-icon" [src]="opened ? 'assets/icons/carrot-down-comp.svg' : 'assets/icons/carrot-right.svg'"> -->
                   <img class="chevron-icon" [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}" src="assets/icons/carrot-right.svg">
                   <span class="accordion-header-title">{{bot.name}}</span>
+                  <button *ngIf="!opened" class="kr-sg-button-primary button-link" (click)="linkBot(bot.id)">Link Bot</button>
                 </div>
               </ng-template>
               <ng-template ngbPanelContent>
-                <div class="accordian-content-container">
+                <div class="accordion-content-container">
+                  <!-- <h4 class="sub-heading-title">Related Tasks</h4> -->
+                  <div class="table">
+                    <thead>
+                      <tr>
+                        <th>Tasks</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let task of associatedTasks">
+                      <td>{{task.name}}</td>
+                      <td><button class="kr-sg-button-primary">Hide Task</button></td>
+                    </tbody>
+                  </div>
+                  <button class="kr-sg-button-primary" (click)="linkBot(bot.id)">Link Bot</button>
                   {{bot.content}}
                 </div>
               </ng-template>

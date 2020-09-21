@@ -22,10 +22,12 @@ export class BotActionComponent implements OnInit {
   currentView;
   bots: any = [];
 
+  userInfo: any;
   linkExistingBotsModalRef: any = [];
   @ViewChild('linkExistingBotsComponent') linkExistingBotsComponent: KRModalComponent;
   searchBots: string;
   associatedBots: any = [];
+  associatedTasks: any = [];
 
   constructor(
     public workflowService: WorkflowService,
@@ -34,57 +36,61 @@ export class BotActionComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.streamId = this.workflowService.selectedApp().findlyLinkedBotId ;
+    this.streamId = this.workflowService.selectedApp().findlyLinkedBotId;
     this.getBots();
 
+    this.userInfo = this.authService.getUserInfo() || {};
+    console.log(this.userInfo);
+    // this.dummyServiceCall();
     this.getAssociatedBots();
   }
-  getBots(){
-    if(this.streamId){
+
+  getBots() {
+    if (this.streamId) {
       const quaryparms: any = {
-        streamId:this.streamId
+        streamId: this.streamId
       };
       this.service.invoke('get.bots', quaryparms).subscribe(res => {
         console.log(res);
         this.currentView = 'grid';
         this.loadingContent = false;
-        if(res.tasks && res.tasks.published && res.tasks.published.items && res.tasks.published.items.length) {
+        if (res.tasks && res.tasks.published && res.tasks.published.items && res.tasks.published.items.length) {
           this.bots = _.filter(res.tasks.published.items, (task) => {
             return task.type === 'dialog';
           });
-        };  
+        };
         console.log(this.bots);
       }, errRes => {
-        this.errorToaster(errRes,'Failed to get Bot Actions');
-       
+        this.errorToaster(errRes, 'Failed to get Bot Actions');
+
       });
     } else {
       this.bots = [];
       this.loadingContent = false;
     }
   }
-  errorToaster(errRes,message){
-      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else if (message){
-        this.notificationService.notify(message, 'error');
-      } else {
-        this.notificationService.notify('Somthing went worng', 'error');
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
     }
   }
 
 
   openLinkExistingBotsComponent() {
     this.linkExistingBotsModalRef = this.linkExistingBotsComponent.open();
-    
+
   }
   closeLinkExistingBotsComponent() {
-    if(this.linkExistingBotsModalRef && this.linkExistingBotsModalRef.close) {
+    if (this.linkExistingBotsModalRef && this.linkExistingBotsModalRef.close) {
       this.linkExistingBotsModalRef.close();
     }
   }
@@ -95,6 +101,48 @@ export class BotActionComponent implements OnInit {
     console.log(isActive)
   }
   getAssociatedBots() {
+    if (this.userInfo.id) {
+      const queryParams: any = {
+        userID: this.userInfo.id
+      };
+      this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
+        console.log("Associated Bots", res);
+        this.associatedBots = JSON.parse(JSON.stringify(res));
+        console.log(this.associatedBots);
+      },
+        (err) => { console.log(err) },
+
+        () => { console.log("Call Complete") }
+      )
+    }
+    else {
+      console.log("Invalid UserID")
+    }
+  }
+  linkBot(botID: any) {
+    console.log(botID);
+  }
+  getAssociatedTasks(botID: any) {
+    if (botID) {
+      const queryParams: any = {
+        botID: botID
+      };
+      this.service.invoke('get.AssociatedBotTasks', queryParams).subscribe(res => {
+        console.log("Associated Tasks", res);
+        this.associatedTasks = [];
+        res.forEach(element => {
+          if(element.state == "published" && element.isHidden == false){
+            this.associatedTasks.push(element);
+          }
+        });
+        console.log(this.associatedTasks);
+      },
+        (err) => { console.log(err) },
+        () => { console.log("Call Completed") }
+      )
+    }
+  }
+  /*getAssociatedBots() {
     this.associatedBots = [
       {
         name: 'Dummy Bot',
@@ -109,5 +157,5 @@ export class BotActionComponent implements OnInit {
         content: 'Description of Mail-Client Bot'
       }
     ]
-  }
+  }*/
 }
