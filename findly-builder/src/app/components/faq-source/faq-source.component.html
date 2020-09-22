@@ -238,10 +238,22 @@
                                         <span class="key-title">Key Terms :</span>
                                         <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
                                     </div>  
+                                    <div class="bot-response-view-mode">
+                                        <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
+                                            <ng-container *ngFor="let answer of selectedFaq.defaultAnswers ;let i = index;">
+                                                <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1)}}</span></div> 
+                                                <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
+                                                    <img src="{{answer.multimedia.url}}">
+                                                </div>
+                                                <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                            </ng-container> 
+                                        </ng-container>
+                                    </div>
                                     <div class="conditionalBlock bot-response-view-mode" >
                                         <ng-container *ngIf="selectedFaq && selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.length">
-                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq.conditionalAnswers">
-                                            <div class="bot-response-title">Bot Response</div> 
+                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq.conditionalAnswers; let i = index;">
+                                            <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq.defaultAnswers?selectedFaq.defaultAnswers.length:0))}}</span></div> 
                                             <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
                                             <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                 <div *ngFor="let ans of consitionalAnswer.answers">
@@ -256,18 +268,6 @@
                                             </div>
                                         </ng-container>
                                             </ng-container> 
-                                    </div>
-                                    <div class="bot-response-view-mode">
-                                        <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
-                                            <ng-container *ngFor="let answer of selectedFaq.defaultAnswers">
-                                                <div class="bot-response-title">Bot Response</div> 
-                                                <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
-                                                    <img src="{{answer.multimedia.url}}">
-                                                </div>
-                                                <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
-                                                <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
-                                            </ng-container> 
-                                        </ng-container>
                                     </div>
                                     <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                 </div>
