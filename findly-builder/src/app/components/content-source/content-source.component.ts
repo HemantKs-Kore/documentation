@@ -313,13 +313,6 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let preStart = this.recordStr;
     let preEnd = this.recordEnd;
     if((newStart < 1 )|| newEnd > (this.totalRecord + this.limitpage)){
-      // if(newStart < 1){
-      //   $('.pre-arrow').addClass("dis-arow")
-      //   $('.nxt-arrow').removeClass("dis-arow")
-      // }else if(newEnd > this.totalRecord + this.limitpage){
-      //   $('.nxt-arrow').addClass("dis-arow")
-      //   $('.pre-arrow').removeClass("dis-arow")
-      // }
     }else{
       if(preEnd == this.totalRecord){
         newEnd = newStart + (this.limitpage-1);
