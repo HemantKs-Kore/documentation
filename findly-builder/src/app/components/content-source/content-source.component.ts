@@ -328,16 +328,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       newStart > this.totalRecord ? this.recordStr =  this.recordStr - this.limitpage : this.recordStr = newStart;
       newEnd > this.totalRecord ? this.recordEnd = this.totalRecord: this.recordEnd = newEnd;
       /** Apply scroller on last record **/
-      if(newEnd >= this.totalRecord){
-        this.recordStr = this.recordStr-(this.limitpage);
-        this.getCrawledPages(this.limitpage,this.recordStr-(this.limitpage-1));
-        this.perfectScroll.directiveRef.update();
-      }else{
-        this.getCrawledPages(this.limitpage,this.recordStr-1);
-      }
+      // if(newEnd >= this.totalRecord){
+      //   this.recordStr = this.recordStr-(this.limitpage);
+      //   let skip = this.recordStr-(this.limitpage-1) < 0 ? 0: this.recordStr-(this.limitpage-1)
+      //   this.getCrawledPages(this.limitpage,skip);
+      //   this.perfectScroll.directiveRef.update();
+      // }else{
+      //   this.getCrawledPages(this.limitpage,this.recordStr-1);
+      // }
        /** Apply scroller on last record **/
-
-      //this.getCrawledPages(this.limitpage,this.recordStr-1);
+      if(this.recordStr > this.limitpage && this.recordEnd < this.totalRecord){
+        $('.pre-arrow').removeClass("dis-arow");
+        $('.nxt-arrow').removeClass("dis-arow");
+      }else if(this.recordStr < this.limitpage){
+        $('.pre-arrow').addClass("dis-arow");
+        $('.nxt-arrow').removeClass("dis-arow");
+      }else if(this.recordEnd == this.totalRecord){
+        $('.pre-arrow').removeClass("dis-arow");
+        $('.nxt-arrow').addClass("dis-arow");
+      }
+      this.getCrawledPages(this.limitpage,this.recordStr-1);
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop(offset, time);
       
