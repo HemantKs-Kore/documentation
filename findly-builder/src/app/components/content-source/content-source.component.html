@@ -169,12 +169,7 @@
     <img src="assets/images/close.svg" class="closeCross" (click)="sliderStep?sliderBack():closeStatusModal();">
   </div>
   <div class="modal-body source-modal-popup">
-    <perfect-scrollbar 
-        [disabled]="workflowService.disablePerfectScroll" class="scroll-table"
-        #perfectScroll
-        [scrollIndicators]="true"
-        (psScrollY)="onListScroll()"
-    >
+  
       <div class="sliderBody call-history-filter">
         <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
           <mat-spinner diameter="18" strokeWidth="2" ></mat-spinner>
@@ -299,7 +294,8 @@
                     </section>
                   </div>
                 </div>
-                
+                <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" >
+               
                 <div *ngIf="selectedSource.sitemaps"  class="site-map-url-sec">
                   <div class="label_text">Sitemap URLS</div>
                     <div class="urls_">
@@ -364,6 +360,7 @@
                     </div>
                   </div >
                 </div>
+              </perfect-scrollbar>
                   <!-- <div class="path-data row m-0">
                     <div class="col-11 p-0 title">1. Contains / archive</div>
                     <div class="close-path col-1 p-0 text-right"><img src="assets/images/close-cross.svg"></div>
@@ -379,6 +376,12 @@
                   <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
                 </div>
                 <div id="accordion" class="accordion-section">
+                  <perfect-scrollbar 
+                    [disabled]="workflowService.disablePerfectScroll" class="scroll-table"
+                    #perfectScroll
+                    [scrollIndicators]="true"
+                    (psScrollY)="onListScroll()"
+                   >
                   <div class="card_content"
                     *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
                     <div class="card_header">
@@ -426,6 +429,7 @@
                       </div>
                     </div>
                   </div>
+                </perfect-scrollbar>
                   <!-- pageination -->
                   <!-- <div class="paginations-custon">
                     <div class="previous">Previous</div>
@@ -474,7 +478,7 @@
           </div>
         </div>
       </div>
-    </perfect-scrollbar>
+    
   </div>
   <div class="footer-btns d-none">
     <button class="kr-sg-button-primary btn_lg">Update</button>

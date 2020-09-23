@@ -272,6 +272,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
         this.openStatusModal();
         this.selectedSource = source;
+        this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
         this.pageination(source.numPages,10)
         this.loadingSliderContent = true;
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
@@ -280,27 +281,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   pageination(pages,perPage){
-    let count = 0;
-    let divisor = Math.floor(pages/perPage) 
-    let remainder = pages%perPage;
-    //let btnAllCount = 0;
-    if(remainder>0){
-      this.btnCount = divisor +1;
-      this.btnAllCount = this.btnCount;
-    }else{
-      this.btnCount =  divisor;
-      this.btnAllCount = this.btnCount;
-    }
+    // let count = 0;
+    // let divisor = Math.floor(pages/perPage) 
+    // let remainder = pages%perPage;
+    // if(remainder>0){
+    //   this.btnCount = divisor +1;
+    //   this.btnAllCount = this.btnCount;
+    // }else{
+    //   this.btnCount =  divisor;
+    //   this.btnAllCount = this.btnCount;
+    // }
 
-    if(this.btnCount > 5){
-      this.btnCount = 5
-    }
+    // if(this.btnCount > 5){
+    //   this.btnCount = 5
+    // }
     /** new Paging Logic */
     this.totalRecord = pages;
     this.recordStr = 1
     if(this.totalRecord > this.limitpage){
       this.recordEnd = this.limitpage;
       this.allInOne = false;
+      $('.pre-arrow').addClass("dis-arow");
     }else{
       this.recordEnd = this.totalRecord;
       this.allInOne = true;
@@ -315,9 +316,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   onListScroll(){
     if(!this.isConfig){
       if(this.perfectScroll.states.top){
-        if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,20,1000)
+        if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,2,1000)
       }else if(this.perfectScroll.states.bottom){
-        if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,20,1000)
+        if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,2,1000)
       }
     }
   }
