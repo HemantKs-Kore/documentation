@@ -303,11 +303,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     return Array(n);
   }
   onListScroll(){
+    if(!this.isConfig){
       if(this.perfectScroll.states.top){
         if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,20,1000)
       }else if(this.perfectScroll.states.bottom){
         if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,20,1000)
       }
+    }
   }
   onClickArrow(newStart,newEnd,offset,time){
     let preStart = this.recordStr;
