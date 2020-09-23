@@ -274,8 +274,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.pageination(source.numPages,10)
         this.loadingSliderContent = true;
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-        this.recordStr = 1
-        this.recordEnd = this.limitpage;
+       
         this.getCrawledPages(this.limitpage,0);
     }
   }
@@ -297,7 +296,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     /** new Paging Logic */
     this.totalRecord = pages;
-    
+    this.recordStr = 1
+    if(this.totalRecord >= this.limitpage){
+      this.recordEnd = this.limitpage;
+    }else{
+      this.recordEnd = this.totalRecord;
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
+    }
+   
   }
   numArr(n: number): any[] {
     return Array(n);
@@ -322,6 +329,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       newStart < 0 ? this.recordStr = 1: this.recordStr = newStart;
       newStart > this.totalRecord ? this.recordStr =  this.recordStr - this.limitpage : this.recordStr = newStart;
       newEnd > this.totalRecord ? this.recordEnd = this.totalRecord: this.recordEnd = newEnd;
+      
       /** Apply scroller on last record **/
       // if(newEnd >= this.totalRecord){
       //   this.recordStr = this.recordStr-(this.limitpage);
