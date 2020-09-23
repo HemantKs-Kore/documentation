@@ -442,7 +442,7 @@
                     <div id="number"class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }}   of   {{ totalRecord }}
                     </div>
 
-                    <div class="next nxt-arrow" (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
+                    <div [ngClass]="{'dis-arow': recordEnd >= totalRecord}" class="next nxt-arrow" (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
                   </div>
                   <!-- pageination -->
                 </div>

@@ -78,6 +78,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   totalRecord : number = 0;
   limitpage : number = 10;
   limitAllpage : number = 10;
+  allInOne : boolean = false;;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -297,10 +298,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     /** new Paging Logic */
     this.totalRecord = pages;
     this.recordStr = 1
-    if(this.totalRecord >= this.limitpage){
+    if(this.totalRecord > this.limitpage){
       this.recordEnd = this.limitpage;
+      this.allInOne = false;
     }else{
       this.recordEnd = this.totalRecord;
+      this.allInOne = true;
       $('.pre-arrow').addClass("dis-arow");
       $('.nxt-arrow').addClass("dis-arow");
     }
@@ -349,6 +352,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }else if(this.recordEnd == this.totalRecord){
         $('.pre-arrow').removeClass("dis-arow");
         $('.nxt-arrow').addClass("dis-arow");
+      }
+      if(this.allInOne){
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
       }
       this.getCrawledPages(this.limitpage,this.recordStr-1);
       this.perfectScroll.directiveRef.update();
