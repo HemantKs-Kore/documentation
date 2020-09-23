@@ -670,9 +670,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
       
-      allowUrls.forEach(element => {
+      // allowUrls.forEach(element => {
         
-      });
+      // });
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
