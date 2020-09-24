@@ -12,6 +12,8 @@ declare const $: any;
 import * as _ from 'underscore';
 import { of, interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -108,12 +110,14 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       ]
     }
   ];
+  anntationObj: any = {};
   constructor(public workflowService: WorkflowService,
               private service: ServiceInvokerService,
               private notificationService: NotificationService,
               private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
+              public dialog: MatDialog
               ) {}
    @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
    @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -328,40 +332,45 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
-    if(this.selectedSourceType.sourceType === 'content'){
-      endPoint = 'add.sourceMaterial';
-      payload.resourceType = resourceType;
+    if(this.selectedSourceType.annotate) {
+      this.annotationModal();
     } else {
-      if(this.fileObj.fileAdded) {
-        resourceType = 'document';
-      } else if(this.newSourceObj.url){
-       resourceType = 'webdomain';
-      }
-      quaryparms.faqType = resourceType;
-    }
-      if(resourceType == 'webdomain'){
-      crawler.name = this.newSourceObj.name;
-      crawler.url = this.newSourceObj.url;
-      crawler.desc = this.newSourceObj.desc || '';
-      crawler.resourceType = this.selectedSourceType.resourceType;
-      payload = crawler
-    }
-   
-    if(resourceType === 'document'){
-      payload.fileId = this.fileObj.fileId;
-      if(payload.hasOwnProperty('url')) delete payload.url;
-    }
-    this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-     this.openStatusModal();
-     this.poling(res._id);
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      if(this.selectedSourceType.sourceType === 'content'){
+        endPoint = 'add.sourceMaterial';
+        payload.resourceType = resourceType;
       } else {
-        this.notificationService.notify('Failed to add sources ', 'error');
+        if(this.fileObj.fileAdded) {
+          resourceType = 'document';
+        } else if(this.newSourceObj.url){
+         resourceType = 'webdomain';
+        }
+        quaryparms.faqType = resourceType;
       }
-    });
-    //this.callWebCraller(this.crwalObject,searchIndex)
+        if(resourceType == 'webdomain'){
+        crawler.name = this.newSourceObj.name;
+        crawler.url = this.newSourceObj.url;
+        crawler.desc = this.newSourceObj.desc || '';
+        crawler.resourceType = this.selectedSourceType.resourceType;
+        payload = crawler
+      }
+     
+      if(resourceType === 'document'){
+        payload.fileId = this.fileObj.fileId;
+        if(payload.hasOwnProperty('url')) delete payload.url;
+      }
+      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+       this.openStatusModal();
+       this.poling(res._id);
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to add sources ', 'error');
+        }
+      });
+      //this.callWebCraller(this.crwalObject,searchIndex)
+    }
+
   }
   callWebCraller(crawler,searchIndex){
     let payload = {}
@@ -448,6 +457,42 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.blockUrl = new BlockUrl
   }
   /**Crwaler */
+  /* Annotation Modal */
+  annotationModal() {
+    if(this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
+      // console.log(this.newSourceObj);
+      let payload = {
+        sourceTitle: this.newSourceObj.name || 'test',
+        sourceDesc: this.newSourceObj.desc || 'test desc',
+        fileId: this.fileObj.fileId || '5f6ad9b032d08f34c4f61b73'
+      };
+      const dialogRef = this.dialog.open(PdfAnnotationComponent, {
+        data: { pdfResponse: payload, annotation: this.anntationObj },
+        panelClass: 'kr-annotation-modal',
+        disableClose: true,
+        autoFocus: true
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(this.anntationObj);
+        if(this.anntationObj && this.anntationObj.status === 'Inprogress') {
+          this.openStatusModal();          
+        }
+      });
+    }
+  }
+  annotateChange(event) {
+    if(event.currentTarget.checked) {
+      this.selectedSourceType.annotate = true;
+    } else {
+      this.selectedSourceType.annotate = false;
+    }
+  }
+  cancelExtraction() {
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+     }
+  }
+  /* Annotation Modal end */
   ngOnDestroy() {
      const self= this;
      if (this.pollingSubscriber) {

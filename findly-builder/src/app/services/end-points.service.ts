@@ -267,5 +267,22 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId',
       method: 'put'
     };
+    /* Annotation tool */
+    this.serviceList['attachment.file'] = {
+      endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
+      method: 'get'
+    };
+    this.serviceList['PdfAnno.get.userguide'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/getSavedAnnotatedDataForStream',
+      method: 'get'
+    };   
+    this.serviceList['PdfAnno.faq.annotate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source?sourceType=:sourceType',
+      method: 'post'
+    };   
+    this.serviceList['PdfAnno.get.reAnnotateData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/:fileId/getSavedAnnotatedData',
+      method: 'get'
+    };  
   }
 }
