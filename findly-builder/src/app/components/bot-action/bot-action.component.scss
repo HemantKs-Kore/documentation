@@ -794,6 +794,12 @@
                         // transform: rotate(0deg);
                         transition: 0.33s;
                     }
+                    .bot-icon {
+                        position: relative !important;
+                        left: 18px !important;
+                        height: 14px !important;
+                        width: 14px !important;
+                    }
                     .accordion-header-title {
                         // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
                         font-size: inherit !important;
@@ -806,6 +812,10 @@
                     .button-link {
                         display: none !important;
                         margin-left: auto !important;
+                    }
+                    .span-link {
+                        margin-left: auto !important;
+                        color: #18ae08 !important; 
                     }
                 }
                 .acc-active {
@@ -850,5 +860,9 @@
         
         }
         
+    }
+
+    .button-link-bots {
+        margin-left: 10px !important;
     }
        

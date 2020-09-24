@@ -277,5 +277,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
       method: 'get'
     }
+    this.serviceList['put.LinkBot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
+      method: 'put'
+    }
   }
 }

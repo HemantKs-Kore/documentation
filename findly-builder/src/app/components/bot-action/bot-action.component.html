@@ -26,7 +26,7 @@
           <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"
             ngbTooltip='List'><img src="assets/icons/list-view.svg">
           </div>
-          <button class="kr-sg-button-primary btn_lg" (click)="openLinkExistingBotsComponent()">Link Bots</button>
+          <button class="kr-sg-button-primary btn_lg button-link-bots" (click)="openLinkExistingBotsComponent()">Link Bots</button>
           <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'" [placement]="'bottom-right'">
             <div class="dropdown dropdown-open">
               
@@ -91,8 +91,10 @@
                 <div class="accordion-header-container" [ngStyle]="{'border-bottom': opened === false ? '2px solid #eee' : 'none'}" (click)="accordionList.toggle('bot' + i); modifyStyles('bot'+ i +'-header', opened); getAssociatedTasks(bot._id)">
                   <!-- <img class="chevron-icon" [src]="opened ? 'assets/icons/carrot-down-comp.svg' : 'assets/icons/carrot-right.svg'"> -->
                   <img class="chevron-icon" [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}" src="assets/icons/carrot-right.svg">
+                  <img class="bot-icon" src="assets/images/botIcon.svg">
                   <span class="accordion-header-title">{{bot.name}}</span>
-                  <button *ngIf="!opened" class="kr-sg-button-primary button-link" (click)="linkBot(bot.id)">Link Bot</button>
+                  <button *ngIf="!opened && streamId != bot._id" class="kr-sg-button-primary button-link" (click)="linkBot(bot._id)">Link Bot</button>
+                  <span *ngIf="streamId == bot._id" class="span-link">Bot is linked</span>
                 </div>
               </ng-template>
               <ng-template ngbPanelContent>
@@ -110,7 +112,7 @@
                       <td><button class="kr-sg-button-primary">Hide Task</button></td>
                     </tbody>
                   </div>
-                  <button class="kr-sg-button-primary" (click)="linkBot(bot.id)">Link Bot</button>
+                  <button class="kr-sg-button-primary" (click)="linkBot(bot._id)">Link Bot</button>
                   {{bot.content}}
                 </div>
               </ng-template>

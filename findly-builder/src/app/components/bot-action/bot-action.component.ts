@@ -40,8 +40,10 @@ export class BotActionComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    console.log(this.selectedApp);
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.streamId = this.workflowService.selectedApp().findlyLinkedBotId;
+    console.log(this.workflowService.selectedApp())
     this.getBots();
 
     this.userInfo = this.authService.getUserInfo() || {};
@@ -120,7 +122,33 @@ export class BotActionComponent implements OnInit {
     }
   }
   linkBot(botID: any) {
+    let requestBody = {};
+    event.stopPropagation();
     console.log(botID);
+    let selectedApp;
+    if(this.serachIndexId) {
+      const queryParams: any = {
+        searchIndexID: this.serachIndexId
+      };
+      requestBody['linkedBotId'] = botID;
+      console.log(requestBody);
+      this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
+        console.log(res);
+        selectedApp = this.workflowService.selectedApp();
+        selectedApp.findlyLinkedBotId = res.findlyLinkedBotId;
+        this.workflowService.selectedApp(selectedApp);
+        console.log(res.status);
+        this.streamId = selectedApp.findlyLinkedBotId;
+        this.getBots();
+      },
+      
+      (err) => { console.log(err) }
+      
+      )
+    }
+    else {
+      this.notificationService.notify('Failed', 'Error in Linking Bot');
+    }
   }
   getAssociatedTasks(botID: any) {
     if (botID) {
