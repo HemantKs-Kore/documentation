@@ -78,38 +78,73 @@
             <div class="advanced-settings-title"  *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</div>
             <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse advance-setttings">
               
-              <div class="inner-content row m-0">
-                <div class="col-6 input-paddings pl-0">
-                  <div class="kr-sg-input-text">                   
-                    <input type="text" class="input-text pointer-none" value="Schedule">                
-                  </div>
-                    <label class="kr-sg-toggle">
-                      <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
+                  <div class="inner-content row m-0">
+                  <div class="col-12 p-0 input-paddings ">
+                      <div class="kr-sg-input-text ">                   
+                        <input type="text" class="input-text pointer-none border-no" value="Schedule">                
+                      </div>
+                        <label class="kr-sg-toggle">
+                          <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
+                          <div class="slider"></div>
+                        </label>
+                    </div>
+                    <div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpts">
+                      <app-scheduler [crwalObject] = "crwalObject" [schedule]="'set'"></app-scheduler>
+                    </div> 
+                   <!--<div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpts">
+                      <span class="scheduler-txt">Date</span>
+                        <input matInput [matDatepicker]="dp3"  class="input-text date-pick" placeholder="Select Date" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" autocomplete="off">
+                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+
+                      <span class="scheduler-txt time">Time : </span>
+                      <input id="scheduleHr" type="number" min="0" max="23" class="input-text timeHH" placeholder="HH">  
+                      <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM">
+
+                      <div id ="schedule-AM" class="schedule-AM active">AM</div>
+                      <div id ="schedule-PM"  class="schedule-PM">PM</div>
+
+                      <div class="kr-sg-dropdowns schedule-timZon">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span class="schedule-drop-text">Time Zone</span></button>                                            
+                            <ul class="dropdown-menu content-menu">                                               
+                              <li><a>IST</a></li>
+                              <li><a>EST</a></li>
+                              <li><a>NST</a></li>
+                            </ul>
+                          </div>
+                      </div>
+
+                      <span class="scheduler-Interval-txt">Interval</span>
+                      <div class="kr-sg-dropdowns schedule-Interval">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"> <span class="schedule-drop-text">Does not repeat</span></button>                                            
+                            <ul class="dropdown-menu content-menu">                                               
+                              <li><a>Does not repeat</a></li>
+                              <li><a>Daily</a></li>
+                              <li><a>Weekly</a></li>
+                              <li><a>Monthly</a></li>
+                              <li><a>Anually</a></li>
+                              <li><a>Every weekday(Monday to Friday)</a></li>
+                              <li (click) = "openCustomRecModal()"><a>Custom</a></li>
+                            </ul>
+                          </div>
+                      </div>
+                  </div> -->
+                </div> 
+                <hr>
+                <div class="inner-content row m-0 border-btm">
+                  <div class="col-12 p-0 input-paddings">
+                    <div class="kr-sg-input-text">                   
+                      <input type="text" value="Crawl Everything" class="input-text pointer-none border-no">                
+                    </div>
+                    <label class="kr-sg-toggle full-input">
+                      <input type="checkbox" id="crwalEveryId" name = "crwalEvery" [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
                       <div class="slider"></div>
                     </label>
-                </div>
-                <div class="col-6 input-paddings pr-0">
-                  <div class="kr-sg-dropdowns">
-                    <div class="dropdown dropdown-open"> 
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="!crwalObject.advanceOpts.scheduleOpts" >Monthly</button>                                            
-                        <ul class="dropdown-menu content-menu">                                             
-                          <li><a>Monthly</a></li>
-                          <!-- name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" -->
-                          <!-- <li><a>Weekly</a></li>
-                          <li><a>Daily</a></li> -->
-                        </ul>
-                      </div>
                   </div>
                 </div>
-                <div class="col-12 p-0 input-paddings">
-                  <div class="kr-sg-input-text">                   
-                    <input type="text" value="Crawl Everything" class="input-text pointer-none">                
-                  </div>
-                  <label class="kr-sg-toggle full-input">
-                    <input type="checkbox" id="crwalEveryId" name = "crwalEvery" [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
-                    <div class="slider"></div>
-                  </label>
-                </div>
+              <div class="inner-content row m-0">
                 <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
                   <div class="allow-urls-sec row">
@@ -355,4 +390,66 @@
       </div>
     </div>    
   </div> 
+</kr-modal>
+
+<kr-modal modalType="default" #customRecurrence>
+  <div class="status-modal-popup custom-ref">
+    <div class="modal_content">
+      <div class="modal-header">Custom Reccurence <img src="assets/images/close.svg" (click)="closeCustomRecModal()"></div>
+      <div class="modal-body" >
+        <div class="cust-ref">
+          <span>Repeat Every</span>
+          <input id="repeatveryId" type="number" min="0" max="30" class="input-text cust-repeat" placeholder="0"> 
+          <div class="kr-sg-dropdowns schedule-Interval">
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> Days</button>                                            
+                <ul class="dropdown-menu content-menu content-width">                                               
+                  <li><a>Days</a></li>
+                  <li><a>Weeks</a></li>
+                  <li><a>Months</a></li>
+                  <li><a>Years</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        <div class="repeat-on">
+          <div>
+            <span>Repeat On</span>
+          </div>
+          <div class="">
+            <div class="circle cs active">S</div>
+            <div class="circle cm">M</div>
+            <div class="circle ct">T</div>
+            <div class="circle cw">W</div>
+            <div class="circle cth">T</div>
+            <div class="circle cf">F</div>
+            <div class="circle csa">S</div>
+          </div>
+        </div>
+        <div class="ends">
+          <div>
+            <span>Ends</span>
+          </div>
+          <div class="ends-never">
+            <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp sp-n">Never</span>
+          </div>
+          <div class="ends-never sp-on">
+            <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp">On</span>
+            <input matInput [matDatepicker]="dpCust"  class="input-text date-pick" placeholder="Select Date" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" autocomplete="off">
+            <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
+            <mat-datepicker #dpCust disabled="false"></mat-datepicker>
+          </div>
+          <div class="ends-never sp-at">
+            <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp">At</span>
+            <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0"> <span class="occur-span">Occurences</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" [ngClass]="{'centerModel': resourceIDToOpen}">
+          <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeCustomRecModal()">Ok</button>
+          <button type="button" class="kr-sg-button-secondary btn_md d-none" data-dismiss="modal" (click)="closeCustomRecModal()">Cancel</button>
+      </div>
+    </div>    
+  </div> 
+  
 </kr-modal>

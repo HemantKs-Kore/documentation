@@ -12,6 +12,7 @@ declare const $: any;
 import * as _ from 'underscore';
 import { of, interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -30,6 +31,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   newSourceObj: any = {};
   selectedApp: any = {};
   statusModalPopRef: any = [];
+  customRecurrenceRef : any = [];
   pollingSubscriber: any = null;
   initialValidations:any = {}
   @Input() inputClass: string;
@@ -117,6 +119,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
               ) {}
    @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
    @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
   ngOnInit() {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
@@ -178,6 +181,17 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       });
     }
     )
+  }
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    console.log(`${type}: ${event.value}`);
+  }
+  openCustomRecModal(){
+    this.customRecurrenceRef = this.customRecurrence.open();
+  }
+  closeCustomRecModal(){
+    if (this.customRecurrenceRef &&  this.customRecurrenceRef.close) {
+      this.customRecurrenceRef.close();
+    }
   }
   openStatusModal() {
     if(this.resourceIDToOpen){

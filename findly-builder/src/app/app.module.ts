@@ -62,6 +62,9 @@ import { AutocompleteMultiChipComponent } from './helpers/components/autocomplet
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { SchedulerComponent } from './components/scheduler/scheduler.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -102,7 +105,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AutocompleteMultiChipComponent,
     IndexComponent,
     QueryComponent,
-    RulesTableComponent
+    RulesTableComponent,
+    SchedulerComponent
     ],
   imports: [
     BrowserModule,
@@ -122,6 +126,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatProgressBarModule,
     FileUploadModule,
     CodemirrorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
@@ -144,7 +150,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useClass: AuthInterceptor,
       multi: true,
     },
-    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML
+    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML, MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })
