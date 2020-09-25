@@ -2,14 +2,7 @@
   <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
-  </div>
-  <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
-    <img class="noTraitsImg" src="assets/images/empty-illustration.png">
-    <div class='noTraitsInfo'>
-      <p class='infoP'>No actions available<br>
-      </p>
-    </div>
-  </div>
+  </div> 
   <div class="table-list-content" *ngIf="!loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -40,6 +33,13 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
+    <img class="noTraitsImg" src="assets/images/empty-illustration.png">
+    <div class='noTraitsInfo'>
+      <p class='infoP'>No actions available<br>
+      </p>
     </div>
   </div>
   <ng-container>
@@ -82,7 +82,7 @@
       <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchBots" name="searchBots">
       <img class="search-icon" src="assets/images/search_gray.svg">
     </div>
-    <perfect-scrollbar>
+    <perfect-scrollbar class="bot-action-accordion">
       <div class="list-container">
         <ngb-accordion #accordionList = "ngbAccordion" [closeOthers]="true">
           <ng-container *ngFor="let bot of associatedBots | filter: [ searchBots, 'name' ]; let i = index">

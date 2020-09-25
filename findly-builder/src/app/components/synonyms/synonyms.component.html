@@ -58,8 +58,10 @@
   
   <!-- synonyms List -->
   <perfect-scrollbar class="table-scroll-perfect-synonyms">
-    <div class="mainLoadingSpinner" *ngIf="!(synonymData && synonymData.length) && !loadingContent">
-      <span class="please-wait-message">No Synonyms Available</span>
+    <div class="empty-questions-selected"  *ngIf="!(synonymData && synonymData.length) && !loadingContent">
+      <img src="assets/images/icons/empty_ill.svg">
+      <div class="heading">No Synonyms Available</div>
+      <div class="desc">Please add Synonyms</div>
     </div>
     <ul class="list-group synonyms_added_group" *ngIf="!loadingContent && haveRecord">      
         <li class="list_group" *ngFor="let synonym of synonymData;let i = index">         
