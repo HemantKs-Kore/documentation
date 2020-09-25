@@ -23,7 +23,16 @@ $excludeColor: var(--excludeColor);
             text-align: left;
         } 
         .closeCross {
+            position: absolute;
+            right: 13px;
             background: #fff;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            top: 10px;
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
         } 
         .closeCross:hover {
             background: #f8f9fa;

@@ -152,8 +152,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
 
   confirmText() {
-    if (matchRemoveTextClass(this.removalText, this.removeClassName, this.overStateEvent) && this.cancelData(this.removalText)) {
-      removeTextClass(this.removalText, this.removeClassName, this.overStateEvent); // remove sibling classes
+    let getRmvTxt = getAllElements(this.overStateEvent, this.removeClassName, this.pdfPayload);
+    if ((getRmvTxt === this.removalText) && this.cancelData(this.removalText)) {
+      removeTextClass(this.removeClassName, this.overStateEvent); // remove sibling classes
       this.cancelData(this.removalText); // Pass text to delete from original Payload
       $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
       this.pdfComponent.updateSize();
@@ -184,65 +185,35 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     }
     $event.preventDefault();
     $event.stopPropagation();
-    // var removeAnnotationContainer = $(".remove-indicator"); // remove annotation dialog
-    // if (!removeAnnotationContainer.is($event.target) && removeAnnotationContainer.has($event.target).length === 0) {
-    //   // removeAnnotationContainer.hide();
-    //   setTimeout(() => {
-    //     this.overRectange = null;
-    //   }, 2000);
-    // }
     if ($event.target.className === ClassTypes.heading) { // Heading
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
       this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      // let cur = currentElement($event.target, ClassTypes.heading);
-      // let prev = previousElement($event.target, ClassTypes.heading);
-      // let next = nextElement($event.target, ClassTypes.heading);
-      this.removalText = getAllElements($event.target, ClassTypes.heading); // Sum prev, current & next string
+      this.removalText = getAllElements($event.target, ClassTypes.heading, this.pdfPayload); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
     } else if ($event.target.className === ClassTypes.header) { // Header
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
       this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      // let cur = currentElement($event.target, ClassTypes.header);
-      // let prev = previousElement($event.target, ClassTypes.header);
-      // let next = nextElement($event.target, ClassTypes.header);
-      this.removalText = getAllElements($event.target, ClassTypes.header); // Sum prev, current & next string
+      this.removalText = getAllElements($event.target, ClassTypes.header, this.pdfPayload); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
     } else if ($event.target.className === ClassTypes.exclude) { // Ignore text
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
       this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      // let cur = currentElement($event.target, ClassTypes.exclude);
-      // let prev = previousElement($event.target, ClassTypes.exclude);
-      // let next = nextElement($event.target, ClassTypes.exclude);
-      this.removalText = getAllElements($event.target, ClassTypes.exclude); // Sum prev, current & next string
+      this.removalText = getAllElements($event.target, ClassTypes.exclude, this.pdfPayload); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
     } else if ($event.target.className === ClassTypes.footer) { // Footer
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
       this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      // let cur = currentElement($event.target, ClassTypes.footer);
-      // let prev = previousElement($event.target, ClassTypes.footer);
-      // let next = nextElement($event.target, ClassTypes.footer);
-      this.removalText = getAllElements($event.target, ClassTypes.footer); // Sum prev, current & next string
+      this.removalText = getAllElements($event.target, ClassTypes.footer, this.pdfPayload); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
     }
-    // else if($event.target.className !== "indicator" || $event.target.className !== "remove-annotation" ) {
-    //   setTimeout(() => {
-    //     this.hostRectangle = null;
-    //     this.overRectange = null;
-    //     this.removeAnnotationFlag = false;
-    //     document.getSelection().removeAllRanges(); // Clear selection range
-    //   }, 100);
-    // }
-    // else {
-    //   this.mouseLeavePDF($event.target);
-    // }
   }
   // On scroll evnt
   onScrollEvent($event) {
@@ -594,7 +565,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.dialogRef.close();
     }, (error: any) => {
       this.extractionLoader = false;
-      if (error && error.data && error.data.errors && error.data.errors[0] && error.data.errors[0].msg) {
+      if (error && error.error && error.error.errors && error.error.errors[0] && error.error.errors[0].msg) {
         this.notificationService.notify(error.error.errors[0].msg, "error");
       }
     });
@@ -639,7 +610,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     ).subscribe((res: any) => {
       // console.log(res);
     }, (error: any) => {
-      if (error && error.data && error.data.errors && error.data.errors[0] && error.data.errors[0].msg) {
+      if (error && error.error && error.error.errors && error.error.errors[0] && error.error.errors[0].msg) {
         this.notificationService.notify(error.error.errors[0].msg, "error");
       }
     });
@@ -868,113 +839,45 @@ function nativeSelectionText() {
 }
 
 // Get next, prev & curr Siblings text from current element
-function getAllElements(element, className) {
+function getAllElements(element, className, payload) {
   // Current
   let resultText: string = element.textContent;
-  if ($(element).prev().hasClass('rangySelectionBoundary')
-    && $(element).next().hasClass('rangySelectionBoundary')) { // Check prev & next with rangyBoundry class
+  if(findMatchedData(payload, '', resultText, '')) {
+    return resultText;
   }
   // PREV
   let prevResultText = [];
   var lp = $("." + className).length;
   let prevEle = $(element).parent().prev().children();
-  // if(!$(prevEle).hasClass(className)) { // If prev ClassName not found
-  //   return '';
-  // }
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {
-        // $(prevEle).filter("span[class='title-highlight']"); // Yes
-        // $(prevEle).filter("span:not(.title-highlight)") // NO
-        // if($(prevEle).filter("span:not(." + className +")").length) {
-        //   (prevEle) = $(prevEle).filter("span:not(." + className +")").remove(); // remove boundry range ele
-        // }
-        if ($(prevEle).hasClass('rangySelectionBoundary')) {
-          prevEle = $.each(prevEle, (index, ele) => {
-            // console.log(index, ele);
-            if (ele.className == 'rangySelectionBoundary') {
-              // $(ele).removeAttr('id style class');
-              // $(ele).detach('.rangySelectionBoundary');
-              // $(ele).remove(); ele.remove();         // No removing span for predefined
-              // console.log(prevEle);
-            }
-          });
-          // $(prevEle).filter("span.rangySelectionBoundary").remove('span'); // remove boundry range ele
-        }
-        if ($(prevEle).hasClass(className)) {
-          let text = $(prevEle).text();
-          // console.log(text);
-          // resultText = resultText.concat(text);
-          // if($(nextEle).parent().text() === $(nextEle).parent().children().text()) { // check div contains text with spans
-          //   nextEle = $(nextEle).parent().children(); // set every div this ele
-          // } else {
-          //   nextEle = null;
-          // }
-          prevResultText.push(text);
-          // $(prevEle).removeClass(className); // remove claas
-          prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-          
-          // remove nested span's
-          // if($(prevEle).parent()) { // check element exist
-          //   for(let k = 0; k <= 20; k++) { // loop spans in parent & child
-          //     if($(prevEle).parent().hasClass('rangy')) { // check class/ span / rangyboundry
-          //       prevEle = $(prevEle).parent() // change parent  element
-          //       // continue same process in above
-          //     }
-          //   }
-          // }
-
-        }
-        else if (!$(prevEle).hasClass(className) && $(prevEle).has('span').length) {
+        if (prevEle.length && $(prevEle).hasClass(className) ) {
           let text = $(prevEle).text();
           prevResultText.push(text);
-          // $(prevEle).removeClass(className); // remove claas
-          // if ($($(prevEle).parent()).children().find('span').length) { // check multiple spans
-          //   $($(prevEle).parent()).children().find('span').last().detach('.' + className);
-          //   $($(prevEle).parent()).children().find('span').last().detach('.rangySelectionBoundary');
-          // }
-          prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-          // console.log("Not found!  span with classname");
+          if(findMatchedData(payload, prevResultText, resultText, nextResultText)) {
+            prevEle = {};
+          } else {
+            prevEle = $(prevEle).parent().prev().children(); // set every div this ele
+          }
         }
       }
     }
   }
   // NEXT
   var nextResultText = [];
-  // var lp = $("." + className).length;
   let nextEle = $(element).parent().next().children();
-  // if(!$(nextEle).hasClass(className)) { // If next ClassName not found
-  //   return '';
-  // }
   if ($(nextEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = 0; j < nextEle.length; j++) {
-        if ($(nextEle).hasClass('rangySelectionBoundary')) {
-          nextEle = $.each(nextEle, (index, ele) => {
-            // console.log(index, ele);
-            if (ele.className == 'rangySelectionBoundary') {
-              // $(ele).detach('.rangySelectionBoundary');
-              // $(ele).removeAttr('id style class');
-              // $(ele).remove();          // No removing span for predefined
-              // console.log(nextEle);
-            }
-          });
-        }
-        if ($(nextEle).hasClass(className)) {
+        if (nextEle.length && $(nextEle).hasClass(className)) {
           let text = $(nextEle).text();
           nextResultText.push(text);
-          // $(nextEle).removeClass(className); // remove claas
-          nextEle = $(nextEle).parent().next().children(); // set every div this element
-        }
-        else if (!$(nextEle).hasClass(className) && $(nextEle).has('span').length) {
-          let text = $(nextEle).text();
-          nextResultText.push(text);
-          // $(nextEle).removeClass(className); // remove claas
-          // if ($($(nextEle).parent()).children().find('span').length) { // check multiple spans
-          //   $($(nextEle).parent()).children().find('span').last().detach('.' + className);
-          //   $($(nextEle).parent()).children().find('span').last().detach('.rangySelectionBoundary');
-          // }
-          nextEle = $(nextEle).parent().next().children(); // set every div this element
+          if(findMatchedData(payload, prevResultText, resultText, nextResultText)) { 
+            nextEle = {};
+          } else {
+            nextEle = $(nextEle).parent().next().children(); // set every div this element
+          }
         }
       }
     }
@@ -983,89 +886,11 @@ function getAllElements(element, className) {
   let prvTxt = prevResultText.reverse().join('') || '';
   let nxtText = nextResultText.join('') || '';
   let finalText = prvTxt + resultText + nxtText;
-  // console.log(finalText);
   return finalText || '';
 }
 // Remove/Detach classes for Prev+ current + next elements span's
-function matchRemoveTextClass(originalText, className, element) {
+function removeTextClass(className, element) {
   // CURRENT
-  let resultText: string = element.textContent;
-  if ($(element).prev().hasClass('rangySelectionBoundary')
-    && $(element).next().hasClass('rangySelectionBoundary')) { // Check prev & next with rangyBoundry class
-
-  }
-  // PREV
-  let lp = $("." + className).length;
-  let prevResultText = [];
-  let prevEle = $(element).parent().prev().children();
-  if ($(prevEle).hasClass(className)) {
-    for (let i = 0; i < lp; i++) {
-      for (let j = prevEle.length; j > 0; j--) {
-        if ($(prevEle).hasClass('rangySelectionBoundary')) {
-          prevEle = $.each(prevEle, (index, ele) => {
-            if (ele.className == 'rangySelectionBoundary') {
-
-            }
-          });
-        }
-        if ($(prevEle).hasClass(className)) {
-          let text = $(prevEle).text();
-          prevResultText.push(text);
-          prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-        }
-        else if (!$(prevEle).hasClass(className) && $(prevEle).has('span').length) {
-          let text = $(prevEle).text();
-          prevResultText.push(text);
-          prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-        }
-      }
-    }
-  }
-  // NEXT
-  let nextResultText = [];
-  let nextEle = $(element).parent().next().children();
-  if ($(nextEle).hasClass(className)) {
-    for (let i = 0; i < lp; i++) {
-      for (let j = 0; j < nextEle.length; j++) {
-        if ($(nextEle).hasClass('rangySelectionBoundary')) {
-          nextEle = $.each(nextEle, (index, ele) => {
-            if (ele.className == 'rangySelectionBoundary') {
-            }
-          });
-        }
-        if ($(nextEle).hasClass(className)) {
-          let text = $(nextEle).text();
-          nextResultText.push(text);
-          nextEle = $(nextEle).parent().next().children(); // set every div this element
-        }
-        else if (!$(nextEle).hasClass(className) && $(nextEle).has('span').length) {
-          let text = $(nextEle).text();
-          nextResultText.push(text);
-          nextEle = $(nextEle).parent().next().children(); // set every div this element
-        }
-      }
-    }
-  }
-  // console.group("Removal Logic");
-  // console.log(originalText);
-  let prvTxt = prevResultText.reverse().join('') || '';
-  let nxtText = nextResultText.join('') || '';
-  let remTxt = prvTxt + resultText + nxtText;
-  // console.log(remTxt);
-  // console.groupEnd();
-  if (originalText === remTxt) {
-    console.log("Both strings matching");
-    return true;
-  } else {
-    console.log("Strings not matching");
-    return false;
-  }
-
-}
-// Remove/Detach classes for Prev+ current + next elements span's
-function removeTextClass(originalText, className, element) {
-  // CURRENT
-  // let resultText: string = element.textContent;
   if ($(element).prev().hasClass('rangySelectionBoundary')
     && $(element).next().hasClass('rangySelectionBoundary')) { // Check prev & next with rangyBoundry class
     $(element).prev('.rangySelectionBoundary').detach('.rangySelectionBoundary');
@@ -1074,7 +899,6 @@ function removeTextClass(originalText, className, element) {
   $(element).removeClass(className);
   $(element).toggleClass('rangy');
   // PREV
-  // let prevResultText = [];
   let lp = $("." + className).length;
   let prevEle = $(element).parent().prev().children();
   let nextEle = $(element).parent().next().children();
@@ -1093,23 +917,16 @@ function removeTextClass(originalText, className, element) {
           $(prevEle).removeClass(className); // remove claas
           $(prevEle).toggleClass('rangy');
           prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-          // let text = $(nextEle).text();
-          // prevResultText.push(text);
         }
         else if (!$(prevEle).hasClass(className) && $(prevEle).has('span').length) {
           $(prevEle).removeClass(className); // remove claas
           $(prevEle).toggleClass('rangy');
           prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-          // console.log("Not found!  span with classname");
-          // let text = $(nextEle).text();
-          // prevResultText.push(text);
         }
       }
     }
   }
   // NEXT
-  // let nextResultText = [];
-
   if ($(nextEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = 0; j < nextEle.length; j++) {
@@ -1124,15 +941,11 @@ function removeTextClass(originalText, className, element) {
           $(nextEle).removeClass(className); // remove claas
           $(nextEle).toggleClass('rangy');
           nextEle = $(nextEle).parent().next().children(); // set every div this element
-          // let text = $(nextEle).text();
-          // nextResultText.push(text);
         }
         else if (!$(nextEle).hasClass(className) && $(nextEle).has('span').length) {
           $(nextEle).removeClass(className); // remove claas
           $(nextEle).toggleClass('rangy');
           nextEle = $(nextEle).parent().next().children(); // set every div this element
-          // let text = $(nextEle).text();
-          // nextResultText.push(text);
         }
       }
     }
@@ -1170,5 +983,27 @@ function checkDuplicateClasses(contentHtml: string) {
       //  }
   } catch(ex) {
     console.log(ex);
+  }
+}
+
+// Find Matched Data from orignal payload
+function findMatchedData(payload, prevText, currText, nextText) {
+  let prvTxt = prevText && prevText.length ? prevText.reverse().join('') : '';
+  let nxtText = nextText && nextText.length ? nextText.join('') : '';
+  let finalText = prvTxt + currText + nxtText;
+  console.log(finalText);
+  if (finalText) {
+    if (payload.title.includes(finalText)) {
+      return true;
+    } else if (payload.header.includes(finalText)) {
+      return true;
+    } else if (payload.footer.includes(finalText)) {
+      return true;
+    } else if (payload.ignoreText.includes(finalText)) {
+      return true;
+    } else {
+      console.log("No selected text found with Orginal data");
+      return false;
+    }
   }
 }

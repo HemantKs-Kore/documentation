@@ -525,6 +525,23 @@ $excludeColor: var(--excludeColor);
 				-ms-user-select: none;
 				user-select: none;
 			}
+			// .indicator-container {
+			// 	position: absolute;
+			// 	z-index: 20;
+			// 	padding: 5px 11px;
+			// 	font-size: 10px;
+			// 	font-weight: normal;
+			// 	line-height: 1.4;
+			// 	color: #8a959f;
+			// 	cursor: pointer;
+			// 	width: 120px;
+			// 	height: 26px;
+			// 	border-radius: 4px;
+			// 	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
+			// 	border: solid 1px #e5e8ec;
+			// 	background-color: #f6f8fa;
+			// 	margin: -118px 0 0 -14px;
+			// }
 			.indicator {
 				background-color: fade($modalBorderColor, 10%);
 				position: absolute;

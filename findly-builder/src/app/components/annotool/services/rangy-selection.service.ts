@@ -49,40 +49,8 @@ export class RangySelectionService implements OnInit, OnDestroy {
         highlighter.addClassApplier(rangy.createClassApplier(className), {
           ignoreWhiteSpace: true,
           tagNames: ["span"],
-          elementTagName: "a",
-          elementProperties: {
-              href: "#",
-              onclick: function() {
-                  var highlight = highlighter.getHighlightForElement(this);
-                  console.log("Hightlight" + highlight);
-                  if (window.confirm("Delete this note (ID " + highlight.id + ")?")) {
-                      highlighter.removeHighlights( [highlight] );
-                  }
-                  return false;
-              }
-          }
-
+          elementTagName: "a"
         });
-      //   highlighter.addClassApplier(rangy.createClassApplier("highlight", {
-      //     ignoreWhiteSpace: true,
-      //     tagNames: ["span", "a"]
-      // }));
-
-      //   highlighter.addClassApplier(rangy.createClassApplier("note", {
-      //     ignoreWhiteSpace: true,
-      //     elementTagName: "a",
-      //     elementProperties: {
-      //         href: "#",
-      //         onclick: function() {
-      //             var highlight = highlighter.getHighlightForElement(this);
-      //             if (window.confirm("Delete this note (ID " + highlight.id + ")?")) {
-      //                 highlighter.removeHighlights( [highlight] );
-      //             }
-      //             return false;
-      //         }
-      //     }
-      // }));
-
         highlighter.highlightSelection(className);
         rangy.getSelection().removeAllRanges();
       }
@@ -127,10 +95,6 @@ export class RangySelectionService implements OnInit, OnDestroy {
   deserialization(serializeRangeAr) {
     try {
       if (serializeRangeAr.length) {
-        // filter pageno == currpage(IMP)
-        // var filteredRes = serializeRangeAr.filter((val, index) => {
-        //     return val.curr_page == '__CURRENT_PAGE';
-        // });
         // deserialize with related serialized coords only
         serializeRangeAr.forEach(highlighterval => {
           if (highlighterval && Object.keys(highlighterval).length) {
