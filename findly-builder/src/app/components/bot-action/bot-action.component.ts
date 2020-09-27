@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-bot-action',
@@ -22,10 +23,14 @@ export class BotActionComponent implements OnInit {
   currentView;
   bots: any = [];
 
+  emptyAssociatedBots: boolean = true;
+  linkedBotName: any;
+  associatedBotArr = [];
   userInfo: any;
   linkExistingBotsModalRef: any = [];
   @ViewChild('linkExistingBotsComponent') linkExistingBotsComponent: KRModalComponent;
   searchBots: string;
+  searchSources: string;
   associatedBots: any = [];
   associatedTasks: any = [];
 
@@ -42,7 +47,9 @@ export class BotActionComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     console.log(this.selectedApp);
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.streamId = this.workflowService.selectedApp().findlyLinkedBotId;
+    // this.streamId = this.workflowService.selectedApp().findlyLinkedBotId;
+    this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    console.log("StreamID", this.streamId)
     console.log(this.workflowService.selectedApp())
     this.getBots();
 
@@ -68,7 +75,8 @@ export class BotActionComponent implements OnInit {
         };
         console.log(this.bots);
       }, errRes => {
-        this.errorToaster(errRes, 'Failed to get Bot Actions');
+        // this.errorToaster(errRes, 'Failed to get Bot Actions');
+        this.notificationService.notify("Error in loading bot action", 'error');
 
       });
     } else {
@@ -76,7 +84,8 @@ export class BotActionComponent implements OnInit {
       this.loadingContent = false;
     }
   }
-  errorToaster(errRes, message) {
+
+  /*errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
@@ -84,24 +93,30 @@ export class BotActionComponent implements OnInit {
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
     }
-  }
+  }*/
 
+  clearSearchSourcesResults() {
+    this.searchSources = null;
+  }
 
   openLinkExistingBotsComponent() {
     this.linkExistingBotsModalRef = this.linkExistingBotsComponent.open();
 
   }
+
   closeLinkExistingBotsComponent() {
     if (this.linkExistingBotsModalRef && this.linkExistingBotsModalRef.close) {
       this.linkExistingBotsModalRef.close();
     }
   }
+
   modifyStyles(elementRef, isActive) {
     console.log(elementRef);
     let element = document.getElementById(elementRef);
     console.log(element);
     console.log(isActive)
   }
+
   getAssociatedBots() {
     if (this.userInfo.id) {
       const queryParams: any = {
@@ -109,10 +124,28 @@ export class BotActionComponent implements OnInit {
       };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         console.log("Associated Bots", res);
+
         this.associatedBots = JSON.parse(JSON.stringify(res));
         console.log(this.associatedBots);
+        this.associatedBotArr = [];
+        if (this.associatedBots.length > 1) {
+          this.associatedBots.forEach(element => {
+            if(this.streamId == element._id) {
+              this.linkedBotName = element.name;
+            }
+            let botObject = {};
+            botObject['_id'] = element._id;
+            botObject['botName'] = element.botName;
+            this.associatedBotArr.push(botObject);
+          });
+          console.log(this.associatedBotArr);
+          this.emptyAssociatedBots = false;
+        }
+        else {
+          this.emptyAssociatedBots = true;
+        }
       },
-        (err) => { console.log(err) },
+        (err) => { console.log(err); this.notificationService.notify("Error in loading associated bots", 'error') },
 
         () => { console.log("Call Complete") }
       )
@@ -121,36 +154,76 @@ export class BotActionComponent implements OnInit {
       console.log("Invalid UserID")
     }
   }
+
   linkBot(botID: any) {
-    let requestBody = {};
     event.stopPropagation();
+
+    let requestBody: any = {};
+    let selectedApp: any;
+
     console.log(botID);
-    let selectedApp;
-    if(this.serachIndexId) {
+
+    if (this.serachIndexId) {
       const queryParams: any = {
         searchIndexID: this.serachIndexId
       };
-      requestBody['linkedBotId'] = botID;
+      requestBody['linkBotId'] = botID;
       console.log(requestBody);
       this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
         console.log(res);
         selectedApp = this.workflowService.selectedApp();
-        selectedApp.findlyLinkedBotId = res.findlyLinkedBotId;
+        console.log(selectedApp);
+        selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
+        this.linkedBotName = res.configuredBots[0].botName;
         this.workflowService.selectedApp(selectedApp);
         console.log(res.status);
-        this.streamId = selectedApp.findlyLinkedBotId;
+        this.streamId = selectedApp.configuredBots[0]._id;
         this.getBots();
+        this.getAssociatedBots();
+        this.notificationService.notify("Bot linked, successfully", 'success')
       },
-      
-      (err) => { console.log(err) }
-      
+
+        (err) => { console.log(err); this.notificationService.notify("Bot linking, unsuccessful", 'error') }
+
       )
     }
     else {
       this.notificationService.notify('Failed', 'Error in Linking Bot');
     }
   }
-  getAssociatedTasks(botID: any) {
+  unlinkBot(botID: any) {
+    event.stopPropagation();
+
+    let requestBody: any = {};
+    let selectedApp: any;
+
+    console.log(botID);
+
+    if (this.serachIndexId) {
+      const queryParams = {
+        searchIndexID: this.serachIndexId
+      }
+      requestBody['linkedBotId'] = botID;
+      console.log(requestBody);
+
+      this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
+        console.log(res);
+
+        selectedApp = this.workflowService.selectedApp();
+        selectedApp.configuredBots[0]._id = null;
+        this.linkedBotName = null;
+        this.workflowService.selectedApp(selectedApp);
+        this.streamId = null;
+        this.getBots();
+        this.getAssociatedBots();
+        this.notificationService.notify("Bot unlinked, successfully", 'success');
+
+      },
+        (err) => { console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); }
+      )
+    }
+  }
+  /*getAssociatedTasks(botID: any) {
     if (botID) {
       const queryParams: any = {
         botID: botID
@@ -169,21 +242,10 @@ export class BotActionComponent implements OnInit {
         () => { console.log("Call Completed") }
       )
     }
-  }
-  /*getAssociatedBots() {
-    this.associatedBots = [
-      {
-        name: 'Dummy Bot',
-        content: 'Description Of Dummy Bot'
-      },
-      {
-        name: 'Weather Bot',
-        content: 'Description Of Weather Bot'
-      },
-      {
-        name: 'Mail-Client Bot',
-        content: 'Description of Mail-Client Bot'
-      }
-    ]
   }*/
+
+  toggleDisable($event: NgbPanelChangeEvent) {
+    $event.preventDefault();
+  }
+
 }
