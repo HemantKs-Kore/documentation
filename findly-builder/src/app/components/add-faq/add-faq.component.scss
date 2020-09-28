@@ -158,7 +158,14 @@
     .responseEditorContainer{
         background: #F3F3F3;
         border-radius: 5px;
-     
+      .responsePreviewBlock{
+          background: #ffffff;
+          margin-top: 170px !important;
+          padding-left: 1.5rem!important;
+          padding-bottom: 1.5rem!important;
+          padding-right: 1.5rem!important;
+          margin:  110px 1.5rem 1.5rem 1.5rem !important;
+      }
     } 
     .tabs-sec{
         border-bottom: 1px solid #D8D8D8;
