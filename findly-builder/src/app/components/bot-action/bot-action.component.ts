@@ -23,6 +23,8 @@ export class BotActionComponent implements OnInit {
   currentView;
   bots: any = [];
 
+  sortedBy: string;
+  sortInAscending: boolean = false;
   emptyAssociatedBots: boolean = true;
   linkedBotName: any;
   associatedBotArr = [];
@@ -95,6 +97,71 @@ export class BotActionComponent implements OnInit {
     }
   }*/
 
+  compareValues(valA: number | string, valB: number | string, sortType: boolean) {
+    return (valA < valB ? -1 : 1) * (sortType ? 1 : -1);
+  }
+
+  sortBy(sortingField: string) {
+    const listData = this.bots.slice(0);
+    this.sortedBy = sortingField;
+
+    if (this.sortedBy !== sortingField) {
+      this.sortInAscending = true;
+    }
+    else {
+      this.sortInAscending = !this.sortInAscending;
+    }
+
+    const sortedData = listData.sort((a: any, b: any) => {
+      const sortOrder = this.sortInAscending;
+      switch (sortingField) {
+        case 'name': return this.compareValues(a.name, b.name, sortOrder);
+        case 'noOfAppearences': return this.compareValues(a.noOfAppearences, b.noOfAppearences, sortOrder);
+        case 'noOfClicks': return this.compareValues(a.noOfClicks, b.noOfClicks, sortOrder);
+        default: return;
+      }
+    });
+    this.bots = sortedData;
+  }
+
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.sortedBy) {
+      case "name": {
+        if (this.sortedBy == sortingField) {
+          if (this.sortInAscending == false && type == 'down') {
+            return "display-block";
+          }
+          if(this.sortInAscending == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "noOfAppearences": {
+        if (this.sortedBy == sortingField) {
+          if (this.sortInAscending == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.sortInAscending == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none";
+        }
+      }
+      case "noOfClicks": {
+        if (this.sortedBy == sortingField) {
+          if (this.sortInAscending == false && type == 'down') {
+            return "display-block";
+          }
+          else if (this.sortInAscending == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none";
+        }
+      }
+    }
+  }
+
   clearSearchSourcesResults() {
     this.searchSources = null;
   }
@@ -130,7 +197,7 @@ export class BotActionComponent implements OnInit {
         this.associatedBotArr = [];
         if (this.associatedBots.length > 1) {
           this.associatedBots.forEach(element => {
-            if(this.streamId == element._id) {
+            if (this.streamId == element._id) {
               this.linkedBotName = element.name;
             }
             let botObject = {};
@@ -246,6 +313,14 @@ export class BotActionComponent implements OnInit {
 
   toggleDisable($event: NgbPanelChangeEvent) {
     $event.preventDefault();
+  }
+
+  deleteTask(taskID: string) {
+    for(let i = 0; i < this.bots.length; i++) {
+      if(this.bots[i]['_id'] == taskID) {
+        this.bots.splice(i, 1)
+      }
+    }
   }
 
 }

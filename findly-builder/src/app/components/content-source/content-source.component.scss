@@ -134,7 +134,7 @@
                         font-size: 12px;   
                         cursor: pointer;         
                         .sortImg{
-                            transform: rotate(270deg);
+                            // transform: rotate(270deg);
                             top: -0.7px;
                             position: relative;
                             &.assending{
@@ -779,4 +779,20 @@
     }
     .scroll-table{
         height: calc(100vh - 250px);
+    }
+
+    .downArrow {
+        top: 2.3px !important;
+        margin-right: 0px !important;
+    }
+    .upArrow {
+        transform: rotate(180deg) !important;
+        top: -4px !important;
+        left: -12px !important;
+    }
+    .display-none {
+        visibility: hidden;
+    }
+    .display-block {
+        visibility: visible;
     }

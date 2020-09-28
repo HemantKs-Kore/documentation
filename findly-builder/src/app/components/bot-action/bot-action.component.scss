@@ -941,3 +941,17 @@
     // .bot-action-accordion {
     //     height: calc(100vh - 144px);
     // }
+    .downArrow {
+        top: 2.3px !important;   
+    }
+    .upArrow {
+        transform: rotate(180deg) !important;
+        top: -4px !important;
+        left: -12px !important;
+    }
+    .display-none {
+        visibility: hidden;
+    }
+    .display-block {
+        visibility: visible;
+    }

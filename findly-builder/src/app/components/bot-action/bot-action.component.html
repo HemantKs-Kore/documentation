@@ -8,10 +8,10 @@
       <div [class.table-action-header-empty]="!(bots && bots.length)" class="table-action-header">
         <div class="kr-sg-input-search m-0" *ngIf="bots && bots.length && !loadingContent">
           <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search"
-            id="searchContentSources" [(ngModel)]="searchSources"
-            autocomplete="off">
-          <img *ngIf="searchSources"  (click)="clearSearchSourcesResults()" class="search-icon" src="assets/images/close.svg"> <!-- (click)="applyFilter('')" -->
-          <img *ngIf="!searchSources"  class="search-icon" src="assets/images/search_gray.svg">
+            id="searchContentSources" [(ngModel)]="searchSources" autocomplete="off">
+          <img *ngIf="searchSources" (click)="clearSearchSourcesResults()" class="search-icon"
+            src="assets/images/close.svg"> <!-- (click)="applyFilter('')" -->
+          <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg">
         </div>
         <div>
           <div *ngIf="currentView === 'list' && (bots && bots.length) " class="grid-list-view-table"
@@ -36,6 +36,40 @@
           </div>
         </div>
       </div>
+      <section class="table-content" *ngIf="currentView === 'list' && (bots && bots.length) && !loadingContent">
+        <header class="table-header">
+          <div class="col_ col-3" (click)="sortBy('')">Bot<img src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">Task<img
+              [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('name', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('noOfAppearences')">Appearances<img
+              [ngClass]="getSortIconVisibility('noOfAppearences', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('noOfAppearences', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('noOfClicks')">Clicks<img
+              [ngClass]="getSortIconVisibility('noOfClicks', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('noOfClicks', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <div class="col_ col-1 d-flex align-items-center"></div>
+        </header>
+        <perfect-scrollbar class="table-scroll-perfect">
+          <ng-container>
+            <div class="content-body" *ngFor="let source of bots | filter: [ searchSources, 'name' ]">
+              <div class="col_ col-3">{{linkedBotName}}</div>
+              <div class="col_ col-3">{{source.name}}</div>
+              <div class="col_ col-3"> {{source.noOfAppearences?source.noOfAppearences:'-'}}</div>
+              <div class="col_ col-2">{{source.noOfClicks?source.noOfClicks:'-'}}</div>
+              <div class="col_ col-1 p-0">
+                <span class="action-links" (click)="deleteTask(source._id)"><img class="action_icon"
+                    src="assets/icons/delete-table.svg" ngbTooltip="Delete Task" container="body"></span>
+              </div>
+            </div>
+          </ng-container>
+          <div class="empty">No Results found</div>
+        </perfect-scrollbar>
+      </section>
     </div>
   </div>
   <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
@@ -45,18 +79,18 @@
       </p>
     </div>
   </div>
-  <ng-container>
+  <ng-container *ngIf="currentView === 'grid' && (bots && bots.length) && !loadingContent">
     <perfect-scrollbar class="table-scroll-perfect-bot">
       <div class="list-view-data">
         <div class="row row_list">
           <h4 class="title-linked-bot">{{linkedBotName}}</h4>
-          <div class="box-content" *ngFor="let source of bots | filter: [ searchSources, 'name' ];" (click)="openStatusSlider(source)">
+          <div class="box-content" *ngFor="let source of bots | filter: [ searchSources, 'name' ]"> <!-- (click)="openStatusSlider(source) -->
             <div class="bot-box text-left">
               <div class="boxContent">
                 <div class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></div>
                 <div class="detailsContainer">
-                  <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'
-                    [container]="'body'">
+                  <span class="actions-links" (click)="deleteTask(source._id)" ngbTooltip='Delete Task'
+                    [container]="'body'"> <!-- deletePages('source', source, $event)-->
                     <img class="action_icon" src="assets/icons/sidemenu/delete-table.svg">
                   </span>
                   <div class="title-bot btm-title">{{source.name}}</div>
@@ -72,6 +106,7 @@
           </div>
         </div>
       </div>
+      <div class="empty">No Results found</div>
     </perfect-scrollbar>
   </ng-container>
 </div>
