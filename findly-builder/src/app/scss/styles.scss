@@ -1023,6 +1023,10 @@ div.divBlockEmptylastChild:first-child {
                     .crerateWebCrawl{
                         padding: 0 !important;
                         width: 100% !important;
+                        .buttonFooter{
+                            left: 10% !important;
+                            padding-left: 30px !important;
+                        }
                     }
                 }
             }
