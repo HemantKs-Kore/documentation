@@ -455,10 +455,24 @@
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="add-web-croling-upload-file" #addfaqSourceModalPop>
-    <perfect-scrollbar class="train-questions-body-scroll"> 
-        <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq>
-    </perfect-scrollbar>
-    <ng-container *ngIf="showSourceAddition && !editfaq">
+    <ng-container *ngIf="showSourceAddition">
         <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
     </ng-container>
+</kr-modal>
+<kr-modal modalType="center" #editfaqSourceModalPop modalClass="modal_popups_">
+    <ng-container  *ngIf="editfaq && selectedFaq">
+  <div class="modal-header">
+    <div class="title">Edit FAQ</div>
+    <div class="close_icon"><img class="ng-tns-c11-2" (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
+  </div>
+<perfect-scrollbar class="perfect-scroll-modal-body">
+  <div class="modal-body">
+    <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()"></app-add-faq>
+  </div>
+</perfect-scrollbar> 
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle()">Cancel</button>
+  </div>
+</ng-container>
 </kr-modal>

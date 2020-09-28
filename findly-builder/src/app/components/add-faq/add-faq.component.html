@@ -90,6 +90,31 @@
     </div>
   </div>
 </ng-template>
+<ng-template #botResponsePreview let-responses="responses" let-responseObj='responseObj' let-type="reponseType"
+  let-id='id' let-index='index'>
+  <div class="body-top-content" (click)="currentEditIndex = index">
+    <div class="question-content">
+      <div class="conditionalBlock bot-response-view-mode">
+        <div class="bot-response-title">Bot Response <span>{{index + 1}}</span></div>
+        <div class="condition-tags" *ngIf="responseObj && responseObj.answerType === 'condition'">Conditions : <span
+            *ngIf="responseObj.conditions.length"><span
+              *ngFor="let item of responseObj.conditions;  let index = index"><span
+                *ngIf="index">,</span>{{item.value}}</span></span></div>
+        <div>
+          <div class="img-view-mode" *ngIf="responseObj.responseType !== 'default' && responseObj.image && responseObj.image.url">
+            <img src="{{responseObj.image.url}}">
+          </div>
+          <ng-container>
+            <div class="desc-info" *ngIf="responseObj.type==='string'"
+              [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(responseObj.payload)'></div>
+            <div class="desc-info desc-info-javascript-message" *ngIf="responseObj.type==='javascript'">Javascript
+              message</div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
 <div class="add-questions-form" [ngClass]="inputClass">
   <form [formGroup]="form">
     <div class="kr-sg-input-text mb-15">
@@ -125,48 +150,52 @@
     </div>
   </form>
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
-    <div class="bot_rsponse_advance_mode">
-      <div class="label-text bot-res-title">Bot Response</div>
-      <div class="advanced_mode_faq">
-        <label class="kr-sg-toggle with-label">
-          <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
-          <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
-        </label>
+    <div class="p-1 row responseEditorContainer" *ngIf="currentEditIndex === index">
+      <div class="col-6 p-1 col_">
+        <div class="bot_rsponse_advance_mode">
+          <div class="label-text bot-res-title">Bot Response</div>
+          <div class="advanced_mode_faq">
+            <label class="kr-sg-toggle with-label">
+              <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
+              <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
+            </label>
+          </div>
+          <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
+        </div>    
+        <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
+        <div class="label-text">Conditions</div>
+        <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+          <mat-chip-list #chipList2 aria-label="tag selection">
+            <ng-container *ngFor="let tag of faqObj.conditions; let index = index;">
+              <span class="and" *ngIf="(index)">and</span>
+              <mat-chip (removed)="removeConditionTag(tag,faqObj,index)">
+                <div class="mat-val" (click)="$event.stopPropagation()">{{tag.value}}</div>
+                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+              </mat-chip>
+            </ng-container>                           
+            <input placeholder="Type & enter"
+                   [(ngModel)]="conditionQuary"
+                   [matChipInputFor]="chipList2"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   (matChipInputTokenEnd)="addConditionTag($event,faqObj)" id="tagInput12" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
+            </mat-chip-list>
+        </mat-form-field>
+        </ng-container>
+        <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
       </div>
-      <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
-    </div>    
-  <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
-    <div class="label-text">Conditions</div>
-    <mat-form-field class="example-chip-list" [floatLabel]="'never'">
-      <mat-chip-list #chipList2 aria-label="tag selection">
-        <ng-container *ngFor="let tag of faqObj.conditions; let index = index;">
-          <span class="and" *ngIf="(index)">and</span>
-          <mat-chip (removed)="removeConditionTag(tag,faqObj,index)">
-            <div class="mat-val" (click)="$event.stopPropagation()">{{tag.value}}</div>
-            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-          </mat-chip>
-        </ng-container>                           
-        <input placeholder="Type & enter"
-               [(ngModel)]="conditionQuary"
-               [matChipInputFor]="chipList2"
-               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               (matChipInputTokenEnd)="addConditionTag($event,faqObj)" id="tagInput12" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
-        </mat-chip-list>
-    </mat-form-field>
-  </ng-container>
-    <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
-    <div class="btn-sec" *ngIf="faqData">
-      <div class="left-btns">
-        <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
-        <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
-      </div>
-      <div class="right-btns">        
-        <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
-        <button class="kr-sg-button-tertiary d-none" (click)='addAltQues()'>Add Alternate Question</button>
-        <button class="kr-sg-button-tertiary d-none" (click)='addFollowupQues()'>Add Followup Question</button>
+      <div class="col-6 p-1 col_">
+        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
       </div>
     </div>
+    <div class="col-12 p-0" *ngIf="currentEditIndex !== index">
+       <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+    </div>
   </ng-container>
+  <div class="btn-sec" *ngIf="faqData">
+    <div class="left-btns">
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
+    </div>
+  </div>
   <div class="btn-sec" *ngIf="!faqData">
     <div class="left-btns">
       <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
@@ -174,11 +203,10 @@
     </div>
     <div class="right-btns">        
       <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
-      <button class="kr-sg-button-tertiary d-none" (click)='addAltQues()'>Add Alternate Question</button>
-      <button class="kr-sg-button-tertiary d-none" (click)='addFollowupQues()'>Add Followup Question</button>
+      <button class="kr-sg-button-tertiary" (click)='addAltQues()'>Add Alternate Question</button>
+      <button class="kr-sg-button-tertiary" (click)='addFollowupQues()'>Add Followup Question</button>
     </div>
   </div>
-  
   <div *ngIf='isAdd'>
     <p>Add Alternate Question</p>
     <app-tags-inp [faqServ]='faqServiceAlt'></app-tags-inp>
@@ -187,7 +215,6 @@
     <p>Add Followup Question</p>
     <app-tags-inp [faqServ]='faqServiceFollow'></app-tags-inp>
   </div>
- 
 </div>
 
 <kr-modal modalType="default" #createImagePop>

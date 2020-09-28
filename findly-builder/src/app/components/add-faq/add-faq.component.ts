@@ -10,9 +10,10 @@ import { NotificationService } from '../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -30,9 +31,12 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('externalResponsePop') externalResponsePop: KRModalComponent;
   @Input() inputClass: string;
   @Input() faqData: any;
+  @Input() faqUpdate: Observable<void>;
   @Output() addFaq = new EventEmitter();
   @Output() cancelfaqEvent = new EventEmitter();
   @Output() editFaq = new EventEmitter();
+  eventsSubscription: Subscription;
+  currentEditIndex:any = 0;
   createLinkPopRef
   createImagePopRef
   externalResponsePopRef
@@ -112,6 +116,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     private kgService: KgDataService,
     private notify: NotificationService,
     private faqService: FaqsService,
+    public convertMDtoHTML:ConvertMDtoHTML,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
     ) {
@@ -148,6 +153,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         botResponse: ['', Validators.required]
       });
     }
+    this.eventsSubscription = this.faqUpdate.subscribe(() => this.save());
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
   setResponseType(type,responseObj){
@@ -211,6 +217,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
    if(type==='default'){
      const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
      this.faqResponse.defaultAnswers.push(tempResponseObj);
+     this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
    }
   }
   remove(tag): void {
