@@ -78,6 +78,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   totalRecord : number = 0;
   limitpage : number = 10;
   limitAllpage : number = 10;
+  allInOne : boolean = false;;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -103,7 +104,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   addNewContentSource(type){
     this.showSourceAddition = type;
-    this.openAddSourceModal();
+    // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -271,43 +272,55 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
         this.openStatusModal();
         this.selectedSource = source;
+        this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
         this.pageination(source.numPages,10)
         this.loadingSliderContent = true;
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-        this.recordStr = 1
-        this.recordEnd = this.limitpage;
+       
         this.getCrawledPages(this.limitpage,0);
     }
   }
   pageination(pages,perPage){
-    let count = 0;
-    let divisor = Math.floor(pages/perPage) 
-    let remainder = pages%perPage;
-    //let btnAllCount = 0;
-    if(remainder>0){
-      this.btnCount = divisor +1;
-      this.btnAllCount = this.btnCount;
-    }else{
-      this.btnCount =  divisor;
-      this.btnAllCount = this.btnCount;
-    }
+    // let count = 0;
+    // let divisor = Math.floor(pages/perPage) 
+    // let remainder = pages%perPage;
+    // if(remainder>0){
+    //   this.btnCount = divisor +1;
+    //   this.btnAllCount = this.btnCount;
+    // }else{
+    //   this.btnCount =  divisor;
+    //   this.btnAllCount = this.btnCount;
+    // }
 
-    if(this.btnCount > 5){
-      this.btnCount = 5
-    }
+    // if(this.btnCount > 5){
+    //   this.btnCount = 5
+    // }
     /** new Paging Logic */
     this.totalRecord = pages;
-    
+    this.recordStr = 1
+    if(this.totalRecord > this.limitpage){
+      this.recordEnd = this.limitpage;
+      this.allInOne = false;
+      $('.pre-arrow').addClass("dis-arow");
+    }else{
+      this.recordEnd = this.totalRecord;
+      this.allInOne = true;
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
+    }
+   
   }
   numArr(n: number): any[] {
     return Array(n);
   }
   onListScroll(){
+    if(!this.isConfig){
       if(this.perfectScroll.states.top){
-        if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,20,1000)
+        if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,2,1000)
       }else if(this.perfectScroll.states.bottom){
-        if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,20,1000)
+        if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,2,1000)
       }
+    }
   }
   onClickArrow(newStart,newEnd,offset,time){
     let preStart = this.recordStr;
@@ -320,6 +333,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       newStart < 0 ? this.recordStr = 1: this.recordStr = newStart;
       newStart > this.totalRecord ? this.recordStr =  this.recordStr - this.limitpage : this.recordStr = newStart;
       newEnd > this.totalRecord ? this.recordEnd = this.totalRecord: this.recordEnd = newEnd;
+      
       /** Apply scroller on last record **/
       // if(newEnd >= this.totalRecord){
       //   this.recordStr = this.recordStr-(this.limitpage);
@@ -339,6 +353,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }else if(this.recordEnd == this.totalRecord){
         $('.pre-arrow').removeClass("dis-arow");
         $('.nxt-arrow').addClass("dis-arow");
+      }
+      if(this.allInOne){
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
       }
       this.getCrawledPages(this.limitpage,this.recordStr-1);
       this.perfectScroll.directiveRef.update();
@@ -652,9 +670,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
       
-      allowUrls.forEach(element => {
+      // allowUrls.forEach(element => {
         
-      });
+      // });
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');

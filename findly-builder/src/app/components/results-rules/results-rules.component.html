@@ -118,6 +118,12 @@
       No Approved Rules
     </div>
    </ng-container>
+   <ng-container *ngIf="selectedTab==='signals'">
+    <div class="empty-questions-selected-signals">
+      <img src="assets/images/icons/empty_ill.svg">
+      <div class="heading">No Signals added yet</div>     
+    </div>
+   </ng-container>
  </div>
 
 <kr-modal modalType="center" #addRulesModalPop modalClass="modal_popups_">
