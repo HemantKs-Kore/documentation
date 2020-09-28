@@ -444,6 +444,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       })
       if (deleteIndex > -1) {
        this.selectedSource.pages.splice(deleteIndex,1);
+       this.getCrawledPages(this.limitpage,this.recordStr-1);
       }
     }, errRes => {
     });
