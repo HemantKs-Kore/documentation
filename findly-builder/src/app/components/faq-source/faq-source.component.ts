@@ -179,8 +179,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.statusModalPopRef.close();
     }
    }
-   openAddSourceModal() {
-     this.editfaq = null;
+   openAddSourceModal(edit?) {
+     if(!edit){
+      this.editfaq = null;
+     }
     this.addSourceModalPopRef  = this.addSourceModalPop.open();
    }
    closeAddsourceModal() {
@@ -516,10 +518,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     )
   }
   editThisQa(){
+    this.showSourceAddition = false
     this.editfaq = true;
+    this.openAddSourceModal(true);
   }
   faqCancle(event){
    this.editfaq = false;
+   this.closeAddsourceModal();
   }
   editFaq(event){
     const _payload = {
@@ -573,6 +578,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       // this.getfaqsBy();
       this.getStats();
       this.editfaq = false;
+      this.closeAddsourceModal();
     }, errRes => {
       this.errorToaster(errRes,'Somthing went worng');
     });

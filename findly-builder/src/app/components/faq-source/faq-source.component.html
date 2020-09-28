@@ -227,7 +227,7 @@
                     </div>
                     <perfect-scrollbar class="train-questions-body-scroll" #editQaScrollContainer>               
                         <div class="body-content" id="questionList">
-                            <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq>
+                            <!-- <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq> -->
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
@@ -455,7 +455,10 @@
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="add-web-croling-upload-file" #addfaqSourceModalPop>
-    <ng-container *ngIf="showSourceAddition">
+    <perfect-scrollbar class="train-questions-body-scroll"> 
+        <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq>
+    </perfect-scrollbar>
+    <ng-container *ngIf="showSourceAddition && !editfaq">
         <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
     </ng-container>
 </kr-modal>
