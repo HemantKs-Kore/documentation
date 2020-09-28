@@ -550,7 +550,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(secondResourceData.length)this.resources = [...secondResourceData];
       }
 
-     
+      this.getSourceList();
   }
   transform(date: string): any {
     const _date = new Date(date);
