@@ -1,24 +1,5 @@
 <ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>  
   <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
-  <div class="layout-select">
-    <div class="d-flex align-items-center m-0 col-10 p-0">
-      <div class="title">Select Layout</div>
-      <div class="img-block" (click)="setResponseType('default',responseObj)" [ngClass]="{'active': (responseObj.responseType === 'default') || (!responseObj.responseType)}">
-        <img *ngIf="(responseObj.responseType !== 'default')" src="assets/icons/editor/no-image.svg">
-        <img  *ngIf="(responseObj.responseType === 'default')" src="assets/icons/editor/no-image-active.svg">
-      </div>
-      <div class="img-block" (click)="setResponseType('horizontalSplit',responseObj)"  [ngClass]="{'active': (responseType === 'horizontalSplit')}">
-        <img *ngIf="(responseObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
-        <img *ngIf="(responseObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
-      </div>
-      <div class="img-block" (click)="setResponseType('verticalSplit',responseObj)"  [ngClass]="{'active': (responseType === 'verticalSplit')}">
-        <img *ngIf="(responseObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
-        <img *ngIf="(responseObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
-      </div>
-    </div>
-    <div class="delete-icon"><img src="assets/icons/sidemenu/delete-table.svg" (click)="delete(index)"></div>
-    <!-- <div class="col-5 pr-0 drag-info-title">Drag to swap the position of the image</div> -->
-  </div>
   <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
   <div class="text-area-editor" [ngClass]="{'swap-positions': responseObj.responseType==='horizontalSplit','image-split-mode': responseObj.responseType ==='verticalSplit'}">
     <div class="upload-content-wrapper"  *ngIf="(responseObj.responseType !== 'default')">
@@ -31,41 +12,36 @@
         <img src="{{responseObj.image.url}}">
       </div>        
     </div>
+    <div class="editor-actons" *ngIf="responseObj.type==='string'">
+      <!-- <span class="edit-action">
+        <img src="assets/icons/editor/alphabits.svg">
+      </span> -->
+      <span (click)="onSelected('italic')" class="edit-action">
+        <img src="assets/icons/editor/italic.svg">
+      </span>
+      <span (click)="onSelected('bold')" class="edit-action">
+        <img src="assets/icons/editor/bold.svg">
+      </span>
+      <span  class="edit-action" (click)="onSelected('link')">
+        <img src="assets/icons/editor/link.svg">
+      </span>
+      <span (click)="onSelected('indentLeft')" class="edit-action">
+        <img src="assets/icons/editor/align-left.svg">
+      </span>
+      <!-- <span class="edit-action">
+        <img src="assets/icons/editor/align-center.svg">
+      </span> -->
+      <span (click)="onSelected('indentRight')" class="edit-action">
+        <img src="assets/icons/editor/align-right.svg">
+      </span>
+      <span class="edit-action" (click)="onSelected('ordered')">
+        <img src="assets/images/markup/list-ordered.svg">
+      </span>
+      <span (click)="onSelected('unordered')"  class="edit-action">
+        <img src="assets/images/markup/list-unordered.svg">
+      </span>
+    </div> 
     <div class="kr-sg-input-text-area"> 
-      <div class="tabs-sec">
-        <span class="tab-title " (click)="responseObj.type='string'" [ngClass]="{'active': responseObj.type === 'string'}">Editor</span>
-        <span class="tab-title" (click)="responseObj.type='javascript'" [ngClass]="{'active': responseObj.type==='javascript'}">&lt;/&gt; CODE</span>
-        <span class="tab-title" (click)="responseObj.type='external'" [ngClass]="{'active': responseObj.type==='external'}">External</span>
-      </div>
-      <div class="editor-actons" *ngIf="responseObj.type==='string'">
-        <!-- <span class="edit-action">
-          <img src="assets/icons/editor/alphabits.svg">
-        </span> -->
-        <span (click)="onSelected('italic')" class="edit-action">
-          <img src="assets/icons/editor/italic.svg">
-        </span>
-        <span (click)="onSelected('bold')" class="edit-action">
-          <img src="assets/icons/editor/bold.svg">
-        </span>
-        <span  class="edit-action" (click)="onSelected('link')">
-          <img src="assets/icons/editor/link.svg">
-        </span>
-        <span (click)="onSelected('indentLeft')" class="edit-action">
-          <img src="assets/icons/editor/align-left.svg">
-        </span>
-        <!-- <span class="edit-action">
-          <img src="assets/icons/editor/align-center.svg">
-        </span> -->
-        <span (click)="onSelected('indentRight')" class="edit-action">
-          <img src="assets/icons/editor/align-right.svg">
-        </span>
-        <span class="edit-action" (click)="onSelected('ordered')">
-          <img src="assets/images/markup/list-ordered.svg">
-        </span>
-        <span (click)="onSelected('unordered')"  class="edit-action">
-          <img src="assets/images/markup/list-unordered.svg">
-        </span>
-      </div>     
       <div *ngIf="responseObj.type==='javascript'" >
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
@@ -95,11 +71,6 @@
   <div class="body-top-content" (click)="currentEditIndex = index">
     <div class="question-content">
       <div class="conditionalBlock bot-response-view-mode">
-        <div class="bot-response-title">Bot Response <span>{{index + 1}}</span></div>
-        <div class="condition-tags" *ngIf="responseObj && responseObj.answerType === 'condition'">Conditions : <span
-            *ngIf="responseObj.conditions.length"><span
-              *ngFor="let item of responseObj.conditions;  let index = index"><span
-                *ngIf="index">,</span>{{item.value}}</span></span></div>
         <div>
           <div class="img-view-mode" *ngIf="responseObj.responseType !== 'default' && responseObj.image && responseObj.image.url">
             <img src="{{responseObj.image.url}}">
@@ -150,10 +121,43 @@
     </div>
   </form>
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
+    <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
+      <div class="question-content">
+        <div class="conditionalBlock bot-response-view-mode">
+          <div class="bot-response-title">Bot Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span></div>
+          <div class="condition-tags" *ngIf="faqObj && (faqObj.answerType === 'condition') && (currentEditIndex !== index)">Conditions : <span
+              *ngIf="faqObj.conditions.length"><span
+                *ngFor="let item of faqObj.conditions;  let index = index"><span
+                  *ngIf="index">,</span>{{item.value}}</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="p-1 row responseEditorContainer" *ngIf="currentEditIndex === index">
       <div class="col-6 p-1 col_">
+        <div class="tabs-sec">
+          <span class="tab-title " (click)="faqObj.type='string'" [ngClass]="{'active': faqObj.type === 'string'}">Editor</span>
+          <span class="tab-title" (click)="faqObj.type='javascript'" [ngClass]="{'active': faqObj.type==='javascript'}">&lt;/&gt; CODE</span>
+          <span class="tab-title" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
+        </div>
         <div class="bot_rsponse_advance_mode">
-          <div class="label-text bot-res-title">Bot Response</div>
+          <div class="layout-select">
+            <div class="d-flex align-items-center m-0 col-10 p-0">
+              <div class="title">Select Layout</div>
+              <div class="img-block" (click)="setResponseType('default',faqObj)" [ngClass]="{'active': (faqObj.responseType === 'default') || (!faqObj.responseType)}">
+                <img *ngIf="(faqObj.responseType !== 'default')" src="assets/icons/editor/no-image.svg">
+                <img  *ngIf="(faqObj.responseType === 'default')" src="assets/icons/editor/no-image-active.svg">
+              </div>
+              <div class="img-block" (click)="setResponseType('horizontalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'horizontalSplit')}">
+                <img *ngIf="(faqObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
+                <img *ngIf="(faqObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
+              </div>
+              <div class="img-block" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
+                <img *ngIf="(faqObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
+                <img *ngIf="(faqObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
+              </div>
+            </div>
+          </div>
           <div class="advanced_mode_faq">
             <label class="kr-sg-toggle with-label">
               <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
@@ -164,7 +168,7 @@
         </div>    
         <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
         <div class="label-text">Conditions</div>
-        <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+        <mat-form-field class="example-chip-list pb-2" [floatLabel]="'never'">
           <mat-chip-list #chipList2 aria-label="tag selection">
             <ng-container *ngFor="let tag of faqObj.conditions; let index = index;">
               <span class="and" *ngIf="(index)">and</span>
@@ -184,10 +188,15 @@
         <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
       </div>
       <div class="col-6 p-1 col_">
-        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+        <div class="tabs-sec">
+          <span class="tab-title ">Response Preview</span>
+        </div>
+        <div class="pr-4 pl-4 pb-4 m-4 bg-white">
+          <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+        </div>
       </div>
     </div>
-    <div class="col-12 p-0" *ngIf="currentEditIndex !== index">
+    <div class="col-12 p-0 pointer" title="Click to edit this response" *ngIf="currentEditIndex !== index">
        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
     </div>
   </ng-container>

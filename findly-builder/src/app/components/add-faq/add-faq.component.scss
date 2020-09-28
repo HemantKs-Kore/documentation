@@ -36,24 +36,28 @@
     }
     .layout-select{
         display: flex;
-        background: #E7F1FF;
-        border-radius: 4px;
-        padding: 11px 20px;
+        // background: #E7F1FF;
+        // border-radius: 4px;
+        // padding: 11px 20px;
         align-items: center;
-        margin: 20px 0 10px 0;
+        // margin: 20px 0 10px 0;
         position: relative;
+        width: 60%;
         .title{
             color: #202124;
-            font-size: 14px;
-            margin-right: 20px;
+            font-size: 12px;
+            margin-right: 6px;
+            width: 85px;
         }
         .img-block{
-            padding: 9px 0px;
+            // padding: 9px 0px;
             border: 1px solid transparent;
             box-sizing: border-box;
             border-radius: 4px;
-            width: 55px;
-            height: 55px;
+            // width: 55px;
+            // height: 55px;
+            width: 40px;
+            height: 40px;
             text-align: center;
             margin-right: 6px;
             cursor: pointer;
@@ -81,12 +85,8 @@
             cursor: pointer;
         }
     } 
-    .responseEditorContainer{
-        background: #F3F3F3;
-        border-radius: 5px;
-        .body-top-content{
-            padding: 20px 0 0 0;
-        }
+    .body-top-content{
+        padding: 10px 0 10px;
         .question-content{
             .title-que{
                 color: #202124;
@@ -154,8 +154,43 @@
                 }
             }
         } 
+    }
+    .responseEditorContainer{
+        background: #F3F3F3;
+        border-radius: 5px;
+     
     } 
+    .tabs-sec{
+        border-bottom: 1px solid #D8D8D8;
+        margin-right: 20px;
+        .tab-title{
+            padding: 11px 20px;
+            display: inline-block;
+            color: #8A959F;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            position: relative;
+            cursor: pointer;
+            background: transparent;
+            &.active{
+                color: #0D6EFD;
+                &::before{
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    bottom: -1px;
+                    left: 0;
+                    transition: 0.4s all ease;
+                    border-bottom: 2px solid #0D6EFD;
+                }
+            }
+        }
+    }
     .text-area-editor{
+        background: #ffffff;
+        border-radius: 4px;
+        border: 1px solid #BDC1C6;
         &.image-split-mode{
             display: flex;
             justify-content: space-between;
@@ -256,40 +291,33 @@
                 }
             }
         }
+        .editor-actons{
+            border: 0;
+            display: flex;
+            padding: 5px;
+            .edit-action{
+                border-radius: 4px;
+                text-align: center;                                      
+                margin-right: 6px;                    
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 26px;
+                height: 26px;
+                cursor: pointer;                   
+                img{
+
+                }
+            }                
+        }
         .kr-sg-input-text-area{
             position: relative;
-            border: 1px solid #BDC1C6;
+            border-top: 1px solid #BDC1C6;
             box-sizing: border-box;
-            border-radius: 4px;
+            // border-radius: 4px;
             padding: 0 0px 0 20px;            
             line-height: normal;
-            .tabs-sec{
-                border-bottom: 1px solid #D8D8D8;
-                margin-right: 20px;
-                .tab-title{
-                    padding: 11px 20px;
-                    display: inline-block;
-                    color: #8A959F;
-                    font-weight: 600;
-                    font-size: 12px;
-                    text-transform: uppercase;
-                    position: relative;
-                    cursor: pointer;
-                    background: transparent;
-                    &.active{
-                        color: #0D6EFD;
-                        &::before{
-                            content: "";
-                            position: absolute;
-                            width: 100%;
-                            bottom: -1px;
-                            left: 0;
-                            transition: 0.4s all ease;
-                            border-bottom: 2px solid #0D6EFD;
-                        }
-                    }
-                }
-            }
+          
             .editor-actons{
                 position: absolute;
                 bottom: 10px;

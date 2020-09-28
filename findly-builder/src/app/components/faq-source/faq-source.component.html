@@ -241,7 +241,7 @@
                                     <div class="bot-response-view-mode">
                                         <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
                                             <ng-container *ngFor="let answer of selectedFaq.defaultAnswers ;let i = index;">
-                                                <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1)}}</span></div> 
+                                                <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq.defaultAnswers.length > 1) || (selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
                                                 <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                     <img src="{{answer.multimedia.url}}">
                                                 </div>
