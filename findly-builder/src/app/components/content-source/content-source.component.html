@@ -4,7 +4,7 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
-    <div *ngIf="!showSourceAddition" class="crawlContent row m-0 mb-4">
+    <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
       <div class="webDomain" (click)="addNewContentSource('contentWeb')">
         <div class="box-block">
@@ -28,10 +28,6 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="showSourceAddition">
-      <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
-        (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
-    </ng-container>
   </div>
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
@@ -427,7 +423,7 @@
             </div>
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
-                [scrollIndicators]="true" (psScrollY)="onListScroll()">
+                [scrollIndicators]="true">
                 <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">

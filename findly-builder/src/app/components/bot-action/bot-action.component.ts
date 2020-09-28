@@ -255,7 +255,7 @@ export class BotActionComponent implements OnInit {
       )
     }
     else {
-      this.notificationService.notify('Failed', 'Error in Linking Bot');
+      this.notificationService.notify('Failed', 'Error in linking bot');
     }
   }
   unlinkBot(botID: any) {
@@ -318,7 +318,8 @@ export class BotActionComponent implements OnInit {
   deleteTask(taskID: string) {
     for(let i = 0; i < this.bots.length; i++) {
       if(this.bots[i]['_id'] == taskID) {
-        this.bots.splice(i, 1)
+        this.bots.splice(i, 1);
+        this.notificationService.notify("Task deleted, successfully", 'success')
       }
     }
   }

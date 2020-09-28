@@ -443,7 +443,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         return pg._id === page._id;
       })
       if (deleteIndex > -1) {
-        this.selectedSource.pages.splice(deleteIndex, 1);
+       this.selectedSource.pages.splice(deleteIndex,1);
+       this.getCrawledPages(this.limitpage,this.recordStr-1);
       }
     }, errRes => {
     });
@@ -550,6 +551,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
 
 
+      this.getSourceList();
   }
   transform(date: string): any {
     const _date = new Date(date);
