@@ -380,7 +380,6 @@
                     [disabled]="workflowService.disablePerfectScroll" class="scroll-table"
                     #perfectScroll
                     [scrollIndicators]="true"
-                    (psScrollY)="onListScroll()"
                    >
                   <div class="card_content"
                     *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
