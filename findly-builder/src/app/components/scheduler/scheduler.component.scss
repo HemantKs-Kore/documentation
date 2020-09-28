@@ -961,13 +961,8 @@
     .schedule-drop-text{
         color: #bdc1c6;
     }
-    ::ng-deep mat-datepicker-toggle {
-        position: absolute;
-        left: 263px;
-        top: 370px;
-    }
+    
 }
-
 .custom-ref{
     .modal-body{
         height: 400px;
@@ -1086,6 +1081,6 @@
 
 ::ng-deep .mat-date-icon{
     position: absolute;
-    left: 296px !important;
-    top: 256px !important;
+    margin-left: 265px !important;
+    margin-top: 15px !important;
 }
