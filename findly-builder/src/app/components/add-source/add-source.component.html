@@ -48,7 +48,17 @@
                     (change)="fileChangeListener($event)"  aria-describedby="inputGroupFileAddon01"
                     accept=".csv,.pdf">
                 </div>
-                <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span><span class="browse">Browse</span></label>
+                <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span>
+                  <span class="browse">Browse</span>
+                  <!-- <span class="dropdown kr-sg-overflow-menu open">
+                    <div class="dropdown-toggle browse" id="menu1" data-toggle="dropdown">Browse
+                    </div>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                      <li><a >Source URL</a></li>
+                      <li><a >Annotate</a></li>
+                    </ul>
+                  </span> -->
+                </label>
               </div>
               <div class="kr-sg-file-drag-drop" *ngIf="fileObj.fileName">
                 <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
@@ -64,6 +74,14 @@
                 <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">Error in uploading file</div>
               </div>
             </div>
+             <!-- Annotation Start Here -->
+             <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
+              <div class="kr-sg-checkbox">
+                <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
+                <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
+              </div> 
+            </div>
+          <!-- Annotation End Here -->
             <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq')">
               <div class="label_text mt-3 text-center">or</div>
             </div>

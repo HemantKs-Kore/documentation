@@ -1,0 +1,149 @@
+@import "../../../../scss/variables/variables.scss";
+@import "../../scss/theme-picker.scss";
+$headingColor: var(--headingColor);
+$headerColor: var(--headerColor);
+$footerColor: var(--footerColor);
+$excludeColor: var(--excludeColor);
+.user-guide {
+    .modal-header {
+        padding: 18px;
+        display: block;
+        text-align: center;
+        position: relative;
+        border-radius: 4px 4px 0 0px;
+        background-color: #f2f3f5;
+        background: #FFFFFF;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        .modal-title {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            color: #202124;
+            text-align: left;
+        } 
+        .closeCross {
+            position: absolute;
+            right: 13px;
+            background: #fff;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            top: 10px;
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+        } 
+        .closeCross:hover {
+            background: #f8f9fa;
+        }       
+    }
+    .modal-body {
+        padding: 15px 40px 10px 40px;       
+        background: $whiteColor;
+        .desc-text{
+            font-size: 12px;
+            color: #26344a;
+            text-align: center;
+            line-height: 1.17;
+            font-weight: normal;
+            margin-bottom: 4px;
+        }
+        .small-text{
+            color: #8a959f;
+            font-size: 12px;
+            text-align: center;
+            margin: 0 0 8px 0;
+        }
+        .box-content{            
+            .content{
+                border-radius: 3px;
+                border: solid 1px #e5e8ec;
+                background-color: #ffffff;
+                padding: 10px;
+                .buttons-gruop{                                        
+                    .buttons{
+                        border-radius: 2px;
+                        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+                        border: solid 1px #e5e8ec;
+                        background-color: #ffffff;
+                        display: inline-block;
+                        button{
+                            padding: 0px 8px;
+                            border-radius: 0px;
+                            margin: 0;
+                            &:hover{
+                                background-color: #e5e8ec;
+                            }
+                            &.heading_text{
+                                color: $headingColor;
+                                border: 0px !important;
+                                border-right: 1px solid #e5e8ec !important;                                 
+                            }
+                            &.header{
+                                color: $headerColor;
+                                border: 0px !important;
+                                border-right: 1px solid #e5e8ec !important;
+                            }
+                            &.footer{
+                                color: $footerColor;
+                                border: 0px !important;
+                                border-right: 1px solid #e5e8ec !important;
+                            }
+                            &.ignore-text{
+                                color: $excludeColor;
+                                border: 0px !important;                                
+                            }
+                        }
+                    }
+                    
+                }
+                .heading{
+                    background-color: #b7d3f3;
+                    display: inline-block;
+                    color: #26344a;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 0px 4px;
+                    margin-bottom: 4px;
+                }
+                .desc-info{
+                    color: #8a959f;
+                    font-size: 10px;
+                    line-height: 1.47;
+                    font-weight: normal;
+                }
+            }
+        }
+        .learn-more-link{
+            font-size: 12px;
+            color: #009dab;
+            margin: 0;
+            text-decoration: underline;
+            text-align: center;
+            display: block;
+            padding: 9px 0 0px 0;
+        }
+    }
+    .modal-footer {
+        height: auto;
+        padding: 7px 0px;
+        border-radius: 0px 0px 4px 4px;
+        display: block;
+        text-align: left;
+        background: #FFFFFF;
+        box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
+         
+        button{
+            cursor: pointer;
+        }
+    }
+}
+
+::ng-deep .cdk-global-scrollblock {
+    overflow-y: hidden;
+}
+::ng-deep .kr-create-app-panel {
+    width: 700px;
+}
