@@ -13,6 +13,9 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -70,6 +73,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   showSourceAddition:any = null;
   isAsc = true;
   selectedSort = '';
+  recordStr : number = 1;
+  recordEnd : number = 10;
+  totalRecord : number = 0;
+  limitpage : number = 10;
+  limitAllpage : number = 10;
+  allInOne : boolean = false;;
+  @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
@@ -87,7 +97,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getSourceList();
     this.userInfo = this.authService.getUserInfo() || {};
+    window.addEventListener('scroll', this.scroll, true);
   }
+  scroll = (event): void => {
+    //console.log(event)
+  };
   addNewContentSource(type){
     this.showSourceAddition = type;
     this.openAddSourceModal();
@@ -258,32 +272,97 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
         this.openStatusModal();
         this.selectedSource = source;
+        this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
         this.pageination(source.numPages,10)
         this.loadingSliderContent = true;
         // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-        this.getCrawledPages(10,0);
+       
+        this.getCrawledPages(this.limitpage,0);
     }
   }
   pageination(pages,perPage){
-    let count = 0;
-    
-    let divisor = Math.floor(pages/perPage) 
-    let remainder = pages%perPage;
-    //let btnAllCount = 0;
-    if(remainder>0){
-      this.btnCount = divisor +1;
-      this.btnAllCount = this.btnCount;
-    }else{
-      this.btnCount =  divisor;
-      this.btnAllCount = this.btnCount;
-    }
+    // let count = 0;
+    // let divisor = Math.floor(pages/perPage) 
+    // let remainder = pages%perPage;
+    // if(remainder>0){
+    //   this.btnCount = divisor +1;
+    //   this.btnAllCount = this.btnCount;
+    // }else{
+    //   this.btnCount =  divisor;
+    //   this.btnAllCount = this.btnCount;
+    // }
 
-    if(this.btnCount > 5){
-      this.btnCount = 5
+    // if(this.btnCount > 5){
+    //   this.btnCount = 5
+    // }
+    /** new Paging Logic */
+    this.totalRecord = pages;
+    this.recordStr = 1
+    if(this.totalRecord > this.limitpage){
+      this.recordEnd = this.limitpage;
+      this.allInOne = false;
+      $('.pre-arrow').addClass("dis-arow");
+    }else{
+      this.recordEnd = this.totalRecord;
+      this.allInOne = true;
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
     }
+   
   }
   numArr(n: number): any[] {
     return Array(n);
+  }
+  onListScroll(){
+    if(!this.isConfig){
+      if(this.perfectScroll.states.top){
+        if(!(this.recordStr < this.limitpage)) this.onClickArrow(this.recordStr-this.limitpage,this.recordEnd-this.limitpage,2,1000)
+      }else if(this.perfectScroll.states.bottom){
+        if(this.recordEnd != this.totalRecord) this.onClickArrow(this.recordStr+this.limitpage,this.recordEnd+this.limitpage,2,1000)
+      }
+    }
+  }
+  onClickArrow(newStart,newEnd,offset,time){
+    let preStart = this.recordStr;
+    let preEnd = this.recordEnd;
+    if((newStart < 1 )|| newEnd > (this.totalRecord + this.limitpage)){
+    }else{
+      if(preEnd == this.totalRecord){
+        newEnd = newStart + (this.limitpage-1);
+      }
+      newStart < 0 ? this.recordStr = 1: this.recordStr = newStart;
+      newStart > this.totalRecord ? this.recordStr =  this.recordStr - this.limitpage : this.recordStr = newStart;
+      newEnd > this.totalRecord ? this.recordEnd = this.totalRecord: this.recordEnd = newEnd;
+      
+      /** Apply scroller on last record **/
+      // if(newEnd >= this.totalRecord){
+      //   this.recordStr = this.recordStr-(this.limitpage);
+      //   let skip = this.recordStr-(this.limitpage-1) < 0 ? 0: this.recordStr-(this.limitpage-1)
+      //   this.getCrawledPages(this.limitpage,skip);
+      //   this.perfectScroll.directiveRef.update();
+      // }else{
+      //   this.getCrawledPages(this.limitpage,this.recordStr-1);
+      // }
+       /** Apply scroller on last record **/
+      if(this.recordStr > this.limitpage && this.recordEnd < this.totalRecord){
+        $('.pre-arrow').removeClass("dis-arow");
+        $('.nxt-arrow').removeClass("dis-arow");
+      }else if(this.recordStr < this.limitpage){
+        $('.pre-arrow').addClass("dis-arow");
+        $('.nxt-arrow').removeClass("dis-arow");
+      }else if(this.recordEnd == this.totalRecord){
+        $('.pre-arrow').removeClass("dis-arow");
+        $('.nxt-arrow').addClass("dis-arow");
+      }
+      if(this.allInOne){
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
+      }
+      this.getCrawledPages(this.limitpage,this.recordStr-1);
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(offset, time);
+      
+    }
   }
   onClickPageNo(noRows,index){
     this.getCrawledPages(noRows,index);
@@ -365,6 +444,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       })
       if (deleteIndex > -1) {
        this.selectedSource.pages.splice(deleteIndex,1);
+       this.getCrawledPages(this.limitpage,this.recordStr-1);
       }
     }, errRes => {
     });
@@ -470,7 +550,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(secondResourceData.length)this.resources = [...secondResourceData];
       }
 
-     
+      this.getSourceList();
   }
   transform(date: string): any {
     const _date = new Date(date);
@@ -591,9 +671,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
       
-      allowUrls.forEach(element => {
+      // allowUrls.forEach(element => {
         
-      });
+      // });
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -609,6 +689,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       clearInterval(this.polingObj[job]);
     });
    }
+   window.removeEventListener('scroll', this.scroll, true);
   }
 }
 

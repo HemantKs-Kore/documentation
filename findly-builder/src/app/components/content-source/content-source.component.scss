@@ -371,6 +371,7 @@
                             }
                             .kr-sg-input-search{
                                 width: 300px;
+                                margin-right: 30px;
                                 input{
                                     padding: 4px 10px 4px 32px;
                                     background: #FFFFFF;
@@ -551,7 +552,13 @@
         color: #0D6EFD !important;
         border-bottom: 1px solid #0D6EFD !important;
     }
-    .accordion-content-info{     
+    .paginations-custon.numbers{
+        font-weight: 600 !important;
+        font-size: 10px !important;
+        line-height: 14px;
+    }
+    .accordion-content-info{ 
+        margin-right: 30px;    
         .table-list-content{
             .kr-sg-data-table{
                 .table-content {
@@ -746,4 +753,30 @@
     .m1010{
         margin: 1px 0px 1px 0px;
     }
-    
+    .pre-arrow{
+        border: solid #202124;
+        border-width: 0 2px 2px 0 ;
+        display: inline-block ;
+        padding: 3px ;
+        transform: rotate(135deg) ;
+        -webkit-transform: rotate(135deg) ;
+    }
+    .nxt-arrow{
+        border: solid #202124;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+    }
+    .numbers-page {
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+    .dis-arow {
+        border: solid #c5c7ce;
+        border-width: 0 2px 2px 0;
+    }
+    .scroll-table{
+        height: calc(100vh - 250px);
+    }
