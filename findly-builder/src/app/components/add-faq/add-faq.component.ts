@@ -103,6 +103,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       alt:'',
     }
   }
+  altAddSub: Subscription;
+  altCancelSub: Subscription;
   followInpKeySub: Subscription;
   followInpQuesSub: Subscription;
   altInpKeySub: Subscription;
@@ -153,6 +155,10 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         botResponse: ['', Validators.required]
       });
     }
+    this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
+      this.isAdd = false;
+    });
+    this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data=>{ this.isAdd = false; });
     this.eventsSubscription = this.faqUpdate.subscribe(() => this.save());
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
@@ -596,7 +602,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           })
         }
         this.form.get('botResponse').setValue(newMessage);
-        $(this.container).focus();
+        // $(this.container).focus();
       }
     }
     saveLink() {
@@ -703,21 +709,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
 
   addAltQues() {
+    this.faqServiceAlt.updateVariation('alternate');
+    this.faqServiceAlt.updateFaqData(this.faqData);
     this.isAdd=true;
-    this.altInpKeySub = this.faqServiceAlt.inpKeywordsAdd.subscribe(res=>{
-      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}}); }
-      else {
-        this.quesList.alternateQuestions[0] = {};
-        this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}});
-      }
-    });
-    this.altInpQuesSub = this.faqServiceAlt.inpQuesAdd.subscribe(res=>{
-      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].question = res; }
-      else {
-        this.quesList.alternateQuestions[0] = {};
-        this.quesList.alternateQuestions[0].question = res;
-      }
-    });
   }
 
   addFollowupQues() {
@@ -737,7 +731,12 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       }
     });
   }
+  delAltQues(ques) {
+    this.faqData.alternateQuestions = _.without(this.faqData.alternateQuestions, _.findWhere(this.faqData.alternateQuestions, { _id: ques._id }));
+  }
   ngOnDestroy() {
+    this.altAddSub?this.altAddSub.unsubscribe(): false;
+    this.altCancelSub?this.altCancelSub.unsubscribe(): false;
     this.followInpKeySub?this.followInpKeySub.unsubscribe():false;
     this.followInpQuesSub?this.followInpQuesSub.unsubscribe():false;
     this.altInpKeySub?this.altInpKeySub.unsubscribe():false;

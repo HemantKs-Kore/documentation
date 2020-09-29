@@ -192,7 +192,9 @@
           <span class="tab-title ">Response Preview</span>
         </div>
         <div class="responsePreviewBlock">
+        <!-- <perfect-scrollbar> -->
           <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
+        <!-- </perfect-scrollbar> -->
         </div>
       </div>
     </div>
@@ -216,14 +218,30 @@
       <button class="kr-sg-button-tertiary" (click)='addFollowupQues()'>Add Followup Question</button>
     </div>
   </div>
-  <div *ngIf='isAdd'>
-    <p>Add Alternate Question</p>
-    <app-tags-inp [faqServ]='faqServiceAlt'></app-tags-inp>
+  <div class="add-alternative-questions row">
+    <div class="col-10 pl-0 pr-2">
+        <div class="question-name text-truncate">Alternate Questions
+            <span>{{faqData.alternateQuestions?.length>0?'('+faqData.alternateQuestions?.length+')':''}}</span>
+            <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
+        </div>
+        <div class="added-tags text-truncate">Add alternate forms of the question, key terms.</div>
+    </div>
+    <div class="col-2 p-0 text-right">
+        <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
+    </div>
   </div>
-  <div *ngIf='isAlt'>
-    <p>Add Followup Question</p>
-    <app-tags-inp [faqServ]='faqServiceFollow'></app-tags-inp>
+  <div *ngIf="isAdd">
+      <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
   </div>
+  <ng-container *ngIf="faqData.alternateQuestions?.length">
+  <div class="added-questions-list" *ngFor="let alternateQuestion of faqData?.alternateQuestions">
+      <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
+      <div class="added-tags text-truncate">
+          <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
+      </div>
+      <img src="assets/icons/delete-table.svg"  (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
+  </div>
+  </ng-container>
 </div>
 
 <kr-modal modalType="default" #createImagePop>
