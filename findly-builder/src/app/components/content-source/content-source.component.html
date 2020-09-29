@@ -338,8 +338,13 @@
                 </div>  
                 
                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
-                  <div class="allow-urls-sec row">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="allowUrlId" name = "allowUrl" [(ngModel)]="selectedSource.advanceSettings.allowedOpt" (click)="exceptUrl(selectedSource.advanceSettings.allowedOpt)">
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-urls-sec row allow-urlBox">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -362,13 +367,50 @@
                     </div>
                   </div>
                   <div *ngIf="selectedSource.advanceSettings">
-                    <div *ngFor ="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"class="path-data row m1010">
-                      <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
-                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete')"><img src="assets/images/close-cross.svg"></div>
+                    <div *ngFor ="let allow of selectedSource.advanceSettings.allowedURLs;let i = index" class="path-data row m1010 alw-list-bor" [ngClass] = "{'last-record' : (i + 1) == selectedSource.advanceSettings.allowedURLs.length }">
+                      <div class="col-11 p-0 title " >{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
+                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img src="assets/images/close-cross.svg"></div>
                     </div>
-                  </div >
+                  </div>
                 </div>
               
+                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+                  <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="blockListId" name = "blockList" [(ngModel)]="selectedSource.advanceSettings.blockedOpt" (click)="restrictUrl(selectedSource.advanceSettings.blockedOpt)">
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-urls-sec row allow-urlBox">
+                    <div class="col-2 p-0 title">Block URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
+                            <ul class="dropdown-menu content-menu">                                               
+                              <li><a>Is</a></li>
+                              <li><a>Is not</a></li>
+                              <li><a>Begins with</a></li>
+                              <li><a>Ends with</a></li>
+                              <li><a>Contains</a></li>
+                              <li><a>Doesn't Contains</a></li>
+                            </ul>
+                          </div>
+                      </div>
+                      <div class="kr-sg-input-text">                      
+                        <input type="text" autocomplete="off" [(ngModel)] = "blockUrl.url" name= "blockVal" placeholder="Enter/Path" class="input-text">                        
+                      </div>
+                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedSource.advanceSettings">
+                    <div *ngFor ="let allow of selectedSource.advanceSettings.blockedURLs;let i = index" class="path-data row m1010 alw-list-bor" [ngClass] = "{'last-record' : (i + 1) == selectedSource.advanceSettings.blockedURLs.length }">
+                      <div class="col-11 p-0 title " >{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
+                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img src="assets/images/close-cross.svg"></div>
+                    </div>
+                  </div>
+                </div>
+
             </div>
           </perfect-scrollbar>
                 <!-- Conf Configuration-->
@@ -506,13 +548,11 @@
     <div class="title">Crawl Web Domain</div>
     <div class="close_icon"><img class="ng-tns-c11-2" src="assets/icons/modal-close.svg"></div>
   </div>
-<perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body">
 
   </div>
-</perfect-scrollbar> 
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg">Proceed</button>
       <button class="kr-sg-button-secondary btn_lg">Back</button>
   </div>
-</kr-modal> -->
+</kr-modal>  -->

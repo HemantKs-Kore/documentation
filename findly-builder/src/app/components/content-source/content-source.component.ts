@@ -26,7 +26,9 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl} from 'src/app/helpers/mod
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   isConfig : boolean = false;
+  blockUrl : BlockUrl = new BlockUrl();
   allowUrlArr : AllowUrl[] = [];
+  blockUrlArr : BlockUrl[] = []
   filterSystem : any = {
     'typeHeader' : 'type',
     'statusHeader' : 'status',
@@ -231,6 +233,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       this.loadingSliderContent = false;
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
+      this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
       if(this.isConfig && $('.tabname') && $('.tabname').length){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
@@ -630,6 +633,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.getSourceList();
     this.showSourceAddition = null;
    }
+   blockUrls(data){
+    this.selectedSource['advanceSettings'].blockedURLs.push(data);
+    this.blockUrlArr = [...this.selectedSource['advanceSettings'].blockedURLs]
+    this.blockUrl = new BlockUrl;
+    if(data['url'])
+    this.updateRecord(this.selectedSource['advanceSettings'].blockedURLs.length-1,data,'add','block');
+   }
    allowUrls(contains , allowUrl){
       console.log(contains , allowUrl.value)
       let data = {};
@@ -637,10 +647,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
      data['url'] = allowUrl.value;
      this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs]
      if(data['url'])
-      this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length-1,data,'add');
+      this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length-1,data,'add','allow');
       $('#enterPathInput')[0].value = '';
    }
-   updateRecord(i,allowUrls,option){
+   updateRecord(i,allowUrls,option,type){
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
     let resourceType = this.selectedSource.type;
@@ -655,10 +665,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     if(option == 'add'){
-      
-      crawler.advanceOpts.allowedURLs.push(allowUrls);
+      type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
-      crawler.advanceOpts.allowedURLs.splice(i,1);
+      type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i,1) : crawler.advanceOpts.allowedURLs.splice(i,1);
     }
     
     crawler.resourceType = resourceType;
