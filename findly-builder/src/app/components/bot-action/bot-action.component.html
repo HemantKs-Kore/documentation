@@ -37,18 +37,19 @@
         </div>
       </div>
       <section class="table-content" *ngIf="currentView === 'list' && (bots && bots.length) && !loadingContent">
+        <h4 class="title-linked-bot">{{linkedBotName}}</h4>
         <header class="table-header">
-          <div class="col_ col-3" (click)="sortBy('')">Bot<img src="assets/icons/caretDown.svg"
-              class="ml-1 sortImg downArrow"><img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <!-- <div class="col_ col-3" (click)="sortBy('')">Bot<img src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div> -->
           <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">Task<img
               [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('name', 'up')"
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
-          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('noOfAppearences')">Appearances<img
+          <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('noOfAppearences')">No. Of Appearances<img
               [ngClass]="getSortIconVisibility('noOfAppearences', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('noOfAppearences', 'up')"
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('noOfClicks')">Clicks<img
+          <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('noOfClicks')">No. Of Clicks<img
               [ngClass]="getSortIconVisibility('noOfClicks', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('noOfClicks', 'up')"
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
@@ -57,10 +58,10 @@
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container>
             <div class="content-body" *ngFor="let source of bots | filter: [ searchSources, 'name' ]">
-              <div class="col_ col-3">{{linkedBotName}}</div>
+              <!-- <div class="col_ col-3">{{linkedBotName}}</div> -->
               <div class="col_ col-3">{{source.name}}</div>
-              <div class="col_ col-3"> {{source.noOfAppearences?source.noOfAppearences:'-'}}</div>
-              <div class="col_ col-2">{{source.noOfClicks?source.noOfClicks:'-'}}</div>
+              <div class="col_ col-4"> {{source.noOfAppearences?source.noOfAppearences:'-'}}</div>
+              <div class="col_ col-4">{{source.noOfClicks?source.noOfClicks:'-'}}</div>
               <div class="col_ col-1 p-0">
                 <span class="action-links" (click)="deleteTask(source._id)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip="Delete Task" container="body"></span>

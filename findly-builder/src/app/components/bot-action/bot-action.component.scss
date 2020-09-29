@@ -189,8 +189,11 @@
                 }
             }  
             .table-content{
-                margin-top: 25px;      
-                padding: 0 15px 0 10px;          
+                margin-top: 18px;      
+                padding: 0 15px 0 8px;   
+                .title-linked-bot {
+                    margin: 0px !important;
+                }       
                 .table-header{
                     background: #fff;
                     border-bottom: 1px solid #E4E5E7;
