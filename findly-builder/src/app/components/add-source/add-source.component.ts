@@ -93,7 +93,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         },
         {
           name:'Import FAQs',
-          description:'Annotate and extract FAQs',
+          description:'Import FAQs from CSV, Json',
           icon: 'assets/images/source-icos/importfaq.svg',
           id:'faqDoc',
           sourceType:'faq',
