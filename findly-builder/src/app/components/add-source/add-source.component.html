@@ -84,11 +84,11 @@
                         <input type="text" class="input-text pointer-none border-no" value="Schedule">                
                       </div>
                         <label class="kr-sg-toggle">
-                          <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
+                          <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpt">
                           <div class="slider"></div>
                         </label>
                     </div>
-                    <div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpts">
+                    <div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpt">
                       <app-scheduler [crwalObject] = "crwalObject" [schedule]="'set'"></app-scheduler>
                     </div> 
                    <!--<div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpts">
@@ -146,15 +146,25 @@
                 </div>
               <div class="inner-content row m-0">
                 <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
-                  <div class="allow-urls-sec row">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"> 
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="allowUrlId" name = "allowUrl" [(ngModel)]="crwalObject.advanceOpts.allowedOpt" (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
+                              <li><a>Is</a></li>
+                              <li><a>Is not</a></li>
+                              <li><a>Begins with</a></li>
+                              <li><a>Ends with</a></li>
                               <li><a>Contains</a></li>
+                              <li><a>Doesn't Contains</a></li>
                               <!-- <li><a>begins</a></li>
                               <li><a>ends</a></li> -->
                             </ul>
@@ -165,23 +175,38 @@
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
-                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length" class="w-100">
-                      <div class="alw-data w-100" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                        <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
-                        <div class="alw-list w-100"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
-                      </div>
-                    </div>                    
+                                       
                   </div>
+                  <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt" class="w-100">
+                    <div class="alw-data w-100" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
+                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                      <div class="alw-list w-100 alw-list-bor" [ngClass] = "{'last-record' : (i + 1) == crwalObject.advanceOpts.allowedURLs.length }" > {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
+                        <span class="close-path p-0 cross-right" (click)="updateUrlRecord(i,'allow')"><img src="assets/images/close-cross.svg"></span>
+                      </div>
+                    </div>
+                  </div> 
+                  <hr>
                   <!-- Block List -->
-                  <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
-                  <div class="allow-urls-sec row">
+                  <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="blockListId" name = "blockList" [(ngModel)]="crwalObject.advanceOpts.blockedOpt" (click)="restrictUrl(crwalObject.advanceOpts.blockedOpt)">
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
-                              <li ><a>Contains</a></li>
+                              <li><a>Is</a></li>
+                              <li><a>Is not</a></li>
+                              <li><a>Begins with</a></li>
+                              <li><a>Ends with</a></li>
+                              <li><a>Contains</a></li>
+                              <li><a>Doesn't Contains</a></li>
                             </ul>
                           </div>
                       </div>
@@ -190,97 +215,18 @@
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
-                    <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length" class="w-100">
-                      <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                        <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
-                        <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
-                      </span>
-                    </div>
+                    
                   </div>
-                </div>
-              </div>
-              <!-- <div class="row m-0">
-                <div class="col-md-6 ad-sch" >
-                  <span class="ad-txt">Schedule</span>
-                  <label class="kr-sg-toggle">
-                    <input type="checkbox" name="scheduleOpts" [(ngModel)]="crwalObject.advanceOpts.scheduleOpts">
-                    <div class="slider"></div>
-                  </label>
-                </div>
-                <div class="col-md-6 ">
-                   <select class="alw-btn" [disabled]="!crwalObject.advanceOpts.scheduleOpts" name="crwalPeriod" [(ngModel)]="crwalObject.advanceOpts.schedulePeriod" style="width: 378px;">
-                    <option value="">Select</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Weekly"> Weekly</option>
-                    <option value="Daily">Daily</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row ad-sch">
-                  <span class="ad-txt">Crwal Everything</span>
-                  <label class="kr-sg-toggle">
-                    <input type="checkbox" id="crwalEveryId" name = "crwalEvery" [(ngModel)]="crwalObject.advanceOpts.crawlEverything">
-                    <div class="slider"></div>
-                </label>
-              </div> -->
-              <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="d-none">
-                <span class="ad-title">Allow urls</span>
-                <div class="row ad-sch ad-allow">
-                  <div class="row">
-                    <div class="col-md-2 ad-txt">Alow Urls : </div>
-                    <div class="col-md-4">
-                      <select class="alw-btn" [(ngModel)] = "allowUrl.condition" name= "allowcon" style="width: 250px;">
-                        <option value="">Select</option>
-                        <option value="Contains">Contains</option>
-                        <option value="begins"> begins</option>
-                        <option value="ends">ends</option>
-                      </select>
-                     
-                    </div>
-                    <div class="col-md-4">
-                      <input type="text" autocomplete="off" [(ngModel)] = "allowUrl.url" name= "allowVal" style="width: 280px;">
-                    </div>
-                    <div class="col-md-1">
-                      <button class="alw-btn" (click)="allowUrls(allowUrl)"><img src="assets/images/add.svg"></button>
-                    </div>
-                  </div>
-                  <br>
-                  <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length">
-                      <span class=" " *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
+                  <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length && crwalObject.advanceOpts.blockedOpt" class="w-100">
+                    <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
                       <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
-                      <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
+                      <div class="alw-list alw-list-bor" [ngClass] = "{'last-record' : (i + 1) == crwalObject.advanceOpts.blockedURLs.length }"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} 
+                        <span class="close-path p-0 cross-right" (click)="updateUrlRecord(i,'block')"><img src="assets/images/close-cross.svg"></span>
+                      </div>
                     </span>
                   </div>
-
-                  
-              </div>
-              <!-- <span class="ad-title">Block Urls</span>
-              <div class="row ad-sch ad-allow">
-                <div class="row">
-                  <div class="col-md-2 ad-txt">Block Urls :</div>
-                  <div class="col-md-4">
-                    <select class="alw-btn" [(ngModel)] = "blockUrl.condition" name= "blockCon" style="width: 250px;">
-                      <option value="">Select</option>
-                      <option value="Contains">Contains</option>
-                      <option value="begins"> begins</option>
-                      <option value="ends">ends</option>
-                    </select>
-                  </div>
-                  <div class="col-md-4">
-                    <input type="text" autocomplete="off" [(ngModel)] = "blockUrl.url" name= "blockVal" style="width: 280px;">
-                  </div>
-                  <div class="col-md-1">
-                    <button class="alw-btn" (click)="blockUrls(blockUrl)"><img src="assets/images/add.svg"></button>
-                  </div>
                 </div>
-                <br>
-                <div *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length">
-                  <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                    <div class="alw-list"> {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }} </div>
-                  </span>
-                </div>
-            </div> -->
-              </div>              
+              </div>            
             </div>
 
             <div class="kr-sg-input-text-area mb-4 radio-pad" *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false"> <!-- Not supporting for now-->
@@ -390,66 +336,4 @@
       </div>
     </div>    
   </div> 
-</kr-modal>
-
-<kr-modal modalType="default" #customRecurrence>
-  <div class="status-modal-popup custom-ref">
-    <div class="modal_content">
-      <div class="modal-header">Custom Reccurence <img src="assets/images/close.svg" (click)="closeCustomRecModal()"></div>
-      <div class="modal-body" >
-        <div class="cust-ref">
-          <span>Repeat Every</span>
-          <input id="repeatveryId" type="number" min="0" max="30" class="input-text cust-repeat" placeholder="0"> 
-          <div class="kr-sg-dropdowns schedule-Interval">
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> Days</button>                                            
-                <ul class="dropdown-menu content-menu content-width">                                               
-                  <li><a>Days</a></li>
-                  <li><a>Weeks</a></li>
-                  <li><a>Months</a></li>
-                  <li><a>Years</a></li>
-                </ul>
-              </div>
-          </div>
-        </div>
-        <div class="repeat-on">
-          <div>
-            <span>Repeat On</span>
-          </div>
-          <div class="">
-            <div class="circle cs active">S</div>
-            <div class="circle cm">M</div>
-            <div class="circle ct">T</div>
-            <div class="circle cw">W</div>
-            <div class="circle cth">T</div>
-            <div class="circle cf">F</div>
-            <div class="circle csa">S</div>
-          </div>
-        </div>
-        <div class="ends">
-          <div>
-            <span>Ends</span>
-          </div>
-          <div class="ends-never">
-            <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp sp-n">Never</span>
-          </div>
-          <div class="ends-never sp-on">
-            <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp">On</span>
-            <input matInput [matDatepicker]="dpCust"  class="input-text date-pick" placeholder="Select Date" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" autocomplete="off">
-            <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
-            <mat-datepicker #dpCust disabled="false"></mat-datepicker>
-          </div>
-          <div class="ends-never sp-at">
-            <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp">At</span>
-            <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0"> <span class="occur-span">Occurences</span>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer" [ngClass]="{'centerModel': resourceIDToOpen}">
-          <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeCustomRecModal()">Ok</button>
-          <button type="button" class="kr-sg-button-secondary btn_md d-none" data-dismiss="modal" (click)="closeCustomRecModal()">Cancel</button>
-      </div>
-    </div>    
-  </div> 
-  
 </kr-modal>

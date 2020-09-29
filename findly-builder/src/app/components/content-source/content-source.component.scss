@@ -781,5 +781,23 @@
         height: calc(100vh - 250px);
     }
     .scroll-table-allowRow{
-        height: calc(100vh - 450px);
+        height: calc(100vh - 250px);
     }
+    .schedule-comp{
+        position: relative;
+        margin-top: 20px;
+    }
+
+    .moadal-footer-config{
+        border-top: solid 1px #e5e8ec;
+        background-color: #ffffff;
+        .btn-left-config-ca{
+            position: absolute;
+            left: 92px;
+        }
+        .btn-left-config-ok{
+            position: absolute;
+            left: 24px;
+        }
+    }
+    

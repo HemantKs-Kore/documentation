@@ -262,6 +262,7 @@
                   </div>
                 </div> -->
                 <!-- Conf Configuration-->
+                <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow" >
                 <div class="accordion-content-info text-left" *ngIf="isConfig">                  
                 <div class="table-list-content">
                   <div class="kr-sg-data-table with-checkbox">
@@ -316,7 +317,10 @@
                           <div class="slider"></div>
                         </label>
                       </div>
-                      <app-scheduler *ngIf="selectedSource.advanceSettings.scheduleOpts" [crwalObject] = "selectedSource" [schedule]="'get'"></app-scheduler>
+                      <div class="schedule-comp" > 
+                        <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
+                        <app-scheduler [crwalObject] = "selectedSource" [schedule]="'get'"></app-scheduler>
+                      </div>
                     </div>
                     <div class="row m-0 row_data">
                       <div class="col-10 title pl-pr-10">Crawl Everything</div>
@@ -332,7 +336,7 @@
                       </div>
                     </div>
                 </div>  
-                <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow" >
+                
                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"></div>
                   <div class="allow-urls-sec row">
@@ -342,9 +346,12 @@
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
+                              <li><a>Is</a></li>
+                              <li><a>Is not</a></li>
+                              <li><a>Begins with</a></li>
+                              <li><a>Ends with</a></li>
                               <li><a>Contains</a></li>
-                              <!-- <li><a>Option 2</a></li>
-                              <li><a>Option 3</a></li> -->
+                              <li><a>Doesn't Contains</a></li>
                             </ul>
                           </div>
                       </div>
@@ -361,16 +368,12 @@
                     </div>
                   </div >
                 </div>
-              </perfect-scrollbar>
-                  <!-- <div class="path-data row m-0">
-                    <div class="col-11 p-0 title">1. Contains / archive</div>
-                    <div class="close-path col-1 p-0 text-right"><img src="assets/images/close-cross.svg"></div>
-                  </div> -->
-                </div>
-
+              
+            </div>
+          </perfect-scrollbar>
                 <!-- Conf Configuration-->
 
-              </div>
+        </div>
               <div class="accordion-content-info text-left" *ngIf = "!isConfig">
                 <div class="header-sec row m-0">
                   <div class="col-8 label_text m-0 p-0">Pages</div>
@@ -479,6 +482,10 @@
         </div>
       </div>
     
+  </div>
+  <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
+    <button type="button" class="kr-sg-button-primary btn_md btn-left-config-ok" data-dismiss="modal" (click)="closeStatusModal()">Ok</button>
+    <button type="button" class="kr-sg-button-secondary btn_md btn-left-config-ca" data-dismiss="modal" (click)="closeStatusModal()">Cancel</button>
   </div>
   <div class="footer-btns d-none">
     <button class="kr-sg-button-primary btn_lg">Update</button>

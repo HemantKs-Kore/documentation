@@ -12,12 +12,21 @@ export class SchedulerComponent implements OnInit {
   //allowUrl : AllowUrl = new AllowUrl();
  // blockUrl : BlockUrl = new BlockUrl();
   customRecurrenceRef : any = [];
+  startDate = '';
+  endDate = '';
+  occurence = '';
+  endsNever = true;
+  endsOn = false;
+  endsAt = false;
+  custFreq = 'Weeks';
+  weeKDay = 'SUN';
   stz = 'Time Zone';
   rstz = 'Does not repeat';
   meridiem = 'AM';
   cronExpression = "* * * * * ?"
   timeHH = '';
   timeMM = '';
+  repeatEvery = '';
   day = '';
   date = '';
   month = '';
@@ -114,10 +123,35 @@ export class SchedulerComponent implements OnInit {
     console.log(this.cronExpression);
     this.scheduleData = {}
   }
-  
+  /** Custom- modal Function */
+  custFrequency(freq){
+    this.custFreq = freq;
+    this.calculateCronExpression();
+  }
+  custweeKday(wd){
+    this.weeKDay = wd;
+    this.calculateCronExpression();
+  }
   openCustomRecModal(rstz){
     this.rstz = rstz;
     this.customRecurrenceRef = this.customRecurrence.open();
+  }
+  endsFreq(event,freq){
+    if(freq == 'endsNever'){
+      this.endsNever = true;
+      this.endsOn = false;
+      this.endsAt = false;
+    }else if(freq == 'endsOn'){
+      this.endsNever = false;
+      this.endsOn = true;
+      this.endsAt = false;
+    }else if(freq == 'endsAt'){
+      this.endsNever = false;
+      this.endsOn = false;
+      this.endsAt = true;
+    }
+    console.log(event.target.checked)
+    console.log(freq)
   }
   closeCustomRecModal(){
     if (this.customRecurrenceRef &&  this.customRecurrenceRef.close) {

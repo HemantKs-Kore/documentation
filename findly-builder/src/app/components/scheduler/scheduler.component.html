@@ -2,7 +2,7 @@
     <div class="scheduler-box">
         <span class="scheduler-txt">Date</span>
         <!-- <input id="scheduleDateId" type="text" class="input-text date-pick" placeholder="Select Date"> -->
-          <input matInput [matDatepicker]="dp3"  class="input-text date-pick" placeholder="Select Date" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
+          <input matInput [matDatepicker]="dp3"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
           <mat-datepicker #dp3 disabled="false"></mat-datepicker>
 
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <span class="scheduler-Interval-txt">Interval</span>
+        <span class="scheduler-Interval-txt">Frequency</span>
         <div class="kr-sg-dropdowns schedule-Interval">
           <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"> <span>{{rstz}}</span></button>                                            
@@ -52,15 +52,15 @@
         <div class="modal-body" >
           <div class="cust-ref">
             <span>Repeat Every</span>
-            <input id="repeatveryId" type="number" min="0" max="30" class="input-text cust-repeat" placeholder="0"> 
+            <input id="repeatveryId" type="number" min="0" max="30" class="input-text cust-repeat" placeholder="0" [(ngModel)] = "repeatEvery" (ngModelChange)="modelChangeFn($event,'repeatEvery')"> 
             <div class="kr-sg-dropdowns schedule-Interval">
               <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> Days</button>                                            
+                  <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{custFreq}}</button>                                            
                   <ul class="dropdown-menu content-menu content-width">                                               
-                    <li><a>Days</a></li>
-                    <li><a>Weeks</a></li>
-                    <li><a>Months</a></li>
-                    <li><a>Years</a></li>
+                    <li (click)="custFrequency('Days')"><a>Days</a></li>
+                    <li (click)="custFrequency('Weeks')"><a>Weeks</a></li>
+                    <li (click)="custFrequency('Months')"><a>Months</a></li>
+                    <li (click)="custFrequency('Years')"><a>Years</a></li>
                   </ul>
                 </div>
             </div>
@@ -69,14 +69,17 @@
             <div>
               <span>Repeat On</span>
             </div>
-            <div class="">
-              <div class="circle cs active">S</div>
-              <div class="circle cm">M</div>
-              <div class="circle ct">T</div>
-              <div class="circle cw">W</div>
-              <div class="circle cth">T</div>
-              <div class="circle cf">F</div>
-              <div class="circle csa">S</div>
+            <div class="" *ngIf = "custFreq == 'Weeks'"> 
+              <div class="circle cs" [ngClass] = "{'active' : weeKDay == 'SUN'}" (click)="custweeKday('SUN')">S</div>
+              <div class="circle cm" [ngClass] = "{'active' : weeKDay == 'MON'}" (click)="custweeKday('MON')">M</div>
+              <div class="circle ct" [ngClass] = "{'active' : weeKDay == 'TUE'}" (click)="custweeKday('TUE')">T</div>
+              <div class="circle cw" [ngClass] = "{'active' : weeKDay == 'WED'}" (click)="custweeKday('WED')">W</div>
+              <div class="circle cth" [ngClass] = "{'active' : weeKDay == 'THU'}" (click)="custweeKday('THU')">T</div>
+              <div class="circle cf" [ngClass] = "{'active' : weeKDay == 'FRI'}" (click)="custweeKday('FRI')">F</div>
+              <div class="circle csa" [ngClass] = "{'active' : weeKDay == 'SAT'}" (click)="custweeKday('SAT')">S</div>
+            </div>
+            <div class="custom-repeat-on" *ngIf = "custFreq != 'Weeks'"> 
+                Every {{repeatEvery}} {{custFreq}} from {{startDate}}
             </div>
           </div>
           <div class="ends">
@@ -84,23 +87,23 @@
               <span>Ends</span>
             </div>
             <div class="ends-never">
-              <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp sp-n">Never</span>
+              <input type="radio" name="radio" value ="endsNever" class="ends-radio" (click)="endsFreq($event,'endsNever')"> <span class="sp sp-n">Never</span>
             </div>
             <div class="ends-never sp-on">
-              <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp">On</span>
-              <input matInput [matDatepicker]="dpCust"  class="input-text date-pick" placeholder="Select Date" (dateInput)="addEvent('input', $event,'custom')" (dateChange)="addEvent('change', $event , 'custom')" autocomplete="off">
+              <input type="radio" name="radio" value ="endsOn" class="ends-radio" (click)="endsFreq($event,'endsOn')"> <span class="sp">On</span>
+              <input matInput [matDatepicker]="dpCust"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEvent('input', $event,'custom')" (dateChange)="addEvent('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
               <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
-              <mat-datepicker #dpCust disabled="false"></mat-datepicker>
+              <mat-datepicker #dpCust [disabled]="!endsOn"></mat-datepicker>
             </div>
             <div class="ends-never sp-at">
-              <input type="radio" checked="checked" name="radio" class="ends-radio"> <span class="sp">At</span>
-              <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0"> <span class="occur-span">Occurences</span>
+              <input type="radio" name="radio"  value ="endsAt" class="ends-radio" (click)="endsFreq($event, 'endsAt')"> <span class="sp">At</span>
+              <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurences</span>
             </div>
           </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeCustomRecModal()">Ok</button>
-            <button type="button" class="kr-sg-button-secondary btn_md d-none" data-dismiss="modal" (click)="closeCustomRecModal()">Cancel</button>
+            <button type="button" class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeCustomRecModal()">Cancel</button>
         </div>
       </div>    
     </div> 

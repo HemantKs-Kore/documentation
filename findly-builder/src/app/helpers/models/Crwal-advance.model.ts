@@ -1,52 +1,54 @@
-class CrwalObj{  
+export class CrwalObj{  
     url: String = '';
     desc: String = '';
     name: String = '';
     resourceType: String = '';
     advanceOpts: AdvanceOpts = new AdvanceOpts()
 }
-class AdvanceOpts{
+export class AdvanceOpts{
     scheduleOpt:boolean = false;
     scheduleOpts:scheduleOpts = new scheduleOpts();
     schedulePeriod: String ="";
     repeatInterval: String ="";
-    crawlEverything: boolean = true; 
+    crawlEverything: boolean = true;
+    allowedOpt:boolean = true;
     allowedURLs:AllowUrl[] = [];
+    blockedOpt: boolean = false;
     blockedURLs: BlockUrl[] = [];
 }
 
-class scheduleOpts {
+export class scheduleOpts {
     date:"";
     time:Time = new Time();
     interval: InterVal = new InterVal();
 }
-class InterVal {
+export class InterVal {
     intervalType:"";
     intervalValue: IntervalValue = new IntervalValue();
 }
-class Time{
+export class Time{
         hour:"";
         minute:"";
         timeOpt:"";
         timezone:"";
 }
-class IntervalValue {
+export class IntervalValue {
     every: number = null ;
     schedulePeriod: "";
     repeatOn: "";
     endsOn: EndsOn = new EndsOn();
 }
-class EndsOn {
+export class EndsOn {
         endType:"";
         endDate:"";
         occurrences:number = null;
       
 }
-class AllowUrl {
+export class AllowUrl {
     condition:String = 'contains';
     url: String = '';
 }
-class BlockUrl {
+export class BlockUrl {
     condition:String = 'contains';
     url: String = '';
 }

@@ -13,6 +13,8 @@ import * as _ from 'underscore';
 import { of, interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl} from 'src/app/helpers/models/Crwal-advance.model';
+
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -462,6 +464,18 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.blockUrl = new BlockUrl
   }
   /**Crwaler */
+
+  exceptUrl(bool){
+    this.crwalObject.advanceOpts.allowedOpt = !bool;
+    this.crwalObject.advanceOpts.blockedOpt = !this.crwalObject.advanceOpts.allowedOpt;
+  }
+  restrictUrl(bool){
+    this.crwalObject.advanceOpts.blockedOpt = !bool;
+    this.crwalObject.advanceOpts.allowedOpt = !this.crwalObject.advanceOpts.blockedOpt;
+  }
+  updateUrlRecord(index,type){
+    type == 'allow' ? this.crwalObject.advanceOpts.allowedURLs.splice(index,1) : this.crwalObject.advanceOpts.blockedURLs.splice(index,1)
+  }
   ngOnDestroy() {
      const self= this;
      if (this.pollingSubscriber) {
@@ -473,29 +487,29 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
 }
 
 
-class CrwalObj{  
+// class CrwalObj{  
   
-    url: String = '';
-    desc: String = '';
-    name: String = '';
-    resourceType: String = '';
-    advanceOpts: AdvanceOpts = new AdvanceOpts()
+//     url: String = '';
+//     desc: String = '';
+//     name: String = '';
+//     resourceType: String = '';
+//     advanceOpts: AdvanceOpts = new AdvanceOpts()
 
   
-}
-class AdvanceOpts{
-  scheduleOpts:boolean = false;
-      schedulePeriod: String ="";
-      repeatInterval: String ="";
-      crawlEverything: boolean = true; 
-         allowedURLs:AllowUrl[] = [];
-         blockedURLs: BlockUrl[] = [];
-}
-class AllowUrl {
-  condition:String = 'contains';
-   url: String = '';
-}
-class BlockUrl {
-  condition:String = 'contains';
-   url: String = '';
-}
+// }
+// class AdvanceOpts{
+//   scheduleOpts:boolean = false;
+//       schedulePeriod: String ="";
+//       repeatInterval: String ="";
+//       crawlEverything: boolean = true; 
+//          allowedURLs:AllowUrl[] = [];
+//          blockedURLs: BlockUrl[] = [];
+// }
+// class AllowUrl {
+//   condition:String = 'contains';
+//    url: String = '';
+// }
+// class BlockUrl {
+//   condition:String = 'contains';
+//    url: String = '';
+// }

@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl} from 'src/app/helpers/models/Crwal-advance.model';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -693,29 +694,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
 }
 
-class CrwalObj{  
+// class CrwalObj{  
   
-  url: String = '';
-  desc: String = '';
-  name: String = '';
-  resourceType: String = '';
-  advanceOpts: AdvanceOpts = new AdvanceOpts()
+//   url: String = '';
+//   desc: String = '';
+//   name: String = '';
+//   resourceType: String = '';
+//   advanceOpts: AdvanceOpts = new AdvanceOpts()
 
 
-}
-class AdvanceOpts{
-scheduleOpts:boolean = true;
-    schedulePeriod: String ="";
-    repeatInterval: String ="";
-    crawlEverything: boolean = true; 
-       allowedURLs:AllowUrl[] = [];
-       blockedURLs: BlockUrl[] = [];
-}
-class AllowUrl {
-condition:String = '';
- url: String = '';
-}
-class BlockUrl {
-condition:String = '';
- url: String = '';
-}
+// }
+// class AdvanceOpts{
+// scheduleOpts:boolean = true;
+//     schedulePeriod: String ="";
+//     repeatInterval: String ="";
+//     crawlEverything: boolean = true; 
+//        allowedURLs:AllowUrl[] = [];
+//        blockedURLs: BlockUrl[] = [];
+// }
+// class AllowUrl {
+// condition:String = '';
+//  url: String = '';
+// }
+// class BlockUrl {
+// condition:String = '';
+//  url: String = '';
+// }
