@@ -62,6 +62,7 @@ import { AutocompleteMultiChipComponent } from './helpers/components/autocomplet
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
+import { AnnotoolModule } from './components/annotool/annotool.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -77,7 +78,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ScrollSpyDirective,
     ConfirmationDialogComponent,
     SummaryComponent,
-    KRModalComponent,
+    // KRModalComponent, /* Added in shared module*/
     AddSourceComponent,
     ContentSourceComponent,
     FaqSourceComponent,
@@ -122,6 +123,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatProgressBarModule,
     FileUploadModule,
     CodemirrorModule,
+    AnnotoolModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

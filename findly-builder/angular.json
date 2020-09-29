@@ -36,7 +36,7 @@
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/codemirror/addon/fold/foldgutter.css",
               "node_modules/codemirror/addon/lint/lint.css",
-			  "src/assets/css/bootstrap-slider.css"
+			        "src/assets/css/bootstrap-slider.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -44,7 +44,13 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/app/helpers/lib/assets/highlight.js/highlight.min.js",
               "src/app/helpers/lib/assets/marked.min.js",
-			  "src/assets/js/bootstrap-slider.js"
+              "src/assets/js/bootstrap-slider.js",
+              "node_modules/rangy/lib/rangy-core.js",
+              "node_modules/rangy/lib/rangy-classapplier.js",
+              "node_modules/rangy/lib/rangy-highlighter.js",
+              "node_modules/rangy/lib/rangy-selectionsaverestore.js",
+              "node_modules/rangy/lib/rangy-serializer.js",
+              "node_modules/rangy/lib/rangy-textrange.js"
             ]
           },
           "configurations": {
