@@ -486,7 +486,7 @@
   </div>
 </kr-modal>
 
-<kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file">
+<kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file zIndex-adjust">
   <ng-container *ngIf="showSourceAddition">
     <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
       (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>

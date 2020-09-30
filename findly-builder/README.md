@@ -21,7 +21,8 @@ Setup:
         Use the `--prod` flag for a production build.
         Use the `--c` flag for environment
             value can be [qa | qa1 | prod]
-            Ex:npm run-script ng build  --prod --c=qa
+            Ex:npm run-script ng build --prod -- --c=clouddev
+            
      
 ## Development server
 
