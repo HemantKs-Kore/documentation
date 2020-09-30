@@ -221,7 +221,7 @@
   <div class="add-alternative-questions row">
     <div class="col-10 pl-0 pr-2">
         <div class="question-name text-truncate">Alternate Questions
-            <span>{{faqData.alternateQuestions?.length>0?'('+faqData.alternateQuestions?.length+')':''}}</span>
+            <span *ngIf="faqData">{{faqData.alternateQuestions?.length>0?'('+faqData.alternateQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question, key terms.</div>
@@ -233,7 +233,7 @@
   <div *ngIf="isAdd">
       <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
   </div>
-  <ng-container *ngIf="faqData.alternateQuestions?.length">
+  <ng-container *ngIf="faqData && faqData.alternateQuestions?.length">
   <div class="added-questions-list" *ngFor="let alternateQuestion of faqData?.alternateQuestions">
       <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
       <div class="added-tags text-truncate">

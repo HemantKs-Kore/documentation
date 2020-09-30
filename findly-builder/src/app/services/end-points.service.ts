@@ -140,6 +140,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats',
       method: 'get'
     };
+    this.serviceList['get.faqStaticsByResourceFilter'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats/resourceId=:resourceId',
+      method: 'get'
+    };
     this.serviceList['get.fags'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs?ktId=:ktId',
       method: 'get'
