@@ -145,13 +145,13 @@
                   </div>
                 </div>
                 <div *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
-                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
+                  <div class="allow-list-data-label label_text_dis m10">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="allowUrlId" name = "allowUrl" disabled>
                       <div class="slider"></div>
                     </label>
                   </div>
-                  <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
+                  <div class="allow-list-data-label label_text_dis mt-16">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="blockListId" name = "blockList" disabled>
                       <div class="slider"></div>
@@ -160,7 +160,7 @@
                 </div>
               <div class="inner-content row m-0">
                 <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"> 
+                  <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"> 
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="allowUrlId" name = "allowUrl" [(ngModel)]="crwalObject.advanceOpts.allowedOpt" (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
                       <div class="slider"></div>
@@ -199,7 +199,7 @@
                   </div> 
                   <hr>
                   <!-- Block List -->
-                  <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
+                  <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
                     
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="blockListId" name = "blockList" [(ngModel)]="crwalObject.advanceOpts.blockedOpt" (click)="restrictUrl(crwalObject.advanceOpts.blockedOpt)">
