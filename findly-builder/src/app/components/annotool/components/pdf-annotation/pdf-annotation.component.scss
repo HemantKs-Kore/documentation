@@ -898,7 +898,7 @@ $excludeColor: var(--excludeColor);
     cursor: text;
     -webkit-transform-origin: 0 0;
 	transform-origin: 0 0;
-	border: 1px solid #009dab;
+	// border: 1px solid #009dab;
 }
 .textLayer::selection {
     background: #009dab;
