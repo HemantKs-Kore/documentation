@@ -332,7 +332,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
-    if(this.selectedSourceType.annotate) {
+    if(this.selectedSourceType.annotate && resourceType === 'importfaq') {
       this.annotationModal();
     } else {
       if(this.selectedSourceType.sourceType === 'content'){
@@ -475,7 +475,8 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       dialogRef.afterClosed().subscribe(res => {
         console.log(this.anntationObj);
         if(this.anntationObj && this.anntationObj.status === 'Inprogress') {
-          this.openStatusModal();          
+          this.openStatusModal();
+          this.poling(this.anntationObj._id);         
         }
       });
     }

@@ -92,17 +92,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     @Inject(MAT_DIALOG_DATA) public dialogData: any
   ) {
     this.createForm();
-    this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.pdfPayload.streamId = workflowService.selectedApp()._id;
-    this.streamId = workflowService.selectedApp()._id;
-    if (this.dialogData.pdfResponse) {
-      this.fileId = this.dialogData.pdfResponse.fileId;
-      this.fileName = this.dialogData.pdfResponse.sourceTitle;
-    } else {
-      this.fileId = '5f648a17a087965d621a4735';
-    }
-    this.getAttachmentFile(this.fileId);
+    this.initPdfViewer();
   }
 
   ngOnInit() {
@@ -126,6 +116,20 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   closeModal() {
     this.dialogRef.close();
+  }
+  // Init data for pdf-viwer
+  initPdfViewer() {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.pdfPayload.streamId = this.selectedApp._id;
+    this.streamId = this.selectedApp._id;
+    if (this.dialogData.pdfResponse) {
+      this.fileId = this.dialogData.pdfResponse.fileId;
+      this.fileName = this.dialogData.pdfResponse.sourceTitle;
+    } else {
+      this.fileId = '5f648a17a087965d621a4735';
+    }
+    this.getAttachmentFile(this.fileId);
   }
   // User Guilde - How to annotate
   userGuide() {
@@ -344,7 +348,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // After PDF load completes
   afterLoadComplete(pdfData: any) {
-    // console.log(pdfData);
+    console.log(pdfData);
     if (pdfData && pdfData.loadingTask && pdfData.loadingTask._transport && pdfData.loadingTask._transport._lastProgress) {
       let _size = pdfData.loadingTask._transport._lastProgress.total;
       let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
@@ -383,10 +387,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   rotateAntiClock() {
     this.pdfConfig.rotate -= 90;
-  }
-  // Share the selected text 
-  public shareSelection(): void {
-
   }
   // test hightlight text
   optionSelection(classTypes, value, $event) {
@@ -561,6 +561,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     ).subscribe((res: any) => {
       this.extractionLoader = false;
       this.dialogData.annotation.resourceId = res.resourceId;
+      this.dialogData.annotation._id = res._id;
       this.dialogData.annotation.status = "Inprogress";
       this.dialogRef.close();
     }, (error: any) => {
