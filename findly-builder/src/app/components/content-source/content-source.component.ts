@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl} from 'src/app/helpers/models/Crwal-advance.model';
+import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/app/helpers/models/Crwal-advance.model';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -26,6 +26,7 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl} from 'src/app/helpers/mod
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   isConfig : boolean = false;
+  allowUrl : AllowUrl = new AllowUrl()
   blockUrl : BlockUrl = new BlockUrl();
   allowUrlArr : AllowUrl[] = [];
   blockUrlArr : BlockUrl[] = []
@@ -81,7 +82,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   totalRecord : number = 0;
   limitpage : number = 10;
   limitAllpage : number = 10;
-  allInOne : boolean = false;;
+  allInOne : boolean = false;
+  urlConditionAllow = "Is";
+  urlConditionBlock = "Is";
+  doesntContains = "Doesn't Contains"
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -232,6 +236,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       
       
       this.loadingSliderContent = false;
+      //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
       if(this.isConfig && $('.tabname') && $('.tabname').length){
@@ -634,21 +639,25 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.showSourceAddition = null;
    }
    blockUrls(data){
-    this.selectedSource['advanceSettings'].blockedURLs.push(data);
+    //data['condition'] = this.urlConditionBlock;
+    //this.blockUrl.condition = this.urlConditionBlock;
+    //this.selectedSource['advanceSettings'].blockedURLs.push(data);
     this.blockUrlArr = [...this.selectedSource['advanceSettings'].blockedURLs]
-    this.blockUrl = new BlockUrl;
+    //this.blockUrl = new BlockUrl;
     if(data['url'])
     this.updateRecord(this.selectedSource['advanceSettings'].blockedURLs.length-1,data,'add','block');
    }
-   allowUrls(contains , allowUrl){
+   allowUrls(contains , allowUrl,dataAllow){
       console.log(contains , allowUrl.value)
       let data = {};
-     data['contains'] = contains;
-     data['url'] = allowUrl.value;
+     //data['condition'] = contains;
+     //data['url'] = allowUrl.value;
+     data = dataAllow;
      this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs]
      if(data['url'])
       this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length-1,data,'add','allow');
       $('#enterPathInput')[0].value = '';
+      
    }
    updateRecord(i,allowUrls,option,type){
     //selectedSource.advanceSettings.allowedURLs
@@ -664,6 +673,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.url = this.selectedSource.url;
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
+    crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     if(option == 'add'){
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
@@ -676,11 +686,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
       if(option == 'add'){
-        this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
+        type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.push(allowUrls):this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
       }else{
-        this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
+        type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.splice(i,1):this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
-      
+      type == 'block' ?this.blockUrl = new BlockUrl :  this.allowUrl = new AllowUrl;
       // allowUrls.forEach(element => {
         
       // });
@@ -692,6 +702,58 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
        }
      });
    }
+   urlCondition(condition , type){
+    type == 'allow' ? this.urlConditionAllow= condition : this.urlConditionBlock= condition;
+    type == 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition; 
+   }
+   scheduleData(scheduleData){
+    console.log(scheduleData);
+    this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
+  }
+  cronExpress(cronExpress){
+    console.log(cronExpress);
+    this.selectedSource['advanceSettings'].crawlEverything = cronExpress;
+  }
+  exceptUrl(bool){
+    this.selectedSource.advanceSettings.allowedOpt = !bool;
+    this.selectedSource.advanceSettings.blockedOpt = !this.selectedSource.advanceSettings.allowedOpt;
+  }
+  restrictUrl(bool){
+    this.selectedSource.advanceSettings.blockedOpt = !bool;
+    this.selectedSource.advanceSettings.allowedOpt = !this.selectedSource.advanceSettings.blockedOpt;
+  }
+  changeSettings(bool){
+    this.selectedSource.advanceSettings.crawlEverything = !bool;
+  }
+  proceedWithConfigUpdate(){
+    let payload = {}
+    let resourceType = this.selectedSource.type;
+    let crawler = new CrwalObj()
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId ,
+      sourceId : this.selectedSource._id
+      //type: this.selectedSourceType.sourceType,
+    };
+    crawler.name = this.selectedSource.name;
+    crawler.url = this.selectedSource.url;
+    crawler.desc = this.selectedSource.desc || '';
+    crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
+    crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
+    
+    crawler.resourceType = resourceType;
+    payload = crawler;
+    console.log(payload);
+
+    this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
+   
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
   ngOnDestroy() {
    const timerObjects = Object.keys(this.polingObj);
    if (timerObjects && timerObjects.length) {

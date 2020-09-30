@@ -309,7 +309,7 @@
                       <div class="col-10 title pl-pr-10">Schedule</div>
                       <div class="toggle-label col-2 pl-pr-10 text-right">
                         <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle" >
-                          <input type="checkbox" name="scheduleOpts" [(ngModel)] = "selectedSource.advanceSettings.scheduleOpts">
+                          <input type="checkbox" name="scheduleOpts" [(ngModel)] = "selectedSource.advanceSettings.scheduleOpt">
                           <div class="slider"></div>
                         </label>
                         <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
@@ -317,16 +317,16 @@
                           <div class="slider"></div>
                         </label>
                       </div>
-                      <div class="schedule-comp" > 
+                      <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt">
                         <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
-                        <app-scheduler [crwalObject] = "selectedSource" [schedule]="'get'"></app-scheduler>
+                        <app-scheduler [crwalObject] = "selectedSource" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)"></app-scheduler>
                       </div>
                     </div>
                     <div class="row m-0 row_data">
                       <div class="col-10 title pl-pr-10">Crawl Everything</div>
                       <div class="toggle-label col-2 pl-pr-10 text-right">
                         <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle" >
-                          <input type="checkbox" name="crawlEverything" [(ngModel)] = "selectedSource.advanceSettings.crawlEverything">
+                          <input type="checkbox" name="crawlEverything" [(ngModel)] = "selectedSource.advanceSettings.crawlEverything" (click)="changeSettings(selectedSource.advanceSettings.crawlEverything)">
                           <div class="slider"></div>
                         </label>
                         <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle" >
@@ -336,7 +336,20 @@
                       </div>
                     </div>
                 </div>  
-                
+                <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="allowUrlId" name = "allowUrl" disabled>
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="blockListId" name = "blockList" disabled>
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                </div>
                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
                     <label class="kr-sg-toggle full-input list">
@@ -344,31 +357,31 @@
                       <div class="slider"></div>
                     </label>
                   </div>
-                  <div class="allow-urls-sec row allow-urlBox">
+                  <div class="allow-urls-sec row allow-urlBox" *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{allowUrl.condition}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Is</a></li>
-                              <li><a>Is not</a></li>
-                              <li><a>Begins with</a></li>
-                              <li><a>Ends with</a></li>
-                              <li><a>Contains</a></li>
-                              <li><a>Doesn't Contains</a></li>
+                              <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
+                              <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
+                              <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
+                              <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
+                              <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
+                              <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
                             </ul>
                           </div>
                       </div>
                       <div class="kr-sg-input-text">                      
-                        <input type="text" id = "enterPathInput" #inputVal placeholder="Enter/Path" class="input-text" autocomplete="off">                        
+                        <input type="text" id = "enterPathInput" #inputVal placeholder="Enter/Path" [(ngModel)] = "allowUrl.url" class="input-text" autocomplete="off">                        
                       </div>
-                      <div class="add-urls" (click)="allowUrls('contains',inputVal)"><img src="assets/icons/add-urls.svg" ></div>
+                      <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img src="assets/icons/add-urls.svg" ></div>
                     </div>
                   </div>
-                  <div *ngIf="selectedSource.advanceSettings">
+                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
                     <div *ngFor ="let allow of selectedSource.advanceSettings.allowedURLs;let i = index" class="path-data row m1010 alw-list-bor" [ngClass] = "{'last-record' : (i + 1) == selectedSource.advanceSettings.allowedURLs.length }">
-                      <div class="col-11 p-0 title " >{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
+                      <div class="col-11 p-0 title " >{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
                       <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img src="assets/images/close-cross.svg"></div>
                     </div>
                   </div>
@@ -381,19 +394,19 @@
                       <div class="slider"></div>
                     </label>
                   </div>
-                  <div class="allow-urls-sec row allow-urlBox">
+                  <div class="allow-urls-sec row allow-urlBox" *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{blockUrl.condition}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Is</a></li>
-                              <li><a>Is not</a></li>
-                              <li><a>Begins with</a></li>
-                              <li><a>Ends with</a></li>
-                              <li><a>Contains</a></li>
-                              <li><a>Doesn't Contains</a></li>
+                              <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
+                              <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
+                              <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
+                              <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
+                              <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
+                              <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't Contains</a></li>
                             </ul>
                           </div>
                       </div>
@@ -403,9 +416,9 @@
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
                   </div>
-                  <div *ngIf="selectedSource.advanceSettings">
+                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                     <div *ngFor ="let allow of selectedSource.advanceSettings.blockedURLs;let i = index" class="path-data row m1010 alw-list-bor" [ngClass] = "{'last-record' : (i + 1) == selectedSource.advanceSettings.blockedURLs.length }">
-                      <div class="col-11 p-0 title " >{{(i+1)}} : {{allow.Contains || 'contains'}} - {{allow.url}}</div>
+                      <div class="col-11 p-0 title " >{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
                       <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img src="assets/images/close-cross.svg"></div>
                     </div>
                   </div>
@@ -526,7 +539,7 @@
     
   </div>
   <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
-    <button type="button" class="kr-sg-button-primary btn_md btn-left-config-ok" data-dismiss="modal" (click)="closeStatusModal()">Ok</button>
+    <button type="button" class="kr-sg-button-primary btn_md btn-left-config-ok" data-dismiss="modal" (click)="proceedWithConfigUpdate()">Ok</button>
     <button type="button" class="kr-sg-button-secondary btn_md btn-left-config-ca" data-dismiss="modal" (click)="closeStatusModal()">Cancel</button>
   </div>
   <div class="footer-btns d-none">

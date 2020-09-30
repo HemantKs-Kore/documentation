@@ -13,7 +13,7 @@ import * as _ from 'underscore';
 import { of, interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl} from 'src/app/helpers/models/Crwal-advance.model';
+import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl, scheduleOpts} from 'src/app/helpers/models/Crwal-advance.model';
 
 @Component({
   selector: 'app-add-source',
@@ -35,7 +35,9 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   statusModalPopRef: any = [];
   customRecurrenceRef : any = [];
   pollingSubscriber: any = null;
-  initialValidations:any = {}
+  initialValidations:any = {};
+  doesntContains = "Doesn't Contains";
+  dataFromScheduler : scheduleOpts
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -452,7 +454,16 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     }
   }
   /** proceed Source API */
+  scheduleData(scheduleData){
+    console.log(scheduleData);
+    this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
 
+    //this.dataFromScheduler = scheduleData
+  }
+  cronExpress(cronExpress){
+    console.log(cronExpress);
+    this.crwalObject.advanceOpts.repeatInterval = cronExpress;
+  }
   /**Crwaler */
   allowUrls(data){
     this.crwalObject.advanceOpts.allowedURLs.push(data);
@@ -476,6 +487,9 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   updateUrlRecord(index,type){
     type == 'allow' ? this.crwalObject.advanceOpts.allowedURLs.splice(index,1) : this.crwalObject.advanceOpts.blockedURLs.splice(index,1)
   }
+  urlCondition(condition , type){
+    type == 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition; 
+   }
   ngOnDestroy() {
      const self= this;
      if (this.pollingSubscriber) {

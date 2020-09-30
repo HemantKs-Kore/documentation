@@ -89,7 +89,7 @@
                         </label>
                     </div>
                     <div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpt">
-                      <app-scheduler [crwalObject] = "crwalObject" [schedule]="'set'"></app-scheduler>
+                      <app-scheduler [crwalObject] = "crwalObject" [schedule]="'set'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)"></app-scheduler>
                     </div> 
                    <!--<div class="scheduler-box" *ngIf="crwalObject.advanceOpts.scheduleOpts">
                       <span class="scheduler-txt">Date</span>
@@ -144,6 +144,20 @@
                     </label>
                   </div>
                 </div>
+                <div *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="allowUrlId" name = "allowUrl" disabled>
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg" class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="blockListId" name = "blockList" disabled>
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                </div>
               <div class="inner-content row m-0">
                 <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"> 
@@ -157,16 +171,14 @@
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{allowUrl.condition}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Is</a></li>
-                              <li><a>Is not</a></li>
-                              <li><a>Begins with</a></li>
-                              <li><a>Ends with</a></li>
-                              <li><a>Contains</a></li>
-                              <li><a>Doesn't Contains</a></li>
-                              <!-- <li><a>begins</a></li>
-                              <li><a>ends</a></li> -->
+                              <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
+                              <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
+                              <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
+                              <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
+                              <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
+                              <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
                             </ul>
                           </div>
                       </div>
@@ -199,14 +211,14 @@
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Contains</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{blockUrl.condition}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                               
-                              <li><a>Is</a></li>
-                              <li><a>Is not</a></li>
-                              <li><a>Begins with</a></li>
-                              <li><a>Ends with</a></li>
-                              <li><a>Contains</a></li>
-                              <li><a>Doesn't Contains</a></li>
+                              <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
+                              <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
+                              <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
+                              <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
+                              <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
+                              <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't Contains</a></li>
                             </ul>
                           </div>
                       </div>

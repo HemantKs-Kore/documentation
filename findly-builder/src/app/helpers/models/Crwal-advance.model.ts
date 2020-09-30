@@ -8,7 +8,7 @@ export class CrwalObj{
 export class AdvanceOpts{
     scheduleOpt:boolean = false;
     scheduleOpts:scheduleOpts = new scheduleOpts();
-    schedulePeriod: String ="";
+    //schedulePeriod: String ="";
     repeatInterval: String ="";
     crawlEverything: boolean = true;
     allowedOpt:boolean = true;
@@ -18,38 +18,38 @@ export class AdvanceOpts{
 }
 
 export class scheduleOpts {
-    date:"";
+    date:String ="";
     time:Time = new Time();
     interval: InterVal = new InterVal();
 }
 export class InterVal {
-    intervalType:"";
+    intervalType:String ="";
     intervalValue: IntervalValue = new IntervalValue();
 }
 export class Time{
-        hour:"";
-        minute:"";
-        timeOpt:"";
-        timezone:"";
+        hour:String ="";
+        minute:String ="";
+        timeOpt:String ="";
+        timezone:String ="";
 }
 export class IntervalValue {
     every: number = null ;
-    schedulePeriod: "";
-    repeatOn: "";
+    schedulePeriod: String ="";
+    repeatOn: String ="";
     endsOn: EndsOn = new EndsOn();
 }
 export class EndsOn {
-        endType:"";
-        endDate:"";
+        endType:String ="";
+        endDate:String ="";
         occurrences:number = null;
       
 }
 export class AllowUrl {
-    condition:String = 'contains';
+    condition:String = 'Contains';
     url: String = '';
 }
 export class BlockUrl {
-    condition:String = 'contains';
+    condition:String = 'Contains';
     url: String = '';
 }
 

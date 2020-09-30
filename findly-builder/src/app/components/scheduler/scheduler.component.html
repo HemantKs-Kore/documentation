@@ -52,7 +52,7 @@
         <div class="modal-body" >
           <div class="cust-ref">
             <span>Repeat Every</span>
-            <input id="repeatveryId" type="number" min="0" max="30" class="input-text cust-repeat" placeholder="0" [(ngModel)] = "repeatEvery" (ngModelChange)="modelChangeFn($event,'repeatEvery')"> 
+            <input id="repeatveryId" type="number" min="1" max="30" class="input-text cust-repeat" placeholder="0" [(ngModel)] = "repeatEvery" (ngModelChange)="modelChangeFn($event,'repeatEvery')"> 
             <div class="kr-sg-dropdowns schedule-Interval">
               <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{custFreq}}</button>                                            
@@ -87,23 +87,23 @@
               <span>Ends</span>
             </div>
             <div class="ends-never">
-              <input type="radio" name="radio" value ="endsNever" class="ends-radio" (click)="endsFreq($event,'endsNever')"> <span class="sp sp-n">Never</span>
+              <input type="radio" name="radio" value ="endsNever" class="ends-radio" (click)="endsFreq('never')"> <span class="sp sp-n">Never</span>
             </div>
             <div class="ends-never sp-on">
-              <input type="radio" name="radio" value ="endsOn" class="ends-radio" (click)="endsFreq($event,'endsOn')"> <span class="sp">On</span>
+              <input type="radio" name="radio" value ="endsOn" class="ends-radio" (click)="endsFreq('on')"> <span class="sp">On</span>
               <input matInput [matDatepicker]="dpCust"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEvent('input', $event,'custom')" (dateChange)="addEvent('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
               <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
               <mat-datepicker #dpCust [disabled]="!endsOn"></mat-datepicker>
             </div>
             <div class="ends-never sp-at">
-              <input type="radio" name="radio"  value ="endsAt" class="ends-radio" (click)="endsFreq($event, 'endsAt')"> <span class="sp">At</span>
+              <input type="radio" name="radio"  value ="endsAt" class="ends-radio" (click)="endsFreq('at')"> <span class="sp">At</span>
               <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurences</span>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="closeCustomRecModal()">Ok</button>
-            <button type="button" class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="closeCustomRecModal()">Cancel</button>
+            <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal" (click)="proccedWithCrwal()">Ok</button>
+            <button type="button" class="kr-sg-button-secondary btn_md" data-dismiss="modal" (click)="cancelCustomRecModal()">Cancel</button>
         </div>
       </div>    
     </div> 
