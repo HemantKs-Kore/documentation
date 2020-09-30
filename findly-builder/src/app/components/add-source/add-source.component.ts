@@ -332,8 +332,20 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
-    if(this.selectedSourceType.annotate && resourceType === 'importfaq') {
-      this.annotationModal();
+    if(this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq') {
+      quaryparms.faqType = 'document';
+      payload.resourceType = 'document';
+      payload.fileId = this.fileObj.fileId;
+      if(payload.hasOwnProperty('url')) delete payload.url;
+      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+        this.annotationModal();
+       }, errRes => {
+         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+         } else {
+           this.notificationService.notify('Duplicate name, try again!', 'error');
+         }
+       });
     } else {
       if(this.selectedSourceType.sourceType === 'content'){
         endPoint = 'add.sourceMaterial';
