@@ -685,6 +685,7 @@
                 }
 
                 .bottomText{
+                    margin-top: 35px;
                     .title-btm {
                         display: inline-block;
                         font-weight: normal;
@@ -785,6 +786,13 @@
                 position: relative !important;
                 .accordion:before {
                     content: none !important;
+                }
+                .accordion {
+                    .card {
+                        .card-header {
+                            border-bottom: 1px solid !important;
+                        }
+                    }
                 }
                 .accordion-header-container {
                     display: flex !important;
@@ -929,13 +937,24 @@
     .title-linked-bot {
         text-align: unset !important;
         width: 100% !important;
-        color: #202124;
+        color: #9AA0A6;
         font-size: 20px;
         font-weight: bold;
         margin: 8px !important;
+        padding: 8px 0px 20px 0px;
     }
     .button-link-bots {
         margin-left: 10px !important;
+        padding: 0px 15px;
+        border: 1px solid transparent;
+        background: transparent;
+        border-radius: 4px;
+        .add-icon {
+            font-size: 12px !important;
+        }
+        .button-link-bots-label {
+            font-size: 12px !important;
+        }
     }
     .list-text {
         color: #8a959f !important;
