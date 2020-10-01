@@ -85,7 +85,8 @@ $excludeColor: var(--excludeColor);
 				overflow: auto;
 			}
 			.ng2-pdf-viewer-container {
-				overflow-x: inherit !important;		
+				// overflow-x: inherit !important;		
+				overflow-x: auto;		
 			}
 			.kr-card {
 				background: #ffffff;
@@ -896,5 +897,9 @@ $excludeColor: var(--excludeColor);
     white-space: pre;
     cursor: text;
     -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
+	transform-origin: 0 0;
+	// border: 1px solid #009dab;
+}
+.textLayer::selection {
+    background: #009dab;
 }

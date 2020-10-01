@@ -24,7 +24,7 @@ and open the template in the editor.
     color: $secondaryColor;
     margin-bottom: 4px;
     .clickable-text{
-        color: $hoverColor;
+        color: $hoverBlue;
         cursor: pointer;
         font-weight: 500;
     }
@@ -85,8 +85,8 @@ and open the template in the editor.
         height: 0;
         &:checked{
             + .slider{
-                background-color: $hoverColor;
-                box-shadow: 0 0 1px $hoverColor;
+                background-color: $hoverBlue;
+                box-shadow: 0 0 1px $hoverBlue;
                 &::before{
                     -webkit-transform: translateX(13px);
                     -ms-transform: translateX(13px);
@@ -109,15 +109,15 @@ and open the template in the editor.
             }
             &:disabled{
                 + .slider{
-                    background-color: $hoverColor;
+                    background-color: $hoverBlue;
                     opacity: 0.3;
-                    box-shadow: 0 0 1px $hoverColor;
+                    box-shadow: 0 0 1px $hoverBlue;
                 }
             }
         }
         &:focus{
             + .slider{                
-                // box-shadow: 0 0 1px $hoverColor;
+                // box-shadow: 0 0 1px $hoverBlue;
                 border: 1px solid #1372ff;
             }
         }   
@@ -265,7 +265,7 @@ and open the template in the editor.
     height: 26px;    
     font-size: 12px;
     border-radius: 4px;
-    color: $hoverColor;
+    color: $hoverBlue;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
@@ -344,13 +344,13 @@ and open the template in the editor.
     height: 26px;    
     font-size: 12px;
     border-radius: 4px;
-    color:$hoverColor;
+    color:$hoverBlue;
     min-width: 60px;
     text-align: center;
     transition: 0.2s all ease-in;
     &:hover{            
         span{
-            border-bottom: 1px solid $hoverColor;
+            border-bottom: 1px solid $hoverBlue;
         }           
     }
     &:active{
@@ -365,7 +365,7 @@ and open the template in the editor.
         opacity: 1;
         &:hover{            
             span{
-                border-bottom: 0px solid $hoverColor;
+                border-bottom: 0px solid $hoverBlue;
             }           
         }
     }
@@ -422,7 +422,7 @@ and open the template in the editor.
 
 .kr-sg-buttonicon-primary{
     border: 1px solid transparent;
-    background: $hoverColor;
+    background: $hoverBlue;
     padding: 0px 15px;
     height: 26px;    
     font-size: 12px;
@@ -542,7 +542,7 @@ and open the template in the editor.
     height: 26px;    
     font-size: 12px;
     border-radius: 4px;
-    color: $hoverColor;
+    color: $hoverBlue;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
@@ -657,7 +657,7 @@ and open the template in the editor.
     height: 26px;    
     font-size: 12px;
     border-radius: 4px;
-    color:$hoverColor;
+    color:$hoverBlue;
     min-width: 75px;
     text-align: center;
     transition: 0.2s all ease-in;
@@ -668,7 +668,7 @@ and open the template in the editor.
     }
     &:hover{            
         span{
-            border-bottom: 1px solid $hoverColor;
+            border-bottom: 1px solid $hoverBlue;
         }           
     }
     &:active{
@@ -686,7 +686,7 @@ and open the template in the editor.
         }
         &:hover{            
             span{
-                border-bottom: 0px solid $hoverColor;
+                border-bottom: 0px solid $hoverBlue;
             }           
         }
     }
@@ -821,7 +821,7 @@ and open the template in the editor.
             }  
             &:not([disabled]){
                 + .checkbox-custom-label{
-                    color: $hoverColor; 
+                    color: #0D6EFD; 
                     &::before{
                         border: solid 1px #1372ff;
                     }
@@ -833,7 +833,7 @@ and open the template in the editor.
             + .checkbox-custom-label{
                 &::before{
                     content: "";                   
-                    background-color: $hoverColor;                    
+                    background-color: #0D6EFD;                    
                     background-image: url('^assets/icons/check-white.svg');
                     color: $whiteColor;
                     font-size: 12px;
@@ -864,7 +864,7 @@ and open the template in the editor.
         }
         &:focus{
             + .checkbox-custom-label{
-                color: $hoverColor;  
+                color: #0D6EFD;  
                 &::before{
                     border: 1px solid #1372ff; 
                 }
@@ -1301,7 +1301,7 @@ and open the template in the editor.
                 border-bottom: 1px solid $backgroundColor;
                 &:hover{
                     border:0;
-                    border-bottom: 1px solid $hoverColor;
+                    border-bottom: 1px solid $hoverBlue;
                 }
                 &:focus{
                     border: solid 1px #1372ff;
@@ -1477,7 +1477,7 @@ and open the template in the editor.
                 display: block;
                 height: 100%;
                 color: $whiteColor;
-                background-color: $hoverColor;            
+                background-color: $hoverBlue;            
                 border-radius: 0px 2px 2px 0px;
                 font-size: 14px;
                 text-align: center;
@@ -1569,7 +1569,7 @@ and open the template in the editor.
         color: $primaryColor;
         margin-bottom: 4px;
         span{	
-            color: $hoverColor;	
+            color: $hoverBlue;	
             float: right;	
             cursor: pointer;	
             font-weight: normal;	
@@ -1593,7 +1593,7 @@ and open the template in the editor.
             border: solid 1px #1372ff;
         }
         &:active{
-            border: solid 1px $hoverColor;
+            border: solid 1px $hoverBlue;
         }
         &:disabled{
             border: solid 1px #f3f3f4;
@@ -1663,7 +1663,7 @@ and open the template in the editor.
             outline: 0;
         }
         &:active{
-            border: solid 1px $hoverColor;
+            border: solid 1px $hoverBlue;
         }
         &:disabled{
             border: solid 1px #f3f3f4;
@@ -1743,7 +1743,7 @@ and open the template in the editor.
             }  
             &:not([disabled]){
                 + .radio-custom-label{
-                    color: $hoverColor; 
+                    color: $hoverBlue; 
                     &::before{
                         border: solid 1px #1372ff;
                     }
@@ -1757,8 +1757,8 @@ and open the template in the editor.
                     content: "";              
                     color: $whiteColor;
                     font-size: 12px;
-                    background-color: $hoverColor;
-                    border: 1px solid $hoverColor;
+                    background-color: $hoverBlue;
+                    border: 1px solid $hoverBlue;
                     box-shadow: inset 0 0 0 3px $whiteColor;
                 }
             }
@@ -1790,7 +1790,7 @@ and open the template in the editor.
         }
         &:focus{
             + .radio-custom-label{
-                color: $hoverColor;  
+                color: $hoverBlue;  
                 &::before{
                     border: 1px solid #1372ff; 
                 }
@@ -1952,9 +1952,9 @@ and open the template in the editor.
     }
     .know-link{
         a{
-            color: $hoverColor;
+            color: $hoverBlue;
             font-size: 14px;
-            border-bottom:1px solid $hoverColor;
+            border-bottom:1px solid $hoverBlue;
         }
     }
 }
@@ -2014,7 +2014,7 @@ and open the template in the editor.
             border: 1px solid #1372ff;
         }
         &:active{
-            border: solid 1px $hoverColor;
+            border: solid 1px $hoverBlue;
         }
         &:disabled{
             border: solid 1px $borderColor;
@@ -2053,7 +2053,7 @@ and open the template in the editor.
             border: 1px solid #1372ff;
         }
         &:active{
-            border-bottom: solid 1px $hoverColor;
+            border-bottom: solid 1px $hoverBlue;
         }
         &:disabled{
             border-bottom: solid 1px $borderColor;
@@ -2466,9 +2466,9 @@ and open the template in the editor.
         li{
             &.active{
                 a{
-                    border-bottom: 2px solid $hoverColor;
+                    border-bottom: 2px solid $hoverBlue;
                     &:focus{
-                        color:$hoverColor;
+                        color:$hoverBlue;
                     }
                 }
             }
@@ -2509,9 +2509,9 @@ and open the template in the editor.
             &.active{
                 a{
                     border: 0;
-                    border-left: 2px solid $hoverColor;
+                    border-left: 2px solid $hoverBlue;
                     &:focus{
-                        color:$hoverColor;
+                        color:$hoverBlue;
                     }
                 }
             }
@@ -2559,7 +2559,7 @@ and open the template in the editor.
         }
     }
     &:hover{
-        color: $hoverColor;
+        color: $hoverBlue;
     }
 }
 
@@ -2600,11 +2600,11 @@ and open the template in the editor.
         &.in-progress{
             span{
                 &.active-text-img{
-                   color:$hoverColor;
+                   color:$hoverBlue;
                 }
             }
             &::before{
-                border: solid 1px $hoverColor;
+                border: solid 1px $hoverBlue;
             }
         }
         &.active{
@@ -2614,12 +2614,12 @@ and open the template in the editor.
                 }
             }
             &::before{
-                background-color: $hoverColor;
-                border: solid 1px $hoverColor;
+                background-color: $hoverBlue;
+                border: solid 1px $hoverBlue;
             }
             a{
                 &::before{
-                    background: $hoverColor;
+                    background: $hoverBlue;
                 }
             }
         }
@@ -2645,7 +2645,7 @@ and open the template in the editor.
                 }
             }
             &:hover{
-                color: $hoverColor;
+                color: $hoverBlue;
             }
             &:focus{
                 border-bottom: 2px solid #1372ff;
@@ -2705,11 +2705,11 @@ and open the template in the editor.
         &.in-progress{
             span{
                 &.active-text-img{
-                   color:$hoverColor;
+                   color:$hoverBlue;
                 }
             }
             &::before{
-                border: solid 1px $hoverColor;
+                border: solid 1px $hoverBlue;
             }
         }
         &.active{
@@ -2719,12 +2719,12 @@ and open the template in the editor.
                 }
             }
             &::before{
-                background-color: $hoverColor;
-                border: solid 1px $hoverColor;
+                background-color: $hoverBlue;
+                border: solid 1px $hoverBlue;
             }
             a{
                 &::before{
-                    background: $hoverColor;
+                    background: $hoverBlue;
                 }
             }
         }
@@ -2751,7 +2751,7 @@ and open the template in the editor.
                 }
             }
             &:hover{
-                color: $hoverColor;
+                color: $hoverBlue;
             }
             &:focus{
                 border-bottom: 2px solid #1372ff;
@@ -2904,11 +2904,11 @@ and open the template in the editor.
                 background-color: $whiteColor; 
                 cursor: pointer;
                 span{
-                    color: $hoverColor;
+                    color: $hoverBlue;
                     font-size: 18px;
                     line-height: 1;
                     font-weight: bold;
-                    border-bottom: 1px solid $hoverColor;
+                    border-bottom: 1px solid $hoverBlue;
                 }              
             }
         }

@@ -62,9 +62,9 @@
               </div>
               <div class="kr-sg-file-drag-drop" *ngIf="fileObj.fileName">
                 <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
-                  <div class="file-close-text">
-                    <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                  <div class="file-close-text">                   
                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                    <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
                   </div>
                   <div class="progress-status">
                     <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
@@ -74,19 +74,19 @@
                 <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">Error in uploading file</div>
               </div>
             </div>
-             <!-- Annotation Start Here -->
-             <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
+            <!-- Annotation Start Here -->
+            <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
               <div class="kr-sg-checkbox">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
                 <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
               </div> 
             </div>
-          <!-- Annotation End Here -->
+            <!-- Annotation End Here -->
             <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq')">
               <div class="label_text mt-3 text-center">or</div>
             </div>
           </div>
-        <!-- File uploader with Drag & Drop ENDS HERE -->
+        <!-- File uploader with Drag & Drop ENDS HERE -->        
           <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source URL</div>

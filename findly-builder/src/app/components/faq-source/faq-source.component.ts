@@ -269,13 +269,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       if(this.selectedResource && (this.selectedResource._id === source._id)){
         this.selectedResource = null;
         this.getfaqsBy(null,this.selectedtab);
+        this.getStats();
       }else {
         this.selectedResource = source;
         this.getfaqsBy(source._id,this.selectedtab);
+        this.getStats(source._id);
       }
+
     } else {
       this.selectedResource = null;
       this.getfaqsBy(null,this.selectedtab);
+      this.getStats();
     }
   }
 
@@ -326,11 +330,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
        }
      });
   }
-  getStats() {
+  getStats(resourceId?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
     };
-    this.service.invoke('get.faqStatics', quaryparms).subscribe(res => {
+    let endPoint = 'get.faqStatics';
+    if(resourceId){
+     endPoint  = 'get.faqStaticsByResourceFilter';
+     quaryparms.resourceId = resourceId;
+    }
+    this.service.invoke(endPoint, quaryparms).subscribe(res => {
       this.faqSelectionObj.stats = res.countByState;
     }, errRes => {
     });
