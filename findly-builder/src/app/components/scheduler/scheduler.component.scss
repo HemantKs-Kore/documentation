@@ -108,28 +108,6 @@
                     }
                 }
             }
-            .kr-sg-file-drag-drop{
-                .uploaded-file-name{
-                    padding: 0 20px;
-                    margin: 10px 0 18px 0;
-                    transition: all 0.4s ease;
-                    cursor: pointer;
-                    border-radius: 4px;
-                    background: #EAF6EC;
-                    border: 0;
-                    .file-close-text{
-                        display: flex;
-                        justify-content: space-between;
-                        width: 100%;
-                        .file-name{
-                            color: #28A745;
-                        }
-                        .close-file{
-                            margin: 0;
-                        }
-                    }
-                }
-            }
         }
         .crerateWebCrawl{
             width: 87%;
@@ -741,7 +719,6 @@
                     right: 8px;
                 }
             }
-            
         }
     }
     .show-allow-urls{
@@ -751,14 +728,10 @@
                 cursor: pointer;
             }
         }
-        // .m10{
-        //     margin: 10px !important;
-        // }
-        
         .allow-urls-sec{
             align-items: center;
             padding: 19px 10px 19px 20px;
-            //margin: 0 0 20px 0;
+            margin: 0 0 20px 0;
             background: #FFFFFF;
             border: 1px solid #BDC1C6;
             box-sizing: border-box;
@@ -783,18 +756,6 @@
                 flex-shrink: 0;
                 cursor: pointer;
             }
-        }
-        .allow-urlBox{
-            margin: 0px 0px -1px 0px;
-            border-radius: 4px 4px 0px 0px;
-        }
-        .close-path{
-            img{
-                cursor: pointer;
-            }
-        }
-        .cross-right{
-            float: right;
         }
     }
     .kr-sg-toggle {
@@ -875,10 +836,6 @@
             }
         }
     }
-    .list{
-        position: absolute;
-        left: 985px;
-    }
 }
 
 .alw-list{
@@ -888,16 +845,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;  
-   //margin: 7px 0px; 
-}
-.alw-list-bor{
-    border-radius: 0px 0px 0px 0px;
-    border: 1px solid #bdc1c6;
-    border-bottom: none;
-}
-.last-record{
-    border-radius: 0px 0px 4px 4px;
-    border-bottom: 1px solid #bdc1c6;;
+    margin: 7px 0px; 
 }
 .input-text .pointer-none {
     border: none;
@@ -1013,13 +961,8 @@
     .schedule-drop-text{
         color: #bdc1c6;
     }
-    ::ng-deep .mat-datepicker-toggle {
-        position: absolute;
-        left: 263px;
-        top: 370px;
-    }
+    
 }
-
 .custom-ref{
     .modal-body{
         height: 400px;
@@ -1063,6 +1006,13 @@
                 top: 130px;
                 border-radius: 50%;
                 background: #E4E5E7;
+            }
+            .custom-repeat-on{
+                margin-top: 85px;
+                /* border: 1px solid white; */
+                background: white;
+                padding: 8px;
+                border-radius: 5px;
             }
             .active{
                 background: #0D6EFD;
@@ -1136,9 +1086,8 @@
     }
 }
 
-.label_text_dis{
-    color: #202124 !important;
-    margin: 10px !important;
-    font-size: 14px  !important;
-    font-weight: bold  !important;
+::ng-deep .mat-date-icon{
+    position: absolute;
+    margin-left: 265px !important;
+    margin-top: 15px !important;
 }

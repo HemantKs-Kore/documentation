@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/app/helpers/models/Crwal-advance.model';
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -24,15 +25,18 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
-  isConfig: boolean = false;
-  allowUrlArr: AllowUrl[] = [];
-  filterSystem: any = {
-    'typeHeader': 'type',
-    'statusHeader': 'status',
-    'typefilter': 'all',
-    'statusFilter': 'all'
+  isConfig : boolean = false;
+  allowUrl : AllowUrl = new AllowUrl()
+  blockUrl : BlockUrl = new BlockUrl();
+  allowUrlArr : AllowUrl[] = [];
+  blockUrlArr : BlockUrl[] = []
+  filterSystem : any = {
+    'typeHeader' : 'type',
+    'statusHeader' : 'status',
+    'typefilter' : 'all',
+    'statusFilter' : 'all'
   }
-  firstFilter: any = { 'header': '', 'source': '' };
+  firstFilter: any = {'header': '' , 'source' : ''};
   currentView = 'list'
   searchSources = '';
   pagesSearch = '';
@@ -73,12 +77,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   showSourceAddition: any = null;
   isAsc = true;
   selectedSort = '';
-  recordStr: number = 1;
-  recordEnd: number = 10;
-  totalRecord: number = 0;
-  limitpage: number = 10;
-  limitAllpage: number = 10;
-  allInOne: boolean = false;;
+  recordStr : number = 1;
+  recordEnd : number = 10;
+  totalRecord : number = 0;
+  limitpage : number = 10;
+  limitAllpage : number = 10;
+  allInOne : boolean = false;
+  urlConditionAllow = "Is";
+  urlConditionBlock = "Is";
+  doesntContains = "Doesn't Contains"
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -229,8 +236,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
 
       this.loadingSliderContent = false;
+      //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
-      if (this.isConfig && $('.tabname') && $('.tabname').length) {
+      this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
+      if(this.isConfig && $('.tabname') && $('.tabname').length){
         $('.tabname')[1].classList.remove('active');
         $('.tabname')[0].classList.add('active');
       }
@@ -629,18 +638,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
-  }
-  allowUrls(contains, allowUrl) {
-    console.log(contains, allowUrl.value)
-    let data = {};
-    data['contains'] = contains;
-    data['url'] = allowUrl.value;
-    this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs]
-    if (data['url'])
-      this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length - 1, data, 'add');
-    $('#enterPathInput')[0].value = '';
-  }
-  updateRecord(i, allowUrls, option) {
+   }
+   blockUrls(data){
+    //data['condition'] = this.urlConditionBlock;
+    //this.blockUrl.condition = this.urlConditionBlock;
+    //this.selectedSource['advanceSettings'].blockedURLs.push(data);
+    this.blockUrlArr = [...this.selectedSource['advanceSettings'].blockedURLs]
+    //this.blockUrl = new BlockUrl;
+    if(data['url'])
+    this.updateRecord(this.selectedSource['advanceSettings'].blockedURLs.length-1,data,'add','block');
+   }
+   allowUrls(contains , allowUrl,dataAllow){
+      console.log(contains , allowUrl.value)
+      let data = {};
+     //data['condition'] = contains;
+     //data['url'] = allowUrl.value;
+     data = dataAllow;
+     this.allowUrlArr = [...this.selectedSource['advanceSettings'].allowedURLs]
+     if(data['url'])
+      this.updateRecord(this.selectedSource['advanceSettings'].allowedURLs.length-1,data,'add','allow');
+      $('#enterPathInput')[0].value = '';
+      
+   }
+   updateRecord(i,allowUrls,option,type){
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
     let resourceType = this.selectedSource.type;
@@ -654,11 +674,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.url = this.selectedSource.url;
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
-    if (option == 'add') {
-
-      crawler.advanceOpts.allowedURLs.push(allowUrls);
-    } else {
-      crawler.advanceOpts.allowedURLs.splice(i, 1);
+    crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
+    if(option == 'add'){
+      type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
+    }else{
+      type == 'block' ? crawler.advanceOpts.blockedURLs.splice(i,1) : crawler.advanceOpts.allowedURLs.splice(i,1);
     }
 
     crawler.resourceType = resourceType;
@@ -666,24 +686,76 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log(payload);
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
-      if (option == 'add') {
-        this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
-      } else {
-        this.selectedSource['advanceSettings'].allowedURLs.splice(i, 1);
+      if(option == 'add'){
+        type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.push(allowUrls):this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
+      }else{
+        type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.splice(i,1):this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
-
+      type == 'block' ?this.blockUrl = new BlockUrl :  this.allowUrl = new AllowUrl;
       // allowUrls.forEach(element => {
 
       // });
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+   }
+   urlCondition(condition , type){
+    type == 'allow' ? this.urlConditionAllow= condition : this.urlConditionBlock= condition;
+    type == 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition; 
+   }
+   scheduleData(scheduleData){
+    console.log(scheduleData);
+    this.selectedSource['advanceSettings'].scheduleOpts = scheduleData;
   }
+  cronExpress(cronExpress){
+    console.log(cronExpress);
+    this.selectedSource['advanceSettings'].crawlEverything = cronExpress;
+  }
+  exceptUrl(bool){
+    this.selectedSource.advanceSettings.allowedOpt = !bool;
+    this.selectedSource.advanceSettings.blockedOpt = !this.selectedSource.advanceSettings.allowedOpt;
+  }
+  restrictUrl(bool){
+    this.selectedSource.advanceSettings.blockedOpt = !bool;
+    this.selectedSource.advanceSettings.allowedOpt = !this.selectedSource.advanceSettings.blockedOpt;
+  }
+  changeSettings(bool){
+    this.selectedSource.advanceSettings.crawlEverything = !bool;
+  }
+  proceedWithConfigUpdate(){
+    let payload = {}
+    let resourceType = this.selectedSource.type;
+    let crawler = new CrwalObj()
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId ,
+      sourceId : this.selectedSource._id
+      //type: this.selectedSourceType.sourceType,
+    };
+    crawler.name = this.selectedSource.name;
+    crawler.url = this.selectedSource.url;
+    crawler.desc = this.selectedSource.desc || '';
+    crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
+    crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
+    
+    crawler.resourceType = resourceType;
+    payload = crawler;
+    console.log(payload);
 
+    this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
+   
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.selectedSort) {
       case "name": {
@@ -744,29 +816,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
 }
 
-class CrwalObj {
+// class CrwalObj{  
+  
+//   url: String = '';
+//   desc: String = '';
+//   name: String = '';
+//   resourceType: String = '';
+//   advanceOpts: AdvanceOpts = new AdvanceOpts()
 
-  url: String = '';
-  desc: String = '';
-  name: String = '';
-  resourceType: String = '';
-  advanceOpts: AdvanceOpts = new AdvanceOpts()
 
-
-}
-class AdvanceOpts {
-  scheduleOpts: boolean = true;
-  schedulePeriod: String = "";
-  repeatInterval: String = "";
-  crawlEverything: boolean = true;
-  allowedURLs: AllowUrl[] = [];
-  blockedURLs: BlockUrl[] = [];
-}
-class AllowUrl {
-  condition: String = '';
-  url: String = '';
-}
-class BlockUrl {
-  condition: String = '';
-  url: String = '';
-}
+// }
+// class AdvanceOpts{
+// scheduleOpts:boolean = true;
+//     schedulePeriod: String ="";
+//     repeatInterval: String ="";
+//     crawlEverything: boolean = true; 
+//        allowedURLs:AllowUrl[] = [];
+//        blockedURLs: BlockUrl[] = [];
+// }
+// class AllowUrl {
+// condition:String = '';
+//  url: String = '';
+// }
+// class BlockUrl {
+// condition:String = '';
+//  url: String = '';
+// }
