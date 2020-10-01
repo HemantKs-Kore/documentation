@@ -805,7 +805,7 @@ and open the template in the editor.
                 margin-right: 12px;
                 text-align: center;
                 border-radius: 2px;
-                border: solid 1px $secondaryColor;
+                border: solid 1px #BDC1C6;
                 background-color: $whiteColor;
                 margin-top: -3px;
             }
@@ -815,7 +815,7 @@ and open the template in the editor.
                 + .checkbox-custom-label{
                     color: $primaryColor; 
                     &::before{
-                        border: solid 1px $secondaryColor;
+                        border: solid 1px #BDC1C6;
                     }
                 }
             }  
