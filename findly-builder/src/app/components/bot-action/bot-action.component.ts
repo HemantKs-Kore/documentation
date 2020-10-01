@@ -23,6 +23,8 @@ export class BotActionComponent implements OnInit {
   currentView;
   bots: any = [];
 
+  sortedBy: string;
+  sortInAscending: boolean = false;
   emptyAssociatedBots: boolean = true;
   linkedBotName: any;
   associatedBotArr = [];
@@ -52,6 +54,7 @@ export class BotActionComponent implements OnInit {
     console.log("StreamID", this.streamId)
     console.log(this.workflowService.selectedApp())
     this.getBots();
+    // this.getAssociatedTasks(this.streamId);
 
     this.userInfo = this.authService.getUserInfo() || {};
     console.log(this.userInfo);
@@ -95,6 +98,71 @@ export class BotActionComponent implements OnInit {
     }
   }*/
 
+  compareValues(valA: number | string, valB: number | string, sortType: boolean) {
+    return (valA < valB ? -1 : 1) * (sortType ? 1 : -1);
+  }
+
+  sortBy(sortingField: string) {
+    const listData = this.bots.slice(0);
+    this.sortedBy = sortingField;
+
+    if (this.sortedBy !== sortingField) {
+      this.sortInAscending = true;
+    }
+    else {
+      this.sortInAscending = !this.sortInAscending;
+    }
+
+    const sortedData = listData.sort((a: any, b: any) => {
+      const sortOrder = this.sortInAscending;
+      switch (sortingField) {
+        case 'name': return this.compareValues(a.name, b.name, sortOrder);
+        case 'noOfAppearences': return this.compareValues(a.noOfAppearences, b.noOfAppearences, sortOrder);
+        case 'noOfClicks': return this.compareValues(a.noOfClicks, b.noOfClicks, sortOrder);
+        default: return;
+      }
+    });
+    this.bots = sortedData;
+  }
+
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.sortedBy) {
+      case "name": {
+        if (this.sortedBy == sortingField) {
+          if (this.sortInAscending == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.sortInAscending == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "noOfAppearences": {
+        if (this.sortedBy == sortingField) {
+          if (this.sortInAscending == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.sortInAscending == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none";
+        }
+      }
+      case "noOfClicks": {
+        if (this.sortedBy == sortingField) {
+          if (this.sortInAscending == false && type == 'down') {
+            return "display-block";
+          }
+          else if (this.sortInAscending == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none";
+        }
+      }
+    }
+  }
+
   clearSearchSourcesResults() {
     this.searchSources = null;
   }
@@ -128,9 +196,9 @@ export class BotActionComponent implements OnInit {
         this.associatedBots = JSON.parse(JSON.stringify(res));
         console.log(this.associatedBots);
         this.associatedBotArr = [];
-        if (this.associatedBots.length > 1) {
+        if (this.associatedBots.length > 0) {
           this.associatedBots.forEach(element => {
-            if(this.streamId == element._id) {
+            if (this.streamId == element._id) {
               this.linkedBotName = element.name;
             }
             let botObject = {};
@@ -143,6 +211,9 @@ export class BotActionComponent implements OnInit {
         }
         else {
           this.emptyAssociatedBots = true;
+          if (this.associatedBots.errors?.length) {
+            this.notificationService.notify("Invalid request", 'error')
+          }
         }
       },
         (err) => { console.log(err); this.notificationService.notify("Error in loading associated bots", 'error') },
@@ -179,6 +250,7 @@ export class BotActionComponent implements OnInit {
         console.log(res.status);
         this.streamId = selectedApp.configuredBots[0]._id;
         this.getBots();
+        // this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
         this.notificationService.notify("Bot linked, successfully", 'success')
       },
@@ -188,7 +260,7 @@ export class BotActionComponent implements OnInit {
       )
     }
     else {
-      this.notificationService.notify('Failed', 'Error in Linking Bot');
+      this.notificationService.notify('Failed', 'Error in linking bot');
     }
   }
   unlinkBot(botID: any) {
@@ -215,6 +287,7 @@ export class BotActionComponent implements OnInit {
         this.workflowService.selectedApp(selectedApp);
         this.streamId = null;
         this.getBots();
+        // this.getAssociatedTasks(this.streamId);
         this.getAssociatedBots();
         this.notificationService.notify("Bot unlinked, successfully", 'success');
 
@@ -229,23 +302,38 @@ export class BotActionComponent implements OnInit {
         botID: botID
       };
       this.service.invoke('get.AssociatedBotTasks', queryParams).subscribe(res => {
+        this.currentView = 'grid';
+        this.loadingContent = false;
+
         console.log("Associated Tasks", res);
-        this.associatedTasks = [];
+        // this.associatedTasks = [];
+        this.bots = [];
         res.forEach(element => {
-          if(element.state == "published" && element.isHidden == false){
-            this.associatedTasks.push(element);
+          if (element.state == "published") { // && element.isHidden == false
+            // this.associatedTasks.push(element);
+            this.bots.push(element);
           }
         });
-        console.log(this.associatedTasks);
+        // console.log(this.associatedTasks);
+        console.log(this.bots);
       },
         (err) => { console.log(err) },
-        () => { console.log("Call Completed") }
+        // () => { console.log("Call Completed") }
       )
     }
   }*/
 
   toggleDisable($event: NgbPanelChangeEvent) {
     $event.preventDefault();
+  }
+
+  deleteTask(taskID: string) {
+    for (let i = 0; i < this.bots.length; i++) {
+      if (this.bots[i]['_id'] == taskID) {
+        this.bots.splice(i, 1);
+        this.notificationService.notify("Task deleted, successfully", 'success')
+      }
+    }
   }
 
 }
