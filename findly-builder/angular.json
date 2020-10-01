@@ -17,8 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref" : "/findly/",
-            "deployUrl": "/findly/",
+            "baseHref" : "/home/",
             "outputPath": "dist/src",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -36,7 +35,7 @@
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/codemirror/addon/fold/foldgutter.css",
               "node_modules/codemirror/addon/lint/lint.css",
-			  "src/assets/css/bootstrap-slider.css"
+			        "src/assets/css/bootstrap-slider.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -44,7 +43,13 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/app/helpers/lib/assets/highlight.js/highlight.min.js",
               "src/app/helpers/lib/assets/marked.min.js",
-			  "src/assets/js/bootstrap-slider.js"
+              "src/assets/js/bootstrap-slider.js",
+              "node_modules/rangy/lib/rangy-core.js",
+              "node_modules/rangy/lib/rangy-classapplier.js",
+              "node_modules/rangy/lib/rangy-highlighter.js",
+              "node_modules/rangy/lib/rangy-selectionsaverestore.js",
+              "node_modules/rangy/lib/rangy-serializer.js",
+              "node_modules/rangy/lib/rangy-textrange.js"
             ]
           },
           "configurations": {
@@ -53,6 +58,54 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "clouddev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.clouddev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "app": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.app.ts"
                 }
               ],
               "optimization": true,

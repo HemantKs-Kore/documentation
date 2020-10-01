@@ -140,6 +140,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats',
       method: 'get'
     };
+    this.serviceList['get.faqStaticsByResourceFilter'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?resourceId=:resourceId',
+      method: 'get'
+    };
     this.serviceList['get.fags'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/faqs?ktId=:ktId',
       method: 'get'
@@ -262,10 +266,45 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source?',
       method: 'post'
     };
-   
     this.serviceList['update.crawler'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId',
       method: 'put'
     };
+    /* Annotation tool */
+    this.serviceList['attachment.file'] = {
+      endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
+      method: 'get'
+    };
+    this.serviceList['PdfAnno.get.userguide'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/getSavedAnnotatedDataForStream',
+      method: 'get'
+    };
+    this.serviceList['PdfAnno.faq.annotate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source?sourceType=:sourceType',
+      method: 'post'
+    };
+    this.serviceList['PdfAnno.get.reAnnotateData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/:fileId/getSavedAnnotatedData',
+      method: 'get'
+    };
+
+    /* Service End-Points for Integrating APIs in bot-action Component */
+    this.serviceList['get.AssociatedBots'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userID/builder/streams',
+      method: 'get'
+    };
+    this.serviceList['get.AssociatedBotTasks'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
+      method: 'get'
+    }
+    this.serviceList['put.LinkBot'] = {
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/linkbot',
+      method: 'put'
+    }
+    this.serviceList['put.UnlinkBot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
+      method: 'put'
+    }
   }
 }

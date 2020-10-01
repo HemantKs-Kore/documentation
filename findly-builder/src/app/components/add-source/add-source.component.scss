@@ -108,6 +108,28 @@
                     }
                 }
             }
+            .kr-sg-file-drag-drop{
+                .uploaded-file-name{
+                    padding: 0 20px;
+                    margin: 10px 0 18px 0;
+                    transition: all 0.4s ease;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    background: #EAF6EC;
+                    border: 0;
+                    .file-close-text{
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+                        .file-name{
+                            color: #28A745;
+                        }
+                        .close-file{
+                            margin: 0;
+                        }
+                    }
+                }
+            }
         }
         .crerateWebCrawl{
             width: 87%;

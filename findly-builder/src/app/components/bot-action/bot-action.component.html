@@ -1,66 +1,204 @@
 <div class="botContainer">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent">
-      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-      <span class="please-wait-message">Please Wait!</span>
-    </div>
-    <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
-      <img class="noTraitsImg" src="assets/images/empty-illustration.png">
-       <div class='noTraitsInfo'>        
-        <p class='infoP'>No actions available<br>
-        </p>
-    </div>
-    </div>
-    <div class="table-list-content" *ngIf="bots && bots.length && !loadingContent">
-      <div class="kr-sg-data-table with-checkbox">
-        <div class="table-action-header">
-          <div class="kr-sg-input-search m-0">                               
-            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchContentSources" [(ngModel)]="searchSources" (keyup)="applyFilter($event.target.value)" autocomplete="off">           
-            <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-            <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
+  <div class="mainLoadingSpinner" *ngIf="loadingContent">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+  <div class="table-list-content" *ngIf="!loadingContent">
+    <div class="kr-sg-data-table with-checkbox">
+      <div [class.table-action-header-empty]="!(bots && bots.length)" class="table-action-header">
+        <div class="kr-sg-input-search m-0" *ngIf="bots && bots.length && !loadingContent">
+          <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search"
+            id="searchContentSources" [(ngModel)]="searchSources" autocomplete="off">
+          <img *ngIf="searchSources" (click)="clearSearchSourcesResults()" class="search-icon"
+            src="assets/images/close.svg"> <!-- (click)="applyFilter('')" -->
+          <img *ngIf="!searchSources" class="search-icon" src="assets/images/search_gray.svg">
+        </div>
+        <div>
+          <!-- <button *ngIf="!loadingContent" class="kr-sg-button-primary btn_lg button-link-bots"
+            (click)="openLinkExistingBotsComponent()">Link
+            Bots</button> -->
+          <button *ngIf="!loadingContent" class="button-link-bots"
+            (click)="openLinkExistingBotsComponent()"><img class="add-icon" src="assets/icons/sidemenu/plus-table.svg">&nbsp;<span class="button-link-bots-label">Link
+            Bots</span></button>
+
+          <div *ngIf="currentView === 'list' && (bots && bots.length) " class="grid-list-view-table"
+            (click)="currentView='grid'" ngbTooltip='Grid'><img src="assets/icons/grid-view.svg"></div>
+          <div *ngIf="currentView === 'grid' && (bots && bots.length)" class="grid-list-view-table"
+            (click)="currentView='list'" ngbTooltip='List'><img src="assets/icons/list-view.svg">
           </div>
-          <div>
-            <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'" ngbTooltip='Grid'><img
-              src="assets/icons/grid-view.svg"></div>
-              <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'" ngbTooltip='List'><img
-              src="assets/icons/list-view.svg">
-              </div>
-              <div class="kr-sg-dropdowns"  ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                <div class="dropdown dropdown-open">                  
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
-                    <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                        <li ><span class="list-name">All</span></li>                     
-                    </ul>
-                </div>
-            </div>
-          </div>
+
+          <!-- <div *ngIf="bots && bots.length && !loadingContent" class="kr-sg-dropdowns" ngbDropdown [container]="'body'"
+            [placement]="'bottom-right'">
+             <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
+                  src="assets/icons/elipse.svg"></button>
+              <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                <li><span class="list-name">All</span></li> -->
+
+          <!-- <li (click)="openLinkExistingBotsComponent()"><span class="list-name">Link Existing Bots</span></li> -->
+
+          <!-- </ul>
+            </div> 
+          </div> -->
+        </div>
       </div>
+      <section class="table-content" *ngIf="currentView === 'list' && (bots && bots.length) && !loadingContent">
+        <h4 class="title-linked-bot">{{linkedBotName}}</h4>
+        <header class="table-header">
+          <!-- <div class="col_ col-3" (click)="sortBy('')">Bot<img src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div> -->
+          <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('name')">Task<img
+              [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('name', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('noOfAppearences')">No. Of Appearances<img
+              [ngClass]="getSortIconVisibility('noOfAppearences', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('noOfAppearences', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('noOfClicks')">No. Of Clicks<img
+              [ngClass]="getSortIconVisibility('noOfClicks', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('noOfClicks', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow"></div>
+          <!-- <div class="col_ col-1 d-flex align-items-center"></div> -->
+        </header>
+        <perfect-scrollbar class="table-scroll-perfect">
+          <ng-container>
+            <div class="content-body" *ngFor="let source of bots | filter: [ searchSources, 'name' ]">
+              <!-- <div class="col_ col-3">{{linkedBotName}}</div> -->
+              <div class="col_ col-4">{{source.name}}</div>
+              <div class="col_ col-4"> {{source.noOfAppearences?source.noOfAppearences:'-'}}</div>
+              <div class="col_ col-4">{{source.noOfClicks?source.noOfClicks:'-'}}</div>
+              <!-- <div class="col_ col-1 p-0">
+                <span class="action-links d-none" (click)="deleteTask(source._id)"><img class="action_icon"
+                    src="assets/icons/delete-table.svg" ngbTooltip="Delete Task" container="body"></span>
+              </div> -->
+            </div>
+          </ng-container>
+          <div class="empty">No Results found</div>
+        </perfect-scrollbar>
+      </section>
     </div>
+  </div>
+  <div class="noTraits" *ngIf="!(bots && bots.length) && !loadingContent">
+    <img class="noTraitsImg" src="assets/images/empty-illustration.png">
+    <div class='noTraitsInfo'>
+      <p class='infoP'>No actions available<br>
+      </p>
     </div>
-    <ng-container >
-        <perfect-scrollbar class="table-scroll-perfect-bot">
-          <div class="list-view-data">
-            <div class="row row_list">
-              <div class="box-content" *ngFor="let source of bots"
-                (click)="openStatusSlider(source)">
-                <div class="bot-box text-left">
-                  <div class="boxContent">
-                    <div class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></div>
-                    <div class="detailsContainer">
-                      <span class="actions-links" (click)="deletePages('source',source,$event)" ngbTooltip='Delete' [container]="'body'">
-                        <img class="action_icon" src="assets/icons/sidemenu/delete-table.svg">
-                      </span>
-                      <div class="title-bot btm-title">{{source.name}}</div>
-                      <div class="title-desc" ngbTooltip='{{source.shortDesc}}' >{{source.shortDesc}}</div>
-                      <div class="bottomText">                    
-                        <div class="title-btm " >{{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
-                        <div class="title-btm right"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
-                    </div>  
-                    </div>                                                      
+  </div>
+  <ng-container *ngIf="currentView === 'grid' && (bots && bots.length) && !loadingContent">
+    <perfect-scrollbar class="table-scroll-perfect-bot">
+      <div class="list-view-data">
+        <div class="row row_list">
+          <h4 class="title-linked-bot">{{linkedBotName}}</h4>
+          <div class="box-content" *ngFor="let source of bots | filter: [ searchSources, 'name' ]">
+            <!-- (click)="openStatusSlider(source) -->
+            <div class="bot-box text-left">
+              <div class="boxContent">
+                <div class="action Icon"><img class="action_icon" src="assets/images/botActionTaskIcon.svg"></div>
+                <div class="detailsContainer">
+                  <span class="actions-links d-none" (click)="deleteTask(source._id)" ngbTooltip='Delete Task'
+                    [container]="'body'"> deletePages('source', source, $event)
+                    <img class="action_icon" src="assets/icons/sidemenu/delete-table.svg">
+                  </span>
+                  <div class="title-bot btm-title">{{source.name}}</div>
+                  <div class="title-desc" ngbTooltip='{{source.shortDesc}}'>{{source.shortDesc}}</div>
+                  <div class="bottomText">
+                    <div class="title-btm ">
+                      {{ source.noOfAppearences?source.noOfAppearences + ' Appearances':'No Appearances'}} </div>
+                    <div class="title-btm right"> {{ source.noOfClicks?source.noOfClicks + ' Clicks':'No Clicks'}}</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
+        </div>
+      </div>
+      <div class="empty">No Results found</div>
+    </perfect-scrollbar>
+  </ng-container>
+</div>
+
+<kr-modal modalType="center" modalClass="linkExistingBotsModal" #linkExistingBotsComponent>
+  <div class="modal-header">
+    <span class="header-title">Link Bots</span>
+    <button class="button-close" (click)="closeLinkExistingBotsComponent()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <div class="empty-bots-container" *ngIf="emptyAssociatedBots">
+      <img src="assets/images/icons/empty_ill.svg">
+      <h2>No Bots</h2>
+      <h4>Please add bots</h4>
+    </div>
+    <ng-container *ngIf="!emptyAssociatedBots">
+      <p class="list-text">Choose any one bot from the list below to link into your Findly app. You can only link bots
+        that you have the rights to access.</p>
+      <div class="search-input-container">
+        <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchBots" name="searchBots">
+        <img class="search-icon" src="assets/images/search_gray.svg">
+      </div>
+      <ng-container>
+        <perfect-scrollbar>
+          <div class="list-container">
+            <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
+              <!-- [closeOthers]="true" -->
+              <ng-container *ngFor="let bot of associatedBots | filter: [ searchBots, 'name' ]; let i = index">
+                <ngb-panel id="{{'bot' + i}}">
+                  <ng-template ngbPanelHeader>
+                    <!-- let-opened="opened" -->
+                    <!-- <div class="accordion-header-container"
+                  [ngStyle]="{'border-bottom': opened === false ? '2px solid #eee' : 'none'}"
+                  (click)="accordionList.toggle('bot' + i); modifyStyles('bot'+ i +'-header', opened); getAssociatedTasks(bot._id)"> -->
+                    <!-- <img class="chevron-icon" [src]="opened ? 'assets/icons/carrot-down-comp.svg' : 'assets/icons/carrot-right.svg'"> -->
+                    <div class="accordion-header-container">
+                      <!-- <img class="chevron-icon"
+                    [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}"
+                    src="assets/icons/carrot-right.svg"> -->
+                      <img class="bot-icon" src="assets/images/botIcon.svg">
+                      <span class="accordion-header-title">{{bot.name}}</span>
+                      <button *ngIf="streamId != bot._id" class="kr-sg-button-primary button-link"
+                        (click)="linkBot(bot._id)" [disabled]="streamId != null">Link Bot</button>
+                      <!-- *ngIf="!opened && streamId != bot._id" -->
+                      <span *ngIf="streamId == bot._id" class="span-link">
+                        <div class="check-icon-container"><img src="assets/images/source-icos/check-green.svg"></div>
+                        &nbsp;Bot is linked
+                      </span>
+                      <div *ngIf="streamId == bot._id" class="dropdown-control"><img class="ellipse-icon"
+                          src="assets/icons/elipse.svg">
+                        <div class="dropdown-content">
+                          <ul class="dropdown-content-list">
+                            <li class="dropdown-content-list-item" (click)="unlinkBot(bot._id)"><span>Unlink Bot</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <!-- <ng-template ngbPanelContent>
+                <div class="accordion-content-container"> -->
+                  <!-- <h4 class="sub-heading-title">Related Tasks</h4> -->
+                  <!-- <div class="table">
+                    <thead>
+                      <tr>
+                        <th>Tasks</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let task of associatedTasks">
+                      <td>{{task.name}}</td>
+                      <td><button class="kr-sg-button-primary">Hide Task</button></td>
+                    </tbody>
+                  </div>
+                  <button class="kr-sg-button-primary" (click)="linkBot(bot._id)">Link Bot</button>
+                  {{bot.content}}
+                </div>
+              </ng-template> -->
+                </ngb-panel>
+              </ng-container>
+            </ngb-accordion>
+          </div>
         </perfect-scrollbar>
       </ng-container>
- </div> 
+    </ng-container>
+  </div>
+</kr-modal>

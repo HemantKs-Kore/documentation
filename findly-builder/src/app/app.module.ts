@@ -65,6 +65,7 @@ import { RulesTableComponent } from './components/results-rules/rules-table/rule
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
+import { AnnotoolModule } from './components/annotool/annotool.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -80,7 +81,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ScrollSpyDirective,
     ConfirmationDialogComponent,
     SummaryComponent,
-    KRModalComponent,
+    // KRModalComponent, /* Added in shared module*/
     AddSourceComponent,
     ContentSourceComponent,
     FaqSourceComponent,
@@ -128,6 +129,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CodemirrorModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    AnnotoolModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
