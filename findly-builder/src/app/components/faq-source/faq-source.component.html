@@ -53,7 +53,11 @@
                         </div>
                     </div>
                     <div class="body-content">
-                        
+                        <div class="empty-questions-selected"  *ngIf="loadingTab || apiLoading">
+                            <div>
+                                <div class="heading">{{'please_wait' | translate}}</div>
+                            </div>
+                        </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
                             <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
@@ -94,14 +98,8 @@
                             </div>
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
                            </ng-container>
-                            <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                         </perfect-scrollbar>
-                       
-                       <div class="empty-questions-selected"  *ngIf="loadingTab">
-                        <div >
-                            <div class="heading">{{'please_wait' | translate}}</div>
-                        </div>
-                      </div>
+                       <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">

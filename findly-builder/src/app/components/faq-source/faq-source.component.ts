@@ -370,7 +370,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.apiLoading = true;
     this.service.invoke(serviceId, params).subscribe(res => {
-      this.apiLoading = false;
       if(concat){
         this.faqs = this.faqs.concat(res);
       } else {
@@ -393,6 +392,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         this.faqsAvailable = res.length?true:false;
       }
       this.editfaq = null
+      this.apiLoading = false;
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
