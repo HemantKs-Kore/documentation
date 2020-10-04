@@ -1,5 +1,5 @@
 <div class="paginations-custon">
-    <div class="previous pre-arrow" [ngClass]="{'dis-arow': (disablePrev || (recordStr === totalRecord))}" (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)">  </div>
+    <div class="previous pre-arrow" [ngClass]="{'dis-arow': (disablePrev)}" (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)">  </div>
     <div id="number"class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }}   of   {{ totalRecord }}
     </div>
 

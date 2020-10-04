@@ -63,7 +63,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     success: { name: 'Success', color: 'green' },
-    queued: { name: 'In Progress', color: 'blue' },
+    queued: { name: 'Queued', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },
   };
@@ -77,7 +77,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   apiLoading = false;
   isAsc = true;
   selectedSort = '';
-  faqLimit = 150;
+  faqLimit = 20;
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
@@ -403,7 +403,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     if(this.selectedResource && this.selectedResource._id && !resourceId){
       resourceId = this.selectedResource._id
     }
-    this.loadingTab = true;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -431,7 +430,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     const concatResults = skip?true:false;
     this.faqsApiService(serviceId, quaryparms,concatResults);
   }
+  paginate(event){
+    this.getfaqsBy(null,null,event.skip)
+    // this.perfectScroll.directiveRef.update();
+    // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+  }
   selectTab(tab){
+    this.loadingTab = true;
     this.selectedFaq=null
     this.selectedtab = tab;
     this.getFaqsOnSelection();

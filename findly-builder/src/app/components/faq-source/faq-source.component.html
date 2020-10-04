@@ -53,8 +53,9 @@
                         </div>
                     </div>
                     <div class="body-content">
-                        <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
+                        
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)">
+                            <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
                             <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
@@ -76,7 +77,7 @@
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
                                                 <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
-                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._is]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
+                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
                                                         <div class="title">{{altQuestion.question}}</div>
                                                         <div class="desc" *ngIf="altQuestion && altQuestion.answer">{{altQuestion.answer}}</div>
                                                         <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(altQuestion.defaultAnswers[0].payload)'></div>
@@ -92,8 +93,10 @@
                                 </div>
                             </div>
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
+                           </ng-container>
+                            <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                         </perfect-scrollbar>
-                       </ng-container>
+                       
                        <div class="empty-questions-selected"  *ngIf="loadingTab">
                         <div >
                             <div class="heading">{{'please_wait' | translate}}</div>

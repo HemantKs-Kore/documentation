@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit, Inject, OnDestroy } from '@angular/core';
+import { skip } from 'rxjs/operators';
 declare const $: any;
 @Component({
   selector: 'app-pagination',
@@ -6,15 +7,20 @@ declare const $: any;
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent implements OnInit {
-  recordStr;
+  recordStr:any= 1;
   recordEnd;
-  disableNext;
-  disablePrev;
+  disableNext = false;
+  disablePrev = true;
   @Input() totalRecord:any
   @Input() limitpage:any
   @Input() allInOne:any
+  @Output() pageChanged = new EventEmitter();
   constructor() { }
   ngOnInit(): void {
+    this.recordEnd = this.limitpage;
+    if(this.totalRecord < this.limitpage){
+      this.disableNext = true;
+    }
   }
   onClickArrow(newStart,newEnd,offset,time){
     const preStart = this.recordStr;
@@ -42,11 +48,17 @@ export class PaginationComponent implements OnInit {
         this.disablePrev = true;
       }
     }
+    const eventObj = {
+      limit:this.limitpage,
+      skip:this.recordStr - 1
+    }
+    this.pageChanged.emit(eventObj);
   }
   onClickPageNo(noRows,index){
-    $('.numbers').each( (key , valyue)=>{
-      $('.numbers').removeClass('active')
-    })
-    $('#number_'+index).addClass('active');
+    const eventObj = {
+      limit:this.limitpage,
+      skip:this.recordStr - 1
+    }
+    this.pageChanged.emit(eventObj);
   }
 }

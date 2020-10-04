@@ -549,18 +549,18 @@
                     <div class="next" *ngIf="btnAllCount > 5"> ... </div>
                     <div class="next">Next</div>
                   </div> -->
+               <app-pagination [totalRecord]='totalRecord' [limitpage]='10' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+              <!-- <div class="paginations-custon">
+                <div class="previous pre-arrow dis-arow"
+                  (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
+                <div id="number" class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }} of {{ totalRecord }}
+                </div>
 
-    <div class="paginations-custon">
-      <div class="previous pre-arrow dis-arow" (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)">
-      </div>
-      <div id="number" class="numbers numbers-page"> {{ recordStr }}-{{ recordEnd }} of {{ totalRecord }}
-      </div>
-
-      <div [ngClass]="{'dis-arow': recordEnd >= totalRecord}" class="next nxt-arrow"
-        (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
-    </div>
-    <!-- pageination -->
-  </div>
+                <div [ngClass]="{'dis-arow': recordEnd >= totalRecord}" class="next nxt-arrow"
+                  (click)="onClickArrow(recordStr+limitpage,recordEnd+limitpage,2,1000)"></div>
+              </div> -->
+              <!-- pageination -->
+            </div>
 
   </div>
 

@@ -864,10 +864,8 @@ div.divBlockEmptylastChild:first-child {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    position: fixed;
-    bottom: 20px;
-    right: 10%;
-    margin-right: 30px;
+    position: relative;
+    right: 10px;
     .previous{
         color: #9AA0A6;
         font-weight: normal;
