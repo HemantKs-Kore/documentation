@@ -603,13 +603,16 @@
     <button class="kr-sg-button-secondary-two btn_lg">Delete</button>
   </div>
 </kr-modal>
-
-<kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file zIndex-adjust">
+<ng-container *ngIf="showSourceAddition">
+  <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
+    (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+</ng-container>
+<!-- <kr-modal modalType="center" #addSourceModalPop modalClass="add-web-croling-upload-file zIndex-adjust">
   <ng-container *ngIf="showSourceAddition">
     <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
       (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
   </ng-container>
-</kr-modal>
+</kr-modal> -->
 
 <!-- <kr-modal modalType="center" #addSourceModalPop modalClass="modal_popups_">
   <div class="modal-header">

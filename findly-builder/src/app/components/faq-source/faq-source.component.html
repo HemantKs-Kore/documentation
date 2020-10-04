@@ -328,10 +328,6 @@
                                     <button class="kr-sg-button-primary btn_lg" (click)="addFollowUp()">Add</button>
                                 </div>
                             </div>
-                            <div *ngIf="selectedFaq.isAddFollow">
-                                <app-add-faq (addFaq)="addNewFollowUp($event)" (cancelfaqEvent)="selectedFaq.isAddFollow = null"></app-add-faq>  
-                                <!-- <app-add-alternate-question [faqServ]="faqServiceFollow"></app-add-alternate-question> -->
-                            </div>
 
                             <ng-container *ngIf="selectedFaq.followupQuestions?.length">
                                 <div class="added-questions-list" *ngFor="let followQues of selectedFaq.followupQuestions">
@@ -456,11 +452,25 @@
         </ng-container>
     </div>
 </kr-modal>
-
-<kr-modal modalType="center" modalClass="add-web-croling-upload-file" #addfaqSourceModalPop>
-    <ng-container *ngIf="showSourceAddition">
-        <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
-    </ng-container>
+<ng-container *ngIf="showSourceAddition">
+    <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+</ng-container>
+<kr-modal modalType="center" modalClass="modal_popups_" #addfaqSourceModalPop>
+    <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">
+        <div class="modal-header">
+          <div class="title">Add Follow Up FAQ</div>
+          <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
+        </div>
+      <perfect-scrollbar class="perfect-scroll-modal-body">
+        <div class="modal-body">
+                <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()" [isFollowUp]='true' (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
+        </div>
+      </perfect-scrollbar> 
+        <div class="modal-footer">
+            <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddFollowUp();">Cancel</button>
+        </div>
+      </ng-container>
 </kr-modal>
 <kr-modal modalType="center" #editfaqSourceModalPop modalClass="modal_popups_">
     <ng-container  *ngIf="editfaq && selectedFaq">

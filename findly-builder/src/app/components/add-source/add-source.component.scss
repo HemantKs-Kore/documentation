@@ -283,14 +283,6 @@
             }
         }
     } 
-    .kr-sg-file-drag-drop{
-        .progress-status{
-            .progSpinner{
-                width: 30px;
-                height: 30px;
-            }
-        }
-    }
     .table-list-content{
         .kr-sg-data-table{
             .table-action-header{
@@ -433,7 +425,86 @@
         }
     }
 }
+.kr-sg-input-text-area{
+    textarea{
+        border: 1px solid #BDC1C6;
+        min-height: 70px;
+        font-size: 12px;
+        &::placeholder{
+            color: #BDC1C6;
+        }
+        &:focus{
+            border: solid 1px #1372ff !important;
+        }
+    }
+}
+.kr-sg-file-drag-drop{
+    .drag-drop-sec{
+        border: 1px dashed #BDC1C6;
+        border-radius: 4px;
+        background: #FFFFFF;
+        padding: 17px 0;
+        .imageDiv{
+            margin-bottom: 10px;
+            img{
 
+            }
+        }
+        .custom-file {
+            height: 0;
+            display: block;                    
+        }
+        .drag-label{
+            color: #202124;
+            font-weight: normal;
+            cursor: pointer;
+            span{
+                &.or-divider{
+                    color: #9AA0A6;
+                    padding: 0 24px;
+                }   
+                &.browse{    
+                    color: #0D6EFD;
+                    text-decoration: underline;                                
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .kr-sg-file-drag-drop{
+        .uploaded-file-name{
+            padding: 0 20px;
+            margin: 10px 0 18px 0;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border-radius: 4px;
+            background: #EAF6EC;
+            border: 0;
+            .file-close-text{
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                .file-name{
+                    color: #28A745;
+                }
+                .close-file{
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+.addSourceModalBody{
+    height: calc(100vh - 125px);
+}
+.kr-sg-file-drag-drop{
+    .progress-status{
+        .progSpinner{
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
 ::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
         width: 3px !important;

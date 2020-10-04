@@ -30,6 +30,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
   @ViewChild('externalResponsePop') externalResponsePop: KRModalComponent;
   @Input() inputClass: string;
+  @Input() isFollowUp: boolean;
   @Input() faqData: any;
   @Input() faqUpdate: Observable<void>;
   @Output() addFaq = new EventEmitter();
@@ -159,7 +160,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       this.isAdd = false;
     });
     this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data=>{ this.isAdd = false; });
-    this.eventsSubscription = this.faqUpdate.subscribe(() => this.save());
+    if(this.faqUpdate){
+      this.eventsSubscription = this.faqUpdate.subscribe(() => this.save());
+    }
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
   setResponseType(type,responseObj){

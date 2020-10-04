@@ -111,7 +111,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   addNewContentSource(type) {
     this.showSourceAddition = type;
-    this.openAddSourceModal();
+    // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -633,12 +633,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   onSourceAdditionClose() {
-    this.closeAddsourceModal();
+    // this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
   }
   onSourceAdditionSave() {
-    this.closeAddsourceModal();
+    // this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
    }

@@ -202,23 +202,23 @@
        <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
     </div>
   </ng-container>
-  <div class="btn-sec" *ngIf="faqData">
+  <div class="btn-sec">
     <div class="left-btns">
       <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
     </div>
   </div>
-  <div class="btn-sec" *ngIf="!faqData">
+  <div class="btn-sec" *ngIf="!faqData && false">
     <div class="left-btns">
       <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
     </div>
     <div class="right-btns">        
       <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
-      <button class="kr-sg-button-tertiary" (click)='addAltQues()'>Add Alternate Question</button>
-      <button class="kr-sg-button-tertiary" (click)='addFollowupQues()'>Add Followup Question</button>
+      <!-- <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addAltQues()'>Add Alternate Question</button>
+      <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addFollowupQues()'>Add Followup Question</button> -->
     </div>
   </div>
-  <div class="add-alternative-questions row">
+  <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData">
     <div class="col-10 pl-0 pr-2">
         <div class="question-name text-truncate">Alternate Questions
             <span *ngIf="faqData">{{faqData.alternateQuestions?.length>0?'('+faqData.alternateQuestions?.length+')':''}}</span>

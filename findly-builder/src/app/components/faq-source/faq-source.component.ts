@@ -186,6 +186,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
      }
     this.addSourceModalPopRef  = this.addSourceModalPop.open();
    }
+   openAddManualFaqModal(){
+     
+   }
    closeAddsourceModal() {
     if (this.addSourceModalPopRef &&  this.addSourceModalPopRef.close) {
       this.addSourceModalPopRef.close();
@@ -206,7 +209,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
    }
    addFaqSource(type){
      this.showSourceAddition = type;
-    this.openAddSourceModal();
+    // this.openAddSourceModal();
    }
    errorToaster(errRes,message){
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -605,9 +608,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.getStats();
       this.editfaq = false;
       this.closeEditFAQModal();
+      this.closeAddsourceModal();
     }, errRes => {
       this.errorToaster(errRes,'Somthing went worng');
     });
+  }
+  cancleAddFollowUp(){
+    if(this.selectedFaq){
+      this.selectedFaq.isAddFollow = null
+    }
+    this.closeAddsourceModal();
   }
   bulkUpdate(action,state?,dialogRef?){
     const payload: any = {
@@ -802,11 +812,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.faqServiceFollow.updateVariation('followUp');
     this.faqServiceFollow.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAddFollow = true;
-    setTimeout( () =>{
-      $('#questionList').closest('.ps.ps--active-y').animate({
-        scrollTop : Math.abs($('#questionList').position().top) + $('#followQue').position().top
-      });
-    }, 100);
+    this.showSourceAddition = false;
+    this.openAddSourceModal();
+    // setTimeout( () =>{
+    //   $('#questionList').closest('.ps.ps--active-y').animate({
+    //     scrollTop : Math.abs($('#questionList').position().top) + $('#followQue').position().top
+    //   });
+    // }, 100);
   }
   addAlternate() {
     this.faqServiceAlt.updateVariation('alternate');
