@@ -624,13 +624,22 @@
             }
         }
         .allow-list-data-label{
+            margin-bottom: 16px;
             img{
                 cursor: pointer;
             }
         }
+        .mt-16{
+            margin-top: 16px;
+        }
         .allow-urls-sec{
             align-items: center;
-            margin: 10px 0;
+            padding: 19px 10px 19px 20px;
+            margin: 0 0 20px 0;
+            background: #FFFFFF;
+            border: 1px solid #BDC1C6;
+            box-sizing: border-box;
+            border-radius: 4px;
             .title{
                 color: #202124;
                 font-size: 14px;
@@ -651,6 +660,20 @@
                 flex-shrink: 0;
                 cursor: pointer;
             }
+        }
+        .allow-urlBox{
+            margin: 0px 0px -1px 0px;
+            border-radius: 4px 4px 0px 0px;
+        }
+        .alw-list-bor{
+            margin: 0px 0px -1px 0px;
+            border-radius: 0px 0px 0px 0px !important;
+            border: 1px solid #bdc1c6;
+            border-bottom: none;
+        }
+        .last-record{
+            border-radius: 0px 0px 4px 4px;
+            border-bottom: 1px solid #bdc1c6;;
         }
         .path-data{
             padding: 14px 20px;
@@ -745,6 +768,9 @@
                 }
             }
         }
+        .list{
+            margin-left: 894px;
+        }
     }
     
     .pl-pr-10{
@@ -780,6 +806,27 @@
     .scroll-table{
         height: calc(100vh - 250px);
     }
+    .scroll-table-allowRow{
+        height: calc(100vh - 250px);
+    }
+    .schedule-comp{
+        position: relative;
+        margin-top: 20px;
+    }
+
+    .moadal-footer-config{
+        border-top: solid 1px #e5e8ec;
+        background-color: #ffffff !important;
+        .btn-left-config-ca{
+            position: absolute;
+            left: 92px;
+        }
+        .btn-left-config-ok{
+            position: absolute;
+            left: 24px;
+        }
+    }
+    
 
     .downArrow {
         top: 2.3px !important;
