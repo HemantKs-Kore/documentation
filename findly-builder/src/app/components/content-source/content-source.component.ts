@@ -692,6 +692,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.splice(i,1):this.selectedSource['advanceSettings'].allowedURLs.splice(i,1);
       }
       type == 'block' ?this.blockUrl = new BlockUrl :  this.allowUrl = new AllowUrl;
+      this.allowUrlArr= [...this.selectedSource['advanceSettings'].allowedURLs];
+      this.blockUrlArr= [...this.selectedSource['advanceSettings'].blockedURLs];
       // allowUrls.forEach(element => {
 
       // });
@@ -740,7 +742,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
-    
+    crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
+    crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.resourceType = resourceType;
     payload = crawler;
     console.log(payload);
