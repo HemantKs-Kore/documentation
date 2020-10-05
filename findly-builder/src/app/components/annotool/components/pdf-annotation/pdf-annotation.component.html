@@ -24,27 +24,18 @@
           {{extractionLoader === true? 'Extracting': 'Extract'}}
         </button>
       </li>
-      <li class="rotate">
-        <span class="dropdown kr-sg-overflow-menu open">
-          <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
-            <img class="action_icon" src="assets/icons/elipse.svg">
-          </div>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-            <li (click)="rotateClock()"><a>Rotate clockwise</a></li>
-            <li (click)="rotateAntiClock()"><a>Rotate anticlockwise</a></li>
-          </ul>
-        </span>     
-        
-        <!-- <div class="kr-sg-dropdowns" ngbDropdown>                                        
+      <li class="rotate">          
+        <div class="kr-sg-dropdowns annotation_clockwise_dropdown" ngbDropdown [placement]="'bottom-right'">
           <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">default</button>                                            
-            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>                 
+              <img class="action_icon" src="assets/icons/overflow_annotation.svg">
+            </button>
+            <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
               <li (click)="rotateClock()"><a>Rotate clockwise</a></li>
               <li (click)="rotateAntiClock()"><a>Rotate anticlockwise</a></li>                 
             </ul>
           </div>
-        </div> -->
-
+        </div>
       </li>     
     </ul>
   </div>
