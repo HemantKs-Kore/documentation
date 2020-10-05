@@ -79,7 +79,7 @@
               <div class="circle csa" [ngClass] = "{'active' : weeKDay == 'SAT'}" (click)="custweeKday('SAT')">S</div>
             </div>
             <div class="custom-repeat-on" *ngIf = "custFreq != 'Weeks'"> 
-                Every {{repeatEvery}} {{custFreq}} from {{startDate}}
+                Every {{repeatEvery}} {{custFreq}} from {{month}} {{date}} {{year}}
             </div>
           </div>
           <div class="ends">
