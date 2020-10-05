@@ -57,7 +57,7 @@ export class SchedulerComponent implements OnInit {
     this.endsFreq('endsNever');
     console.log(this.dateConverter('SUN'))
     console.log(this.crwalObject);
-    if(this.crwalObject.advanceSettings.scheduleOpts){
+    if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
       this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
       this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
@@ -191,7 +191,7 @@ export class SchedulerComponent implements OnInit {
     let scheduledObject : scheduleOpts = new scheduleOpts();
     let time : Time = new Time();
     let interVal : InterVal = new InterVal();
-    let intervalValue : any = {}//IntervalValue = new IntervalValue(); 
+    let intervalValue : IntervalValue = new IntervalValue(); 
     let endsOn : EndsOn = new EndsOn();
     /**Secheduled Data */
     scheduledObject.date = this.startDate || '';
@@ -205,7 +205,7 @@ export class SchedulerComponent implements OnInit {
     scheduledObject.interval = interVal;
     /** interVal Data */
     interVal.intervalType = this.rstz;
-    interVal.intervalValue = this.rstz == 'Custom'? intervalValue || new IntervalValue() : {};
+    interVal.intervalValue = intervalValue;
     /** interVal Data */
     /** IntervalValue Data */
     intervalValue.every = Number(this.repeatEvery);
