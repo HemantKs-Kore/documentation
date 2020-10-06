@@ -8,7 +8,6 @@ declare const $: any;
 declare const KoreWidgetSDK: any;
 declare const KoreSDK: any;
 declare const koreBotChat: any;
-koreBotChat
 declare let window:any;
 import * as _ from 'underscore';
 @Component({

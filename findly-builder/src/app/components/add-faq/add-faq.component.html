@@ -1,17 +1,17 @@
 <ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>  
   <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
   <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
-  <div class="text-area-editor" [ngClass]="{'swap-positions': responseObj.responseType==='horizontalSplit','image-split-mode': responseObj.responseType ==='verticalSplit'}">
-    <div class="upload-content-wrapper"  *ngIf="(responseObj.responseType !== 'default')">
+  <!-- <div class="text-area-editor" [ngClass]="{'swap-positions': responseObj.responseType==='horizontalSplit','image-split-mode': responseObj.responseType ==='verticalSplit'}"> -->
+    <div class="text-area-editor">
+    <!-- <div class="upload-content-wrapper hide"  *ngIf="(responseObj.responseType !== 'default')">
       <div class="image-selections" (click)="openImgApp(responseObj,index,type)" *ngIf="!(responseObj && responseObj.image && responseObj.image.url)">
           <div class="img_block"><img  src="assets/icons/editor/upload-image.svg"></div>
           <div class="info-text">Upload Image or Video</div>
       </div>
-      <!-- <input type="file" name="myfile"/> -->
       <div (click)="openImgApp(responseObj,index,type)" class="uploaded-image-preview"  *ngIf="responseObj && responseObj.image && responseObj.image.url && ((responseObj.responseType==='horizontalSplit') || (responseObj.responseType ==='verticalSplit'))">
         <img src="{{responseObj.image.url}}">
       </div>        
-    </div>
+    </div> -->
     <div class="editor-actons" *ngIf="responseObj.type==='string'">
       <!-- <span class="edit-action">
         <img src="assets/icons/editor/alphabits.svg">
@@ -61,9 +61,15 @@
             <div class="label-text">ReferenceId</div>
             <input type="text" placeholder="Enter ReferenceId" class="input-text" autocomplete="off">
         </div>
-        <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preiew</button>
+        <!-- <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preiew</button> -->
      </div>
     </div>
+  </div>
+  <div *ngIf="(responseObj.responseType !== 'default')" class="pt-2">
+   <button class="kr-sg-button-secondary" (click)="openImgApp(responseObj,index,type)">Add Image</button>
+   <span class="pl-1 imageUrlAdded" *ngIf="responseObj && responseObj.image && responseObj.image.url">{{responseObj.image.url}}</span>
+   <span class="pl-1" *ngIf="(responseObj.responseType ==='verticalSplit') && (!(responseObj.image && responseObj.image.url))">Add Image with Dimensions of 200px by 400px </span>
+   <span class="pl-1" *ngIf="(responseObj.responseType ==='horizontalSplit') && (!(responseObj.image && responseObj.image.url))">Add Image with Dimensions of 400px by 200px </span>
   </div>
 </ng-template>
 <ng-template #botResponsePreview let-responses="responses" let-responseObj='responseObj' let-type="reponseType"
@@ -124,12 +130,39 @@
     <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
       <div class="question-content">
         <div class="conditionalBlock bot-response-view-mode">
-          <div class="bot-response-title">Bot Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span></div>
+          <div class="bot-response-title">Bot Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
+            <div class="advanced_mode_faq">
+              <label class="kr-sg-toggle with-label">
+                <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
+                <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
+              </label>
+            </div>
+            <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)">Delete</div>
+          </div>
           <div class="condition-tags" *ngIf="faqObj && (faqObj.answerType === 'condition') && (currentEditIndex !== index)">Conditions : <span
               *ngIf="faqObj.conditions.length"><span
                 *ngFor="let item of faqObj.conditions;  let index = index"><span
                   *ngIf="index">,</span>{{item.value}}</span></span>
           </div>
+          <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
+            <div class="label-text pt-3">Conditions</div>
+            <mat-form-field class="example-chip-list pb-2" [floatLabel]="'never'">
+              <mat-chip-list #chipList2 aria-label="tag selection">
+                <ng-container *ngFor="let tag of faqObj.conditions; let index = index;">
+                  <span class="and" *ngIf="(index)">and</span>
+                  <mat-chip (removed)="removeConditionTag(tag,faqObj,index)">
+                    <div class="mat-val" (click)="$event.stopPropagation()">{{tag.value}}</div>
+                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                  </mat-chip>
+                </ng-container>                           
+                <input placeholder="Type & enter"
+                       [(ngModel)]="conditionQuary"
+                       [matChipInputFor]="chipList2"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       (matChipInputTokenEnd)="addConditionTag($event,faqObj)" id="tagInput12" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
+                </mat-chip-list>
+            </mat-form-field>
+            </ng-container>
         </div>
       </div>
     </div>
@@ -158,33 +191,8 @@
               </div>
             </div>
           </div>
-          <div class="advanced_mode_faq">
-            <label class="kr-sg-toggle with-label">
-              <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
-              <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
-            </label>
-          </div>
           <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
         </div>    
-        <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
-        <div class="label-text">Conditions</div>
-        <mat-form-field class="example-chip-list pb-2" [floatLabel]="'never'">
-          <mat-chip-list #chipList2 aria-label="tag selection">
-            <ng-container *ngFor="let tag of faqObj.conditions; let index = index;">
-              <span class="and" *ngIf="(index)">and</span>
-              <mat-chip (removed)="removeConditionTag(tag,faqObj,index)">
-                <div class="mat-val" (click)="$event.stopPropagation()">{{tag.value}}</div>
-                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-              </mat-chip>
-            </ng-container>                           
-            <input placeholder="Type & enter"
-                   [(ngModel)]="conditionQuary"
-                   [matChipInputFor]="chipList2"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   (matChipInputTokenEnd)="addConditionTag($event,faqObj)" id="tagInput12" #suggestedInput (click)="$event.stopPropagation()" autocomplete="off">
-            </mat-chip-list>
-        </mat-form-field>
-        </ng-container>
         <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
       </div>
       <div class="col-6 p-1 col_">

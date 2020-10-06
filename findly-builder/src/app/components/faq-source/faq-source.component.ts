@@ -551,7 +551,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
      this.editFAQModalPopRef.close();
    }
   }
-  faqCancle(event){
+  faqCancle(event?){
    this.editfaq = false;
    this.closeEditFAQModal();
   }
@@ -689,6 +689,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
       dialogRef.close();
+      this.faqCancle();
       this.notificationService.notify('Faq deleted succesfully','success')
       const deleteIndex = _.findIndex(this.faqs,(fq)=>{
            return fq._id === faq._id;

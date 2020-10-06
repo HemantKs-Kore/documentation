@@ -37,7 +37,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @Output() cancelfaqEvent = new EventEmitter();
   @Output() editFaq = new EventEmitter();
   eventsSubscription: Subscription;
-  currentEditIndex:any = 0;
+  currentEditIndex:any = null;
   createLinkPopRef
   createImagePopRef
   externalResponsePopRef
@@ -318,8 +318,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         })
       }
     } else {
-      const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
-      this.faqResponse.defaultAnswers.push(tempResponseObj);
+      // const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
+      // this.faqResponse.defaultAnswers.push(tempResponseObj);
     }
   }
   prpaerFaqsResponsePayload(){

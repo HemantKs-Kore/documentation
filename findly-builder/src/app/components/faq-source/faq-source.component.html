@@ -118,13 +118,6 @@
             </div>            
             <div class="content right-content">
                 <div class="content-boxes train_your_questions">
-                    <div class="header-sec row m-0 d-none">
-                        <div class="col-4 p-0 title">Train your questions</div>
-                        <div class="col-8 p-0 title text-right" *ngIf="selectedFaq">
-                            <span class="questions-count">Alternate Questions ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}})</span>
-                            <span class="questions-count">Followup Questions ({{(selectedFaq.followupQuestions?selectedFaq.followupQuestions.length:0)}})</span>
-                        </div>
-                    </div>
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">
                         <img src="assets/images/icons/empty_ill.svg">
@@ -133,100 +126,113 @@
                        </div>
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
-                    <div class="header-sec with-info row m-0 d-none" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
-                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}</div>
-                        </div>
-                        <div class="col_ p-0 type col-1" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Type</div>
-                            <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
-                        </div>
-                        <div class="col-2 p-0 col_">
-                            <div class="heading">Editor</div>
-                            <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                        </div>
-                        <div class="col-3 p-0 col_">
-                            <div class="heading">Req. Date & Time</div>
-                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:ss:sss'}}</span></div>
-                        </div>
-                        <div class="col-4 p-0 col_">
-                            <div class="d-flex align-items-center justify-content-end">
-                                <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
-                                <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                    <div class="dropdown dropdown-open">
-                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
-                                        <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                          <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Needs Rework</li>                                         
-                                        </ul>
+                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
+                            <div class="row m-0 col-12 p-0">
+                                <div class="col-5 p-0 lef-info">
+                                    <div class="approved_title">Req. Date & Time</div>
+                                    <div class="approved_date" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:mm:ss A'}}</span></div>
+                                </div>
+                                <div class="col-7 p-0 actions-sec">
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="row m-0 col-12 p-0">
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Source</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Edited by</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>                             
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
+                                        <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                            <div class="dropdown dropdown-open">
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                                <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
+                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Move to Review</li>
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
+                                                </ul>
+                                            </div>
+                                        </div>                                    
                                     </div>
                                 </div>
-                                <div class="comments-img cursor-pointer">
-                                    <img class="cursor" src="assets/icons/comment.svg">
+                            </div>
+                        </div>
+                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
+                            <div class="row m-0 col-12 p-0">
+                                <div class="col-5 p-0 lef-info">
+                                    <div class="approved_title">Created ON</div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                </div>
+                                <div class="col-7 p-0 actions-sec">
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="row m-0 col-12 p-0">
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Source</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Created By</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Modified ON</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>                             
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
+                                        <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                            <div class="dropdown dropdown-open">
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                                <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
+                                                </ul>
+                                            </div>
+                                        </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="header-info-que d-none" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
-                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
-                        </div>
-                        <div class="col_ p-0 type" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Type</div>
-                            <div class="info-title">{{(contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
-                        </div>
-                        <div class="col_ p-0" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top">
-                            <div class="heading">Created</div>
-                            <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                        </div>
-                        <div class="col_ p-0 review-btn">
-                            <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')" >Send for Review</button>
-                            <div class="comments-img cursor-pointer">
-                                <img class="cursor" src="assets/icons/comment.svg">
-                            </div> 
-                            <img src="assets/icons/delete-table.svg" class="cursor cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)" ngbTooltip='Delete' >
-                        </div>    
-                                      
-                    </div>
-                    <div class="header-info-que with-info d-none" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
-                        <div class="col-2 p-0" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}'  placement="top">
-                            <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
-                        </div>
-                        <div class="col-2 p-0" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top">
-                            <div class="heading">Type</div>
-                            <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
-                        </div>
-                        <div class="col-2 p-0" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top">
-                            <div class="heading">Edited by</div>
-                            <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                        </div>
-                        <div class="col-2 p-0" ngbTooltip="{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}" placement="top">
-                            <div class="heading">Reviewed by</div>
-                            <div class="info-title">{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}</div>
-                        </div>
-                        <div class="col-3 p-0" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}">
-                            <div class="heading">Approved at</div>
-                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
-                        </div>                       
-                        <div class="col-1 p-0 text-right d-flex align-items-center">
-                            <div class="comments-img">
-                                <img class="cursor" src="assets/icons/comment.svg">
-                            </div>  
-                            <div class="kr-sg-dropdowns elipse-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
-                                    <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                      <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>      
-                                      <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>                                
-                                      <!-- <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                    -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>                       
-                    </div>
-                    <div class="header-info-que">
+                    <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
                                 <div class="approved_title">Approved ON</div>
@@ -247,7 +253,7 @@
                                                     <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
                                                 </div>
                                                 <div class="col-4 inner-data-column">
-                                                    <div class="heading">Edited by</div>
+                                                    <div class="heading">Created by</div>
                                                     <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                 </div>
                                                 <div class="col-4 inner-data-column">
@@ -267,13 +273,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end">
-                                    <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Send for Review</button>
+                                    <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
                                     <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
                                                 <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
-                                                <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
                                             </ul>
                                         </div>
                                     </div>                                    
@@ -288,7 +293,7 @@
                                 <div class="question-content">
                                     <div class="title-que">
                                         <span class="">{{selectedFaq.question}}</span>                                       
-                                        <button class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                        <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                     </div>
                                     <div class="keywords">
                                         <span class="key-title">Key Terms :</span>
@@ -539,6 +544,7 @@
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle()">Cancel</button>
+      <button class="kr-sg-button-secondary btn-danger float-right" (click)="deleteInfividualQuestion(selectedFaq)">Delete</button>
   </div>
 </ng-container>
 </kr-modal>
