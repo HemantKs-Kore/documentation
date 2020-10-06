@@ -126,13 +126,18 @@
       <app-group-input></app-group-input>
     </div>
   </form>
+  <hr>
+  <div class="text">
+    <div class="heading">Answer(s)</div>
+    <div class="desc">Reorder the conditioned responses to execute in specific order</div>
+ </div>
   <ng-container *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
     <div class="body-top-content pointer" title="Click to edit this response" (click)="currentEditIndex = index">
       <div class="question-content">
         <div class="conditionalBlock bot-response-view-mode">
           <div class="bot-response-title">Bot Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
             <div class="advanced_mode_faq">
-              <label class="kr-sg-toggle with-label">
+              <label class="kr-sg-toggle with-label" *ngIf="(currentEditIndex === index)">
                 <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
                 <div class="slider"><span class="no">Default</span><span class="yes">Conditional</span></div>
               </label>
@@ -171,7 +176,7 @@
         <div class="tabs-sec">
           <span class="tab-title " (click)="faqObj.type='string'" [ngClass]="{'active': faqObj.type === 'string'}">Editor</span>
           <span class="tab-title" (click)="faqObj.type='javascript'" [ngClass]="{'active': faqObj.type==='javascript'}">&lt;/&gt; CODE</span>
-          <span class="tab-title" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
+          <span class="tab-title d-none" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
         </div>
         <div class="bot_rsponse_advance_mode">
           <div class="layout-select">
@@ -212,7 +217,7 @@
   </ng-container>
   <div class="btn-sec">
     <div class="left-btns">
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Bot Response</button>
     </div>
   </div>
   <div class="btn-sec" *ngIf="!faqData && false">
@@ -221,7 +226,7 @@
       <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
     </div>
     <div class="right-btns">        
-      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Bot Response</button>
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Bot Response</button>
       <!-- <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addAltQues()'>Add Alternate Question</button>
       <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addFollowupQues()'>Add Followup Question</button> -->
     </div>
