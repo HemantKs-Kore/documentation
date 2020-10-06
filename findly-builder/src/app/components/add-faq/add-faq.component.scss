@@ -156,9 +156,9 @@
         } 
     }
     .add-alternative-questions{
-        padding: 15px 30px;
+        padding: 0px 0px;
         align-items: center;
-        background: #EFF0F1;
+        // background: #EFF0F1;
         margin: 40px 0 0 0;
         .question-name{
             color: #202124;
@@ -448,6 +448,7 @@
            
     }
 }
+
 .deleteResponseDiv{
     position: relative;
     float: right;
@@ -564,7 +565,11 @@
 .mb-15{
     margin-bottom: 15px;
 }
-
+:host ::ng-deep .alternative-question-results{
+    .alternative-question{
+        padding: 15px 0px !important;
+    }  
+}
 :host ::ng-deep .example-chip-list {
     width: 100%;
     .and{

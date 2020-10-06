@@ -149,7 +149,7 @@
                 *ngFor="let item of faqObj.conditions;  let index = index"><span
                   *ngIf="index">,</span>{{item.value}}</span></span>
           </div>
-          <ng-container *ngIf="faqObj && faqObj.answerType === 'condition'">
+          <ng-container *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex === index)">
             <div class="label-text pt-3">Conditions</div>
             <mat-form-field class="example-chip-list pb-2" [floatLabel]="'never'">
               <mat-chip-list #chipList2 aria-label="tag selection">
@@ -190,7 +190,7 @@
                 <img *ngIf="(faqObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
                 <img *ngIf="(faqObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
               </div>
-              <div class="img-block" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
+              <div class="img-block d-none" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
                 <img *ngIf="(faqObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
                 <img *ngIf="(faqObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
               </div>
@@ -231,6 +231,7 @@
       <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addFollowupQues()'>Add Followup Question</button> -->
     </div>
   </div>
+  <hr>
   <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData">
     <div class="col-10 pl-0 pr-2">
         <div class="question-name text-truncate">Alternate Questions
@@ -243,7 +244,7 @@
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
     </div>
   </div>
-  <div *ngIf="isAdd">
+  <div *ngIf="isAdd" class="alternative-question-results">
       <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
   </div>
   <ng-container *ngIf="faqData && faqData.alternateQuestions?.length">

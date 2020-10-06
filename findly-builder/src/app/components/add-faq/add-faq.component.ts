@@ -266,7 +266,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                 type:'image',
                 url:answer.multimedia.url,
               }
-              answerObj.responseType = answer.multimedia.responseType
+              answerObj.responseType = answer.multimedia.position
            }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
@@ -298,7 +298,6 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             if(answer && answer.answers && answer.answers.length){
               answerObj.type =  answer.answers[0].type;
               answerObj.payload =  answer.answers[0].payload;
-              answerObj.image = answer.answers[0].multimedia;
             }
             if(answer.type === 'javascript' && answer.payload){
               try {
@@ -307,12 +306,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                  console.log('Bad JSON');
               }
             }
-            if(answer && answer.multimedia && answer.multimedia.url){
+            if(answer && answer.answers.length && answer.answers[0].multimedia && answer.answers[0].multimedia.url){
+              const media = answer.answers[0].multimedia;
               answerObj.image = {
                 type:'image',
-                url:answer.multimedia.url,
-                responseType:answer.multimedia.responseType,
+                url:media.url,
               }
+              answerObj.responseType = media.position;
           }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
@@ -339,6 +339,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj.multimedia = {
               type:'image',
               url:answer.image.url,
+              position:'horizontalSplit'
             }
           }
           defaultAnswers.push(answerObj);
@@ -355,6 +356,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj1.multimedia = {
               type:'image',
               url:answer.image.url,
+              position:'horizontalSplit'
             }
           }
           const _conditions = [];

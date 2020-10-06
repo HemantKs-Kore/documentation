@@ -351,7 +351,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row">
+                            <div class="add-alternative-questions row bg-white">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Alternate Questions
                                         <span>{{selectedFaq.alternateQuestions?.length>0?'('+selectedFaq.alternateQuestions?.length+')':''}}</span>
@@ -359,9 +359,9 @@
                                     </div>
                                     <div class="que-desc text-truncate">Add alternate forms of the question, key terms.</div>
                                 </div>
-                                <div class="col-2 p-0 text-right">
+                                <!-- <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
-                                </div>
+                                </div> -->
                             </div>
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
@@ -416,7 +416,7 @@
                     <img *ngIf="!searchSources" src="assets/images/search_gray.svg" class="search-icon">
                     <img *ngIf="searchSources" src="assets/images/close.svg" class="search-icon close-modal">                
                 </div>                         
-                  <div class="kr-sg-dropdowns">            
+                  <div class="kr-sg-dropdowns d-none">            
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add FAQs</button>                                            
                         <ul class="dropdown-menu content-menu">                                                              
@@ -447,7 +447,7 @@
                         <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('createdOn')">Created By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('createdOn')">Reviewed By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
@@ -461,13 +461,9 @@
 
                         <div class="col">{{source.extractedFaqsCount || '0'}}</div>
                         <div class="col" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
-
-                        <!-- <div class="col">{{source.extracted || '0'}}</div>
-                        <div class="col">{{source.staged || '0'}}</div> -->
-                        <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
+                        <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                         <div class="col text-right last-child">
-                            <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='Delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                            <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
+                            <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                         </div>
                     </div>
                     <div class="empty">No Search Results found</div>
@@ -544,7 +540,7 @@
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle()">Cancel</button>
-      <button class="kr-sg-button-ghost float-right text-danger" (click)="deleteInfividualQuestion(selectedFaq)">Delete</button>
+      <button class="kr-sg-button-danger float-right" (click)="deleteInfividualQuestion(selectedFaq)">Delete</button>
   </div>
 </ng-container>
 </kr-modal>
