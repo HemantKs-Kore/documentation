@@ -1,0 +1,55 @@
+<div id="advanceContainer" class="dis advanceContainer">
+    <div class="header">
+         <p>QUERY </p> 
+         <span>Open bank account</span>
+    </div>
+    <div class="mini-graph">
+     <div class="search-val">
+         <p>Searches </p> 
+         <span>4983</span>
+     </div>
+     <div class="click-val">
+         <p>Clicks </p> 
+         <span>4254</span>
+     </div>
+     <div class="ctr-val">
+         <p>CTR </p> 
+         <span>94%</span>
+     </div>   
+     <div class="data-val">
+         <div class="graph">
+             <!-- <div echarts [options]="chartOption" class="demo-chart"></div> -->
+         </div>
+     </div>  
+         
+     </div>
+     <div class="tab-grp">
+         <span class="tab-name tab-ana active" (click)="swapSlider(0)">ANALYSIS</span>
+         <span class="tab-name tab-act" (click)="swapSlider(1)">ACTION LOG</span>
+     </div>
+     <div class="tabselect" *ngIf="slider == 0" class="tab-slider">
+         ANALYSIS
+     </div>
+     <div class="tabselect" *ngIf="slider == 1" class="tab-slider">
+         <div class="accordion" id="accordionExample">
+             <div class="card">
+                 <a class="card_link collapsed" data-toggle="collapse" data-target="#collapseOne">
+                     <div class="collapseHeader">CLICK</div>
+                 </a>
+                 
+             
+                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                   <div class="card-body">
+                     <!-- <div echarts [options]="chartOption" class="demo-chart"></div> -->
+                     Datat
+                   </div>
+                 </div>
+             </div>
+         </div>
+         <!-- <div echarts options="{{chartOption}}" class="demo-chart"></div> -->
+     </div>
+     <!-- <button (click)="btnClick()">button</button> -->
+ </div>
+ 
+ 
+ 
