@@ -31,22 +31,27 @@
          ANALYSIS
      </div>
      <div class="tabselect" *ngIf="slider == 1" class="tab-slider">
-         <div class="accordion" id="accordionExample">
-             <div class="card">
-                 <a class="card_link collapsed" data-toggle="collapse" data-target="#collapseOne">
-                     <div class="collapseHeader">CLICK</div>
-                 </a>
-                 
-             
-                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                   <div class="card-body">
-                     <!-- <div echarts [options]="chartOption" class="demo-chart"></div> -->
-                     Datat
-                   </div>
-                 </div>
-             </div>
-         </div>
+       
          <!-- <div echarts options="{{chartOption}}" class="demo-chart"></div> -->
+
+        <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
+                <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins">
+                    <div class="mb-0">
+                        <img src="assets/icons/caretDown.svg" class="ml-1 sortImg mr-0"> 
+                        
+                        <span class="action-header col-lg-8" >{{actLog.header}}</span> 
+                        <span class="action-header pl-pr-0  col-lg-2" >
+                            <img src="assets/icons/help.svg" class="ml-1 sortImg"> 
+                            <span class="status">{{actLog.status}}</span> 
+                        </span> 
+                        <span class="time col-lg-2">{{actLog.time}}</span> 
+                    </div>
+
+
+                </a>
+            
+                <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
+         </div>
      </div>
      <!-- <button (click)="btnClick()">button</button> -->
  </div>
