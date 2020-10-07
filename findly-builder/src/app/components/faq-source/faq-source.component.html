@@ -456,7 +456,7 @@
                         <div class="col">{{source.source | titlecase}}</div>
                         <div class="col">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
-                                <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
+                                <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                                 <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
                                  *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                             </span>

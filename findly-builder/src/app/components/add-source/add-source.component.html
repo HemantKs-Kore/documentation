@@ -207,8 +207,8 @@
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
                   class="input-text">
               </div>
-              <div class="advanced-settings-title"  *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</div>
-              <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse advance-setttings">
+              <div class="advanced-settings-title"  *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</div>
+              <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse advance-setttings">
                     <div class="inner-content row m-0">
                     <div class="col-12 p-0 input-paddings ">
                         <div class="kr-sg-input-text ">                   
