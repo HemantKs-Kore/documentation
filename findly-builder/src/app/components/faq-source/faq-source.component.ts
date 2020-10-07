@@ -451,6 +451,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   paginate(event){
     this.getfaqsBy(null,null,event.skip)
+    this.addRemoveFaqFromSelection(null,null,true);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }
