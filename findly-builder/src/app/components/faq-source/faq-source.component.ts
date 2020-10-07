@@ -8,7 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { tempdata } from './tempdata';
 import * as _ from 'underscore';
-import { from, interval, Subscription } from 'rxjs';
+import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -40,6 +40,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
+  faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
   faqSelectionObj:any ={
     selectAll:false,
@@ -62,7 +63,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     success: { name: 'Success', color: 'green' },
-    queued: { name: 'In Progress', color: 'blue' },
+    queued: { name: 'Queued', color: 'blue' },
     running: { name: 'In Progress', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },
   };
@@ -76,7 +77,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   apiLoading = false;
   isAsc = true;
   selectedSort = '';
-  faqLimit = 150;
+  faqLimit = 20;
   selectedPage: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
@@ -85,6 +86,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   unStageMsgImg = 'https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/1297235041547546467-512.png';
   statusModalPopRef: any = [];
   addSourceModalPopRef: any = [];
+  editFAQModalPopRef:any;
   showSourceAddition:any = null;
   moreLoading:any = {};
   altAddSub: Subscription;
@@ -94,6 +96,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   @ViewChild('editQaScrollContainer' , { static: true })editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer' , { static: true })fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
+  @ViewChild('editfaqSourceModalPop') editFAQModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
 
@@ -116,8 +119,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    const a = this.convertMDtoHTML.helpers.convertMDtoHTML('*convert*',null);
-    console.log(a);
     this.getfaqsBy();
     this.getSourceList();
     this.getStats();
@@ -179,9 +180,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.statusModalPopRef.close();
     }
    }
-   openAddSourceModal() {
-     this.editfaq = null;
+   openAddSourceModal(edit?) {
+     if(!edit){
+      this.editfaq = null;
+     }
     this.addSourceModalPopRef  = this.addSourceModalPop.open();
+   }
+   openAddManualFaqModal(){
+     
    }
    closeAddsourceModal() {
     if (this.addSourceModalPopRef &&  this.addSourceModalPopRef.close) {
@@ -203,7 +209,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
    }
    addFaqSource(type){
      this.showSourceAddition = type;
-    this.openAddSourceModal();
+    // this.openAddSourceModal();
    }
    errorToaster(errRes,message){
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -364,7 +370,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.apiLoading = true;
     this.service.invoke(serviceId, params).subscribe(res => {
-      this.apiLoading = false;
       if(concat){
         this.faqs = this.faqs.concat(res);
       } else {
@@ -387,6 +392,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         this.faqsAvailable = res.length?true:false;
       }
       this.editfaq = null
+      this.apiLoading = false;
       this.loadingFaqs = false;
       this.loadingTab = false;
     }, errRes => {
@@ -400,7 +406,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     if(this.selectedResource && this.selectedResource._id && !resourceId){
       resourceId = this.selectedResource._id
     }
-    this.loadingTab = true;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -428,7 +433,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     const concatResults = skip?true:false;
     this.faqsApiService(serviceId, quaryparms,concatResults);
   }
+  paginate(event){
+    this.getfaqsBy(null,null,event.skip)
+    // this.perfectScroll.directiveRef.update();
+    // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+  }
   selectTab(tab){
+    this.loadingTab = true;
     this.selectedFaq=null
     this.selectedtab = tab;
     this.getFaqsOnSelection();
@@ -524,11 +535,25 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     )
   }
-  editThisQa(){
-    this.editfaq = true;
+  faqUpdateEvent(){
+    this.faqUpdate.next();
   }
-  faqCancle(event){
+  editThisQa(){
+    this.showSourceAddition = false
+    this.editfaq = true;
+    this.openEditFAQModal(true);
+  }
+  openEditFAQModal(edit?) {
+   this.editFAQModalPopRef  = this.editFAQModalPop.open();
+  }
+  closeEditFAQModal() {
+   if (this.editFAQModalPopRef &&  this.editFAQModalPopRef.close) {
+     this.editFAQModalPopRef.close();
+   }
+  }
+  faqCancle(event?){
    this.editfaq = false;
+   this.closeEditFAQModal();
   }
   editFaq(event){
     const _payload = {
@@ -582,9 +607,17 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       // this.getfaqsBy();
       this.getStats();
       this.editfaq = false;
+      this.closeEditFAQModal();
+      this.closeAddsourceModal();
     }, errRes => {
       this.errorToaster(errRes,'Somthing went worng');
     });
+  }
+  cancleAddFollowUp(){
+    if(this.selectedFaq){
+      this.selectedFaq.isAddFollow = null
+    }
+    this.closeAddsourceModal();
   }
   bulkUpdate(action,state?,dialogRef?){
     const payload: any = {
@@ -656,6 +689,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
       dialogRef.close();
+      this.faqCancle();
       this.notificationService.notify('Faq deleted succesfully','success')
       const deleteIndex = _.findIndex(this.faqs,(fq)=>{
            return fq._id === faq._id;
@@ -779,19 +813,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.faqServiceFollow.updateVariation('followUp');
     this.faqServiceFollow.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAddFollow = true;
-    setTimeout(function(){
-      $('#questionList').closest('.ps.ps--active-y').animate({
-        'scrollTop' : Math.abs($('#questionList').position().top) + $('#followQue').position().top
-      });
-    }, 100);
+    this.showSourceAddition = false;
+    this.openAddSourceModal();
+    // setTimeout( () =>{
+    //   $('#questionList').closest('.ps.ps--active-y').animate({
+    //     scrollTop : Math.abs($('#questionList').position().top) + $('#followQue').position().top
+    //   });
+    // }, 100);
   }
   addAlternate() {
     this.faqServiceAlt.updateVariation('alternate');
     this.faqServiceAlt.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAlt = true;
-    setTimeout(function(){
+    setTimeout(() =>{
       $('#questionList').closest('.ps.ps--active-y').animate({
-        'scrollTop' : Math.abs($('#questionList').position().top) + $('#altQue').position().top
+        scrollTop : Math.abs($('#questionList').position().top) + $('#altQue').position().top
       });
     }, 100);
   }
@@ -811,7 +847,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedFaq.alternateQuestions = _.without(this.selectedFaq.alternateQuestions, _.findWhere(this.selectedFaq.alternateQuestions, { _id: ques._id }));
-          let params = {
+          const params = {
             question: this.selectedFaq.question,
             answer: this.selectedFaq.answer,
             alternateQuestions: this.selectedFaq.alternateQuestions || [],
@@ -838,7 +874,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       .subscribe(result => {
         if (result === 'yes') {
           this.selectedFaq.followupQuestions = _.without(this.selectedFaq.followupQuestions, _.findWhere(this.selectedFaq.followupQuestions, {_id: ques._id }));
-          let params = {
+          const params = {
             question: this.selectedFaq.question,
             answer: this.selectedFaq.answer,
             alternateQuestions: this.selectedFaq.alternateQuestions || [],

@@ -583,6 +583,33 @@ div.divBlockEmptylastChild:first-child {
         }
     }
 }
+.info_header_dropdown_content{
+    background: #FFFFFF;
+    box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
+    border-radius: 8px;
+    padding: 17px 15px;
+    border: 0;
+    margin: 0;
+    width: 509px;
+    .inner-data-column{
+        padding: 0 0 0 6px;
+        .heading{
+            color: #9AA0A6;
+            font-size: 12px;
+            line-height: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .title{
+            color: #202124;
+            font-size: 14px;
+            line-height: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
 .delete-text{
     color: #DD3646 !important;
 }
@@ -929,10 +956,8 @@ div.divBlockEmptylastChild:first-child {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    position: fixed;
-    bottom: 20px;
-    right: 10%;
-    margin-right: 30px;
+    position: relative;
+    right: 10px;
     .previous{
         color: #9AA0A6;
         font-weight: normal;
@@ -1258,4 +1283,9 @@ div.divBlockEmptylastChild:first-child {
 }
 .zIndex-adjust{
     z-index: 1050 !important;
+}
+.app-add-faq-insidescroll{
+    .add-questions-form{
+        padding: 0 !important;
+    }
 }

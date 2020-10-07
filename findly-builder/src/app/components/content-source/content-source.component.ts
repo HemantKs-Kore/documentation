@@ -59,12 +59,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     document: 'DOC'
   }
   statusObj: any = {
-    failed: { name: 'Failed', color: '#DD3646' },
-    successfull: { name: 'Successfull', color: '#28A745' },
-    success: { name: 'Success', color: '#28A745' },
-    queued: { name: 'In Progress', color: '#0D6EFD' },
-    running: { name: 'In Progress', color: '#0D6EFD' },
-    inprogress: { name: 'In Progress', color: '#0D6EFD' },
+    failed: {name : 'Failed', color: '#DD3646'},
+    successfull: {name : 'Successfull', color: '#28A745'},
+    success: {name : 'Success', color: '#28A745'},
+    queued: {name : 'Queued', color: '#0D6EFD'},
+    running: {name : 'In Progress', color: '#0D6EFD'},
+    inprogress: {name :'In Progress', color: '#0D6EFD'},
   };
   sliderStep = 0;
   selectedPage: any = {};
@@ -111,7 +111,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   };
   addNewContentSource(type) {
     this.showSourceAddition = type;
-    this.openAddSourceModal();
+    // this.openAddSourceModal();
     // this.router.navigate(['/source'], { skipLocationChange: true,queryParams:{ sourceType:type}});
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -331,6 +331,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
+  paginate(event){
+    this.getCrawledPages(event.limitpage, event.skip);
+    this.perfectScroll.directiveRef.update();
+    this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+  }
   onClickArrow(newStart, newEnd, offset, time) {
     let preStart = this.recordStr;
     let preEnd = this.recordEnd;
@@ -367,9 +372,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('.pre-arrow').addClass("dis-arow");
         $('.nxt-arrow').addClass("dis-arow");
       }
-      this.getCrawledPages(this.limitpage, this.recordStr - 1);
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop(offset, time);
+      
 
     }
   }
@@ -630,12 +633,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   onSourceAdditionClose() {
-    this.closeAddsourceModal();
+    // this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
   }
   onSourceAdditionSave() {
-    this.closeAddsourceModal();
+    // this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
    }

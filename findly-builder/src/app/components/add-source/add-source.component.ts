@@ -10,7 +10,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router , ActivatedRoute} from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import { of, interval } from 'rxjs';
+import { of, interval, Subject } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl, scheduleOpts} from 'src/app/helpers/models/Crwal-advance.model';
@@ -40,10 +40,12 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   initialValidations:any = {};
   doesntContains = "Doesn't Contains";
   dataFromScheduler : scheduleOpts
+  loadFullComponent = true;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
   @Output() cancleEvent = new EventEmitter();
+  faqUpdate: Subject<void> = new Subject<void>();
   defaultStatusObj:any = {
     jobId: '',
     status: 'running',
@@ -117,6 +119,8 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     }
   ];
   anntationObj: any = {};
+  addManualFaqModalPopRef:any;
+  addSourceModalPopRef:any;
   constructor(public workflowService: WorkflowService,
               private service: ServiceInvokerService,
               private notificationService: NotificationService,
@@ -128,7 +132,10 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
    @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
    @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
    @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
-  ngOnInit() {
+   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
+   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
+   ngOnInit() {
+     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     }
@@ -143,7 +150,10 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       this.availableSources.forEach( catagory => {
             catagory.sources.forEach(source => {
                if(source.id === resourceType){
-                this.selectedSourceType = source;
+                this.loadFullComponent = false;
+                setTimeout(()=>{
+                  _self.selectSource(source);
+                },100)
                }
             });
       });
@@ -155,6 +165,22 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
      $('#addSourceTitleInput').focus();
     },100);
   }
+  openAddManualFAQModal() {
+    this.addManualFaqModalPopRef  = this.addManualFaqModalPop.open();
+   }
+   closeAddManualFAQModal() {
+    if (this.addManualFaqModalPopRef &&  this.addManualFaqModalPopRef.close) {
+      this.addManualFaqModalPopRef.close();
+    }
+   }
+   openAddSourceModal() {
+    this.addSourceModalPopRef  = this.addSourceModalPop.open();
+   }
+   closeAddSourceModal() {
+    if (this.addSourceModalPopRef &&  this.addSourceModalPopRef.close) {
+      this.addSourceModalPopRef.close();
+    }
+   }
   poling(jobId) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -202,6 +228,8 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     }
   }
   openStatusModal() {
+    this.closeAddManualFAQModal();
+    this.closeAddSourceModal();
     if(this.resourceIDToOpen){
       $('.addSourceModalComponent').addClass('hide');
     }
@@ -233,12 +261,17 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       this.selectedSourceType = null;
       this.removeFile();
     }
+    this.closeAddManualFAQModal();
+    this.closeAddSourceModal();
   }
   selectSource(selectedCrawlMethod) {
-  // if(selectedCrawlMethod && (selectedCrawlMethod.sourceType === 'faq') && (selectedCrawlMethod.resourceType === 'manual')){
-  //   this.router.navigate(['/faqsManual'], { skipLocationChange: true })
-  // } else {
-    this.selectedSourceType = selectedCrawlMethod;
+    if(selectedCrawlMethod && selectedCrawlMethod.id === 'manual'){
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddManualFAQModal();
+    } else {
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddSourceModal();
+    }
     setTimeout(()=>{
      $('#addSourceTitleInput').focus();
     },100);
@@ -433,6 +466,10 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       const eve:any = {}
       this.cancleEvent.emit(eve);
      }
+     this.closeAddManualFAQModal();
+  }
+  faqUpdateEvent(){
+    this.faqUpdate.next();
   }
   addManualFaq(event){
     console.log(event);
@@ -454,6 +491,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
 
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.selectedSourceType = null;
+       this.closeAddManualFAQModal();
        event.cb('success');
        if(this.resourceIDToOpen){
         const eve:any = {}
