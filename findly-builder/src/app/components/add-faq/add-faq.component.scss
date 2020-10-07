@@ -132,7 +132,8 @@
             }
             .conditionalBlock{
                 color: #202124;
-                font-size: 14px;                                                                                              
+                font-size: 14px;   
+                padding-right: 10px;                                                                                           
             }
             .bot-response-view-mode{                                                              
                 .desc-info{
@@ -178,7 +179,7 @@
         }
     }
     .added-questions-list{
-        padding: 13px 30px;
+        padding: 13px 0px;
         background: #FFFFFF;
         box-shadow: inset 0px -1px 0px #E4E5E7;
         position: relative;
@@ -214,12 +215,12 @@
         border-radius: 5px;
       .responsePreviewBlock{
           background: #ffffff;
-          padding-left: 1.5rem!important;
-          padding-bottom: 1.5rem!important;
-          padding-right: 1.5rem!important;
-          margin:  110px 1.5rem 1.5rem 1.5rem !important;
-        //   margin:  77px 1.5rem 1.5rem 1.5rem !important;
-        //   height: 360px;
+          padding-left:  10px !important;
+        //   padding-bottom: 1.5rem!important;
+        //   padding-right: 1.5rem!important;
+        //   margin:  110px 1.5rem 1.5rem 1.5rem !important;
+          margin:  77px 1.5rem 1.5rem 1.5rem !important;
+          height: 360px;
       }
     } 
     .tabs-sec{
