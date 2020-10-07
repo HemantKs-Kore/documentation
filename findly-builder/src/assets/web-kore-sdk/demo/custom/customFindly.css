@@ -174,8 +174,8 @@ img.logo-img{
 
   .search-container-adv{
     /* transition: 1s; */
-    left: 63px !important;
-    left: -845px !important;
-    right: 0 !important; 
-    width: calc(55% - 245px);
+    left: 235px !important;
+    width: calc(55% - 245px) !important;
+    right: 0 !important;
   }
+  

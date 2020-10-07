@@ -48,6 +48,12 @@
     .tab-grp{
         padding: 0px 0px 0px 24px;
     }
+    .sortImg{
+        position: absolute;
+        left: 480px;
+        top: 100px;
+        cursor: pointer;
+    }
     .mat-grp{
         padding: 69px 50px 0px 24px;
     }
@@ -74,10 +80,10 @@
         text-decoration: none !important;
     }
     .data-val{
-        border: 1px solid #A8C8DD;
+        //border: 1px solid #A8C8DD;
         width: 85px;
         height: 37px;
-        border-radius: 5px;
+        //border-radius: 5px;
         margin-left: 182px;
         &:hover{
 
@@ -98,6 +104,9 @@
         a{
             text-decoration: none;
             color: #161928;
+        }
+        .active-header{
+            font-weight: 600 !important;
         }
         .action-header{
             position: relative;
@@ -210,4 +219,45 @@
     text-transform: uppercase;
     color: #0D6EFD;
 }
+.perfect-scroll-insights{
+    height: calc(100vh - 200px);
+}   
+.demo-chart{
+    height: 37px;
+}
+demo-chart-graphMode{
+    height: 100px;
+}
+// .frappe-chart .x.axis .line-vertical {
+//     display: none;
+// }
 
+
+// .frappe-chart .y.axis .line-horizontal {
+//     display: none;
+// }
+
+// .frappe-chart .y.axis .line-horizontal,
+// .frappe-chart .y.axis .line-horizontal text {
+//     display: none;
+// }
+
+// .frappe-chart .legend {
+//     display: none;
+// }
+.graphMode{
+    position: absolute;
+    top: 84px;
+    left: 473px;
+    z-index: 1000;
+    height: 100%;
+    border: 1px solid #A8C8DD;
+    width: 300px;
+    height: 400px;
+    border-radius: 5px;
+    background: white;
+    .closeCross{
+        float: right;
+        margin: 10px;
+    }
+}
