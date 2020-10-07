@@ -42,12 +42,12 @@ export class InsightsComponent implements OnInit {
       }
   },
   series: [{
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      data: [5, 10, 15, 20, 15, 10, 5],
       type: 'line',
       smooth: true
   },
   {
-      data: [920, 932, 801, 934, 1290, 1430, 1720],
+      data: [10, 5, 20, 15, 10, 5, 5],
       type: 'line',
       smooth: true
   }]
@@ -63,76 +63,87 @@ export class InsightsComponent implements OnInit {
     $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     
     this.actionLogData = [{
-      "header" : "Can I make credit card payament via savings account",
+      "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "New",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },{
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "help",
       "status": "Boosted",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },
     {
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "bot",
       "status": "Hidden",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },
     {
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },
     {
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },{
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },
     {
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },{
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },
     {
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },{
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     },{
       "header" : "Can I make credit card payament via savings account",
       "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
       "option": "doc",
       "status": "Pinned",
-      "time" : "3h ago"
+      "time" : "3h ago",
+      "selected" : false
     }
   ]
     console.log(this.data)
@@ -149,9 +160,12 @@ export class InsightsComponent implements OnInit {
   filter(){
 
   }
-  toggle(icontoggle,index){
-    this.icontoggle = !icontoggle;
-    this.iconIndex  = index
+  toggle(icontoggle,index,selected){
+    let previousIndex = this.iconIndex
+    //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
+    this.icontoggle = !icontoggle; 
+    this.iconIndex  = index;
+    this.actionLogData[index].selected = !selected;
   }
   swapSlider(slide){
     this.slider = slide;

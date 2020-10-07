@@ -80,10 +80,10 @@
         text-decoration: none !important;
     }
     .data-val{
-        //border: 1px solid #A8C8DD;
+        border: 1px solid #A8C8DD;
         width: 85px;
         height: 37px;
-        //border-radius: 5px;
+        border-radius: 5px;
         margin-left: 182px;
         &:hover{
 
@@ -99,7 +99,8 @@
         //padding-left: 37px;
         background-color: #FFFFFF;
         border-top: 1px solid #DDDDDD;
-        margin: -2px 5%;
+        //margin: -2px 5%;
+        margin: -2px 5% -2px 6%;
         //border-bottom: 1px solid #DDDDDD;
         a{
             text-decoration: none;
@@ -107,6 +108,14 @@
         }
         .active-header{
             font-weight: 600 !important;
+            //white-space: nowrap !important;
+            //overflow: visible !important;
+            //text-overflow: none !important;
+        }
+        .wrapper {
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
         }
         .action-header{
             position: relative;
@@ -225,8 +234,21 @@
 .demo-chart{
     height: 37px;
 }
-demo-chart-graphMode{
-    height: 100px;
+.demo-chart-graphMode{
+    //height: 100px;
+}
+.insight-menu{
+    box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
+    width: 140px;
+    top: 3px !important;
+    min-width: 140px;
+    padding: 10px 20px;
+    li{
+        font-size: 13px;
+        color: #202124;
+        padding: 8px 0;
+        cursor: pointer;
+    }
 }
 // .frappe-chart .x.axis .line-vertical {
 //     display: none;
