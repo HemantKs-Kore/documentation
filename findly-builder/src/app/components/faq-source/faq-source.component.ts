@@ -54,7 +54,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   selectedtab = 'draft';
   selectAllFaqs = false;
   loadingTab = false;
-  resourcesObj: any = {};
+  resourcesStatusObj: any = {};
   selectedResource;
   public model: any;
   loadingFaqs = true;
@@ -174,6 +174,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   openStatusModal() {
     this.statusModalPopRef  = this.statusModalPop.open();
+    this.getJobStatusForMessages();
    }
    closeStatusModal() {
     if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
@@ -362,6 +363,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     } else {
       this.getfaqsBy();
     }
+  }
+  getJobStatusForMessages(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      type:'faq'
+    };
+    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+      if (res && res.length) {
+       res.forEach(element => {
+        this.resourcesStatusObj[element.resourceId] = element;
+       });
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch job status');
+    });
   }
   faqsApiService(serviceId, params?,concat?) {
     this.faqs = [];
