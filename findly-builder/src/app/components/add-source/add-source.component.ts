@@ -25,7 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   fileObj:any = {};
-  crwalEvery : boolean = false;
+  crwalEvery = false;
   crwalObject : CrwalObj = new CrwalObj();
   allowUrl : AllowUrl = new AllowUrl();
   blockUrl : BlockUrl = new BlockUrl();
@@ -38,7 +38,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   customRecurrenceRef : any = [];
   pollingSubscriber: any = null;
   initialValidations:any = {};
-  doesntContains = "Doesn't Contains";
+  doesntContains = 'Doesn\'t Contains';
   dataFromScheduler : scheduleOpts
   loadFullComponent = true;
   @Input() inputClass: string;
@@ -53,7 +53,14 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       validated :false
     }
     }
-  statusObject:any = {};
+  statusObject:any = {
+    resourceId: 'faqr-7d78d107-f1ee-5a63-b417-160d36955fd8',
+    status: 'success',
+    statusMessage: 'Encountered an unexpected error during extraction',
+    validation: {validated: true},
+    validated: false,
+    _id: 'job-2745cd21-98f0-580e-926c-6f6bf41593fa',
+  };
   currentStatusFailed: any = false;
   userInfo: any = {};
   csvContent:any = '';
@@ -374,7 +381,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
 
    proceedSource(){
     let payload: any = {};
-    let crawler = this.crwalObject;
+    const crawler = this.crwalObject;
     const searchIndex =  this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -409,7 +416,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         }
         quaryparms.faqType = resourceType;
       }
-        if(resourceType == 'webdomain'){
+        if(resourceType === 'webdomain'){
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
@@ -418,7 +425,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = crawler
       }
-     
+
       if(resourceType === 'document'){
         payload.fileId = this.fileObj.fileId;
         if(payload.hasOwnProperty('url')) delete payload.url;
@@ -433,13 +440,13 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
           this.notificationService.notify('Failed to add sources ', 'error');
         }
       });
-      //this.callWebCraller(this.crwalObject,searchIndex)
+      // this.callWebCraller(this.crwalObject,searchIndex)
     }
 
   }
   callWebCraller(crawler,searchIndex){
     let payload = {}
-    let resourceType = this.selectedSourceType.resourceType;
+    const resourceType = this.selectedSourceType.resourceType;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       type: this.selectedSourceType.sourceType,
@@ -519,7 +526,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     console.log(scheduleData);
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
 
-    //this.dataFromScheduler = scheduleData
+    // this.dataFromScheduler = scheduleData
   }
   cronExpress(cronExpress){
     console.log(cronExpress);
@@ -546,16 +553,16 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
     this.crwalObject.advanceOpts.allowedOpt = !this.crwalObject.advanceOpts.blockedOpt;
   }
   updateUrlRecord(index,type){
-    type == 'allow' ? this.crwalObject.advanceOpts.allowedURLs.splice(index,1) : this.crwalObject.advanceOpts.blockedURLs.splice(index,1)
+    type === 'allow' ? this.crwalObject.advanceOpts.allowedURLs.splice(index,1) : this.crwalObject.advanceOpts.blockedURLs.splice(index,1)
   }
   urlCondition(condition , type){
-    type == 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition; 
+    type === 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
    }
   /* Annotation Modal */
   annotationModal() {
     if(this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
       // console.log(this.newSourceObj);
-      let payload = {
+      const payload = {
         sourceTitle: this.newSourceObj.name || 'test',
         sourceDesc: this.newSourceObj.desc || 'test desc',
         fileId: this.fileObj.fileId || '5f6ad9b032d08f34c4f61b73'
@@ -570,7 +577,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
         console.log(this.anntationObj);
         if(this.anntationObj && this.anntationObj.status === 'Inprogress') {
           this.openStatusModal();
-          this.poling(this.anntationObj._id);         
+          this.poling(this.anntationObj._id);
         }
       });
     }
@@ -599,21 +606,21 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
 }
 
 
-// class CrwalObj{  
-  
+// class CrwalObj{
+
 //     url: String = '';
 //     desc: String = '';
 //     name: String = '';
 //     resourceType: String = '';
 //     advanceOpts: AdvanceOpts = new AdvanceOpts()
 
-  
+
 // }
 // class AdvanceOpts{
 //   scheduleOpts:boolean = false;
 //       schedulePeriod: String ="";
 //       repeatInterval: String ="";
-//       crawlEverything: boolean = true; 
+//       crawlEverything: boolean = true;
 //          allowedURLs:AllowUrl[] = [];
 //          blockedURLs: BlockUrl[] = [];
 // }

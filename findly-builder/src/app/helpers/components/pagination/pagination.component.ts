@@ -19,6 +19,7 @@ export class PaginationComponent implements OnInit {
   ngOnInit(): void {
     this.recordEnd = this.limitpage;
     if(this.totalRecord < this.limitpage){
+      this.recordEnd = this.totalRecord;
       this.disableNext = true;
     }
   }

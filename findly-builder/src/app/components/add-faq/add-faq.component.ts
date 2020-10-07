@@ -14,6 +14,7 @@ import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Observable, Subscription } from 'rxjs';
+import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -112,6 +113,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   altInpQuesSub: Subscription;
   groupAddSub: Subscription;
   selectedResponseToEdit:any = {};
+  public config: PerfectScrollbarConfigInterface = {};
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
     private service: ServiceInvokerService,
@@ -387,7 +389,14 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
     this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
   }
+  addAnotherAlternate(){
+    $('#addAlternateFaq').click();
+    setTimeout(() =>{
+     this.isAdd = true;
+    });
+  }
   save() {
+    $('#addAlternateFaq').click();
     this.prpaerFaqsResponsePayload();
     if(this.anwerPayloadObj.defaultAnswers && this.anwerPayloadObj.defaultAnswers.length){
       const oneValidRespone = _.filter(this.anwerPayloadObj.defaultAnswers,(answer) =>{
@@ -740,6 +749,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.faqData.alternateQuestions = _.without(this.faqData.alternateQuestions, _.findWhere(this.faqData.alternateQuestions, { _id: ques._id }));
   }
   ngOnDestroy() {
+    this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;
     this.altAddSub?this.altAddSub.unsubscribe(): false;
     this.altCancelSub?this.altCancelSub.unsubscribe(): false;
     this.followInpKeySub?this.followInpKeySub.unsubscribe():false;

@@ -43,7 +43,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   resources: any = [];
   polingObj: any = {};
-  resourcesObj: any = {};
+  resourcesStatusObj: any = {};
   loadingContent = true;
   sectionShow = true;
   serachIndexId;
@@ -103,6 +103,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getSourceList();
+    this.getJobStatusForMessages();
     this.userInfo = this.authService.getUserInfo() || {};
     window.addEventListener('scroll', this.scroll, true);
   }
@@ -188,6 +189,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       self.getJobStatus(type);
     }, 10000);
   }
+  getJobStatusForMessages(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      type:'content'
+    };
+    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+      if (res && res.length) {
+       res.forEach(element => {
+        this.resourcesStatusObj[element.resourceId] = element;
+       });
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch job status');
+    });
+  }
   getJobStatus(type) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -195,6 +211,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
+        this.resourcesStatusObj[source.resourceId] = source;
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -221,9 +238,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       webDomainId: this.selectedSource._id,
-      limit: limit,
-      skip: skip
+      limit,
+      skip,
+      sourceType: this.selectedSource.type
     };
+    if(quaryparms.sourceType === 'webdomain' ){
+      quaryparms.contentType = 'pages'
+    }
+    if(quaryparms.sourceType === 'document' ){
+      quaryparms.contentType = 'docContent'
+    }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       /** Paging */
@@ -446,7 +470,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       webDomainId: this.selectedSource._id,
-      pageId: page._id
+      pageId: page._id,
+      sourceType: this.selectedSource.type
+    }
+    if(quaryparms.sourceType === 'webdomain' ){
+      quaryparms.contentType = 'pages'
+    }
+    if(quaryparms.sourceType === 'document' ){
+      quaryparms.contentType = 'docContent'
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       dialogRef.close();

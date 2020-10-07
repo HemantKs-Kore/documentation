@@ -45,7 +45,7 @@
       <div *ngIf="responseObj.type==='javascript'" >
          <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.payload" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
       </div>
-      <textarea *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
+      <textarea [perfectScrollbar]="config" *ngIf="responseObj.type==='string'"   (focus)="selectCurrentFocusedResponse(id,responseObj,type,index)"  [(ngModel)]="responseObj.payload" class="input-text" style="padding-bottom: 40px;" id="mainChatInputContainer{{type}}_{{index}}"></textarea>
       <div *ngIf="responseObj.type==='external'" class="external-tab-content" >
         <div class="kr-sg-dropdowns mb-3">
           <div class="label-text">Source</div>
@@ -205,9 +205,9 @@
           <span class="tab-title ">Response Preview</span>
         </div>
         <div class="responsePreviewBlock">
-        <!-- <perfect-scrollbar> -->
+        <perfect-scrollbar>
           <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
-        <!-- </perfect-scrollbar> -->
+        </perfect-scrollbar>
         </div>
       </div>
     </div>
@@ -247,8 +247,13 @@
   <div *ngIf="isAdd" class="alternative-question-results">
       <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
   </div>
+  <div class="btn-sec mt-0"  *ngIf="isAdd">
+    <div class="left-btns">
+      <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherAlternate()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Question</button>
+    </div>
+  </div>
   <ng-container *ngIf="faqData && faqData.alternateQuestions?.length">
-  <div class="added-questions-list" *ngFor="let alternateQuestion of faqData?.alternateQuestions">
+  <div class="added-questions-list mt-2" *ngFor="let alternateQuestion of faqData?.alternateQuestions">
       <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
       <div class="added-tags text-truncate">
           <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
