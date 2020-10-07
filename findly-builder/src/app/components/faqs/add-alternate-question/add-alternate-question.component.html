@@ -1,10 +1,10 @@
 <div class="alternative-question" [attr.id]="faqServ?.addVariation?.alternate?'altQue':'followQue'">
     <div class="kr-sg-input-text mb-2">
-        <div class="label_text" *ngIf="faqServ?.addVariation?.alternate">Alternate Question</div>
+        <div class="label_text" *ngIf="faqServ?.addVariation?.alternate">Question</div>
         <div class="label_text" *ngIf="!faqServ?.addVariation?.alternate">Followup Question</div>
         <input autocomplete="off" type="text" placeholder="Enter question" [attr.id]="faqServ?.addVariation?.alternate?'alt':'follow'" class="input-text" [(ngModel)]='f.question'>
     </div>
-    <div for="tagInput" class="label_text">Tags</div>
+    <div for="tagInput" class="label_text">Keywords</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">

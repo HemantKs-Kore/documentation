@@ -66,6 +66,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { AnnotoolModule } from './components/annotool/annotool.module';
+import { PaginationComponent } from './helpers/components/pagination/pagination.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -107,7 +108,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     IndexComponent,
     QueryComponent,
     RulesTableComponent,
-    SchedulerComponent
+    SchedulerComponent,
+    PaginationComponent
     ],
   imports: [
     BrowserModule,

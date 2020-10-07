@@ -53,8 +53,13 @@
                         </div>
                     </div>
                     <div class="body-content">
-                        <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
+                        <div class="empty-questions-selected"  *ngIf="loadingTab || apiLoading">
+                            <div>
+                                <div class="heading">{{'please_wait' | translate}}</div>
+                            </div>
+                        </div>
                         <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)">
+                            <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
                             <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
@@ -76,7 +81,7 @@
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
                                                 <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
-                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._is]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
+                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
                                                         <div class="title">{{altQuestion.question}}</div>
                                                         <div class="desc" *ngIf="altQuestion && altQuestion.answer">{{altQuestion.answer}}</div>
                                                         <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(altQuestion.defaultAnswers[0].payload)'></div>
@@ -92,13 +97,9 @@
                                 </div>
                             </div>
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
+                           </ng-container>
                         </perfect-scrollbar>
-                       </ng-container>
-                       <div class="empty-questions-selected"  *ngIf="loadingTab">
-                        <div >
-                            <div class="heading">{{'please_wait' | translate}}</div>
-                        </div>
-                      </div>
+                       <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
@@ -117,13 +118,6 @@
             </div>            
             <div class="content right-content">
                 <div class="content-boxes train_your_questions">
-                    <div class="header-sec row m-0 d-none">
-                        <div class="col-4 p-0 title">Train your questions</div>
-                        <div class="col-8 p-0 title text-right" *ngIf="selectedFaq">
-                            <span class="questions-count">Alternate Questions ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}})</span>
-                            <span class="questions-count">Followup Questions ({{(selectedFaq.followupQuestions?selectedFaq.followupQuestions.length:0)}})</span>
-                        </div>
-                    </div>
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">
                         <img src="assets/images/icons/empty_ill.svg">
@@ -132,116 +126,195 @@
                        </div>
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
-                    <div class="header-sec with-info row m-0" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
-                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
+                            <div class="row m-0 col-12 p-0">
+                                <div class="col-5 p-0 lef-info">
+                                    <div class="approved_title">Req. Date & Time</div>
+                                    <div class="approved_date" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:mm:ss A'}}</span></div>
+                                </div>
+                                <div class="col-7 p-0 actions-sec">
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="row m-0 col-12 p-0">
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Source</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Edited by</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>                             
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
+                                        <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                            <div class="dropdown dropdown-open">
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                                <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
+                                                    <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Move to Review</li>
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
+                                                </ul>
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col_ p-0 type col-1" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Type</div>
-                            <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
+                            <div class="row m-0 col-12 p-0">
+                                <div class="col-5 p-0 lef-info">
+                                    <div class="approved_title">Created ON</div>
+                                    <div class="approved_date" ngbTooltip="{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                </div>
+                                <div class="col-7 p-0 actions-sec">
+                                    <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="row m-0 col-12 p-0">
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Source</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-2 inner-data-column">
+                                                        <div class="heading">Type</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Created By</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Modified ON</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>                             
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">                                        
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
+                                        <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                            <div class="dropdown dropdown-open">
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                                <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                                    <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                        
+                                                </ul>
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-2 p-0 col_">
-                            <div class="heading">Editor</div>
-                            <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                        </div>
-                        <div class="col-3 p-0 col_">
-                            <div class="heading">Req. Date & Time</div>
-                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:ss:sss'}}</span></div>
-                        </div>
-                        <div class="col-4 p-0 col_">
-                            <div class="d-flex align-items-center justify-content-end">
-                                <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
-                                <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                    <div class="dropdown dropdown-open">
-                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
-                                        <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                          <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Needs Rework</li>                                         
+                    <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
+                        <div class="row m-0 col-12 p-0">
+                            <div class="col-5 p-0 lef-info">
+                                <div class="approved_title">Approved ON</div>
+                                <div class="approved_date" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
+                            </div>
+                            <div class="col-7 p-0 actions-sec">
+                                <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="dropdown dropdown-open">                                        
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
+                                        <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
+                                            <div class="row m-0 col-12 p-0">
+                                                <div class="col-2 inner-data-column">
+                                                    <div class="heading">Source</div>
+                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                </div>
+                                                <div class="col-2 inner-data-column">
+                                                    <div class="heading">Type</div>
+                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                </div>
+                                                <div class="col-4 inner-data-column">
+                                                    <div class="heading">Created by</div>
+                                                    <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
+                                                </div>
+                                                <div class="col-4 inner-data-column">
+                                                    <div class="heading">Reviewed by</div>
+                                                    <div class="title" ngbTooltip="{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}" placement="top-left">{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}</div>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>                             
+                                <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="dropdown dropdown-open">                                        
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
+                                        <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                            
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="comments-img cursor-pointer">
-                                    <img class="cursor" src="assets/icons/comment.svg">
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
+                                    <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
+                                            <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
+                                                <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>
+                                            </ul>
+                                        </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
-                        <div class="col_ p-0 source col-2" ngbTooltip="{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
-                        </div>
-                        <div class="col_ p-0 type" ngbTooltip="{{(selectedFaq.resource || contentTypes[selectedFaq.source]) | titlecase}}" placement="top">
-                            <div class="heading">Type</div>
-                            <div class="info-title">{{(contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
-                        </div>
-                        <div class="col_ p-0" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top">
-                            <div class="heading">Created</div>
-                            <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                        </div>
-                        <div class="col_ p-0 review-btn">
-                            <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')" >Send for Review</button>
-                            <div class="comments-img cursor-pointer">
-                                <img class="cursor" src="assets/icons/comment.svg">
-                            </div> 
-                            <img src="assets/icons/delete-table.svg" class="cursor cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)" ngbTooltip='Delete' >
-                        </div>    
-                                      
-                    </div>
-                    <div class="header-info-que with-info" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
-                        <div class="col-2 p-0" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}'  placement="top">
-                            <div class="heading">Source</div>
-                            <div class="info-title">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
-                        </div>
-                        <div class="col-2 p-0" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top">
-                            <div class="heading">Type</div>
-                            <div class="info-title">{{contentTypes[selectedFaq.source] | titlecase}}</div>
-                        </div>
-                        <div class="col-2 p-0" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top">
-                            <div class="heading">Edited by</div>
-                            <div class="info-title">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
-                        </div>
-                        <div class="col-2 p-0" ngbTooltip="{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}" placement="top">
-                            <div class="heading">Reviewed by</div>
-                            <div class="info-title">{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}</div>
-                        </div>
-                        <div class="col-3 p-0" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}">
-                            <div class="heading">Approved at</div>
-                            <div class="info-title">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss'}}</div>
-                        </div>                       
-                        <div class="col-1 p-0 text-right d-flex align-items-center">
-                            <div class="comments-img">
-                                <img class="cursor" src="assets/icons/comment.svg">
-                            </div>  
-                            <div class="kr-sg-dropdowns elipse-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/elipse.svg"></button>                                            
-                                    <ul class="dropdown-menu content-menu faq-filter-add pt-1 pb-1" ngbDropdownMenu>
-                                      <li (click)="updateFaq(selectedFaq,'stateUpdate','draft')">Move to Drafts</li>      
-                                      <li (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</li>                                
-                                      <!-- <li class="delete-text cursor-pointer" (click)="deleteInfividualQuestion(selectedFaq)">Delete</li>                                    -->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>                       
                     </div>
                     <perfect-scrollbar class="train-questions-body-scroll" #editQaScrollContainer>               
                         <div class="body-content" id="questionList">
-                            <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq>
+                            <!-- <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq> -->
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
-                                        <span class="">{{selectedFaq.question}}</span>
-                                        <img src="assets/icons/edit.svg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">
+                                        <span class="">{{selectedFaq.question}}</span>                                       
+                                        <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                     </div>
                                     <div class="keywords">
                                         <span class="key-title">Key Terms :</span>
                                         <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
                                     </div>  
+                                    <div class="bot-response-view-mode">
+                                        <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
+                                            <ng-container *ngFor="let answer of selectedFaq.defaultAnswers ;let i = index;">
+                                                <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq.defaultAnswers.length > 1) || (selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
+                                                    <img src="{{answer.multimedia.url}}">
+                                                </div>
+                                                <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                            </ng-container> 
+                                        </ng-container>
+                                    </div>
                                     <div class="conditionalBlock bot-response-view-mode" >
                                         <ng-container *ngIf="selectedFaq && selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.length">
-                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq.conditionalAnswers">
-                                            <div class="bot-response-title">Bot Response</div> 
+                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq.conditionalAnswers; let i = index;">
+                                            <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq.defaultAnswers?selectedFaq.defaultAnswers.length:0))}}</span></div> 
                                             <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
                                             <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                 <div *ngFor="let ans of consitionalAnswer.answers">
@@ -256,18 +329,6 @@
                                             </div>
                                         </ng-container>
                                             </ng-container> 
-                                    </div>
-                                    <div class="bot-response-view-mode">
-                                        <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
-                                            <ng-container *ngFor="let answer of selectedFaq.defaultAnswers">
-                                                <div class="bot-response-title">Bot Response</div> 
-                                                <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
-                                                    <img src="{{answer.multimedia.url}}">
-                                                </div>
-                                                <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
-                                                <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
-                                            </ng-container> 
-                                        </ng-container>
                                     </div>
                                     <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                 </div>
@@ -290,19 +351,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="add-alternative-questions row">
+                            <div class="add-alternative-questions row bg-white">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Alternate Questions
                                         <span>{{selectedFaq.alternateQuestions?.length>0?'('+selectedFaq.alternateQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
-                                    <div class="added-tags text-truncate">Add alternate forms of the question, key terms.</div>
+                                    <div class="que-desc text-truncate">Add alternate forms of the question, key terms.</div>
                                 </div>
-                                <div class="col-2 p-0 text-right">
+                                <!-- <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
-                                </div>
+                                </div> -->
                             </div>
-                            <div *ngIf="selectedFaq.isAlt">
+                            <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
                             <ng-container *ngIf="selectedFaq.alternateQuestions?.length">
@@ -314,20 +375,16 @@
                                 <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
                             </div>
                            </ng-container>
-                            <div class="add-alternative-questions row">
+                            <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 
                                         {{(selectedFaq.followupQuestions?.length>0?'('+selectedFaq.followupQuestions.length+')':'')}}
                                     </div>
-                                    <div class="added-tags text-truncate">Add followup the question, key terms.</div>
+                                    <div class="que-desc text-truncate">Add followup the question, key terms.</div>
                                 </div>
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addFollowUp()">Add</button>
                                 </div>
-                            </div>
-                            <div *ngIf="selectedFaq.isAddFollow">
-                                <app-add-faq (addFaq)="addNewFollowUp($event)" (cancelfaqEvent)="selectedFaq.isAddFollow = null"></app-add-faq>  
-                                <!-- <app-add-alternate-question [faqServ]="faqServiceFollow"></app-add-alternate-question> -->
                             </div>
 
                             <ng-container *ngIf="selectedFaq.followupQuestions?.length">
@@ -359,7 +416,7 @@
                     <img *ngIf="!searchSources" src="assets/images/search_gray.svg" class="search-icon">
                     <img *ngIf="searchSources" src="assets/images/close.svg" class="search-icon close-modal">                
                 </div>                         
-                  <div class="kr-sg-dropdowns">            
+                  <div class="kr-sg-dropdowns d-none">            
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add FAQs</button>                                            
                         <ul class="dropdown-menu content-menu">                                                              
@@ -390,7 +447,7 @@
                         <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('createdOn')">Created By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('createdOn')">Reviewed By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
@@ -404,13 +461,9 @@
 
                         <div class="col">{{source.extractedFaqsCount || '0'}}</div>
                         <div class="col" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
-
-                        <!-- <div class="col">{{source.extracted || '0'}}</div>
-                        <div class="col">{{source.staged || '0'}}</div> -->
-                        <div class="col">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY'}}</div>
+                        <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                         <div class="col text-right last-child">
-                            <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='Delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                            <!-- <span class="actions-links"><img class="action_icon" src="assets/images/list.svg"></span> -->
+                            <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                         </div>
                     </div>
                     <div class="empty">No Search Results found</div>
@@ -453,9 +506,41 @@
         </ng-container>
     </div>
 </kr-modal>
-
-<kr-modal modalType="center" modalClass="add-web-croling-upload-file" #addfaqSourceModalPop>
-    <ng-container *ngIf="showSourceAddition">
-        <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
-    </ng-container>
+<ng-container *ngIf="showSourceAddition">
+    <app-add-source [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition" (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"></app-add-source>
+</ng-container>
+<kr-modal modalType="center" modalClass="modal_popups_" #addfaqSourceModalPop>
+    <ng-container  *ngIf="selectedFaq && selectedFaq.isAddFollow">
+        <div class="modal-header">
+          <div class="title">Add Follow Up FAQ</div>
+          <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleAddFollowUp()" src="assets/icons/modal-close.svg"></div>
+        </div>
+      <perfect-scrollbar class="app-add-faq-insidescroll">
+        <div class="modal-body">
+            <app-add-faq (addFaq)="addNewFollowUp($event)" [faqUpdate]="faqUpdate.asObservable()" [isFollowUp]='true' (cancelfaqEvent)="cancleAddFollowUp()"></app-add-faq>  
+        </div>
+      </perfect-scrollbar> 
+        <div class="modal-footer">
+            <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddFollowUp();">Cancel</button>
+        </div>
+      </ng-container>
+</kr-modal>
+<kr-modal modalType="center" #editfaqSourceModalPop modalClass="modal_popups_">
+    <ng-container  *ngIf="editfaq && selectedFaq">
+  <div class="modal-header">
+    <div class="title">Edit FAQ</div>
+    <div class="close_icon"><img class="ng-tns-c11-2" (click)="faqCancle()" src="assets/icons/modal-close.svg"></div>
+  </div>
+<perfect-scrollbar class="perfect-scroll-modal-body">
+  <div class="modal-body">
+    <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()"></app-add-faq>
+  </div>
+</perfect-scrollbar> 
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle()">Cancel</button>
+      <button class="kr-sg-button-danger float-right" (click)="deleteInfividualQuestion(selectedFaq)">Delete</button>
+  </div>
+</ng-container>
 </kr-modal>

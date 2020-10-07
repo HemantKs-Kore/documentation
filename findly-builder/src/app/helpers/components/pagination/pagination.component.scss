@@ -1,0 +1,39 @@
+.paginations-custon.numbers:first{
+    color: #0D6EFD !important;
+    border-bottom: 1px solid #0D6EFD !important;
+}
+.paginations-custon.numbers{
+    font-weight: 600 !important;
+    font-size: 10px !important;
+    line-height: 14px;
+}
+.pl-pr-10{
+    padding: 0 10px;
+}
+.m1010{
+    margin: 1px 0px 1px 0px;
+}
+.pre-arrow{
+    border: solid #202124;
+    border-width: 0 2px 2px 0 ;
+    display: inline-block ;
+    padding: 3px ;
+    transform: rotate(135deg) ;
+    -webkit-transform: rotate(135deg) ;
+}
+.nxt-arrow{
+    border: solid #202124;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+.numbers-page {
+    padding: 10px 20px;
+    font-size: 12px;
+}
+.dis-arow {
+    border: solid #c5c7ce;
+    border-width: 0 2px 2px 0;
+}
