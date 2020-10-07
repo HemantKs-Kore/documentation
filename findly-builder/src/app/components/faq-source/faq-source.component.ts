@@ -54,7 +54,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   selectedtab = 'draft';
   selectAllFaqs = false;
   loadingTab = false;
-  resourcesObj: any = {};
+  resourcesStatusObj: any = {};
   selectedResource;
   public model: any;
   loadingFaqs = true;
@@ -174,6 +174,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   openStatusModal() {
     this.statusModalPopRef  = this.statusModalPop.open();
+    this.getJobStatusForMessages();
    }
    closeStatusModal() {
     if (this.statusModalPopRef &&  this.statusModalPopRef.close) {
@@ -363,6 +364,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.getfaqsBy();
     }
   }
+  getJobStatusForMessages(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      type:'faq'
+    };
+    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+      if (res && res.length) {
+       res.forEach(element => {
+        this.resourcesStatusObj[element.resourceId] = element;
+       });
+      }
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to fetch job status');
+    });
+  }
   faqsApiService(serviceId, params?,concat?) {
     this.faqs = [];
     if(this.apiLoading){
@@ -435,6 +451,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   paginate(event){
     this.getfaqsBy(null,null,event.skip)
+    this.addRemoveFaqFromSelection(null,null,true);
     // this.perfectScroll.directiveRef.update();
     // this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }

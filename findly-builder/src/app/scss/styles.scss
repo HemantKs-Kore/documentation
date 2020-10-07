@@ -228,7 +228,9 @@ html{
           }
     }    
 }
-
+.tooltip{
+    z-index: 10501 !important;
+}
 .mat-drawer-backdrop.mat-drawer-shown {
     background-color: rgba(0, 0, 0, 0.09);
 }
