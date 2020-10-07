@@ -238,9 +238,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       webDomainId: this.selectedSource._id,
-      limit: limit,
-      skip: skip
+      limit,
+      skip,
+      sourceType: this.selectedSource.type
     };
+    if(quaryparms.sourceType === 'webdomain' ){
+      quaryparms.contentType = 'pages'
+    }
+    if(quaryparms.sourceType === 'document' ){
+      quaryparms.contentType = 'docContent'
+    }
     this.service.invoke('get.extracted.pags', quaryparms).subscribe(res => {
       this.selectedSource.pages = res;
       /** Paging */
@@ -463,7 +470,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       webDomainId: this.selectedSource._id,
-      pageId: page._id
+      pageId: page._id,
+      sourceType: this.selectedSource.type
+    }
+    if(quaryparms.sourceType === 'webdomain' ){
+      quaryparms.contentType = 'pages'
+    }
+    if(quaryparms.sourceType === 'document' ){
+      quaryparms.contentType = 'docContent'
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       dialogRef.close();

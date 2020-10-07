@@ -1,0 +1,95 @@
+<div id="advanceContainer" class="dis advanceContainer">
+    <div class="header">
+         <p>QUERY </p> 
+         <span>Open bank account</span>
+    </div>
+    <div class="mini-graph">
+     <div class="search-val">
+         <p>Searches </p> 
+         <span>4983</span>
+     </div>
+     <div class="click-val">
+         <p>Clicks </p> 
+         <span>4254</span>
+     </div>
+     <div class="ctr-val">
+         <p>CTR </p> 
+         <span>94%</span>
+     </div>   
+     <div class="data-val" (mouseenter) ="mouseEnter()">
+         <div class="graph">
+             <div echarts [options]="chartOption" class="demo-chart"></div>
+         </div>
+     </div>  
+         
+     </div>
+     <div class="tab-grp">
+         <span class="tab-name tab-ana active" (click)="swapSlider(0)">ANALYSIS</span>
+         <span class="tab-name tab-act" (click)="swapSlider(1)">ACTION LOG</span>
+         
+     </div>
+     <img src="assets/icons/filter.svg" class="sortImg" (click)="filter()">
+     <!-- <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+        <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name">All</span><img
+            [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+        <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
+          <span class="list-name"></span>
+          <img [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
+      </ul> -->
+     <div class="tabselect" *ngIf="slider == 0" class="tab-slider">
+        <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
+            <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins" (click)="toggle(icontoggle, i)">
+                <div class="mb-0">
+                    <!-- <img *ngIf ="!icontoggle && iconIndex == undefined; else elseICon" src="assets/icons/caret-right.svg" class="ml-1 mr-0"> 
+                    <ng-container #elseICon> -->
+                        <img *ngIf ="!icontoggle && iconIndex == i" src="assets/icons/caret-right.svg" class="ml-1 mr-0"> 
+                        <img *ngIf ="icontoggle && iconIndex == i" src="assets/icons/caretDown.svg" class="ml-1 mr-0"> 
+                    <!-- </ng-container> -->
+                    
+                    <span class="action-header col-lg-8" [ngClass] = "{'active-header' : icontoggle  }">{{actLog.header}}</span> 
+                    <span class="action-header pl-pr-0  col-lg-2" >
+                        <img src="assets/icons/help.svg" class="ml-1"> 
+                        <span class="status">{{actLog.status}}</span> 
+                    </span> 
+                    <span class="time col-lg-2">{{actLog.time}}</span> 
+                </div>
+
+
+            </a>
+        
+            <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
+     </div>
+     </div>
+     <!-- <perfect-scrollbar class="perfect-scroll"> --> 
+        <!-- [ngClass] = "{'active-header' :(icontoggle && i == iconIndex)}" -->
+        <div class="tabselect" *ngIf="slider == 1" class="tab-slider">
+            <perfect-scrollbar class="perfect-scroll-insights">
+           <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
+                   <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins"  (click)="toggle(icontoggle, i)">
+                       <div class="mb-0">
+                           <img src="assets/icons/caretDown.svg" class="ml-1 mr-0"> 
+                           <span class="action-header col-lg-8" >{{actLog.header}}</span> 
+                           <span class="action-header pl-pr-0  col-lg-2" >
+                               <img src="assets/icons/help.svg" class="ml-1"> 
+                               <span class="status">{{actLog.status}}</span> 
+                           </span> 
+                           <span class="time col-lg-2">{{actLog.time}}</span> 
+                       </div>
+                   </a>
+                   <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
+            </div>
+        </perfect-scrollbar>
+        </div>
+     <!-- </perfect-scrollbar> -->
+     <!-- <button (click)="btnClick()">button</button> -->
+ </div>
+
+ <div class ="graphMode" #graphMode *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
+    <!-- <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()"> -->
+    <div class="graph">
+        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
+    </div>
+ </div>
+ 
+ 
+ 

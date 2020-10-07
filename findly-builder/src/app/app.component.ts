@@ -170,6 +170,7 @@ export class AppComponent implements OnInit {
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');
       $('.advancemode-checkbox').css({"display":"block"});
+      $('.search-container').addClass('search-container-adv')
     }else{
       $('.search-background-div').hide();
       $('.start-search-icon-div').removeClass('active');
@@ -181,7 +182,7 @@ export class AppComponent implements OnInit {
     $('body').append('<div class="start-search-icon-div"></div>');
     $('app-body').append('<div class="search-background-div"></div>');
     $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
-
+   // $('.search-container').addClass('search-container-adv');
     $('.start-search-icon-div').click(function(){
       if(!$('.search-background-div:visible').length){
         _self.showHideSearch(true);
