@@ -13,7 +13,9 @@ export class InsightsComponent implements OnInit {
   graphMode : boolean = false;
   iconIndex;
   slider : any;
+  filterArray : any = [];
   actionLogData : any;
+  actionLogDatBack : any;
   chartOption: EChartOption = {
     xAxis: {
       type: 'category',
@@ -146,7 +148,22 @@ export class InsightsComponent implements OnInit {
       "selected" : false
     }
   ]
+  this.actionLogDatBack = [...this.actionLogData]
+  this.actionLogData.forEach(element => {
+    this.filterArray.push(element.status)
+  });
+  this.filterArray = new Set(this.filterArray);
     console.log(this.data)
+  }
+  filterRecord(type){
+    //this.actionLogData = [];
+    if(type == "all"){
+      this.actionLogData = [...this.actionLogDatBack];
+    }else{
+      this.actionLogData.filter((data) => {
+        return data.status == type
+      });
+    }
   }
   closeCross(){
     this.graphMode = false;

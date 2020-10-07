@@ -28,6 +28,23 @@
          <span class="tab-name tab-act" (click)="swapSlider(1)">ACTION LOG</span>
          
      </div>
+     <!-- drop -->
+     <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
+     [autoClose]="true" [placement]="'bottom-right'">
+     <div class="dropdown dropdown-open">
+        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+            <img src="assets/icons/filter.svg"  class="sortImg" >
+        </button>
+        <ul class="dropdown-menu insight-menu type_sort_dropdown-content" ngbDropdownMenu>
+            <li (click)="sourceFilter.close();filterRecord('all')"><span class="list-name">All</span>
+            </li>
+            <li *ngFor="let filArr of filterArray" (click)="sourceFilter.close();filterRecord(filArr)">
+              <span class="list-name"> {{ filArr }} </span>
+            </li> 
+          </ul> 
+      </div>
+    </div>
+    <!-- drop -->
      <!-- <button class="sortImg dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()" (click)="filter()">
         <img src="assets/icons/filter.svg"  class="sortImg" >
      </button>
@@ -38,7 +55,7 @@
           <span class="list-name"></span>
         </li> 
       </ul> -->
-      <img src="assets/icons/filter.svg"  class="sortImg" >
+      <!-- <img src="assets/icons/filter.svg"  class="sortImg" > -->
      <div class="tabselect" *ngIf="slider == 0" class="tab-slider">
         <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
             <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins" (click)="toggle(icontoggle, i,actLog.selected)">
@@ -49,8 +66,8 @@
                         <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0">  -->
                     <!-- </ng-container> -->
                     <div class="row">
-                        <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
-                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0"> 
+                        <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
+                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
                         <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
                             <div class="action-header pl-pr-0  col-lg-2" >
                                 <img src="assets/icons/help.svg" class="ml-1"> 
@@ -74,8 +91,8 @@
                         <!-- <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
                         <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0">  -->
                         <div class="row">
-                            <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
-                            <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0"> 
+                            <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
+                            <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()" >
                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
                            <div class="action-header pl-pr-0  col-lg-2" >
                                <img src="assets/icons/help.svg" class="ml-1"> 

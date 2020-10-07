@@ -51,7 +51,7 @@
     .sortImg{
         position: absolute;
         left: 480px;
-        top: 100px;
+        top: 24px;
         cursor: pointer;
     }
     .mat-grp{
@@ -60,6 +60,7 @@
     .tab-name{
         font-weight: 600;
         font-size: 14px;
+        margin-top: 21px;
         //line-height: 14px;
         letter-spacing: 0.714286px;
         text-transform: uppercase;
@@ -100,7 +101,7 @@
         background-color: #FFFFFF;
         border-top: 1px solid #DDDDDD;
         //margin: -2px 5%;
-        margin: -2px 5% -2px 6%;
+        margin: 0px 5% -2px 6%;
         //border-bottom: 1px solid #DDDDDD;
         a{
             text-decoration: none;
@@ -202,7 +203,7 @@
     width: calc(100% - 60%);
     box-shadow: -3px 0px 30px rgba(18, 61, 101, 0.2), inset -2px -4px 80px rgba(255, 255, 255, 0.18) !important;
     background: #FFFFFF;
-    border-radius: 6px;
+    border-radius: 6px 0px;
     bottom: 60px;
     min-height: 40px;
 }
