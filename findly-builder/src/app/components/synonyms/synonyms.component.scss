@@ -40,6 +40,13 @@
         font-size: 12px;
     }  
 }
+.synonymBubble{
+    background: #E7F1FF;
+    border-radius: 100px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    display: inline-block;
+}
 .contentContainer{
     padding: 30px 65px 0 70px;
      height: calc(100vh - 62px);
@@ -265,7 +272,10 @@
 }
 .table-scroll-perfect-synonyms{
     margin: 20px 0 0 0;
-    height: calc(100vh - 276px);
+    height: calc(100vh - 180px);
+    &.newRecoredActive{
+        height: calc(100vh - 330px);
+    }
     .empty-questions-selected{
         width: 320px;
         margin: 0 auto;
