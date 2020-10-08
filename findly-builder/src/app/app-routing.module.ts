@@ -16,7 +16,8 @@ import { TraitsComponent } from './components/traits/traits.component';
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
-
+import { StopWordsComponent }  from './components/stop-words/stop-words.component';
+import { WeightsComponent }  from './components/weights/weights.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +41,8 @@ const routes: Routes = [
       { path: 'attributes', component: AttributesListComponent },
       { path: 'index', component: IndexComponent},
       { path: 'query', component: QueryComponent},
+      { path: 'stopWords', component: StopWordsComponent},
+      { path: 'weights', component: WeightsComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

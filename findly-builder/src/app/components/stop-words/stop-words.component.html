@@ -1,0 +1,60 @@
+<div class="contentContainer">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div class="table-list-content">
+        <div class="kr-sg-data-table" *ngIf="!loadingContent">
+            <div class="table-action-header">
+                <div class="text">
+                    <div class="heading">Stop Words</div>
+                 </div>
+                 <!-- <div class="rightSectioon float-right">
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" checked [(ngModel)]="enabled">
+                    <div class="slider"></div>
+                 </label>
+                 <div class="slider">Stop Word Removal {{enabled?'Enabled':'Disabled'}}</div>
+                </div> -->
+            </div>                       
+        </div>   
+    </div>
+    <div class="addStopWordsBlock">
+        <div class="kr-sg-input-text">
+            <div class="label-text">Add Stop Word</div>
+            <input type="text" autocomplete="off" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStopWord">
+        </div>
+        <div class="addStopWordsButton">
+            <button class="kr-sg-button-primary" (click)="addStopWord()">Save</button>
+        </div>
+    </div>
+  <div class="listingHeader">
+        <div class="restoreDefaults">
+            <img class="label-icon" src="assets/images/refreshGray.svg">
+            <span>Restore to Default</span>
+        </div>  
+        <div class="searchBlock" (click)="toggleSearch()">
+            <img *ngIf="showSearch"  class="search-icon" src="assets/images/close.svg">
+            <img *ngIf="!showSearch" class="search-icon" src="assets/images/search_gray.svg">
+            <span>Search</span>
+        </div> 
+        <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords">           
+          </div> 
+  </div>
+  <perfect-scrollbar class="table-scroll-perfect-synonyms">
+    <div class="empty-questions-selected"  *ngIf="!(stopwords && stopwords.length) && !loadingContent">
+      <img src="assets/images/icons/empty_ill.svg">
+      <div class="heading">No Stopwords Available</div>
+      <div class="desc">Please Add Stop Words</div>
+    </div>
+    <div class="stopWordsListing">
+      <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = i">{{word}}<span class="deleteTag"><img src="assets/images/close.svg"></span></span>
+      <div class="empty-questions-selected divBlockEmptylastChild">
+        <img src="assets/images/icons/empty_ill.svg">
+        <!-- <div class="heading">No serar Available</div> -->
+        <div class="desc pt-2">No search results found</div>
+      </div>
+    </div>
+  </perfect-scrollbar> 
+</div>

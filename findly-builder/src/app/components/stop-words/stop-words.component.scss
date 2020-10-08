@@ -1,0 +1,139 @@
+@import './../../../app/scss/variables/variables.scss';
+.contentContainer{
+    // padding: 30px 65px 0 70px;
+     padding: 0px;
+     height: calc(100vh - 62px);
+     overflow: hidden;    
+     background: #fff;    
+     .table-list-content{
+         .kr-sg-data-table{
+             .table-action-header{
+                justify-content: flex-start;
+                height: auto;
+                background: #F8F9FA;
+                padding: 10px 0px;
+                border-radius: 4px;
+                margin: 0;    
+                .text{
+                    margin: 0 !important;
+                }         
+             }                                  
+         }         
+     }
+     .addStopWordsBlock{
+         padding: 0 20px;
+        .kr-sg-input-text{
+            width: 300px;
+            display: inline-block;
+            input{
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+         }     
+         .addStopWordsButton{
+            display: inline-block;
+            padding: 0 20px;
+            .kr-sg-button-primary{
+                background: #0D6EFD;
+                height: 35px;
+                position: relative;
+                top: -1px;
+            }
+         }         
+     }
+     .listingHeader{
+        justify-content: flex-end;
+        height: 35px;
+        margin: 0 20px;
+        border-bottom: 1px solid #E4E5E7;
+        .kr-sg-input-search{
+            display: inline-block;
+            float: right;
+            width: 0px;
+            display: none;
+            input{
+                height: 30px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            &.active{
+                display: block;
+                width: 300px;
+            }
+         } 
+        .searchBlock{
+            float: right;
+            display: inline-block;
+            padding: 0 5px;
+            position: relative;
+            top: 4px;
+            .search-icon{
+                padding: 0 5px;
+            }
+        }
+        .restoreDefaults{
+            float: right;
+            display: inline-block;
+            padding: 0 5px;
+            position: relative;
+            top: 4px;
+            .label-icon{
+                padding: 0 5px; 
+            }
+        }
+     }
+      
+}
+.table-scroll-perfect-synonyms{
+    margin: 20px 0 0 0;
+    height: calc(100vh - 276px);
+    .empty-questions-selected{
+        width: 320px;
+        margin: 0 auto;
+        text-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;                       
+        -webkit-box-pack: center;                       
+        -ms-flex-pack: center;                       
+        justify-content: center;   
+        height: calc(100vh - 290px);
+        &.divBlockEmptylastChild{
+            display: none;
+            padding: 0;
+        }
+        img{
+            width: 75%;
+            margin: 0 auto;
+        }     
+        .heading{
+            margin: 18px 0 8px 0;
+            color: $primaryColor;
+        }
+        .desc{
+            color: $secondaryColor;
+            font-size: 14px;
+        }
+    }
+    .stopWordsListing{
+        padding: 0 20px;
+        .wordTag{
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            margin: 5px 5px;
+            height: 30px;
+            background: #EFF0F1;
+            border-radius: 2.5px;
+            width: auto;
+            display: inline-block;
+            .deleteTag{
+                margin: 0 5px;
+            }
+        }
+    }
+ }
