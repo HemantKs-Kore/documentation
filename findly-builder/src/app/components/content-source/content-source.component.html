@@ -549,7 +549,7 @@
                     <div class="next" *ngIf="btnAllCount > 5"> ... </div>
                     <div class="next">Next</div>
                   </div> -->
-               <app-pagination [totalRecord]='totalRecord' [limitpage]='25' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+               <app-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]= "recordEnd" [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>

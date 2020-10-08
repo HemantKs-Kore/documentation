@@ -76,8 +76,8 @@ export class SchedulerComponent implements OnInit {
   }
   modelChangeFn(event,time){
    if(time !='repeatEvery'){
-    if(event > 11 && time == 'HH'){
-      this.timeHH = '11';
+    if(event > 12 && time == 'HH'){
+      this.timeHH = '12';
       this.changeMeridiem('PM');
     }else if(event == 0 && time == 'HH'){
       this.timeHH = '0';
@@ -100,7 +100,7 @@ export class SchedulerComponent implements OnInit {
     this.calculateCronExpression()
   }
   changeMeridiem(meridiem){
-    if(Number(this.timeHH) > 11 ){
+    if(Number(this.timeHH) >= 12 ){
       meridiem = 'PM' ;
     }else if(Number(this.timeHH) == 0){
       meridiem = 'AM' ;
@@ -120,7 +120,7 @@ export class SchedulerComponent implements OnInit {
   calculateCronExpression(){
     let timeHH = this.timeHH;
     // Check for AM -PM conversion 12-24;
-    if(this.meridiem == 'PM' && timeHH != '' && Number(timeHH) <= 24){
+    if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 12) && Number(timeHH) <= 24){
         timeHH = this.timeHH + 12;
         if(Number(timeHH) == 24) {
           timeHH = (Number(this.timeHH) - 12).toLocaleString();

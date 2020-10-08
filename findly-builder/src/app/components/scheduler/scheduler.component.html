@@ -7,7 +7,7 @@
           <mat-datepicker #dp3 disabled="false"></mat-datepicker>
 
         <span class="scheduler-txt time">Time </span>
-        <input id="scheduleHr" type="number" min="0" max="11" class="input-text timeHH" placeholder="HH" name = "timeHH" [(ngModel)] = "timeHH" (ngModelChange)="modelChangeFn($event,'HH')">  <!-- <span class="scheduler-colon">:</span> -->
+        <input id="scheduleHr" type="number" min="0" max="12" class="input-text timeHH" placeholder="HH" name = "timeHH" [(ngModel)] = "timeHH" (ngModelChange)="modelChangeFn($event,'HH')">  <!-- <span class="scheduler-colon">:</span> -->
         <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM" (ngModelChange)="modelChangeFn($event,'MM')"> 
 
         <div id ="schedule-AM" class="schedule-AM " [ngClass] = "{'active' : meridiem == 'AM'}" (click)="changeMeridiem('AM')">AM</div>
