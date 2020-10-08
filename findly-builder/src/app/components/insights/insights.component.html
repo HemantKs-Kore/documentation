@@ -28,33 +28,54 @@
          <span class="tab-name tab-act" (click)="swapSlider(1)">ACTION LOG</span>
          
      </div>
-     <img src="assets/icons/filter.svg" class="sortImg" (click)="filter()">
-     <!-- <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-        <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name">All</span><img
-            [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+     <!-- drop -->
+     <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
+     [autoClose]="true" [placement]="'bottom-right'">
+     <div class="dropdown dropdown-open">
+        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+            <img src="assets/icons/filter.svg"  class="sortImg" >
+        </button>
+        <ul class="dropdown-menu insight-menu type_sort_dropdown-content" ngbDropdownMenu>
+            <li (click)="sourceFilter.close();filterRecord('all')"><span class="list-name">All</span>
+            </li>
+            <li *ngFor="let filArr of filterArray" (click)="sourceFilter.close();filterRecord(filArr)">
+              <span class="list-name"> {{ filArr }} </span>
+            </li> 
+          </ul> 
+      </div>
+    </div>
+    <!-- drop -->
+     <!-- <button class="sortImg dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()" (click)="filter()">
+        <img src="assets/icons/filter.svg"  class="sortImg" >
+     </button>
+     <ul class="dropdown-menu insight-menu type_sort_dropdown-content" ngbDropdownMenu>
+        <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name">All</span>
+        </li>
         <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
           <span class="list-name"></span>
-          <img [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
+        </li> 
       </ul> -->
+      <!-- <img src="assets/icons/filter.svg"  class="sortImg" > -->
      <div class="tabselect" *ngIf="slider == 0" class="tab-slider">
         <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
-            <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins" (click)="toggle(icontoggle, i)">
+            <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins" (click)="toggle(icontoggle, i,actLog.selected)">
                 <div class="mb-0">
                     <!-- <img *ngIf ="!icontoggle && iconIndex == undefined; else elseICon" src="assets/icons/caret-right.svg" class="ml-1 mr-0"> 
                     <ng-container #elseICon> -->
-                        <img *ngIf ="!icontoggle && iconIndex == i" src="assets/icons/caret-right.svg" class="ml-1 mr-0"> 
-                        <img *ngIf ="icontoggle && iconIndex == i" src="assets/icons/caretDown.svg" class="ml-1 mr-0"> 
+                        <!-- <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
+                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0">  -->
                     <!-- </ng-container> -->
-                    
-                    <span class="action-header col-lg-8" [ngClass] = "{'active-header' : icontoggle  }">{{actLog.header}}</span> 
-                    <span class="action-header pl-pr-0  col-lg-2" >
-                        <img src="assets/icons/help.svg" class="ml-1"> 
-                        <span class="status">{{actLog.status}}</span> 
-                    </span> 
-                    <span class="time col-lg-2">{{actLog.time}}</span> 
+                    <div class="row">
+                        <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
+                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
+                        <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
+                            <div class="action-header pl-pr-0  col-lg-2" >
+                                <img src="assets/icons/help.svg" class="ml-1"> 
+                                <span class="status">{{actLog.status}}</span> 
+                            </div> 
+                            <div class="time col-lg-2">{{actLog.time}}</div>
+                    </div>
                 </div>
-
-
             </a>
         
             <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
@@ -65,15 +86,20 @@
         <div class="tabselect" *ngIf="slider == 1" class="tab-slider">
             <perfect-scrollbar class="perfect-scroll-insights">
            <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
-                   <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins"  (click)="toggle(icontoggle, i)">
+                   <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins"  (click)="toggle(icontoggle, i,actLog.selected)">
                        <div class="mb-0">
-                           <img src="assets/icons/caretDown.svg" class="ml-1 mr-0"> 
-                           <span class="action-header col-lg-8" >{{actLog.header}}</span> 
-                           <span class="action-header pl-pr-0  col-lg-2" >
+                        <!-- <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
+                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0">  -->
+                        <div class="row">
+                            <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
+                            <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()" >
+                            <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
+                           <div class="action-header pl-pr-0  col-lg-2" >
                                <img src="assets/icons/help.svg" class="ml-1"> 
                                <span class="status">{{actLog.status}}</span> 
-                           </span> 
-                           <span class="time col-lg-2">{{actLog.time}}</span> 
+                           </div> 
+                           <div class="time col-lg-2">{{actLog.time}}</div> 
+                        </div>
                        </div>
                    </a>
                    <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
