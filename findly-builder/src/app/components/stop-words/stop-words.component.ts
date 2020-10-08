@@ -11,6 +11,7 @@ export class StopWordsComponent implements OnInit {
   searchStopwords: any = '';
   newStopWord:any = '';
   showSearch = false;
+  enabled:boolean = false;
   constructor() { }
   ngOnInit(): void {
   }

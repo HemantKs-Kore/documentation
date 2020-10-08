@@ -9,6 +9,13 @@
                 <div class="text">
                     <div class="heading">Stop Words</div>
                  </div>
+                 <!-- <div class="rightSectioon float-right">
+                  <label class="kr-sg-toggle">
+                    <input type="checkbox" checked [(ngModel)]="enabled">
+                    <div class="slider"></div>
+                 </label>
+                 <div class="slider">Stop Word Removal {{enabled?'Enabled':'Disabled'}}</div>
+                </div> -->
             </div>                       
         </div>   
     </div>
@@ -18,7 +25,7 @@
             <input type="text" autocomplete="off" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStopWord">
         </div>
         <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary" (click)="addStopWord()">Add</button>
+            <button class="kr-sg-button-primary" (click)="addStopWord()">Save</button>
         </div>
     </div>
   <div class="listingHeader">
