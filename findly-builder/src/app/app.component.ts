@@ -6,6 +6,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
 declare const KoreWidgetSDK: any;
+declare const FindlySDK: any;
 declare const KoreSDK: any;
 declare const koreBotChat: any;
 declare let window:any;
@@ -198,25 +199,27 @@ export class AppComponent implements OnInit {
         $('.search-container').addClass('advanced-mode');
       }
   });
-   
-    var chatConfig = KoreSDK.chatConfig;
-    //chatConfig.botOptions.assertionFn = assertion;
-    chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
+    var findlyConfig=window.KoreSDK.findlyConfig;
+    var fSdk = new FindlySDK(findlyConfig);
+    fSdk.showSearch();
+    // var chatConfig = KoreSDK.chatConfig;
+    // //chatConfig.botOptions.assertionFn = assertion;
+    // chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
 
-    var koreBot = koreBotChat();
-    koreBot.show(chatConfig);
+    // var koreBot = koreBotChat();
+    // koreBot.show(chatConfig);
 
 
-    var widgetsConfig=KoreSDK.widgetsConfig;
+    // var widgetsConfig=KoreSDK.widgetsConfig;
 
-    var wizSelector = {
-        menu: ".kr-wiz-menu-chat",
-        content: ".kr-wiz-content-chat"
-    }
-    var wSdk = new KoreWidgetSDK(widgetsConfig);
-    this.searchInstance = wSdk;
-           wSdk.setJWT('dummyJWT');
-            wSdk.show(widgetsConfig, wizSelector);
-            wSdk.showSearch();
+    // var wizSelector = {
+    //     menu: ".kr-wiz-menu-chat",
+    //     content: ".kr-wiz-content-chat"
+    // }
+    // var wSdk = new KoreWidgetSDK(widgetsConfig);
+    // this.searchInstance = wSdk;
+    //        wSdk.setJWT('dummyJWT');
+    //         wSdk.show(widgetsConfig, wizSelector);
+    //         wSdk.showSearch();
   }
 }
