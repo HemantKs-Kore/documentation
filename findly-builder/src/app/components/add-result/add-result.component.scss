@@ -1,0 +1,109 @@
+.add-result{
+    position: absolute;
+    top: 68px;
+    z-index: 1000;
+    height: 100%;
+    width: calc(100% - 70%);
+    box-shadow: -3px 0px 30px rgba(18, 61, 101, 0.2), inset -2px -4px 80px rgba(255, 255, 255, 0.18) !important;
+    background: #FFFFFF;
+    border-radius: 6px 0px;
+    bottom: 60px;
+    min-height: 40px;
+    left: 949px;
+
+    .header{
+        padding: 4%;
+        .head-txt{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .closeCross{
+            float: right;
+        }
+    }
+
+    .txt{
+        margin: 4% 0% 2%;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+    }
+    .check-option{
+        margin: 4%;
+        .radio-custom{
+            width: 6px;
+            height: 6px;
+        }
+        .radio-custom-label{
+            font-weight: 500;
+            font-size: 12px;
+        }
+    }
+    .search{
+        margin: 5% 4% 1% 4%;
+    }
+    .search-box{
+        width: 100%;
+    }
+
+    .footer{
+        margin-top:70% ;
+        .add{
+            width: 67px;
+            height: 34px;
+            background: #0D6EFD;
+            border: 1px solid #0D6EFD;
+            color: #FFFFFF;
+            border-radius: 4px;
+            margin-left: 65%;
+        }
+        .cancel{
+            width: 67px;
+            height: 34px;
+            background: #FFFFFF;
+            border: 1px solid #BDC1C6;
+            border-radius: 4px;
+            margin-left: 1%;
+        }
+    }
+}
+.inline-rec{
+    display:inline-block;
+    
+}
+.ver-center{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.record{
+    border-top: 1px solid #979797;
+    border-bottom: 1px solid #979797;
+    padding: 11px;
+    width: 100%;
+}
+.count{
+    font-weight: 600;
+    font-size: 12px;
+}
+.ques{
+    font-weight: 600;
+    font-size: 12px;
+    color: #161928;
+}
+.rec-60{
+    width: 60%;
+}
+.rec-30{
+    width: 30%;
+}
+.rec-10{
+    width: 10%;
+}
+.ans{
+    font-weight: normal;
+    font-size: 12px;
+    color: #979797;
+    width: 50%;
+}

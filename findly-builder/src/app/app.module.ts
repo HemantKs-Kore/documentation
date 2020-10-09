@@ -70,6 +70,7 @@ import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { AddResultComponent } from './components/add-result/add-result.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -113,7 +114,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RulesTableComponent,
     SchedulerComponent,
     InsightsComponent,
-    PaginationComponent
+    PaginationComponent,
+    AddResultComponent
     ],
   imports: [
     BrowserModule,

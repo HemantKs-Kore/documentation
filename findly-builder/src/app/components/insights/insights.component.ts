@@ -21,20 +21,20 @@ export class InsightsComponent implements OnInit {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       scale: true,
-		 show:false,
-		 splitLine:{//remove grid lines
-			show:false
-		},
-      splitArea : {show : false}// remove the grid area
+		//  show:false,
+		//  splitLine:{//remove grid lines
+		// 	show:false
+		// },
+      //splitArea : {show : false}// remove the grid area
   },
   yAxis: {
       type: 'value',
       scale: true,
 		 show:false,
-		 splitLine:{//remove grid lines
+		 splitLine:{
 			show:false
 		},
-     splitArea : {show : false}// remove the grid area
+     splitArea : {show : false}
   },
   tooltip: {
       axisPointer: {
@@ -44,23 +44,38 @@ export class InsightsComponent implements OnInit {
       }
   },
   series: [{
-      data: [5, 10, 15, 20, 15, 10, 5],
+      data: [7, 10, 14, 18, 15, 10, 6],
       type: 'line',
-      smooth: true
+      smooth: true,
+      lineStyle: {
+        color: '#202124',
+      }
   },
   {
-      data: [10, 5, 20, 15, 10, 5, 5],
+      data: [8, 11, 21, 15, 10, 5, 5],
       type: 'line',
-      smooth: true
-  }]
+      smooth: true,
+      lineStyle: {
+        color: '#3368BB',
+      }
+  },
+  {
+    data: [8, 11, 16, 15, 10, 5, 5],
+    type: 'line',
+    smooth: true,
+    lineStyle: {
+      color: '#009DAB',
+    }
+}
+]
   };
   constructor() { }
 
   ngOnInit(): void {
-    (opts?: {
-      width?: '50px',
-      height?: '37px',
-    }) => this.chartOption
+    // (opts?: {
+    //   width?: '50px',
+    //   height?: '37px',
+    // }) => this.chartOption
     $("#advanceContainer").delay(800).fadeIn();
     $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     
@@ -172,7 +187,7 @@ export class InsightsComponent implements OnInit {
     this.graphMode = true;
   }
   mouseLeave(){
-    this.graphMode = false;
+    //this.graphMode = false;
   }
   filter(){
 
