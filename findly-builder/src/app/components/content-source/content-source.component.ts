@@ -78,10 +78,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isAsc = true;
   selectedSort = '';
   recordStr : number = 1;
-  recordEnd : number = 10;
+  recordEnd : number = 25;
   totalRecord : number = 0;
-  limitpage : number = 10;
-  limitAllpage : number = 10;
+  limitpage : number = 25;
+  limitAllpage : number = 25;
   allInOne : boolean = false;
   urlConditionAllow = "Is";
   urlConditionBlock = "Is";
@@ -253,7 +253,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       /** Paging */
 
       const data = [...res]
-      this.pagingData = data.slice(0, 10);
+      this.pagingData = data.slice(0, this.limitpage);
 
       /** Paging */
       this.sliderStep = 0;
@@ -481,6 +481,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       dialogRef.close();
+      this.totalRecord = this.totalRecord - 1;
+      this.pageination(this.totalRecord , null)
       this.notificationService.notify('Page deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
         return pg._id === page._id;

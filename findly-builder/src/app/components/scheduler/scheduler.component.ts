@@ -33,6 +33,7 @@ export class SchedulerComponent implements OnInit {
   month = '';
   year = '';
   endsOnSelected = '';
+  minDate;
   //scheduleData : scheduleOpts = new scheduleOpts();
   @Input() crwalObject : any;
   @Input() schedule : any;
@@ -45,7 +46,10 @@ export class SchedulerComponent implements OnInit {
     this.month =  date.toString().split(" ")[1].toLocaleUpperCase();
     this.date =  date.toString().split(" ")[2];
     this.year =  date.toString().split(" ")[3];
-    ;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const currentDay = new Date().getDate();
+    this.minDate = new Date(currentYear, currentMonth, currentDay);
   }
 
   ngOnInit(): void {
@@ -76,8 +80,8 @@ export class SchedulerComponent implements OnInit {
   }
   modelChangeFn(event,time){
    if(time !='repeatEvery'){
-    if(event > 11 && time == 'HH'){
-      this.timeHH = '11';
+    if(event > 12 && time == 'HH'){
+      this.timeHH = '12';
       this.changeMeridiem('PM');
     }else if(event == 0 && time == 'HH'){
       this.timeHH = '0';
@@ -100,7 +104,7 @@ export class SchedulerComponent implements OnInit {
     this.calculateCronExpression()
   }
   changeMeridiem(meridiem){
-    if(Number(this.timeHH) > 11 ){
+    if(Number(this.timeHH) >= 12 ){
       meridiem = 'PM' ;
     }else if(Number(this.timeHH) == 0){
       meridiem = 'AM' ;
@@ -120,7 +124,7 @@ export class SchedulerComponent implements OnInit {
   calculateCronExpression(){
     let timeHH = this.timeHH;
     // Check for AM -PM conversion 12-24;
-    if(this.meridiem == 'PM' && timeHH != '' && Number(timeHH) <= 24){
+    if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 12) && Number(timeHH) <= 24){
         timeHH = this.timeHH + 12;
         if(Number(timeHH) == 24) {
           timeHH = (Number(this.timeHH) - 12).toLocaleString();
