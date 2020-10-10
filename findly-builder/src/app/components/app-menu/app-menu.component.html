@@ -48,7 +48,14 @@
 			<span class="linkTitle">Preview</span>
 		</button> -->
 
-		<div class="sub-title marginTop15">Configurations</div>
+	<div class="sub-title marginTop15">Index Configurations</div>
+			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
+				<span class="inlineIconBox leftAdjust">
+					<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/traits-active.svg" class="activeIcon">				
+				</span>
+				<span class="linkTitle">Traits</span>
+			</div>
 			<div mat-button class="mat-button"  [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>			
 				<span class="inlineIconBox">	
 					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">	
@@ -56,28 +63,28 @@
 				</span>
 				<span class="linkTitle">Index Pipeline</span>
 			</div>
-			<div mat-button class="mat-button" [routerLink]="['/query']" skipLocationChange routerLinkActive="active" (click)="preview('query')" mat-button>			
-				<span class="inlineIconBox">	
-					<img src="assets/icons/sidemenu/new-icons/query.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/query-active.svg" class="activeIcon">			
-				</span>
-				<span class="linkTitle">Query Pipeline</span>
-			</div>
-			<div mat-button class="mat-button" [routerLink]="['/ml-threshold']" skipLocationChange routerLinkActive="active" (click)="preview('ml')" mat-button>
-				<span class="inlineIconBox leftAdjust">	
-					<img src="assets/icons/sidemenu/new-icons/ml.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/ml-active.svg" class="activeIcon">			
-				</span>
-				<span class="linkTitle">NLP & Machine Learning</span>
-			</div>
-
-		<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
-			<span class="inlineIconBox leftAdjust">
-				<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">	
-				<img src="assets/icons/sidemenu/new-icons/traits-active.svg" class="activeIcon">				
+			<div mat-button class="mat-button" [routerLink]="['/attributes']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
+			<span class="inlineIconBox">
+				<img src="assets/icons/sidemenu/new-icons/attributes.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/attributes-active.svg" class="activeIcon">				
 			</span>
-			<span class="linkTitle">Traits</span>
+			<span class="linkTitle">Fields</span>
 		</div>
+	<div class="sub-title marginTop15">Search Configurations</div>
+	<div mat-button class="mat-button" [routerLink]="['/query']" skipLocationChange routerLinkActive="active" (click)="preview('query')" mat-button>			
+		<span class="inlineIconBox">	
+			<img src="assets/icons/sidemenu/new-icons/query.svg" class="defaultIcon">	
+			<img src="assets/icons/sidemenu/new-icons/query-active.svg" class="activeIcon">			
+		</span>
+		<span class="linkTitle">Query Pipeline</span>
+	</div>
+	<div mat-button class="mat-button" [routerLink]="['/ml-threshold']" skipLocationChange routerLinkActive="active" (click)="preview('ml')" mat-button>
+		<span class="inlineIconBox leftAdjust">	
+			<img src="assets/icons/sidemenu/new-icons/ml.svg" class="defaultIcon">	
+			<img src="assets/icons/sidemenu/new-icons/ml-active.svg" class="activeIcon">			
+		</span>
+		<span class="linkTitle">NLP & Machine Learning</span>
+	</div>
 		<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>			
 			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">	
@@ -105,13 +112,6 @@
 					<img src="assets/icons/sidemenu/new-icons/rules-active.svg" class="activeIcon">				
 			</span>
 			<span class="linkTitle">Rules & Personalization</span>
-		</div>
-		<div mat-button class="mat-button" [routerLink]="['/attributes']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/new-icons/attributes.svg" class="defaultIcon">	
-				<img src="assets/icons/sidemenu/new-icons/attributes-active.svg" class="activeIcon">				
-			</span>
-			<span class="linkTitle">Fields & Facets</span>
 		</div>
 		<div mat-button class="mat-button">
 			<span class="inlineIconBox">
