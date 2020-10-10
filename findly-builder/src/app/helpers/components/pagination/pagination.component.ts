@@ -8,16 +8,17 @@ declare const $: any;
 })
 export class PaginationComponent implements OnInit {
   recordStr:any= 1;
-  recordEnd;
+  //recordEnd;
   disableNext = false;
   disablePrev = true;
   @Input() totalRecord:any
   @Input() limitpage:any
-  @Input() allInOne:any
+  @Input() allInOne:any;
+  @Input() recordEnd : any;
   @Output() pageChanged = new EventEmitter();
   constructor() { }
   ngOnInit(): void {
-    this.recordEnd = this.limitpage;
+    //this.recordEnd = this.limitpage;
     if(this.totalRecord < this.limitpage){
       this.recordEnd = this.totalRecord;
       this.disableNext = true;
