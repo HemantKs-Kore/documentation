@@ -1,1 +1,80 @@
-<p>weights works!</p>
+<div class="contentContainer">
+    <div class="table-list-content">
+        <div class="kr-sg-data-table mb-0">
+            <div class="table-action-header">
+                <div class="text">
+                    <div class="heading">Weights</div>
+                 </div>
+            </div>                       
+        </div>   
+    </div>
+    <!-- DATA TABLE START HERE -->
+    <div class="kr-sg-data-table mb-0">
+        <section class="table-content">
+            <perfect-scrollbar class="scroll-table-allowRow">
+            <div class="content-body" *ngFor="let weightModal of weights; let i = index">
+                <div class="col_ col-2 name">{{weightModal.name}}</div>
+                <div class="col_ col-5 desc">{{weightModal.description}}</div>
+                <div class="col_ col-5 sliderContainer">
+                    <div class="col_ col-7 d-inline-block">
+                        <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj' (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
+                    </div>
+                    <div class="col_ col-1 d-inline-block sliderVal">
+                        <span>{{weightModal.sliderObj.default}}</span>
+                    </div>
+                    <div class="col_ col-4 d-inline-block pl-4">
+                        <span class="actions-links pr-4" (click)="editWeight(weightModal)"><img class="action_icon" ngbTooltip='Refresh' src="assets/images/edit-pencil.svg"></span>
+                        <span class="actions-links" ngbTooltip='Delete' (click)="deleteWeight(weightModal,$event,i)"><img class="action_icon" src="assets/icons/trashIcon.svg"></span>
+                    </div>
+                </div>
+            </div>
+         </perfect-scrollbar>
+         <div class="content-body name border-0 weightsFooter pl-3">
+            <div class="col_ col-7  pl-2">
+                <button class="kr-sg-button-secondary btn_lg mr-0" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Rankable Field</button>
+            </div>
+            <div class="col_ col-4 name pl-5">
+                <button class="kr-sg-button-secondary btn_lg mr-4 ml-3" [disabled]="disableCancle" (click)="setDataToActual()">Cancel</button>
+                <button class="kr-sg-button-primary btn_lg mr-0">Save Weights</button>
+            </div>
+            <div class="col_ col-1 name">
+            </div>
+         </div>
+        </section>                               
+    </div>  
+     
+    <!-- DATA TABLE ENDS HERE -->
+</div>
+
+<kr-modal modalType="default" modalClass="addWeightModalComponent"  #addDditWeightPop>
+    <div class="modal-header textAlignLeft">
+        <h4 class="modal-title">Add Weight</h4>
+    </div>
+    <div *ngIf="addEditWeighObj" class="textAlignLeft">
+      <div class="modal-body textAlignLeft">
+          <div class="kr-sg-input-text">
+              <div class="label-text">Weight Name</div>
+              <input type="text" [(ngModel)]="addEditWeighObj.name" placeholder="Placeholder text" class="input-text">
+          </div>
+           <div class="kr-sg-input-text-area">
+              <div class="label-text">Description</div>
+              <textarea [(ngModel)]="addEditWeighObj.description" placeholder="Placeholder text" class="input-text"></textarea>
+          </div>
+          <div class="kr-sg-input-text">
+              <div class="label-text">Set Weight</div>
+              <div class="col_ col-12 p-0">
+                  <div class="col_ col-11 pl-0 d-inline-block">
+                    <app-range-slider [customClass]='"weightsSlider"' [allData]='addEditWeighObj.sliderObj' (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
+                  </div>
+                  <div class="col_ col-1 d-inline-block">
+                    <span class="sliderVal">{{addEditWeighObj.sliderObj.default}}</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn kr-btn-primary" [disabled]="!addEditWeighObj.name">Save</button>
+            <button type="button" class="btn kr-btn-cancel" (click)="closeAddEditWeight()">Close</button>
+      </div>
+    </div>
+</kr-modal>   
