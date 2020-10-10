@@ -278,7 +278,7 @@ updateSynonm(synonymId,i){
       height: '306px',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete FAQ',
+        title: 'Delete Sunonym',
         text: 'Are you sure you want to delete selected synonym?',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
       }
