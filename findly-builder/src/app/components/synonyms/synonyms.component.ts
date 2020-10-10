@@ -8,6 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 
 @Component({
@@ -73,26 +74,24 @@ export class SynonymsComponent implements OnInit {
     if (input) {
       input.value = '';
     }
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      synonymId
-    };
-    const payload = {
-      synonyms: synonyms[i].synonyms,
-      keyword: this.synonymData[i].keyword
-    }
-    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-      console.log(res);
-      this.synonymData[i].synonyms = [...synonyms[i].synonyms];
-      if (input) {
-        input.value = '';
-      }
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to update Synonyms');
-    });
-
   }
-
+updateSynonm(synonymId,i){
+  const synonyms = [...this.synonymData];
+  const quaryparms: any = {
+    searchIndexId:this.serachIndexId,
+    synonymId
+  };
+  const payload = {
+    synonyms: synonyms[i].synonyms,
+    keyword: this.synonymData[i].keyword
+  }
+  this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
+    console.log(res);
+    this.synonymData[i].synonyms = [...synonyms[i].synonyms];
+  }, errRes => {
+    this.errorToaster(errRes,'Failed to update Synonyms');
+  });
+}
   removeList(syn,synonymId,i): void {
     const synonyms = [...this.synonymData];
     const index = synonyms[i].synonyms.indexOf(syn);
@@ -163,6 +162,7 @@ export class SynonymsComponent implements OnInit {
       console.log(res);
       res.forEach(element => {
         if(element.keyword){
+          element.type='oneWaySynonym';
           this.synonymData.push(element);
           this.synonymDataBack.push(element);
           this.synonymData ? this.haveRecord = true : this.haveRecord = false;
@@ -185,7 +185,7 @@ export class SynonymsComponent implements OnInit {
     this.service.invoke('create.synonym', quaryparms, payload).subscribe(res => {
       // this.ngOnInit();
       if(res){
-        // record.synonym =  this.synArr;
+        res.type='oneWaySynonym';
         this.synonymData.push(res);
         this.synonymDataBack.push(res);
         this.haveRecord = true;
@@ -268,28 +268,33 @@ export class SynonymsComponent implements OnInit {
       $('#collapse_'+i).toggleClass('collapse');
 
   }
-  addSynonymsAddedName(synonym, i){
-    // this.synonymData[i].synonym = record;
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      synonymId: null
-    };
-    const payload = {
-      synonyms: synonym,
-      keyword: this.synonymData[i].keyword
-    }
-    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-      console.log(res);
-
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to update Synonyms');
-    });
-  }
-  deleteSynRecord(record,event){
+  deleteInfividualQuestion(record,event) {
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Sunonym',
+        text: 'Are you sure you want to delete selected synonym?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSynRecord(record,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteSynRecord(record,dialogRef){
     const quaryparms: any = {
       searchIndexId:this.serachIndexId,
       synonymId: record._id
@@ -302,7 +307,8 @@ export class SynonymsComponent implements OnInit {
       if (deleteIndex > -1) {
         this.synonymData.splice(deleteIndex,1);
       }
-
+      this.notificationService.notify('Synonym deleted successfully','success');
+      dialogRef.close();
     }, errRes => {
       if(errRes.status === 200){
         const deleteIndex = _.findIndex(this.synonymData,(fq)=>{
@@ -317,10 +323,6 @@ export class SynonymsComponent implements OnInit {
 
     });
   }
-  clear(){
-
-  }
-
 }
 
 interface SynonymModal {
