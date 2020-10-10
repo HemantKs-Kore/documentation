@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, AfterViewInit, Output, EventEmitter } from '@angular/core';
 declare const $: any;
-
+import { RangeSlider } from '../../../helpers/models/range-slider.model';
 @Component({
   selector: 'app-range-slider',
   templateUrl: './range-slider.component.html',
@@ -10,6 +10,8 @@ declare const $: any;
 
 export class RangeSliderComponent implements OnInit, AfterViewInit {
   @Input() allData;
+  @Input() customClass;
+  @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
   constructor() { }
@@ -25,20 +27,21 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   }
 
   registerSlider(ele,obj){
-    var slider =$(ele).bootstrapSlider(obj);
-    $(ele).bootstrapSlider().on('slideStop', (ev) => {  
-      this.onSliderChanged(ev.value); 
+    const slider =$(ele).bootstrapSlider(obj);
+    $(ele).bootstrapSlider().on('slideStop', (ev) => {
+      this.onSliderChanged(ev.value);
     });
-    $(ele).bootstrapSlider().on('slide', (ev) => {  
-      this.formatTooltip(ev.value); 
+    $(ele).bootstrapSlider().on('slide', (ev) => {
+      this.formatTooltip(ev.value);
     });
     return slider;
   }
 
   onSliderChanged(val) {
+    this.valueEvent.emit(val);
     this.sliderUpdatedVal = val;
     this.formatTooltip(val);
   }
-  formatTooltip(val){ $("#"+this.allData.id+"-slider").find(".tooltip-inner").text(val); }
+  formatTooltip(val){ $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val); }
 }
 

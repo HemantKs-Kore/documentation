@@ -1,0 +1,148 @@
+@import './../../../app/scss/variables/variables.scss';
+.contentContainer{
+    // padding: 30px 65px 0 70px;
+     padding: 0px;
+     height: calc(100vh - 62px);
+     overflow: hidden;    
+     background: #fff;  
+     .table-list-content{
+        .kr-sg-data-table{
+            .table-action-header{
+               justify-content: flex-start;
+               height: auto;
+               background: #F8F9FA;
+               padding: 10px 0px;
+               border-radius: 4px;
+               margin: 0;    
+               .text{
+                   margin: 0 !important;
+                   .heading{
+                       font-size: 18px;
+                       font-weight: 500;
+                   }
+               }         
+            }  
+            
+        }         
+    }
+    .scroll-table-allowRow{
+        height: calc(100vh - 170px);
+        padding-left: 10px;
+        .ps-content{
+            padding-top: 20px;
+        }
+        .content-body{
+            .desc{
+                font-size: 12px;
+                color: #979797;
+                line-height: 15px;
+            }
+            .name{
+                font-size: 14px;
+                color: #000000;
+                line-height: 17px;
+                font-weight: 500;
+            }
+            .sliderVal{
+                font-size: 18px;
+                line-height: 22px;
+                font-weight: bold;
+                color: #000000;
+            }
+            .actions-links{
+                visibility: hidden;
+            }
+            &:hover{
+                .actions-links{
+                    visibility: visible !important;
+                }  
+            }
+        } 
+    }
+    
+}
+:host ::ng-deep .weightsSlider {
+    .single-slider{
+        margin-bottom: 0px !important;
+       
+     .slider-selection{
+        background: #0D6EFD !important;
+        }
+    }
+    .countThreshold{
+        display: none;
+       }
+    .slider-track{
+        height: 2px !important;
+        margin-top: -6px !important;
+    }
+    .slider-horizontal{
+        width: 180px;
+        .slider-tick{
+            background: #0D6EFD !important;
+            width: 10px;
+            height: 10px;
+        }  
+        .slider-handle{
+            background: #0D6EFD !important;
+            width: 10px;
+            height: 10px;
+        }
+    } 
+    .tooltip{
+        display: none !important;
+    }
+}
+::ng-deep.accor-scroll, ::ng-deep.scroll-table-allowRow{
+    .ps-content{
+        padding-top: 20px;
+    }
+    .ps__thumb-y{
+        width: 3px !important;
+    }
+    .ps__rail-y{
+        width: 3px !important;
+    }
+}
+::ng-deep.addWeightModalComponent{
+    .sliderVal{
+        font-size: 18px;
+        line-height: 22px;
+        font-weight: bold;
+        color: #000000;
+        position: relative;
+        top: -3px;
+    }
+    .weightsSlider {
+        .single-slider{
+            margin-bottom: 0px !important;
+            width: 100% !important;
+         .slider-selection{
+            background: #0D6EFD !important;
+            }
+        }
+        .countThreshold{
+            display: none;
+           }
+        .slider-track{
+            height: 2px !important;
+            margin-top: -6px !important;
+        }
+        .slider-horizontal{
+            width: 100%;
+            .slider-tick{
+                background: #0D6EFD !important;
+                width: 10px;
+                height: 10px;
+            }  
+            .slider-handle{
+                background: #0D6EFD !important;
+                width: 10px;
+                height: 10px;
+            }
+        } 
+        .tooltip{
+            display: none !important;
+        }
+    }
+}
