@@ -8,6 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 
 @Component({
@@ -18,15 +19,21 @@ declare const $: any;
 export class SynonymsComponent implements OnInit {
   selectedApp: any = {};
   serachIndexId
-  loadingContent : boolean = true;
-  haveRecord : boolean = false;
-  synonymData : any[] = [];//SynonymModal[] = [];
-  synonymDataBack : any[] = [];//SynonymModal[] = [];
-  synonymObj: any; //SynonymClass = new SynonymClass();
+  loadingContent = true;
+  haveRecord = false;
+  currentEditIndex: any = null;
+  synonymData : any[] = [];// SynonymModal[] = [];
+  synonymDataBack : any[] = [];// SynonymModal[] = [];
+  synonymObj: any; // SynonymClass = new SynonymClass();
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
+  newSynonymObj:any = {
+    type:'synonym',
+    addNew:false,
+    synonyms:[]
+  }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr : any[] = [];
   synArrTemp: any[] = [];
@@ -46,38 +53,47 @@ export class SynonymsComponent implements OnInit {
       input.value = '';
     }
   }
-  addList(event: MatChipInputEvent,synonym_id,i): void {
+  enableAddNewSynonymBtn(){
+    if(!this.newSynonymObj.addNew){
+      this.newSynonymObj.type='synonym'
+      this.newSynonymObj.addNew = true;
+    }
+  }
+  cancleAddSynonyms(){
+      this.newSynonymObj.type='synonym'
+      this.newSynonymObj.addNew = false;
+      this.synonymObj = new SynonymClass();
+  }
+  addList(event: MatChipInputEvent,synonymId,i): void {
     const input = event.input;
     const value = event.value;
-    let synonyms = [...this.synonymData];
+    const synonyms = [...this.synonymData];
     if ((value || '').trim()) {
       synonyms[i].synonyms.push( value.trim());
     }
     if (input) {
       input.value = '';
     }
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      synonymId: synonym_id
-    };
-    const payload = {
-      synonyms: synonyms[i].synonyms,
-      keyword: this.synonymData[i].keyword
-    }
-    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-      console.log(res);
-      this.synonymData[i].synonyms = [...synonyms[i].synonyms];
-      if (input) {
-        input.value = '';
-      }
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to update Synonyms');
-    });
-    
   }
- 
-  removeList(syn,synonym_id,i): void {
-    let synonyms = [...this.synonymData];
+updateSynonm(synonymId,i){
+  const synonyms = [...this.synonymData];
+  const quaryparms: any = {
+    searchIndexId:this.serachIndexId,
+    synonymId
+  };
+  const payload = {
+    synonyms: synonyms[i].synonyms,
+    keyword: this.synonymData[i].keyword
+  }
+  this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
+    console.log(res);
+    this.synonymData[i].synonyms = [...synonyms[i].synonyms];
+  }, errRes => {
+    this.errorToaster(errRes,'Failed to update Synonyms');
+  });
+}
+  removeList(syn,synonymId,i): void {
+    const synonyms = [...this.synonymData];
     const index = synonyms[i].synonyms.indexOf(syn);
 
     if (index >= 0) {
@@ -85,7 +101,7 @@ export class SynonymsComponent implements OnInit {
     }
     const quaryparms: any = {
       searchIndexId:this.serachIndexId,
-      synonymId: synonym_id
+      synonymId
     };
     const payload = {
       synonyms: synonyms[i].synonyms,
@@ -97,7 +113,7 @@ export class SynonymsComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes,'Failed to update Synonyms');
     });
-    
+
     // const index = this.synonymData[i].synonyms.indexOf(syn);
 
     // if (index >= 0) {
@@ -116,7 +132,7 @@ export class SynonymsComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
-    public dialog: MatDialog,) { 
+    public dialog: MatDialog,) {
     this.synonymObj = new SynonymClass();
   }
 
@@ -146,12 +162,13 @@ export class SynonymsComponent implements OnInit {
       console.log(res);
       res.forEach(element => {
         if(element.keyword){
+          element.type='oneWaySynonym';
           this.synonymData.push(element);
           this.synonymDataBack.push(element);
           this.synonymData ? this.haveRecord = true : this.haveRecord = false;
         }
       });
-      
+
     }, errRes => {
       this.errorToaster(errRes,'Failed to get Synonyms');
     });
@@ -166,9 +183,9 @@ export class SynonymsComponent implements OnInit {
       keyword: record.keyword
     }
     this.service.invoke('create.synonym', quaryparms, payload).subscribe(res => {
-      //this.ngOnInit();
+      // this.ngOnInit();
       if(res){
-        //record.synonym =  this.synArr;
+        res.type='oneWaySynonym';
         this.synonymData.push(res);
         this.synonymDataBack.push(res);
         this.haveRecord = true;
@@ -179,7 +196,7 @@ export class SynonymsComponent implements OnInit {
       this.errorToaster(errRes,'Failed to add Synonyms');
       this.synonymObj = new SynonymClass();
     });
-    
+
     // if(record.name){
     //   record.synonym =  this.synArr;
     //   this.synonymData.push(record);
@@ -199,17 +216,17 @@ export class SynonymsComponent implements OnInit {
   applyFilter(value){
     /** Work in Progress */
     if(value){
-      let oprData = [...this.synonymData]
+      const oprData = [...this.synonymData]
       this.synonymData= [...oprData];
     let data = [];
     for(let i=0; i< this.synonymData.length ; i++){
-      let dataoBJ = {};
+      const dataoBJ = {};
       let dataLen = data.length;
       if(this.synonymData[i].keyword.toLocaleLowerCase().includes(value.toLocaleLowerCase())){
         data.push(this.synonymData[i]);
         dataLen = data.length+1;
       }
-      if(data.length == dataLen){
+      if(data.length === dataLen){
         for(let j=0; j< this.synonymData[i].synonyms.length ; j++){
           if(this.synonymData[i].synonyms[j].toLocaleLowerCase().includes(value.toLocaleLowerCase())){
             data.push(this.synonymData[i]);
@@ -227,52 +244,57 @@ export class SynonymsComponent implements OnInit {
 
     //   //return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
     // })
-    //data.push(dataoBJ)
+    // data.push(dataoBJ)
     data = [...new Set(data)]
     if(data.length){
-      this.synonymData = [...data]; 
+      this.synonymData = [...data];
       this.haveRecord = true;
     }else{
-      //this.synonymData = null;
+      // this.synonymData = null;
       this.haveRecord = false;
     }
     }else{
       this.synonymData= [...this.synonymDataBack];
       this.haveRecord = true;
     }
-    
-    
+
+
   }
   editSynRecord(record,event,i){
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-      $('#collapse_'+i).toggleClass("collapse");
-      
+      $('#collapse_'+i).toggleClass('collapse');
+
   }
-  addSynonymsAddedName(synonym, i){
-    //this.synonymData[i].synonym = record;
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      synonymId: null
-    };
-    const payload = {
-      synonyms: synonym,
-      keyword: this.synonymData[i].keyword
-    }
-    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-      console.log(res);
-      
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to update Synonyms');
-    });
-  }
-  deleteSynRecord(record,event){
+  deleteInfividualQuestion(record,event) {
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
     }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Sunonym',
+        text: 'Are you sure you want to delete selected synonym?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSynRecord(record,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteSynRecord(record,dialogRef){
     const quaryparms: any = {
       searchIndexId:this.serachIndexId,
       synonymId: record._id
@@ -285,9 +307,10 @@ export class SynonymsComponent implements OnInit {
       if (deleteIndex > -1) {
         this.synonymData.splice(deleteIndex,1);
       }
-      
+      this.notificationService.notify('Synonym deleted successfully','success');
+      dialogRef.close();
     }, errRes => {
-      if(errRes.status == 200){
+      if(errRes.status === 200){
         const deleteIndex = _.findIndex(this.synonymData,(fq)=>{
           return fq._id === record._id;
         })
@@ -297,13 +320,9 @@ export class SynonymsComponent implements OnInit {
       }else{
         this.errorToaster(errRes,'Failed to delete Synonyms');
       }
-     
+
     });
   }
-  clear(){
-
-  }
-
 }
 
 interface SynonymModal {

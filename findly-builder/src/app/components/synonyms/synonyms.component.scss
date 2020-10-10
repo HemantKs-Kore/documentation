@@ -40,6 +40,13 @@
         font-size: 12px;
     }  
 }
+.synonymBubble{
+    background: #E7F1FF;
+    border-radius: 100px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    display: inline-block;
+}
 .contentContainer{
     padding: 30px 65px 0 70px;
      height: calc(100vh - 62px);
@@ -47,6 +54,7 @@
      background: #fff;    
      .table-list-content{
          .kr-sg-data-table{
+             display: inline-block;
              .table-action-header{
                  justify-content: flex-start;
                  height: auto;
@@ -95,7 +103,6 @@
             box-sizing: border-box;
             border-radius: 4px;
             justify-content: space-between;
-            display: flex;
             .label_text{
                 font-weight: 500;
                 font-size: 12px;
@@ -108,6 +115,9 @@
                         height: 38px;
                     }
                 }
+            }
+            .chip-sys-data{
+                width: 100%;
             }
             .add-syn-icon{
                 width: 38px;
@@ -262,7 +272,10 @@
 }
 .table-scroll-perfect-synonyms{
     margin: 20px 0 0 0;
-    height: calc(100vh - 276px);
+    height: calc(100vh - 180px);
+    &.newRecoredActive{
+        height: calc(100vh - 330px);
+    }
     .empty-questions-selected{
         width: 320px;
         margin: 0 auto;
