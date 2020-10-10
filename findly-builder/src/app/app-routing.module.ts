@@ -18,6 +18,7 @@ import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
 import { StopWordsComponent }  from './components/stop-words/stop-words.component';
 import { WeightsComponent }  from './components/weights/weights.component';
+import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 const routes: Routes = [
   {
     path: '',
@@ -43,6 +44,7 @@ const routes: Routes = [
       { path: 'query', component: QueryComponent},
       { path: 'stopWords', component: StopWordsComponent},
       { path: 'weights', component: WeightsComponent},
+      { path: 'resultranking', component: ResultRankingComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

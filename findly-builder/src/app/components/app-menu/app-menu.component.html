@@ -93,6 +93,13 @@
 				</span>
 				<span class="linkTitle">Stop Words</span>
 			</div>
+			<div mat-button class="mat-button" [routerLink]="['/resultranking']" skipLocationChange routerLinkActive="active" (click)="preview('resultranking')" mat-button>
+				<span class="inlineIconBox leftAdjust">
+					<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/weights.svg" class="activeIcon">				
+				</span>
+				<span class="linkTitle">Results Ranking</span>
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/query']" skipLocationChange routerLinkActive="active" (click)="preview('query')" mat-button>			
 				<span class="inlineIconBox">	
 					<img src="assets/icons/sidemenu/new-icons/query.svg" class="defaultIcon">	

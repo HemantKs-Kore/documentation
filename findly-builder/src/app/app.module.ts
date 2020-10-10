@@ -72,6 +72,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
+import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -117,7 +118,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     InsightsComponent,
     PaginationComponent,
     StopWordsComponent,
-    WeightsComponent
+    WeightsComponent,
+    ResultRankingComponent
     ],
   imports: [
     BrowserModule,
