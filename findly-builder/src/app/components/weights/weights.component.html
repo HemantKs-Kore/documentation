@@ -63,7 +63,7 @@
             <input type="text" placeholder="Search for Rankable Field" class="input-search" (change)="selectedField()" [(ngModel)]="searchModel" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
             <img src="assets/icons/search-gray-icon.svg" class="search-icon">            
         </div>
-        <div class="kr-sg-input-text mb-25">
+        <div class="kr-sg-input-text mb-25 d-none">
             <div class="label-text">Weight Name</div>
             <input type="text" [(ngModel)]="addEditWeighObj.name" placeholder="Placeholder text" class="input-text">
         </div>
@@ -83,8 +83,8 @@
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left" *ngIf="addEditWeighObj">
-        <button type="button" class="kr-sg-button-danger btn_lg float-left" (click)="closeAddEditWeight()">Delete</button>       
-        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="addEditWeight()" [disabled]="!addEditWeighObj.name">Add to List</button>        
+        <button type="button" class="kr-sg-button-danger btn_lg float-left" *ngIf="currentEditIndex>-1" (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">Delete</button>       
+        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="addEditWeight()" [disabled]="!addEditWeighObj.name">{{(currentEditIndex>-1)?'Update':'Add to List'}}</button>        
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeAddEditWeight()">Cancel</button>
     </div>    
 </kr-modal>

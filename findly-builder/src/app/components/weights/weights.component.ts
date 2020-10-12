@@ -37,34 +37,12 @@ export class WeightsComponent implements OnInit {
   pipeline;
   weights:any = []
   sliderOpen;
-  dummyweights:any = [
-    {
-     name : 'Proximity',
-     description : 'Signifies how near are the matching query words in the records',
-     sliderObj :new RangeSlider(0, 10, 1, 2,'proximity')
-    },
-    {
-      name : 'Match Count',
-      description : 'Signifies Number of query words matching exactly',
-      sliderObj :new RangeSlider(0, 10, 1, 2,'exactMatch')
-     },
-     {
-      name : 'Title Match',
-      description : 'Signifies number of words from the query matched at least once',
-      sliderObj :new RangeSlider(0, 10, 1, 2,'matchCount')
-     },
-     {
-      name : 'Last Modified',
-      description : 'Signifies number of words from the query matched the title of the results',
-      sliderObj :new RangeSlider(0, 10, 1, 2,'titleMatch')
-     }
-  ];
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.getWeights();
-    this.getFields();
+    this.getIndexPipeLine();
   }
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -90,13 +68,17 @@ export class WeightsComponent implements OnInit {
       });
     }
   }
-  getFields(){
+  getIndexPipeLine(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
    }
-   this.service.invoke('get.groups', quaryparamats).subscribe(
+   this.service.invoke('get.indexPipeline', quaryparamats).subscribe(
     res => {
-      this.fields = _.where(res.groups, {action: 'new'});
+      this.fields = _.filter(res.stages, (stage)=>{
+        if(stage && (stage.type === 'field_mapping') && stage.index){
+          return true;
+        }
+      });
     },
     errRes => {
     // this.errorToaster(errRes)
@@ -148,6 +130,7 @@ export class WeightsComponent implements OnInit {
     this.addDditWeightPopRef.close();
     this.sliderOpen = false;
     this.currentEditIndex = -1;
+    this.addEditWeighObj = null;
    }
   }
   setDataToActual(){
