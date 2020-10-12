@@ -1,6 +1,11 @@
 <div class="contentContainer">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <ng-container *ngIf="!loadingContent">
     <div class="header-sec-stopwords">
-        <div class="title">Stop Words</div>
+        <div class="title">Weights</div>
         <div class="restore_text" *ngIf="weights.length">
             <span class="lable_text"><img src="assets/icons/return_black.svg">Reset to Default</span>
             <span class="clock_img"><img src="assets/icons/clock.svg"></span> 
@@ -46,7 +51,7 @@
             </div>
         </section>                               
     </div>  
-     
+    </ng-container>
     <!-- DATA TABLE ENDS HERE -->
 </div>
 <ng-template #rt let-r="result" let-t="term">

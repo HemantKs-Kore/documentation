@@ -85,6 +85,44 @@ export class WeightsComponent implements OnInit {
     }
   );
   }
+  restore(dialogRef?) {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
+    };
+    this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
+      if(dialogRef && dialogRef.close){
+       dialogRef.close();
+      }
+     }, errRes => {
+       this.errorToaster(errRes,'Failed to reset weights');
+     });
+  }
+  restoreWeights(event) {
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore weights',
+        text: 'Are you sure you want to restore weights?',
+        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+         this.restore(dialogRef)
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
   getWeights(){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -96,7 +134,7 @@ export class WeightsComponent implements OnInit {
       this.loadingContent = false;
     }, errRes => {
       this.loadingContent = false;
-      this.errorToaster(errRes,'Failed to get stop words');
+      this.errorToaster(errRes,'Failed to get weights');
     });
   }
   valueEvent(val,weight){

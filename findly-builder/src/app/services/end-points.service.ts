@@ -326,6 +326,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/restoreStopWord',
       method: 'post'
     }
+    this.serviceList['post.restoreWeights'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/restoreWeights',
+      method: 'post'
+    }
     this.serviceList['post.enableStopWords'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
       method: 'post'

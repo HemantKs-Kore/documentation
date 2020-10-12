@@ -1,0 +1,110 @@
+@import './../../../app/scss/variables/variables.scss';
+.contentContainer{
+    // padding: 30px 65px 0 70px;
+     padding: 0px;
+     height: calc(100vh - 62px);
+     overflow: hidden;    
+     background: #fff; 
+.header-sec-stopwords{
+    display: flex;
+    align-items: center;
+    background: #F8F9FA;
+    padding: 15px 24px 15px 45px;
+    justify-content: space-between;
+    .title{
+        font-weight: 500;
+        font-size: 18px;   
+        line-height: 22px;
+        color: #000000;         
+    }  
+    .restore_text{
+        .lable_text{
+            color: #202124;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;                
+            cursor: pointer;
+            img{
+                margin: 0 12px;
+            }
+        }
+    }    
+    .clock_img{
+        cursor: pointer;
+        margin-left: 42px;
+    }
+}
+.indexsListContainer{
+    .index-header-sec{
+        background: #F8F9FA;
+        border-radius: 4px;
+        padding: 5px 0px;
+        margin: 20px 30px;
+        align-items: center;
+        margin: 20px 30px;
+        .left-sec{
+            .tab-sec{
+                .tab_title{
+                    color: #202124;
+                    border: 1px solid transparent;
+                    padding: 6px 15px;
+                    border-radius: 4px;                                                   
+                    font-size: 14px;
+                    font-weight: 500;
+                    margin: 0px 0 0 5px;
+                    cursor: pointer;
+                    span{
+                        color: #5F6368;
+                        padding-left: 4px;
+                    }
+                    &.active{                            
+                        background: #FFFFFF;
+                        border: 1px solid #E4E5E7;
+                    }
+                }
+            }
+        }
+        .right-sec{
+            text-align: right;
+            .title{
+                color: #202124;
+                font-weight: 500;
+                font-size: 12px;
+                cursor: pointer;
+                float: right;
+                padding: 0 20px;
+                img{
+                    position: relative;
+                    top: -1px;
+                    margin-right: 6px;
+                }
+            }
+        }
+    }
+    .index-content-boxes{
+        height: 100vh;
+        background: #E4E5E7;
+        display: flex;
+        .content{                
+            &.left-content{
+                // width: 45%;
+                width: 260px;
+                .empty-questions-selected{
+                    height: calc(100vh - 306px);
+                }
+            }
+            &.right-content{
+                // width: 55%;
+                width: 861px;
+            }
+        }
+        .content-boxes{                                                
+            background: #fff;    
+            height: 100%;            
+            &.index_tasks_list{
+                margin-right: 1px;                    
+            }
+        }
+    }
+}
+}
