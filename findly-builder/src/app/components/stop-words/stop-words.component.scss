@@ -4,7 +4,28 @@
      padding: 0px;
      height: calc(100vh - 62px);
      overflow: hidden;    
-     background: #fff;    
+     background: #fff;  
+     .mainLoadingSpinner{
+        position: absolute;
+        top: 40%;
+        // left: 30%;
+        // box-shadow: 0 5px 10px 0 #e9eff5;
+        background:  transparent;
+        width: 223px;
+        height: 40px;
+        padding-top: 10px;
+        border-radius: 4px;
+        opacity: 0.95;
+        padding-left: 5px;
+        width: 100%;
+        .please-wait-message {
+            position: relative;
+            color: #29293b;
+            top: -16px;
+            left: 25px;
+            font-size: 12px;
+        }  
+    }  
      .table-list-content{
          .kr-sg-data-table{
              .table-action-header{

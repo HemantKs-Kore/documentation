@@ -306,5 +306,21 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
       method: 'put'
     }
+    this.serviceList['put.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      method: 'put'
+    }
+    this.serviceList['get.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      method: 'get'
+    }
+    this.serviceList['post.restoreStopWord'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/restoreStopWord',
+      method: 'post'
+    }
+    this.serviceList['post.enableStopWords'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
+      method: 'post'
+    }
   }
 }
