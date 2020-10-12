@@ -59,7 +59,7 @@ export class StopWordsComponent implements OnInit {
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
-  StopWords(event) {
+  enableStopWords(event) {
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -67,11 +67,12 @@ export class StopWordsComponent implements OnInit {
     const modalData :any =  {
       title: 'Enable Stop Words',
       text: 'Are you sure you want to enable Stop Words?',
-      buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
+      buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }]
     }
     if(!this.enabled){
       modalData.title = 'Disable Stop Words'
-      modalData.text = 'Are you sure you want to disable Stop Words?'
+      modalData.text = 'Are you sure you want to disable Stop Words?';
+      modalData.buttons[0].label = 'Disable';
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
@@ -82,21 +83,9 @@ export class StopWordsComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          const quaryparms: any = {
-            searchIndexID:this.serachIndexId,
-            queryPipelineId:this.queryPipelineId,
-            enable:this.enabled,
-          };
-          this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
-            this.newStopWord = '';
-            if(dialogRef && dialogRef.close){
-             dialogRef.close();
-            }
-            this.notificationService.notify('Stop words enabled successfully','success');
-           }, errRes => {
-             this.errorToaster(errRes,'Failed to update stop words');
-           });
+          this.updateStopWords(dialogRef,true);
         } else if (result === 'no') {
+          this.enabled = !this.enabled;
           dialogRef.close();
         }
       })
@@ -164,20 +153,27 @@ export class StopWordsComponent implements OnInit {
         }
       })
   }
-  updateStopWords(dialogRef?) {
+  updateStopWords(dialogRef?,enableOrDisable?) {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
     };
-    if(this.pipeline.stages && this.pipeline.stages.length) {
-      this.pipeline.stages.forEach(stage => {
-        if(stage && stage.type === 'stopwords'){
-          stage.stopwords = this.stopwords;
-        }
-      });
+    if(!enableOrDisable){
+      if(this.pipeline.stages && this.pipeline.stages.length) {
+        this.pipeline.stages.forEach(stage => {
+          if(stage && stage.type === 'stopwords'){
+            stage.stopwords = this.stopwords;
+          }
+        });
+      }
     }
     const payload: any = {
       pipeline:this.pipeline
+    }
+    if (enableOrDisable){
+      payload.options= {
+        stopWordsRemovalEnabled : this.enabled
+      }
     }
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
      this.newStopWord = '';

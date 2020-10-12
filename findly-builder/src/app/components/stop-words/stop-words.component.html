@@ -11,7 +11,7 @@
                  </div>
                  <!-- <div class="rightSectioon float-right" *ngIf="!loadingContent">
                   <label class="kr-sg-toggle">
-                    <input type="checkbox"  checked [(ngModel)]="enabled">
+                    <input type="checkbox" (change)="enableStopWords()"  checked [(ngModel)]="enabled">
                     <div class="slider"></div>
                  </label>
                  <div class="slider">Stop Word Removal {{enabled?'Enabled':'Disabled'}}</div>
@@ -20,22 +20,22 @@
         </div>   
     </div>
     <div *ngIf="!loadingContent">
-      <div class="empty-questions-selected"  *ngIf="!(stopwords && stopwords.length) && !loadingContent">
+      <div class="addStopWordsBlock">
+        <div class="kr-sg-input-text">
+            <div class="label-text">Add Stop Word</div>
+            <input type="text" autocomplete="off" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStopWord">
+        </div>
+        <div class="addStopWordsButton">
+            <button class="kr-sg-button-primary" (click)="addStopWord()">Save</button>
+        </div>
+     </div>
+      <div class="empty-stopwords"  *ngIf="!(stopwords && stopwords.length) && !loadingContent">
         <img src="assets/images/icons/empty_ill.svg">
         <div class="heading">No Stopwords Available</div>
         <div class="desc">Please Add Stop Words</div>
       </div>
-      <ng-container >
-        <div class="addStopWordsBlock">
-          <div class="kr-sg-input-text">
-              <div class="label-text">Add Stop Word</div>
-              <input type="text" autocomplete="off" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStopWord">
-          </div>
-          <div class="addStopWordsButton">
-              <button class="kr-sg-button-primary" (click)="addStopWord()">Save</button>
-          </div>
-      </div>
-     <div class="listingHeader">
+      <ng-container *ngIf="(stopwords && stopwords.length) && !loadingContent">
+      <div class="listingHeader">
           <div class="restoreDefaults" (click)="restoreStopWords($event)">
               <img class="label-icon" src="assets/images/refreshGray.svg">
               <span>Restore to Default</span>
@@ -52,7 +52,7 @@
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
       <div class="stopWordsListing">
         <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">{{word}}<span class="deleteTag" ><img (click)="deleteInfividualStopWords(index,$event)" src="assets/images/close.svg"></span></span>
-        <div class="empty-questions-selected divBlockEmptylastChild">
+        <div class="empty-stopwords divBlockEmptylastChild">
           <img src="assets/images/icons/empty_ill.svg">
           <!-- <div class="heading">No serar Available</div> -->
           <div class="desc pt-2">No search results found</div>
