@@ -12,6 +12,13 @@
     <div class="kr-sg-data-table mb-0">
         <section class="table-content">
             <perfect-scrollbar class="scroll-table-allowRow">
+            <div class="content-body" *ngIf="!weights.length">
+                <div class="empty-weights" >
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <div class="heading">No Rankable Field Available</div>
+                    <div class="desc">Please Add Rankable Field</div>
+                  </div>
+            </div>
             <div class="content-body" *ngFor="let weightModal of weights; let i = index">
                 <div class="col_ col-2 name">{{weightModal.name}}</div>
                 <div class="col_ col-5 desc">{{weightModal.description}}</div>
@@ -34,8 +41,8 @@
                 <button class="kr-sg-button-secondary btn_lg mr-0" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Rankable Field</button>
             </div>
             <div class="col_ col-4 name pl-5">
-                <button class="kr-sg-button-secondary btn_lg mr-4 ml-3" [disabled]="disableCancle" (click)="setDataToActual()">Cancel</button>
-                <button class="kr-sg-button-primary btn_lg mr-0" (click)="addOrUpddate(weights)">Save Weights</button>
+                <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg mr-4 ml-3" [disabled]="disableCancle" (click)="setDataToActual()">Cancel</button>
+                <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg mr-0" (click)="addOrUpddate(weights)">Save Weights</button>
             </div>
             <div class="col_ col-1 name">
             </div>

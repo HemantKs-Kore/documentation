@@ -152,6 +152,7 @@ export class WeightsComponent implements OnInit {
   }
   setDataToActual(){
     this.prepereWeights();
+    this.disableCancle = true;
   }
   errorToaster (errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -217,16 +218,16 @@ export class WeightsComponent implements OnInit {
       height: '306px',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Weight',
-        text: 'Are you sure you want to delete selected Weight?',
+        title: 'Delete Rankable Field',
+        text: 'Are you sure you want to delete selected rankable field?',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
       }
     });
-
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
           this.weights.splice(index,1);
+          this.addOrUpddate(this.weights);
           dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
