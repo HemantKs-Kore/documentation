@@ -21,6 +21,8 @@ export class StopWordsComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   pipeline;
+  stopWordsIntiType = 'default'
+  createFromScratch;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -38,6 +40,13 @@ export class StopWordsComponent implements OnInit {
       this.searchStopwords = '';
     }
     this.showSearch = !this.showSearch
+  }
+  createInit(){
+    if(this.stopWordsIntiType === 'default'){
+      this.restore();
+    } else {
+      this.createFromScratch = true;
+    }
   }
   getStopWords(){
     const quaryparms: any = {
@@ -90,6 +99,20 @@ export class StopWordsComponent implements OnInit {
         }
       })
   }
+  restore(dialogRef?) {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
+    };
+    this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
+      this.newStopWord = '';
+      if(dialogRef && dialogRef.close){
+       dialogRef.close();
+      }
+     }, errRes => {
+       this.errorToaster(errRes,'Failed to create default stop words');
+     });
+  }
   restoreStopWords(event) {
     if(event){
       event.stopImmediatePropagation();
@@ -109,18 +132,7 @@ export class StopWordsComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          const quaryparms: any = {
-            searchIndexID:this.serachIndexId,
-            queryPipelineId:this.queryPipelineId,
-          };
-          this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
-            this.newStopWord = '';
-            if(dialogRef && dialogRef.close){
-             dialogRef.close();
-            }
-           }, errRes => {
-             this.errorToaster(errRes,'Failed to restore stop words');
-           });
+         this.restore(dialogRef)
         } else if (result === 'no') {
           dialogRef.close();
         }

@@ -38,6 +38,7 @@ export class SynonymsComponent implements OnInit {
     values:[]
   }
   selectedFilter:any;
+  createFromScratch:any;
   synonymObj;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr : any[] = [];
@@ -52,7 +53,7 @@ export class SynonymsComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId =  this.selectedApp.searchIndexes[0].queryPipelineId;
@@ -203,7 +204,7 @@ export class SynonymsComponent implements OnInit {
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
   }
-  add(event: MatChipInputEvent): void {
+  add(event: MatChipInputEvent){
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
@@ -229,7 +230,7 @@ export class SynonymsComponent implements OnInit {
       this.newSynonymObj.type='synonym'
       this.newSynonymObj.addNew = false;
   }
-  addList(event: MatChipInputEvent,synonymId,i): void {
+  addList(event: MatChipInputEvent,synonymId,i){
     const input = event.input;
     const value = event.value;
     const synonyms = [...this.synonymData];
@@ -248,14 +249,14 @@ export class SynonymsComponent implements OnInit {
       input.value = '';
     }
   }
-  removeList(syn,synonymId,i): void {
+  removeList(syn,synonymId,i) {
     const synonyms = [...this.synonymData];
     const index = synonyms[i].synonyms.indexOf(syn);
     if (index >= 0) {
       synonyms[i].synonyms.splice(index, 1);
     }
   }
-  remove(syn): void {
+  remove(syn) {
     const index = this.newSynonymObj.values.indexOf(syn);
     if (index >= 0) {
       this.synArr.splice(index, 1);
