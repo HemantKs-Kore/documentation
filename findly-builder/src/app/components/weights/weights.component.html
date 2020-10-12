@@ -23,7 +23,7 @@
                         <span>{{weightModal.sliderObj.default}}</span>
                     </div>
                     <div class="col_ col-4 d-inline-block pl-4">
-                        <span class="actions-links pr-4" (click)="editWeight(weightModal)"><img class="action_icon" ngbTooltip='Refresh' src="assets/images/edit-pencil.svg"></span>
+                        <span class="actions-links pr-4" (click)="editWeight(weightModal,i)"><img class="action_icon" ngbTooltip='Refresh' src="assets/images/edit-pencil.svg"></span>
                         <span class="actions-links" ngbTooltip='Delete' (click)="deleteWeight(weightModal,$event,i)"><img class="action_icon" src="assets/icons/trashIcon.svg"></span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="col_ col-4 name pl-5">
                 <button class="kr-sg-button-secondary btn_lg mr-4 ml-3" [disabled]="disableCancle" (click)="setDataToActual()">Cancel</button>
-                <button class="kr-sg-button-primary btn_lg mr-0">Save Weights</button>
+                <button class="kr-sg-button-primary btn_lg mr-0" (click)="addOrUpddate(weights)">Save Weights</button>
             </div>
             <div class="col_ col-1 name">
             </div>
@@ -45,13 +45,18 @@
      
     <!-- DATA TABLE ENDS HERE -->
 </div>
-
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+  </ng-template>
 <kr-modal modalType="center" modalClass="addWeightModalComponent modal_popups_"  #addDditWeightPop>
     <div class="modal-header textAlignLeft">
-        <h4 class="modal-title">Add Weight</h4>
+        <h4 class="modal-title">{{currentEditIndex>-1?'Edit':'Add'}} Weight</h4>
     </div>
     <div *ngIf="addEditWeighObj" class="textAlignLeft">
       <div class="modal-body textAlignLeft">
+        <div class="kr-sg-input-search pb-3">                               
+          <input type="text" placeholder="Search for Rankable Field" class="input-search" (change)="selectedField()" [(ngModel)]="searchModel" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
+        </div>
           <div class="kr-sg-input-text">
               <div class="label-text">Weight Name</div>
               <input type="text" [(ngModel)]="addEditWeighObj.name" placeholder="Placeholder text" class="input-text">
@@ -73,7 +78,7 @@
           </div>
       </div>
       <div class="modal-footer">
-            <button type="button" class="btn kr-btn-primary" [disabled]="!addEditWeighObj.name">Save</button>
+            <button type="button" class="btn kr-btn-primary" (click)="addEditWeight()" [disabled]="!addEditWeighObj.name">Save</button>
             <button type="button" class="btn kr-btn-cancel" (click)="closeAddEditWeight()">Close</button>
       </div>
     </div>
