@@ -3,62 +3,75 @@
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">Please Wait!</span>
     </div>
-    <div class="table-list-content">
-        <div class="kr-sg-data-table">
-            <div class="table-action-header">
-                <div class="text">
-                    <div class="heading">Stop Words</div>
-                 </div>
-                 <!-- <div class="rightSectioon float-right" *ngIf="!loadingContent">
-                  <label class="kr-sg-toggle">
-                    <input type="checkbox" (change)="enableStopWords()"  checked [(ngModel)]="enabled">
-                    <div class="slider"></div>
-                 </label>
-                 <div class="slider">Stop Word Removal {{enabled?'Enabled':'Disabled'}}</div>
-                </div> -->
-            </div>                       
-        </div>   
-    </div>
-    <div *ngIf="!loadingContent">
+    <div class="header-sec-stopwords">
+      <div class="title">Stop Words</div>
+      <div class="toggle_switch">
+        <label class="kr-sg-toggle">                                       
+          <input type="checkbox" (change)="enableStopWords()" checked [(ngModel)]="enabled">
+          <div class="slider"><span class="enabled">Enable Stop Word Removal</span><span class="disabled">Stop Word Removal Disabled</span></div>
+        </label>
+      </div>     
+    </div>    
+    <div *ngIf="!loadingContent" class="stop-words-wrapper">
       <div class="addStopWordsBlock">
         <div class="kr-sg-input-text">
             <div class="label-text">Add Stop Word</div>
-            <input type="text" autocomplete="off" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStopWord">
+            <input type="text" autocomplete="off" placeholder="Add multiple words with comma seperation" class="input-text" [(ngModel)]="newStopWord">
         </div>
         <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary" (click)="addStopWord()">Save</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()">Save</button>
         </div>
-     </div>
-      <div class="empty-stopwords"  *ngIf="!(stopwords && stopwords.length) && !loadingContent">
-        <img src="assets/images/icons/empty_ill.svg">
-        <div class="heading">No Stopwords Available</div>
-        <div class="desc">Please Add Stop Words</div>
-      </div>
+     </div> 
+      <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent">
+          <div class="main_heading">Let’s start by adding stop words</div>
+          <div class="desc_info">Select on how would you like to add stop words.</div>
+          <div class="radio-sec">
+            <div class="radio_block">            
+              <div class="kr-sg-radiobutton">
+                <input id="radio-2" name="radio" class="radio-custom" type="radio" checked>
+                <label for="radio-2" class="radio-custom-label">
+                  <div class="label_heading">Default Stop Words</div>
+                  <div class="lable_dec">Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...</div>
+                </label>
+              </div>
+            </div>
+            <div class="radio_block">
+              <div class="kr-sg-radiobutton">
+                <input id="radio-1" name="radio" class="radio-custom" type="radio">
+                <label for="radio-1" class="radio-custom-label">
+                  <div class="label_heading">Start from Scratch</div>
+                  <div class="lable_dec">Add custom stop words</div>
+                </label>
+              </div> 
+            </div>
+          </div>
+          <button class="kr-sg-button-primary btn_lg float-right">Continue</button>
+      </div>           
       <ng-container *ngIf="(stopwords && stopwords.length) && !loadingContent">
       <div class="listingHeader">
-          <div class="restoreDefaults" (click)="restoreStopWords($event)">
-              <img class="label-icon" src="assets/images/refreshGray.svg">
-              <span>Restore to Default</span>
-          </div>  
-          <div class="searchBlock" (click)="toggleSearch()">
-              <img *ngIf="showSearch"  class="search-icon" src="assets/images/close.svg">
-              <img *ngIf="!showSearch" class="search-icon" src="assets/images/search_gray.svg">
-              <span>Search</span>
-          </div> 
           <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-              <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords">           
-            </div> 
+            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords">           
+          </div> 
+          <div class="searchBlock" (click)="toggleSearch()">
+            <img *ngIf="showSearch" class="search-icon" src="assets/images/close.svg">
+            <img *ngIf="!showSearch" class="search-icon" src="assets/icons/search_black.svg">
+            <span *ngIf="!showSearch" class="label_txt">Search</span>
+          </div>  
+          <div class="restoreDefaults" (click)="restoreStopWords($event)">
+              <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">Restore to Default</span>              
+          </div>                      
     </div>
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
       <div class="stopWordsListing">
-        <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">{{word}}<span class="deleteTag" ><img (click)="deleteInfividualStopWords(index,$event)" src="assets/images/close.svg"></span></span>
-        <div class="empty-stopwords divBlockEmptylastChild">
-          <img src="assets/images/icons/empty_ill.svg">
-          <!-- <div class="heading">No serar Available</div> -->
-          <div class="desc pt-2">No search results found</div>
+        <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
+          <span class="word">{{word}}</span>
+          <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event)" src="assets/icons/clode_stop_word.svg"></span>
+        </span>
+        <div class="divBlockEmptylastChild text-center">         
+          <div class="desc">No search results found</div>
         </div>
       </div>
     </perfect-scrollbar> 
-  </ng-container>
-</div>
+      </ng-container>
+    </div>
 </div>
