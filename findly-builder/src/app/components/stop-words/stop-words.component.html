@@ -7,7 +7,7 @@
       <div class="title">Stop Words</div>
       <div class="toggle_switch">
         <label class="kr-sg-toggle">                                       
-          <input type="checkbox" (change)="enableStopWords()" checked [(ngModel)]="enabled">
+          <input type="checkbox" (change)="enableStopWords($event)" checked [(ngModel)]="enabled">
           <div class="slider"><span class="enabled">Enable Stop Word Removal</span><span class="disabled">Stop Word Removal Disabled</span></div>
         </label>
       </div>     
