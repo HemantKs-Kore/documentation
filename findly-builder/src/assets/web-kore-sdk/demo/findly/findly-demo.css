@@ -1,0 +1,112 @@
+
+.KoreSearchAssistant {
+    font-size: 14px;
+    font-weight: 400;
+    height: 100%;
+    background: #eeeeee;
+  }
+  .KoreSearchAssistant .ksa-header {
+    background: linear-gradient(180deg, #45A2CE 0%, #1D86E8 22.92%, #35249E 100%);
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    padding: 0 227px;
+    justify-content: space-between;
+  }
+  .KoreSearchAssistant .ksa-header .ksa-logo {
+    width: 286px;
+    padding: 12px 0;
+    text-align: left;
+  }
+  .KoreSearchAssistant .ksa-header .ksa-logo .logo {
+    cursor: pointer;
+    outline: 0;
+  }
+  .KoreSearchAssistant .ksa-header .ksa-login {
+    width: 286px;
+    text-align:right
+  }
+  .KoreSearchAssistant .ksa-header .ksa-login .menu-link {
+    display: inline-block;
+    /* padding: 17px 10px; */
+    cursor: pointer;
+    color: #fff;
+  }
+  .KoreSearchAssistant .ksa-header .ksa-login .menu-link.menu-link-img {
+    /* padding: 10px!important;
+    position: absolute; */
+
+  }
+  .KoreSearchAssistant .ksa-header .ksa-login .menu-link.menu-link-img .userName{
+    position: relative;
+    top: -9px;
+  }
+  .KoreSearchAssistant .ksa-header .ksa-login .menu-link.menu-link-img .avatarIconDiv .user-gray {
+    width: 30px;
+    height: 30px;
+    margin-left: 8px;
+  }
+  .KoreSearchAssistant .info-section {
+    background: linear-gradient(90.44deg, #666666 4.31%, #3E3E3E 81.91%);
+    color: #fff;
+    padding: 62px 227px;
+  }
+  .KoreSearchAssistant .info-section .content {
+    width: 360px;
+  }
+  .KoreSearchAssistant .info-section .content .main-title {
+    font-size: 26px;
+    font-weight: 300;
+    line-height: 32px;
+    padding-right: 110px;
+    margin-bottom: 5px;
+  }
+  .KoreSearchAssistant .info-section .content .desc-text {
+    opacity: 0.5;
+    line-height: 18px;
+    font-size: 13px;
+  }
+  .KoreSearchAssistant .info-section .content a {
+    padding: 9px 20px;
+    background: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 18px;
+    color: #3169aa;
+    font-weight: bold;
+  }
+  .KoreSearchAssistant .card-section {
+    padding: 50px 260px;
+    display: flex;
+  }
+  .KoreSearchAssistant .card-section .card-content {
+    width: 33%;
+    margin: 0 5px;
+  }
+  .KoreSearchAssistant .card-section .card-content .title {
+    color: #3169aa;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .KoreSearchAssistant .card-section .card-content .img-block img {
+    width: 100%;
+  }
+  .KoreSearchAssistant .card-section .card-content .desc-info {
+    font-size: 13px;
+    color: #202124;
+    line-height: 19px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  .KoreSearchAssistant .card-section .card-content a {
+    display: inline-block;
+    padding: 6px 15px;
+    background: #3169aa;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+  }
