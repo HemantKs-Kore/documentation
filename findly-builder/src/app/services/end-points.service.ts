@@ -346,5 +346,29 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
       method: 'post'
     }
+    this.serviceList['post.createField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields',
+      method: 'post'
+    }
+    this.serviceList['get.allField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['get.getFieldById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      method: 'get'
+    }
+    this.serviceList['put.updateField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      method: 'put'
+    }
+    this.serviceList['delete.deleteField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      method: 'delete'
+    }
+    this.serviceList['post.simulate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
+      method: 'post'
+    }
   }
 }

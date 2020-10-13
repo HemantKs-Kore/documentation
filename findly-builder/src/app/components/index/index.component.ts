@@ -25,6 +25,7 @@ export class IndexComponent implements OnInit {
   newStageObj:any = {
     addNew: false,
   }
+  filelds:any = [];
   fieldStage:any ={};
   selectedStage;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -36,6 +37,11 @@ export class IndexComponent implements OnInit {
   selectedMapping:any = {};
   actionItmes:any = [{type:'set'},{type:'rename'},{type:'copy'},{type:'Delete'}];
   newMappingObj:any = {}
+  simulteObj:any = {
+    sourceType: 'page',
+    docCount: 5,
+    showSimulation: false,
+  }
   defaultStageTypesObj:any = {
     field_mapping:{
       name:'Field Mapping',
@@ -57,6 +63,8 @@ export class IndexComponent implements OnInit {
       name:'Custom Script'
     },
   }
+  showSearch;
+  searchFields;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -70,13 +78,17 @@ export class IndexComponent implements OnInit {
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getSystemStages();
     this.getIndexPipline();
+    this.getFileds();
     this.setResetNewMappingsObj();
-  }
-  addField(){
-    console.log(this.newFieldObj);
-    this.closeModalPopup();
+    this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
   }
   setResetNewMappingsObj(){
+    this.simulteObj = {
+      sourceType: 'page',
+      docCount: 5,
+      showSimulation: false,
+    }
+    this.fieldStage = {type : 'fields'};
     this.newMappingObj = {
       field_mapping:{
         defaultValue : {
@@ -107,6 +119,12 @@ export class IndexComponent implements OnInit {
       }
     }
   }
+  toggleSearch(){
+    if(this.showSearch && this.searchFields){
+      this.searchFields = '';
+    }
+    this.showSearch = !this.showSearch
+  }
   saveConfig(){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -119,21 +137,130 @@ export class IndexComponent implements OnInit {
     });
   }
   openModalPopup(){
-    this.newFieldObj = {
-       defaultValue: '',
-        indexed: false,
-        isDynamic: false,
-        isMulti: false,
-        name: '',
-        required: false,
-        stored: false,
-        type: 'string'
-    }
     this.addFieldModalPopRef = this.addFieldModalPop.open();
+  }
+  addEditFiled(field?){
+    if(field){
+      const quaryparms: any = {
+        searchIndexID:this.serachIndexId,
+        fieldId:field._id,
+      };
+      this.service.invoke('get.getFieldById', quaryparms).subscribe(res => {
+        this.newMappingObj = res;
+      }, errRes => {
+        this.errorToaster(errRes,'Failed to get field');
+      });
+    } else{
+      this.newFieldObj = {
+        fieldName: '',
+        fieldDataType: 'string',
+        isMultiValued: true,
+        isRequired: false,
+        isStored: false,
+        isIndexed: true
+      }
+    }
+    this.openModalPopup();
   }
   closeModalPopup(){
     this.addFieldModalPopRef.close();
     this.newMappingObj = null;
+  }
+  simulate(){
+    const payload :any ={
+      sourceType: this.simulteObj.sourceType,
+      noOfDocuments:  this.simulteObj.docCount || 5
+    }
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId
+    };
+    this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
+      this.simulteObj = {
+        sourceType: 'page',
+        docCount: 5,
+        showSimulation: true,
+        simulation:res
+      }
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to get stop words');
+    });
+  }
+  addField(){
+    const payload:any = {
+      fieldName: this.newFieldObj.fieldName,
+      fieldDataType: this.newFieldObj.fieldDataType,
+      isMultiValued: this.newFieldObj.isMultiValued,
+      isRequired: this.newFieldObj.isRequired,
+      isStored: this.newFieldObj.isStored,
+      isIndexed: this.newFieldObj.isIndexed,
+    }
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+    };
+    let api  = 'post.createField';
+    if(this.newMappingObj && this.newMappingObj._id){
+      api = 'put.put.updateField'
+    }
+    this.service.invoke(api, quaryparms,payload).subscribe(res => {
+      this.getFileds();
+      this.closeModalPopup();
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to create field');
+    });
+  }
+  getFileds(offset?){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      offset: offset || 0,
+      limit:100
+    };
+    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+      this.filelds=  res || [];
+      this.loadingContent = false;
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to get index  stages');
+    });
+  }
+  deleteIndField(record,dialogRef){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      fieldId:record._id,
+    };
+    this.service.invoke('delete.deleteField', quaryparms).subscribe(res => {
+      const deleteIndex = _.findIndex(this.filelds, (pg) => {
+        return pg._id === record._id;
+      })
+      this.filelds.splice(deleteIndex,1);
+      dialogRef.close();
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to delete field');
+    });
+  }
+  deleteFieldPop(record) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Field',
+        text: 'Are you sure you want to delete selected field?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteIndField(record,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
   }
   getIndexPipline() {
     const quaryparms: any = {
@@ -142,9 +269,7 @@ export class IndexComponent implements OnInit {
     };
     this.service.invoke('get.indexPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.stages || [];
-      this.loadingContent = false;
     }, errRes => {
-      this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get index  stages');
     });
   }
@@ -154,15 +279,8 @@ export class IndexComponent implements OnInit {
     };
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
      this.defaultStageTypes =  res.stages || [];
-     this.fieldStage = new StageClass();
-     this.fieldStage.name = 'My Stage';
-     this.fieldStage.type = 'fields';
-     this.fieldStage.catagory = 'fields';
-     this.fieldStage.config.mappings = [];
      this.selectedStage = this.fieldStage;
-      this.loadingContent = false;
     }, errRes => {
-      this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }

@@ -235,6 +235,20 @@
                 margin: 22px 24px 12px 24px;
                 background: #F5F8FA;
                 border-radius: 4px;
+                .kr-sg-input-search{
+                    display: inline-block;
+                    width: 0px;
+                    display: none;  
+                    width: 300px;
+                    height: 20px;
+                    position: relative;
+                    bottom: 6px;
+                    right: 10px;               
+                    &.active{
+                        display: block;
+                        width: 300px;
+                    }
+                } 
                 .seach-block{
                     color: #202124;
                     font-style: normal;
