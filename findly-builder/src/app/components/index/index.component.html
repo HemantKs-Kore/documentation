@@ -1,4 +1,4 @@
-<div class="contentContainer">
+<!-- <div class="contentContainer">
     <div class="mainLoadingSpinner" *ngIf="loadingContent" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">Please Wait!</span>
@@ -73,7 +73,7 @@
                                 </div>
                               </div>
                             <div class="fieldContnet">
-                            <!-- DATA TABLE START HERE -->
+                          
                             <div class="kr-sg-data-table">
                                 <section class="table-content">
                                     <header class="table-header">
@@ -106,4 +106,89 @@
         </div>
     </div>
     </ng-container>
+</div> -->
+
+<div class="workbench_main_container">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div class="header_sec">
+        <div class="title">Index Configurations</div>
+        <div class="btn_sec">            
+            <button class="kr-sg-button-secondary btn_lg">Save Configuration</button>
+            <button class="kr-sg-button-primary btn_lg">Re-Index</button>
+        </div>
+    </div>
+    <div class="split_section_stage_table">
+        <div class="stage_sec">
+            <div class="stage_header">
+                <div class="title">Stages</div>
+                <div class="add" (click)="createNewMap()" placement="bottom-right" ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
+            </div>
+            <perfect-scrollbar class="scroll_stage_content">
+                <div class="field_data">
+                    <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
+                    <div class="title text-truncate">Field Mapping</div>
+                    <div class="close_icon"><img src="assets/icons/close_field.svg"></div>
+                </div>
+                <div class="field_data">
+                    <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
+                    <div class="title text-truncate">Entity Extraction</div>
+                    <div class="close_icon"><img src="assets/icons/close_field.svg"></div>
+                </div>
+                <div class="field_data">
+                    <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
+                    <div class="title text-truncate">Keyword Extraction</div>
+                    <div class="close_icon"><img src="assets/icons/close_field.svg"></div>
+                </div>
+                <div class="field_data">
+                    <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
+                    <div class="title text-truncate">Traits</div>
+                    <div class="close_icon"><img src="assets/icons/close_field.svg"></div>
+                </div>
+                <div class="field_data">
+                    <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
+                    <div class="title text-truncate">Scripts</div>
+                    <div class="close_icon"><img src="assets/icons/close_field.svg"></div>
+                </div>    
+                <div class="divider"></div>           
+                <div class="feilds-indicator" (click)="selectmapping('field_mapping')">Fields</div>
+            </perfect-scrollbar>   
+        </div>
+        <div class="table_sec">
+            <div class="seach_add_feild">
+                <div class="seach-block"><img src="assets/icons/search.svg">Seach</div>
+                <div class="add_feild"><img src="assets/icons/add_plus.svg">Add Field</div>
+            </div>            
+            <div class="table_data_content">
+                <div class="table_header row m-0">
+                    <div class="col-2 title">Field Name</div>
+                    <div class="col-2 title">Type</div>
+                    <div class="col-2 title">Multi-Value</div>
+                    <div class="col-2 title">Required</div>
+                    <div class="col-2 title">Stored</div>
+                    <div class="col-1 title">Indexed</div>
+                    <div class="col-1 title"></div>
+                </div>
+                <perfect-scrollbar class="table_body_content">
+                    <div class="table_body row m-0">
+                        <div class="col-2 title">AssetClass</div>
+                        <div class="col-2 title">String</div>
+                        <div class="col-2 title">Yes</div>
+                        <div class="col-2 title">Yes</div>
+                        <div class="col-2 title">Yes</div>
+                        <div class="col-1 title">No</div>
+                        <div class="col-1 action_links text-right">
+                            <img src="assets/images/edit-pencil.svg">
+                            <img src="assets/icons/delete-table.svg" class="ml-3">
+                        </div>
+                    </div>
+                </perfect-scrollbar>  
+                <div class="footer-simulate">
+                    <button class="kr-sg-button-primary btn_lg"><img src="assets/images/simulate.svg" class="mr-1">Simulate</button>
+                </div>              
+            </div>
+        </div>
+    </div>
 </div>
