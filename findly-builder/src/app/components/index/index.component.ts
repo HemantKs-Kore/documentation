@@ -133,9 +133,3 @@ export class IndexComponent implements OnInit {
   }
  }
 }
-class SynonymClass {
-  type: String
-  name: String
-  name: Array<String>
-  condition
-}
