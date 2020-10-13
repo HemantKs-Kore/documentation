@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import * as _ from 'underscore';
 @Component({
   selector: 'app-index',
@@ -15,11 +16,19 @@ export class IndexComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   pipeline;
+  addFieldModalPopRef:any;
   loadingContent = true;
   indexStages:any = {}
   indexMappings = []
   newStageObj:any = {
     addNew: false,
+  }
+  @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  openModalPopup(){
+    this.addFieldModalPopRef = this.addFieldModalPop.open();
+  }
+  closeModalPopup(){
+    this.addFieldModalPopRef.close();
   }
   newStage:any ={
     name :'My Mapping'

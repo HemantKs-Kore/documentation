@@ -159,7 +159,7 @@
         <div class="table_sec">
             <div class="seach_add_feild">
                 <div class="seach-block"><img src="assets/icons/search.svg">Seach</div>
-                <div class="add_feild"><img src="assets/icons/add_plus.svg">Add Field</div>
+                <div class="add_feild" (click)="openModalPopup()"><img src="assets/icons/add_plus.svg">Add Field</div>
             </div>            
             <div class="table_data_content">
                 <div class="table_header row m-0">
@@ -190,5 +190,204 @@
                 </div>              
             </div>
         </div>
+        <div class="form_sec d-none">
+            <perfect-scrollbar class="scroll_form">
+                <div class="form_edit_content">
+                    <div class="kr-sg-dropdowns mb-20">
+                        <div class="label-text">Stage Type</div>
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                            <ul class="dropdown-menu content-menu">                                                                    
+                              <li><a href="#">Option 1</a></li>
+                              <li><a href="#">Option 2</a></li>
+                              <li><a href="#">Option 3</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="kr-sg-input-text mb-20">
+                        <div class="label-text">Stage Name</div>
+                        <input type="text" placeholder="Placeholder text" class="input-text">
+                    </div>
+                    <div class="kr-sg-input-text mb-20">
+                        <div class="label-text">Condition</div>
+                        <input type="text" placeholder="Specify Condition" class="input-text">
+                    </div>
+                </div>
+                <div class="form_inputs_data">
+                    <div class="row m-0 form_list">
+                        <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
+                        <div class="kr-sg-dropdowns col-4 input-box">
+                            <div class="label-text">Action</div>
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                    
+                                  <li><a href="#">Option 1</a></li>
+                                  <li><a href="#">Option 2</a></li>
+                                  <li><a href="#">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div> 
+                        <div class="kr-sg-input-text col-4 input-box">
+                            <div class="label-text">Field Name</div>
+                            <input type="text" placeholder="Placeholder text" class="input-text">
+                        </div>
+                        <div class="kr-sg-input-text col-4 input-box">
+                            <div class="label-text">Value</div>
+                            <input type="text" placeholder="Specify Condition" class="input-text">
+                        </div>  
+                        <div class="delete_icon"><img src="assets/icons/delete-table.svg"></div>                 
+                    </div>
+                    <div class="row m-0 form_list">
+                        <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
+                        <div class="kr-sg-dropdowns col-4 input-box">
+                            <div class="label-text">Action</div>
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                    
+                                  <li><a href="#">Option 1</a></li>
+                                  <li><a href="#">Option 2</a></li>
+                                  <li><a href="#">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div> 
+                        <div class="kr-sg-input-text col-4 input-box">
+                            <div class="label-text">Field Name</div>
+                            <input type="text" placeholder="Placeholder text" class="input-text">
+                        </div>
+                        <div class="kr-sg-input-text col-4 input-box">
+                            <div class="label-text">Value</div>
+                            <input type="text" placeholder="Specify Condition" class="input-text">
+                        </div>                      
+                        <div class="add_icon"><img src="assets/images/add-input-field.svg"></div>                                   
+                    </div>
+                </div>
+            </perfect-scrollbar>    
+            <div class="footer-simulate-form">
+                <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+                <button class="kr-sg-button-primary btn_lg"><img src="assets/images/simulate.svg" class="mr-1">Simulate</button>
+            </div> 
+        </div>          
+    </div>
+    <div class="simulator-div d-none">
+        <div class="header">
+            <div class="title">Simulator</div>
+            <div class="close_icon"><img src="assets/images/close.svg"></div>
+        </div>
+        <div class="row m-0 input-boxes">
+            <div class="kr-sg-dropdowns col-6 pl-0 pr-2">
+                <div class="label-text">Stage Type</div>
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                                    
+                      <li><a href="#">Option 1</a></li>
+                      <li><a href="#">Option 2</a></li>
+                      <li><a href="#">Option 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="kr-sg-dropdowns col-6 pr-0 pl-2">
+                <div class="label-text">Stage Name</div>
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                                    
+                      <li><a href="#">Option 1</a></li>
+                      <li><a href="#">Option 2</a></li>
+                      <li><a href="#">Option 3</a></li>
+                    </ul>
+                </div>
+            </div>                     
+        </div>
+        <perfect-scrollbar class="content_body">
+            Annotation Tool.pdf
+            id: “Annotation Tool.pdf”
+                > context: “batchId”:”98hwbbf7w-38h2f8f2-vhd8d-8vdhbss8-yvhswy7659”,”simulate”:tru,”async”
+                > fields: [62]     >access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > diagnostic_id:fill_in_form:file      
+                > id=98hwbbf7w-38h2f8f2-vhd8d-8vdhbss8- yvhswy7659:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true      
+                > access_permissions:can_print_degraded:true
+                > absolute_resource_name:fill_in_form:true > absolute_resource_name:fill_in_form:true      
+        </perfect-scrollbar>
     </div>
 </div>
+
+
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop"  #addFieldModalPop>   
+    <div class="modal-header">
+        <div class="title">Add Field</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body textAlignLeft">
+        <div class="top_sec">
+            <div class="row m-0 mb-20">
+                <div class="kr-sg-input-text col-10 p-0">
+                    <div class="label-text">Field Name</div>
+                    <input type="text" placeholder="Specify Condition" class="input-text">
+                </div>
+            </div>
+            <div class="label-text col-12 p-0">Field Type</div>
+            <div class="row m-0 align-items-center">                         
+                <div class="kr-sg-dropdowns col-10 p-0">                    
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                                    
+                          <li><a href="#">Option 1</a></li>
+                          <li><a href="#">Option 2</a></li>
+                          <li><a href="#">Option 3</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0">
+                    <input id="checkbox-1" class="checkbox-custom" type="checkbox" checked>
+                    <label for="checkbox-1" class="checkbox-custom-label">Dynamic</label>
+                </div>  
+            </div>
+        </div>
+        <div class="bottom_sec">
+            <div class="group-checkbox mb-3">
+                <div class="label-text mb-2">Select ones that apply</div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpd" class="checkbox-custom" type="checkbox" checked>
+                    <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpe" class="checkbox-custom" type="checkbox" checked>
+                    <label for="checkbox_grpe" class="checkbox-custom-label">Indexed</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpf" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_grpf" class="checkbox-custom-label">Required</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox" checked>
+                    <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label>
+                </div>
+            </div>
+            <div class="kr-sg-input-text col-10 p-0">
+                <div class="label-text">Default Value (Optional)</div>
+                <input type="text" placeholder="Add value here" class="input-text">
+            </div>
+        </div>
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer text-left">
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" style="margin: 0 !important;">Add</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+    </div>    
+</kr-modal>
