@@ -16,6 +16,62 @@ export class InsightsComponent implements OnInit {
   filterArray : any = [];
   actionLogData : any;
   actionLogDatBack : any;
+  staticChartOption : EChartOption = {
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          scale: true,
+       
+      },
+      yAxis: {
+          type: 'value',
+          scale: true,
+        show:false,
+        splitLine:{
+          show:false
+        },
+        splitArea : {show : false}
+      },
+    //   series: [{
+    //     data: [400, 400, 450, 450, 450, 400, 400],
+    //     type: 'line',
+    //     smooth: true
+    // },
+    // {
+    //     data: [350, 390, 450, 400, 350, 380, 350],
+    //     type: 'line',
+    //     smooth: true
+    // },
+    //  {
+    //     data: [600, 400, 380, 370, 360, 350, 200],
+    //     type: 'line',
+    //     smooth: true
+    // }]
+    series: [{
+      data: [14, 10, 14, 14, 10, 14, 10],
+      type: 'line',
+      smooth: true,
+      lineStyle: {
+        color: '#202124',
+      }
+  },
+  {
+      data: [14, 11, 21, 17, 13, 5, 5],
+      type: 'line',
+      smooth: true,
+      lineStyle: {
+        color: '#3368BB',
+      }
+  },
+  {
+    data: [13, 11, 16, 15, 12, 11, 13],
+    type: 'line',
+    smooth: true,
+    lineStyle: {
+      color: '#009DAB',
+    }
+}]
+  }
   chartOption: EChartOption = {
     xAxis: {
       type: 'category',
@@ -171,11 +227,11 @@ export class InsightsComponent implements OnInit {
     console.log(this.data)
   }
   filterRecord(type){
-    //this.actionLogData = [];
+    this.actionLogData = [...this.actionLogDatBack];
     if(type == "all"){
       this.actionLogData = [...this.actionLogDatBack];
     }else{
-      this.actionLogData.filter((data) => {
+      this.actionLogData = this.actionLogData.filter((data) => {
         return data.status == type
       });
     }

@@ -11,16 +11,16 @@
             <div class="group-radiobutton">
                 <div class="heading-title txt">Result Type</div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (click) = "resultClick('FAQ')">
                     <label for="radio-1" class="radio-custom-label">FAQ</label>
                 </div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-1" class="radio-custom-label">Content</label>
+                    <input id="radio-2" name="radio" class="radio-custom" type="radio" (click) = "resultClick('Content')">
+                    <label for="radio-2" class="radio-custom-label">Content</label>
                 </div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-1" class="radio-custom-label">Bot Action</label>
+                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('Bot Action')">
+                    <label for="radio-3" class="radio-custom-label">Bot Action</label>
                 </div>
             </div> 
             <!-- BUTTONS ENDS HERE -->
@@ -42,6 +42,111 @@
         </div>
 
     </div> -->
+
+    <perfect-scrollbar class="accor-scroll-add" #fqasScrollContainer>
+        <ng-container >
+        <div id="accordion" class="accordion-content">
+            <div *ngIf="searchType; else empty">
+                <div class="card-content">
+                    <div   class="card_link collapsed">      
+                        <div class="d-flex align-items-center">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-desc-sec">
+                                <div class="title">How do I access my account online at Citibank Online?</div>
+                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div> 
+                <div class="card-content">
+                    <div   class="card_link collapsed">      
+                        <div class="d-flex align-items-center">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-desc-sec">
+                                <div class="title">How do I access my account online at Citibank Online?</div>
+                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- <div class="card-content">
+                    <div   class="card_link collapsed">      
+                        <div class="d-flex align-items-center">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-desc-sec">
+                                <div class="title">How do I access my account online at Citibank Online?</div>
+                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div   class="card_link collapsed">      
+                        <div class="d-flex align-items-center">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-desc-sec">
+                                <div class="title">How do I access my account online at Citibank Online?</div>
+                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div   class="card_link collapsed">      
+                        <div class="d-flex align-items-center">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-desc-sec">
+                                <div class="title">How do I access my account online at Citibank Online?</div>
+                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div   class="card_link collapsed">      
+                        <div class="d-flex align-items-center">
+                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title-desc-sec">
+                                <div class="title">How do I access my account online at Citibank Online?</div>
+                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div> -->
+
+            </div>
+            <ng-template #empty>
+                <div  class="empty-questions-selected divBlockEmptylastChild">
+                    <div class="heading">No search results</div>
+                </div>
+            </ng-template>
+        </div>
+       </ng-container>
+    </perfect-scrollbar>
     <div class="footer">
         <button class="add">Add</button>
         <button class="cancel">Cancel</button>
