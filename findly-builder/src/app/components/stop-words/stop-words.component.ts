@@ -55,6 +55,7 @@ export class StopWordsComponent implements OnInit {
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.pipeline || {};
+     this.enabled = res.options.stopWordsRemovalEnabled;
       if(this.pipeline.stages && this.pipeline.stages.length){
         this.pipeline.stages.forEach(stage => {
           if(stage && stage.type === 'stopwords'){
