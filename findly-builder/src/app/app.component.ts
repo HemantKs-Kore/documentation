@@ -5,10 +5,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
-declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
-declare const KoreSDK: any;
-declare const koreBotChat: any;
 declare let window:any;
 import * as _ from 'underscore';
 @Component({
@@ -21,6 +18,7 @@ export class AppComponent implements OnInit {
   previousState;
   appsData: any;
   searchInstance:any;
+  findlyBusinessConfig:any = {};
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -178,6 +176,9 @@ export class AppComponent implements OnInit {
       $('.advancemode-checkbox').css({"display":"none"});
     }
   }
+  sdkBridge(parms){  // can be converted as service for common Use
+    console.log(parms)
+  }
   initSearchSDK(){
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
@@ -199,9 +200,12 @@ export class AppComponent implements OnInit {
         $('.search-container').addClass('advanced-mode');
       }
   });
-    var findlyConfig=window.KoreSDK.findlyConfig;
+    const findlyConfig :any =window.KoreSDK.findlyConfig;
+    this.findlyBusinessConfig.sdkBridge= this.sdkBridge
+    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     var fSdk = new FindlySDK(findlyConfig);
     fSdk.showSearch();
+    console.log(this.findlyBusinessConfig);
     // var chatConfig = KoreSDK.chatConfig;
     // //chatConfig.botOptions.assertionFn = assertion;
     // chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 

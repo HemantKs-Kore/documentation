@@ -39,7 +39,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     * @param  {Object} FindlySDK Config
     */
     function FindlySDK(config) {
-      // this.config=config;
+      this.config=config;
       // this.config.container=this.config.container || "body";
       // if(typeof this.config.container==="string"){
       //     this.config.container=$(this.config.container);
@@ -50,9 +50,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.initVariables();
       this.jqueryManupulations(); //this.on=$(this).on;
       this.addPolyFils();
+      this.parentEvent({'type':'sdkLoaded',data:{}});
+      this.assignCallbacksToParent();
     }
-
     FindlySDK.prototype = Object.create($.prototype);
+    FindlySDK.prototype.parentEvent = function(event){
+      // var event  = {
+      //   type:'switchHeader',
+      //   data:{}
+      // }
+      if(this.config && this.config.findlyBusinessConfig && this.config.findlyBusinessConfig.sdkBridge){
+        this.config.findlyBusinessConfig.sdkBridge(event);
+      }
+    }
+    FindlySDK.prototype.assignCallbacksToParent = function(){
+      this.config.findlyBusinessConfig.initVariables = this.initVariables;
+    }
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
       if (!Array.from) {
