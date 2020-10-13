@@ -334,5 +334,29 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
       method: 'post'
     }
+    this.serviceList['get.traits'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup',
+      method: 'get'
+    }
+    this.serviceList['update.traitGroup'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId',
+      method: 'put'
+    }
+    this.serviceList['create.traitGroup'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/',
+      method: 'post'
+    }
+    this.serviceList['delete.traitGroup'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId',
+      method: 'delete'
+    }
+    this.serviceList['get.traitGroupById'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId',
+      method: 'get'
+    }
+    this.serviceList['update.traitById'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/traitgroup/:traitGroupId/traits/:traitId',
+      method: 'put'
+    }
   }
 }
