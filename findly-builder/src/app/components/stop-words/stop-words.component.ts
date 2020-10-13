@@ -21,6 +21,8 @@ export class StopWordsComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   pipeline;
+  stopWordsIntiType = 'default'
+  createFromScratch;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -39,6 +41,13 @@ export class StopWordsComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   }
+  createInit(){
+    if(this.stopWordsIntiType === 'default'){
+      this.restore();
+    } else {
+      this.createFromScratch = true;
+    }
+  }
   getStopWords(){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -46,6 +55,7 @@ export class StopWordsComponent implements OnInit {
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.pipeline || {};
+     this.enabled = res.options.stopWordsRemovalEnabled;
       if(this.pipeline.stages && this.pipeline.stages.length){
         this.pipeline.stages.forEach(stage => {
           if(stage && stage.type === 'stopwords'){
@@ -90,6 +100,20 @@ export class StopWordsComponent implements OnInit {
         }
       })
   }
+  restore(dialogRef?) {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
+    };
+    this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
+      this.newStopWord = '';
+      if(dialogRef && dialogRef.close){
+       dialogRef.close();
+      }
+     }, errRes => {
+       this.errorToaster(errRes,'Failed to create default stop words');
+     });
+  }
   restoreStopWords(event) {
     if(event){
       event.stopImmediatePropagation();
@@ -109,18 +133,7 @@ export class StopWordsComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          const quaryparms: any = {
-            searchIndexID:this.serachIndexId,
-            queryPipelineId:this.queryPipelineId,
-          };
-          this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
-            this.newStopWord = '';
-            if(dialogRef && dialogRef.close){
-             dialogRef.close();
-            }
-           }, errRes => {
-             this.errorToaster(errRes,'Failed to restore stop words');
-           });
+         this.restore(dialogRef)
         } else if (result === 'no') {
           dialogRef.close();
         }
@@ -158,6 +171,7 @@ export class StopWordsComponent implements OnInit {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
     };
+    let msg = 'Stop words updated successfully';
     if(!enableOrDisable){
       if(this.pipeline.stages && this.pipeline.stages.length) {
         this.pipeline.stages.forEach(stage => {
@@ -171,18 +185,20 @@ export class StopWordsComponent implements OnInit {
       pipeline:this.pipeline
     }
     if (enableOrDisable){
+      msg = 'Stop words ' + (this.enabled?'enabled':'disabled') + ' successfully';
       payload.options= {
         stopWordsRemovalEnabled : this.enabled
       }
     }
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
      this.newStopWord = '';
-     this.notificationService.notify('Stop word deleted successfully','success');
      if(dialogRef && dialogRef.close){
+      msg = 'Stop word deleted successfully';
       dialogRef.close();
      }
+     this.notificationService.notify(msg,'success');
     }, errRes => {
-      this.errorToaster(errRes,'Failed to delete stop word ');
+      this.errorToaster(errRes,'Failed to update');
     });
   }
   errorToaster (errRes,message) {

@@ -7,6 +7,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { SynonymFilterPipe } from './synonym-filter'
 import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
@@ -18,115 +19,30 @@ declare const $: any;
 })
 export class SynonymsComponent implements OnInit {
   selectedApp: any = {};
+  synonymSearch;
   serachIndexId
   loadingContent = true;
   haveRecord = false;
-  currentEditIndex: any = null;
-  synonymData : any[] = [];// SynonymModal[] = [];
-  synonymDataBack : any[] = [];// SynonymModal[] = [];
-  synonymObj: any; // SynonymClass = new SynonymClass();
+  currentEditIndex: any = -1;
+  pipeline;
+  synonymData : any[] = [];
+  synonymDataBack : any[] = [];
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
+  queryPipelineId;
   newSynonymObj:any = {
     type:'synonym',
     addNew:false,
-    synonyms:[]
+    values:[]
   }
+  selectedFilter:any;
+  createFromScratch:any;
+  synonymObj;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr : any[] = [];
   synArrTemp: any[] = [];
-
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || '').trim()) {
-      this.synArr.push( value.trim());
-     // this.synonymObj.synonym = this.synArr.toLocaleString();
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
-  }
-  enableAddNewSynonymBtn(){
-    if(!this.newSynonymObj.addNew){
-      this.newSynonymObj.type='synonym'
-      this.newSynonymObj.addNew = true;
-    }
-  }
-  cancleAddSynonyms(){
-      this.newSynonymObj.type='synonym'
-      this.newSynonymObj.addNew = false;
-      this.synonymObj = new SynonymClass();
-  }
-  addList(event: MatChipInputEvent,synonymId,i): void {
-    const input = event.input;
-    const value = event.value;
-    const synonyms = [...this.synonymData];
-    if ((value || '').trim()) {
-      synonyms[i].synonyms.push( value.trim());
-    }
-    if (input) {
-      input.value = '';
-    }
-  }
-updateSynonm(synonymId,i){
-  const synonyms = [...this.synonymData];
-  const quaryparms: any = {
-    searchIndexId:this.serachIndexId,
-    synonymId
-  };
-  const payload = {
-    synonyms: synonyms[i].synonyms,
-    keyword: this.synonymData[i].keyword
-  }
-  this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-    console.log(res);
-    this.synonymData[i].synonyms = [...synonyms[i].synonyms];
-  }, errRes => {
-    this.errorToaster(errRes,'Failed to update Synonyms');
-  });
-}
-  removeList(syn,synonymId,i): void {
-    const synonyms = [...this.synonymData];
-    const index = synonyms[i].synonyms.indexOf(syn);
-
-    if (index >= 0) {
-      synonyms[i].synonyms.splice(index, 1);
-    }
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      synonymId
-    };
-    const payload = {
-      synonyms: synonyms[i].synonyms,
-      keyword: this.synonymData[i].keyword
-    }
-    this.service.invoke('update.synonym', quaryparms ,payload).subscribe(res => {
-      console.log(res);
-      this.synonymData[i].synonyms = [...synonyms[i].synonyms]
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to update Synonyms');
-    });
-
-    // const index = this.synonymData[i].synonyms.indexOf(syn);
-
-    // if (index >= 0) {
-    //   this.synonymData[i].synonyms.splice(index, 1);
-    // }
-  }
-  remove(syn): void {
-    const index = this.synArr.indexOf(syn);
-
-    if (index >= 0) {
-      this.synArr.splice(index, 1);
-    }
-  }
   constructor( public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -137,72 +53,95 @@ updateSynonm(synonymId,i){
   }
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.loadingContent = false;
-    /** hard coded Data */
-    // let data : Array<SynonymModal> = [{
-    //   name :"Cab",
-    //   synonym :["Taxi"],
-    // },{
-    //   name :"Bike",
-    //   synonym :["MotorCycle"],
-    // }];
-    // this.synonymData = data;
-    // this.synonymDataBack = data;
-    // this.synonymData ? this.haveRecord = true : this.haveRecord = false;
-    /** hard coded Data */
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      offset: 0,
-      limit : 50
-    };
-    this.service.invoke('get.synonym', quaryparms).subscribe(res => {
-      console.log(res);
-      res.forEach(element => {
-        if(element.keyword){
-          element.type='oneWaySynonym';
-          this.synonymData.push(element);
-          this.synonymDataBack.push(element);
-          this.synonymData ? this.haveRecord = true : this.haveRecord = false;
+    this.queryPipelineId =  this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.getSynonyms();
+  }
+  prepareSynonyms(){
+    if(this.pipeline.stages && this.pipeline.stages.length){
+      this.pipeline.stages.forEach(stage => {
+        if(stage && stage.type === 'synonyms'){
+          this.synonymData = JSON.parse(JSON.stringify(stage.synonyms || []));
         }
       });
-
+    }
+  }
+  getSynonyms(){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
+    };
+    this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
+      this.pipeline=  res.pipeline || {};
+      this.loadingContent = false;
+      this.prepareSynonyms();
     }, errRes => {
-      this.errorToaster(errRes,'Failed to get Synonyms');
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to get stop words');
     });
   }
-
-  addSynonyms(record){
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId
-    };
-    const payload = {
-      synonyms: this.synArr,
-      keyword: record.keyword
+  selectFilter(type){
+    this.selectedFilter = type;
+  }
+  addNewSynonyms(){
+    const obj:any = {
+      type: this.newSynonymObj.type,
+      values:this.newSynonymObj.values
     }
-    this.service.invoke('create.synonym', quaryparms, payload).subscribe(res => {
-      // this.ngOnInit();
-      if(res){
-        res.type='oneWaySynonym';
-        this.synonymData.push(res);
-        this.synonymDataBack.push(res);
-        this.haveRecord = true;
-        this.synArr = []
-        this.synonymObj = new SynonymClass();
-       }
+    if(this.newSynonymObj.type==='oneWaySynonym'){
+      if(!(this.newSynonymObj.values && this.newSynonymObj.values.length)){
+        this.notificationService.notify('Synonyms cannot be empty','error');
+          return;
+      }
+      if(!this.newSynonymObj.keyword){
+        this.notificationService.notify('Please enter keyword','error');
+        return;
+      } else {
+        obj.keyword = this.newSynonymObj.keyword;
+      }
+    }
+    this.synonymData.push(obj);
+    this.addOrUpddate(this.synonymData);
+  }
+  cancleAddEdit(){
+    this.currentEditIndex = -1;
+    this.newSynonymObj = {
+      type:'synonym',
+      addNew:false,
+      values:[]
+     }
+    this.synonymObj = new SynonymClass();
+    this.prepareSynonyms();
+  }
+  addOrUpddate(synonymData,dialogRef?) {
+    synonymData = synonymData || this.synonymData;
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
+    };
+    const payload: any ={
+      pipeline:this.pipeline
+    }
+    if(payload.pipeline.stages && payload.pipeline.stages.length){
+      payload.pipeline.stages.forEach(stage => {
+        if( stage && stage.type === 'synonyms') {
+          stage.synonyms = synonymData || [];
+        }
+      });
+    }
+    this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
+     this.pipeline=  res.pipeline || {};
+     this.prepareSynonyms();
+     this.cancleAddEdit();
+     this.notificationService.notify('Synonyms added successfully','success');
+     if(dialogRef && dialogRef.close){
+      dialogRef.close();
+     }
     }, errRes => {
-      this.errorToaster(errRes,'Failed to add Synonyms');
-      this.synonymObj = new SynonymClass();
+      this.errorToaster(errRes,'Failed to add Weight');
     });
-
-    // if(record.name){
-    //   record.synonym =  this.synArr;
-    //   this.synonymData.push(record);
-    //   this.synArr = []
-    //   this.synonymObj = new SynonymClass();
-    //  }
   }
   errorToaster(errRes,message){
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -213,62 +152,28 @@ updateSynonm(synonymId,i){
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
-  applyFilter(value){
-    /** Work in Progress */
-    if(value){
-      const oprData = [...this.synonymData]
-      this.synonymData= [...oprData];
-    let data = [];
-    for(let i=0; i< this.synonymData.length ; i++){
-      const dataoBJ = {};
-      let dataLen = data.length;
-      if(this.synonymData[i].keyword.toLocaleLowerCase().includes(value.toLocaleLowerCase())){
-        data.push(this.synonymData[i]);
-        dataLen = data.length+1;
-      }
-      if(data.length === dataLen){
-        for(let j=0; j< this.synonymData[i].synonyms.length ; j++){
-          if(this.synonymData[i].synonyms[j].toLocaleLowerCase().includes(value.toLocaleLowerCase())){
-            data.push(this.synonymData[i]);
-          }
-        }
-      }
-    }
-    // this.synonymData.filter(d=>{
-    //   let dataoBJ = {};
-    //   if(d.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()) || d.synonym.forEach(element => {
-    //      element.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    //   })){
-    //     return data.push(d);
-    //   }
-
-    //   //return data.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    // })
-    // data.push(dataoBJ)
-    data = [...new Set(data)]
-    if(data.length){
-      this.synonymData = [...data];
-      this.haveRecord = true;
-    }else{
-      // this.synonymData = null;
-      this.haveRecord = false;
-    }
-    }else{
-      this.synonymData= [...this.synonymDataBack];
-      this.haveRecord = true;
-    }
-
-
-  }
-  editSynRecord(record,event,i){
+  editSynRecord(record,event,i) {
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-      $('#collapse_'+i).toggleClass('collapse');
-
+    this.cancleAddEdit();
+    this.currentEditIndex = i
   }
-  deleteInfividualQuestion(record,event) {
+  updateSynonm(record,event,i){
+    if(record.type==='oneWaySynonym'){
+      if(!record.keyword){
+        this.notificationService.notify('Please enter keyword','error');
+        return;
+      }
+    }
+    if(!(record.values && record.values.length)){
+      this.notificationService.notify('Synonyms cannot be empty','error');
+        return;
+    }
+    this.addOrUpddate(this.synonymData);
+  }
+  deleteSynonym(record,event,index) {
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -287,50 +192,79 @@ updateSynonm(synonymId,i){
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.deleteSynRecord(record,dialogRef);
+          const synonyms = JSON.parse(JSON.stringify(this.synonymData));
+          synonyms.splice(index,1);
+          this.addOrUpddate(synonyms,dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
         }
       })
   }
-  deleteSynRecord(record,dialogRef){
-    const quaryparms: any = {
-      searchIndexId:this.serachIndexId,
-      synonymId: record._id
-    };
-    this.service.invoke('delete.synonym', quaryparms).subscribe(res => {
-      console.log(res);
-      const deleteIndex = _.findIndex(this.synonymData,(fq)=>{
-        return fq._id === record._id;
-      })
-      if (deleteIndex > -1) {
-        this.synonymData.splice(deleteIndex,1);
-      }
-      this.notificationService.notify('Synonym deleted successfully','success');
-      dialogRef.close();
-    }, errRes => {
-      if(errRes.status === 200){
-        const deleteIndex = _.findIndex(this.synonymData,(fq)=>{
-          return fq._id === record._id;
-        })
-        if (deleteIndex > -1) {
-          this.synonymData.splice(deleteIndex,1);
-        }
-      }else{
-        this.errorToaster(errRes,'Failed to delete Synonyms');
-      }
-
-    });
+  checkDuplicateTags(suggestion: string,alltTags): boolean {
+    return  alltTags.every((f) => f !== suggestion);
   }
-}
-
-interface SynonymModal {
-  name: String ,
-  synonym: Array<String>
+  add(event: MatChipInputEvent){
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateTags((value || '').trim(),this.newSynonymObj.values)) {
+        this.notificationService.notify('Duplicate tags are not allowed', 'warning');
+        return ;
+      } else {
+        this.newSynonymObj.values.push( value.trim());
+      }
+    }
+    if (input) {
+      input.value = '';
+    }
+  }
+  enableAddNewSynonymBtn(){
+    this.currentEditIndex = -1;
+    if(!this.newSynonymObj.addNew){
+      this.newSynonymObj.type='synonym'
+      this.newSynonymObj.addNew = true;
+    }
+  }
+  cancleAddSynonyms(){
+      this.newSynonymObj.type='synonym'
+      this.newSynonymObj.addNew = false;
+  }
+  addList(event: MatChipInputEvent,synonymId,i){
+    const input = event.input;
+    const value = event.value;
+    const synonyms = [...this.synonymData];
+    if ((value || '').trim()) {
+      if ((value || '').trim()) {
+        if (!this.checkDuplicateTags((value || '').trim(),synonyms[i].values)) {
+          this.notificationService.notify('Duplicate tags are not allowed', 'warning');
+          return ;
+        } else {
+          this.newSynonymObj.values.push( value.trim());
+        }
+      }
+      synonyms[i].values.push( value.trim());
+    }
+    if (input) {
+      input.value = '';
+    }
+  }
+  removeList(syn,synonymId,i) {
+    const synonyms = [...this.synonymData];
+    const index = synonyms[i].synonyms.indexOf(syn);
+    if (index >= 0) {
+      synonyms[i].synonyms.splice(index, 1);
+    }
+  }
+  remove(syn) {
+    const index = this.newSynonymObj.values.indexOf(syn);
+    if (index >= 0) {
+      this.synArr.splice(index, 1);
+    }
+  }
 }
 class SynonymClass {
   name: String
-  synonym: Array<String>
+  values: Array<String>
 }
 

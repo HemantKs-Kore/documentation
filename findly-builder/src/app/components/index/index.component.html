@@ -1,115 +1,109 @@
-<div class="indexContainer row">
-    <perfect-scrollbar class="scrollBarContainer">
-        <div class="radioContainer paddinTop-30">
-            <div class="label">Tokenizer </div>
-            <div class="info">Tokenizer tokenizes the given user input into smaller tokens which are useful for parsing.</div>
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="tokenizer" class="radio-custom" type="radio"  checked>
-                    <label for="radio-1" class="radio-custom-label">Word Tokenizer</label>
-                </div>  
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-2" name="tokenizer" class="radio-custom" type="radio"  >
-                    <label for="radio-2" class="radio-custom-label">Boundary</label>
-                </div>  
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-3" name="tokenizer" class="radio-custom" type="radio"  >
-                    <label for="radio-3" class="radio-custom-label">Charcter</label>
-                </div>  
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-4" name="tokenizer" class="radio-custom" type="radio"  >
-                    <label for="radio-4" class="radio-custom-label">Sentense</label>
-                </div>  
-        </div>
+<div class="contentContainer">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <ng-container *ngIf="!loadingContent">
+    <div class="header-sec-stopwords">
+        <div class="title">Index Configurations</div>
+        <div class="restore_text">
+            <button type="button" class="kr-sg-button-secondary btn_lg mr-2">Save Configuration</button>
+            <button type="button" class="kr-sg-button-primary btn_lg mr-2">Re-Index</button>
+        </div>                   
+    </div> 
+    <div class="indexmain-container">
+        <div class="indexsListContainer">
+            <div class="index-content-boxes">
+                <div class="content left-content">
+                    <div class="content-boxes index_tasks_list">
+                        <div class="stagsHeader p-2">
+                            <span>Stages <img src="assets/icons/editor/plus-add.svg" class="ml-4" (click)="createNewMap()"></span>
+                        </div>
+                        <perfect-scrollbar class="">
+                        <ng-container *ngIf="newStageObj.addNew">
+                            <span>
+                                {{newStage.name}}
+                                <img src="assets/images/closeCross.svg" class="ml-4">
+                            </span>
+                        </ng-container>
+                        <ng-container *ngIf="indexMappings && indexMappings.length">
+                            <div *ngFor="let mapping of indexMappings" class="p-2" (click)="selectmapping(mapping.stage)">
+                               <span>{{mapping.stage}}</span>
+                            </div>
+                        </ng-container>
 
-        <div class="radioContainer">
-            <div class="label">Stemmer </div>
-            <div class="info">Stemmer will stem each eligible word removing the suffixes like ing, tion etc.</div>
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-5" name="stemmer" class="radio-custom" type="radio"  checked>
-                    <label for="radio-5" class="radio-custom-label">Porter</label>
-                </div>  
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-6" name="stemmer" class="radio-custom" type="radio"  >
-                    <label for="radio-6" class="radio-custom-label">Snowball</label>
-                </div>  
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-7" name="stemmer" class="radio-custom" type="radio"  >
-                    <label for="radio-7" class="radio-custom-label">Hunspell</label>
-                </div>   
+                        <div class="fields p-5" (click)="selectmapping('field_mapping')">
+                           <span>Fields</span>
+                        </div>
+                        </perfect-scrollbar>
+                    </div>
+                </div>            
+                <div class="content right-content">
+                    <div class="content-boxes train_your_questions">
+                        <div class="table-list-content">
+                            <div *ngIf="newStageObj.addNew">
+                              <div class="p-2">
+                                <div class="kr-sg-dropdowns w-100">
+                                    <div class="label-text">Stage Type</div>
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newStageObj.type?defaultStageTypesObj[newStageObj.type].name:'Choose an option'}}</button>                                            
+                                        <ul class="dropdown-menu content-menu">
+                                          <li *ngFor="let item of defaultStageTypes" (click)="selectNewItem(item)">{{item.name}}</li>
+                                        </ul>
+                                      </div>
+                                </div>
+                                <div class="kr-sg-input-text pt-2">
+                                    <div class="label-text">Stage Name</div>
+                                    <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStage.name">
+                                </div>
+                                <div class="kr-sg-input-text pt-2">
+                                    <div class="label-text">Condition</div>
+                                    <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="newStage.condition">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="kr-sg-data-table" *ngIf="!newStageObj.addNew">
+                              <div class="table-action-header">
+                                <div>
+                                  <div class="kr-sg-dropdowns">
+                                    <div class="dropdown dropdown-open">
+                                      <button class="dropdown-toggle dropdown-input"><img src="assets/icons/sidemenu/plus-table.svg">Add Field</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="fieldContnet">
+                            <!-- DATA TABLE START HERE -->
+                            <div class="kr-sg-data-table">
+                                <section class="table-content">
+                                    <header class="table-header">
+                                        <div class="col_ col-2">Field Name</div>
+                                        <div class="col_ col-2">Type</div>
+                                        <div class="col_ col-2">Multi-Value</div>
+                                        <div class="col_ col-2">Required</div>
+                                        <div class="col_ col-2">Stored</div>
+                                        <div class="col_ col-2">Indexed</div>
+                                    </header>
+                                    <div class="content-body" *ngFor="let item of selectedMapping">
+                                        <div class="col_ col-2">{{item.name}}</div>
+                                        <div class="col_ col-2">{{item.type}}</div>
+                                        <div class="col_ col-2">{{item.multiValue}}</div>
+                                        <div class="col_ col-2">{{item.required}}</div>
+                                        <div class="col_ col-2">{{item.stored}}</div>
+                                        <div class="col_ col-2 pr-0">
+                                            <span>{{item.index?'Yes':'No'}} <span class="actions-links"><img class="action_icon arrow-icon" src="assets/icons/trashIcon.svg"></span></span>
+                                        </div>
+                                    </div>
+                                </section>                               
+                            </div>   
+                           
+                            </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>        
         </div>
-        <div class="toggleContainer">
-            <div class="label">Case Sesitivity</div>
-            <div class="info">Retain the case or convert to lowercase before querying</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-        <!-- <div class="toggleContainer">
-            <div class="label">Clustering</div>
-            <div class="info">Enabling this will Spell Correct the user input to the nearest valid term in the current language</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div> -->
-        <div class="toggleContainer">
-            <div class="label">Stopwords</div>
-            <div class="info">Discard stop words present in user utterance for detecting intents. </div>
-                <label class="kr-sg-toggle with-label stopwords">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
-                </label>
-        </div>
-        <div class="toggleContainer">
-            <div class="label">Traits</div>
-            <div class="info">Enable the identification of traits in user input</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox"checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-  
-        <div class="toggleContainer">
-            <div class="label">POS tagging</div>
-            <div class="info">Uses POS tags for indexing</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-        <div class="toggleContainer">
-            <div class="label">System Entities</div>
-            <div class="info">Uses System Entity informatin like Dates, City etc as meta information tagging and then indexing</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-        <div class="toggleContainer">
-            <div class="label">Negation Handling</div>
-            <div class="info">Handles cases where user explicity mentions negation. Ex: I do not want to transfer funds, should not identify the intent to Transfer funds</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-        <div class="toggleContainer">
-            <div class="label">Index FAQ Responses</div>
-            <div class="info">By Default only the FAQ questions are indexed. If enabled even answers will be indexed.</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-        <div class="toggleContainer">
-            <div class="label">Typo Tolerance</div>
-            <div class="info">Allows typo tolerance of upto 2 characters for words of length higher than 5</div>
-                <label class="kr-sg-toggle with-label">
-                    <input type="checkbox" checked>
-                    <div class="slider"> <span class="no">No</span><span class="yes">Yes</span></div>
-                </label>
-        </div>
-       
-    </perfect-scrollbar>
+    </div>
+    </ng-container>
 </div>

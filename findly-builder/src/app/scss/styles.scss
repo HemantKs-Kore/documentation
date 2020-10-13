@@ -14,6 +14,7 @@ html{
     min-width: 900px;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-font-smoothing: antialiased;
     &.cdk-global-scrollblock{
         overflow: hidden;
     }
@@ -21,6 +22,7 @@ html{
         overflow: hidden;
         font-size: $font-md;
         color: $primaryColor;
+        -webkit-font-smoothing: antialiased;
         button{
             min-width:auto !important;
             &:focus{outline:none !important;}
@@ -1216,7 +1218,8 @@ div.divBlockEmptylastChild:first-child {
     .modal-header{
         height: auto;
         padding: 22px 30px;
-        border-bottom: 1px solid #BDC1C6 !important;
+        border-bottom: 0px solid #BDC1C6 !important;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
         display: block !important;
         .title{
@@ -1247,7 +1250,7 @@ div.divBlockEmptylastChild:first-child {
     .modal-footer{
         padding: 13px 30px !important;
         background-color: #fff !important;       
-        box-shadow: inset 0px 1px 0px #BDC1C6;
+        box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
         display: block !important;
         button{
             margin:0 20px 0 0 !important;
