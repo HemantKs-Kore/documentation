@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -14,7 +16,7 @@ import * as _ from 'underscore';
 export class IndexComponent implements OnInit {
   selectedApp: any = {};
   serachIndexId;
-  queryPipelineId;
+  indexPipelineId;
   pipeline;
   addFieldModalPopRef:any;
   loadingContent = true;
@@ -23,31 +25,24 @@ export class IndexComponent implements OnInit {
   newStageObj:any = {
     addNew: false,
   }
+  fieldStage:any ={};
+  selectedStage;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
-  openModalPopup(){
-    this.addFieldModalPopRef = this.addFieldModalPop.open();
-  }
-  closeModalPopup(){
-    this.addFieldModalPopRef.close();
-  }
   newStage:any ={
     name :'My Mapping'
   }
+  newFieldObj :any = null
+  defaultStageTypes:any = [];
   selectedMapping:any = {};
-  defaultStageTypes = [
-    {type:'field_mapping',name:'Field Mapping',addNew:true,condition:'',actions:[]},
-    {type:'entity_extraction',name:'Entity Extraction',addNew:true,condition:'',actions:[]},
-    {type:'keyword_extraction',name:'Keyword Extraction',addNew:true,condition:'',actions:[]},
-    {type:'traits_extraction',name:'Traits Extraction',addNew:true,condition:'',actions:[]},
-    {type:'custom_script',name:'Custom Script',addNew:true,condition:'',actions:[]},
-    {type:'position',name:'Position',addNew:true,condition:'',actions:[]},
-    {type:'cluster',name:'Cluster',addNew:true,condition:'',actions:[]},
-    {type:'indexer',name:'Indexer'},
-  ]
   actionItmes:any = [{type:'set'},{type:'rename'},{type:'copy'},{type:'Delete'}];
+  newMappingObj:any = {}
   defaultStageTypesObj:any = {
     field_mapping:{
-      name:'Field Mapping'
+      name:'Field Mapping',
+      valueSet:{ alloperations:['set','rename','copy','remove'],
+                set:['target_field','value'],
+                remove:['target_field'],
+              }
     },
     entity_extraction:{
       name:'Entity Extraction'
@@ -61,16 +56,8 @@ export class IndexComponent implements OnInit {
     custom_script:{
       name:'Custom Script'
     },
-    position:{
-      name:'Position'
-    },
-    cluster:{
-      name:'Cluster'
-    },
-    indexer:{
-      name:'Field Mapping'
-    }
   }
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -80,54 +67,195 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    this.getSystemStages();
     this.getIndexPipline();
+    this.setResetNewMappingsObj();
   }
-  selectmapping(stage){
-   this.selectedMapping =this.indexStages[stage].mappings;
+  addField(){
+    console.log(this.newFieldObj);
+    this.closeModalPopup();
   }
-  prepareStageWiseData(stages,setdefaultFields?){
-    this.indexStages = {};
-    stages.forEach(stage => {
-     if(!this.indexStages[stage.type]){
-      this.indexStages[stage.type] = {
-        mappings : [],
-        name: stage.name
-      }
-     }
-     this.indexStages[stage.type].mappings.push(stage);
-     if(setdefaultFields){
-       this.selectmapping('field_mapping');
-     }
-    });
-    const tempStages = Object.keys(this.indexStages);
-    if(tempStages && tempStages.length){
-      tempStages.forEach(stage => {
-        const temoObj = {
-          stage,
-          name:this.indexStages[stage].name,
-          mappings : this.indexStages[stage].mappings,
+  setResetNewMappingsObj(){
+    this.newMappingObj = {
+      field_mapping:{
+        defaultValue : {
+          operation:'set',
+          target_field:'',
+          value:'',
         }
-        this.indexMappings.push(temoObj);
-      });
+      },
+      entity_extraction:{
+        defaultValue : {
+          source_field:'',
+          target_field:'',
+          entity_types:[],
+        }
+      },
+      traits_extraction:{
+        defaultValue : {
+          source_field:'',
+          target_field:'',
+          trait_groups:[],
+        }
+      },
+      keyword_extraction:{
+        defaultValue : {
+          source_field:'',
+          target_field:'',
+        }
+      }
     }
+  }
+  saveConfig(){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId
+    };
+    this.service.invoke('post.indexPipeline', quaryparms,this.selectedStage).subscribe(res => {
+     this.pipeline=  res.stages || [];
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to get stop words');
+    });
+  }
+  openModalPopup(){
+    this.newFieldObj = {
+       defaultValue: '',
+        indexed: false,
+        isDynamic: false,
+        isMulti: false,
+        name: '',
+        required: false,
+        stored: false,
+        type: 'string'
+    }
+    this.addFieldModalPopRef = this.addFieldModalPop.open();
+  }
+  closeModalPopup(){
+    this.addFieldModalPopRef.close();
+    this.newMappingObj = null;
   }
   getIndexPipline() {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      queryPipelineId:this.queryPipelineId,
+      indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('get.indexPipeline', quaryparms).subscribe(res => {
-     this.pipeline=  res.stages || {};
+     this.pipeline=  res.stages || [];
       this.loadingContent = false;
-      this.prepareStageWiseData(this.pipeline,true);
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to get index  stages');
+    });
+  }
+  getSystemStages() {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+    };
+    this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
+     this.defaultStageTypes =  res.stages || [];
+     this.fieldStage = new StageClass();
+     this.fieldStage.name = 'My Stage';
+     this.fieldStage.type = 'fields';
+     this.fieldStage.catagory = 'fields';
+     this.fieldStage.config.mappings = [];
+     this.selectedStage = this.fieldStage;
+      this.loadingContent = false;
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
+  selectStage(stage){
+    this.selectedStage = stage;
+  }
+  checkDuplicateTags(suggestion: string,alltTags): boolean {
+    return  alltTags.every((f) => f !== suggestion);
+  }
+  addEntityList(event: MatChipInputEvent,map){
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateTags((value || '').trim(),map.entity_types)) {
+        this.notificationService.notify('Duplicate tags are not allowed', 'warning');
+        return ;
+      } else {
+        map.entity_types.push( value.trim());
+      }
+    }
+    if (input) {
+      input.value = '';
+    }
+  }
+  removeEntityList(map,entity) {
+    const index = map.entity_types.indexOf(entity);
+    if (index >= 0) {
+      map.entity_types.splice(index, 1);
+    }
+  }
+  addTraitsList(event: MatChipInputEvent,map){
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateTags((value || '').trim(),map.trait_groups)) {
+        this.notificationService.notify('Duplicate tags are not allowed', 'warning');
+        return ;
+      } else {
+        map.trait_groups.push( value.trim());
+      }
+    }
+    if (input) {
+      input.value = '';
+    }
+  }
+  removeKeyWordsList(map,trait) {
+    const index = map.trait_groups.indexOf(trait);
+    if (index >= 0) {
+      map.trait_groups.splice(index, 1);
+    }
+  }
+  addKeyWordsList(event: MatChipInputEvent,map){
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateTags((value || '').trim(),map.trait_groups)) {
+        this.notificationService.notify('Duplicate tags are not allowed', 'warning');
+        return ;
+      } else {
+        map.trait_groups.push( value.trim());
+      }
+    }
+    if (input) {
+      input.value = '';
+    }
+  }
+  removeTraitsList(map,trait) {
+    const index = map.trait_groups.indexOf(trait);
+    if (index >= 0) {
+      map.trait_groups.splice(index, 1);
+    }
+  }
+  addFiledmappings(map){
+    if(!this.selectedStage.config){
+      this.selectedStage.config = {
+        mappings:[]
+      }
+    }
+    if(!this.selectedStage.config.mappings){
+      this.selectedStage.config.mappings = [];
+    }
+    this.selectedStage.config.mappings.push(map);
+    this.setResetNewMappingsObj();
+  }
   createNewMap(){
-    this.newStageObj = JSON.parse(JSON.stringify(this.defaultStageTypes[0]));
+    const obj :any = new StageClass();
+    const newArray = [];
+    obj.name = this.defaultStageTypes[0].name;
+    obj.type = this.defaultStageTypes[0].type;
+    obj.catagory = this.defaultStageTypes[0].category;
+    newArray.push(obj)
+    this.pipeline = newArray.concat(this.pipeline);
+    this.selectedStage = this.pipeline[0];
   }
   selectNewItem(defaultStage){
     this.newStageObj = JSON.parse(JSON.stringify(defaultStage));
@@ -142,3 +270,11 @@ export class IndexComponent implements OnInit {
   }
  }
 }
+class StageClass {
+  name: string
+  category: string
+  type: string
+  condition: string
+  config: any = {}
+}
+

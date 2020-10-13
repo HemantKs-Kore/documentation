@@ -314,13 +314,25 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
       method: 'get'
     }
-    this.serviceList['get.indexPipeline'] = {
+    this.serviceList['get.platformStages'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/stages',
       method: 'get'
     }
+    this.serviceList['get.indexpipelineStages'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'get'
+    }
+    this.serviceList['get.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline',
+      method: 'get'
+    }
     this.serviceList['post.indexPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/stages',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline',
       method: 'post'
+    }
+    this.serviceList['put.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'put'
     }
     this.serviceList['post.restoreStopWord'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/restoreStopWord',

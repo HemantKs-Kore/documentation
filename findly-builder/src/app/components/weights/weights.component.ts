@@ -72,7 +72,7 @@ export class WeightsComponent implements OnInit {
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
    }
-   this.service.invoke('get.indexPipeline', quaryparamats).subscribe(
+   this.service.invoke('get.platformStages', quaryparamats).subscribe(
     res => {
       this.fields = _.filter(res.stages, (stage)=>{
         if(stage && (stage.type === 'field_mapping') && stage.index){
