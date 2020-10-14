@@ -187,6 +187,72 @@
 
     }
 }
+
+::ng-deep .facetModalPouup{
+    .modal-body{
+        .search_block{
+            padding-bottom: 25px;
+            border-bottom: 1px solid #F5F5F5;
+            .title{
+                color: #9AA0A6;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+                span{
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #5F6368;
+                    padding-left: 2px;
+                }
+            }
+            .kr-sg-dropdowns{
+                .search-with-dropdown{
+                    position: absolute;
+                    border: 0;     
+                    &::before{
+                        display: none;
+                    }               
+                }
+                input{                      
+                    padding-left:35px;                    
+                } 
+            }
+            
+        }
+        .row-content{
+            align-items: center;
+            margin: 28px 0;
+            .checkbox-content{
+                position: relative;
+                top: 12px;
+            }
+        }
+        .box-content{
+            padding: 25px;
+            background: #F8F9FA;
+            border-radius: 4px;
+            &.adjust_padding{
+                padding: 25px 28px;
+            }
+            .row_inputs{
+                margin: 0 0px 20px 0;
+                align-items: center;
+                .add{
+                    position: relative;
+                    top: 12px;
+                    text-align: right;
+                    padding: 0;
+                    img{
+                        height: 34px;
+                        width: 34px;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
 ::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
         width: 3px !important;

@@ -88,17 +88,117 @@
 </div>
 
 
-<kr-modal modalType="center" modalClass="modal_popups_"  #facetModalPouup>   
+<kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup"  #facetModalPouup>   
     <div class="modal-header">
         <div class="title">Add Facet</div>
         <div class="close_icon"><img (click)="closeModal()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
-        <div class="kr-sg-input-search search_block">                               
-            <input type="text" placeholder="Search for Field" class="input-search">
-            <img src="assets/images/search_gray.svg" class="search-icon">            
-        </div>        
+        <div class="search_block">
+            <div class="label-text">Field Name</div>             
+            <div class="row m-0 align-items-center">
+                <div class="kr-sg-dropdowns col-10 pl-0">
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+                        <img src="assets/images/search_gray.svg" class="search-icon">                                                         
+                        <ul class="dropdown-menu content-menu">
+                            <li><a>Option 1</a></li>
+                            <li><a>Option 2</a></li>
+                            <li><a>Option 3</a></li>
+                        </ul>
+                    </div>                        
+                </div>
+                <div class="col-2 pr-0">
+                    <div class="title">Field Type :<span class="string">String</span></div>
+                </div>
+            </div>
+        </div>          
+        <div class="row-content row">
+            <div class="kr-sg-input-text col-7 pl-0">
+                <div class="label-text">Label</div>
+                <input type="text" placeholder="Placeholder text" class="input-text">                
+            </div>
+            <div class="kr-sg-dropdowns col-3 pl-2">
+                <div class="label-text">Label</div>
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                                   
+                      <li><a>Option 1</a></li>
+                      <li><a>Option 2</a></li>
+                      <li><a>Option 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="kr-sg-checkbox d-block col-2 checkbox-content pr-0 pl-2 m-0">
+                <input id="checkbox_drp1" class="checkbox-custom" type="checkbox">
+                <label for="checkbox_drp1" class="checkbox-custom-label">Multi Select</label>
+            </div>
+        </div>  
+        <div class="box-content">
+            <div class="row row_inputs">
+                <div class="kr-sg-input-text col-7 pl-0">
+                    <div class="label-text">Range Name (Optional)</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">From</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">To</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+            </div>
+            <div class="row row_inputs">
+                <div class="kr-sg-input-text col-7 pl-0">
+                    <div class="label-text">Range Name (Optional)</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">From</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">To</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+                <div class="col-1 pl-2 add">
+                    <img src="assets/images/add-input-field.svg">               
+                </div>
+            </div>
+        </div>
+        <div class="box-content adjust_padding">
+            <div class="row row_inputs">
+                <div class="kr-sg-input-text col-6 pl-0">
+                    <div class="label-text">Size (Optional)</div>
+                    <input type="text" placeholder="Placeholder text" class="input-text">                   
+                </div>
+                <div class="kr-sg-dropdowns col-3 pl-2">
+                    <div class="label-text">Order (Optional)</div>
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                                   
+                          <li><a href="#">Option 1</a></li>
+                          <li><a href="#">Option 2</a></li>
+                          <li><a href="#">Option 3</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="kr-sg-dropdowns col-3 pl-2 pr-0">
+                    <div class="label-text">Sort</div>
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                                   
+                          <li><a href="#">Option 1</a></li>
+                          <li><a href="#">Option 2</a></li>
+                          <li><a href="#">Option 3</a></li>
+                        </ul>
+                    </div>
+                </div>                
+            </div>            
+        </div>   
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer">          
