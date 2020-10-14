@@ -233,8 +233,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
+      var pipelineId=''
       if(window.selectedFindlyApp && window.selectedFindlyApp._id){
-        SearchIndexID = window.selectedFindlyApp._id
+        SearchIndexID = window.selectedFindlyApp._id;
+        pipelineId=window.selectedFindlyApp.pipelineId
       }
       var baseAPIServer='https://app.findly.ai';
       if(_self.isDev){
@@ -248,7 +250,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         searchUrl: baseUrl + "/search/" + SearchIndexID,
         popularSearchesUrl: baseAPIServer+"/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID +"/search/feedback",
-        queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
+        queryConfig:businessTooBaseURL+SearchIndexID+'/queryPipeline/'+pipelineId+'/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
         jstBarrer:"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"
@@ -1709,7 +1711,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       setTimeout(function(){
-        debugger;
         if (topMatchFAQ) {
           var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
 
@@ -1877,7 +1878,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
         
-        debugger;
         var _selctedEle=$(e.target).closest('.task-wrp');
         var _parentEle=$(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call( _parentEle[0].children );
@@ -1913,21 +1913,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 
+      // var payload = {
+      //   "searchIndexId": _self.API.SearchIndexID,
+      //   "queryString": queryString,
+      //   "contentId": contentId,
+      //   "contentType": contentType,
+      //   "config": Object.assign({
+      //     "pinIndex": pinIndex,
+      //     "boost": boost,
+      //     "visible": visible
+      //   }, conf)
+      // }
+
       var payload = {
-        "searchIndexId": _self.API.SearchIndexID,
-        "queryString": queryString,
-        "contentId": contentId,
-        "contentType": contentType,
-        "config": Object.assign({
-          "pinIndex": pinIndex,
-          "boost": boost,
-          "visible": visible
-        }, conf)
+        "searchQuery": queryString,
+        "result": {
+          "contentType": contentType,
+          "contentId": contentId,
+          "config": Object.assign({
+            "pinIndex": pinIndex,
+            "boost": boost,
+            "visible": visible
+          }, conf)
+        }
       }
 
       var url = _self.API.queryConfig;
-      debugger;
-      _self.makeAPItoFindly(url, 'POST', JSON.stringify(payload)).then(function (res) {
+      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
       }, function (eRes) {
       });
     };
@@ -2625,7 +2637,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           }
                         }
         } else if(res.templateType === 'botAction'){
-            debugger;
             res = res.template;
             var botResponse=res.webhookPayload.text;
             _self.sendMessageToSearch('bot',botResponse);
