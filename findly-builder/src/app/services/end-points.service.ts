@@ -314,5 +314,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/analytics',
       method: 'post'
     }
+    this.serviceList['update.rankingPinning'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
+      method: 'put'
+    }
   }
 }

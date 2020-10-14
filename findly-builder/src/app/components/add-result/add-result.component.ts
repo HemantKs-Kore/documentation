@@ -48,7 +48,35 @@ export class AddResultComponent implements OnInit {
     if(!duplicate) this.recordArray.push(record)
   }
   pushRecord(){
-
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      //queryPipelineId : queryPipelineId
+    };
+    let result :any = [];
+    this.recordArray.forEach((element,index) => {
+      var obj :any = {};
+      obj.contentType = this.searchType;
+      obj.contentId = element._id;
+      obj.config = {
+        pinIndex : 0,
+        boost: 0,
+        visible: true,
+      }
+      result.push(obj);
+    });
+    let payload : any = {};
+    
+    payload.searchQuery = this.searchTxt;
+    payload.result = result
+    this.service.invoke('update.rankingPinning', quaryparms).subscribe(res => {
+      this.recordArray=[];
+      console.log(res);
+    }, errRes => {
+      console.log(errRes);
+     
+    });
+  
   }
   clearReocrd(){
     //this.searchType = '';

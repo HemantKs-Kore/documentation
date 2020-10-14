@@ -103,7 +103,7 @@
     </perfect-scrollbar>
     <div class="footer">
         <span class="desc" *ngIf="recordArray.length" >{{ recordArray.length }} results selected</span>
-        <button class="bef-add" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()">Add</button>
+        <button class="bef-add" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Add</button>
         <button class="cancel" (click) = "cancelRecord()">Cancel</button>
     </div>
 </div>
