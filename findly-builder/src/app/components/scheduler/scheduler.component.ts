@@ -33,6 +33,7 @@ export class SchedulerComponent implements OnInit {
   month = '';
   year = '';
   endsOnSelected = '';
+  minDate;
   //scheduleData : scheduleOpts = new scheduleOpts();
   @Input() crwalObject : any;
   @Input() schedule : any;
@@ -45,7 +46,10 @@ export class SchedulerComponent implements OnInit {
     this.month =  date.toString().split(" ")[1].toLocaleUpperCase();
     this.date =  date.toString().split(" ")[2];
     this.year =  date.toString().split(" ")[3];
-    ;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const currentDay = new Date().getDate();
+    this.minDate = new Date(currentYear, currentMonth, currentDay);
   }
 
   ngOnInit(): void {

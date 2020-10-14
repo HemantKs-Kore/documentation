@@ -2,7 +2,7 @@
     <div class="scheduler-box">
         <span class="scheduler-txt">Date</span>
         <!-- <input id="scheduleDateId" type="text" class="input-text date-pick" placeholder="Select Date"> -->
-          <input matInput [matDatepicker]="dp3"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
+          <input matInput [matDatepicker]="dp3" [min]="minDate" class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
           <mat-datepicker #dp3 disabled="false"></mat-datepicker>
 
