@@ -236,13 +236,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if(window.selectedFindlyApp && window.selectedFindlyApp._id){
         SearchIndexID = window.selectedFindlyApp._id
       }
-      var baseUrl = "https://app.findly.ai/searchAssistant";
-      var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"
+      var baseAPIServer='https://app.findly.ai';
+      if(_self.isDev){
+        baseAPIServer= window.appConfig.API_SERVER_URL;
+      }
+      var baseUrl = baseAPIServer+"/searchAssistant";
+      var businessTooBaseURL = baseAPIServer+"/api/1.1/findly/";
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
+        popularSearchesUrl: baseAPIServer+"/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID +"/search/feedback",
         queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
         SearchIndexID: SearchIndexID,
@@ -3185,13 +3189,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     KoreWidgetSDK.prototype.showSearch = function () {
       var _self = this;
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-
       _self.isDev=false;
       if(!$('body').hasClass('demo')){
         _self.isDev=true;
       }
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+
 
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
