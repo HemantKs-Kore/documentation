@@ -18,7 +18,7 @@
     "string":"String",
     "number":"Number",
     "boolean":"Boolean",
-    "field_mapping":"Field Mmapping",
+    "field_mapping":"Field Mapping",
     "entity_extraction":"Entity Extraction",
     "keyword_extraction":"Keyword Extraction",
     "traits_extraction":"Traits Extraction",
@@ -27,4 +27,5 @@
     "rename":"Rename",
     "copy":"Copy",
     "remove":"Remove",
+    "choose_an_option":"Choose an option"
 }

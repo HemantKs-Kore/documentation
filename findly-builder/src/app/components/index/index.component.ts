@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -32,6 +33,7 @@ export class IndexComponent implements OnInit {
   changesDetected;
   currentEditIndex :any= -1;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   newStage:any ={
     name :'My Mapping'
   }
@@ -66,6 +68,8 @@ export class IndexComponent implements OnInit {
       name:'Custom Script'
     },
   }
+  entitySuggestionTags :any = ['Entity 1','Entity 2' ,'Entity 3','Entity 4','Entity 5'];
+  traitsSuggesitions : any = [];
   showSearch;
   searchFields;
   pipelineCopy;
@@ -88,6 +92,10 @@ export class IndexComponent implements OnInit {
   }
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.pipeline, event.previousIndex, event.currentIndex);
+  }
+  selectedTag(data: MatAutocompleteSelectedEvent , list) {
+    this.suggestedInput.nativeElement.value = '';
+    list.push(data.option.viewValue);
   }
   setResetNewMappingsObj(){
     this.simulteObj = {
@@ -122,6 +130,14 @@ export class IndexComponent implements OnInit {
         defaultValue : {
           source_field:'',
           target_field:'',
+          keywords:[],
+        }
+      },
+      custom_ccript:{
+        defaultValue : {
+          source_field:'',
+          target_field:'',
+          keywords:[],
         }
       }
     }
@@ -456,7 +472,7 @@ export class IndexComponent implements OnInit {
     this.changesDetected = true;
     const obj :any = new StageClass();
     const newArray = [];
-    obj.name = this.defaultStageTypes[0].name;
+    obj.name = 'My Stage';
     obj.type = this.defaultStageTypes[0].type;
     obj.catagory = this.defaultStageTypes[0].category;
     newArray.push(obj)

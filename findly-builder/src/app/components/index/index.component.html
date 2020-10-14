@@ -80,7 +80,7 @@
                     <div class="kr-sg-dropdowns mb-20">
                         <div class="label-text">Stage Type</div>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'Choose stage type') | translate}}</button>                                         
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
                             <ul class="dropdown-menu content-menu">                                                                    
                               <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type"><a>{{systemStage.name}}</a></li>
                             </ul>
@@ -102,7 +102,7 @@
                             <div class="kr-sg-dropdowns col-4 input-box pl-0">
                                 <div class="label-text">Action</div>
                                 <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'') | translate}}</button>                                            
+                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'choose_an_option') | translate}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
                                       <li (click)='map.operation ="set"'>Set</li>
                                       <li (click)='map.operation ="rename"'>Rename</li>
@@ -126,7 +126,7 @@
                         <div class="kr-sg-dropdowns col-4 input-box pl-0">
                             <div class="label-text">Action</div>
                             <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj.field_mapping.defaultValue.operation?newMappingObj.field_mapping.defaultValue.operation:''}}</button>                                            
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newMappingObj.field_mapping.defaultValue.operation?newMappingObj.field_mapping.defaultValue.operation:'choose_an_option') | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu">                                                                    
                                   <li (click)='newMappingObj.field_mapping.defaultValue.operation ="set"'><a>Set</a></li>
                                   <li (click)='newMappingObj.field_mapping.defaultValue.operation ="rename"'><a>Rename</a></li>
@@ -158,18 +158,64 @@
                                 <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'keywords_extraction')">Choose Kwywords</div>
-                                <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                    <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                      <mat-chip *ngFor="let entity of map.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
-                                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                      </mat-chip>                                  
-                                      <input placeholder="Type and Enter"
-                                            [matChipInputFor]="chipList"
-                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                            [matChipInputAddOnBlur]="true"
-                                            (matChipInputTokenEnd)="addEntityList($event,map)">
-                                    </mat-chip-list>
+                                <ng-container  *ngIf="(selectedStage.type === 'entity_extraction')">
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                          <mat-chip *ngFor="let entity of map.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
+                                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                          </mat-chip>                                  
+                                          <input placeholder="Type and Enter"
+                                                [matChipInputFor]="chipList"
+                                                [matAutocomplete]="suggestedItems"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="true"
+                                                (matChipInputTokenEnd)="addEntityList($event,map)" #suggestedInput>
+                                        </mat-chip-list>
+                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.defaultValue.entity_types)" >
+                                            <ng-container *ngFor = "let suggestion of entitySuggestionTags">
+                                              <mat-option>
+                                                {{suggestion}}
+                                              </mat-option>
+                                            </ng-container>
+                                          </mat-autocomplete>
+                                      </mat-form-field>
+                                </ng-container>
+                                <ng-container  *ngIf="(selectedStage.type === 'traits_extraction')">
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList>
+                                          <mat-chip *ngFor="let entity of map.trait_groups"  [selectable]="true" [removable]="true" (removed)="removeTraitsList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
+                                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                          </mat-chip>                                  
+                                          <input placeholder="Type and Enter"
+                                                [matChipInputFor]="chipList"
+                                                [matAutocomplete]="suggestedItems"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="true"
+                                                (matChipInputTokenEnd)="addTraitsList($event,map)" #suggestedInput>
+                                        </mat-chip-list>
+                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.defaultValue.trait_groups)" >
+                                            <ng-container *ngFor = "let suggestion of traitsSuggesitions">
+                                              <mat-option>
+                                                {{suggestion}}
+                                              </mat-option>
+                                            </ng-container>
+                                          </mat-autocomplete>
+                                      </mat-form-field>
+                                </ng-container>
+                                <ng-container  *ngIf="(selectedStage.type === 'keywords_extraction')">
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList>
+                                          <mat-chip *ngFor="let entity of map.keywords"  [selectable]="true" [removable]="true" (removed)="removeKeyWordsList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
+                                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                          </mat-chip>                                  
+                                          <input placeholder="Type and Enter"
+                                                [matChipInputFor]="chipList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                [matChipInputAddOnBlur]="true"
+                                                (matChipInputTokenEnd)="addKeyWordsList($event,map)" #suggestedInput>
+                                        </mat-chip-list>
                                   </mat-form-field>
+                                </ng-container>
                             </div>
                             
                             <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation !== 'remove')">
@@ -188,40 +234,65 @@
                             <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
                             <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
                             <div class="label-text" *ngIf="(selectedStage.type === 'keywords_extraction')">Choose Kwywords</div>
-                            <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                            <ng-container *ngIf="(selectedStage.type === 'entity_extraction')">
+                            <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                                 <mat-chip-list #chipList>
-                                    <ng-container *ngIf="(selectedStage.type === 'entity_extraction')">
-                                        <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(newMappingObj[selectedStage.type].defaultValue,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
-                                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                          </mat-chip> 
-                                          <input placeholder="Type and Enter"
-                                        [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                        [matChipInputAddOnBlur]="true"
-                                        (matChipInputTokenEnd)="addEntityList($event,newMappingObj[selectedStage.type].defaultValue)">
+                                    <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.entity_types" [selectable]="true"
+                                        [removable]="true" (removed)="removeEntityList(newMappingObj[selectedStage.type].defaultValue,entity)"><span
+                                            class="mat-val" *ngIf="entity">{{entity}}</span>
+                                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Type and Enter" [matChipInputFor]="chipList" [matAutocomplete]="suggestedItems"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                                        (matChipInputTokenEnd)="addEntityList($event,newMappingObj[selectedStage.type].defaultValue)"
+                                        #suggestedInput>
+                                </mat-chip-list>
+                                <mat-autocomplete #suggestedItems="matAutocomplete"
+                                    (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.entity_types)">
+                                    <ng-container *ngFor="let suggestion of entitySuggestionTags">
+                                        <mat-option>
+                                            {{suggestion}}
+                                        </mat-option>
                                     </ng-container>
-                                    <ng-container *ngIf="(selectedStage.type === 'traits_extraction')">
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            </ng-container>
+                            <ng-container *ngIf="(selectedStage.type === 'traits_extraction')">
+                                        <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                            <mat-chip-list #chipList>
                                         <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.trait_groups"  [selectable]="true" [removable]="true" (removed)="removeTraitsList(newMappingObj[selectedStage.type].defaultValue,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
                                             <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                           </mat-chip> 
                                           <input placeholder="Type and Enter"
                                         [matChipInputFor]="chipList"
                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        [matAutocomplete]="suggestedItems"
                                         [matChipInputAddOnBlur]="true"
-                                        (matChipInputTokenEnd)="addTraitsList($event,newMappingObj[selectedStage.type].defaultValue)">
-                                    </ng-container>
-                                    <ng-container *ngIf="(selectedStage.type === 'keywords_extraction')">
-                                        <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.entity_types"  [selectable]="true" [removable]="true" (removed)="removeKeyWordsList(newMappingObj[selectedStage.type].defaultValue,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
+                                        (matChipInputTokenEnd)="addTraitsList($event,newMappingObj[selectedStage.type].defaultValue)" #suggestedInput>
+                                    </mat-chip-list>
+                                    <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.trait_groups)">
+                                        <ng-container *ngFor = "let suggestion of traitsSuggesitions">
+                                          <mat-option>
+                                            {{suggestion}}
+                                          </mat-option>
+                                        </ng-container>
+                                      </mat-autocomplete>
+                                    </mat-form-field>
+                            </ng-container>
+                            <ng-container *ngIf="(selectedStage.type === 'keywords_extraction')">
+                                        <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                            <mat-chip-list #chipList>
+                                        <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.keywords"  [selectable]="true" [removable]="true" (removed)="removeKeyWordsList(newMappingObj[selectedStage.type].defaultValue,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
                                             <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                           </mat-chip> 
                                           <input placeholder="Type and Enter"
                                         [matChipInputFor]="chipList"
                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                         [matChipInputAddOnBlur]="true"
-                                        (matChipInputTokenEnd)="addKeyWordsList($event,newMappingObj[selectedStage.type].defaultValue)">
-                                    </ng-container>
-                                </mat-chip-list>
-                              </mat-form-field>
+                                        (matChipInputTokenEnd)="addKeyWordsList($event,newMappingObj[selectedStage.type].defaultValue)" #suggestedInput>
+                                    </mat-chip-list>
+                                </mat-form-field>
+                            </ng-container>
                         </div>
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj[selectedStage.type].defaultValue.operation !== 'remove')">
                             <div class="label-text">Target Field</div>
@@ -233,7 +304,10 @@
                 <div class="form_inputs_data" *ngIf="selectedStage.type === 'custom_script'">
                  <div>&lt;/&gt;Painless</div>
                  <div class="customScript">
-                    <textarea [(ngModel)]="selectedStage.config.script"></textarea>
+                    <div class="kr-sg-input-text-area">
+                        <div class="label-text">&lt;/&gt;Painless</div>
+                        <textarea placeholder="Placeholder text" class="input-text"></textarea>
+                    </div>
                  </div>
                  
                 </div>
@@ -253,7 +327,7 @@
             <div class="kr-sg-dropdowns col-6 pl-0 pr-2">
                 <div class="label-text">Stage Type</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{simulteObj.docCount?simulteObj.docCount + ' Documents':'Choose an option' | translate}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(simulteObj.docCount?simulteObj.docCount + ' Documents':'choose_an_option') | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                    
                       <li click)="simulteObj.sourceType === 'pages'"><a>Page</a></li>
                       <li click)="simulteObj.sourceType === 'Faqs'"><a></a></li>
@@ -264,7 +338,7 @@
             <div class="kr-sg-dropdowns col-6 pr-0 pl-2">
                 <div class="label-text">Stage Name</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{simulteObj.docCount?simulteObj.docCount + ' Documents':'Choose an option'}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(simulteObj.docCount?simulteObj.docCount + ' Documents':'choose_an_option') | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                    
                       <li (click)="simulteObj.docCount === 5"><a>5 Documents</a></li>
                       <li><a (click)="simulteObj.docCount === 10">5 Documents</a></li>
@@ -323,7 +397,7 @@
             <div class="row m-0 align-items-center">                         
                 <div class="kr-sg-dropdowns col-10 p-0">                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'Çhoose an option' | translate)}}</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
                         <ul class="dropdown-menu content-menu">                                                                    
                           <li  (click)="newFieldObj.fieldDataType = 'string';newFieldObj.fieldName = ''"><a>String</a></li>
                           <li  (click)="newFieldObj.fieldDataType = 'number';newFieldObj.fieldName = ''"><a>Number</a></li>

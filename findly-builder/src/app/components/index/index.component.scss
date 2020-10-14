@@ -531,6 +531,12 @@
         display: none;
     }
 }
+.customScript{
+    textarea{
+        width: 600px;
+        height: 400px;
+    }
+}
 .empty-list{
     width: 320px;
     margin: 0 auto;
