@@ -7,6 +7,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 @Component({
   selector: 'app-index',
@@ -28,6 +29,8 @@ export class IndexComponent implements OnInit {
   filelds:any = [];
   fieldStage:any ={};
   selectedStage;
+  changesDetected;
+  currentEditIndex :any= -1;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   newStage:any ={
     name :'My Mapping'
@@ -65,6 +68,7 @@ export class IndexComponent implements OnInit {
   }
   showSearch;
   searchFields;
+  pipelineCopy;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -81,6 +85,9 @@ export class IndexComponent implements OnInit {
     this.getFileds();
     this.setResetNewMappingsObj();
     this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
+  }
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.pipeline, event.previousIndex, event.currentIndex);
   }
   setResetNewMappingsObj(){
     this.simulteObj = {
@@ -125,13 +132,20 @@ export class IndexComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   }
-  saveConfig(){
+  saveConfig(index?,dialogRef?){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
     };
-    this.service.invoke('post.indexPipeline', quaryparms,this.selectedStage).subscribe(res => {
+    this.service.invoke('put.indexPipeline', quaryparms,{stages:this.pipeline}).subscribe(res => {
      this.pipeline=  res.stages || [];
+     this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+      if(dialogRef && dialogRef.close){
+        dialogRef.close();
+      }
+      if(index !== 'null' && index !== undefined && (index>-1)){
+       this.currentEditIndex = -1
+      }
     }, errRes => {
       this.errorToaster(errRes,'Failed to get stop words');
     });
@@ -141,15 +155,7 @@ export class IndexComponent implements OnInit {
   }
   addEditFiled(field?){
     if(field){
-      const quaryparms: any = {
-        searchIndexID:this.serachIndexId,
-        fieldId:field._id,
-      };
-      this.service.invoke('get.getFieldById', quaryparms).subscribe(res => {
-        this.newMappingObj = res;
-      }, errRes => {
-        this.errorToaster(errRes,'Failed to get field');
-      });
+      this.newFieldObj = field;
     } else{
       this.newFieldObj = {
         fieldName: '',
@@ -186,6 +192,29 @@ export class IndexComponent implements OnInit {
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
+  removeStage(i){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Stage',
+        text: 'Are you sure you want to delete selected stage?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.pipeline.splice(i,1);
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
   addField(){
     const payload:any = {
       fieldName: this.newFieldObj.fieldName,
@@ -198,12 +227,18 @@ export class IndexComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
+      fieldId:this.newFieldObj._id
     };
     let api  = 'post.createField';
-    if(this.newMappingObj && this.newMappingObj._id){
-      api = 'put.put.updateField'
+    if(this.newFieldObj && this.newFieldObj._id){
+      api = 'put.updateField'
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
+      if(this.newFieldObj && this.newFieldObj._id){
+        this.notificationService.notify('Field updated successfully','success');
+      } else {
+        this.notificationService.notify('Field added successfully','success');
+      }
       this.getFileds();
       this.closeModalPopup();
     }, errRes => {
@@ -267,8 +302,9 @@ export class IndexComponent implements OnInit {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
     };
-    this.service.invoke('get.indexPipeline', quaryparms).subscribe(res => {
+    this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
      this.pipeline=  res.stages || [];
+     this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
     }, errRes => {
       this.errorToaster(errRes,'Failed to get index  stages');
     });
@@ -284,13 +320,55 @@ export class IndexComponent implements OnInit {
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
-  selectStage(stage){
-    this.selectedStage = stage;
+  confirmChangeDiscard(newstage?,i?){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Discard current changes',
+        text: 'Are you sure you want to discard current?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if(this.pipeline.length > this.pipelineCopy) {
+            i = i-1;
+          }
+          this.clearDirtyObj();
+          if(newstage){
+            this.selectStage(newstage,i);
+          } else {
+            this.createNewMap();
+          }
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  clearDirtyObj(){
+    this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
+    this.currentEditIndex = -1;
+    this.changesDetected = false;
+  }
+  selectStage(stage,i){
+    if(this.changesDetected){
+     this.confirmChangeDiscard(stage,i);
+    } else {
+      this.currentEditIndex = i;
+      this.selectedStage = stage;
+    }
   }
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
   }
   addEntityList(event: MatChipInputEvent,map){
+    this.changesDetected = true;
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
@@ -306,12 +384,14 @@ export class IndexComponent implements OnInit {
     }
   }
   removeEntityList(map,entity) {
+    this.changesDetected = true;
     const index = map.entity_types.indexOf(entity);
     if (index >= 0) {
       map.entity_types.splice(index, 1);
     }
   }
   addTraitsList(event: MatChipInputEvent,map){
+    this.changesDetected = true;
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
@@ -327,12 +407,14 @@ export class IndexComponent implements OnInit {
     }
   }
   removeKeyWordsList(map,trait) {
+    this.changesDetected = true;
     const index = map.trait_groups.indexOf(trait);
     if (index >= 0) {
       map.trait_groups.splice(index, 1);
     }
   }
   addKeyWordsList(event: MatChipInputEvent,map){
+    this.changesDetected = true;
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
@@ -348,12 +430,14 @@ export class IndexComponent implements OnInit {
     }
   }
   removeTraitsList(map,trait) {
+    this.changesDetected = true;
     const index = map.trait_groups.indexOf(trait);
     if (index >= 0) {
       map.trait_groups.splice(index, 1);
     }
   }
   addFiledmappings(map){
+    this.changesDetected = true;
     if(!this.selectedStage.config){
       this.selectedStage.config = {
         mappings:[]
@@ -366,6 +450,10 @@ export class IndexComponent implements OnInit {
     this.setResetNewMappingsObj();
   }
   createNewMap(){
+    if(this.changesDetected){
+      this.confirmChangeDiscard()
+    } else {
+    this.changesDetected = true;
     const obj :any = new StageClass();
     const newArray = [];
     obj.name = this.defaultStageTypes[0].name;
@@ -374,6 +462,7 @@ export class IndexComponent implements OnInit {
     newArray.push(obj)
     this.pipeline = newArray.concat(this.pipeline);
     this.selectedStage = this.pipeline[0];
+    }
   }
   selectNewItem(defaultStage){
     this.newStageObj = JSON.parse(JSON.stringify(defaultStage));

@@ -17,25 +17,34 @@
                 <div class="add" (click)="createNewMap()" placement="bottom-right" ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
             </div>
             <perfect-scrollbar class="scroll_stage_content">
-                <ng-container *ngIf="pipeline && pipeline.length">
-                <div class="field_data" *ngFor="let pipe of pipeline">
-                    <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
-                    <div class="title text-truncate">{{pipe.name}}</div>
-                    <div class="close_icon"><img src="assets/icons/close_field.svg"></div>
-                </div>
+                <ng-container *ngIf="pipeline && pipeline.length; let i = index;">
+                    <div cdkDropList (cdkDropListDropped)="drop($event)">
+                        <div (click)="selectStage(pipe)" class="field_data" *ngFor="let pipe of pipeline" cdkDrag>
+                            <div class="drag_drop_icon" cdkDragPlaceholder><img src="assets/icons/drog_drop.svg"></div>
+                            <div class="title text-truncate" >{{pipe.name}}</div>
+                            <div class="close_icon" (click)="removeStage(i)"><img src="assets/icons/close_field.svg"></div>
+                        </div>
+                    </div>
                </ng-container>
                 <div class="divider" *ngIf="pipeline && pipeline.length"></div>           
                 <div class="feilds-indicator" (click)="selectStage(fieldStage)">Fields</div>
             </perfect-scrollbar>   
         </div>
-        <div class="table_sec" *ngIf="selectedStage && selectedStage.type === 'fields'">
-            <div class="seach_add_feild">
+        <div class="table_sec" *ngIf="(selectedStage && selectedStage.type === 'fields') || (currentEditIndex <-1)">
+        <div class="seach_add_feild">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
                     <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
                   </div> 
                   <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Seach</div>
                 <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>
-            </div>            
+            </div> 
+            <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <div class="heading">No Fields</div>
+                    <div class="desc">Please add Field</div>
+                </ng-container>
+            </div>           
             <div class="table_data_content" *ngIf="filelds && filelds.length">
                 <div class="table_header row m-0">
                     <div class="col-2 title">Field Name</div>
@@ -49,7 +58,7 @@
                 <perfect-scrollbar class="table_body_content">
                     <div class="table_body row m-0" *ngFor="let field of filelds | filter: [ searchFields, 'fieldName']">
                         <div class="col-2 title">{{field.fieldName}}</div>
-                        <div class="col-2 title">{{field.fieldDataType}}</div>
+                        <div class="col-2 title">{{field.fieldDataType | translate}}</div>
                         <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
                         <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
@@ -71,9 +80,9 @@
                     <div class="kr-sg-dropdowns mb-20">
                         <div class="label-text">Stage Type</div>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{selectedStage.type?selectedStage.type:'Choose stage type'}}</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'Choose stage type') | translate}}</button>                                         
                             <ul class="dropdown-menu content-menu">                                                                    
-                              <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type">{{systemStage.name}}</li>
+                              <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type"><a>{{systemStage.name}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -93,7 +102,7 @@
                             <div class="kr-sg-dropdowns col-4 input-box pl-0">
                                 <div class="label-text">Action</div>
                                 <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.operation?map.operation:''}}</button>                                            
+                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'') | translate}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
                                       <li (click)='map.operation ="set"'>Set</li>
                                       <li (click)='map.operation ="rename"'>Rename</li>
@@ -244,22 +253,22 @@
             <div class="kr-sg-dropdowns col-6 pl-0 pr-2">
                 <div class="label-text">Stage Type</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{simulteObj.docCount?simulteObj.docCount + ' Documents':'Choose an option' | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                    
-                      <li><a href="#">Option 1</a></li>
-                      <li><a href="#">Option 2</a></li>
-                      <li><a href="#">Option 3</a></li>
+                      <li click)="simulteObj.sourceType === 'pages'"><a>Page</a></li>
+                      <li click)="simulteObj.sourceType === 'Faqs'"><a></a></li>
+                      <li click)="simulteObj.sourceType === 5"><a href="#">Option 3</a></li>
                     </ul>
                 </div>
             </div>
             <div class="kr-sg-dropdowns col-6 pr-0 pl-2">
                 <div class="label-text">Stage Name</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{simulteObj.docCount?simulteObj.docCount + ' Documents':'Choose an option'}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                    
-                      <li><a href="#">Option 1</a></li>
-                      <li><a href="#">Option 2</a></li>
-                      <li><a href="#">Option 3</a></li>
+                      <li (click)="simulteObj.docCount === 5"><a>5 Documents</a></li>
+                      <li><a (click)="simulteObj.docCount === 10">5 Documents</a></li>
+                      <li><a (click)="simulteObj.docCount === 20">20 Documents</a></li>
                     </ul>
                 </div>
             </div>                     
@@ -306,18 +315,18 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-10 p-0">
                     <div class="label-text">Field Name</div>
-                    <input type="text" placeholder="Specify Condition" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="number" *ngIf="newFieldObj.fieldDataType !== 'string'"  placeholder="Specify Condition" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text"  *ngIf="newFieldObj.fieldDataType === 'string'" placeholder="Specify Condition" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
             <div class="row m-0 align-items-center">                         
                 <div class="kr-sg-dropdowns col-10 p-0">                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newFieldObj.fieldDataType?newFieldObj.fieldDataType:'Çhoose an option'}}</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'Çhoose an option' | translate)}}</button>                                            
                         <ul class="dropdown-menu content-menu">                                                                    
-                          <li  (click)="newFieldObj.fieldDataType = 'string'"><a>String</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'number'"><a>Number</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'Boolean'"><a>Boolean</a></li>
+                          <li  (click)="newFieldObj.fieldDataType = 'string';newFieldObj.fieldName = ''"><a>String</a></li>
+                          <li  (click)="newFieldObj.fieldDataType = 'number';newFieldObj.fieldName = ''"><a>Number</a></li>
                         </ul>
                     </div>
                 </div>
@@ -355,7 +364,7 @@
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button" [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" class="kr-sg-button-primary btn_lg float-right" style="margin: 0 !important;" (click)="addField()">Add</button>                   
+        <button type="button" [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" class="kr-sg-button-primary btn_lg float-right" style="margin: 0 !important;" (click)="addField()">{{newFieldObj._id?'Save':'Add'}}</button>                   
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </ng-container>

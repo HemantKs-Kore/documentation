@@ -14,6 +14,17 @@
     "Review_and_Add":"Review and Add",
     "Review_and_Add_IndexingInfo":"- Or choose 'Extract and Review' option to review all the questions before adding it for indexing",
     "Train":"Train",
-    "Train_IndexingInfo":"Reviewed and added questions or modifed FAQs need to be trained for indexing"
-
+    "Train_IndexingInfo":"Reviewed and added questions or modifed FAQs need to be trained for indexing",
+    "string":"String",
+    "number":"Number",
+    "boolean":"Boolean",
+    "field_mapping":"Field Mmapping",
+    "entity_extraction":"Entity Extraction",
+    "keyword_extraction":"Keyword Extraction",
+    "traits_extraction":"Traits Extraction",
+    "custom_script":"Custom Script",
+    "set":"Set",
+    "rename":"Rename",
+    "copy":"Copy",
+    "remove":"Remove",
 }
