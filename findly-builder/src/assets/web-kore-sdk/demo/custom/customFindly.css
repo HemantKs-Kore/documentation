@@ -179,3 +179,8 @@ img.logo-img{
     right: 0 !important;
   }
   
+  .add-new-result{
+    left: 635px !important;
+    width: calc(55% - 245px) !important;
+    right: 0 !important;
+  }

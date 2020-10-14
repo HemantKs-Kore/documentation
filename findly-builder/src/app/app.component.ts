@@ -171,10 +171,13 @@ export class AppComponent implements OnInit {
       $('.start-search-icon-div').addClass('active');
       $('.advancemode-checkbox').css({"display":"block"});
       $('.search-container').addClass('search-container-adv')
+      $('.search-container').addClass('add-new-result')
     }else{
       $('.search-background-div').hide();
       $('.start-search-icon-div').removeClass('active');
       $('.advancemode-checkbox').css({"display":"none"});
+      $('.search-container').removeClass('search-container-adv')
+      $('.search-container').removeClass('add-new-result')
     }
   }
   initSearchSDK(){

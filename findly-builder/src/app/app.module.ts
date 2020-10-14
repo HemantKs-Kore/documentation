@@ -74,6 +74,7 @@ import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
+import { AddResultComponent } from './components/add-result/add-result.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -121,7 +122,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StopWordsComponent,
     WeightsComponent,
     ResultRankingComponent,
-    SynonymFilterPipe
+    SynonymFilterPipe,
+    AddResultComponent
     ],
   imports: [
     BrowserModule,

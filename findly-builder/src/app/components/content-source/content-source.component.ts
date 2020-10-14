@@ -156,7 +156,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   }
       // });
       if (res.numPages)
-        this.pageination(res.numPages, 10);
+        this.pageination(res.numPages, false);
       if (this.resources.length) {
         this.resources.forEach(element => {
           this.statusArr.push(element.recentStatus);
@@ -306,14 +306,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.openStatusModal();
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      this.pageination(source.numPages, 10)
+      this.pageination(source.numPages, false)
       this.loadingSliderContent = true;
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
 
       this.getCrawledPages(this.limitpage, 0);
     }
   }
-  pageination(pages, perPage) {
+  pageination(pages, action) {
     // let count = 0;
     // let divisor = Math.floor(pages/perPage) 
     // let remainder = pages%perPage;
@@ -341,8 +341,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       $('.pre-arrow').addClass("dis-arow");
       $('.nxt-arrow').addClass("dis-arow");
     }
-
+    if(action ==  true && this.totalRecord > this.recordEnd){
+      this.recordEnd = this.totalRecord;
+      this.allInOne = true;
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
+    }
   }
+
   numArr(n: number): any[] {
     return Array(n);
   }
@@ -482,7 +488,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       dialogRef.close();
       this.totalRecord = this.totalRecord - 1;
-      this.pageination(this.totalRecord , null)
+      this.pageination(this.totalRecord , true)
       this.notificationService.notify('Page deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
         return pg._id === page._id;
