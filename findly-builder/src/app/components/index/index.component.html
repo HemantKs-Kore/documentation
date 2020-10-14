@@ -148,7 +148,7 @@
                 </div>
                 <div class="form_inputs_data" *ngIf="(selectedStage.type === 'entity_extraction') || (selectedStage.type === 'traits_extraction') || (selectedStage.type === 'keywords_extraction')">
                     <ng-container *ngIf="selectedStage && selectedStage.config && selectedStage.config.mappings && selectedStage.config.mappings.length">
-                        <div class="row m-0 form_list pl-0" *ngFor="let map of selectedStage.config.mappings">
+                        <div class="row m-0 form_list pl-0" *ngFor="let map of selectedStage.config.mappings; let i = index">
                             <div class="drag_drop d-none"><img src="assets/icons/drog_drop.svg"></div>
                             <div class="kr-sg-input-text col-4 input-box pl-0">
                                 <div class="label-text">Source Field</div>
@@ -222,7 +222,7 @@
                                 <div class="label-text">Target Field</div>
                                 <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                             </div>  
-                            <div class="delete_icon"><img src="assets/icons/delete-table.svg"></div>                 
+                            <div class="delete_icon" (click)="removeConfig(i,selectedStage.config.mappings)"><img src="assets/icons/delete-table.svg"></div>
                         </div>
                     </ng-container>
                     <div class="row m-0 form_list pl-0" *ngIf="newMappingObj[selectedStage.type]&&newMappingObj[selectedStage.type].defaultValue">

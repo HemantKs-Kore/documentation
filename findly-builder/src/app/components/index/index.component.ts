@@ -366,6 +366,9 @@ export class IndexComponent implements OnInit {
         }
       })
   }
+  removeConfig(index,list){
+    list.splice(index ,1);
+  }
   clearDirtyObj(){
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     if( this.selectedStage && !this.selectedStage._id ){
