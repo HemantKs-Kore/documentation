@@ -3516,7 +3516,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // $(dataHTML).off('click', '.search-logo').on('click', '.search-logo', function (event) {
       //   $('.search-container').toggleClass('conversation');
       // });
-
+       $(dataHTML).off('click', '.custom-header-text').on('click', '.custom-header-text', function (event) {
+        var randomObject = { 'type': 'show', data: true } 
+        _self.parentEvent(randomObject);
+       });
 
       $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
         // if (ttsAudioSource) {
@@ -5824,7 +5827,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       console.log(event);
       
-      let randomObject = { 'type': tabName, data: {}} 
+      
 
       var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
       for (var i = 0; i < navLinks.length; i++) {
@@ -5881,7 +5884,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           actionsDivs[i].style.display = "none";
         }
       }*/
-      this.parentEvent(randomObject);
     };
 
     FindlySDK.prototype.openPanel = function (panelName, resPopUp, heightToggle) {
