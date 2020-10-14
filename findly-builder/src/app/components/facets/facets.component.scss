@@ -187,7 +187,10 @@
 
     }
 }
-
+.disabled{
+    pointer-events: none !important;
+    opacity: 0.8;
+}
 ::ng-deep .facetModalPouup{
     .modal-body{
         .search_block{

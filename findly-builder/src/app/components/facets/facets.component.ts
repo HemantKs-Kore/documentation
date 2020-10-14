@@ -1,21 +1,307 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from '@kore.services/notification.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import * as _ from 'underscore';
+declare const $: any;
 @Component({
   selector: 'app-facets',
   templateUrl: './facets.component.html',
   styleUrls: ['./facets.component.scss']
 })
 export class FacetsComponent implements OnInit {
-  facetModalRef:any;  
-  constructor() { }
-  @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
-  ngOnInit(): void {
+  facetModalRef:any;
+  facets:any = [];
+  fieldAutoSuggestion:any =[];
+  selectedApp;
+  serachIndexId;
+  indexPipelineId;
+  loadingContent = true;
+  addEditFacetObj:any = null;
+  facetDefaultValueObj:any = {
+    facet:{
+      fieldName: '',
+      facetName: '',
+      facetType: 'value',
+      isMultiSelect: false,
+      facetValue: {},
+    },
+    range:{
+      rangeName:'',
+      from:'',
+      to:''
+    },
+    value:{
+      size:0,
+      orderKey: 'count',
+      asc:true
+    }
   }
+  selcectionObj: any = {
+    selectAll: false,
+    selectedItems:[],
+  };
+  dummyCount =0;
+  constructor(
+    public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService,
+    public dialog: MatDialog
+  ) { }
+  @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
+  ngOnInit() {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    this.getFacts();
+  }
+  selectAll(unselectAll?) {
+    const allFaqs = $('.selectEachfacetInput');
+    if (allFaqs && allFaqs.length){
+      $.each(allFaqs, (index,element) => {
+        if($(element) && $(element).length){
+          $(element)[0].checked = unselectAll?false: this.selcectionObj.selectAll;
+          const facetId = $(element)[0].id
+          this.addRemoveFaqFromSelection(facetId,this.selcectionObj.selectAll);
+        }
+      });
+    };
+    if(unselectAll){
+      $('#selectAllFacets')[0].checked = false;
+    }
+  }
+  addRemoveFaqFromSelection(facetId,addtion,clear?){
+    if(clear){
+     this.selcectionObj.selectedItems = {};
+     this.selcectionObj.selectedCount = 0;
+     this.selcectionObj.selectAll = false;
+    } else {
+     if(facetId){
+       if(addtion){
+         this.selcectionObj.selectedItems[facetId] = {};
+       } else {
+         if(this.selcectionObj.selectedItems[facetId]){
+           delete this.selcectionObj.selectedItems[facetId]
+         }
+       }
+     }
+     this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+    }
+  }
+  createNewFacet() {
+    this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
+    this.openModal();
+  }
+  editFacetModal(facet){
+    this.addEditFacetObj = JSON.parse(JSON.stringify(facet));
+    this.openModal();
+  }
+  resetDefaults(){
+    this.facetDefaultValueObj = {
+      facet:{
+        fieldName: '',
+        facetName: '',
+        facetType: 'value',
+        isMultiSelect: false,
+        facetValue: {},
+      },
+      range:{
+        rangeName:'',
+        from:'',
+        to:''
+      },
+      value:{
+        size:0,
+        orderKey: 'count',
+        asc:true
+      }
+    }
+  }
+  getFieldAutoComplete(query){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fieldAutoSuggestion = res || [];
+     }, errRes => {
+       this.errorToaster(errRes,'Failed to get fields');
+     });
+  }
+  switchType(type){
+    if(type=== 'value'){
+      if(this.addEditFacetObj.facetRange){
+        delete this.addEditFacetObj.facetRange;
+      }
+      this.addEditFacetObj.facetValue = {};
+    } else {
+      if(this.addEditFacetObj.facetValue){
+        delete this.addEditFacetObj.facetValue;
+      }
+      this.addEditFacetObj.facetRange = [];
+    }
+    this.addEditFacetObj.facetType = type;
+  }
+  addFiled(facet){
+    if(facet.facetType === 'value'){
+      if(this.addEditFacetObj.facetRange){
+        delete this.addEditFacetObj.facetRange;
+      }
+      if(!this.addEditFacetObj.facetValue){
+        this.addEditFacetObj.facetValue = [];
+      }
+      this.addEditFacetObj.facetValue.push(this.facetDefaultValueObj.value);
+    } else {
+      if(this.addEditFacetObj.facetValue){
+        delete this.addEditFacetObj.facetValue;
+      }
+      if(!this.addEditFacetObj.facetRange){
+        this.addEditFacetObj.facetRange = [];
+      }
+      this.addEditFacetObj.facetRange.push(this.facetDefaultValueObj.range);
+    }
+    this.addEditFacetObj.
+    this.resetDefaults();
+  }
+  getFacts(offset?){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      offset: offset || 0,
+      limit:100
+    };
+    this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
+      this.facets =  res || [];
+      this.loadingContent = false;
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to get facets');
+    });
+  }
+  createFacet() {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+    };
+    const payload = this.addEditFacetObj;
+    this.service.invoke('create.facet', quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Facet created successfully','success');
+      this.facets.push(res);
+      this.closeModal();
+      this.addEditFacetObj = null;
+    }, errRes => {
+      this.dummyCount = this.dummyCount + 1;
+      payload._id = this.dummyCount + 'face';
+      this.facets.push(payload);
+      this.errorToaster(errRes,'Failed to create facet');
+    });
+  }
+  editFacet(){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      facetId:this.indexPipelineId._id
+    };
+    const payload = this.addEditFacetObj;
+    this.service.invoke('update.facet', quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Facet updated successfully','success');
+      const editIndex = _.findIndex(this.facets, (facet) => {
+        return facet._id === this.indexPipelineId._id;
+      })
+      this.facets[editIndex] = res;
+      this.closeModal();
+      this.addEditFacetObj = null;
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to update facet');
+    });
+  }
+  deleteFacets(facet?,bulk?){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete facet',
+        text: 'Are you sure you want to delete selected facet?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if(bulk){
+             this.deleteBulkFacet(dialogRef);
+          } else if(facet) {
+            this.deleteFacet(facet,dialogRef);
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteBulkFacet(dialogRef){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+    };
+    const payload = this.selcectionObj.selectedItems;
+    this.service.invoke('delete.bulkFacet', quaryparms,payload).subscribe(res => {
+      this.getFacts();
+      dialogRef.close();
+      this.notificationService.notify('Facets deleted successfully','success');
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to delete facets');
+    });
+  }
+  deleteFacet(facet,dialogRef){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      facetId:facet._id
+    };
+    const payload = this.addEditFacetObj;
+    this.service.invoke('delete.facet', quaryparms,payload).subscribe(res => {
+      const deleteIndex = _.findIndex(this.facets, (fct) => {
+        return fct._id === facet._id;
+      })
+      this.facets.splice(deleteIndex,1);
+      dialogRef.close();
+      this.notificationService.notify('Facet deleted successfully','success');
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to delete facet');
+    });
+  }
+  errorToaster(errRes,message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+  }
+ }
+ addOrUpdate(){
+   if(this.addEditFacetObj && this.addEditFacetObj._id){
+    this.editFacet();
+   } else {
+     this.createFacet();
+   }
+ }
   openModal(){
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal(){
+    this.resetDefaults();
+    this.addEditFacetObj = null;
     this.facetModalRef.close();
   }
 

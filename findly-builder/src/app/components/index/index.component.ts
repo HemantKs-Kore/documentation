@@ -73,6 +73,7 @@ export class IndexComponent implements OnInit {
   showSearch;
   searchFields;
   pipelineCopy;
+  fieldAutoSuggestion: any = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -145,6 +146,17 @@ export class IndexComponent implements OnInit {
       this.searchFields = '';
     }
     this.showSearch = !this.showSearch
+  }
+  getFieldAutoComplete(){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId
+    };
+    this.service.invoke('put.indexPipeline', quaryparms,{stages:this.pipeline}).subscribe(res => {
+      this.fieldAutoSuggestion = res;
+     }, errRes => {
+       this.errorToaster(errRes,'Failed to get fields');
+     });
   }
   saveConfig(index?,dialogRef?){
     const quaryparms: any = {

@@ -370,5 +370,33 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
       method: 'post'
     }
+    this.serviceList['get.getFieldAutocomplete'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/autocomplete?alpha=:query&isIndexed=true',
+      method: 'get'
+    }
+    this.serviceList['get.allFacets'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['create.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/',
+      method: 'post'
+    }
+    this.serviceList['update.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      method: 'put'
+    }
+    this.serviceList['update.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      method: 'put'
+    }
+    this.serviceList['delete.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      method: 'delete'
+    }
+    this.serviceList['delete.bulkFacet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/bulk',
+      method: 'delete'
+    }
   }
 }
