@@ -113,10 +113,10 @@ export class StopWordsComponent implements OnInit {
         this.pipeline.stages.forEach(stage => {
           if(stage && stage.type === 'stopwords'){
             this.stopwords = stage.stopwords || [];
-            if(!this.stopwords && this.stopwords.length && !dialogRef){
+            if(!(this.stopwords && this.stopwords.length) && !dialogRef){
               this.notificationService.notify('No default stop words available','error');
             } else {
-              this.notificationService.notify('Stopwords set to default','error');
+              this.notificationService.notify('Stopwords set to default','success');
             }
           }
         });
