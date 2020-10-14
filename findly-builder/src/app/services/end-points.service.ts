@@ -306,5 +306,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
       method: 'put'
     }
+    this.serviceList['get.extractedResult_RR'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/resultSearch?resultType=:type&search=:search&skip=:skip&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['get.QueryLevelAnalytics'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/analytics',
+      method: 'post'
+    }
   }
 }

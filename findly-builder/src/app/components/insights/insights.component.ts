@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EChartOption } from 'echarts';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 declare const $: any;
 
 @Component({
@@ -12,10 +14,14 @@ export class InsightsComponent implements OnInit {
   icontoggle : boolean = false;
   graphMode : boolean = false;
   iconIndex;
-  slider : any;
+  ctrVal;
+  slider : any = 1;
   filterArray : any = [];
   actionLogData : any;
   actionLogDatBack : any;
+  selectedApp: any = {};
+  serachIndexId;
+  analystic : any = {};
   staticChartOption : EChartOption = {
         xAxis: {
           type: 'category',
@@ -125,13 +131,32 @@ export class InsightsComponent implements OnInit {
 }
 ]
   };
-  constructor() { }
-
+  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
+  getQueryLevelAnalytics(){
+    const quaryparms: any={
+      searchIndexId: this.serachIndexId,
+    }
+    var payload = {
+      "searchQuery": "Open bank account"
+    }
+    // this.analystic =  {
+    //   "searches": 5983,
+    //   "clicks": 4254
+    // };
+    // this.ctrVal = Math.floor(this.analystic['searches'] / this.analystic['clicks'] ) * 100;
+    
+      this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
+        console.log(res)
+        this.analystic =  res;
+        this.ctrVal = Math.floor(this.analystic['searches'] / this.analystic['clicks'] ) * 100;
+      },error =>{
+        console.log(error);
+      });
+  }
   ngOnInit(): void {
-    // (opts?: {
-    //   width?: '50px',
-    //   height?: '37px',
-    // }) => this.chartOption
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getQueryLevelAnalytics();
     $("#advanceContainer").delay(800).fadeIn();
     $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     

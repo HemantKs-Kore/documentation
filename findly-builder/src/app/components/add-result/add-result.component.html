@@ -2,7 +2,7 @@
 <div class="add-result">
     <div class="header">
         <span class="head-txt">ADD NEW RESULT</span>
-        <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
+        <img class="closeCross" src="assets/images/close.svg" (click)="cancelRecord()">
     </div>
     <div class="cont-head">
         <!-- <div class= "txt">Result Type</div> -->
@@ -10,24 +10,29 @@
             <!-- BUTTONS START HERE -->
             <div class="group-radiobutton">
                 <div class="heading-title txt">Result Type</div>
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (click) = "resultClick('FAQ')">
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (click) = "resultClick('faq')">
                     <label for="radio-1" class="radio-custom-label">FAQ</label>
                 </div>
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-2" name="radio" class="radio-custom" type="radio" (click) = "resultClick('Content')">
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-2" name="radio" class="radio-custom" type="radio" (click) = "resultClick('content')">
                     <label for="radio-2" class="radio-custom-label">Content</label>
                 </div>
-                <div class="kr-sg-radiobutton">
-                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('Bot Action')">
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('botaction')">
                     <label for="radio-3" class="radio-custom-label">Bot Action</label>
                 </div>
+                <!-- <div class="kr-sg-radiobutton radiobutton ">
+                    <input id="radio-4" name="radio" class="radio-custom" type="radio" (click) = "resultClick('any')">
+                    <label for="radio-4" class="radio-custom-label">Any</label>
+                </div> -->
             </div> 
             <!-- BUTTONS ENDS HERE -->
         </div>
     </div>
     <div class="search">
-        <input type="text" class= "search-box" placeholder="Search by title,description or url">
+        <input type="text" class= "search-box" name ="searchTxt" [(ngModel)] = "searchTxt" placeholder="Search by title,description or url" (keyup)="keyFunc(searchTxt)">
+        <img class="closeCross" src="assets/images/close.svg" (click)="clearReocrd()">
     </div>
   
     <!-- <div class="record">
@@ -47,97 +52,46 @@
         <ng-container >
         <div id="accordion" class="accordion-content">
             <div *ngIf="searchType; else empty">
-                <div class="card-content">
-                    <div   class="card_link collapsed">      
-                        <div class="d-flex align-items-center">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                <div  *ngFor="let result of extractedResults;let i = index">
+                    <div class="card-content"   *ngIf="searchType == 'faq'">
+                        <div class="card_link collapsed">      
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                    <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec" *ngIf="searchType == 'faq'">
+                                    <div class="title">{{ result.question}}</div>
+                                    <div class="desc">{{ result.answer}}</div>
+                                </div>
                             </div>
-                            <div class="title-desc-sec">
-                                <div class="title">How do I access my account online at Citibank Online?</div>
-                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
-                            </div>
+                            
                         </div>
-                        
                     </div>
-                </div> 
-                <div class="card-content">
-                    <div   class="card_link collapsed">      
-                        <div class="d-flex align-items-center">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                            </div>
-                            <div class="title-desc-sec">
-                                <div class="title">How do I access my account online at Citibank Online?</div>
-                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <!-- <div class="card-content">
-                    <div   class="card_link collapsed">      
-                        <div class="d-flex align-items-center">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                            </div>
-                            <div class="title-desc-sec">
-                                <div class="title">How do I access my account online at Citibank Online?</div>
-                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
+                    <div *ngIf="searchType == 'content'">
+                        <div *ngFor="let data of result.data ;let j = index">
+                            <div class="card-content" >
+                                <div class="card_link collapsed">      
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                            <input  [attr.id]="j"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(data,j)">
+                                            <label [attr.for]="j" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">{{ data.title}}</div>
+                                            <div class="desc" *ngIf="data.searchResultPreview;else body">{{ data.searchResultPreview}}</div>
+                                            <ng-template #body>
+                                                <div class="desc">{{ data.body}}</div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
-                <div class="card-content">
-                    <div   class="card_link collapsed">      
-                        <div class="d-flex align-items-center">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                            </div>
-                            <div class="title-desc-sec">
-                                <div class="title">How do I access my account online at Citibank Online?</div>
-                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div   class="card_link collapsed">      
-                        <div class="d-flex align-items-center">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                            </div>
-                            <div class="title-desc-sec">
-                                <div class="title">How do I access my account online at Citibank Online?</div>
-                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div   class="card_link collapsed">      
-                        <div class="d-flex align-items-center">
-                            <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
-                            </div>
-                            <div class="title-desc-sec">
-                                <div class="title">How do I access my account online at Citibank Online?</div>
-                                <div class="desc">As a trusted banking partener with an on-the ground precence in the over 100</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div> -->
-
+                
             </div>
             <ng-template #empty>
                 <div  class="empty-questions-selected divBlockEmptylastChild">
@@ -148,7 +102,8 @@
        </ng-container>
     </perfect-scrollbar>
     <div class="footer">
-        <button class="add">Add</button>
-        <button class="cancel">Cancel</button>
+        <span class="desc" *ngIf="recordArray.length" >{{ recordArray.length }} results selected</span>
+        <button class="bef-add" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()">Add</button>
+        <button class="cancel" (click) = "cancelRecord()">Cancel</button>
     </div>
 </div>
