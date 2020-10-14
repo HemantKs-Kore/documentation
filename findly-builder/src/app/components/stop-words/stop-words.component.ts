@@ -196,7 +196,9 @@ export class StopWordsComponent implements OnInit {
       }
     }
     const payload: any = {
-      pipeline:this.pipeline
+      pipeline:{
+        stopwords:this.stopwords
+      }
     }
     if (enableOrDisable){
       msg = 'Stop words ' + (this.enabled?'enabled':'disabled') + ' successfully';

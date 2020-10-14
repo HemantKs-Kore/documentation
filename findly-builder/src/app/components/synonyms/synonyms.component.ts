@@ -122,7 +122,9 @@ export class SynonymsComponent implements OnInit {
       queryPipelineId:this.queryPipelineId,
     };
     const payload: any ={
-      pipeline:this.pipeline
+      pipeline:{
+        synonyms:synonymData
+      }
     }
     if(payload.pipeline.stages && payload.pipeline.stages.length){
       payload.pipeline.stages.forEach(stage => {
