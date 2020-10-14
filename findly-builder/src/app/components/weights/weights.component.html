@@ -7,7 +7,7 @@
     <div class="header-sec-stopwords">
         <div class="title">Weights</div>
         <div class="restore_text" *ngIf="weights.length">
-            <span class="lable_text"><img src="assets/icons/return_black.svg">Reset to Default</span>
+            <span class="lable_text" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">Reset to Default</span>
             <span class="clock_img"><img src="assets/icons/clock.svg"></span> 
         </div>                   
     </div> 
@@ -74,7 +74,7 @@
         </div>
         <div class="kr-sg-input-text-area mb-25">
             <div class="label-text">Description</div>
-            <textarea [(ngModel)]="addEditWeighObj.description" placeholder="Short description" class="input-text"></textarea>
+            <textarea [(ngModel)]="addEditWeighObj.desc" placeholder="Short description" class="input-text"></textarea>
         </div>
         <div class="kr-sg-input-text">
             <div class="label-text">Set Weight</div>
