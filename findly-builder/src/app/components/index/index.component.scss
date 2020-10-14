@@ -108,6 +108,10 @@
         }
     }
 }
+.disabled{
+    pointer-events: none !important;
+    opacity: 0.8;
+}
 .workbench_main_container{
     height: calc(100vh - 61px);
     .header_sec{
@@ -198,6 +202,16 @@
                         }
                         .close_icon{
                             display: block;
+                        }
+                    }
+                    &.active{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
                         }
                     }
                     .drag_drop_icon{

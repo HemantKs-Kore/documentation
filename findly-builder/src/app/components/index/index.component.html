@@ -10,16 +10,16 @@
             <button class="kr-sg-button-primary btn_lg">Re-Index</button>
         </div>
     </div>
-    <div class="split_section_stage_table">
+    <div class="split_section_stage_table" *ngIf="!loadingContent">
         <div class="stage_sec">
             <div class="stage_header">
                 <div class="title">Stages</div>
                 <div class="add" (click)="createNewMap()" placement="bottom-right" ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
             </div>
             <perfect-scrollbar class="scroll_stage_content">
-                <ng-container *ngIf="pipeline && pipeline.length; let i = index;">
+                <ng-container *ngIf="pipeline && pipeline.length">
                     <div cdkDropList (cdkDropListDropped)="drop($event)">
-                        <div (click)="selectStage(pipe)" class="field_data" *ngFor="let pipe of pipeline" cdkDrag>
+                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (currentEditIndex === i)}">
                             <div class="drag_drop_icon" cdkDragPlaceholder><img src="assets/icons/drog_drop.svg"></div>
                             <div class="title text-truncate" >{{pipe.name}}</div>
                             <div class="close_icon" (click)="removeStage(i)"><img src="assets/icons/close_field.svg"></div>
@@ -27,7 +27,7 @@
                     </div>
                </ng-container>
                 <div class="divider" *ngIf="pipeline && pipeline.length"></div>           
-                <div class="feilds-indicator" (click)="selectStage(fieldStage)">Fields</div>
+                <div class="feilds-indicator" (click)="selectStage(fieldStage,-1)">Fields</div>
             </perfect-scrollbar>   
         </div>
         <div class="table_sec" *ngIf="(selectedStage && selectedStage.type === 'fields') || (currentEditIndex <-1)">
@@ -79,7 +79,7 @@
                 <div class="form_edit_content">
                     <div class="kr-sg-dropdowns mb-20">
                         <div class="label-text">Stage Type</div>
-                        <div class="dropdown dropdown-open">
+                        <div class="dropdown dropdown-open" [ngClass]="{'disabled': selectedStage._id}">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
                             <ul class="dropdown-menu content-menu">                                                                    
                               <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type"><a>{{systemStage.name}}</a></li>
@@ -88,11 +88,11 @@
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Stage Name</div>
-                        <input type="text" placeholder="Placeholder text" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
+                        <input type="text" placeholder="Placeholder text" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Condition</div>
-                        <input type="text" placeholder="Specify Condition" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.condition">
+                        <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.condition">
                     </div>
                 </div>
                 <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
@@ -104,18 +104,18 @@
                                 <div class="dropdown dropdown-open">
                                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'choose_an_option') | translate}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
-                                      <li (click)='map.operation ="set"'>Set</li>
-                                      <li (click)='map.operation ="rename"'>Rename</li>
-                                      <li (click)='map.operation ="copy"'>Copy</li>
-                                      <li (click)='map.operation ="remove"'>Remove</li>
+                                      <li (click)='map.operation ="set";changesDetected = true'>Set</li>
+                                      <li (click)='map.operation ="rename";changesDetected = true'>Rename</li>
+                                      <li (click)='map.operation ="copy";changesDetected = true'>Copy</li>
+                                      <li (click)='map.operation ="remove";changesDetected = true'>Remove</li>
                                     </ul>
                                 </div>
                             </div> 
                             <div class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text">Field Name</div>
-                                <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="map.target_field">
+                                <input type="text" placeholder="Placeholder text" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                             </div>
-                            <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation !== 'remove')">
+                            <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
                                 <div class="label-text">Value</div>
                                 <input type="text" placeholder="Specify Condition" class="input-text" [(ngModel)]="map.value">
                             </div>  
@@ -152,7 +152,7 @@
                             <div class="drag_drop d-none"><img src="assets/icons/drog_drop.svg"></div>
                             <div class="kr-sg-input-text col-4 input-box pl-0">
                                 <div class="label-text">Source Field</div>
-                                <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="map.source_field">
+                                <input type="text" placeholder="Placeholder text" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                             </div>
                             <div  class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
@@ -220,7 +220,7 @@
                             
                             <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation !== 'remove')">
                                 <div class="label-text">Target Field</div>
-                                <input type="text" placeholder="Specify Condition" class="input-text" [(ngModel)]="map.target_field">
+                                <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                             </div>  
                             <div class="delete_icon"><img src="assets/icons/delete-table.svg"></div>                 
                         </div>
@@ -306,14 +306,14 @@
                  <div class="customScript">
                     <div class="kr-sg-input-text-area">
                         <div class="label-text">&lt;/&gt;Painless</div>
-                        <textarea placeholder="Placeholder text" class="input-text"></textarea>
+                        <textarea placeholder="Placeholder text" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.script"></textarea>
                     </div>
                  </div>
                  
                 </div>
             </perfect-scrollbar>    
             <div class="footer-simulate-form">
-                <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+                <button class="kr-sg-button-secondary btn_lg" [disabled]="!changesDetected" (click)="clearDirtyObj()">Cancel</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="simulate()"><img src="assets/images/simulate.svg" class="mr-1">Simulate</button>
             </div> 
         </div>          

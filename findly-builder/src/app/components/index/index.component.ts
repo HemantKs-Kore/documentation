@@ -135,9 +135,7 @@ export class IndexComponent implements OnInit {
       },
       custom_ccript:{
         defaultValue : {
-          source_field:'',
-          target_field:'',
-          keywords:[],
+         script:''
         }
       }
     }
@@ -156,6 +154,7 @@ export class IndexComponent implements OnInit {
     this.service.invoke('put.indexPipeline', quaryparms,{stages:this.pipeline}).subscribe(res => {
      this.pipeline=  res.stages || [];
      this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+     this.notificationService.notify('Configurations saved successfully','success');
       if(dialogRef && dialogRef.close){
         dialogRef.close();
       }
@@ -163,7 +162,7 @@ export class IndexComponent implements OnInit {
        this.currentEditIndex = -1
       }
     }, errRes => {
-      this.errorToaster(errRes,'Failed to get stop words');
+      this.errorToaster(errRes,'Failed to save configurations');
     });
   }
   openModalPopup(){
@@ -369,6 +368,9 @@ export class IndexComponent implements OnInit {
   }
   clearDirtyObj(){
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
+    if( this.selectedStage && !this.selectedStage._id ){
+      this.selectedStage = this.fieldStage;
+    }
     this.currentEditIndex = -1;
     this.changesDetected = false;
   }
