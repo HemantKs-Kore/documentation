@@ -1,8 +1,13 @@
 <div class="facets-main-container">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div *ngIf="!loadingContent">
     <div class="header">Facets</div>
     <div class="search-input-block">
         <div class="kr-sg-input-search">                               
-            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchfacet">
+            <input type="text" placeholder="Search" class="input-search pl-4" [(ngModel)]="searchfacet">
             <img src="assets/icons/search_gray.svg" class="search-icon">
         </div>
         <div class="actions">
@@ -32,22 +37,27 @@
                     <div class="heading">No facets</div>
                     <div class="desc">Please add Facets</div>
                 </ng-container>
-            </div>          
-            <div class="body_sec row m-0" *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
-                <div class="col-4 content withcheckbox">
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
-                        <label for="{{facet._id}}" class="checkbox-custom-label"></label>
+            </div>      
+            <ng-container *ngIf="(facets && facets.length)">
+                <div class="body_sec row m-0" *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
+                    <div class="col-4 content withcheckbox">
+                        <div class="kr-sg-checkbox p-0 m-0">
+                            <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
+                            <label for="{{facet._id}}" class="checkbox-custom-label"></label>
+                        </div>
+                        <div class="title">{{facet.facetName}}</div>
                     </div>
-                    <div class="title">{{facet.facetName}}</div>
-                </div>
-                <div class="col-3 content">{{facet.facetType | translate}}</div>
-                <div class="col-3 content">{{facet.isMultiSelect?'Yes':'No'}}</div>
-                <div class="col-2 content actions">
-                    <img class="action_icon" [container]="'body'" (click)="openModal()" ngbTooltip='Edit' (click)="editFacetModal(facet)" src="assets/images/edit-pencil.svg">
-                    <img class="action_icon" ngbTooltip='Delete' [container]="'body'" (click)="deleteFacets(facet)" src="assets/icons/delete-table.svg">
-                </div>
-            </div>         
+                    <div class="col-3 content">{{facet.facetType | translate}}</div>
+                    <div class="col-3 content">{{facet.isMultiSelect?'Yes':'No'}}</div>
+                    <div class="col-2 content actions">
+                        <img class="action_icon" [container]="'body'" ngbTooltip='Edit' (click)="editFacetModal(facet)" src="assets/images/edit-pencil.svg">
+                        <img class="action_icon" ngbTooltip='Delete' [container]="'body'" (click)="deleteFacets(facet)" src="assets/icons/delete-table.svg">
+                    </div>
+                </div> 
+            </ng-container>    
+            <div class="divBlockEmptylastChild text-center">         
+                <div class="desc">No search results found</div>
+            </div>     
         </perfect-scrollbar>
     </div>
 
@@ -62,6 +72,8 @@
             <div class="desc">Go ahead and make some changes.</div>
         </div>
     </div>
+          
+</div>
 </div>
 
 
@@ -93,7 +105,7 @@
         <div class="row-content row">
             <div class="kr-sg-input-text col-7 pl-0">
                 <div class="label-text">Facet Name</div>
-                <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="addEditFacetObj.facetName">                
+                <input type="text" placeholder="Provide name" class="input-text" [(ngModel)]="addEditFacetObj.facetName">                
             </div>
             <div class="kr-sg-dropdowns col-3 pl-2">
                 <div class="label-text">Facet Type</div>
@@ -111,38 +123,38 @@
             </div>
         </div>  
         <div class="box-content" *ngIf="addEditFacetObj.facetType === 'range'">
-            <div class="row row_inputs" *ngFor="let range of addEditFacetObj.facetRange">
+            <div class="row row_inputs" *ngFor="let range of addEditFacetObj.facetRange; let i = index">
                 <div class="kr-sg-input-text col-7 pl-0">
                     <div class="label-text">Range Name (Optional)</div>
-                    <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="range.rangeName">                   
+                    <input type="text" placeholder="Enter range name" class="input-text" [(ngModel)]="range.rangeName">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">From</div>
-                    <input type="number" placeholder="Placeholder text" class="input-text" [(ngModel)]="range.from">                   
+                    <input type="number" placeholder="Enter form" class="input-text" [(ngModel)]="range.from">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">To</div>
-                    <input type="number" placeholder="Placeholder text" class="input-text" [(ngModel)]="range.to">                   
+                    <input type="number" placeholder="Enter to" class="input-text" [(ngModel)]="range.to">                   
                 </div>
                 <div class="col-1 pl-2 add">
-                    <img src="assets/images/trashIcon.svg">               
+                    <img class="trash" src="assets/images/trashIcon.svg" (click)="removeRange(i)">               
                 </div>
             </div>
             <div class="row row_inputs">
                 <div class="kr-sg-input-text col-7 pl-0">
                     <div class="label-text">Range Name (Optional)</div>
-                    <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">                   
+                    <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">From</div>
-                    <input type="number" placeholder="Placeholder text" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].from">                   
+                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].from">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">To</div>
-                    <input type="number" placeholder="Placeholder text" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].to">                   
+                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].to">                   
                 </div>
                 <div class="col-1 pl-2 add">
-                    <img src="assets/images/add-input-field.svg" (click)="addFiled()">               
+                    <img src="assets/images/add-input-field.svg" (click)="addFiled(addEditFacetObj)">               
                 </div>
             </div>
         </div>
@@ -151,7 +163,7 @@
             <div class="row row_inputs">
                 <div class="kr-sg-input-text col-6 pl-0">
                     <div class="label-text">Size (Optional)</div>
-                    <input type="number" placeholder="Placeholder text" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
+                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
                 </div>
                 <div class="kr-sg-dropdowns col-3 pl-2">
                     <div class="label-text">Order (Optional)</div>

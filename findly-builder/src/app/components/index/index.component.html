@@ -7,7 +7,7 @@
         <div class="title">Index Configurations</div>
         <div class="btn_sec">            
             <button class="kr-sg-button-secondary btn_lg"  (click)="saveConfig()">Save Configuration</button>
-            <button class="kr-sg-button-primary btn_lg">Re-Index</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="reindex()">Re-Index</button>
         </div>
     </div>
     <div class="split_section_stage_table" *ngIf="!loadingContent">
@@ -44,35 +44,42 @@
                     <div class="heading">No Fields</div>
                     <div class="desc">Please add Field</div>
                 </ng-container>
-            </div>           
-            <div class="table_data_content" *ngIf="filelds && filelds.length">
-                <div class="table_header row m-0">
-                    <div class="col-2 title">Field Name</div>
-                    <div class="col-2 title">Type</div>
-                    <div class="col-2 title">Multi-Value</div>
-                    <div class="col-2 title">Required</div>
-                    <div class="col-2 title">Stored</div>
-                    <div class="col-1 title">Indexed</div>
-                    <div class="col-1 title"></div>
-                </div>
-                <perfect-scrollbar class="table_body_content">
-                    <div class="table_body row m-0" *ngFor="let field of filelds | filter: [ searchFields, 'fieldName']">
-                        <div class="col-2 title">{{field.fieldName}}</div>
-                        <div class="col-2 title">{{field.fieldDataType | translate}}</div>
-                        <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
-                        <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
-                        <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
-                        <div class="col-1 title">{{field.isIndexed?'Yes':'No'}}</div>
-                        <div class="col-1 action_links text-right">
-                            <img src="assets/images/edit-pencil.svg" (click)="addEditFiled(field)">
-                            <img src="assets/icons/delete-table.svg" class="ml-3" (click)="deleteFieldPop(field)">
-                        </div>
+            </div>     
+            <div>
+                <div class="table_data_content" *ngIf="filelds && filelds.length">
+                    <div class="table_header row m-0">
+                        <div class="col-2 title">Field Name</div>
+                        <div class="col-2 title">Type</div>
+                        <div class="col-2 title">Multi-Value</div>
+                        <div class="col-2 title">Required</div>
+                        <div class="col-2 title">Stored</div>
+                        <div class="col-1 title">Indexed</div>
+                        <div class="col-1 title"></div>
                     </div>
-                </perfect-scrollbar>  
-                <div class="footer-simulate">
-                    <button class="kr-sg-button-primary btn_lg  mr-5" (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1">Simulate</button>
-                </div>              
-            </div>
+                    <perfect-scrollbar class="table_body_content">
+                        <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName']">
+                            <div class="col-2 title">{{field.fieldName}}</div>
+                            <div class="col-2 title">{{field.fieldDataType | translate}}</div>
+                            <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
+                            <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
+                            <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
+                            <div class="col-1 title">{{field.isIndexed?'Yes':'No'}}</div>
+                            <div class="col-1 action_links text-right">
+                                <img src="assets/images/edit-pencil.svg" (click)="addEditFiled(field)">
+                                <img src="assets/icons/delete-table.svg" class="ml-3" (click)="deleteFieldPop(field)">
+                            </div>
+                        </div>
+                        <div class="divBlockEmptylastChild text-center">         
+                            <div class="desc">No search results found</div>
+                        </div> 
+                    </perfect-scrollbar>  
+                    <div class="footer-simulate">
+                        <button class="kr-sg-button-primary btn_lg  mr-5" (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1">Simulate</button>
+                    </div>         
+                </div>
+               
+            </div>      
+            
         </div>
         <div class="form_sec" *ngIf="selectedStage && selectedStage.type && (selectedStage.type !== 'fields')">
             <perfect-scrollbar class="scroll_form">
@@ -88,7 +95,7 @@
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Stage Name</div>
-                        <input type="text" placeholder="Placeholder text" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
+                        <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Condition</div>
@@ -113,7 +120,7 @@
                             </div> 
                             <div class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text">Field Name</div>
-                                <input type="text" placeholder="Placeholder text" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                             </div>
                             <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
                                 <div class="label-text">Value</div>
@@ -137,7 +144,7 @@
                         </div> 
                         <div class="kr-sg-input-text col-4 input-box">
                             <div class="label-text">Field Name</div>
-                            <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
+                            <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
                         </div>
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove')">
                             <div class="label-text">Value</div>
@@ -152,7 +159,7 @@
                             <div class="drag_drop d-none"><img src="assets/icons/drog_drop.svg"></div>
                             <div class="kr-sg-input-text col-4 input-box pl-0">
                                 <div class="label-text">Source Field</div>
-                                <input type="text" placeholder="Placeholder text" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
+                                <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                             </div>
                             <div  class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
@@ -168,10 +175,10 @@
                                                 [matChipInputFor]="chipList"
                                                 [matAutocomplete]="suggestedItems"
                                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                [matChipInputAddOnBlur]="true"
+                                                [matChipInputAddOnBlur]="false"
                                                 (matChipInputTokenEnd)="addEntityList($event,map)" #suggestedInput>
                                         </mat-chip-list>
-                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.defaultValue.entity_types)" >
+                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.entity_types)" >
                                             <ng-container *ngFor = "let suggestion of entitySuggestionTags">
                                               <mat-option>
                                                 {{suggestion}}
@@ -190,10 +197,10 @@
                                                 [matChipInputFor]="chipList"
                                                 [matAutocomplete]="suggestedItems"
                                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                [matChipInputAddOnBlur]="true"
+                                                [matChipInputAddOnBlur]="false"
                                                 (matChipInputTokenEnd)="addTraitsList($event,map)" #suggestedInput>
                                         </mat-chip-list>
-                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.defaultValue.trait_groups)" >
+                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.trait_groups)" >
                                             <ng-container *ngFor = "let suggestion of traitsSuggesitions">
                                               <mat-option>
                                                 {{suggestion}}
@@ -211,7 +218,7 @@
                                           <input placeholder="Type and Enter"
                                                 [matChipInputFor]="chipList"
                                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                [matChipInputAddOnBlur]="true"
+                                                [matChipInputAddOnBlur]="false"
                                                 (matChipInputTokenEnd)="addKeyWordsList($event,map)" #suggestedInput>
                                         </mat-chip-list>
                                   </mat-form-field>
@@ -228,7 +235,7 @@
                     <div class="row m-0 form_list pl-0" *ngIf="newMappingObj[selectedStage.type]&&newMappingObj[selectedStage.type].defaultValue">
                         <div class="kr-sg-input-text col-4 input-box pl-0">
                             <div class="label-text">Source Field</div>
-                            <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
+                            <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
                         </div>
                         <div  class="kr-sg-input-text col-4 input-box">
                             <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
@@ -243,7 +250,7 @@
                                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                     </mat-chip>
                                     <input placeholder="Type and Enter" [matChipInputFor]="chipList" [matAutocomplete]="suggestedItems"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false"
                                         (matChipInputTokenEnd)="addEntityList($event,newMappingObj[selectedStage.type].defaultValue)"
                                         #suggestedInput>
                                 </mat-chip-list>
@@ -267,7 +274,7 @@
                                         [matChipInputFor]="chipList"
                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                         [matAutocomplete]="suggestedItems"
-                                        [matChipInputAddOnBlur]="true"
+                                        [matChipInputAddOnBlur]="false"
                                         (matChipInputTokenEnd)="addTraitsList($event,newMappingObj[selectedStage.type].defaultValue)" #suggestedInput>
                                     </mat-chip-list>
                                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.trait_groups)">
@@ -288,7 +295,7 @@
                                           <input placeholder="Type and Enter"
                                         [matChipInputFor]="chipList"
                                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                        [matChipInputAddOnBlur]="true"
+                                        [matChipInputAddOnBlur]="false"
                                         (matChipInputTokenEnd)="addKeyWordsList($event,newMappingObj[selectedStage.type].defaultValue)" #suggestedInput>
                                     </mat-chip-list>
                                 </mat-form-field>
@@ -302,76 +309,54 @@
                     </div>
                 </div>
                 <div class="form_inputs_data" *ngIf="selectedStage.type === 'custom_script'">
-                 <div>&lt;/&gt;Painless</div>
                  <div class="customScript">
-                    <div class="kr-sg-input-text-area">
+                    <div class="kr-sg-input-text-area" >
                         <div class="label-text">&lt;/&gt;Painless</div>
-                        <textarea placeholder="Placeholder text" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.script"></textarea>
+                        <textarea placeholder="Please enter" class="input-text" (keyup)='addCustomScript(newMappingObj.custom_script.defaultValue.script)' [(ngModel)]="newMappingObj.custom_script.defaultValue.script"></textarea>
                     </div>
                  </div>
                  
                 </div>
             </perfect-scrollbar>    
             <div class="footer-simulate-form">
-                <button class="kr-sg-button-secondary btn_lg" [disabled]="!changesDetected" (click)="clearDirtyObj()">Cancel</button>
-                <button class="kr-sg-button-primary btn_lg" (click)="simulate()"><img src="assets/images/simulate.svg" class="mr-1">Simulate</button>
+                <button class="kr-sg-button-primary btn_lg float-right mr-5" (click)="simulate()"><img src="assets/images/simulate.svg" class="mr-1">Simulate</button>
+                <button class="kr-sg-button-secondary btn_lg float-right" [disabled]="!changesDetected" (click)="clearDirtyObj(true)">Cancel</button>
             </div> 
         </div>          
     </div>
     <div class="simulator-div " *ngIf="simulteObj && simulteObj.showSimulation"> 
         <div class="header">
             <div class="title">Simulator</div>
-            <div class="close_icon"><img src="assets/images/close.svg"></div>
+            <div class="close_icon"><img src="assets/images/close.svg" (click)="closeSimulator()"></div>
         </div>
         <div class="row m-0 input-boxes">
             <div class="kr-sg-dropdowns col-6 pl-0 pr-2">
-                <div class="label-text">Stage Type</div>
+                <div class="label-text">Soure</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(simulteObj.docCount?simulteObj.docCount + ' Documents':'choose_an_option') | translate}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(simulteObj.sourceType?simulteObj.sourceType:'choose_an_option') | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                    
-                      <li click)="simulteObj.sourceType === 'pages'"><a>Page</a></li>
-                      <li click)="simulteObj.sourceType === 'Faqs'"><a></a></li>
-                      <li click)="simulteObj.sourceType === 5"><a href="#">Option 3</a></li>
+                      <li (click)="changeSimulate('page','source')"><a>Page</a></li>
+                      <li (click)="changeSimulate('faq','source')"><a>Faqs</a></li>
+                      <li (click)="changeSimulate('content','source')"><a>Content</a></li>
                     </ul>
                 </div>
             </div>
             <div class="kr-sg-dropdowns col-6 pr-0 pl-2">
-                <div class="label-text">Stage Name</div>
+                <div class="label-text">Number of Documents</div>
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(simulteObj.docCount?simulteObj.docCount + ' Documents':'choose_an_option') | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                    
-                      <li (click)="simulteObj.docCount === 5"><a>5 Documents</a></li>
-                      <li><a (click)="simulteObj.docCount === 10">5 Documents</a></li>
-                      <li><a (click)="simulteObj.docCount === 20">20 Documents</a></li>
+                      <li (click)="changeSimulate(5,'doc')"><a>5 Documents</a></li>
+                      <li (click)="changeSimulate(10,'doc')"><a>10 Documents</a></li>
+                      <li (click)="changeSimulate(20,'doc')"><a>20 Documents</a></li>
                     </ul>
                 </div>
             </div>                     
         </div>
         <perfect-scrollbar class="content_body">
-            Annotation Tool.pdf
-            id: “Annotation Tool.pdf”
-                > context: “batchId”:”98hwbbf7w-38h2f8f2-vhd8d-8vdhbss8-yvhswy7659”,”simulate”:tru,”async”
-                > fields: [62]     >access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > diagnostic_id:fill_in_form:file      
-                > id=98hwbbf7w-38h2f8f2-vhd8d-8vdhbss8- yvhswy7659:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true      
-                > access_permissions:can_print_degraded:true
-                > absolute_resource_name:fill_in_form:true > absolute_resource_name:fill_in_form:true      
+          <div>
+              {{simulteObj.simulation | json}}
+          </div>      
         </perfect-scrollbar>
     </div>
 </div>

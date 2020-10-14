@@ -141,6 +141,9 @@ export class FacetsComponent implements OnInit {
     }
   }
   getFieldAutoComplete(query){
+    if (/^\d+$/.test(query)) {
+      query = query.parseInt();
+    }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
@@ -166,6 +169,9 @@ export class FacetsComponent implements OnInit {
     }
     this.addEditFacetObj.facetType = type;
   }
+  removeRange(index){
+    this.addEditFacetObj.facetRange.splice(index ,1);
+  }
   addFiled(facet){
     if(facet.facetType === 'value'){
       if(this.addEditFacetObj.facetRange){
@@ -182,9 +188,8 @@ export class FacetsComponent implements OnInit {
       if(!this.addEditFacetObj.facetRange){
         this.addEditFacetObj.facetRange = [];
       }
-      this.addEditFacetObj.facetRange.push(this.facetDefaultValueObj.range);
+      this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
     }
-    this.addEditFacetObj.
     this.resetDefaults();
   }
   getFacts(offset?){
@@ -215,9 +220,6 @@ export class FacetsComponent implements OnInit {
       this.closeModal();
       this.addEditFacetObj = null;
     }, errRes => {
-      this.dummyCount = this.dummyCount + 1;
-      payload._id = this.dummyCount + 'face';
-      this.facets.push(payload);
       this.errorToaster(errRes,'Failed to create facet');
     });
   }
@@ -225,15 +227,19 @@ export class FacetsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
-      facetId:this.indexPipelineId._id
+      facetId:this.addEditFacetObj._id
     };
     const payload = this.addEditFacetObj;
     this.service.invoke('update.facet', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Facet updated successfully','success');
-      const editIndex = _.findIndex(this.facets, (facet) => {
-        return facet._id === this.indexPipelineId._id;
-      })
-      this.facets[editIndex] = res;
+      const facetsdata = JSON.parse(JSON.stringify(this.facets));
+      this.facets = [];
+      facetsdata.forEach(facet => {
+        if(facet._id === this.indexPipelineId._id){
+          facet = res;
+        }
+      });
+      this.facets = [...facetsdata];
       this.closeModal();
       this.addEditFacetObj = null;
     }, errRes => {
@@ -332,9 +338,9 @@ export class FacetsComponent implements OnInit {
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal(){
+    this.facetModalRef.close();
     this.resetDefaults();
     this.addEditFacetObj = null;
-    this.facetModalRef.close();
   }
 
 }

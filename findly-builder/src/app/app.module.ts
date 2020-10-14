@@ -61,6 +61,7 @@ import { RangeSliderComponent } from './helpers/components/range-slider/range-sl
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
 import { IndexComponent } from './components/index/index.component';
+import { FieldsFilterPipe } from './components/index/fileds-filter.pipe';
 import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -125,7 +126,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ResultRankingComponent,
     SynonymFilterPipe,
     AddResultComponent,
-    FacetsComponent
+    FacetsComponent,
+    FieldsFilterPipe
     ],
   imports: [
     BrowserModule,

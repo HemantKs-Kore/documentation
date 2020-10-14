@@ -29,5 +29,8 @@
     "remove":"Remove",
     "choose_an_option":"Choose an option",
     "count":"Count",
-    "label":"Label"
+    "label":"Label",
+    "page":"Page",
+    "faq":"Faq",
+    "content":"Content"
 }

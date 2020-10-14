@@ -71,7 +71,7 @@ export class IndexComponent implements OnInit {
   entitySuggestionTags :any = ['Entity 1','Entity 2' ,'Entity 3','Entity 4','Entity 5'];
   traitsSuggesitions : any = [];
   showSearch;
-  searchFields;
+  searchFields :any = '';
   pipelineCopy;
   fieldAutoSuggestion: any = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -95,8 +95,13 @@ export class IndexComponent implements OnInit {
     moveItemInArray(this.pipeline, event.previousIndex, event.currentIndex);
   }
   selectedTag(data: MatAutocompleteSelectedEvent , list) {
-    this.suggestedInput.nativeElement.value = '';
-    list.push(data.option.viewValue);
+    if (!this.checkDuplicateTags((data.option.viewValue || '').trim(),list)) {
+      this.notificationService.notify('Duplicate tags are not allowed', 'warning');
+      return ;
+    } else {
+      list.push(data.option.viewValue);
+      this.suggestedInput.nativeElement.value = '';
+    }
   }
   setResetNewMappingsObj(){
     this.simulteObj = {
@@ -134,7 +139,7 @@ export class IndexComponent implements OnInit {
           keywords:[],
         }
       },
-      custom_ccript:{
+      custom_script:{
         defaultValue : {
          script:''
         }
@@ -173,6 +178,7 @@ export class IndexComponent implements OnInit {
       if(index !== 'null' && index !== undefined && (index>-1)){
        this.currentEditIndex = -1
       }
+      this.clearDirtyObj();
     }, errRes => {
       this.errorToaster(errRes,'Failed to save configurations');
     });
@@ -199,6 +205,28 @@ export class IndexComponent implements OnInit {
     this.addFieldModalPopRef.close();
     this.newMappingObj = null;
   }
+  reindex(){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId
+    };
+    this.service.invoke('post.reindex', quaryparms).subscribe(res => {
+      this.notificationService.notify('Re-indexed successfully','success')
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to re-index');
+    });
+  }
+  changeSimulate(value,type){
+    if(type=== 'source'){
+      this.simulteObj.sourceType = value;
+    } else {
+      this.simulteObj.docCount = value
+    }
+    this.simulate();
+  }
+  closeSimulator(){
+    this.setResetNewMappingsObj();
+  }
   simulate(){
     const payload :any ={
       sourceType: this.simulteObj.sourceType,
@@ -209,12 +237,9 @@ export class IndexComponent implements OnInit {
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
-      this.simulteObj = {
-        sourceType: 'page',
-        docCount: 5,
-        showSimulation: true,
-        simulation:res
-      }
+      this.simulteObj.showSimulation =  true;
+      this.simulteObj.simulation = res;
+      this.notificationService.notify('Simulated successfully','success')
     }, errRes => {
       this.errorToaster(errRes,'Failed to get stop words');
     });
@@ -381,12 +406,21 @@ export class IndexComponent implements OnInit {
   removeConfig(index,list){
     list.splice(index ,1);
   }
-  clearDirtyObj(){
+  clearDirtyObj(cancel?){
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
-    if( this.selectedStage && !this.selectedStage._id ){
+    if( this.selectedStage && !this.selectedStage._id){
       this.selectedStage = this.fieldStage;
+    } else {
+      const index = _.findIndex(this.pipeline, (pg) => {
+        return pg._id === this.selectedStage._id;
+      })
+      if(index >-1) {
+        this.selectedStage = this.pipeline[index];
+      }
     }
-    this.currentEditIndex = -1;
+    if(!cancel){
+      this.currentEditIndex = -1;
+    }
     this.changesDetected = false;
   }
   selectStage(stage,i){
@@ -394,11 +428,23 @@ export class IndexComponent implements OnInit {
      this.confirmChangeDiscard(stage,i);
     } else {
       this.currentEditIndex = i;
+      if(stage && stage.type === 'custom_ccript' && stage.config && stage.config.mappings && stage.config.mappings.length){
+        this.newMappingObj.custom_ccript.defaultValue.script = stage.config.mappings.length[0].script || '';
+      }
       this.selectedStage = stage;
     }
   }
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
+  }
+  addCustomScript(script){
+    this.changesDetected = true;
+    if(!(this.selectedStage.config && this.selectedStage.config.mappings)){
+      this.selectedStage.config.mappings = []
+    }
+    this.selectedStage.config.mappings[0] = {
+      script
+    }
   }
   addEntityList(event: MatChipInputEvent,map){
     this.changesDetected = true;

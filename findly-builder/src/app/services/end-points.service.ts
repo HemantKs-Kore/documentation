@@ -334,6 +334,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
       method: 'put'
     }
+    this.serviceList['post.reindex'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/reIndex',
+      method: 'post'
+    }
+    this.serviceList['post.simulate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
+      method: 'post'
+    }
     this.serviceList['post.restoreStopWord'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
       method: 'put'
@@ -365,10 +373,6 @@ export class EndPointsService {
     this.serviceList['delete.deleteField'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
       method: 'delete'
-    }
-    this.serviceList['post.simulate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
-      method: 'post'
     }
     this.serviceList['get.getFieldAutocomplete'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/autocomplete?alpha=:query&isIndexed=true',
