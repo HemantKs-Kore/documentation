@@ -2,12 +2,12 @@
     <div class="header">Facets</div>
     <div class="search-input-block">
         <div class="kr-sg-input-search">                               
-            <input type="text" placeholder="Search" class="input-search">
+            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchfacet">
             <img src="assets/icons/search_gray.svg" class="search-icon">
         </div>
         <div class="actions">
             <button class="kr-sg-button-primary btn_lg" (click)="createNewFacet()">Add Facet</button>
-            <button ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (change)="selectAll(true)">Deselect</button>
+            <button ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (change)="addRemoveFaqFromSelection(null,null,true)">Deselect</button>
             <button class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Delete Facets</button>
             <img src="assets/icons/clock.svg">
         </div>
@@ -25,11 +25,18 @@
             <div class="col-3 content">MULTI SELECT</div>
             <div class="col-2 content"></div>
         </div>
-        <perfect-scrollbar class="scroll_table">            
-            <div class="body_sec row m-0" *ngFor="let facet of facets" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
+        <perfect-scrollbar class="scroll_table">   
+            <div class="empty-list"  *ngIf="!(facet && facet.length)">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <div class="heading">No facets</div>
+                    <div class="desc">Please add Facets</div>
+                </ng-container>
+            </div>          
+            <div class="body_sec row m-0" *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                 <div class="col-4 content withcheckbox">
                     <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" type="checkbox">
+                        <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                         <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                     </div>
                     <div class="title">{{facet.facetName}}</div>
@@ -68,7 +75,7 @@
         <div class="search_block">
             <div class="label-text">Field Name</div>             
             <div class="row m-0 align-items-center">
-                <div class="kr-sg-dropdowns col-10 pl-0" [ngClass]="{'disabled': facet._id}">
+                <div class="kr-sg-dropdowns col-10 pl-0" [ngClass]="{'disabled': addEditFacetObj._id}">
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">

@@ -22,6 +22,7 @@ export class FacetsComponent implements OnInit {
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
+  searchfacet:any = '';
   facetDefaultValueObj:any = {
     facet:{
       fieldName: '',
@@ -59,14 +60,26 @@ export class FacetsComponent implements OnInit {
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getFacts();
   }
+  checkUncheckfacets(facet){
+    const selectedElements = $('.selectEachfacetInput:checkbox:checked');
+    const allElements = $('.selectEachfacetInput');
+    if(selectedElements.length === allElements.length){
+      $('#selectAllFacets')[0].checked = true;
+    } else {
+      $('#selectAllFacets')[0].checked = false;
+    }
+    const element = $('#' + facet._id);
+    const addition =  element[0].checked
+    this.addRemovefacetFromSelection(facet._id,addition);
+  }
   selectAll(unselectAll?) {
-    const allFaqs = $('.selectEachfacetInput');
-    if (allFaqs && allFaqs.length){
-      $.each(allFaqs, (index,element) => {
+    const allfacets = $('.selectEachfacetInput');
+    if (allfacets && allfacets.length){
+      $.each(allfacets, (index,element) => {
         if($(element) && $(element).length){
           $(element)[0].checked = unselectAll?false: this.selcectionObj.selectAll;
           const facetId = $(element)[0].id
-          this.addRemoveFaqFromSelection(facetId,this.selcectionObj.selectAll);
+          this.addRemovefacetFromSelection(facetId,$(element)[0].checked);
         }
       });
     };
@@ -74,8 +87,14 @@ export class FacetsComponent implements OnInit {
       $('#selectAllFacets')[0].checked = false;
     }
   }
-  addRemoveFaqFromSelection(facetId,addtion,clear?){
+  addRemovefacetFromSelection(facetId?,addtion?,clear?){
     if(clear){
+      const allfacets = $('.selectEachfacetInput');
+      $.each(allfacets, (index,element) => {
+        if($(element) && $(element).length){
+          $(element)[0].checked =false;
+        }
+      });
      this.selcectionObj.selectedItems = {};
      this.selcectionObj.selectedCount = 0;
      this.selcectionObj.selectAll = false;
@@ -178,6 +197,7 @@ export class FacetsComponent implements OnInit {
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
       this.facets =  res || [];
       this.loadingContent = false;
+      this.addRemovefacetFromSelection(null,null,true);
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get facets');
@@ -251,7 +271,19 @@ export class FacetsComponent implements OnInit {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
     };
-    const payload = this.selcectionObj.selectedItems;
+    const facets = Object.keys(this.selcectionObj.selectedItems);
+    const delateitems = {
+      facets:[]
+    };
+    if(facets && facets.length){
+       facets.forEach(ele => {
+         const obj = {
+           _id:ele,
+         }
+         delateitems.facets.push(obj);
+       });
+    }
+    const payload = delateitems;
     this.service.invoke('delete.bulkFacet', quaryparms,payload).subscribe(res => {
       this.getFacts();
       dialogRef.close();
