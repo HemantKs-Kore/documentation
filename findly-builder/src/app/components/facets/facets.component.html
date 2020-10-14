@@ -1,0 +1,108 @@
+<div class="facets-main-container">
+    <div class="header">Facets</div>
+    <div class="search-input-block">
+        <div class="kr-sg-input-search">                               
+            <input type="text" placeholder="Search" class="input-search">
+            <img src="assets/icons/search_gray.svg" class="search-icon">
+        </div>
+        <div class="actions">
+            <button class="kr-sg-button-primary btn_lg">Add Facet</button>
+            <button class="kr-sg-button-secondary btn_lg">Deselect</button>
+            <button class="kr-sg-button-danger btn_lg">Delete Facets</button>
+            <img src="assets/icons/clock.svg">
+        </div>
+    </div>
+    <div class="table_section">
+        <div class="header_sec row m-0">
+            <div class="col-4 content withcheckbox">
+                <div class="kr-sg-checkbox p-0 m-0">
+                    <input id="checkbox-2" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox-2" class="checkbox-custom-label"></label>
+                </div>
+                <div class="title">FACET Name</div>
+            </div>
+            <div class="col-3 content">TYPE</div>
+            <div class="col-3 content">MULTI SELECT</div>
+            <div class="col-2 content"></div>
+        </div>
+        <perfect-scrollbar class="scroll_table">            
+            <div class="body_sec row m-0">
+                <div class="col-4 content withcheckbox">
+                    <div class="kr-sg-checkbox p-0 m-0">
+                        <input id="checkbox-3" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox-3" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="title">Product Type</div>
+                </div>
+                <div class="col-3 content">Value</div>
+                <div class="col-3 content">Yes</div>
+                <div class="col-2 content actions">
+                    <img class="action_icon" [container]="'body'" (click)="openModal()" ngbTooltip='Edit' src="assets/images/edit-pencil.svg">
+                    <img class="action_icon" ngbTooltip='Delete' [container]="'body'" src="assets/icons/delete-table.svg">
+                </div>
+            </div>
+            <div class="body_sec row m-0 selected">
+                <div class="col-4 content withcheckbox">
+                    <div class="kr-sg-checkbox p-0 m-0">
+                        <input id="checkbox-1" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox-1" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="title">Asset Class</div>
+                </div>
+                <div class="col-3 content">Value</div>
+                <div class="col-3 content">Yes</div>
+                <div class="col-2 content actions">
+                    <img class="action_icon" [container]="'body'" ngbTooltip='Edit' src="assets/images/edit-pencil.svg">
+                    <img class="action_icon" ngbTooltip='Delete' [container]="'body'" src="assets/icons/delete-table.svg">
+                </div>
+            </div>
+            <div class="body_sec row m-0">
+                <div class="col-4 content withcheckbox">
+                    <div class="kr-sg-checkbox p-0 m-0">
+                        <input id="checkbox-3" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox-3" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="title">Customer Type</div>
+                </div>
+                <div class="col-3 content">Value</div>
+                <div class="col-3 content">Yes</div>
+                <div class="col-2 content actions">
+                    <img class="action_icon" [container]="'body'" ngbTooltip='Edit' src="assets/images/edit-pencil.svg">
+                    <img class="action_icon" ngbTooltip='Delete' [container]="'body'" src="assets/icons/delete-table.svg">
+                </div>
+            </div>            
+        </perfect-scrollbar>
+    </div>
+
+    <div class="log_section d-none">
+        <div class="header-log">
+            <div class="title">Log</div>
+            <div class="close_log"><img src="assets/images/close-cross.svg"></div>
+        </div>
+        <div class="empty_log">
+            <img src="assets/icons/empty-log.svg">
+            <div class="main-title">Nothing in log to display</div>
+            <div class="desc">Go ahead and make some changes.</div>
+        </div>
+    </div>
+</div>
+
+
+<kr-modal modalType="center" modalClass="modal_popups_"  #facetModalPouup>   
+    <div class="modal-header">
+        <div class="title">Add Facet</div>
+        <div class="close_icon"><img (click)="closeModal()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body textAlignLeft">
+        <div class="kr-sg-input-search search_block">                               
+            <input type="text" placeholder="Search for Field" class="input-search">
+            <img src="assets/images/search_gray.svg" class="search-icon">            
+        </div>        
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer">          
+        <button type="button" class="kr-sg-button-primary btn_lg float-right">Add</button>        
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right">Cancel</button>
+    </div>    
+</kr-modal>

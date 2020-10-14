@@ -75,6 +75,7 @@ import { StopWordsComponent } from './components/stop-words/stop-words.component
 import { WeightsComponent } from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { AddResultComponent } from './components/add-result/add-result.component';
+import { FacetsComponent } from './components/facets/facets.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -123,7 +124,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     WeightsComponent,
     ResultRankingComponent,
     SynonymFilterPipe,
-    AddResultComponent
+    AddResultComponent,
+    FacetsComponent
     ],
   imports: [
     BrowserModule,
