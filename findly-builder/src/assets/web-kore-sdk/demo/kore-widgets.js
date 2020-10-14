@@ -866,6 +866,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="appearences-count">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
                     </span>\
                     <span class="actions">\
+                    <span class="action-info"></span>\
                     <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
@@ -909,6 +910,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
                  </span>\
                  <span class="actions">\
+                 <span class="action-info"></span>\
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
@@ -947,7 +949,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <span class="appearences-count">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
                               </span>\
                               <span class="actions">\
-                              <span class="img-action  dont-show">\
+                              <span class="img-action  dont-show one">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action pin">\
@@ -1032,7 +1034,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">155 Appearances - 138 Clicks</span>\
                  </span>\
                  <span class="actions">\
-                 <span class="img-action  dont-show">\
+                 <span class="img-action  dont-show two">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
@@ -1939,8 +1941,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       var url = _self.API.queryConfig;
+      var successMsg='';
+      var errorMsg='';
+      if($(e.currentTarget).hasClass('dont-show')){
+        successMsg='Hidden property applied';
+        errorMsg='Hidding failed';
+      }else if($(e.currentTarget).hasClass('pin')){
+        successMsg='Pinned';
+        errorMsg='Pinning failed';
+      }else if($(e.currentTarget).hasClass('boostup')){
+        successMsg='Boosted';
+        errorMsg='Boosting failed';
+      }else if($(e.currentTarget).hasClass('boostdown')){
+        successMsg='Buried';
+        errorMsg='Burrying failed';
+      }
       _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+        _taskWrapDiv.find('.action-info').css({color:'green'}).text(successMsg).show().delay(2000).fadeOut( 1600, function(){
+          $(this).hide();
+        });;
       }, function (eRes) {
+        _taskWrapDiv.find('.action-info').css({color:'red'}).text(errorMsg).show().delay(2000).fadeOut( 1600, function(){
+          $(this).hide();
+        });;
       });
     };
 
