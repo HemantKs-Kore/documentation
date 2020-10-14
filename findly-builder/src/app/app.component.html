@@ -3,7 +3,7 @@
     <div *ngIf="!loading">
         <app-header></app-header>
         <app-mainmenu class="toShowAppHeader"></app-mainmenu>
-        <app-body (initSearchSDK)="initSearchSDK()" class="container-fluid appContent"></app-body>
+        <app-body (initSearchSDK)="initSearchSDK()" [bridgeData] = "bridgeDataInsights" class="container-fluid appContent"></app-body>
     </div>
 </div>
 <div class="loaderContainer"  *ngIf="loading">

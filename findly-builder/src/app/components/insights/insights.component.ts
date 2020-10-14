@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EChartOption } from 'echarts';
+import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 declare const $: any;
 
 @Component({
@@ -9,6 +10,7 @@ declare const $: any;
 })
 export class InsightsComponent implements OnInit {
   @Input() data : any;
+  show = false;
   icontoggle : boolean = false;
   graphMode : boolean = false;
   iconIndex;
@@ -125,7 +127,7 @@ export class InsightsComponent implements OnInit {
 }
 ]
   };
-  constructor() { }
+  constructor(private kgDataService : KgDataService) { }
 
   ngOnInit(): void {
     // (opts?: {
@@ -224,7 +226,7 @@ export class InsightsComponent implements OnInit {
     this.filterArray.push(element.status)
   });
   this.filterArray = new Set(this.filterArray);
-    console.log(this.data)
+  console.log(this.data)
   }
   filterRecord(type){
     this.actionLogData = [...this.actionLogDatBack];

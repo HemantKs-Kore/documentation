@@ -1,5 +1,7 @@
 <router-outlet></router-outlet>
-<div [hidden]="true">
-    <app-insights [data] = "'insights'"></app-insights>
-    <app-add-result></app-add-result>
+<div [hidden]="bridgeData">
+    <app-insights  [data] = "bridgeData"></app-insights>
 </div> 
+<div [hidden]="true">
+    <app-add-result ></app-add-result>
+</div>

@@ -3520,7 +3520,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var randomObject = { 'type': 'show', data: true } 
         _self.parentEvent(randomObject);
        });
-
+       $(dataHTML).off('click', '.custom-expand-icon').on('click', '.custom-expand-icon', function (e) {
+        var randomObject = { 'type': 'expand', data: false } 
+        
+        //_self.bindAllResultsView();
+        
+        var data = $(e.currentTarget).closest('.finalResults').data() || {};
+        _self.vars.searchObject.liveData = data
+        //_self.prepAllSearchData();
+        //_self.bindAllResultsView();
+        //_self.bindSearchActionEvents();
+        _self.parentEvent(randomObject);
+       });
+       
       $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
         // if (ttsAudioSource) {
         //     ttsAudioSource.stop();

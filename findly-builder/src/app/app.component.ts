@@ -8,6 +8,7 @@ declare const $: any;
 declare const FindlySDK: any;
 declare let window:any;
 import * as _ from 'underscore';
+import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   appsData: any;
   searchInstance:any;
   findlyBusinessConfig:any = {};
+  bridgeDataInsights = true;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -180,7 +182,16 @@ export class AppComponent implements OnInit {
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
-    console.log(parms)
+    const _self = this;
+    console.log(parms);
+    //this.bridgeDataInsights = !parms.data;
+    if(parms.data == true && _self.bridgeDataInsights){
+      _self.bridgeDataInsights = false;
+    }else{
+      _self.bridgeDataInsights = true;
+    }
+    
+    
   }
   initSearchSDK(){
     const _self = this;
@@ -203,7 +214,7 @@ export class AppComponent implements OnInit {
       }
   });
     const findlyConfig :any =window.KoreSDK.findlyConfig;
-    this.findlyBusinessConfig.sdkBridge= this.sdkBridge
+    this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     var fSdk = new FindlySDK(findlyConfig);
     fSdk.showSearch();
