@@ -148,7 +148,11 @@ export class InsightsComponent implements OnInit {
       this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
         console.log(res)
         this.analystic =  res;
-        this.ctrVal = Math.floor(this.analystic['searches'] / this.analystic['clicks'] ) * 100;
+        if(this.analystic['searches'] == 0 || this.analystic['clicks'] == 0){
+          this.ctrVal = 0;
+        }else{
+          this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches'] ) * 100;
+        }
       },error =>{
         console.log(error);
       });
