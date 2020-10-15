@@ -59,20 +59,22 @@ export class WeightsComponent implements OnInit {
     this.weights = [];
     if(this.pipeline.weights){
       this.pipeline.weights.forEach((element,i) => {
+         const name = (element.name || '').replace(/[^\w]/gi, '')
          const obj = {
           name : element.name,
-          description : element.description,
-          sliderObj :new RangeSlider(0, 10, 1, element.value,element.name + i)
+          desc : element.desc,
+          sliderObj :new RangeSlider(0, 10, 1, element.value,name + i)
          }
          this.weights.push(obj);
       });
     }
+    this.loadingContent = false;
   }
   getIndexPipeLine(){
     const quaryparamats = {
       searchIndexId : this.serachIndexId,
    }
-   this.service.invoke('get.indexPipeline', quaryparamats).subscribe(
+   this.service.invoke('get.platformStages', quaryparamats).subscribe(
     res => {
       this.fields = _.filter(res.stages, (stage)=>{
         if(stage && (stage.type === 'field_mapping') && stage.index){
@@ -91,6 +93,8 @@ export class WeightsComponent implements OnInit {
       queryPipelineId:this.queryPipelineId,
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
+      this.pipeline=  res.pipeline || {};
+      this.prepereWeights();
       if(dialogRef && dialogRef.close){
        dialogRef.close();
       }
@@ -131,7 +135,6 @@ export class WeightsComponent implements OnInit {
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline=  res.pipeline || {};
       this.prepereWeights();
-      this.loadingContent = false;
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get weights');
@@ -158,7 +161,7 @@ export class WeightsComponent implements OnInit {
   openAddNewWeight() {
     this.addEditWeighObj = {
       name : '',
-      description : '',
+      desc : '',
       sliderObj :new RangeSlider(0, 10, 1, 2,'editSlider')
     };
     this.openAddEditWeight();
@@ -199,7 +202,7 @@ export class WeightsComponent implements OnInit {
      const obj = {
       name: weight.name,
       value:weight.sliderObj.default,
-      // description:weight.description,
+      desc:weight.desc,
      }
      tempweights.push(obj);
    });

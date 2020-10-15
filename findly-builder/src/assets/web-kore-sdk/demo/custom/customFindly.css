@@ -172,10 +172,14 @@ img.logo-img{
   }
   
 
-  .search-container-adv{
-    /* transition: 1s; */
+  /* .search-container-adv{
     left: 235px !important;
     width: calc(55% - 245px) !important;
     right: 0 !important;
-  }
+  } */
   
+  /* .add-new-result{
+    left: 635px !important;
+    width: calc(55% - 245px) !important;
+    right: 0 !important;
+  } */

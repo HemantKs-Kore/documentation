@@ -107,6 +107,20 @@ export class StopWordsComponent implements OnInit {
     };
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
+      this.pipeline=  res.pipeline || {};
+      this.enabled = res.options.stopWordsRemovalEnabled;
+      if(this.pipeline.stages && this.pipeline.stages.length){
+        this.pipeline.stages.forEach(stage => {
+          if(stage && stage.type === 'stopwords'){
+            this.stopwords = stage.stopwords || [];
+            if(!(this.stopwords && this.stopwords.length) && !dialogRef){
+              this.notificationService.notify('No default stop words available','error');
+            } else {
+              this.notificationService.notify('Stopwords set to default','success');
+            }
+          }
+        });
+      }
       if(dialogRef && dialogRef.close){
        dialogRef.close();
       }
@@ -182,7 +196,9 @@ export class StopWordsComponent implements OnInit {
       }
     }
     const payload: any = {
-      pipeline:this.pipeline
+      pipeline:{
+        stopwords:this.stopwords
+      }
     }
     if (enableOrDisable){
       msg = 'Stop words ' + (this.enabled?'enabled':'disabled') + ' successfully';

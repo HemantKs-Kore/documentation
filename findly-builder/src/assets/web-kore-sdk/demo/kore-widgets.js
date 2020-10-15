@@ -233,18 +233,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
+      var pipelineId=''
       if(window.selectedFindlyApp && window.selectedFindlyApp._id){
-        SearchIndexID = window.selectedFindlyApp._id
+        SearchIndexID = window.selectedFindlyApp._id;
+        pipelineId=window.selectedFindlyApp.pipelineId
       }
-      var baseUrl = "https://app.findly.ai/searchAssistant";
-      var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"
+      var baseAPIServer='https://app.findly.ai';
+      if(_self.isDev){
+        baseAPIServer= window.appConfig.API_SERVER_URL;
+      }
+      var baseUrl = baseAPIServer+"/searchAssistant";
+      var businessTooBaseURL = baseAPIServer+"/api/1.1/findly/";
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
+        popularSearchesUrl: baseAPIServer+"/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID +"/search/feedback",
-        queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
+        queryConfig:businessTooBaseURL+SearchIndexID+'/queryPipeline/'+pipelineId+'/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
         jstBarrer:"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"
@@ -860,6 +866,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="appearences-count">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
                     </span>\
                     <span class="actions">\
+                    <span class="action-info"></span>\
                     <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
@@ -903,6 +910,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
                  </span>\
                  <span class="actions">\
+                 <span class="action-info"></span>\
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
@@ -941,7 +949,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <span class="appearences-count">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
                               </span>\
                               <span class="actions">\
-                              <span class="img-action  dont-show">\
+                              <span class="img-action  dont-show one">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action pin">\
@@ -1026,7 +1034,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">155 Appearances - 138 Clicks</span>\
                  </span>\
                  <span class="actions">\
-                 <span class="img-action  dont-show">\
+                 <span class="img-action  dont-show two">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
@@ -1705,7 +1713,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       setTimeout(function(){
-        debugger;
         if (topMatchFAQ) {
           var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
 
@@ -1873,7 +1880,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
         
-        debugger;
         var _selctedEle=$(e.target).closest('.task-wrp');
         var _parentEle=$(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call( _parentEle[0].children );
@@ -1909,22 +1915,55 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 
+      // var payload = {
+      //   "searchIndexId": _self.API.SearchIndexID,
+      //   "queryString": queryString,
+      //   "contentId": contentId,
+      //   "contentType": contentType,
+      //   "config": Object.assign({
+      //     "pinIndex": pinIndex,
+      //     "boost": boost,
+      //     "visible": visible
+      //   }, conf)
+      // }
+
       var payload = {
-        "searchIndexId": _self.API.SearchIndexID,
-        "queryString": queryString,
-        "contentId": contentId,
-        "contentType": contentType,
-        "config": Object.assign({
-          "pinIndex": pinIndex,
-          "boost": boost,
-          "visible": visible
-        }, conf)
+        "searchQuery": queryString,
+        "result": {
+          "contentType": contentType,
+          "contentId": contentId,
+          "config": Object.assign({
+            "pinIndex": pinIndex,
+            "boost": boost,
+            "visible": visible
+          }, conf)
+        }
       }
 
       var url = _self.API.queryConfig;
-      debugger;
-      _self.makeAPItoFindly(url, 'POST', JSON.stringify(payload)).then(function (res) {
+      var successMsg='';
+      var errorMsg='';
+      if($(e.currentTarget).hasClass('dont-show')){
+        successMsg='Hidden property applied';
+        errorMsg='Hidding failed';
+      }else if($(e.currentTarget).hasClass('pin')){
+        successMsg='Pinned';
+        errorMsg='Pinning failed';
+      }else if($(e.currentTarget).hasClass('boostup')){
+        successMsg='Boosted';
+        errorMsg='Boosting failed';
+      }else if($(e.currentTarget).hasClass('boostdown')){
+        successMsg='Buried';
+        errorMsg='Burrying failed';
+      }
+      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+        _taskWrapDiv.find('.action-info').css({color:'green'}).text(successMsg).show().delay(2000).fadeOut( 1600, function(){
+          $(this).hide();
+        });;
       }, function (eRes) {
+        _taskWrapDiv.find('.action-info').css({color:'red'}).text(errorMsg).show().delay(2000).fadeOut( 1600, function(){
+          $(this).hide();
+        });;
       });
     };
 
@@ -2621,7 +2660,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           }
                         }
         } else if(res.templateType === 'botAction'){
-            debugger;
             res = res.template;
             var botResponse=res.webhookPayload.text;
             _self.sendMessageToSearch('bot',botResponse);
@@ -3185,13 +3223,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     KoreWidgetSDK.prototype.showSearch = function () {
       var _self = this;
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-
       _self.isDev=false;
       if(!$('body').hasClass('demo')){
         _self.isDev=true;
       }
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+
 
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;

@@ -18,8 +18,8 @@ export class PaginationComponent implements OnInit {
   @Output() pageChanged = new EventEmitter();
   constructor() { }
   ngOnInit(): void {
-    //this.recordEnd = this.limitpage;
-    if(this.totalRecord < this.limitpage){
+    this.recordEnd = this.limitpage;
+    if(this.totalRecord < this.limitpage || this.totalRecord < this.recordEnd){
       this.recordEnd = this.totalRecord;
       this.disableNext = true;
     }

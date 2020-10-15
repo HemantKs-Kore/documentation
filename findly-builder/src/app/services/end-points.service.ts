@@ -314,25 +314,93 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
       method: 'get'
     }
-    this.serviceList['get.indexPipeline'] = {
+    this.serviceList['get.platformStages'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/stages',
       method: 'get'
     }
+    this.serviceList['get.indexpipelineStages'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'get'
+    }
+    this.serviceList['get.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline',
+      method: 'get'
+    }
     this.serviceList['post.indexPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/stages',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline',
+      method: 'post'
+    }
+    this.serviceList['put.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'put'
+    }
+    this.serviceList['post.reindex'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/reIndex',
+      method: 'post'
+    }
+    this.serviceList['post.simulate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/simulate',
       method: 'post'
     }
     this.serviceList['post.restoreStopWord'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/restoreStopWord',
-      method: 'post'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
+      method: 'put'
     }
     this.serviceList['post.restoreWeights'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/restoreWeights',
-      method: 'post'
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+      method: 'put'
     }
     this.serviceList['post.enableStopWords'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
       method: 'post'
+    }
+    this.serviceList['post.createField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields',
+      method: 'post'
+    }
+    this.serviceList['get.allField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['get.getFieldById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      method: 'get'
+    }
+    this.serviceList['put.updateField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      method: 'put'
+    }
+    this.serviceList['delete.deleteField'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      method: 'delete'
+    }
+    this.serviceList['get.getFieldAutocomplete'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/autocomplete?alpha=:query&isIndexed=true',
+      method: 'get'
+    }
+    this.serviceList['get.allFacets'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/?offset=:offset&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['create.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/',
+      method: 'post'
+    }
+    this.serviceList['update.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      method: 'put'
+    }
+    this.serviceList['update.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      method: 'put'
+    }
+    this.serviceList['delete.facet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      method: 'delete'
+    }
+    this.serviceList['delete.bulkFacet'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/bulk',
+      method: 'delete'
     }
   }
 }
