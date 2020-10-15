@@ -134,7 +134,8 @@ export class SchedulerComponent implements OnInit {
     timeHH == '' ? timeHH = '00' :  timeHH  = timeHH;
     if(this.rstz == 'Does not repeat'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
-      this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ' + this.year;
+      //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ' + this.year;
+      this.cronExpression =  '';
     }else if(this.rstz == 'Daily'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' * ' + '*';
       this.cronExpression =  this.timeMM + ' '+ timeHH + ' * ' + '* ' + '*';

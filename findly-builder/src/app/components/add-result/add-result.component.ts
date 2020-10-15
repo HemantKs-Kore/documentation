@@ -59,8 +59,8 @@ export class AddResultComponent implements OnInit {
       obj.contentType = this.searchType;
       obj.contentId = element._id;
       obj.config = {
-        pinIndex : 0,
-        boost: 0,
+        pinIndex : -1,
+        boost: 1.0,
         visible: true,
       }
       result.push(obj);
@@ -68,7 +68,7 @@ export class AddResultComponent implements OnInit {
     let payload : any = {};
     
     payload.searchQuery = this.searchTxt;
-    payload.result = result
+    payload.result = result[0];
     this.service.invoke('update.rankingPinning', quaryparms).subscribe(res => {
       this.recordArray=[];
       console.log(res);
