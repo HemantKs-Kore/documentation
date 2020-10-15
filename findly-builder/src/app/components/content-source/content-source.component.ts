@@ -791,7 +791,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log(payload);
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
-   
+      this.notificationService.notify('Crwaler Updated', 'success');
+      this.closeStatusModal();
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
