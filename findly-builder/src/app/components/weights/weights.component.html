@@ -34,7 +34,7 @@
                         </div>    
                         <div class="sliderVal">{{weightModal.sliderObj.default}}</div>                                            
                         <div class="action_links">
-                            <span class="actions-links pr-4" (click)="editWeight(weightModal,i)"><img class="action_icon" [container]="'body'" ngbTooltip='Refresh' src="assets/images/edit-pencil.svg"></span>
+                            <span class="actions-links pr-4" (click)="editWeight(weightModal,i)"><img class="action_icon" [container]="'body'" ngbTooltip='Edit' src="assets/images/edit-pencil.svg"></span>
                             <span class="actions-links" ngbTooltip='Delete' [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img class="action_icon" src="assets/icons/trashIcon.svg"></span>
                         </div>
                     </div>
@@ -54,9 +54,6 @@
     </ng-container>
     <!-- DATA TABLE ENDS HERE -->
 </div>
-<ng-template #rt let-r="result" let-t="term">
-    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-</ng-template>
 <kr-modal modalType="center" modalClass="addWeightModalComponent modal_popups_"  #addDditWeightPop>   
     <div class="modal-header">
         <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Weight</div>
@@ -64,10 +61,20 @@
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft" *ngIf="addEditWeighObj">
-        <div class="kr-sg-input-search search_block mb-25">                               
-            <input type="text" placeholder="Search for Rankable Field" class="input-search" (change)="selectedField()" [(ngModel)]="searchModel" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
-            <img src="assets/icons/search-gray-icon.svg" class="search-icon">            
-        </div>
+        <div class="search_block">
+            <div class="row m-0 align-items-center">
+                <div class="kr-sg-dropdowns col-12 p-0" [ngClass]="{'disabled': addEditWeighObj._id}">
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
+                        <img src="assets/images/search_gray.svg" class="search-icon">                                                         
+                        <ul class="dropdown-menu content-menu">
+                            <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
+                        </ul>
+                    </div>                        
+                </div>
+            </div>
+        </div> 
         <div class="kr-sg-input-text mb-25 d-none">
             <div class="label-text">Weight Name</div>
             <input type="text" [(ngModel)]="addEditWeighObj.name" placeholder="Placeholder text" class="input-text">
