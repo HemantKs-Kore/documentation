@@ -122,7 +122,9 @@ export class SynonymsComponent implements OnInit {
       queryPipelineId:this.queryPipelineId,
     };
     const payload: any ={
-      pipeline:this.pipeline
+      pipeline:{
+        synonyms:synonymData
+      }
     }
     if(payload.pipeline.stages && payload.pipeline.stages.length){
       payload.pipeline.stages.forEach(stage => {
@@ -251,15 +253,15 @@ export class SynonymsComponent implements OnInit {
   }
   removeList(syn,synonymId,i) {
     const synonyms = [...this.synonymData];
-    const index = synonyms[i].synonyms.indexOf(syn);
+    const index = synonyms[i].values.indexOf(syn);
     if (index >= 0) {
-      synonyms[i].synonyms.splice(index, 1);
+      synonyms[i].values.splice(index, 1);
     }
   }
   remove(syn) {
     const index = this.newSynonymObj.values.indexOf(syn);
     if (index >= 0) {
-      this.synArr.splice(index, 1);
+      this.newSynonymObj.values.splice(index, 1);
     }
   }
 }

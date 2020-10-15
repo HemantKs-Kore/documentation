@@ -61,6 +61,7 @@ import { RangeSliderComponent } from './helpers/components/range-slider/range-sl
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
 import { IndexComponent } from './components/index/index.component';
+import { FieldsFilterPipe } from './components/index/fileds-filter.pipe';
 import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -74,6 +75,8 @@ import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
+import { AddResultComponent } from './components/add-result/add-result.component';
+import { FacetsComponent } from './components/facets/facets.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -121,7 +124,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StopWordsComponent,
     WeightsComponent,
     ResultRankingComponent,
-    SynonymFilterPipe
+    SynonymFilterPipe,
+    AddResultComponent,
+    FacetsComponent,
+    FieldsFilterPipe
     ],
   imports: [
     BrowserModule,
