@@ -203,7 +203,7 @@ export class IndexComponent implements OnInit {
   }
   closeModalPopup(){
     this.addFieldModalPopRef.close();
-    this.newMappingObj = null;
+    this.setResetNewMappingsObj();
   }
   reindex(){
     const quaryparms: any = {

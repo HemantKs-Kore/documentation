@@ -12,7 +12,7 @@
         </div>
         <div class="actions">
             <button class="kr-sg-button-primary btn_lg" (click)="createNewFacet()">Add Facet</button>
-            <button ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (change)="addRemoveFaqFromSelection(null,null,true)">Deselect</button>
+            <button ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">Deselect</button>
             <button class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Delete Facets</button>
             <img src="assets/icons/clock.svg">
         </div>
@@ -21,8 +21,8 @@
         <div class="header_sec row m-0">
             <div class="col-4 content withcheckbox">
                 <div class="kr-sg-checkbox p-0 m-0">
-                    <input id="checkbox-2" class="checkbox-custom " type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
-                    <label for="checkbox-2" class="checkbox-custom-label"></label>
+                    <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
+                    <label for="selectAllFacets" class="checkbox-custom-label"></label>
                 </div>
                 <div class="title">FACET Name</div>
             </div>
@@ -93,12 +93,15 @@
                         <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                         <img src="assets/images/search_gray.svg" class="search-icon">                                                         
                         <ul class="dropdown-menu content-menu">
-                            <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="addEditFacetObj.fieldName = suggesition.fieldName"><a>{{suggesition.fieldName}}</a></li>
+                            <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
                         </ul>
                     </div>                        
                 </div>
-                <div class="col-2 pr-0">
-                    <div class="title">Field Type :<span class="string">{{addEditFacetObj.filedType | translate}}</span></div>
+                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  (addEditFacetObj.fieldName!== undefined) && (selectedField.fieldName!== null)">
+                    <div class="title">Field Type :<span class="string">{{getType(addEditFacetObj.fieldName)}}</span></div>
+                </div>
+                <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType">
+                    <div class="title">Field Type :<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
                 </div>
             </div>
         </div>          
@@ -191,7 +194,7 @@
      </div>
     </perfect-scrollbar> 
     <div class="modal-footer" *ngIf="addEditFacetObj">          
-        <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
+        <button type="button" class="kr-sg-button-primary btn_lg float-right" [disabled]='!selectField || !addEditFacetObj.facetName' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">Cancel</button>
     </div>    
 </kr-modal>

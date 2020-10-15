@@ -47,6 +47,7 @@ export class FacetsComponent implements OnInit {
     selectedItems:[],
   };
   dummyCount =0;
+  selectedField;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -59,6 +60,13 @@ export class FacetsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getFacts();
+  }
+  getType(name){
+    if(typeof name === 'number'){
+      return 'Number';
+    } else {
+      return 'String';
+    }
   }
   checkUncheckfacets(facet){
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
@@ -208,12 +216,25 @@ export class FacetsComponent implements OnInit {
       this.errorToaster(errRes,'Failed to get facets');
     });
   }
+  selectField(suggesition){
+    this.selectedField = suggesition;
+    this.addEditFacetObj.fieldName = suggesition.fieldName
+  }
   createFacet() {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
     };
     const payload = this.addEditFacetObj;
+    if(!this.selectField){
+      this.notificationService.notify('Please select the valid Field','erroe');
+      return
+    }
+    if(this.selectedField.fieldDataType === 'number'){
+      payload.fieldName = parseInt(this.selectedField.fieldName,10);
+    } else {
+      payload.fieldName = this.selectedField.fieldName;
+    }
     this.service.invoke('create.facet', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Facet created successfully','success');
       this.facets.push(res);
