@@ -21,6 +21,7 @@ export class InsightsComponent implements OnInit {
   actionLogDatBack : any;
   selectedApp: any = {};
   serachIndexId;
+  query;
   analystic : any = {};
   staticChartOption : EChartOption = {
         xAxis: {
@@ -53,30 +54,56 @@ export class InsightsComponent implements OnInit {
     //     type: 'line',
     //     smooth: true
     // }]
-    series: [{
-      data: [14, 10, 14, 14, 10, 14, 10],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#202124',
-      }
-  },
-  {
-      data: [14, 11, 21, 17, 13, 5, 5],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#3368BB',
-      }
-  },
-  {
-    data: [13, 11, 16, 15, 12, 11, 13],
-    type: 'line',
-    smooth: true,
-    lineStyle: {
-      color: '#009DAB',
-    }
-}]
+//     series: [{
+//       data: [14, 10, 14, 14, 10, 14, 10],
+//       type: 'line',
+//       smooth: true,
+//       lineStyle: {
+//         color: '#202124',
+//       }
+//   },
+//   {
+//       data: [14, 11, 21, 17, 13, 5, 5],
+//       type: 'line',
+//       smooth: true,
+//       lineStyle: {
+//         color: '#3368BB',
+//       }
+//   },
+//   {
+//     data: [13, 11, 16, 15, 12, 11, 13],
+//     type: 'line',
+//     smooth: true,
+//     lineStyle: {
+//       color: '#009DAB',
+//     }
+// }]
+
+series: [{
+  data: [7, 10, 14, 18, 15, 10, 6],
+  type: 'line',
+  smooth: true,
+  lineStyle: {
+    color: '#202124',
+  }
+},
+{
+  data: [8, 11, 21, 15, 10, 5, 5],
+  type: 'line',
+  smooth: true,
+  lineStyle: {
+    color: '#3368BB',
+  }
+},
+{
+data: [8, 11, 16, 15, 10, 5, 5],
+type: 'line',
+smooth: true,
+lineStyle: {
+  color: '#009DAB',
+}
+}
+]
   }
   chartOption: EChartOption = {
     xAxis: {
@@ -133,11 +160,15 @@ export class InsightsComponent implements OnInit {
   };
   constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
   getQueryLevelAnalytics(){
+    // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
+    //   this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
+    // } 
+    this.query = "Open bank account"
     const quaryparms: any={
       searchIndexId: this.serachIndexId,
     }
     var payload = {
-      "searchQuery": "Open bank account"
+      "searchQuery": this.query
     }
     // this.analystic =  {
     //   "searches": 5983,

@@ -1,7 +1,7 @@
 <div id="advanceContainer" class="dis advanceContainer">
     <div class="header">
          <p>QUERY </p> 
-         <span>Open bank account</span>
+         <span>{{query}}</span>
     </div>
     <div class="mini-graph">
      <div class="search-val">
@@ -18,14 +18,18 @@
      </div>   
       <div class="data-val" (click) = "mouseEnter()"> <!-- (mouseenter) ="mouseEnter()" -->
          <div class="graph">
-             <div echarts [options]="staticChartOption" class="demo-chart"></div>
+            <img class="line-blue" src="assets/images/line-blue.svg" (click)="closeCross()">
+            <img class="line-black" src="assets/images/line-black.svg" (click)="closeCross()">
+             <!-- <div echarts [options]="staticChartOption" class="demo-chart"></div> -->
          </div>
      </div>  
-     <div class ="graphMode" #graphMode *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
+     <div class ="graphMode" *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
     
         <div class="graph">
             <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
-            <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
+            <!-- <img class="" src="assets/images/line-blue.svg" (click)="closeCross()">
+            <img class="" src="assets/images/line-black.svg" (click)="closeCross()"> -->
+            <!-- <div echarts [options]="chartOption" class="demo-chart-graphMode"></div> -->
         </div>
      </div> 
      </div>
