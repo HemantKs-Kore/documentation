@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EChartOption } from 'echarts';
-import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 declare const $: any;
 
 @Component({
@@ -15,10 +16,14 @@ export class InsightsComponent implements OnInit {
   icontoggle : boolean = false;
   graphMode : boolean = false;
   iconIndex;
-  slider : any;
+  ctrVal;
+  slider : any = 1;
   filterArray : any = [];
   actionLogData : any;
   actionLogDatBack : any;
+  selectedApp: any = {};
+  serachIndexId;
+  analystic : any = {};
   staticChartOption : EChartOption = {
         xAxis: {
           type: 'category',
@@ -50,30 +55,56 @@ export class InsightsComponent implements OnInit {
     //     type: 'line',
     //     smooth: true
     // }]
-    series: [{
-      data: [14, 10, 14, 14, 10, 14, 10],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#202124',
-      }
-  },
-  {
-      data: [14, 11, 21, 17, 13, 5, 5],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#3368BB',
-      }
-  },
-  {
-    data: [13, 11, 16, 15, 12, 11, 13],
-    type: 'line',
-    smooth: true,
-    lineStyle: {
-      color: '#009DAB',
-    }
-}]
+//     series: [{
+//       data: [14, 10, 14, 14, 10, 14, 10],
+//       type: 'line',
+//       smooth: true,
+//       lineStyle: {
+//         color: '#202124',
+//       }
+//   },
+//   {
+//       data: [14, 11, 21, 17, 13, 5, 5],
+//       type: 'line',
+//       smooth: true,
+//       lineStyle: {
+//         color: '#3368BB',
+//       }
+//   },
+//   {
+//     data: [13, 11, 16, 15, 12, 11, 13],
+//     type: 'line',
+//     smooth: true,
+//     lineStyle: {
+//       color: '#009DAB',
+//     }
+// }]
+
+series: [{
+  data: [7, 10, 14, 18, 15, 10, 6],
+  type: 'line',
+  smooth: true,
+  lineStyle: {
+    color: '#202124',
+  }
+},
+{
+  data: [8, 11, 21, 15, 10, 5, 5],
+  type: 'line',
+  smooth: true,
+  lineStyle: {
+    color: '#3368BB',
+  }
+},
+{
+data: [8, 11, 16, 15, 10, 5, 5],
+type: 'line',
+smooth: true,
+lineStyle: {
+  color: '#009DAB',
+}
+}
+]
   }
   chartOption: EChartOption = {
     xAxis: {
@@ -128,13 +159,41 @@ export class InsightsComponent implements OnInit {
 }
 ]
   };
-  constructor(private kgDataService : KgDataService) { }
-
+  
+  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
+  getQueryLevelAnalytics(){
+    // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
+    //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
+    // } 
+    this.query = "Open bank account"
+    const quaryparms: any={
+      searchIndexId: this.serachIndexId,
+    }
+    var payload = {
+      "searchQuery": this.query
+    }
+    // this.analystic =  {
+    //   "searches": 5983,
+    //   "clicks": 4254
+    // };
+    // this.ctrVal = Math.floor(this.analystic['searches'] / this.analystic['clicks'] ) * 100;
+    
+      this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
+        console.log(res)
+        this.analystic =  res;
+        if(this.analystic['searches'] == 0 || this.analystic['clicks'] == 0){
+          this.ctrVal = 0;
+        }else{
+          this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches'] ) * 100;
+        }
+      },error =>{
+        console.log(error);
+      });
+  }
   ngOnInit(): void {
-    // (opts?: {
-    //   width?: '50px',
-    //   height?: '37px',
-    // }) => this.chartOption
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getQueryLevelAnalytics();
     $("#advanceContainer").delay(800).fadeIn();
     $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     
