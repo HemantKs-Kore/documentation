@@ -212,7 +212,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class = "col-12 p-0" *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
+                  <div *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
                     <div class="allow-list-data-label label_text_dis m10">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
                       <label class="kr-sg-toggle full-input list">
                         <input type="checkbox" id="allowUrlId" name = "allowUrl" disabled>
@@ -226,34 +226,13 @@
                       </label>
                     </div>
                   </div>
-                <div class="inner-content row m-0">
-                  <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls col-12 p-0">
-                    <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"> 
-                      <label class="kr-sg-toggle full-input list">
-                        <input type="checkbox" id="allowUrlId" name = "allowUrl" [(ngModel)]="crwalObject.advanceOpts.allowedOpt" (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
-                        <div class="slider"></div>
-                      </label>
-                    </div>
-                    <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
-                      <div class="col-2 p-0 title">Allow URLS</div>
-                      <div class="col-10 p-0 d-flex align-items-center">
-                        <div class="kr-sg-dropdowns">
-                          <div class="dropdown dropdown-open">
-                              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{allowUrl.condition}}</button>                                            
-                              <ul class="dropdown-menu content-menu">                                               
-                                <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
-                                <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
-                                <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
-                                <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
-                                <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                                <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
-                              </ul>
-                            </div>
-                        </div>
-                        <div class="kr-sg-input-text">                      
-                          <input type="text" autocomplete="off" [(ngModel)] = "allowUrl.url" name= "allowVal" placeholder="Enter/Path" class="input-text">                        
-                        </div>
-                        <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
+                  <div class="inner-content row m-0">
+                    <div *ngIf ="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
+                      <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg" class="ml-1"> 
+                        <label class="kr-sg-toggle full-input list">
+                          <input type="checkbox" id="allowUrlId" name = "allowUrl" [(ngModel)]="crwalObject.advanceOpts.allowedOpt" (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
+                          <div class="slider"></div>
+                        </label>
                       </div>
                       <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
                         <div class="col-2 p-0 title">Allow URLS</div>
