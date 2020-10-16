@@ -469,7 +469,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       limit:100
     };
     this.service.invoke('get.allField', quaryparms).subscribe(res => {
-      this.filelds=  res || [];
+      this.filelds=  res.fields || [];
       this.loadingContent = false;
     }, errRes => {
       this.loadingContent = false;
