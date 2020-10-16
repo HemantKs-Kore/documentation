@@ -267,7 +267,7 @@ export class EndPointsService {
       method: 'post'
     };
     this.serviceList['update.crawler'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:sourceId',
       method: 'put'
     };
     /* Annotation tool */
@@ -304,6 +304,18 @@ export class EndPointsService {
     }
     this.serviceList['put.UnlinkBot'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
+      method: 'put'
+    }
+    this.serviceList['get.extractedResult_RR'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/resultSearch?resultType=:type&search=:search&skip=:skip&limit=:limit',
+      method: 'get'
+    }
+    this.serviceList['get.QueryLevelAnalytics'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/analytics',
+      method: 'post'
+    }
+    this.serviceList['update.rankingPinning'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
       method: 'put'
     }
   }
