@@ -609,7 +609,7 @@
             }
         }
         .toggle-swich-row{
-            margin: 30px 0;
+            margin: 30px 0 0 0;
             .row_data{
                 padding: 15px 0;
                 box-shadow: inset 0px -1px 0px #E4E5E7;
@@ -624,9 +624,20 @@
             }
         }
         .allow-list-data-label{
-            margin-bottom: 16px;
+            color: #202124 !important;
+            padding: 15px 10px !important;
+            position: relative;
+            font-weight: 500 !important;
+            font-size: 12px !important;
+            box-shadow: inset 0px -1px 0px #E4E5E7;
+            //margin-bottom: 16px;
             img{
+
                 cursor: pointer;
+            }
+            .list{
+                position: absolute;
+                right: 8px;
             }
         }
         .mt-16{

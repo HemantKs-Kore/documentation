@@ -1,5 +1,5 @@
 
-    <div class="scheduler-box">
+    <div class="scheduler-box" style="display: none;">
         <span class="scheduler-txt">Date</span>
         <!-- <input id="scheduleDateId" type="text" class="input-text date-pick" placeholder="Select Date"> -->
           <input matInput [matDatepicker]="dp3" [min]="minDate" class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
@@ -45,12 +45,12 @@
 
 
   <!-- Restrcure data     -->
-  <!-- <div class="row m-0 schedular_row_data">
+  <div class="row m-0 schedular_row_data">
     <div class="col-4 row_column pl-2 pr-2">
       <div class="kr-sg-input-text">       
-        <input type="text" matInput [matDatepicker]="dp3" [min]="minDate" placeholder="Select Date" class="input-text" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
-        <mat-datepicker-toggle matSuffix [for]="dp3" class="custome_date_picker"></mat-datepicker-toggle>
-        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        <input type="text" matInput [matDatepicker]="mdp" [min]="minDate" placeholder="Select Date" class="input-text" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
+        <mat-datepicker-toggle matSuffix [for]="mdp" class="custome_date_picker"></mat-datepicker-toggle>
+        <mat-datepicker #mdp disabled="false"></mat-datepicker>
       </div>
     </div>
     <div class="col-4 row_column middle_content pl-2 pr-2">      
@@ -89,7 +89,7 @@
           </div>
       </div>
     </div>
-  </div> -->
+  </div>
   <!-- End -->
 
 

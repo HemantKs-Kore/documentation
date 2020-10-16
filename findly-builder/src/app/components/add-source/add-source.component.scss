@@ -1089,13 +1089,7 @@
     .schedule-drop-text{
         color: #bdc1c6;
     }
-    ::ng-deep .mat-datepicker-toggle {
-        position: absolute;
-        left: 265px;
-        top: 14px;
-       // left: 263px;
-       // top: 370px;
-    }
+   
 }
 
 .custom-ref{
@@ -1204,11 +1198,7 @@
                 left: 170px;
                 top: 6px;
             }
-            ::ng-deep mat-datepicker-toggle {
-                position: absolute;
-                left: 255px;
-                top:-4px;
-            }
+            
            }
        }
     }
