@@ -135,7 +135,27 @@
                 font-size: 14px;   
                 padding-right: 10px;                                                                                           
             }
-            .bot-response-view-mode{                                                              
+            .bot-response-view-mode{         
+                .split_mode{
+                    &.split_mode_verticle{
+                        display: flex;
+                        justify-content: center;
+                        height: 100%;
+                        border-radius: 8px;
+                        .img-view-mode{
+                            width: 50%;                           
+                            background: #E8E8E8;
+                            padding: 10px;
+                            border-radius: 8px 0px 0px 8px;
+                            align-items: center;
+                            display: flex;
+                        }
+                        .desc-info{
+                            width: 50%;
+                            padding: 10px 0px 10px 20px !important;
+                        }
+                    }
+                }                                                     
                 .desc-info{
                     line-height: 21px;
                     padding: 10px 0 20px 0;
@@ -212,20 +232,84 @@
     }
     .responseEditorContainer{
         background: #F3F3F3;
-        border-radius: 5px;
-      .responsePreviewBlock{
-          background: #ffffff;
-          padding-left:  10px !important;
-        //   padding-bottom: 1.5rem!important;
-        //   padding-right: 1.5rem!important;
-        //   margin:  110px 1.5rem 1.5rem 1.5rem !important;
-          margin:  77px 1.5rem 1.5rem 1.5rem !important;
-          height: 360px;
-      }
+        border-radius: 10px;
+        padding: 0 20px 20px 20px;
+        margin: 15px 0;        
+        .left_sec{           
+            padding: 0;
+            padding-right: 15px;
+            .content-data{
+                
+            }
+            .bot_rsponse_advance_mode{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                margin: 20px 0;
+                .delete-response{
+                    position: absolute;
+                    right: -16px;
+                    margin-top: -2px;
+                    cursor: pointer;
+                }
+                   
+            }
+        }
+        .right_sec{           
+            padding: 0;
+            padding-left: 15px;
+            .tabs-sec{
+                .tab-title {
+                    color: #595959;
+                }
+            }
+            .content-data{
+                background: #ECECEC;
+                border: 1px dashed #ECECEC;
+                box-sizing: border-box;
+                border-radius: 8px;
+                padding: 25px;
+                height: 100%;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+                .responsePreviewBlock{
+                    background: #ffffff;
+                    padding: 20px 0 20px 20px;
+                    margin:  0 !important;
+                    height: 231px;
+                    border-radius: 8px;
+                    perfect-scrollbar{
+                        padding-right: 20px;
+                        .desc-info{
+                            font-size: 10px !important;
+                            line-height: normal !important;
+                            border: 0 !important;
+                            padding: 0 !important;
+                            margin: 0 !important;
+                        }
+                        .img-view-mode{
+                            padding-top: 0 !important;
+                        }
+                        .split_mode_verticle{
+                            .desc-info{
+                                padding: 10px 0px 10px 20px !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }                
+        .bottom_sec{
+            .left_sec{
+                
+            }
+        }
     } 
     .tabs-sec{
         border-bottom: 1px solid #D8D8D8;
-        margin-right: 20px;
+        margin-right: 0px;
         .tab-title{
             padding: 11px 20px;
             display: inline-block;
@@ -433,27 +517,22 @@
             margin-right: 20px;
             font-size: 14px;
         }
-    }  
-    .bot_rsponse_advance_mode{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        margin: 30px 0 6px 0;
-        .delete-response{
-            position: absolute;
-            right: -16px;
-            margin-top: -2px;
-            cursor: pointer;
-        }
-           
-    }
+    }      
 }
 
 .deleteResponseDiv{
     position: relative;
     float: right;
-    color: red;
+    color: #DD3646;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: capitalize;
+    img{
+        margin-right: 6px;
+        position: relative;
+        top: -2px;
+    }
 }
 .advanced_mode_faq{
     position: relative;
@@ -557,11 +636,15 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 334px;
+    max-width: 70%;
     display: inline-block;
-    padding-top: 18p;
-    height: 25px;
     vertical-align: middle;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: normal;
+    color: #9AA0A6;
+    margin-left: 15px;
 }
 .mb-15{
     margin-bottom: 15px;
@@ -663,4 +746,17 @@
 :host ::ng-deep .ace_print-margin {
     visibility: hidden;
     display: none;
+}
+.add_image_button_sec{
+    margin: 17px 0 0 0;
+    .dec-info-text{
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;        
+        color: #9AA0A6;
+        margin-left: 15px;
+    }
+}
+.-ml-20{
+    margin-left: -20px;
 }

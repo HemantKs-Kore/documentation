@@ -102,6 +102,9 @@
                 font-weight: 500;
                 line-height: 15px;
                 padding: 0 20px;
+                .weighDesc{
+                    min-height: 25px;
+                }
             }
             .name{
                 font-size: 14px;
@@ -138,7 +141,10 @@
                 }
                 .action_links{
                     position: absolute;
-                    right: 20px;                
+                    right: 20px; 
+                    &.editBlock{
+                        right: 2px;
+                    }               
                 }
             }
             .actions-links{
@@ -212,6 +218,36 @@
     }
 }
 ::ng-deep.addWeightModalComponent{  
+    .search_block{
+        padding-bottom: 25px;
+        border-bottom: 1px solid #F5F5F5;
+        .title{
+            color: #9AA0A6;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+            span{
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+                color: #5F6368;
+                padding-left: 2px;
+            }
+        }
+        .kr-sg-dropdowns{
+            .search-with-dropdown{
+                position: absolute;
+                border: 0;     
+                &::before{
+                    display: none;
+                }               
+            }
+            input{                      
+                padding-left:35px;                    
+            } 
+        }
+        
+    }
     .modal-body{
         .mb-25{
             margin-bottom: 25px;
