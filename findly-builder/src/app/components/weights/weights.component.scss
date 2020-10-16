@@ -102,6 +102,9 @@
                 font-weight: 500;
                 line-height: 15px;
                 padding: 0 20px;
+                .weighDesc{
+                    min-height: 25px;
+                }
             }
             .name{
                 font-size: 14px;
@@ -138,7 +141,10 @@
                 }
                 .action_links{
                     position: absolute;
-                    right: 20px;                
+                    right: 20px; 
+                    &.editBlock{
+                        right: 2px;
+                    }               
                 }
             }
             .actions-links{

@@ -43,6 +43,8 @@ export class WeightsComponent implements OnInit {
   weights:any = []
   sliderOpen;
   searchFailed;
+  weightsObj:any = {};
+  currentEditDesc = '';
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -51,6 +53,7 @@ export class WeightsComponent implements OnInit {
     this.getWeights();
   }
   selectedField(event){
+      this.addEditWeighObj.fieldName = event.fieldName;
       this.addEditWeighObj.name = event.fieldName;
   }
    getFieldAutoComplete(query){
@@ -76,6 +79,7 @@ export class WeightsComponent implements OnInit {
          const obj = {
           name : element.name,
           desc : element.desc,
+          isField:element.isField,
           sliderObj :new RangeSlider(0, 10, 1, element.value,name + i)
          }
          this.weights.push(obj);
@@ -143,11 +147,12 @@ export class WeightsComponent implements OnInit {
    weight.sliderObj.default = val;
   }
   editWeight(weight,index){
-    const editWeight = JSON.parse(JSON.stringify(weight));
-    editWeight.sliderObj.id = 'editSlider';
-    this.addEditWeighObj = editWeight;
     this.currentEditIndex = index;
-    this.openAddEditWeight();
+    this.currentEditDesc = weight.desc;
+    // const editWeight = JSON.parse(JSON.stringify(weight));
+    // editWeight.sliderObj.id = 'editSlider';
+    // this.addEditWeighObj = editWeight;
+    // this.openAddEditWeight();
   }
   openAddEditWeight() {
    this.searchModel = {};
@@ -158,6 +163,7 @@ export class WeightsComponent implements OnInit {
     this.addEditWeighObj = {
       name : '',
       desc : '',
+      isField:true,
       sliderObj :new RangeSlider(0, 10, 1, 2,'editSlider')
     };
     this.openAddEditWeight();
@@ -173,6 +179,7 @@ export class WeightsComponent implements OnInit {
   setDataToActual(){
     this.prepereWeights();
     this.disableCancle = true;
+    this.currentEditIndex = -1
   }
   errorToaster (errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -199,6 +206,7 @@ export class WeightsComponent implements OnInit {
       name: weight.name,
       value:weight.sliderObj.default,
       desc:weight.desc,
+      isField: weight.isField
      }
      tempweights.push(obj);
    });
