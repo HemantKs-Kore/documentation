@@ -50,10 +50,6 @@ export class IndexComponent implements OnInit {
   defaultStageTypesObj:any = {
     field_mapping:{
       name:'Field Mapping',
-      valueSet:{ alloperations:['set','rename','copy','remove'],
-                set:['target_field','value'],
-                remove:['target_field'],
-              }
     },
     entity_extraction:{
       name:'Entity Extraction'
@@ -68,6 +64,10 @@ export class IndexComponent implements OnInit {
       name:'Custom Script'
     },
   }
+  payloadValidationObj:any = {
+   valid:true,
+   invalidObjs:{}
+  };
   entitySuggestionTags :any = ['Entity 1','Entity 2' ,'Entity 3','Entity 4','Entity 5'];
   traitsSuggesitions : any = [];
   showSearch;
@@ -91,8 +91,18 @@ export class IndexComponent implements OnInit {
     this.setResetNewMappingsObj();
     this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
   }
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.pipeline, event.previousIndex, event.currentIndex);
+  drop(event: CdkDragDrop<string[]>,list) {
+    moveItemInArray(list, event.previousIndex, event.currentIndex);
+  }
+  setRuleObj(configObj,key,value,type){
+    this.changesDetected = true;
+    if(type === 'field_mapping'){
+      configObj[key] = value;
+      if(value === 'remove'){
+        delete configObj.value
+      }
+    }
+
   }
   selectedTag(data: MatAutocompleteSelectedEvent , list) {
     if (!this.checkDuplicateTags((data.option.viewValue || '').trim(),list)) {
@@ -146,6 +156,43 @@ export class IndexComponent implements OnInit {
       }
     }
   }
+  checkNewAddition() {
+    if(this.selectedStage && this.selectedStage.type === 'field_mapping'){
+       if(this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue) {
+          if( this.newMappingObj.field_mapping.defaultValue.operation && this.newMappingObj.field_mapping.defaultValue.target_field && (this.newMappingObj.field_mapping.defaultValue.value || this.newMappingObj.field_mapping.defaultValue.operation === 'remove')){
+           this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
+          }
+       }
+    }
+    if(this.selectedStage && this.selectedStage.type === 'entity_extraction'){
+      if(this.newMappingObj.entity_extraction && this.newMappingObj.entity_extraction.defaultValue) {
+         if( this.newMappingObj.entity_extraction.defaultValue.source_field && this.newMappingObj.entity_extraction.defaultValue.entity_types && this.newMappingObj.entity_extraction.defaultValue.entity_types.length && this.newMappingObj.entity_extraction.defaultValue.target_field){
+          this.addFiledmappings(this.newMappingObj.entity_extraction.defaultValue);
+         }
+      }
+   }
+   if(this.selectedStage && this.selectedStage.type === 'traits_extraction'){
+    if(this.newMappingObj.traits_extraction && this.newMappingObj.traits_extraction.defaultValue) {
+       if( this.newMappingObj.traits_extraction.defaultValue.source_field && this.newMappingObj.traits_extraction.defaultValue.trait_groups && this.newMappingObj.traits_extraction.defaultValue.trait_groups.length && this.newMappingObj.traits_extraction.defaultValue.target_field){
+        this.addFiledmappings(this.newMappingObj.traits_extraction.defaultValue);
+       }
+    }
+ }
+ if(this.selectedStage && this.selectedStage.type === 'keyword_extraction'){
+  if(this.newMappingObj.keyword_extraction && this.newMappingObj.keyword_extraction.defaultValue) {
+     if( this.newMappingObj.keyword_extraction.defaultValue.source_field && this.newMappingObj.keyword_extraction.defaultValue.keywords && this.newMappingObj.keyword_extraction.defaultValue.keywords.length && this.newMappingObj.keyword_extraction.defaultValue.target_field){
+      this.addFiledmappings(this.newMappingObj.keyword_extraction.defaultValue);
+     }
+  }
+}
+if(this.selectedStage && this.selectedStage.type === 'custom_script'){
+  if(this.newMappingObj.custom_script && this.newMappingObj.custom_script.defaultValue) {
+     if( this.newMappingObj.custom_script.defaultValue.source_field && this.newMappingObj.custom_script.defaultValue.scritp){
+      this.addFiledmappings(this.newMappingObj.custom_script.defaultValue);
+     }
+  }
+}
+  }
   toggleSearch(){
     if(this.showSearch && this.searchFields){
       this.searchFields = '';
@@ -163,12 +210,102 @@ export class IndexComponent implements OnInit {
        this.errorToaster(errRes,'Failed to get fields');
      });
   }
+  preparepayload(){
+    this.checkNewAddition();
+    const stagesArray = [];
+    this.payloadValidationObj.invalidObjs = {};
+    this.payloadValidationObj.valid = true;
+    this.pipeline.forEach(stage => {
+      const tempStageObj = JSON.parse(JSON.stringify(stage));
+      if(tempStageObj && tempStageObj.type === 'field_mapping') {
+        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+            const tempConfig :any = [];
+            tempStageObj.config.mappings.forEach(config => {
+                if(config && (config.operation === 'set') || (config.operation === 'copy') || (config.operation === 'rename')){
+                   if(!config.target_field || !config.value) {
+                    this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                   }
+                }
+                if((config.operation === 'remove')) {
+                    if(config.hasOwnProperty('value')) {
+                       delete config.value;
+                    }
+                    if (!config.target_field) {
+                      this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                    }
+                }
+                tempConfig.push(config);
+            });
+            tempStageObj.config.mappings = tempConfig;
+        }
+      }
+      if(tempStageObj && tempStageObj.type === 'custom_script') {
+        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+            const tempConfig :any = [];
+            tempStageObj.config.mappings.forEach(config => {
+                if(!config.script) {
+                  this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                }
+                tempConfig.push(config);
+            });
+            tempStageObj.config.mappings = tempConfig;
+        }
+      }
+      if(tempStageObj && ((tempStageObj.type === 'entity_extraction')  || (tempStageObj.type === 'traits_extraction') || (tempStageObj.type === 'keyword_extraction'))) {
+        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+            const tempConfig :any = [];
+            tempStageObj.config.mappings.forEach(config => {
+              if(!config.source_field || !config.source_field) {
+                this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+               }
+               if((tempStageObj.type === 'entity_extraction')){
+                 if(!(config && config.entity_types && config.entity_types.length)) {
+                  this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                 }
+                 if(config.trait_groups) {
+                   delete config.trait_groups;
+                 }
+                 if(config.keywords) {
+                   delete config.keywords;
+                 }
+                }
+                if((tempStageObj.type === 'traits_extraction')) {
+                  if(!(config && config.trait_groups && config.trait_groups.length)) {
+                   this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                  }
+                  if(config.entity_types) {
+                    delete config.entity_types;
+                  }
+                  if(config.keywords) {
+                    delete config.keywords;
+                  }
+                 }
+                 if((tempStageObj.type === 'keyword_extraction')) {
+                  if(!(config && config.keywords && config.keywords.length)) {
+                   this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
+                  }
+                  if(config.entity_types) {
+                    delete config.entity_types;
+                  }
+                  if(config.trait_groups) {
+                    delete config.trait_groups;
+                  }
+                 }
+                tempConfig.push(config);
+            });
+            tempStageObj.config.mappings = tempConfig;
+        }
+      }
+      stagesArray.push(tempStageObj);
+    });
+    return stagesArray;
+  }
   saveConfig(index?,dialogRef?){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
     };
-    this.service.invoke('put.indexPipeline', quaryparms,{stages:this.pipeline}).subscribe(res => {
+    this.service.invoke('put.indexPipeline', quaryparms,{stages:this.preparepayload()}).subscribe(res => {
      this.pipeline=  res.stages || [];
      this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
      this.notificationService.notify('Configurations saved successfully','success');
@@ -228,6 +365,8 @@ export class IndexComponent implements OnInit {
     this.setResetNewMappingsObj();
   }
   simulate(){
+    this.simulteObj.showSimulation =  true;
+    this.simulteObj.simulating =  false;
     const payload :any ={
       sourceType: this.simulteObj.sourceType,
       noOfDocuments:  this.simulteObj.docCount || 5
@@ -237,7 +376,7 @@ export class IndexComponent implements OnInit {
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
-      this.simulteObj.showSimulation =  true;
+      this.simulteObj.simulating =  false;
       this.simulteObj.simulation = res;
       this.notificationService.notify('Simulated successfully','success')
     }, errRes => {
@@ -424,10 +563,11 @@ export class IndexComponent implements OnInit {
     this.changesDetected = false;
   }
   selectStage(stage,i){
-    if(this.changesDetected){
+    if(this.changesDetected && false){
      this.confirmChangeDiscard(stage,i);
     } else {
       this.currentEditIndex = i;
+      this.checkNewAddition();
       if(stage && stage.type === 'custom_ccript' && stage.config && stage.config.mappings && stage.config.mappings.length){
         this.newMappingObj.custom_ccript.defaultValue.script = stage.config.mappings.length[0].script || '';
       }
@@ -529,7 +669,7 @@ export class IndexComponent implements OnInit {
     this.setResetNewMappingsObj();
   }
   createNewMap(){
-    if(this.changesDetected){
+    if(this.changesDetected && false){
       this.confirmChangeDiscard()
     } else {
     this.changesDetected = true;
