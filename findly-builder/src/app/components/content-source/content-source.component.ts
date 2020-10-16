@@ -769,6 +769,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   changeSettings(bool){
     this.selectedSource.advanceSettings.crawlEverything = !bool;
+    this.selectedSource.advanceSettings.allowedOpt = bool;
   }
   proceedWithConfigUpdate(){
     let payload = {}
