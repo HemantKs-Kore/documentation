@@ -1213,6 +1213,7 @@ and open the template in the editor.
                     line-height: 34px;
                     font-size: 18px;
                     height: 100%;
+                    top: 0;
                     right: 10px;
                     color: $primaryColor;
                     transition: all 0.3s ease-in;
@@ -1282,6 +1283,7 @@ and open the template in the editor.
                 font-size: 18px;
                 height: 100%;
                 right: 10px;
+                top: 0;
                 color: $primaryColor;
                 transition: all 0.3s ease-in;
                 z-index: 99;
