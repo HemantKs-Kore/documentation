@@ -359,8 +359,8 @@
             </div>                     
         </div>
         <perfect-scrollbar class="content_body">
-          <div>
-            <ngx-codemirror [(ngModel)]="simulteObj.simulation" [options]="codeMirrorOptions"> </ngx-codemirror>
+          <div *ngIf="simulateJson">
+            <ngx-codemirror [(ngModel)]="simulateJson" [options]="codeMirrorOptions"> </ngx-codemirror>
           </div>      
         </perfect-scrollbar>
     </div>

@@ -7,10 +7,10 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import '~codemirror/lib/codemirror';
-@import '~codemirror/theme/material';
-@import '~codemirror/lib/codemirror.css';
-@import '~codemirror/addon/fold/foldgutter.css';
-@import '~codemirror/addon/lint/lint.css';
+@import '~codemirror/theme/neo';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/addon/fold/foldgutter';
+@import '~codemirror/addon/lint/lint';
 @import "./variables/variables";
 @import "./bt-styleguide.scss";
 

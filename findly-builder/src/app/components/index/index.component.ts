@@ -42,11 +42,6 @@ export class IndexComponent implements OnInit {
   selectedMapping:any = {};
   actionItmes:any = [{type:'set'},{type:'rename'},{type:'copy'},{type:'Delete'}];
   newMappingObj:any = {}
-  simulteObj:any = {
-    sourceType: 'page',
-    docCount: 5,
-    showSimulation: false,
-  }
   defaultStageTypesObj:any = {
     field_mapping:{
       name:'Field Mapping',
@@ -64,6 +59,12 @@ export class IndexComponent implements OnInit {
       name:'Custom Script'
     },
   }
+  simulteObj:any = {
+    sourceType: 'page',
+    docCount: 5,
+    showSimulation: false,
+    simulate: this.defaultStageTypesObj
+  }
   payloadValidationObj:any = {
    valid:true,
    invalidObjs:{}
@@ -75,7 +76,7 @@ export class IndexComponent implements OnInit {
   pipelineCopy;
   fieldAutoSuggestion: any = [];
   codeMirrorOptions: any = {
-    theme: 'idea',
+    theme: 'neo',
     mode: 'application/ld+json',
     lineNumbers: false,
     lineWrapping: true,
@@ -86,6 +87,7 @@ export class IndexComponent implements OnInit {
     lint: false,
     readOnly:true,
   };
+  simulateJson;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -376,6 +378,10 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   closeSimulator(){
     this.setResetNewMappingsObj();
   }
+  addcode(data?){
+    data = data || {};
+    this.simulateJson= JSON.stringify(data, null, ' ');
+    }
   simulate(){
     this.simulteObj.showSimulation =  true;
     this.simulteObj.simulating =  false;
@@ -396,7 +402,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     };
     this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
       this.simulteObj.simulating =  false;
-      this.simulteObj.simulation = res;
+      this.addcode(res);
       this.notificationService.notify('Simulated successfully','success')
     }, errRes => {
       this.errorToaster(errRes,'Failed to get stop words');
