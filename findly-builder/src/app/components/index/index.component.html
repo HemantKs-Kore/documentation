@@ -18,9 +18,12 @@
             </div>
             <perfect-scrollbar class="scroll_stage_content">
                 <ng-container *ngIf="pipeline && pipeline.length">
-                    <div cdkDropList (cdkDropListDropped)="drop($event)">
+                    <div cdkDropList (cdkDropListDropped)="drop($event,pipeline)">
                         <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (currentEditIndex === i)}">
-                            <div class="drag_drop_icon" cdkDragPlaceholder><img src="assets/icons/drog_drop.svg"></div>
+                            <div class="field_data" *cdkDragPreview>
+                                <div class="title text-truncate" >{{pipe.name}}</div>
+                            </div>
+                            <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
                             <div class="title text-truncate" >{{pipe.name}}</div>
                             <div class="close_icon" (click)="removeStage(i)"><img src="assets/icons/close_field.svg"></div>
                         </div>
@@ -89,7 +92,7 @@
                         <div class="dropdown dropdown-open" [ngClass]="{'disabled': selectedStage._id}">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
                             <ul class="dropdown-menu content-menu">                                                                    
-                              <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type"><a>{{systemStage.name}}</a></li>
+                              <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type"><a>{{systemStage.type | translate}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -104,41 +107,44 @@
                 </div>
                 <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
                     <ng-container *ngIf="selectedStage && selectedStage.config && selectedStage.config.mappings && selectedStage.config.mappings.length">
-                        <div class="row m-0 form_list pl-0" *ngFor="let map of selectedStage.config.mappings">
-                            <div class="drag_drop d-none"><img src="assets/icons/drog_drop.svg"></div>
-                            <div class="kr-sg-dropdowns col-4 input-box pl-0">
-                                <div class="label-text">Action</div>
-                                <div class="dropdown dropdown-open">
-                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'choose_an_option') | translate}}</button>                                            
-                                    <ul class="dropdown-menu content-menu">                                                                    
-                                      <li (click)='map.operation ="set";changesDetected = true'>Set</li>
-                                      <li (click)='map.operation ="rename";changesDetected = true'>Rename</li>
-                                      <li (click)='map.operation ="copy";changesDetected = true'>Copy</li>
-                                      <li (click)='map.operation ="remove";changesDetected = true'>Remove</li>
-                                    </ul>
+                        <div cdkDropList (cdkDropListDropped)="drop($event,selectedStage.config.mappings)">
+                            <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings" cdkDrag>
+                                <div *cdkDragPreview class="drag_drop"><img src="assets/icons/drog_drop.svg">{{map.target_field}}</div>
+                                <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
+                                <div class="kr-sg-dropdowns col-4 input-box">
+                                    <div class="label-text">Action</div>
+                                    <div class="dropdown dropdown-open">
+                                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'choose_an_option') | translate}}</button>                                            
+                                        <ul class="dropdown-menu content-menu">                                                                    
+                                          <li (click)='setRuleObj(map,"operation","set","field_mapping")'><a>Set</a></li>
+                                          <li (click)='setRuleObj(map,"operation","rename","field_mapping")'><a>Rename</a></li>
+                                          <li (click)='setRuleObj(map,"operation","copy","field_mapping")'><a>Copy</a></li>
+                                          <li (click)='setRuleObj(map,"operation","remove","field_mapping")'><a>Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </div> 
+                                <div class="kr-sg-input-text col-4 input-box">
+                                    <div class="label-text">Field Name</div>
+                                    <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                                 </div>
-                            </div> 
-                            <div class="kr-sg-input-text col-4 input-box">
-                                <div class="label-text">Field Name</div>
-                                <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
+                                    <div class="label-text">Value</div>
+                                    <input type="text" placeholder="Specify Condition" class="input-text" [(ngModel)]="map.value">
+                                </div>  
+                                <div class="delete_icon" (click)="removeConfig(i,selectedStage.config.mappings)" ><img src="assets/icons/delete-table.svg"></div>                 
                             </div>
-                            <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
-                                <div class="label-text">Value</div>
-                                <input type="text" placeholder="Specify Condition" class="input-text" [(ngModel)]="map.value">
-                            </div>  
-                            <div class="delete_icon"><img src="assets/icons/delete-table.svg"></div>                 
                         </div>
                     </ng-container>
-                    <div class="row m-0 form_list pl-0" *ngIf="newMappingObj && newMappingObj.field_mapping && newMappingObj.field_mapping.defaultValue">
-                        <div class="kr-sg-dropdowns col-4 input-box pl-0">
+                    <div class="row m-0 form_list" *ngIf="newMappingObj && newMappingObj.field_mapping && newMappingObj.field_mapping.defaultValue">
+                        <div class="kr-sg-dropdowns col-4 input-box">
                             <div class="label-text">Action</div>
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newMappingObj.field_mapping.defaultValue.operation?newMappingObj.field_mapping.defaultValue.operation:'choose_an_option') | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu">                                                                    
-                                  <li (click)='newMappingObj.field_mapping.defaultValue.operation ="set"'><a>Set</a></li>
-                                  <li (click)='newMappingObj.field_mapping.defaultValue.operation ="rename"'><a>Rename</a></li>
-                                  <li (click)='newMappingObj.field_mapping.defaultValue.operation ="copy"'><a>Copy</a></li>
-                                  <li (click)='newMappingObj.field_mapping.defaultValue.operation ="remove"'><a>Remove</a></li>
+                                  <li (click)='setRuleObj(newMappingObj.field_mapping.defaultValue,"operation","set","field_mapping")'><a>Set</a></li>
+                                  <li (click)='setRuleObj(newMappingObj.field_mapping.defaultValue,"operation","rename","field_mapping")'><a>Rename</a></li>
+                                  <li (click)='setRuleObj(newMappingObj.field_mapping.defaultValue,"operation","copy","field_mapping")'><a>Copy</a></li>
+                                  <li (click)='setRuleObj(newMappingObj.field_mapping.defaultValue,"operation","remove","field_mapping")'><a>Remove</a></li>
                                 </ul>
                             </div>
                         </div> 
@@ -161,7 +167,7 @@
                                 <div class="label-text">Source Field</div>
                                 <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                             </div>
-                            <div  class="kr-sg-input-text col-4 input-box">
+                            <div class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'keywords_extraction')">Choose Kwywords</div>
@@ -224,7 +230,6 @@
                                   </mat-form-field>
                                 </ng-container>
                             </div>
-                            
                             <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation !== 'remove')">
                                 <div class="label-text">Target Field</div>
                                 <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
@@ -235,7 +240,7 @@
                     <div class="row m-0 form_list pl-0" *ngIf="newMappingObj[selectedStage.type]&&newMappingObj[selectedStage.type].defaultValue">
                         <div class="kr-sg-input-text col-4 input-box pl-0">
                             <div class="label-text">Source Field</div>
-                            <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
+                            <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.source_field">
                         </div>
                         <div  class="kr-sg-input-text col-4 input-box">
                             <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
@@ -303,7 +308,7 @@
                         </div>
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj[selectedStage.type].defaultValue.operation !== 'remove')">
                             <div class="label-text">Target Field</div>
-                            <input type="text" placeholder="Specify Condition" class="input-text"  [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.value">
+                            <input type="text" placeholder="Specify Condition" class="input-text"  [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
                         </div>                      
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj[selectedStage.type].defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
