@@ -98,7 +98,7 @@
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Stage Name</div>
-                        <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
+                        <input type="text" placeholder="Please enter stage name" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Condition</div>
@@ -125,11 +125,11 @@
                                 </div> 
                                 <div class="kr-sg-input-text col-4 input-box">
                                     <div class="label-text">Field Name</div>
-                                    <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                    <input type="text" placeholder="Enter name" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                                 </div>
                                 <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
                                     <div class="label-text">Value</div>
-                                    <input type="text" placeholder="Specify Condition" class="input-text" [(ngModel)]="map.value">
+                                    <input type="text" placeholder="Value" class="input-text" [(ngModel)]="map.value">
                                 </div>  
                                 <div class="delete_icon" (click)="removeConfig(i,selectedStage.config.mappings)" ><img src="assets/icons/delete-table.svg"></div>                 
                             </div>
@@ -150,11 +150,11 @@
                         </div> 
                         <div class="kr-sg-input-text col-4 input-box">
                             <div class="label-text">Field Name</div>
-                            <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
+                            <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
                         </div>
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove')">
                             <div class="label-text">Value</div>
-                            <input type="text" placeholder="Specify Condition" class="input-text"  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value">
+                            <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value">
                         </div>                      
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj.field_mapping.defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
@@ -165,7 +165,7 @@
                             <div class="drag_drop d-none"><img src="assets/icons/drog_drop.svg"></div>
                             <div class="kr-sg-input-text col-4 input-box pl-0">
                                 <div class="label-text">Source Field</div>
-                                <input type="text" placeholder="Please enter" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
+                                <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                             </div>
                             <div class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
@@ -232,7 +232,7 @@
                             </div>
                             <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation !== 'remove')">
                                 <div class="label-text">Target Field</div>
-                                <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                             </div>  
                             <div class="delete_icon" (click)="removeConfig(i,selectedStage.config.mappings)"><img src="assets/icons/delete-table.svg"></div>
                         </div>
@@ -240,7 +240,7 @@
                     <div class="row m-0 form_list pl-0" *ngIf="newMappingObj[selectedStage.type]&&newMappingObj[selectedStage.type].defaultValue">
                         <div class="kr-sg-input-text col-4 input-box pl-0">
                             <div class="label-text">Source Field</div>
-                            <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.source_field">
+                            <input type="text" placeholder="Value" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.source_field">
                         </div>
                         <div  class="kr-sg-input-text col-4 input-box">
                             <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
@@ -308,7 +308,7 @@
                         </div>
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj[selectedStage.type].defaultValue.operation !== 'remove')">
                             <div class="label-text">Target Field</div>
-                            <input type="text" placeholder="Specify Condition" class="input-text"  [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
+                            <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
                         </div>                      
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj[selectedStage.type].defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
@@ -317,7 +317,7 @@
                  <div class="customScript">
                     <div class="kr-sg-input-text-area" >
                         <div class="label-text">&lt;/&gt;Painless</div>
-                        <textarea placeholder="Please enter" class="input-text" (keyup)='addCustomScript(newMappingObj.custom_script.defaultValue.script)' [(ngModel)]="newMappingObj.custom_script.defaultValue.script"></textarea>
+                        <textarea placeholder="Please enter script" class="input-text" (keyup)='addCustomScript(newMappingObj.custom_script.defaultValue.script)' [(ngModel)]="newMappingObj.custom_script.defaultValue.script"></textarea>
                     </div>
                  </div>
                  
@@ -379,8 +379,8 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-10 p-0">
                     <div class="label-text">Field Name</div>
-                    <input type="number" *ngIf="newFieldObj.fieldDataType !== 'string'"  placeholder="Specify Condition" class="input-text" [(ngModel)]="newFieldObj.fieldName">
-                    <input type="text"  *ngIf="newFieldObj.fieldDataType === 'string'" placeholder="Specify Condition" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="number" *ngIf="newFieldObj.fieldDataType !== 'string'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text"  *ngIf="newFieldObj.fieldDataType === 'string'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
