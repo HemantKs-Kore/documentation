@@ -10,6 +10,7 @@ declare const $: any;
 })
 export class InsightsComponent implements OnInit {
   @Input() data : any;
+  @Input() query : any;
   show = false;
   icontoggle : boolean = false;
   graphMode : boolean = false;

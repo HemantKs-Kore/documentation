@@ -3517,7 +3517,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   $('.search-container').toggleClass('conversation');
       // });
        $(dataHTML).off('click', '.custom-header-text').on('click', '.custom-header-text', function (event) {
-        var randomObject = { 'type': 'show', data: true } 
+        if(window.koreWidgetSDKInstance.vars.searchObject && window.koreWidgetSDKInstance.vars.searchObject.searchText)
+        var randomObject = { 'type': 'show', data: true ,query : window.koreWidgetSDKInstance.vars.searchObject.searchText} 
         _self.parentEvent(randomObject);
        });
        $(dataHTML).off('click', '.custom-expand-icon').on('click', '.custom-expand-icon', function (e) {

@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   searchInstance:any;
   findlyBusinessConfig:any = {};
   bridgeDataInsights = true;
+  queryText ;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -167,6 +168,7 @@ export class AppComponent implements OnInit {
     this.authService.findlyApps.unsubscribe();
   }
   showHideSearch(show){
+    const _self = this;
     if(show){
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');
@@ -178,7 +180,8 @@ export class AppComponent implements OnInit {
       $('.start-search-icon-div').removeClass('active');
       $('.advancemode-checkbox').css({"display":"none"});
       $('.search-container').removeClass('search-container-adv')
-      $('.search-container').removeClass('add-new-result')
+      $('.search-container').removeClass('add-new-result');
+      _self.bridgeDataInsights = true;
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
@@ -190,7 +193,7 @@ export class AppComponent implements OnInit {
     }else{
       _self.bridgeDataInsights = true;
     }
-    
+    _self.queryText = parms.query;
     
   }
   initSearchSDK(){
@@ -219,6 +222,7 @@ export class AppComponent implements OnInit {
     var fSdk = new FindlySDK(findlyConfig);
     fSdk.showSearch();
     console.log(this.findlyBusinessConfig);
+    //this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
     // var chatConfig = KoreSDK.chatConfig;
     // //chatConfig.botOptions.assertionFn = assertion;
     // chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
