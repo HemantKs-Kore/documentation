@@ -541,7 +541,7 @@
                     .body-content{      
                         padding-bottom: 50px;                  
                         .body-top-content{
-                            padding: 20px 30px 0 30px;
+                            padding: 0px 0px 0 10px;
                         }
                         .question-content{
                             .title-que{
@@ -756,6 +756,169 @@
                     font-size: 14px;
                 }
             } 
+        }
+    }
+}
+
+.perfect-scroll-result-rank{
+    height: calc(100vh - 15%) !important;
+}
+
+.accordion-result-rank{
+    border: 0;
+    border-radius: 0;
+    //padding-left: 37px;
+    background-color: #FFFFFF;
+    border-top: 1px solid #DDDDDD;
+    //margin: -2px 5%;
+    margin: 0px 2% 0px 2%;
+    //border-bottom: 1px solid #DDDDDD;
+    a{
+        text-decoration: none;
+        color: #161928;
+    }
+    .active-header{
+        font-weight: 600 !important;
+        //white-space: nowrap !important;
+        //overflow: visible !important;
+        //text-overflow: none !important;
+    }
+    .wrapper {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    .action-header{
+        position: relative;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 20px;
+        color: #161928;
+        
+        .status{
+            position: relative;
+            margin-left: 8px;
+            background: #E7F1FF;
+            border-radius: 2px;
+            padding: 3px 6px;
+        }
+        
+    }
+    .pl-pr-0{
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+    .time{
+        position: relative;
+        
+    }
+    .span-act{
+        font-weight: 600;
+    }
+    .mr-0{
+        margin-right: 0px
+    }
+    .action-desc{
+        position: relative;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 12px;
+        color: #979797;
+        margin-left: 20px;
+    }
+    .btn-rem{
+        background: #FFFFFF;
+        border: 1px solid #BDC1C6;
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 78px;
+        height: 25px;
+        align-items: flex-end;
+        text-align: center;
+        color: #202124;
+        font-size: 12px;
+        margin-left: 83%;
+    }
+    .action-on-this{
+        padding: 5px;
+        border: 1px solid #979797;
+        margin: 15px;
+        .arr-txt{
+            font-weight: 500;
+            font-size: 10px;
+            color: #979797;
+        }
+        .arrow{
+            border: 1px solid #979797;
+            border-width: 0 1px 1px 0;
+            display: inline-block;
+            padding: 3px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        .up {
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+        }
+        .down {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+        }
+    }
+    .list-p{
+        list-style-type: none;
+        padding-right: 25px;
+        .list-c{
+            border-bottom: 1px solid #979797;
+            padding: 10px 17px 10px 0;
+            .arr-txt{
+                font-weight: normal;
+                font-size: 12px;
+            }
+            .arr-t{
+                font-weight: 500;
+                font-size: 12px;
+                color: #9B9B9B;
+                float: right;
+            }
+        }
+    }
+    
+}
+.accordion-rr {
+    background-color: transparent !important;
+    color: #161928;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 14px;
+    transition: 0.4s;
+    cursor: pointer !important;
+    position: relative;
+    position: relative;
+    padding: 0px 0 0 20px;
+    margin-bottom: 15px;
+    .ml-8{
+        margin-left: 0.85rem!important;
+    }
+    .card {
+        border-top: 1px solid #DDDDDD;
+        border-bottom: 1px solid #DDDDDD;
+        box-shadow: inset 0px -0.5px 0px #DDDDDD;
+        height: 50px;
+        .card-header {
+            border: 0;
+            border-radius: 0;
+            padding: .75rem 1.25rem;
+            background-color: #FFFFFF
+            /* padding: 0; */
+            a{
+                text-decoration: none;
+                color: #161928;
+            }
         }
     }
 }
