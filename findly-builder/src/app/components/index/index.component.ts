@@ -74,6 +74,18 @@ export class IndexComponent implements OnInit {
   searchFields :any = '';
   pipelineCopy;
   fieldAutoSuggestion: any = [];
+  codeMirrorOptions: any = {
+    theme: 'idea',
+    mode: 'application/ld+json',
+    lineNumbers: false,
+    lineWrapping: true,
+    foldGutter: true,
+    gutters: ['CodeMirror-foldgutter'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: false,
+    readOnly:true,
+  };
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public workflowService: WorkflowService,
@@ -369,7 +381,14 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.simulteObj.simulating =  false;
     const payload :any ={
       sourceType: this.simulteObj.sourceType,
-      noOfDocuments:  this.simulteObj.docCount || 5
+      noOfDocuments:  this.simulteObj.docCount || 5,
+      // pipelineConfig: this.preparepayload()
+    }
+    const stages = this.preparepayload();
+    if(this.currentEditIndex > -1){
+      payload.pipelineConfig = stages.slice(0,this.currentEditIndex + 1);
+    } else {
+      payload.pipelineConfig = stages
     }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,

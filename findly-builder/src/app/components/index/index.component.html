@@ -360,7 +360,7 @@
         </div>
         <perfect-scrollbar class="content_body">
           <div>
-              {{simulteObj.simulation | json}}
+            <ngx-codemirror [(ngModel)]="simulteObj.simulation" [options]="codeMirrorOptions"> </ngx-codemirror>
           </div>      
         </perfect-scrollbar>
     </div>
