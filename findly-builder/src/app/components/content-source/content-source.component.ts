@@ -709,8 +709,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: this.selectedSource._id
-      //type: this.selectedSourceType.sourceType,
+      sourceId: this.selectedSource._id,
+      sourceType: this.selectedSource.type,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
@@ -777,8 +777,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId ,
-      sourceId : this.selectedSource._id
-      //type: this.selectedSourceType.sourceType,
+      sourceId : this.selectedSource._id,
+      sourceType: this.selectedSource.type,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;

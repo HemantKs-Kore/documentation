@@ -267,7 +267,7 @@ export class EndPointsService {
       method: 'post'
     };
     this.serviceList['update.crawler'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/webdomain/:sourceId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:sourceId',
       method: 'put'
     };
     /* Annotation tool */
