@@ -180,6 +180,7 @@ lineStyle: {
     
       this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
         console.log(res)
+        
         this.analystic =  res;
         if(this.analystic['searches'] == 0 || this.analystic['clicks'] == 0){
           this.ctrVal = 0;
@@ -191,9 +192,15 @@ lineStyle: {
       });
   }
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getQueryLevelAnalytics();
+    this.customInit();
+    setTimeout(()=>{
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.getQueryLevelAnalytics();
+    },5000)
+    
+  }
+  customInit(){
     $("#advanceContainer").delay(800).fadeIn();
     $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     
