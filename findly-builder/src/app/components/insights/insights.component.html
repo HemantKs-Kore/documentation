@@ -1,38 +1,64 @@
 <div id="advanceContainer" class="dis advanceContainer">
-    <div class="header">
+    <div class="row">
+        <div class="header col-5">
+            <p>QUERY </p> 
+            <span>{{query}}</span>
+       </div>
+       <div class="col-7">
+        <div class="mini-graph">
+            <div class="search-val">
+                <p>Searches </p> 
+                <span>{{analystic.searches || 0}}</span>
+            </div>
+            <div class="click-val">
+                <p>Clicks </p> 
+                <span>{{analystic.searches || 0}}</span>
+            </div>
+            <div class="ctr-val">
+                <p>CTR </p> 
+                <span>{{ctrVal || 0}}%</span>
+            </div>   
+            <div class="data-val" (click) = "mouseEnter()"> 
+                <div class="graph">
+                    <img class="line-blue" src="assets/images/line-blue.svg" (click)="closeCross()">
+                    <img class="line-black" src="assets/images/line-black.svg" (click)="closeCross()">
+                </div>
+            </div>  
+         </div>
+       </div>
+    </div>
+     <!-- <div class="header">
          <p>QUERY </p> 
          <span>{{query}}</span>
     </div>
     <div class="mini-graph">
-     <div class="search-val">
-         <p>Searches </p> 
-         <span>{{analystic.searches || 0}}</span>
-     </div>
-     <div class="click-val">
-         <p>Clicks </p> 
-         <span>{{analystic.searches || 0}}</span>
-     </div>
-     <div class="ctr-val">
-         <p>CTR </p> 
-         <span>{{ctrVal || 0}}%</span>
-     </div>   
-      <div class="data-val" (click) = "mouseEnter()"> <!-- (mouseenter) ="mouseEnter()" -->
-         <div class="graph">
-            <img class="line-blue" src="assets/images/line-blue.svg" (click)="closeCross()">
-            <img class="line-black" src="assets/images/line-black.svg" (click)="closeCross()">
-             <!-- <div echarts [options]="staticChartOption" class="demo-chart"></div> -->
-         </div>
-     </div>  
-     <div class ="graphMode" *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
-    
-        <div class="graph">
-            <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
-            <!-- <img class="" src="assets/images/line-blue.svg" (click)="closeCross()">
-            <img class="" src="assets/images/line-black.svg" (click)="closeCross()"> -->
-            <!-- <div echarts [options]="chartOption" class="demo-chart-graphMode"></div> -->
+        <div class="search-val">
+            <p>Searches </p> 
+            <span>{{analystic.searches || 0}}</span>
         </div>
-     </div> 
-     </div>
+        <div class="click-val">
+            <p>Clicks </p> 
+            <span>{{analystic.searches || 0}}</span>
+        </div>
+        <div class="ctr-val">
+            <p>CTR </p> 
+            <span>{{ctrVal || 0}}%</span>
+        </div>   
+        <div class="data-val" (click) = "mouseEnter()">
+            <div class="graph">
+                <img class="line-blue" src="assets/images/line-blue.svg" (click)="closeCross()">
+                <img class="line-black" src="assets/images/line-black.svg" (click)="closeCross()">
+                
+            </div>
+        </div>  
+        <div class ="graphMode" *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
+        
+            <div class="graph">
+                <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
+              
+            </div>
+        </div> 
+     </div>  -->
      <div class="tab-grp">
          <span class="tab-name tab-ana " (click)="swapSlider(0)">ANALYSIS</span>
          <span class="tab-name tab-act active" (click)="swapSlider(1)">ACTION LOG</span>
@@ -100,8 +126,8 @@
      <!-- <button (click)="btnClick()">button</button> -->
  </div>
 
- <div class ="graphMode" #graphMode *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
-    <div class="graph">
+ <div class ="row" #graphMode *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
+    <div class="graphMode col-7">
         <div class="header">
             <span class="head-txt">Search & Click Trend</span>
             <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">

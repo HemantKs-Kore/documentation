@@ -48,8 +48,9 @@
         .closeCross{
             cursor: pointer;
             position: absolute;
-            right: 24px;
-            top: 142px;
+            position: absolute;
+            padding: 10px 26px;
+            right: 0px;
         }
     }
     .search-box{
@@ -68,7 +69,7 @@
             background: #0D6EFD !important;
             border: 1px solid #0D6EFD !important;
             color: #FFFFFF;
-            margin-left: 30% !important;
+           // margin-left: 30% !important;
         }
         .bef-add{
             width: 67px;
@@ -77,7 +78,7 @@
             border: 1px solid #BDC1C6;
             color: #FFFFFF;
             border-radius: 4px;
-            margin-left: 65%;
+            //margin-left: 65%;
         }
         .cancel{
             width: 67px;
