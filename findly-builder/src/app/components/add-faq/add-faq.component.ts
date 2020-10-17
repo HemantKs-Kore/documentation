@@ -45,13 +45,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   faqs:any = {}
   anwerPayloadObj:any = {};
   codeMirrorOptions: any = {
-    theme: 'idea',
+    theme: 'neo',
     mode: 'javascript',
     lineNumbers: true,
     lineWrapping: true,
-    foldGutter: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    autoCloseBrackets: true,
+    foldGutter: false,
+    gutters: ['CodeMirror-linenumbers','CodeMirror-lint-markers'],
+    autoCloseBrackets: false,
     matchBrackets: true,
     lint: true
   };

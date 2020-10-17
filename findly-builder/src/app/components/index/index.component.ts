@@ -60,7 +60,7 @@ export class IndexComponent implements OnInit {
     },
   }
   simulteObj:any = {
-    sourceType: 'page',
+    sourceType: 'faq',
     docCount: 5,
     showSimulation: false,
     simulate: this.defaultStageTypesObj
@@ -104,6 +104,7 @@ export class IndexComponent implements OnInit {
     this.getFileds();
     this.setResetNewMappingsObj();
     this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
+    this.addcode({});
   }
   drop(event: CdkDragDrop<string[]>,list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
@@ -129,7 +130,7 @@ export class IndexComponent implements OnInit {
   }
   setResetNewMappingsObj(){
     this.simulteObj = {
-      sourceType: 'page',
+      sourceType: 'faq',
       docCount: 5,
       showSimulation: false,
     }
