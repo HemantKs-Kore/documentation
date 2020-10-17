@@ -118,9 +118,16 @@
       <div class="modal-body">
         <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
           <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
+          <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
+            <div class="kr-sg-input-text mb-4">
+              <div class="label-text">Source URL</div>
+              <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter domain URL" [(ngModel)]="newSourceObj.url"
+                class="input-text">
+            </div>
+          </div>  
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter source"
+              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter name"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
             <div class="kr-sg-input-text-area mb-3">
@@ -180,11 +187,11 @@
             </div>
           <!-- File uploader with Drag & Drop ENDS HERE -->        
             <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
-              <div class="kr-sg-input-text mb-4">
+              <!-- <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
                   class="input-text">
-              </div>
+              </div> -->
               <div class="advanced-settings-title"  *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" data-toggle="collapse" data-target="#settings">Advance Settings</div>
               <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class="collapse advance-setttings">
                   <div class="inner-content row m-0">
