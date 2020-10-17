@@ -91,7 +91,7 @@
             </div>
             <div class="ends-never sp-on">
               <input type="radio" name="radio" value ="endsOn" class="ends-radio" (click)="endsFreq('on')"> <span class="sp">On</span>
-              <input matInput [matDatepicker]="dpCust"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEvent('input', $event,'custom')" (dateChange)="addEvent('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
+              <input matInput [matDatepicker]="dpCust" [min]="minDate"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEvent('input', $event,'custom')" (dateChange)="addEvent('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
               <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
               <mat-datepicker #dpCust [disabled]="!endsOn"></mat-datepicker>
             </div>
