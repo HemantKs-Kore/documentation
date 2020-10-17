@@ -54,9 +54,9 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.schedule == 'get'){
-      $('.mat-datepicker-toggle').addClass('mat-date-icon');
+      //$('.mat-datepicker-toggle').addClass('mat-date-icon');
     }else{
-      $('.mat-datepicker-toggle').removeClass('mat-date-icon');
+     // $('.mat-datepicker-toggle').removeClass('mat-date-icon');
     }
     this.endsFreq('endsNever');
     console.log(this.dateConverter('SUN'))

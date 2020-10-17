@@ -400,7 +400,7 @@ and open the template in the editor.
         background:#a8000a;
     }
     &:focus{
-        border: solid 1px #1372ff;
+        // border: solid 1px #1372ff;
     }
     &:disabled{
         background:#f1b3b6;
@@ -798,8 +798,8 @@ and open the template in the editor.
                 content: '';
                 display: inline-block;
                 vertical-align: middle;
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 top: 0;
                 padding: 0;
                 margin-right: 12px;
@@ -1213,6 +1213,7 @@ and open the template in the editor.
                     line-height: 34px;
                     font-size: 18px;
                     height: 100%;
+                    top: 0;
                     right: 10px;
                     color: $primaryColor;
                     transition: all 0.3s ease-in;
@@ -1282,6 +1283,7 @@ and open the template in the editor.
                 font-size: 18px;
                 height: 100%;
                 right: 10px;
+                top: 0;
                 color: $primaryColor;
                 transition: all 0.3s ease-in;
                 z-index: 99;
@@ -1586,6 +1588,7 @@ and open the template in the editor.
         width: 100%;
         line-height: normal;
         margin: 0 !important;
+        outline: 0 !important;
         &::placeholder{
             color: $secondaryColor;         
         }
@@ -2001,10 +2004,11 @@ and open the template in the editor.
         background-color: $whiteColor;
         color: $primaryColor;
         border-radius: 4px;
-        padding: 4px 25px 4px 10px;
+        padding: 4px 10px 4px 35px;
         height: 34px;
         line-height: 34px;
         width: 100%;
+        outline: 0 !important;
         &::placeholder{
             color: $secondaryColor;
             opacity: 0.5;
@@ -2023,10 +2027,8 @@ and open the template in the editor.
     }
     .search-icon{
         position: absolute;
-        right: 10px;
-        top: 9px;
-        // width: 12px;
-        // height: 12px;
+        left: 11px;
+        top: 10px;        
         cursor: pointer;
     }
 }
@@ -2043,6 +2045,7 @@ and open the template in the editor.
         padding: 4px 30px;
         height: 30px;
         line-height: 30px;
+        outline: 0 !important;
         width: 100%;
         &::placeholder{
             color: $secondaryColor;

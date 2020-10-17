@@ -106,7 +106,8 @@ export class AppComponent implements OnInit {
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
-          _id:appData.searchIndexes[0]._id
+          _id:appData.searchIndexes[0]._id,
+          pipelineId:appData.searchIndexes[0].queryPipelineId
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();
