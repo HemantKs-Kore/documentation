@@ -321,6 +321,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.loadingSliderContent = true;
         this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
         this.pageination(source.numPages, 10)
+        this.getCrawledPages(this.limitpage, 0);
       }
       else if(source.type ==='document'){
         this. openDocumentModal();
