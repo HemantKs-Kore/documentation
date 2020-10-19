@@ -148,6 +148,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
   streamID: any;
+  searchAssociatedBots: any;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
