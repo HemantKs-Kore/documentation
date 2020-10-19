@@ -95,6 +95,25 @@ export class FacetsComponent implements OnInit {
       $('#selectAllFacets')[0].checked = false;
     }
   }
+  drop(event: CdkDragDrop<string[]>,list) {
+    moveItemInArray(list, event.previousIndex, event.currentIndex);
+    this.saveSortedList();
+  }
+  saveSortedList(){
+    const payload :any = [];
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId
+    };
+    this.facets.forEach(face => {
+      payload.push(face._id);
+    });
+    this.service.invoke('reorder.facets', quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Simulated successfully','success')
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to get stop words');
+    });
+  }
   addRemovefacetFromSelection(facetId?,addtion?,clear?){
     if(clear){
       const allfacets = $('.selectEachfacetInput');
@@ -180,16 +199,16 @@ export class FacetsComponent implements OnInit {
   removeRange(index){
     this.addEditFacetObj.facetRange.splice(index ,1);
   }
-  addFiled(facet){
-    if(facet.facetType === 'value'){
-      if(this.addEditFacetObj.facetRange){
-        delete this.addEditFacetObj.facetRange;
-      }
-      if(!this.addEditFacetObj.facetValue){
-        this.addEditFacetObj.facetValue = [];
-      }
-      this.addEditFacetObj.facetValue.push(this.facetDefaultValueObj.value);
-    } else {
+  addFiled(facet?){
+    // if(facet.facetType === 'value'){
+    //   if(this.addEditFacetObj.facetRange){
+    //     delete this.addEditFacetObj.facetRange;
+    //   }
+    //   if(!this.addEditFacetObj.facetValue){
+    //     this.addEditFacetObj.facetValue = [];
+    //   }
+    //   this.addEditFacetObj.facetValue.push(this.facetDefaultValueObj.value);
+    // } else {
       if(this.addEditFacetObj.facetValue){
         delete this.addEditFacetObj.facetValue;
       }
@@ -197,7 +216,7 @@ export class FacetsComponent implements OnInit {
         this.addEditFacetObj.facetRange = [];
       }
       this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
-    }
+    // }
     this.resetDefaults();
   }
   getFacts(offset?){
@@ -253,14 +272,7 @@ export class FacetsComponent implements OnInit {
     const payload = this.addEditFacetObj;
     this.service.invoke('update.facet', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Facet updated successfully','success');
-      const facetsdata = JSON.parse(JSON.stringify(this.facets));
-      this.facets = [];
-      facetsdata.forEach(facet => {
-        if(facet._id === this.indexPipelineId._id){
-          facet = res;
-        }
-      });
-      this.facets = [...facetsdata];
+      this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
     }, errRes => {
@@ -349,6 +361,7 @@ export class FacetsComponent implements OnInit {
   }
  }
  addOrUpdate(){
+  this.addFiled();
    if(this.addEditFacetObj && this.addEditFacetObj._id){
     this.editFacet();
    } else {

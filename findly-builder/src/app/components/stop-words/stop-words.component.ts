@@ -209,8 +209,10 @@ export class StopWordsComponent implements OnInit {
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
      this.newStopWord = '';
      if(dialogRef && dialogRef.close){
-      msg = 'Stop word deleted successfully';
       dialogRef.close();
+      if(!enableOrDisable){
+        msg = 'Stop word deleted successfully';
+       }
      }
      this.notificationService.notify(msg,'success');
     }, errRes => {
