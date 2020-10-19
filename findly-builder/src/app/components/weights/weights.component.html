@@ -53,7 +53,7 @@
                 <div class="add_btn_sec">
                     <button class="kr-sg-button-secondary btn_lg" (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Add Rankable Field</button>
                 </div>
-                <div class="cancel_save_sec">
+                <div class="cancel_save_sec mr-5">
                     <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg" [disabled]="disableCancle" (click)="setDataToActual()">Cancel</button>
                     <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg" (click)="addOrUpddate(weights)">Save Weights</button>
                 </div>               
