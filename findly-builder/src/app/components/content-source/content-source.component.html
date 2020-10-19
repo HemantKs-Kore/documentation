@@ -628,3 +628,49 @@
       <button class="kr-sg-button-secondary btn_lg">Back</button>
   </div>
 </kr-modal>  -->
+<kr-modal modalType="center" modalClass="sliderComponent" #statusModalDocument id="sourceSlider">
+  <div class="modal-header">
+    <h4 class="header-title">{{selectedSource.name}}</h4>
+    <img src="assets/images/close.svg" class="closeCross" (click)="closeDocumentModal()">
+  </div>
+  <div class="modal-body source-modal-popup">
+
+    <div class="kr-sg-data-table">
+      <section class="table-content">
+        <header class="table-header">
+          <div class="col-2">TITLE</div>
+          <div class="col-2">FILE</div>
+          <div class="col-2">DESCRIPTION</div>
+          <div class="col-2">CREATED</div>
+          <div class="col-1">STATUS</div>
+          <div class="col-1">PAGES</div>
+          <div class="col-1">SIZE</div>
+        </header>
+        <div class="content-body">
+          <div class="col-2">
+            <span>{{selectedSource.name}}</span>
+            <div class="kr-sg-input-text">
+              <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="binding">
+          </div>
+          </div>
+          <div class="col-2">{{selectedSource.filename || '---'}}</div>
+          <div class="col-2">{{selectedSource.desc || '.....'}}</div>
+          <div class="col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div>
+          <!-- <div class="col">Cell text</div> -->
+          <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+            [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
+            {{statusObj[selectedSource.recentStatus].name}}</div>
+          <div class="col-1">{{selectedSource.numPages}}</div>
+          <div class="col-1">{{selectedSource.fileSize|| '--'}}</div>
+          <div class="col_ col-1  p-0 text-left actions-images">
+            <img src="assets/images/edit-pencil.svg" title="Edit">
+            <img src="assets/images/downloadIcon.svg" title="Download">
+            <img src="assets/images/trashIcon.svg" (click)="deleteDocument('document',page ,$event)" title="Delete">
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- DATA TABLE ENDS HERE -->
+  </div>
+
+</kr-modal>

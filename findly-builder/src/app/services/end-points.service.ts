@@ -96,6 +96,10 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
+    this.serviceList['put.EditConfig'] = {
+      endpoint: this.API_SERVER_URL +  '/findly/:searchIndexId/content/source/webdomain/:webdomainId',
+      method: 'put'
+    }
     this.serviceList['get.allFaqs']={
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=all',
       method:'get'

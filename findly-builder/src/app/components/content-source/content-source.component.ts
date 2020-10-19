@@ -71,8 +71,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedSource: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
+  contentModaltype: any;
   sortedData: any = [];
   statusModalPopRef: any = [];
+  statusModalDocumentRef:any;
+  title:any;
+  editConfigEnable=false;
   addSourceModalPopRef: any = [];
   showSourceAddition: any = null;
   isAsc = true;
@@ -85,7 +89,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allInOne : boolean = false;
   urlConditionAllow = "Is";
   urlConditionBlock = "Is";
-  doesntContains = "Doesn't Contains"
+  doesntContains = "Doesn't Contains";
+  @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -302,15 +307,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       return;
     }
     if (source.recentStatus === 'success') {
-
-      this.openStatusModal();
+      this.contentModaltype=source.type;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      this.pageination(source.numPages, false)
-      this.loadingSliderContent = true;
+      this.pageination(source.numPages, 10)
+      if(source.type === 'webdomain'){
+        this.openStatusModal();
+        this.loadingSliderContent = true;
+        this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
+        this.pageination(source.numPages, 10)
+      }
+      else if(source.type ==='document'){
+        this. openDocumentModal();
+        this.getCrawledPages(this.limitpage, 0);
+      }
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-
-      this.getCrawledPages(this.limitpage, 0);
     }
   }
   pageination(pages, action) {
@@ -412,6 +423,32 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       $('.numbers').removeClass("active")
     })
     $('#number_' + index).addClass("active");
+  }
+
+  deleteDocument(from, record, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title:'Delete Document ',
+        text: 'Are you sure you want to delete selected document?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+            this.deletePage(record, event, dialogRef)
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
   }
   deletePages(from, record, event) {
     if (event) {
@@ -655,6 +692,40 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.sectionShow = true;
     }
   }
+  openDocumentModal() {
+    this.statusModalDocumentRef = this.statusModalDocument.open();
+  }
+  closeDocumentModal(){
+    if (this.statusModalDocumentRef && this.statusModalDocumentRef.close){
+    this.statusModalDocumentRef.close();
+  }
+}
+editPages(){
+  this. editConfigEnable=true;
+}
+
+
+keyPress(event){
+  const code = (event.keyCode ? event.keyCode : event.which);
+  if (code === 13) {
+      // event.preventDefault();
+      const payload = {
+        title:this.selectedSource.name ,
+        description: this.selectedSource.desc
+      };
+      const queryParams = {
+        searchIndexId: this.serachIndexId,
+        webdomainId: this.selectedSource._id
+      }
+
+      this.service.invoke('put.EditConfig',queryParams,payload).subscribe(res => {
+        console.log(res)
+
+  }, errRes => {
+    console.log(errRes)
+  });
+}
+};
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
   }
