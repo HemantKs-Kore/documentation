@@ -27,6 +27,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
   isEditDoc: boolean = false;
   editDocObj : any = {};
+  editConfObj : any = {};
+  editTitleFlag : boolean = false;
   isConfig : boolean = false;
   allowUrl : AllowUrl = new AllowUrl()
   blockUrl : BlockUrl = new BlockUrl();
@@ -218,7 +220,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
-        this.resourcesStatusObj[source.resourceId] = source;
+        //this.resourcesStatusObj[source.resourceId] = source;
+        this.resourcesStatusObj[source._id] = source;
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -354,7 +357,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       $('.pre-arrow').addClass("dis-arow");
       $('.nxt-arrow').addClass("dis-arow");
     }
-    if(action ==  true && this.totalRecord > this.recordEnd){
+    if(action ==  true && this.totalRecord > this.recordEnd && !(this.totalRecord > this.limitpage)){
       this.recordEnd = this.totalRecord;
       this.allInOne = true;
       $('.pre-arrow').addClass("dis-arow");
@@ -795,6 +798,14 @@ keyPress(event){
     this.getSourceList();
     this.showSourceAddition = null;
    }
+   editTitle(event){
+    this.editTitleFlag = true;
+    //var editConfObj : any = {};
+    this.editConfObj.title = this.selectedSource.name;
+    this.editConfObj.url = this.selectedSource.url;
+    this.editConfObj.desc = this.selectedSource.desc;
+
+   }
    blockUrls(data){
     //data['condition'] = this.urlConditionBlock;
     //this.blockUrl.condition = this.urlConditionBlock;
@@ -850,9 +861,31 @@ keyPress(event){
       type == 'block' ?this.blockUrl = new BlockUrl :  this.allowUrl = new AllowUrl;
       this.allowUrlArr= [...this.selectedSource['advanceSettings'].allowedURLs];
       this.blockUrlArr= [...this.selectedSource['advanceSettings'].blockedURLs];
+      this.getSourceList()
       // allowUrls.forEach(element => {
 
       // });
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+   }
+   recrwal(from,record,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+     const quaryparms : any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: record._id,
+      sourceType: record.type,
+    };
+    this.service.invoke('recrwal', quaryparms).subscribe(res => {
+      this.getSourceList();
+      this.notificationService.notify('Recrwaled with status : '+ res.recentStatus, 'success');
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -894,9 +927,18 @@ keyPress(event){
       sourceId : this.selectedSource._id,
       sourceType: this.selectedSource.type,
     };
-    crawler.name = this.selectedSource.name;
-    crawler.url = this.selectedSource.url;
-    crawler.desc = this.selectedSource.desc || '';
+    if(this.editTitleFlag){
+      crawler.name = this.editConfObj.title;
+      crawler.url = this.selectedSource.url; // this.editConfObj.url
+      crawler.desc = this.editConfObj.desc || '';
+    }else{
+      crawler.name = this.selectedSource.name;
+      crawler.url = this.selectedSource.url;
+      crawler.desc = this.selectedSource.desc || '';
+    }
+    if(this.selectedSource.advanceSettings.scheduleOpt){
+      crawler.advanceOpts = this.selectedSource.advanceSettings;
+    }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
@@ -907,6 +949,8 @@ keyPress(event){
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Crwaler Updated', 'success');
+      this.editTitleFlag = false;
+      this.getSourceList();
       this.closeStatusModal();
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

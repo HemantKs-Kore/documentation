@@ -650,14 +650,14 @@
           <div class="col-2" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div>
           <div class="col-2" *ngIf="isEditDoc">
             <div class="kr-sg-input-text">
-              <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)] = "editDocObj.title">
+              <input type="text" placeholder="Title" class="input-text" [(ngModel)] = "editDocObj.title">
           </div>
           </div>
           <div class="col-2">{{selectedSource.fileName || '---'}}</div>
           <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
           <div class="col-2" *ngIf="isEditDoc"> 
             <div class="kr-sg-input-text-area" >
-              <textarea placeholder="Placeholder text" class="input-text" [(ngModel)] = "editDocObj.desc" style="min-height: 50px;"></textarea>
+              <textarea placeholder="Description" class="input-text" [(ngModel)] = "editDocObj.desc" style="min-height: 50px;"></textarea>
           </div>
           </div>
           <div class="col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div>

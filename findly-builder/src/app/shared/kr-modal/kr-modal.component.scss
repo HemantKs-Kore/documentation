@@ -336,6 +336,8 @@
                 border-top: solid 0px #e5e8ec;
                 background-color: #f2f3f5;
                 padding: 6px;
+                z-index: 1;
+                position: relative;
                 .kr-btn-primary{
                     width: 114px;
                     background-color:#0D6EFD;
@@ -360,6 +362,11 @@
                         // background-color: #f2f3f5;
                         // border: 1px solid #f2f3f5;
                         opacity: 0.8;
+                    }
+                }
+                .kr-sg-button-secondary{
+                    &.backbtn{
+                        height: 34px;
                     }
                 }
                 &.importModalFooter{

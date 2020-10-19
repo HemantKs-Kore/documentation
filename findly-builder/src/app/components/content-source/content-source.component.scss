@@ -581,6 +581,16 @@
                                 display: block;
                             }
                         }
+                        .wid{
+                            width: 100%;
+                            border: solid 1px #BDC1C6;
+                            border-radius: 4px;
+                            &:focus {
+                                border: solid 1px #BDC1C6;  
+                                box-shadow: 0 0 0 #bdc1c6;
+                            }  
+                        }
+                       
                     }
                 }
             }
@@ -870,11 +880,13 @@
     .downArrow {
         top: 2.3px !important;
         margin-right: 0px !important;
+        margin-left: -8px;
     }
     .upArrow {
         transform: rotate(180deg) !important;
         top: -4px !important;
         left: -12px !important;
+        margin-left: -8px;
     }
     .display-none {
         visibility: hidden;
@@ -882,3 +894,10 @@
     .display-block {
         visibility: visible;
     }
+    
+    .dropdown-toggle{
+        .custom-dropdown-toggle-icon {
+            margin-left: 10px !important;
+        }
+    }
+    
