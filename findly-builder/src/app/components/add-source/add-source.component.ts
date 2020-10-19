@@ -67,7 +67,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
   availableSources:any = [
     {
-      title: 'Add Content',
+      title: 'Add Content from Webpages, Files, and Other Sources',
       sources: [
         {
           name:'Crawl Web Domain',
@@ -96,7 +96,7 @@ export class AddSourceComponent implements OnInit , OnDestroy ,AfterViewInit {
       ]
     },
     {
-      title: 'Extract FAQs',
+      title: 'Extract FAQs from Webpages and Files, or Add Manually',
       sources: [
         {
           name:'Extract FAQs ',
