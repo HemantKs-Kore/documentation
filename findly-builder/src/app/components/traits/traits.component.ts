@@ -126,6 +126,21 @@ getTraitsGroupsApi(initial?) {
             this.loadingTraits = false;
       });
 };
+trainBot (){
+  const quaryparms: any = {
+    userId: this.authService.getUserId(),
+    streamId: this.selectedApp._id,
+  }
+  this.service.invoke('train.traits', quaryparms).subscribe(res => {
+      this.notificationService.notify('Trained successfully', 'success');
+  }, (err) => {
+          if (err && err.data && err.data.errors &&  err.data.errors[0]){
+              this.notificationService.notify(err.data.errors[0].msg, 'error');
+          }else{
+            this.notificationService.notify('Failed to train traits', 'error');
+          }
+      });
+};
 editTraitFroup = function (traitGroup, index) {
   this.editedContent = false; 
   this.currentGroupEditIndex = index;
@@ -212,6 +227,7 @@ editTraitFroup = function (traitGroup, index) {
           payload.scoreThreshold = 0.5;
       }
       if(traitsGroup && traitsGroup._id && this.traitDeleted){
+         confirm();
           // NotificationService.userConfirm(i18n.i18nString('one_or_more_traits_del_warning'), [confirm, cancelEdit], {okText: i18n.i18nString('confirm')}, '', undefined, i18n.i18nString('confirm_proceed')   );
       } else{
           confirm();
@@ -503,12 +519,34 @@ accordianAction(index){
             this.traits.addEditTraits.traits[key].utterance = '';
     }
   }
-   removeTraits(index) {
-    this.traitsObj.splice(index, 1);
-   }
    removeUtterances(index, parentIndex) {
     this.traitsObj[parentIndex].utterances.splice(index, 1);
    }
+   deleteTraitInGroup = function (key, traitsGroup, event, traitIndex) {
+    if (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }
+    this.traitDeleted = true;
+        delete traitsGroup.traits[key];
+        traitsGroup.traitsArray.splice(traitIndex,1);
+
+    };
+   deleteUtteranceIntrait(deletedutternace, key, traitsGroup,traitIndex) {
+    let utternaceIndex=null;
+    const utteranceSearch = _.find(traitsGroup.traits[key].data,(utterance,i) =>{
+                  if(deletedutternace === utterance){
+                    utternaceIndex = i;
+                    return false;
+                  }
+    });
+    if(utternaceIndex !== null){
+        traitsGroup.traits[key].data.splice(utternaceIndex, 1);
+    }
+    if(traitIndex > -1){
+       this.traits.addEditTraits.traitsArray[traitIndex].data = traitsGroup.traits[key].data;
+    }
+};
    saveTraitsData() {
     //  this.traitsTableData
     if(this.traitsObj && this.traitsObj.length) {

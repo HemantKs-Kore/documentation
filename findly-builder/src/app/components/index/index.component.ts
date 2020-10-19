@@ -180,7 +180,6 @@ export class IndexComponent implements OnInit {
         defaultValue : {
           source_field:'',
           target_field:'',
-          keywords:[],
         }
       },
       custom_script:{

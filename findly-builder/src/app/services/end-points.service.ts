@@ -438,5 +438,9 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
       method: 'put'
     }
+    this.serviceList['train.traits'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/sentences/ml/train?streamId=:streamId',
+      method: 'post'
+    }
   }
 }
