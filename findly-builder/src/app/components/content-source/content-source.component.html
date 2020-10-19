@@ -60,26 +60,29 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col_ col-4" (click)="sortBy('name')">Source
+          <div class="col_ col-4" (click)="sortBy('name')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"> -->
             <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('name', 'up')"
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            SOURCE TITLE
           </div>
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">Type<span
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
+            <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('type', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            TYPE
             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopImmediatePropagation()">
                   <!-- <img src="assets/icons/caretDown.svg"
                     [ngClass]="{'assending': (selectedSort==='type') && isAsc,'decending':(selectedSort==='type') && !isAsc}"
                     class="ml-1 sortImg"> -->
-                  <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg"
-                    class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('type', 'up')"
-                    src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                  <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name">All</span><img
@@ -93,8 +96,12 @@
             </div>
           </div>
           <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('recentStatus')">Status<span
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('recentStatus')"><span
               class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
+            <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('recentStatus', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            STATUS
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
               <div class="dropdown dropdown-open">
@@ -102,9 +109,7 @@
                   <!-- <img src="assets/icons/caretDown.svg"
                     [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
                     class="ml-1 sortImg"> -->
-                  <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
-                    class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('recentStatus', 'up')"
-                    src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li (click)="sourceFilter.close();filterTable('all','recentStatus')"><span
@@ -118,13 +123,14 @@
               </div>
             </div>
           </div>
-          <div class="col_ col-3" (click)="sortBy('createdOn')">Crawled
+          <div class="col_ col-3" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
               class="ml-1 sortImg"> -->
             <img [ngClass]="getSortIconVisibility('createdOn', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('createdOn', 'up')"
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              CRAWLED
           </div>
         </header>
         <perfect-scrollbar class="table-scroll-perfect">
@@ -136,9 +142,12 @@
               <div class="col_ col-2">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
-                    src="assets/icons/failed-status.svg" class="ml-2" placement="top" ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.resourceId] && resourcesStatusObj[source.resourceId].statusMessage)?resourcesStatusObj[source.resourceId].statusMessage:''}}" container="body"
-                    *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img src="assets/icons/ringLoading.svg"
-                    class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.resourceId] && resourcesStatusObj[source.resourceId].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
+                    src="assets/icons/failed-status.svg" class="ml-2" placement="top"
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}"
+                    container="body" *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img
+                    src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
+                    *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
               </div>
               <div class="col_ col-3">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div>
@@ -168,10 +177,14 @@
                     <div class="status-info"
                       *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') "
                       [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                      <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}" container="body">
+                      <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'"
+                        placement="top"
+                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}"
+                        container="body">
                       <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
-                        *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
-                      <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'" >
+                        *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
+                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                      <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">
                         {{statusObj[source.recentStatus].name}}</div>
                     </div>
                     <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
@@ -321,11 +334,13 @@
                           </div>
                           <div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
-                          <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
+                          <div class="col_ col-1"
+                            *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
                             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
                             {{statusObj[selectedSource.recentStatus].name}}</div>
                           <div class="col_ col-1">
-                            <a class="ViewPages" *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length"
+                            <a class="ViewPages"
+                              *ngIf="selectedSource && selectedSource.pages && selectedSource.pages.length"
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div>
                           <div class="col_ col-1 p-0 text-right actions-images">
@@ -339,216 +354,224 @@
                   </div>
                 </div>
 
-      <div *ngIf="selectedSource.sitemaps" class="site-map-url-sec">
-        <div class="label_text">Sitemap URLS</div>
-        <div class="urls_">
-          <!-- <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div> -->
-          <div class="site-url">https://finshots.in /path/sample</div>
-        </div>
-      </div>
-      <div class="toggle-swich-row">
-        <div class="row m-0 row_data">
-          <div class="col-10 title pl-pr-10">Schedule</div>
-          <div class="toggle-label col-2 pl-pr-10 text-right">
-            <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
-              <input type="checkbox" name="scheduleOpts" [(ngModel)]="selectedSource.advanceSettings.scheduleOpt">
-              <div class="slider"></div>
-            </label>
-            <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
-              <input type="checkbox">
-              <div class="slider"></div>
-            </label>
-          </div>
-          
-        </div>
-        <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt">
-          <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
-          <app-scheduler [crwalObject]="selectedSource" [schedule]="'get'" (scheduleData)="scheduleData($event)"
-            (cronExpress)="cronExpress($event)"></app-scheduler>
-        </div>
-        <div class="row m-0 row_data">
-          <div class="col-10 title pl-pr-10">Crawl Everything</div>
-          <div class="toggle-label col-2 pl-pr-10 text-right">
-            <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
-              <input type="checkbox" name="crawlEverything" [(ngModel)]="selectedSource.advanceSettings.crawlEverything"
-                (click)="changeSettings(selectedSource.advanceSettings.crawlEverything)">
-              <div class="slider"></div>
-            </label>
-            <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
-              <input type="checkbox">
-              <div class="slider"></div>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class = "col-12 p-0" *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
-        <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
-          <label class="kr-sg-toggle full-input list">
-            <input type="checkbox" id="allowUrlId" name="allowUrl" disabled>
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg"
-            class="ml-1">
-          <label class="kr-sg-toggle full-input list">
-            <input type="checkbox" id="blockListId" name="blockList" disabled>
-            <div class="slider"></div>
-          </label>
-        </div>
-      </div>
-      <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-        <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
-          <label class="kr-sg-toggle full-input list">
-            <input type="checkbox" id="allowUrlId" name="allowUrl"
-              [(ngModel)]="selectedSource.advanceSettings.allowedOpt"
-              (click)="exceptUrl(selectedSource.advanceSettings.allowedOpt)">
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="allow-urls-sec row allow-urlBox"
-          *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-          <div class="col-2 p-0 title">Allow URLS</div>
-          <div class="col-10 p-0 d-flex align-items-center">
-            <div class="kr-sg-dropdowns">
-              <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{allowUrl.condition}}</button>
-                <ul class="dropdown-menu content-menu">
-                  <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
-                  <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
-                  <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
-                  <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
-                  <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                  <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="kr-sg-input-text">
-              <input type="text" id="enterPathInput" #inputVal placeholder="Enter/Path" [(ngModel)]="allowUrl.url"
-                class="input-text" autocomplete="off">
-            </div>
-            <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img
-                src="assets/icons/add-urls.svg"></div>
-          </div>
-        </div>
-        <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
-          <div *ngFor="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"
-            class="path-data row m1010 alw-list-bor"
-            [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.allowedURLs.length }">
-            <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
-            <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img
-                src="assets/images/close-cross.svg"></div>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-        <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
-            class="ml-1">
-          <label class="kr-sg-toggle full-input list">
-            <input type="checkbox" id="blockListId" name="blockList"
-              [(ngModel)]="selectedSource.advanceSettings.blockedOpt"
-              (click)="restrictUrl(selectedSource.advanceSettings.blockedOpt)">
-            <div class="slider"></div>
-          </label>
-        </div>
-        <div class="allow-urls-sec row allow-urlBox"
-          *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-          <div class="col-2 p-0 title">Block URLS</div>
-          <div class="col-10 p-0 d-flex align-items-center">
-            <div class="kr-sg-dropdowns">
-              <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{blockUrl.condition}}</button>
-                <ul class="dropdown-menu content-menu">
-                  <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
-                  <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
-                  <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
-                  <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
-                  <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                  <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't Contains</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="kr-sg-input-text">
-              <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal" placeholder="Enter/Path"
-                class="input-text">
-            </div>
-            <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
-          </div>
-        </div>
-        <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
-          <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
-            class="path-data row m1010 alw-list-bor"
-            [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.blockedURLs.length }">
-            <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
-            <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
-                src="assets/images/close-cross.svg"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    </perfect-scrollbar>
-    <!-- Conf Configuration-->
-
-  </div>
-  <div class="accordion-content-info text-left" *ngIf="!isConfig">
-    <div class="header-sec row m-0">
-      <div class="col-8 label_text m-0 p-0">Pages</div>
-      <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
-    </div>
-    <div id="accordion" class="accordion-section">
-      <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
-        [scrollIndicators]="true">
-        <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
-          <div class="card_header">
-            <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-              <div class="row m-0 content">
-                <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
-                  {{page.url || selectedSource.url}}</div>
-                <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
-                <div class="col-1 actions p-0">
-                  <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
-                  <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
-                    ngbTooltip='Delete' placement="left">
+                <div *ngIf="selectedSource.sitemaps" class="site-map-url-sec">
+                  <div class="label_text">Sitemap URLS</div>
+                  <div class="urls_">
+                    <!-- <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div> -->
+                    <div class="site-url">https://finshots.in /path/sample</div>
+                  </div>
                 </div>
-              </div>
-          <!-- </div> -->
-          </a>
-        </div>
-        <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
-          <div class="card_body" style="padding-left: 30px;">
-            <div class="info-content pageTitleContainer">
-              <div class="row m-0 row_content">
-                <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
-                <div class="col-10 right-info-title">{{page.title}}</div>
-              </div>
-              <div class="row m-0 row_content">
-                <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
-                <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
-              </div>
-              <div class="row m-0 row_content">
-                <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
-                <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}
-                  <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
-                      Details</a></span>
-                </div>
-              </div>
+                <div class="toggle-swich-row">
+                  <div class="row m-0 row_data">
+                    <div class="col-10 title pl-pr-10">Schedule</div>
+                    <div class="toggle-label col-2 pl-pr-10 text-right">
+                      <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
+                        <input type="checkbox" name="scheduleOpts"
+                          [(ngModel)]="selectedSource.advanceSettings.scheduleOpt">
+                        <div class="slider"></div>
+                      </label>
+                      <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
+                        <input type="checkbox">
+                        <div class="slider"></div>
+                      </label>
+                    </div>
 
-            </div>
-            <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
-            <div class="label_text">Results Preview</div>
-            <div class="info-content previewSection">
-              <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
-              <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
-              <div class="previewContent" *ngIf="page.searchResultPreview" [innerHtml]="page.searchResultPreview"></div>
-            </div>
-            <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
+                  </div>
+                  <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt">
+                    <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
+                    <app-scheduler [crwalObject]="selectedSource" [schedule]="'get'"
+                      (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)"></app-scheduler>
+                  </div>
+                  <div class="row m-0 row_data">
+                    <div class="col-10 title pl-pr-10">Crawl Everything</div>
+                    <div class="toggle-label col-2 pl-pr-10 text-right">
+                      <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
+                        <input type="checkbox" name="crawlEverything"
+                          [(ngModel)]="selectedSource.advanceSettings.crawlEverything"
+                          (click)="changeSettings(selectedSource.advanceSettings.crawlEverything)">
+                        <div class="slider"></div>
+                      </label>
+                      <label *ngIf="!selectedSource.advanceSettings" class="kr-sg-toggle">
+                        <input type="checkbox">
+                        <div class="slider"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 p-0"
+                  *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
+                      class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="allowUrlId" name="allowUrl" disabled>
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg"
+                      class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="blockListId" name="blockList" disabled>
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                </div>
+                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+                  <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
+                      class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="allowUrlId" name="allowUrl"
+                        [(ngModel)]="selectedSource.advanceSettings.allowedOpt"
+                        (click)="exceptUrl(selectedSource.advanceSettings.allowedOpt)">
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-urls-sec row allow-urlBox"
+                    *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
+                    <div class="col-2 p-0 title">Allow URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input"
+                            data-toggle="dropdown">{{allowUrl.condition}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
+                            <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
+                            <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
+                            <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
+                            <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
+                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="kr-sg-input-text">
+                        <input type="text" id="enterPathInput" #inputVal placeholder="Enter/Path"
+                          [(ngModel)]="allowUrl.url" class="input-text" autocomplete="off">
+                      </div>
+                      <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img
+                          src="assets/icons/add-urls.svg"></div>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
+                    <div *ngFor="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"
+                      class="path-data row m1010 alw-list-bor"
+                      [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.allowedURLs.length }">
+                      <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
+                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img
+                          src="assets/images/close-cross.svg"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+                  <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
+                      class="ml-1">
+                    <label class="kr-sg-toggle full-input list">
+                      <input type="checkbox" id="blockListId" name="blockList"
+                        [(ngModel)]="selectedSource.advanceSettings.blockedOpt"
+                        (click)="restrictUrl(selectedSource.advanceSettings.blockedOpt)">
+                      <div class="slider"></div>
+                    </label>
+                  </div>
+                  <div class="allow-urls-sec row allow-urlBox"
+                    *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
+                    <div class="col-2 p-0 title">Block URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input"
+                            data-toggle="dropdown">{{blockUrl.condition}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
+                            <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
+                            <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
+                            <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
+                            <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
+                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't Contains</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="kr-sg-input-text">
+                        <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
+                          placeholder="Enter/Path" class="input-text">
+                      </div>
+                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
+                    <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
+                      class="path-data row m1010 alw-list-bor"
+                      [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.blockedURLs.length }">
+                      <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
+                      <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
+                          src="assets/images/close-cross.svg"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </perfect-scrollbar>
+            <!-- Conf Configuration-->
+
           </div>
-        </div>
-    </div>
-    </perfect-scrollbar>
-    <!-- pageination -->
-    <!-- <div class="paginations-custon">
+          <div class="accordion-content-info text-left" *ngIf="!isConfig">
+            <div class="header-sec row m-0">
+              <div class="col-8 label_text m-0 p-0">Pages</div>
+              <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+            </div>
+            <div id="accordion" class="accordion-section">
+              <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
+                [scrollIndicators]="true">
+                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
+                  <div class="card_header">
+                    <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
+                      <div class="row m-0 content">
+                        <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
+                          {{page.url || selectedSource.url}}</div>
+                        <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
+                        <div class="col-1 actions p-0">
+                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
+                          <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
+                            ngbTooltip='Delete' placement="left">
+                        </div>
+                      </div>
+                      <!-- </div> -->
+                    </a>
+                  </div>
+                  <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
+                    <div class="card_body" style="padding-left: 30px;">
+                      <div class="info-content pageTitleContainer">
+                        <div class="row m-0 row_content">
+                          <div class="col-2 left-info-title pl-0">Title <span>:</span></div>
+                          <div class="col-10 right-info-title">{{page.title}}</div>
+                        </div>
+                        <div class="row m-0 row_content">
+                          <div class="col-2 left-info-title pl-0">URL <span>:</span></div>
+                          <div class="col-10 right-info-title">{{page.url || selectedSource.url }}</div>
+                        </div>
+                        <div class="row m-0 row_content">
+                          <div class="col-2 left-info-title pl-0">Created <span>:</span></div>
+                          <div class="col-10 right-info-title">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}
+                            <span class="viewPageDetails" (click)="viewPageDetails();selectedPage=page"><a>View
+                                Details</a></span>
+                          </div>
+                        </div>
+
+                      </div>
+                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Check for Updates</button>
+                      <div class="label_text">Results Preview</div>
+                      <div class="info-content previewSection">
+                        <div class="label_text" *ngIf="page.sections && page.sections.length">{{page.sections[0]}}</div>
+                        <div class="previewContent" *ngIf="!page.searchResultPreview" [innerHtml]="page.body"></div>
+                        <div class="previewContent" *ngIf="page.searchResultPreview"
+                          [innerHtml]="page.searchResultPreview"></div>
+                      </div>
+                      <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
+                    </div>
+                  </div>
+                </div>
+              </perfect-scrollbar>
+              <!-- pageination -->
+              <!-- <div class="paginations-custon">
                     <div class="previous">Previous</div>
                     
                     <div *ngFor="let item of numArr(btnCount); let i = index;" (click)="onClickPageNo(10,i)"
@@ -557,7 +580,8 @@
                     <div class="next" *ngIf="btnAllCount > 5"> ... </div>
                     <div class="next">Next</div>
                   </div> -->
-               <app-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]= "recordEnd" [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+              <app-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -570,33 +594,33 @@
               <!-- pageination -->
             </div>
 
-  </div>
+          </div>
 
 
-  </ng-container>
+        </ng-container>
 
-  </div>
-  <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
-    <div class="view-details-data">
-      <div class="title">Title</div>
-      <div class="desc-info">{{selectedPage.title}}</div>
+      </div>
+      <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
+        <div class="view-details-data">
+          <div class="title">Title</div>
+          <div class="desc-info">{{selectedPage.title}}</div>
+        </div>
+        <div class="view-details-data">
+          <div class="title">Body</div>
+          <div class="desc-info" [innerHtml]="selectedPage.body"></div>
+        </div>
+        <div class="view-details-data">
+          <div class="title">URL</div>
+          <div class="desc-info">{{selectedPage.imageUrl}}<img class="external_link"
+              (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
+        </div>
+        <div class="view-details-data">
+          <div class="title">Published</div>
+          <div class="desc-info">{{selectedPage.publishedOn}}</div>
+          <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
+        </div>
+      </div>
     </div>
-    <div class="view-details-data">
-      <div class="title">Body</div>
-      <div class="desc-info" [innerHtml]="selectedPage.body"></div>
-    </div>
-    <div class="view-details-data">
-      <div class="title">URL</div>
-      <div class="desc-info">{{selectedPage.imageUrl}}<img class="external_link"
-          (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
-    </div>
-    <div class="view-details-data">
-      <div class="title">Published</div>
-      <div class="desc-info">{{selectedPage.publishedOn}}</div>
-      <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
-    </div>
-  </div>
-  </div>
 
   </div>
   <div class="modal-footer moadal-footer-config" *ngIf="isConfig">

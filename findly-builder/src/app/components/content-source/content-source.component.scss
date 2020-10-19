@@ -852,11 +852,13 @@
     .downArrow {
         top: 2.3px !important;
         margin-right: 0px !important;
+        margin-left: -8px;
     }
     .upArrow {
         transform: rotate(180deg) !important;
         top: -4px !important;
         left: -12px !important;
+        margin-left: -8px;
     }
     .display-none {
         visibility: hidden;
@@ -864,3 +866,10 @@
     .display-block {
         visibility: visible;
     }
+    
+    .dropdown-toggle{
+        .custom-dropdown-toggle-icon {
+            margin-left: 10px !important;
+        }
+    }
+    
