@@ -42,7 +42,7 @@
         }
     }   
     .addNewSource{       
-        padding-top: 30px; 
+        padding-top: 40px; 
         .label-text, .label_text{
             font-weight: 500;
             color: #202124;
@@ -188,6 +188,7 @@
     .sources-content-box-list{
         position: relative;
         .crawlContent{
+            margin-bottom: 20px !important;
             .main-title{
                 padding-left: 15px;
                 color: #202124;

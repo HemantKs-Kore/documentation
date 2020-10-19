@@ -326,7 +326,7 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 1200px){
-    html, body {
+    html, body.mat-typography {
         overflow-y:hidden !important;
         overflow-x: auto !important;
         min-width: 1200px !important;
