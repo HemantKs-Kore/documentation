@@ -449,8 +449,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('update.docDetailsSource', quaryparms, payload).subscribe(res => {
       this.isEditDoc = false;
+      this.getSourceList();
       this.notificationService.notify('updated ', 'success');
       this.closeDocumentModal();
+      
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -536,10 +538,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
-      if(this.isEditDoc){
+      //if(this.isEditDoc){
         this.isEditDoc = false;
         this.cancelDocDetails();
-      } 
+      //} 
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
