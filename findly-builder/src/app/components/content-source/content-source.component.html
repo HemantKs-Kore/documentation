@@ -136,14 +136,14 @@
               <div class="col_ col-2">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
-                    src="assets/icons/failed-status.svg" class="ml-2" placement="top" ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}" container="body"
+                    src="assets/icons/failed-status.svg" class="ml-2" placement="top" ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.resourceId] && resourcesStatusObj[source.resourceId].statusMessage)?resourcesStatusObj[source.resourceId].statusMessage:''}}" container="body"
                     *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img src="assets/icons/ringLoading.svg"
-                    class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
+                    class="ml-2 inProgress" *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.resourceId] && resourcesStatusObj[source.resourceId].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
               </div>
               <div class="col_ col-3">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div>
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links d-none"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.type == 'webdomain'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
               </div>
@@ -309,10 +309,17 @@
                       </header>
                       <ng-container>
                         <div class="content-body">
-                          <div class="col_ col-2">{{selectedSource.name}}</div>
-                          <div class="col_ col-3">{{selectedSource.url}}</div>
-                          <div class="col_ col-2">Description</div>
-                          <div class="col_ col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
+                          <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.name}}</div>
+                          <div class="col_ col-2" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
+                          <div class="col_ col-3" >{{selectedSource.url}}</div>
+                          <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
+                          <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
+                          <div class="col_ col-2" *ngIf="editTitleFlag">
+                            <div class="kr-sg-input-text-area">
+                              <textarea class="wid" [(ngModel)] = "editConfObj.desc"></textarea>
+                            </div>
+                          </div>
+                          <div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}
                           </div>
                           <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
                             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
@@ -322,9 +329,9 @@
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div>
                           <div class="col_ col-1 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" title="Refresh">
-                            <img src="assets/icons/edit-rule.svg" title="Edit">
-                            <img src="assets/icons/delete-table.svg" (click)="deletePages('pages',page ,$event)" title="Delete">
+                            <img src="assets/icons/return.svg" *ngIf="selectedSource.type == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
+                            <img src="assets/icons/edit-rule.svg" (click)="editTitle($event)" title="Edit">
+                            <img src="assets/icons/delete-table.svg" (click)="deletePages('source',page ,$event)" title="Delete">
                           </div>
                         </div>
                       </ng-container>
