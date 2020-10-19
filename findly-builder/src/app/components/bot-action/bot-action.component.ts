@@ -244,6 +244,7 @@ export class BotActionComponent implements OnInit {
         console.log(res);
         selectedApp = this.workflowService.selectedApp();
         console.log(selectedApp);
+        selectedApp.configuredBots[0] = {};
         selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
         this.linkedBotName = res.configuredBots[0].botName;
         this.workflowService.selectedApp(selectedApp);
