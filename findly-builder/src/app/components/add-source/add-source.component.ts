@@ -68,7 +68,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
   availableSources: any = [
     {
-      title: 'Add Content',
+      title: 'Add Content from Webpages, Files, and Other Sources',
       sources: [
         {
           name: 'Crawl Web Domain',
@@ -97,7 +97,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
-      title: 'Extract FAQs',
+      title: 'Extract FAQs from Webpages and Files, or Add Manually',
       sources: [
         {
           name: 'Extract FAQs ',
@@ -703,6 +703,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(res);
         selectedApp = this.workflowService.selectedApp();
         console.log(selectedApp);
+        selectedApp.configuredBots[0] = {}
         selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
         this.workflowService.selectedApp(selectedApp);
         console.log(res.status);
@@ -743,14 +744,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         selectedApp.configuredBots[0]._id = null;
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
-        this.associatedBots();
+        this.getAssociatedBots();
         this.notificationService.notify("Bot unlinked, successfully", 'success');
       },
         (err) => {
           console.log(err);
-          this.notificationService.notify("Bot unlinking, successfully", 'error');
+          this.notificationService.notify("Bot unlinking, error", 'error');
         }
       )
+    }
+    else {
+      this.notificationService.notify("Error", 'error');
     }
 
   }

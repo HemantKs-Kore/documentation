@@ -47,6 +47,7 @@
   <!-- Restrcure data     -->
   <div class="row m-0 schedular_row_data">
     <div class="col-4 row_column pl-2 pr-2">
+      <div class="scheduletitle">Date</div>
       <div class="kr-sg-input-text">       
         <input type="text" matInput [matDatepicker]="mdp" [min]="minDate" placeholder="Select Date" class="input-text" [(ngModel)] = "startDate" (dateInput)="addEvent('input', $event , 'regular')" (dateChange)="addEvent('change', $event ,'reguar')" autocomplete="off">
         <mat-datepicker-toggle matSuffix [for]="mdp" class="custome_date_picker"></mat-datepicker-toggle>
@@ -54,26 +55,30 @@
       </div>
     </div>
     <div class="col-4 row_column middle_content pl-2 pr-2">      
-      <div class="kr-sg-input-text">          
-        <input id="scheduleHr" type="number" min="0" max="12" placeholder="HH" name = "timeHH" [(ngModel)] = "timeHH" (ngModelChange)="modelChangeFn($event,'HH')" class="input-text">
-      </div>
-      <div class="kr-sg-input-text">          
-        <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM" (ngModelChange)="modelChangeFn($event,'MM')"> 
-      </div>
-      <div id="schedule-AM" class="schedule-AM" [ngClass] = "{'active' : meridiem == 'AM'}" (click)="changeMeridiem('AM')">AM</div>
-      <div id="schedule-PM"  class="schedule-PM" [ngClass] = "{'active' : meridiem == 'PM'}" (click)="changeMeridiem('PM')">PM</div>
-      <div class="kr-sg-dropdowns schedule-timZon">
-        <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span [ngClass] = "{'schedule-drop-text' : stz == 'Time Zone'}">{{stz}}</span></button>                                            
-            <ul class="dropdown-menu content-menu">                                               
-              <li (click) = "timeZone('IST')"><a>IST</a></li>
-              <li (click) = "timeZone('EST')"><a>EST</a></li>
-              <li (click) = "timeZone('UTC')"><a>UTC</a></li>
-            </ul>
-          </div>
+      <div class="scheduletitle">Time</div>
+      <div class="middle_content">
+        <div class="kr-sg-input-text">          
+          <input id="scheduleHr" type="number" min="0" max="12" placeholder="HH" name = "timeHH" [(ngModel)] = "timeHH" (ngModelChange)="modelChangeFn($event,'HH')" class="input-text">
+        </div>
+        <div class="kr-sg-input-text">          
+          <input id="scheduleMn" type="number" min="0" max="59" class="input-text timeMM" placeholder="MM" name = "timeMM" [(ngModel)] = "timeMM" (ngModelChange)="modelChangeFn($event,'MM')"> 
+        </div>
+        <div id="schedule-AM" class="schedule-AM" [ngClass] = "{'active' : meridiem == 'AM'}" (click)="changeMeridiem('AM')">AM</div>
+        <div id="schedule-PM"  class="schedule-PM" [ngClass] = "{'active' : meridiem == 'PM'}" (click)="changeMeridiem('PM')">PM</div>
+        <div class="kr-sg-dropdowns schedule-timZon">
+          <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span [ngClass] = "{'schedule-drop-text' : stz == 'Time Zone'}">{{stz}}</span></button>                                            
+              <ul class="dropdown-menu content-menu">                                               
+                <li (click) = "timeZone('IST')"><a>IST</a></li>
+                <li (click) = "timeZone('EST')"><a>EST</a></li>
+                <li (click) = "timeZone('UTC')"><a>UTC</a></li>
+              </ul>
+            </div>
+        </div>
       </div>
     </div>
-    <div class="col-4 row_column pl-2 pr-2">     
+    <div class="col-4 row_column pl-2 pr-2">  
+      <div class="scheduletitle">Frequency</div>   
       <div class="kr-sg-dropdowns schedule-Interval">
         <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"> <span>{{rstz}}</span></button>                                            

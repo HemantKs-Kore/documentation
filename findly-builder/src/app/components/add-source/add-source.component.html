@@ -379,10 +379,9 @@
         </div>
       </perfect-scrollbar>
       <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg mr-3"
-          [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
-          (click)="proceedSource()">Proceed</button>
-        <button class="kr-sg-button-secondary-two btn_md mr-2" (click)="cancleSourceAddition()">Back</button>
+        <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
+        (click)="proceedSource()">Proceed</button>
+        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Back</button>
       </div>
     </form>
   </ng-container>

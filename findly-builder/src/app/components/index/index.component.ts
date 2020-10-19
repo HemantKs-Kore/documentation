@@ -10,6 +10,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { AuthService } from '@kore.services/auth.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -93,7 +94,8 @@ export class IndexComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public authService:AuthService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -105,7 +107,24 @@ export class IndexComponent implements OnInit {
     this.setResetNewMappingsObj();
     this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
     this.addcode({});
+    this.getTraitGroups()
   }
+  getTraitGroups(initial?) {
+    const quaryparms :any = {
+      userId:this.authService.getUserId(),
+      streamId:this.selectedApp._id
+    }
+    this.service.invoke('get.traits', quaryparms).subscribe(res => {
+        const allTraitskeys :any=[];
+        if(res &&  res.length){
+          res.forEach(element => {
+            allTraitskeys.push(element.groupName);
+          });
+          this.traitsSuggesitions = allTraitskeys;
+        }
+    },(err) => {
+      });
+};
   drop(event: CdkDragDrop<string[]>,list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
   }
@@ -161,7 +180,6 @@ export class IndexComponent implements OnInit {
         defaultValue : {
           source_field:'',
           target_field:'',
-          keywords:[],
         }
       },
       custom_script:{

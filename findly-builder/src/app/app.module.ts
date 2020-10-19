@@ -52,6 +52,7 @@ import { SynonymFilterPipe } from './components/synonyms/synonym-filter';
 import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
+import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { AddAlternateQuestionComponent } from './components/faqs/add-alternate-question/add-alternate-question.component';
 import { GroupInputComponent } from './components/faqs/group-input/group-input.component';
@@ -127,7 +128,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SynonymFilterPipe,
     AddResultComponent,
     FacetsComponent,
-    FieldsFilterPipe
+    FieldsFilterPipe,
+    TraitsFilterPipe
     ],
   imports: [
     BrowserModule,
