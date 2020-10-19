@@ -24,6 +24,7 @@ export class TraitsComponent implements OnInit {
   emptyData = true;
   loadingTraits = true
   traitCounts;
+  serachTraits: any = '';
   traits:any = {
     traitGroups:{},
     addEditTraits:{},
@@ -56,6 +57,7 @@ sliderMode;
 add:any = {
   traitName: ''
 };
+currentTraitEditIndex;
 editedContent;
   constructor(
     public workflowService: WorkflowService,
@@ -124,6 +126,16 @@ getTraitsGroupsApi(initial?) {
             this.loadingTraits = false;
       });
 };
+editTraitFroup = function (traitGroup, index) {
+  this.editedContent = false; 
+  this.currentGroupEditIndex = index;
+  this.groupConfigs.matchStrategy = traitGroup.matchStrategy;
+  this.traitDeleted = false;
+  this.sliderMode = 'editGroup';
+  if(traitGroup._id){
+      this.getTraitGroupById(traitGroup._id,null,traitGroup);
+  }
+};
  saveTraits (traitsGroup?,byTraitId?) {
   const traits :any={};
   const self = this;
@@ -137,7 +149,7 @@ getTraitsGroupsApi(initial?) {
           return;
       }
       if (traitsGroup && traitsGroup._id && !byTraitId) {
-          // this.updateTraitsApi(traitsGroup._id, payload);
+          this.updateTraitsApi(traitsGroup._id, payload);
       } else if(!byTraitId){
           this.createTraitsApi(payload);
       }else if(byTraitId){
@@ -239,6 +251,53 @@ getTraitsGroupsApi(initial?) {
   }
 
 };
+  deleteTraitsGroup (index, traitsGroup, event?) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Trait group',
+        text: 'Are you sure you want to delete Trait group?',
+        buttons: [{ key: 'yes', label: 'Restore', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if (!traitsGroup._id) {
+            this.traits.traitGroups.splice(index, 1);
+          } else {
+            const traitslist = JSON.parse(JSON.stringify(this.traits.traitGroups));
+            traitslist.splice(index, 1);
+            const payload = traitslist;
+            const quaryparms: any = {
+              userId: this.authService.getUserId(),
+              streamId: this.selectedApp._id,
+              traitGroupId: traitsGroup._id
+            }
+            this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
+              this.getTraitsGroupsApi();
+              this.traitDeleted = false;
+              dialogRef.close();
+              this.notificationService.notify('Trait group deleted successfully', 'success');
+            }, (err) => {
+              if (err && err.data && err.data.errors && err.data.errors[0]) {
+                this.notificationService.notify(err.data.errors[0].msg, 'error');
+              } else {
+                this.notificationService.notify('Failed to delete trait group', 'error');
+              }
+            });
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  };
 closeCreate () {
   this.traitDeleted = false;
   this.add = {
@@ -246,6 +305,25 @@ closeCreate () {
   };
   this.closeStatusModal();
   this.sliderMode = '';
+};
+updateTraitsApi (traitGroupId,payload) {
+  const quaryparms :any = {
+    userId:this.authService.getUserId(),
+    streamId:this.selectedApp._id,
+    traitGroupId
+  }
+  this.service.invoke('update.traitGroup', quaryparms,payload).subscribe(res => {
+    this.getTraitsGroupsApi();
+    this.traitDeleted = false;
+    this.closeCreate();
+      this.notificationService.notify('Trait group updated successfully', 'success');
+  }, (err) => {
+          if (err && err.data && err.data.errors &&  err.data.errors[0]){
+              this.notificationService.notify(err.data.errors[0].msg, 'error');
+          }else{
+            this.notificationService.notify('Failed to updated trait group', 'error');
+          }
+      });
 };
 createTraitsApi (payload) {
   const quaryparms :any = {
@@ -267,17 +345,20 @@ createTraitsApi (payload) {
       });
 };
 getTraitGroupById(groupId,traitKey) {
+  const self = this
   const quaryparms :any = {
     userId:this.authService.getUserId(),
-    streamId:this.selectedApp._id
+    streamId:this.selectedApp._id,
+    traitGroupId:groupId,
   }
-    this.service.invoke('get.traits', quaryparms).subscribe(res => {
+    this.service.invoke('get.traitGroupById', quaryparms).subscribe(res => {
       this.traits.addEditTraits = res;
+      res.configuration = res.configuration || {};
       if(!traitKey){
           this.traits.addEditTraits.traitsArray=[];
-          $.each(this.traits.addEditTraits.traits,function(key,value){
+          $.each(this.traits.addEditTraits.traits,(key,value)=>{
                   value.key=key;
-                  this.traits.addEditTraits.traitsArray.push(value);
+                  self.traits.addEditTraits.traitsArray.push(value);
           });
       this.groupConfigs.matchStrategy = res.matchStrategy || 'probability';
       this.groupConfigs.algo = res.algo || 'n_gram';
@@ -292,11 +373,9 @@ getTraitGroupById(groupId,traitKey) {
           n_gram : res.configuration.n_gram || {...this.defaultGroupConfigs.configuration.n_gram}
       };
       }
-      setTimeout(function(){
-          this.bindSearchEvents();
-      },300);
+      this.openStatusModal();
   }, (err)=> {
-          this.notificationService.notify('Failed to create Trait', 'error');
+          this.notificationService.notify('Failed to get Trait', 'error');
       });
 };
   getTraitsById(traitId,traitGroup) {
@@ -353,7 +432,11 @@ createNewTraits () {
       // this.bindSearchEvents();
   },300);
 };
+accordianAction(index){
+  this.currentTraitEditIndex = index
+ }
   openStatusModal() {
+    this.currentTraitEditIndex = null;
     this.statusModalPopRef  = this.statusModalPop.open();
    }
   closeStatusModal() {
