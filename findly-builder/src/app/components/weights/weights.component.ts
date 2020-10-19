@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
@@ -8,7 +8,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import * as _ from 'underscore';
 import { Observable } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 @Component({
   selector: 'app-weights',
   templateUrl: './weights.component.html',
@@ -22,8 +23,12 @@ export class WeightsComponent implements OnInit {
   sliderMin = 0;
   sliderMax = 10;
   currentEditIndex: any = -1
-  fields:any ={};
+  fields:any = [];
   searchModel;
+  indexPipelineId;
+  searching;
+  searchField
+  @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
   constructor(
     public dialog: MatDialog,
@@ -37,23 +42,34 @@ export class WeightsComponent implements OnInit {
   pipeline;
   weights:any = []
   sliderOpen;
+  searchFailed;
+  weightsObj:any = {};
+  currentEditDesc = '';
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getWeights();
-    this.getIndexPipeLine();
   }
-  search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => term === '' ? []
-        : this.fields.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
-
-  formatter = (x: {name: string}) => x.name;
-  selectedField(){
-    this.addEditWeighObj.name = this.searchModel.name;
+  selectedField(event){
+      this.addEditWeighObj.fieldName = event.fieldName;
+      this.addEditWeighObj.name = event.fieldName;
+  }
+   getFieldAutoComplete(query){
+    if (/^\d+$/.test(this.searchField)) {
+      query = parseInt(query,10);
+    }
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fields = res || [];
+     }, errRes => {
+       this.errorToaster(errRes,'Failed to get fields');
+     })
   }
   prepereWeights(){
     this.weights = [];
@@ -63,29 +79,13 @@ export class WeightsComponent implements OnInit {
          const obj = {
           name : element.name,
           desc : element.desc,
+          isField:element.isField,
           sliderObj :new RangeSlider(0, 10, 1, element.value,name + i)
          }
          this.weights.push(obj);
       });
     }
     this.loadingContent = false;
-  }
-  getIndexPipeLine(){
-    const quaryparamats = {
-      searchIndexId : this.serachIndexId,
-   }
-   this.service.invoke('get.platformStages', quaryparamats).subscribe(
-    res => {
-      this.fields = _.filter(res.stages, (stage)=>{
-        if(stage && (stage.type === 'field_mapping') && stage.index){
-          return true;
-        }
-      });
-    },
-    errRes => {
-    // this.errorToaster(errRes)
-    }
-  );
   }
   restore(dialogRef?) {
     const quaryparms: any = {
@@ -147,11 +147,12 @@ export class WeightsComponent implements OnInit {
    weight.sliderObj.default = val;
   }
   editWeight(weight,index){
-    const editWeight = JSON.parse(JSON.stringify(weight));
-    editWeight.sliderObj.id = 'editSlider';
-    this.addEditWeighObj = editWeight;
     this.currentEditIndex = index;
-    this.openAddEditWeight();
+    this.currentEditDesc = weight.desc;
+    // const editWeight = JSON.parse(JSON.stringify(weight));
+    // editWeight.sliderObj.id = 'editSlider';
+    // this.addEditWeighObj = editWeight;
+    // this.openAddEditWeight();
   }
   openAddEditWeight() {
    this.searchModel = {};
@@ -162,6 +163,7 @@ export class WeightsComponent implements OnInit {
     this.addEditWeighObj = {
       name : '',
       desc : '',
+      isField:true,
       sliderObj :new RangeSlider(0, 10, 1, 2,'editSlider')
     };
     this.openAddEditWeight();
@@ -177,6 +179,7 @@ export class WeightsComponent implements OnInit {
   setDataToActual(){
     this.prepereWeights();
     this.disableCancle = true;
+    this.currentEditIndex = -1
   }
   errorToaster (errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
@@ -203,6 +206,7 @@ export class WeightsComponent implements OnInit {
       name: weight.name,
       value:weight.sliderObj.default,
       desc:weight.desc,
+      isField: weight.isField
      }
      tempweights.push(obj);
    });

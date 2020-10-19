@@ -790,10 +790,14 @@
 }
 .advance-setttings{
     .inner-content{
+        box-shadow: inset 0px -1px 0px #E4E5E7;
+        &:last-child{
+            box-shadow: none;
+        }
         .input-paddings{
             padding: 0 10px;
             position: relative;
-            margin: 10px 0;
+            margin: 8px 0;
             .kr-sg-input-text{
                 input{
                     padding-right: 58px;
@@ -856,7 +860,7 @@
             }
         }
         .allow-urlBox{
-            margin: 0px 0px -1px 0px;
+            margin: 0 10px;
             border-radius: 4px 4px 0px 0px;
         }
         .close-path{
@@ -948,7 +952,7 @@
     }
     .list{
         position: absolute;
-        left: 985px;
+        right: 8px;
     }
 }
 
@@ -979,6 +983,7 @@
 .border-no{
     border: none !important;
 }
+
 .scheduler-box{
     //position: absolute;
     width: 981px;
@@ -1084,13 +1089,7 @@
     .schedule-drop-text{
         color: #bdc1c6;
     }
-    ::ng-deep .mat-datepicker-toggle {
-        position: absolute;
-        left: 290px;
-        top: 401px;
-       // left: 263px;
-       // top: 370px;
-    }
+   
 }
 
 .custom-ref{
@@ -1199,19 +1198,18 @@
                 left: 170px;
                 top: 6px;
             }
-            ::ng-deep mat-datepicker-toggle {
-                position: absolute;
-                left: 255px;
-                top:-4px;
-            }
+            
            }
        }
     }
 }
 
+
 .label_text_dis{
     color: #202124 !important;
-    margin: 10px !important;
-    font-size: 14px  !important;
-    font-weight: bold  !important;
+    padding: 15px 10px !important;
+    position: relative;
+    font-weight: 500 !important;
+    font-size: 12px !important;
+    box-shadow: inset 0px -1px 0px #E4E5E7;    
 }

@@ -6,6 +6,11 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // @import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/theme/neo';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/addon/fold/foldgutter';
+@import '~codemirror/addon/lint/lint';
 @import "./variables/variables";
 @import "./bt-styleguide.scss";
 
@@ -322,10 +327,10 @@ body::-webkit-scrollbar {
 
 @media (max-width: 1200px){
     html, body {
-        overflow-y:hidden;
-        overflow-x: auto;
-        min-width: 1200px;
-        width: 100%;
+        overflow-y:hidden !important;
+        overflow-x: auto !important;
+        min-width: 1200px !important;
+        width: 100% !important;
     }
 }
 @media (max-width: 600px){
@@ -1337,4 +1342,9 @@ div.divBlockEmptylastChild:first-child {
             }
         }
     }
+}
+
+
+.cursor-pointer{
+    cursor: pointer;
 }

@@ -54,9 +54,9 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.schedule == 'get'){
-      $('.mat-datepicker-toggle').addClass('mat-date-icon');
+      //$('.mat-datepicker-toggle').addClass('mat-date-icon');
     }else{
-      $('.mat-datepicker-toggle').removeClass('mat-date-icon');
+     // $('.mat-datepicker-toggle').removeClass('mat-date-icon');
     }
     this.endsFreq('endsNever');
     console.log(this.dateConverter('SUN'))
@@ -133,18 +133,25 @@ export class SchedulerComponent implements OnInit {
     this.timeMM == '' ? this.timeMM = '00' :  this.timeMM  = this.timeMM;
     timeHH == '' ? timeHH = '00' :  timeHH  = timeHH;
     if(this.rstz == 'Does not repeat'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
+      //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ' + this.year;
+      this.cronExpression =  '';
     }else if(this.rstz == 'Daily'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' * ' + '*';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' * ' + '*';
+      this.cronExpression =  this.timeMM + ' '+ timeHH + ' * ' + '* ' + '*';
     }else if(this.rstz == 'Weekly'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ? ' + '* ' + this.day +' *';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ? ' + '* ' + this.day +' *';
+      this.cronExpression = this.timeMM + ' '+ timeHH +  ' * ' + '* ' + this.day;
     }else if(this.rstz == 'Monthly'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' '+  this.date + ' * ' + '?';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' '+  this.date + ' * ' + '?';
+      this.cronExpression = this.timeMM + ' '+ timeHH + ' '+  this.date + ' ' + '*' + ' '+ '*';
     }else if(this.rstz == 'Anually'){
       //this.cronExpression = '0' + this.timeMM + ' '+ this.timeHH + ' '+  this.date + ' '+ this.month + '? ' + this.year + ' ' +'-2099';
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ? ' + '*';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ? ' + '*';
+      this.cronExpression =  this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ' + '*';
     }else if(this.rstz == 'Every weekday(Monday to Friday)'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ?' + ' * ' + 'MON-FRI ' + '*';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ?' + ' * ' + 'MON-FRI ' + '*';
+      this.cronExpression = this.timeMM + ' '+ timeHH +  ' *' + ' * ' + ' MON,TUE,WED,THU,FRI';
     }else if(this.rstz == 'Custom'){
       this.customFrequency(timeHH);
     }
@@ -156,13 +163,17 @@ export class SchedulerComponent implements OnInit {
       this.repeatEvery = '1';
     }
     if(this.custFreq == 'Days'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' *';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' *';
+      this.cronExpression = this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' * ' + '*';
     }else if(this.custFreq == 'Weeks'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
+      this.cronExpression = this.repeatEvery + ' weeks';
     }else if(this.custFreq == 'Months'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';
+      this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' *';
     }else if(this.custFreq == 'Years'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' '+ this.month + ' ' + '?' + ' */'+this.repeatEvery;
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' '+ this.month + ' ' + '?' + ' */'+this.repeatEvery;
+      this.cronExpression = this.repeatEvery + ' years';
     }
   }
   dateConverter(weeKDay){

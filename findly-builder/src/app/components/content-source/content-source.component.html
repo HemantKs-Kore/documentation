@@ -352,11 +352,12 @@
               <div class="slider"></div>
             </label>
           </div>
-          <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt">
-            <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
-            <app-scheduler [crwalObject]="selectedSource" [schedule]="'get'" (scheduleData)="scheduleData($event)"
-              (cronExpress)="cronExpress($event)"></app-scheduler>
-          </div>
+          
+        </div>
+        <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt">
+          <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
+          <app-scheduler [crwalObject]="selectedSource" [schedule]="'get'" (scheduleData)="scheduleData($event)"
+            (cronExpress)="cronExpress($event)"></app-scheduler>
         </div>
         <div class="row m-0 row_data">
           <div class="col-10 title pl-pr-10">Crawl Everything</div>
@@ -373,14 +374,14 @@
           </div>
         </div>
       </div>
-      <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
+      <div class = "col-12 p-0" *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
         <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg" class="ml-1">
           <label class="kr-sg-toggle full-input list">
             <input type="checkbox" id="allowUrlId" name="allowUrl" disabled>
             <div class="slider"></div>
           </label>
         </div>
-        <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
+        <div class="allow-list-data-label label_text">Block List <img src="assets/icons/Info-small.svg"
             class="ml-1">
           <label class="kr-sg-toggle full-input list">
             <input type="checkbox" id="blockListId" name="blockList" disabled>

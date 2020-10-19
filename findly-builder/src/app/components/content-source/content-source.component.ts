@@ -709,8 +709,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: this.selectedSource._id
-      //type: this.selectedSourceType.sourceType,
+      sourceId: this.selectedSource._id,
+      sourceType: this.selectedSource.type,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
@@ -769,6 +769,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   changeSettings(bool){
     this.selectedSource.advanceSettings.crawlEverything = !bool;
+    this.selectedSource.advanceSettings.allowedOpt = bool;
   }
   proceedWithConfigUpdate(){
     let payload = {}
@@ -776,8 +777,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId ,
-      sourceId : this.selectedSource._id
-      //type: this.selectedSourceType.sourceType,
+      sourceId : this.selectedSource._id,
+      sourceType: this.selectedSource.type,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
@@ -791,7 +792,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log(payload);
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
-   
+      this.notificationService.notify('Crwaler Updated', 'success');
+      this.closeStatusModal();
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');

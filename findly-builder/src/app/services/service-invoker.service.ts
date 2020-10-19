@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class ServiceInvokerService {
   private DEFAULT_HEADERS = {
-    'Content-Type': 'application/json;charset=UTF-8'
+    'Content-Type': 'application/json;charset=UTF-8',
+     state:'configured'
   };
   private UPLOAD_HEADERS = {
       'Content-Type': undefined // 'multipart/form-data' //
