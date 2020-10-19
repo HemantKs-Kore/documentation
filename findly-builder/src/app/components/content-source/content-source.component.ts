@@ -25,6 +25,8 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  isEditDoc: boolean = false;
+  editDocObj : any = {};
   editConfObj : any = {};
   editTitleFlag : boolean = false;
   isConfig : boolean = false;
@@ -73,8 +75,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedSource: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
+  contentModaltype: any;
   sortedData: any = [];
   statusModalPopRef: any = [];
+  statusModalDocumentRef:any;
+  title:any;
+  editConfigEnable=false;
   addSourceModalPopRef: any = [];
   showSourceAddition: any = null;
   isAsc = true;
@@ -87,7 +93,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allInOne : boolean = false;
   urlConditionAllow = "Is";
   urlConditionBlock = "Is";
-  doesntContains = "Doesn't Contains"
+  doesntContains = "Doesn't Contains";
+  @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -305,15 +312,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       return;
     }
     if (source.recentStatus === 'success') {
-
-      this.openStatusModal();
+      this.contentModaltype=source.type;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      this.pageination(source.numPages, false)
-      this.loadingSliderContent = true;
+      this.pageination(source.numPages, 10)
+      if(source.type === 'webdomain'){
+        this.openStatusModal();
+        this.loadingSliderContent = true;
+        this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
+        this.pageination(source.numPages, 10)
+      }
+      else if(source.type ==='document'){
+        this. openDocumentModal();
+        this.getCrawledPages(this.limitpage, 0);
+      }
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-
-      this.getCrawledPages(this.limitpage, 0);
     }
   }
   pageination(pages, action) {
@@ -416,6 +429,71 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     })
     $('#number_' + index).addClass("active");
   }
+  saveDocDetails(){
+    let  payload : any;
+    if(this.isEditDoc){
+       payload = {
+        name: this.editDocObj.title,
+        desc: this.editDocObj.desc
+      }
+    }else{
+       payload = {
+        name: this.selectedSource.name,
+        desc: this.selectedSource.desc
+      }
+    }
+    
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId ,
+      docId : this.selectedSource._id,
+    };
+    this.service.invoke('update.docDetailsSource', quaryparms, payload).subscribe(res => {
+      this.isEditDoc = false;
+      this.getSourceList();
+      this.notificationService.notify('updated ', 'success');
+      this.closeDocumentModal();
+      
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  cancelDocDetails(){
+    this.closeDocumentModal();
+  }
+  editDoc(){
+    this.isEditDoc =  true;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.desc = this.selectedSource.desc
+  }
+  deleteDocument(from, record, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title:'Delete Document ',
+        text: 'Are you sure you want to delete selected document?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSource(record, dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
   deletePages(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -460,6 +538,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
+      //if(this.isEditDoc){
+        this.isEditDoc = false;
+        this.cancelDocDetails();
+      //} 
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
@@ -658,6 +740,40 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.sectionShow = true;
     }
   }
+  openDocumentModal() {
+    this.statusModalDocumentRef = this.statusModalDocument.open();
+  }
+  closeDocumentModal(){
+    if (this.statusModalDocumentRef && this.statusModalDocumentRef.close){
+    this.statusModalDocumentRef.close();
+  }
+}
+editPages(){
+  this. editConfigEnable=true;
+}
+
+
+keyPress(event){
+  const code = (event.keyCode ? event.keyCode : event.which);
+  if (code === 13) {
+      // event.preventDefault();
+      const payload = {
+        title:this.selectedSource.name ,
+        description: this.selectedSource.desc
+      };
+      const queryParams = {
+        searchIndexId: this.serachIndexId,
+        webdomainId: this.selectedSource._id
+      }
+
+      this.service.invoke('put.EditConfig',queryParams,payload).subscribe(res => {
+        console.log(res)
+
+  }, errRes => {
+    console.log(errRes)
+  });
+}
+};
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
   }
