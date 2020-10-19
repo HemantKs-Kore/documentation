@@ -59,7 +59,7 @@
                 color: #9AA0A6;
                 font-weight: 500;
                 font-size: 12px;
-                line-height: 14px;                
+                line-height: 14px;             
                 &.withcheckbox {
                     display: flex;
                     align-items: center;
@@ -92,6 +92,11 @@
             cursor: pointer;
             transition: 0.3s all ease;
             margin-bottom: 1px !important;
+            .drag_drop_icon{
+                position: absolute;
+                left: -6px;
+                display: none;
+            } 
             &.selected{
                 background: #F3F8FF;
                 border-radius: 4px;
@@ -144,6 +149,9 @@
             }
             &:hover{
                 background: #F8F9FA;
+                .drag_drop_icon{
+                    display: block;
+                } 
                 .actions{
                     display: block;
                 }

@@ -39,8 +39,11 @@
                 </ng-container>
             </div>      
             <ng-container *ngIf="(facets && facets.length)">
-                <div class="body_sec row m-0" *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
+               <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
+                <div class="body_sec row m-0" cdkDrag *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                     <div class="col-4 content withcheckbox">
+                        <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
+                        <div *cdkDragPreview class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
                         <div class="kr-sg-checkbox p-0 m-0">
                             <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                             <label for="{{facet._id}}" class="checkbox-custom-label"></label>
@@ -54,6 +57,7 @@
                         <img class="action_icon" ngbTooltip='Delete' [container]="'body'" (click)="deleteFacets(facet)" src="assets/icons/delete-table.svg">
                     </div>
                 </div> 
+               </div> 
             </ng-container>    
             <div class="divBlockEmptylastChild text-center">         
                 <div class="desc">No search results found</div>
@@ -93,11 +97,11 @@
                         <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                         <img src="assets/images/search_gray.svg" class="search-icon">                                                         
                         <ul class="dropdown-menu content-menu">
-                            <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
+                            <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                         </ul>
                     </div>                        
                 </div>
-                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  (addEditFacetObj.fieldName!== undefined) && (selectedField.fieldName!== null)">
+                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  (addEditFacetObj.fieldName!== undefined) && (selectedField && selectedField.fieldName!== null)">
                     <div class="title">Field Type :<span class="string">{{getType(addEditFacetObj.fieldName)}}</span></div>
                 </div>
                 <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType">

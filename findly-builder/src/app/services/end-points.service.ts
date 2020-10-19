@@ -418,6 +418,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/',
       method: 'post'
     }
+    this.serviceList['reorder.facets'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/facetOrder',
+      method: 'put'
+    }
     this.serviceList['update.facet'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
       method: 'put'
