@@ -633,7 +633,7 @@
     <h4 class="header-title">{{selectedSource.name}}</h4>
     <img src="assets/images/close.svg" class="closeCross" (click)="closeDocumentModal()">
   </div>
-  <div class="modal-body source-modal-popup">
+  <div class="modal-body source-modal-popup ">
 
     <div class="kr-sg-data-table">
       <section class="table-content">
@@ -646,31 +646,39 @@
           <div class="col-1">PAGES</div>
           <div class="col-1">SIZE</div>
         </header>
-        <div class="content-body">
-          <div class="col-2">
-            <span>{{selectedSource.name}}</span>
+        <div class="content-body par">
+          <div class="col-2" *ngIf="!isEditDoc"><span>{{selectedSource.name}}</span></div>
+          <div class="col-2" *ngIf="isEditDoc">
             <div class="kr-sg-input-text">
-              <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)]="binding">
+              <input type="text" placeholder="Placeholder text" class="input-text" [(ngModel)] = "editDocObj.title">
           </div>
           </div>
-          <div class="col-2">{{selectedSource.filename || '---'}}</div>
-          <div class="col-2">{{selectedSource.desc || '.....'}}</div>
+          <div class="col-2">{{selectedSource.fileName || '---'}}</div>
+          <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
+          <div class="col-2" *ngIf="isEditDoc"> 
+            <div class="kr-sg-input-text-area" >
+              <textarea placeholder="Placeholder text" class="input-text" [(ngModel)] = "editDocObj.desc" style="min-height: 50px;"></textarea>
+          </div>
+          </div>
           <div class="col-2">{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}</div>
           <!-- <div class="col">Cell text</div> -->
           <div class="col_ col-1" *ngIf="selectedSource.recentStatus && statusObj[selectedSource.recentStatus]"
             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
             {{statusObj[selectedSource.recentStatus].name}}</div>
           <div class="col-1">{{selectedSource.numPages}}</div>
-          <div class="col-1">{{selectedSource.fileSize|| '--'}}</div>
+          <div class="col-1">{{selectedSource.size|| '--'}}</div>
           <div class="col_ col-1  p-0 text-left actions-images">
-            <img src="assets/images/edit-pencil.svg" title="Edit">
+            <img src="assets/images/edit-pencil.svg"  (click) = "editDoc()" title="Edit">
             <img src="assets/images/downloadIcon.svg" title="Download">
-            <img src="assets/images/trashIcon.svg" (click)="deleteDocument('document',page ,$event)" title="Delete">
+            <img src="assets/images/trashIcon.svg" (click)="deleteDocument('source',selectedSource ,$event)" title="Delete">
           </div>
         </div>
       </section>
     </div>
     <!-- DATA TABLE ENDS HERE -->
   </div>
-
+  <div class="mod-foot">
+    <button class="kr-sg-button-primary btn_lg" (click) = "saveDocDetails()">Save</button>
+    <button class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button>
+</div>
 </kr-modal>

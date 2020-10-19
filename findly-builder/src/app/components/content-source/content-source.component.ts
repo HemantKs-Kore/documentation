@@ -25,6 +25,8 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  isEditDoc: boolean = false;
+  editDocObj : any = {};
   isConfig : boolean = false;
   allowUrl : AllowUrl = new AllowUrl()
   blockUrl : BlockUrl = new BlockUrl();
@@ -424,7 +426,44 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     })
     $('#number_' + index).addClass("active");
   }
-
+  saveDocDetails(){
+    let  payload : any;
+    if(this.isEditDoc){
+       payload = {
+        name: this.editDocObj.title,
+        desc: this.editDocObj.desc
+      }
+    }else{
+       payload = {
+        name: this.selectedSource.name,
+        desc: this.selectedSource.desc
+      }
+    }
+    
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId ,
+      docId : this.selectedSource._id,
+    };
+    this.service.invoke('update.docDetailsSource', quaryparms, payload).subscribe(res => {
+      this.isEditDoc = false;
+      this.notificationService.notify('updated ', 'success');
+      this.closeDocumentModal();
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  cancelDocDetails(){
+    this.closeDocumentModal();
+  }
+  editDoc(){
+    this.isEditDoc =  true;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.desc = this.selectedSource.desc
+  }
   deleteDocument(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -443,7 +482,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-            this.deletePage(record, event, dialogRef)
+          this.deleteSource(record, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -494,6 +533,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
+      if(this.isEditDoc){
+        this.isEditDoc = false;
+        this.cancelDocDetails();
+      } 
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;

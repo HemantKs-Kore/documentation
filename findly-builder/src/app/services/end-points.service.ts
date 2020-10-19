@@ -68,6 +68,10 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method:'delete'
     };
+    this.serviceList['update.docDetailsSource'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
+      method: 'put'
+    }
     this.serviceList['get.job.status'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
       method: 'get'
