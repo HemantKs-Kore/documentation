@@ -213,7 +213,7 @@ export class IndexComponent implements OnInit {
  }
  if(this.selectedStage && this.selectedStage.type === 'keyword_extraction'){
   if(this.newMappingObj.keyword_extraction && this.newMappingObj.keyword_extraction.defaultValue) {
-     if( this.newMappingObj.keyword_extraction.defaultValue.source_field && this.newMappingObj.keyword_extraction.defaultValue.keywords && this.newMappingObj.keyword_extraction.defaultValue.keywords.length && this.newMappingObj.keyword_extraction.defaultValue.target_field){
+     if( this.newMappingObj.keyword_extraction.defaultValue.source_field && this.newMappingObj.keyword_extraction.defaultValue.target_field){
       this.addFiledmappings(this.newMappingObj.keyword_extraction.defaultValue);
      }
   }
