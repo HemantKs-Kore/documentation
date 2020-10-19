@@ -55,13 +55,23 @@ export class SchedulerComponent implements OnInit {
   ngOnInit(): void {
     if(this.schedule == 'get'){
       //$('.mat-datepicker-toggle').addClass('mat-date-icon');
+      if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings){
+        this.startDate  = this.crwalObject.advanceSettings.date;
+        this.timeHH = this.crwalObject.advanceSettings.hour;
+        this.timeMM = this.crwalObject.advanceSettings.minute;
+        this.meridiem = this.crwalObject.advanceSettings.timeOpt;
+        this.stz = this.crwalObject.advanceSettings.timezone || 'Time Zone';
+        this.rstz = this.crwalObject.advanceSettings.intervalType || 'Does not repeat';
+          this.repeatEvery = this.crwalObject.advanceSettings.every;
+          this.custFreq = this.crwalObject.advanceSettings.schedulePeriod;
+          this.weeKDay = this.crwalObject.advanceSettings.repeatOn;
+          this.endDate  = this.crwalObject.advanceSettings.endDate;
+          this.occurence = this.crwalObject.advanceSettings.occurrences;
+          this.endsFreq(this.crwalObject.advanceSettings.endType);
+      } 
     }else{
      // $('.mat-datepicker-toggle').removeClass('mat-date-icon');
-    }
-    this.endsFreq('endsNever');
-    console.log(this.dateConverter('SUN'))
-    console.log(this.crwalObject);
-    if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
+     if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
       this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
       this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
@@ -77,6 +87,11 @@ export class SchedulerComponent implements OnInit {
         this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
       }
     } 
+    }
+    this.endsFreq('endsNever');
+    console.log(this.dateConverter('SUN'))
+    console.log(this.crwalObject);
+    
   }
   modelChangeFn(event,time){
    if(time !='repeatEvery'){

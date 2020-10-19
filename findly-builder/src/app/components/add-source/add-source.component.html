@@ -53,11 +53,11 @@
           <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
             <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.urlValidation">
             <img *ngIf="statusObject.validation.urlValidation" src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-            <span>Initial URL validation done</span>
+            <span>Initial URL validation</span> <!--<span *ngIf="statusObject.validation.urlValidation">done</span> -->
           </div>
           <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'document')">
             <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-            <span>Initial file validation done</span>
+            <span>Initial file validation </span> <!--  <span >done</span> -->
           </div>
           <div class="content-title" *ngIf="statusObject.validation && statusObject.validation.sitemaps">
             <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
