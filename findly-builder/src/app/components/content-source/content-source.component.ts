@@ -341,7 +341,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       $('.pre-arrow').addClass("dis-arow");
       $('.nxt-arrow').addClass("dis-arow");
     }
-    if(action ==  true && this.totalRecord > this.recordEnd){
+    if(action ==  true && this.totalRecord > this.recordEnd && !(this.totalRecord > this.limitpage)){
       this.recordEnd = this.totalRecord;
       this.allInOne = true;
       $('.pre-arrow').addClass("dis-arow");
@@ -783,6 +783,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
     crawler.desc = this.selectedSource.desc || '';
+    crawler.advanceOpts = this.selectedSource.advanceSettings;
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
