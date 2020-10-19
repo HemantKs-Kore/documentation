@@ -149,7 +149,7 @@
 .scheduler-box{
     //position: absolute;
     width: 981px;
-    height: 50px;
+    // height: 50px;
     background: #FFFFFF;
    // box-shadow: inset 0px -1px 0px #E4E5E7;
    .scheduler-txt{
@@ -388,8 +388,12 @@
 
 .schedular_row_data{
     margin-bottom: 17px !important;
-    .row_column {        
-        &.middle_content{
+    .row_column {      
+        .scheduletitle{
+            font-size: 12px;
+            margin-bottom: 5px;
+        } 
+        .middle_content{
             display: flex;
             .kr-sg-input-text{
                 margin-right: 5px;

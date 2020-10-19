@@ -1237,6 +1237,15 @@ div.divBlockEmptylastChild:first-child {
         .close_icon{
             cursor: pointer;
             float: right;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 100%;
+            text-align: center;
+            line-height: 28px;
+            &:hover{
+                background:  #F3F8FF; 
+            }
         }
     }
     .perfect-scroll-modal-body{

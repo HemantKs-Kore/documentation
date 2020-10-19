@@ -1385,6 +1385,7 @@ and open the template in the editor.
                     font-size: 14px;
                     text-decoration: none !important;	
                     display: block;
+                    cursor: pointer;
                     &.selected{
                         position: relative;
                         background-color: $backgroundColor;
