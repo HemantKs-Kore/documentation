@@ -6,17 +6,16 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
-import { tempdata } from './tempdata';
 import * as _ from 'underscore';
-import { from, interval, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
-import { JAN } from '@angular/material/core';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 declare const $: any;
 declare const koreBotChat : any
 
@@ -846,6 +845,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   closeStatusSlider() {
     this.sliderComponent.closeSlider('#faqsSourceSlider');
+  }
+  // Re-Annotate document on-demand
+  reAnnotateDocument(source) {
+    const dialogRef = this.dialog.open(PdfAnnotationComponent, {
+      data: { type: 'reannotate', pdfResponse: null, source: source },
+      panelClass: 'kr-annotation-modal',
+      disableClose: true,
+      autoFocus: true
+    });
+    dialogRef.afterClosed().subscribe(res => {
+
+    });
   }
   ngOnDestroy() {
     if(this.pollingSubscriber){

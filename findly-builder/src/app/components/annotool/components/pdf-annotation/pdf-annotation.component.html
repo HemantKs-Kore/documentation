@@ -159,12 +159,12 @@
               [disabled]="pdfConfig.currentPage === 1">
               <img src="assets/icons/arrow-back.svg" alt="ellipsisGray">
             </button>
-            <div class="pages padding-5" *ngIf="!togglePage" (click)="togglePage = true;" title="Click to search page">
+            <div class="pages padding-5" *ngIf="!togglePage" (click)="focusInput();" title="Click to search page">
               {{ pdfConfig.currentPage || 0}} / {{ pdfConfig.totalPages || 0}}
             </div>
             <div class="pages" *ngIf="togglePage">
-              <input type="text" class="search-page-input" #pageInput [value]="pdfConfig.currentPage"
-                (keyup.enter)="searchPage($event)" (focusout)="searchPage($event)" autofocus>
+              <input type="text" id="pageInput" class="search-page-input" #pageInput [value]="pdfConfig.currentPage"
+                (keyup.enter)="searchPage($event)" (focusout)="searchPage($event)">
             </div>
             <button title="Next page" class="btn kr-sg-button-secondary btn_md" (click)="nextPage()"
               [disabled]="pdfConfig.currentPage === pdfConfig.totalPages">
