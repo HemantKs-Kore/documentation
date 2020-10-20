@@ -328,8 +328,8 @@
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
                           <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
-                            <div class="kr-sg-input-text-area">
-                              <textarea class="wid" [(ngModel)] = "editConfObj.desc"></textarea>
+                            <div class="kr-sg-input-text-area min-ht">
+                              <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
                           <div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}

@@ -329,6 +329,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
     }
+    this.isEditDoc = false;
   }
   pageination(pages, action) {
     // let count = 0;
