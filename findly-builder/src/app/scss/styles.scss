@@ -6,6 +6,11 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // @import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/theme/neo';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/addon/fold/foldgutter';
+@import '~codemirror/addon/lint/lint';
 @import "./variables/variables";
 @import "./bt-styleguide.scss";
 
@@ -14,6 +19,7 @@ html{
     min-width: 900px;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-font-smoothing: antialiased;
     &.cdk-global-scrollblock{
         overflow: hidden;
     }
@@ -21,6 +27,7 @@ html{
         overflow: hidden;
         font-size: $font-md;
         color: $primaryColor;
+        -webkit-font-smoothing: antialiased;
         button{
             min-width:auto !important;
             &:focus{outline:none !important;}
@@ -228,7 +235,9 @@ html{
           }
     }    
 }
-
+.tooltip{
+    z-index: 10501 !important;
+}
 .mat-drawer-backdrop.mat-drawer-shown {
     background-color: rgba(0, 0, 0, 0.09);
 }
@@ -317,11 +326,11 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 1200px){
-    html, body {
-        overflow-y:hidden;
-        overflow-x: auto;
-        min-width: 1200px;
-        width: 100%;
+    html, body.mat-typography {
+        overflow-y:hidden !important;
+        overflow-x: auto !important;
+        min-width: 1200px !important;
+        width: 100% !important;
     }
 }
 @media (max-width: 600px){
@@ -392,7 +401,7 @@ body::-webkit-scrollbar {
             border: 0;
             line-height: 0;
             img{
-                margin-right: 6px;
+                margin-right: 6px; // Need Clarity On Fixed Margin Values
                 position: relative;
                 top: -1px;
             }
@@ -518,6 +527,98 @@ div.divBlockEmptylastChild:first-child {
     }
 }
 
+.annotation_clockwise_dropdown{
+    &.show{
+        .dropdown-open{                                
+            .dropdown-input{
+                background: #EFF0F1;
+            }        
+        } 
+    }
+    .dropdown-open{                                
+        .dropdown-input{
+            font-size: 12px;           
+            border: 0px solid transparent !important;
+            background: transparent;            
+            padding: 0;            
+            border: 0;            
+            height: 34px;
+            width: 34px;
+            text-align: center;            
+            border-radius: 4px;  
+            margin-left: 14px;                      
+            &::before{
+                display: none;
+            }
+            &::after{
+                display: none;
+            }
+        }        
+    }
+    .content-menu{
+        max-width: 200px;
+        top: 26px !important;
+        min-width: 180px;
+        padding: 10px 0px;
+        border: 0;
+        margin: 8px 0 0 0;
+        left: -132px;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+        border-radius: 0;
+        li{
+            font-size: 13px;
+            color: #202124;
+            padding: 8px 20px;
+            cursor: pointer;
+            position: relative;
+            .list-name{
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 100%;
+                overflow: hidden;
+                padding-right: 10px;
+            }
+            img{
+                float: right;
+                top: 11px;
+                position: absolute;
+                right: 10px;
+            }
+            &:hover{
+                background: #EFF0F1;
+            }
+        }
+    }
+}
+.info_header_dropdown_content{
+    background: #FFFFFF;
+    box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
+    border-radius: 8px;
+    padding: 17px 15px;
+    border: 0;
+    margin: 0;
+    width: 509px;
+    .inner-data-column{
+        padding: 0 0 0 6px;
+        .heading{
+            color: #9AA0A6;
+            font-size: 12px;
+            line-height: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .title{
+            color: #202124;
+            font-size: 14px;
+            line-height: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
 .delete-text{
     color: #DD3646 !important;
 }
@@ -694,7 +795,7 @@ div.divBlockEmptylastChild:first-child {
                     padding: 0px 10px; 
                     cursor: pointer;         
                     .sortImg{
-                        transform: rotate(270deg);
+                        // transform: rotate(270deg);
                         top: -0.7px;
                         position: relative;
                         &.assending{
@@ -864,10 +965,8 @@ div.divBlockEmptylastChild:first-child {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    position: fixed;
-    bottom: 20px;
-    right: 10%;
-    margin-right: 30px;
+    position: relative;
+    right: 10px;
     .previous{
         color: #9AA0A6;
         font-weight: normal;
@@ -1124,7 +1223,8 @@ div.divBlockEmptylastChild:first-child {
     .modal-header{
         height: auto;
         padding: 22px 30px;
-        border-bottom: 1px solid #BDC1C6 !important;
+        border-bottom: 0px solid #BDC1C6 !important;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
         display: block !important;
         .title{
@@ -1137,6 +1237,15 @@ div.divBlockEmptylastChild:first-child {
         .close_icon{
             cursor: pointer;
             float: right;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 100%;
+            text-align: center;
+            line-height: 28px;
+            &:hover{
+                background:  #F3F8FF; 
+            }
         }
     }
     .perfect-scroll-modal-body{
@@ -1155,10 +1264,10 @@ div.divBlockEmptylastChild:first-child {
     .modal-footer{
         padding: 13px 30px !important;
         background-color: #fff !important;       
-        box-shadow: inset 0px 1px 0px #BDC1C6;
+        box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
         display: block !important;
         button{
-            margin:0 20px 0 0 !important;
+            margin:0 10px 0 0 !important;
         }
     }
 }
@@ -1190,4 +1299,74 @@ div.divBlockEmptylastChild:first-child {
         border-radius: 0;
         overflow: hidden;
     }
+}
+.zIndex-adjust{
+    z-index: 1050 !important;
+}
+.app-add-faq-insidescroll{
+    .add-questions-form{
+        padding: 0 !important;
+    }
+}
+.custom_tooltip_class{
+    margin-left: 20px;
+    margin-top: 6px;
+    opacity: 1 !important;
+    .arrow{
+        right: 20px !important;
+        &::before{
+            border-width: 0 .5rem .5rem;
+            border-bottom-color: #E7F1FF;
+        }
+    }
+    .tooltip-inner{
+        border-radius: 2px;
+        color: #4788C7;
+        background: #E7F1FF;
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 10px;
+        text-align: left;
+        border: 0;
+    }
+}
+.addFieldModalPop{
+    .modal-dialog{
+        max-width: 60% !important;
+        height: calc(100% - 100px);        
+        .modal-content{
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            .modal-body{
+                .top_sec{
+                    padding-bottom: 30px;
+                    border-bottom: 1px solid #E5E8EC;
+                    margin-bottom: 30px;
+                    .mb-20{
+                        margin-bottom: 20px !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.delete-popup{
+    .mat-dialog-container{
+        .m-footer{
+            .kr-sg-button-primary{
+                border: 1px solid transparent;
+                background: #d2000d;
+                color: #fff;
+                &:hover{
+                    background: #bc000b;
+                }
+            }
+        }
+    }
+}
+.cursor-pointer{
+    cursor: pointer;
 }

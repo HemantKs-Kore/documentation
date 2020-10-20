@@ -16,7 +16,10 @@ import { TraitsComponent } from './components/traits/traits.component';
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
-
+import { StopWordsComponent }  from './components/stop-words/stop-words.component';
+import { WeightsComponent }  from './components/weights/weights.component';
+import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
+import { FacetsComponent } from './components/facets/facets.component';
 const routes: Routes = [
   {
     path: '',
@@ -37,9 +40,12 @@ const routes: Routes = [
       { path: 'ml-threshold', component: MlThresholdComponent },
       { path: 'traits', component: TraitsComponent },
       { path: 'rules', component: ResultsRulesComponent },
-      { path: 'attributes', component: AttributesListComponent },
+      { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent},
       { path: 'query', component: QueryComponent},
+      { path: 'stopWords', component: StopWordsComponent},
+      { path: 'weights', component: WeightsComponent},
+      { path: 'resultranking', component: ResultRankingComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

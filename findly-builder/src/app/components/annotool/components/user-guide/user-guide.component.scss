@@ -6,7 +6,7 @@ $footerColor: var(--footerColor);
 $excludeColor: var(--excludeColor);
 .user-guide {
     .modal-header {
-        padding: 18px;
+        padding: 18px 30px;
         display: block;
         text-align: center;
         position: relative;
@@ -14,7 +14,8 @@ $excludeColor: var(--excludeColor);
         background-color: #f2f3f5;
         background: #FFFFFF;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-        display: flex;
+        border-radius: 4px;
+        margin-bottom: 8px;
         .modal-title {
             font-weight: 600;
             font-size: 14px;
@@ -39,104 +40,105 @@ $excludeColor: var(--excludeColor);
         }       
     }
     .modal-body {
-        padding: 15px 40px 10px 40px;       
+        padding: 21px 30px;      
         background: $whiteColor;
         .desc-text{
-            font-size: 12px;
-            color: #26344a;
+            color: #202124;
+            line-height: 24px;
+            font-size: 14px;
+            padding: 0 45px;
             text-align: center;
-            line-height: 1.17;
             font-weight: normal;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
         .small-text{
-            color: #8a959f;
-            font-size: 12px;
+            font-size: 14px;
             text-align: center;
-            margin: 0 0 8px 0;
+            color: #9AA0A6;
+            margin: 0;
         }
-        .box-content{            
+        .box-content{    
+            margin: 38px 0 24px 0;        
             .content{
-                border-radius: 3px;
-                border: solid 1px #e5e8ec;
-                background-color: #ffffff;
-                padding: 10px;
+                border: 1px solid #E4E5E7;
+                box-sizing: border-box;
+                border-radius: 4px;
+                padding: 20px;
                 .buttons-gruop{                                        
                     .buttons{
-                        border-radius: 2px;
-                        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-                        border: solid 1px #e5e8ec;
-                        background-color: #ffffff;
                         display: inline-block;
+                        background: #FFFFFF;
+                        box-shadow: 0px 3px 10px rgba(32, 33, 36, 0.2);
+                        border-radius: 4px;
+                        border: 0;
                         button{
                             padding: 0px 8px;
-                            border-radius: 0px;
-                            margin: 0;
+                            margin: 4px;
+                            font-size: 12px;
+                            border-radius: 4px;
+                            border: 0px !important;
                             &:hover{
                                 background-color: #e5e8ec;
                             }
                             &.heading_text{
-                                color: $headingColor;
-                                border: 0px !important;
-                                border-right: 1px solid #e5e8ec !important;                                 
+                                color: $headingColor;                                                                
                             }
                             &.header{
-                                color: $headerColor;
-                                border: 0px !important;
-                                border-right: 1px solid #e5e8ec !important;
+                                color: $headerColor;                               
                             }
                             &.footer{
-                                color: $footerColor;
-                                border: 0px !important;
-                                border-right: 1px solid #e5e8ec !important;
+                                color: $footerColor;                                
                             }
                             &.ignore-text{
-                                color: $excludeColor;
-                                border: 0px !important;                                
+                                color: $excludeColor;                                                        
                             }
                         }
                     }
                     
                 }
                 .heading{
-                    background-color: #b7d3f3;
                     display: inline-block;
-                    color: #26344a;
-                    font-size: 12px;
-                    font-weight: bold;
-                    padding: 0px 4px;
+                    padding: 2px 4px;
                     margin-bottom: 4px;
+                    background: #E7F1FF;
+                    color: #202124;
+                    font-weight: 500;
+                    font-size: 16px;
+                    margin-top: 10px;
                 }
                 .desc-info{
-                    color: #8a959f;
-                    font-size: 10px;
-                    line-height: 1.47;
                     font-weight: normal;
+                    font-size: 14px;
+                    line-height: 24px;
+                    color: #202124;
+                    margin-top: 5px;
                 }
             }
         }
         .learn-more-link{
-            font-size: 12px;
-            color: #009dab;
             margin: 0;
-            text-decoration: underline;
-            text-align: center;
-            display: block;
-            padding: 9px 0 0px 0;
+            text-decoration: none;
+            text-align: left;
+            display: inline-block;
+            padding: 24px 0 5px 0;
+            font-weight: 500;
+            font-size: 14px;
+            color: #0D6EFD;
         }
     }
     .modal-footer {
         height: auto;
-        padding: 7px 0px;
-        border-radius: 0px 0px 4px 4px;
+        padding: 10px 0px;
         display: block;
         text-align: left;
+        margin-top: 5px;
+        padding-left: 30px;
         background: #FFFFFF;
         box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
         border-radius: 4px;
-         
         button{
             cursor: pointer;
+            margin: 0 20px 0 0px;
         }
     }
 }
@@ -146,4 +148,9 @@ $excludeColor: var(--excludeColor);
 }
 ::ng-deep .kr-create-app-panel {
     width: 700px;
+    .mat-dialog-container{
+        background: #FFFFFF;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+    }
 }

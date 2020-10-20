@@ -129,7 +129,7 @@ img.logo-img{
     z-index: 999999;
     padding: 25px 0 0px 60px;
     height: 100%;
-    width: 100%;
+    width: 100% !important;
   }
   .search-container.conversation.full-page .ksa-resultsContainer {
     height: calc(100vh - 120px);
@@ -171,3 +171,15 @@ img.logo-img{
     display: none !important;
   }
   
+
+  /* .search-container-adv{
+    left: 235px !important;
+    width: calc(55% - 245px) !important;
+    right: 0 !important;
+  } */
+  
+  /* .add-new-result{
+    left: 635px !important;
+    width: calc(55% - 245px) !important;
+    right: 0 !important;
+  } */

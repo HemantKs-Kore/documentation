@@ -104,6 +104,10 @@
         .nav-item{
           img{
             cursor: pointer;
+            &.search-icon{
+              right: 11px;
+              left: auto;
+            }
           }
         }
       }

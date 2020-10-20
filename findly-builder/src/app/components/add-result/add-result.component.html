@@ -1,0 +1,116 @@
+
+<div class="add-result">
+    <div class="header">
+        <span class="head-txt">ADD NEW RESULT</span>
+        <img class="closeCross" src="assets/images/close.svg" (click)="cancelRecord()">
+    </div>
+    <div class="cont-head">
+        <!-- <div class= "txt">Result Type</div> -->
+        <div class="check-option">
+            <!-- BUTTONS START HERE -->
+            <div class="group-radiobutton">
+                <div class="heading-title txt">Result Type</div>
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (click) = "resultClick('faq')">
+                    <label for="radio-1" class="radio-custom-label">FAQ</label>
+                </div>
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-2" name="radio" class="radio-custom" type="radio" (click) = "resultClick('content')">
+                    <label for="radio-2" class="radio-custom-label">Content</label>
+                </div>
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('botaction')">
+                    <label for="radio-3" class="radio-custom-label">Bot Action</label>
+                </div>
+                <!-- <div class="kr-sg-radiobutton radiobutton ">
+                    <input id="radio-4" name="radio" class="radio-custom" type="radio" (click) = "resultClick('any')">
+                    <label for="radio-4" class="radio-custom-label">Any</label>
+                </div> -->
+            </div> 
+            <!-- BUTTONS ENDS HERE -->
+        </div>
+    </div>
+  
+    <div class="search">
+        <input type="text" class= "search-box" name ="searchTxt" [(ngModel)] = "searchTxt" placeholder="Search by title,description or url" (keyup)="keyFunc(searchTxt)">
+        <img class="closeCross" src="assets/images/close.svg" (click)="clearReocrd()">
+    </div>
+  
+    <!-- <div class="record">
+        <div class="inline-rec rec-60">
+            <div class="ques"> Are credit deposit account insured  by the federal Deposit Insuarance Corporation ?</div>
+            <div class="ans">Are credit deposit account insured  by the federal Deposit Insuarance Corporation, Are credit deposit account insured  by the federal Deposit Insuarance Corporation</div>
+        </div>
+        <div class="inline-rec rec-10 ver-center">I</div>
+        <div class="inline-rec rec-30 ver-center">
+           <span class="count">872 VIEWS </span> 
+           <span class="count">764 CLICKS </span> 
+        </div>
+
+    </div> -->
+
+    <perfect-scrollbar class="accor-scroll-add" #fqasScrollContainer>
+        <ng-container >
+        <div id="accordion" class="accordion-content">
+            <div *ngIf="searchType; else empty">
+                <div  *ngFor="let result of extractedResults;let i = index">
+                    <div class="card-content"   *ngIf="searchType == 'faq'">
+                        <div class="card_link collapsed">      
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                    <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec" *ngIf="searchType == 'faq'">
+                                    <div class="title">{{ result.question}}</div>
+                                    <div class="desc">{{ result.answer}}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div *ngIf="searchType == 'content'">
+                        <div *ngFor="let data of result.data ;let j = index">
+                            <div class="card-content" >
+                                <div class="card_link collapsed">      
+                                    <div class="d-flex align-items-center">
+                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                            <input  [attr.id]="j"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(data,j)">
+                                            <label [attr.for]="j" class="checkbox-custom-label"></label>
+                                        </div>
+                                        <div class="title-desc-sec">
+                                            <div class="title">{{ data.title}}</div>
+                                            <div class="desc" *ngIf="data.searchResultPreview;else body">{{ data.searchResultPreview}}</div>
+                                            <ng-template #body>
+                                                <div class="desc">{{ data.body}}</div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <ng-template #empty>
+                <div  class="empty-questions-selected divBlockEmptylastChild">
+                    <div class="heading">No search results</div>
+                </div>
+            </ng-template>
+        </div>
+       </ng-container>
+    </perfect-scrollbar>
+    <div class="footer row">
+        <div class="col-7">
+            <span class="desc" *ngIf="recordArray.length" >{{ recordArray.length }} results selected</span>
+        </div>
+        <div class="col-2">
+            <button class="bef-add" [ngClass] = "{'add' : recordArray.length > 0}" (click) = "pushRecord()" [disabled] = "!recordArray.length">Add</button>
+        </div>
+        <div class="col-2">
+            <button class="cancel col3" (click) = "cancelRecord()">Cancel</button>
+        </div>
+    </div>
+</div>

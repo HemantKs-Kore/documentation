@@ -6,7 +6,7 @@
   <div class="navbar" id="pdfAnno">
     <ul class="nav leftPanel">
       <li class="back-arrow">
-        <img (click)='closeModal()' src="assets/icons/arrow-back.svg" alt="closeCross">
+        <img (click)='closeModal()' src="assets/icons/carrot_left.svg" alt="closeCross">
       </li>
       <li class="header-title">
         <span class="name">Annotate Document</span>
@@ -20,22 +20,23 @@
       <li class="extract-btn">
         <div *ngIf="extractionLoader" class="loader-spinner-circle"></div>
         <button type='button' [disabled]="!isFormValid || extractionLoader"
-          class='kr-sg-button-primary btn_md marginRightTen' (click)='extractPDF()'>
+          class='kr-sg-button-primary btn_lg marginRightTen' (click)='extractPDF()'>
           {{extractionLoader === true? 'Extracting': 'Extract'}}
         </button>
       </li>
-      <li class="rotate">
-        <span class="dropdown kr-sg-overflow-menu open">
-          <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
-            <img class="action_icon" src="assets/icons/elipse.svg">
+      <li class="rotate">          
+        <div class="kr-sg-dropdowns annotation_clockwise_dropdown" ngbDropdown [placement]="'bottom-right'">
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>                 
+              <img class="action_icon" src="assets/icons/overflow_annotation.svg">
+            </button>
+            <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+              <li (click)="rotateClock()"><a>Rotate clockwise</a></li>
+              <li (click)="rotateAntiClock()"><a>Rotate anticlockwise</a></li>                 
+            </ul>
           </div>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-            <li (click)="rotateClock()"><a>Rotate clockwise</a></li>
-            <li (click)="rotateAntiClock()"><a>Rotate anticlockwise</a></li>
-          </ul>
-        </span>
-
-      </li>
+        </div>
+      </li>     
     </ul>
   </div>
 </div>
@@ -51,18 +52,17 @@
 <div class="pdf-annotation">
   <!-- PDF ANNO STARTS HERE -->
   <!-- *ngIf="!noDataFound" -->
-  <div class="container-fluid pdf-annotation-iframe-content pr-0 h-100" [formGroup]="pdfForm">
-    <div class="row m-0 content-block h-100">
-      <div class="col-md-8 left-sec-pdf p-0">
-        <div class="row m-0 header-sec">
+  <div class="container-fluid pdf-annotation-iframe-content pr-0" [formGroup]="pdfForm">
+    <div class="row m-0 content-block">
+      <div class="left-sec-pdf p-0">
+        <div class="row header-sec m-0">
           <div class="col-md-4 search-block p-0">
-            <div class="kr-sg-input-inline-search">
-              <input type="text" placeholder="Search text" class="input-search pr-2" autocomplete="off" maxlength="200"
-                (keyup)="searchText($event.target.value)">
-              <img src="assets/icons/search.svg" class="search-icon">
+            <div class="kr-sg-input-search m-0">                               
+              <input type="text" placeholder="Search text" class="input-search" autocomplete="off" maxlength="200" (keyup)="searchText($event.target.value)">           
+              <img src="assets/icons/search_gray.svg" class="search-icon">
             </div>
           </div>
-          <div class="col-md-8 checkbox-input p-0 text-right">
+          <div class="col-md-8 checkbox-input pl-0 text-right">
             <div class="kr-sg-checkbox m-0 p-0">
               <input id="checkbox_grp7" formControlName="ignorePages" (change)="ignorePages($event)"
                 class="checkbox-custom" type="checkbox">
@@ -153,9 +153,9 @@
         </div>
         <!-- PDF VIEWER STARTS END -->
         <!-- PAGE NAVIGATION START -->
-        <div class="row m-0" *ngIf="pdfConfig.currentPage && pdfConfig.totalPages">
+        <div class="row pagination-bottom m-0" *ngIf="pdfConfig.currentPage && pdfConfig.totalPages">
           <div class="col-md-12 pagination p-0">
-            <button title="Previous page" class="btn kr-sg-button-secondary btn_md" (click)="prevPage()"
+            <button title="Previous page" class="kr-sg-button-secondary" (click)="prevPage()"
               [disabled]="pdfConfig.currentPage === 1">
               <img src="assets/icons/arrow-back.svg" alt="ellipsisGray">
             </button>
@@ -166,46 +166,26 @@
               <input type="text" id="pageInput" class="search-page-input" #pageInput [value]="pdfConfig.currentPage"
                 (keyup.enter)="searchPage($event)" (focusout)="searchPage($event)">
             </div>
-            <button title="Next page" class="btn kr-sg-button-secondary btn_md" (click)="nextPage()"
+            <button title="Next page" class="kr-sg-button-secondary" (click)="nextPage()"
               [disabled]="pdfConfig.currentPage === pdfConfig.totalPages">
               <img src="assets/icons/arrow-next.svg" alt="ellipsisGray">
             </button>
           </div>
         </div>
         <!-- PAGE NAVIGATION END -->
-      </div>
-      <!-- <div class="col-md-1">
-        <perfect-scrollbar class="thumb-nails" >
-          <div style="width: 150px;height: 200px;">
-            <pdf-viewer class="thumb-nails-tiles" [src]="pdfUrl" [stick-to-page]="true"
-            [show-all]="true">
-            </pdf-viewer>
-          </div>
-        </perfect-scrollbar>
-      </div> -->
-
-      <div class="col-md-4 right-sec-pdf pr-0">
+      </div>     
+      <div class="right-sec-pdf p-0">
         <perfect-scrollbar class="right-sec-scroll">
           <!-- DOCUMENT INFO START -->
           <div class="kr-card">
-            <div class="kr-title">
-              Document Info
+            <div class="kr-title">Document Info</div>
+            <div class="details row m-0">
+              <div class="label col-6 p-0">Total pages</div>
+              <div class="description col-6 p-0 text-right">{{ pdfConfig.totalPages || 0}}</div>
             </div>
-            <div class="details">
-              <div class="label">
-                Total pages:
-              </div>
-              <div class="description">
-                {{ pdfConfig.totalPages || 0}}
-              </div>
-            </div>
-            <div class="details">
-              <div class="label">
-                File size:
-              </div>
-              <div class="description">
-                {{pdfSize || '0KB'}}
-              </div>
+            <div class="details row m-0">
+              <div class="label col-6 p-0">File size</div>
+              <div class="description col-6 p-0 text-right">{{pdfSize || '0KB'}}</div>
             </div>
           </div>
           <!-- DOCUMENT INFO END -->
@@ -222,7 +202,7 @@
                 <div class="page col-4 p-0">
                   In Page
                 </div>
-                <div class="document col-4 p-0">
+                <div class="document-title col-4 p-0">
                   In Document
                 </div>
               </div>
@@ -327,26 +307,22 @@
             <div class="kr-title">
               Classification of Annotations
             </div>
-            <div class="classification-annotation">
-              <div class="title title-1"><span>Headings are classified as questions</span> </div>
-              <div class="title title-2"><span>Paragraphs between two consecutive headings will be an answer</span>
-              </div>
+            <div class="classification-annotation">              
               <div class="box-content">
                 <div class="content">
-                  <div class="text-right b_title">Header</div>
-                  <div class="intro-heading">Introduction</div>
-                  <div class="desc">We’re breaking out of the categories of see, hear and recommend. Pioneering
-                    organizations have already evolved from automation to value creation, and are expecting radical
-                    changes in business models over the coming years. </div>
-                  <div class="intro-heading automation-text">Automation as of now</div>
-                  <div class="desc no-circle">Two years ago, we highlighted ens as our meta-trend. In retrospect, that
-                    led
-                    directly to last year’s meta-trend, </div>
-                  <div class="desc bold">Now, that search has evolved into a re-evaluation of purpose and place in the
-                    world by governments, businesses and individuals alike. </div>
-                  <div class="text-right b_title footertext">Footer</div>
+                  <div class="d-flex justify-content-between">                    
+                    <div class="intro-heading m-0"><span></span>Introduction</div>
+                    <div class="text-right b_title"><span></span>Header</div>
+                  </div>
+                  <div class="desc"><span>We’re breaking out of the categories of see, hear and recommend. Pioneering organizations have already evolved from automation to value creation, and are expecting radical changes in business models over the coming years.</span> </div>
+                  <div class="intro-heading automation-text"><span></span>Automation as of now</div>
+                  <div class="desc no-circle">Two years ago, we highlighted ens as our meta-trend. In retrospect, that led directly to last year’s meta-trend,</div>
+                  <div class="desc bold bold withcircles">Now, that search has evolved into a re-evaluation of purpose and place in the world by governments, businesses and individuals alike.</div>
+                  <div class="text-right b_title footertext"><span></span>Footer</div>
                 </div>
               </div>
+              <div class="header-text">Headings are classified as questions </div>
+              <div class="paragraph-text">Paragraphs between two consecutive headings will be an answer</div>
               <div class="footer-text">Text marked as Headers and Footers is not considered for extraction</div>
             </div>
           </div>

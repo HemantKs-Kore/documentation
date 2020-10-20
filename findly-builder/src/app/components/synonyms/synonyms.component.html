@@ -1,109 +1,164 @@
 <!-- search Bar -->
 <div class="contentContainer">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
-      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-      <span class="please-wait-message">Please Wait!</span>
-    </div>
-    
-  <div  class="table-list-content">
+  <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+  <div class="table-list-content">
       <div class="kr-sg-data-table" *ngIf="!loadingContent">
         <div class="table-action-header">
           <div class="kr-sg-input-search m-0">                               
-            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="synonym" (keyup)="applyFilter($event.target.value)">           
+            <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="synonymSearch" autocomplete="off">           
             <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
           </div> 
-            <!-- <input type="text" name='searchSources' placeholder="Search" id="searchSynonymsId" class="input-search tbsearchbar" [(ngModel)]="synonym" (keyup)="applyFilter($event.target.value)">              
-              <div class="search">
-                <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
-                <span *ngIf="!searchSources" class="search-name"><img class="search-img" src="assets/icons/sidemenu/search-table.svg"></span>
-              </div> -->
-              <!-- <div class="import"><img src="assets/images/source-icos/import.svg">Import</div> -->
+          <div class="left-btns">
+            <button id="addNewSynonymBtn" (click)='enableAddNewSynonymBtn()' class="kr-sg-button-primary btn_lg mr-0"><img src="assets/icons/plus-white.svg" class="mr-2" >Add Synonym</button>
+          </div>
         </div>                       
-    </div>   
+      </div>        
   </div>
-  <!-- search Bar -->
-  <!-- synonyms Card Header -->
-  <div class="add-synonyms-inputs" *ngIf="!loadingContent">
+  <div class="add-synonyms-inputs" *ngIf="!loadingContent && newSynonymObj.addNew">
     <div class="input-group-items">
-        <!-- <form #synonymForm="ngForm"> -->
-          <div class="input-box">
-            <div class="kr-sg-input-text">
-                <div class="label_text">Keyword</div>
-                <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="synonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Keyword" required class="input-text">
-            </div>
+      <div class="heading-title">Add Synonym</div>
+      <div class="synonymTypeBlock">
+        <div class="group-radiobutton">
+          <div class="kr-sg-radiobutton">
+              <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom" [(ngModel)]="newSynonymObj.type" type="radio">
+              <label for="buttonIdSynonyms" class="radio-custom-label">Synonyms</label>
           </div>
-          <div class="input-box">
-              <div class="chip-sys-data">                      
-                  <div class="label_text" for="exampleInputEmail1">Synonyms</div>
-                  <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                      <mat-chip-list #chipList>
-                        <mat-chip *ngFor="let syn of synArr" [selectable]="selectable" [removable]="removable" (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
-                          <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                        </mat-chip>
-                        <input placeholder="Synonyms" [value]="typedQuery" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.synonyms" [ngModelOptions]="{standalone: true}" autocomplete="off">
-                      </mat-chip-list>
-                  </mat-form-field>
-              </div>
+          <div class="kr-sg-radiobutton">
+              <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType" [(ngModel)]="newSynonymObj.type" class="radio-custom" type="radio">
+              <label for="buttonIdOneWaySynonyms" class="radio-custom-label">One-Way Synonym</label>
           </div>
-          <!-- <div class="col-md-1">
-              <button type="button" class="btn btn-mt btn-light" (click)="synonymForm.reset()">x</button>                  
-          </div> -->
-          <!--  [disabled]="synonymForm.invalid"  -->
-          <div class="add-syn-icon" (click)="addSynonyms(synonymObj)"><img src="assets/images/add.svg"></div>
-        <!-- </form> -->
+       </div> 
+      </div>
+      <div class="keyword row m-0" *ngIf="newSynonymObj.type==='oneWaySynonym'">
+        <div class="kr-sg-input-text">
+          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="newSynonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Query" required class="input-text">
+        </div>
+      </div>
+      <div class="tags row m-0">
+        <div class="chip-sys-data">                      
+            <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                <mat-chip-list #chipList>
+                  <mat-chip *ngFor="let syn of newSynonymObj.values" [selectable]="selectable" [removable]="removable" (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
+                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                  </mat-chip>
+                  <input placeholder="Type Synonyms and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values" [ngModelOptions]="{standalone: true}" autocomplete="off">
+                </mat-chip-list>
+            </mat-form-field>
+        </div>
+     </div>
+     <div class="saveCacleSynBlock row m-0">
+       <div class="float-right">
+        <button class="kr-sg-button-primary btn_lg" (click)="addNewSynonyms(synonymObj)">Save</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddSynonyms()">Cancel</button>
+       </div>
     </div>
- </div>
-  <!-- synonyms Card Header -->
-  
-  <!-- synonyms List -->
-  <perfect-scrollbar class="table-scroll-perfect-synonyms">
-    <div class="empty-questions-selected"  *ngIf="!(synonymData && synonymData.length) && !loadingContent">
+    </div>
+  </div>
+  <ng-container *ngIf="!loadingContent">
+  <perfect-scrollbar class="table-scroll-perfect-synonyms" [ngClass]="{newRecoredActive: newSynonymObj.addNew}">
+    <div class="empty-questions-selected"  *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
       <img src="assets/images/icons/empty_ill.svg">
       <div class="heading">No Synonyms Available</div>
-      <div class="desc">Please add Synonyms</div>
+      <div class="desc">Please add Synonyms</div>      
     </div>
-    <ul class="list-group synonyms_added_group" *ngIf="!loadingContent && haveRecord">      
-        <li class="list_group" *ngFor="let synonym of synonymData;let i = index">         
-          <div class="panel-group">
-                <div class="panel panel-default">                    
-                      <div class="row m-0 row_data" data-toggle="collapse" (click) = "editSynRecord(synonym,$event,i)">               
-                          <div class="col-md-11 p-0">
-                              <span [innerHTML] = "synonym.keyword + ' '" class="main-sys"></span>
-                              <span class="sys-chips-added">                               
-                                <span *ngIf="synonym.synonyms.length"><span class="eyphan">-</span>
-                                <span *ngFor="let eachSyn of synonym.synonyms;let i = index" class="data-list"> <span *ngIf="i != synonym.synonyms.length-1;else last" > {{eachSyn + ' , '}}</span><ng-template #last>{{eachSyn + ''}}</ng-template>
-                              </span>
-                              </span>       
-                              </span>
-
-                          </div>
-                          <div class="col-md-1 p-0 text-right actions-btns">                  
-                              <span class="actions-links mr-3" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip='edit' [container]='"body"'><img class="action_icon"  src="assets/images/edit-pencil.svg"></span>
-                              <span class="actions-links" (click) = "deleteSynRecord(synonym,$event)" ngbTooltip='Delete' [container]='"body"'><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
-                          </div>
-                      </div>
-                      <div id="collapse_{{i}}" class="panel-collapse collapse body-inner">
-                          <div class="panel-body">
-                              <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                  <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                    <mat-chip *ngFor="let syn of synonym.synonyms"  [selectable]="selectable" [removable]="removable" (removed)="removeList(syn,synonym._id,i)"><span class="mat-val" *ngIf="syn">{{syn}}</span>
-                                      <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                    </mat-chip>                                  
-                                    <input placeholder="Synonyms"
-                                          [matChipInputFor]="chipList"
-                                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                          [matChipInputAddOnBlur]="addOnBlur"
-                                          (matChipInputTokenEnd)="addList($event,synonym._id,i)"  #suggestedInput>
-                                          <!-- <button type="button" class="btn btn-light" (click)="addSynonymsAddedName(syn,i)">+</button> -->
-                                  </mat-chip-list>
-                                </mat-form-field>
-                          </div>
-                      </div>
+      <div class="kr-sg-data-table" *ngIf="(synonymData && synonymData.length) && !loadingContent">
+        <section class="table-content">
+            <header class="table-header" >
+                <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">TERMS</div>
+                <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">TYPE
+                  <span class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-center'">                                        
+                    <div class="dropdown dropdown-open">
+                      <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>                                            
+                      <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
+                        <li (click)="selectFilter(null)">All<img *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
+                       <li (click)="selectFilter('oneWaySynonym')">One-way Synonym<img class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
+                       <li (click)="selectFilter('synonym')">Synonym<img class="pl-2" *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>		
+                      </ul>
+                    </div>
+                  </span>
                 </div>
-            </div>           
-        </li>
-      </ul>
+            </header>
+            <div>
+              <div class="content-body" *ngFor="let synonym of synonymData | synonymFilter:synonymSearch ;let i = index" [ngClass]="{'d-none': ((selectedFilter)  && (selectedFilter !== synonym.type))}">
+                <div *ngIf="currentEditIndex === i" class="w-100">
+                  <div class="add-synonyms-inputs ml-0 mr-0 mb-2">
+                    <div class="input-group-items">
+                      <div class="heading-title">Add Synonym</div>
+                      <div class="synonymTypeBlock">
+                        <div class="group-radiobutton">
+                          <div class="kr-sg-radiobutton">
+                              <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom" [(ngModel)]="synonym.type" [checked]="!synonym.keyword" type="radio">
+                              <label for="buttonIdSynonyms" class="radio-custom-label">Synonyms</label>
+                          </div>
+                          <div class="kr-sg-radiobutton">
+                              <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType" [(ngModel)]="synonym.type" [checked]="synonym.keyword" class="radio-custom" type="radio">
+                              <label for="buttonIdOneWaySynonyms" class="radio-custom-label">One-Way Synonym</label>
+                          </div>
+                       </div> 
+                      </div>
+                      <div class="keyword row m-0" *ngIf="synonym.type==='oneWaySynonym'">
+                        <div class="kr-sg-input-text">
+                          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="synonym.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Query" required class="input-text">
+                        </div>
+                      </div>
+                      <div class="tags row m-0">
+                        <div class="chip-sys-data">                      
+                          <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                            <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                              <mat-chip *ngFor="let syn of synonym.values"  [selectable]="selectable" [removable]="removable" (removed)="removeList(syn,synonym._id,i)"><span class="mat-val" *ngIf="syn">{{syn}}</span>
+                                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                              </mat-chip>                                  
+                              <input placeholder="Type Alternatives and Press Enter"
+                                    [matChipInputFor]="chipList"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    [matChipInputAddOnBlur]="addOnBlur"
+                                    (matChipInputTokenEnd)="addList($event,synonym._id,i)"  #suggestedInput>
+                            </mat-chip-list>
+                          </mat-form-field>
+                        </div>
+                     </div>
+                     <div class="saveCacleSynBlock row m-0">
+                      <div class="float-right">
+                        <button class="kr-sg-button-primary btn_lg" (click)="updateSynonm(synonym,synonym._id,i)">Save</button>
+                      <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddEdit()">Cancel</button>
+                      </div>
+                   </div>
+                    </div>
+                 </div>
+                </div>
+                <ng-container *ngIf="currentEditIndex !== i">
+                <div class="col-8 data_content">
+                  <span class="one_way_sys" *ngIf="synonym.type === 'oneWaySynonym'">
+                    <span class="synonym font-weight-bold">{{synonym.keyword}}</span>
+                    <img src="assets/icons/oneWayArrow.svg">
+                  </span>
+                  <span class="bubble_syn" *ngFor="let eachSyn of synonym.values;let i = index">
+                    <span class="synonymBubble">{{eachSyn}}</span>
+                    <img class="or_divider" *ngIf="(synonym.type === 'oneWaySynonym') && (i < synonym.values.length-1)" src="assets/icons/OR.svg">
+                    <img class="arrow_divider" *ngIf="!(synonym.type === 'oneWaySynonym') && (i < synonym.values.length-1)" src="assets/icons/twoWayArrow.svg">
+                  </span>
+                </div>
+                <div class="col-4 data_content">
+                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">One-way Synonym</span>
+                  <span *ngIf="!(synonym.type === 'oneWaySynonym')" class="title_data">Synonym</span>
+                  <span class="float-right action-links">
+                    <span class="actions-links mr-3" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip='Edit' [container]='"body"'><img class="action_icon"  src="assets/images/edit-pencil.svg"></span>
+                     <span class="actions-links" (click) = "deleteSynonym(synonym,$event,i)" ngbTooltip='Delete' [container]='"body"'><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
+                  </span>
+                </div>
+               </ng-container>
+              </div>
+              <div class="divBlockEmptylastChild text-center">         
+                <div class="desc">No search results found</div>
+              </div>
+            </div>
+        </section>                               
+      </div>   
   </perfect-scrollbar> 
+  </ng-container>
 </div>
 

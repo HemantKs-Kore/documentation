@@ -10,9 +10,11 @@ import { NotificationService } from '../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -29,23 +31,27 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
   @ViewChild('externalResponsePop') externalResponsePop: KRModalComponent;
   @Input() inputClass: string;
+  @Input() isFollowUp: boolean;
   @Input() faqData: any;
+  @Input() faqUpdate: Observable<void>;
   @Output() addFaq = new EventEmitter();
   @Output() cancelfaqEvent = new EventEmitter();
   @Output() editFaq = new EventEmitter();
+  eventsSubscription: Subscription;
+  currentEditIndex:any = null;
   createLinkPopRef
   createImagePopRef
   externalResponsePopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
   codeMirrorOptions: any = {
-    theme: 'idea',
+    theme: 'neo',
     mode: 'javascript',
     lineNumbers: true,
     lineWrapping: true,
-    foldGutter: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    autoCloseBrackets: true,
+    foldGutter: false,
+    gutters: ['CodeMirror-linenumbers','CodeMirror-lint-markers'],
+    autoCloseBrackets: false,
     matchBrackets: true,
     lint: true
   };
@@ -99,12 +105,15 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       alt:'',
     }
   }
+  altAddSub: Subscription;
+  altCancelSub: Subscription;
   followInpKeySub: Subscription;
   followInpQuesSub: Subscription;
   altInpKeySub: Subscription;
   altInpQuesSub: Subscription;
   groupAddSub: Subscription;
   selectedResponseToEdit:any = {};
+  public config: PerfectScrollbarConfigInterface = {};
   constructor(private fb: FormBuilder,
     config: NgbTooltipConfig,
     private service: ServiceInvokerService,
@@ -112,6 +121,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     private kgService: KgDataService,
     private notify: NotificationService,
     private faqService: FaqsService,
+    public convertMDtoHTML:ConvertMDtoHTML,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
     ) {
@@ -147,6 +157,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         question: ['', Validators.required],
         botResponse: ['', Validators.required]
       });
+    }
+    this.altAddSub = this.faqServiceAlt.addAltQues.subscribe(params => {
+      this.isAdd = false;
+    });
+    this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data=>{ this.isAdd = false; });
+    if(this.faqUpdate){
+      this.eventsSubscription = this.faqUpdate.subscribe(() => this.save());
     }
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
@@ -211,6 +228,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
    if(type==='default'){
      const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
      this.faqResponse.defaultAnswers.push(tempResponseObj);
+     this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
    }
   }
   remove(tag): void {
@@ -250,7 +268,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                 type:'image',
                 url:answer.multimedia.url,
               }
-              answerObj.responseType = answer.multimedia.responseType
+              answerObj.responseType = answer.multimedia.position
            }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
@@ -282,7 +300,6 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             if(answer && answer.answers && answer.answers.length){
               answerObj.type =  answer.answers[0].type;
               answerObj.payload =  answer.answers[0].payload;
-              answerObj.image = answer.answers[0].multimedia;
             }
             if(answer.type === 'javascript' && answer.payload){
               try {
@@ -291,19 +308,20 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
                  console.log('Bad JSON');
               }
             }
-            if(answer && answer.multimedia && answer.multimedia.url){
+            if(answer && answer.answers.length && answer.answers[0].multimedia && answer.answers[0].multimedia.url){
+              const media = answer.answers[0].multimedia;
               answerObj.image = {
                 type:'image',
-                url:answer.multimedia.url,
-                responseType:answer.multimedia.responseType,
+                url:media.url,
               }
+              answerObj.responseType = media.position;
           }
           this.faqResponse.defaultAnswers.push(answerObj);
         })
       }
     } else {
-      const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
-      this.faqResponse.defaultAnswers.push(tempResponseObj);
+      // const tempResponseObj = JSON.parse(JSON.stringify(this.defaultAnsInterface))
+      // this.faqResponse.defaultAnswers.push(tempResponseObj);
     }
   }
   prpaerFaqsResponsePayload(){
@@ -323,6 +341,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj.multimedia = {
               type:'image',
               url:answer.image.url,
+              position:'horizontalSplit'
             }
           }
           defaultAnswers.push(answerObj);
@@ -339,6 +358,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj1.multimedia = {
               type:'image',
               url:answer.image.url,
+              position:'horizontalSplit'
             }
           }
           const _conditions = [];
@@ -369,7 +389,14 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
     this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
   }
+  addAnotherAlternate(){
+    $('#addAlternateFaq').click();
+    setTimeout(() =>{
+     this.isAdd = true;
+    });
+  }
   save() {
+    $('#addAlternateFaq').click();
     this.prpaerFaqsResponsePayload();
     if(this.anwerPayloadObj.defaultAnswers && this.anwerPayloadObj.defaultAnswers.length){
       const oneValidRespone = _.filter(this.anwerPayloadObj.defaultAnswers,(answer) =>{
@@ -589,7 +616,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           })
         }
         this.form.get('botResponse').setValue(newMessage);
-        $(this.container).focus();
+        // $(this.container).focus();
       }
     }
     saveLink() {
@@ -696,21 +723,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
 
   addAltQues() {
+    this.faqServiceAlt.updateVariation('alternate');
+    this.faqServiceAlt.updateFaqData(this.faqData);
     this.isAdd=true;
-    this.altInpKeySub = this.faqServiceAlt.inpKeywordsAdd.subscribe(res=>{
-      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}}); }
-      else {
-        this.quesList.alternateQuestions[0] = {};
-        this.quesList.alternateQuestions[0].keywords = _.map(res, o=>{return {keyword: o}});
-      }
-    });
-    this.altInpQuesSub = this.faqServiceAlt.inpQuesAdd.subscribe(res=>{
-      if(this.quesList.alternateQuestions[0]) { this.quesList.alternateQuestions[0].question = res; }
-      else {
-        this.quesList.alternateQuestions[0] = {};
-        this.quesList.alternateQuestions[0].question = res;
-      }
-    });
   }
 
   addFollowupQues() {
@@ -730,7 +745,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       }
     });
   }
+  delAltQues(ques) {
+    this.faqData.alternateQuestions = _.without(this.faqData.alternateQuestions, _.findWhere(this.faqData.alternateQuestions, { _id: ques._id }));
+  }
   ngOnDestroy() {
+    this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;
+    this.altAddSub?this.altAddSub.unsubscribe(): false;
+    this.altCancelSub?this.altCancelSub.unsubscribe(): false;
     this.followInpKeySub?this.followInpKeySub.unsubscribe():false;
     this.followInpQuesSub?this.followInpQuesSub.unsubscribe():false;
     this.altInpKeySub?this.altInpKeySub.unsubscribe():false;

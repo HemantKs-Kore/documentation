@@ -8,7 +8,6 @@ declare const $: any;
 declare const KoreWidgetSDK: any;
 declare const KoreSDK: any;
 declare const koreBotChat: any;
-koreBotChat
 declare let window:any;
 import * as _ from 'underscore';
 @Component({
@@ -107,7 +106,8 @@ export class AppComponent implements OnInit {
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
-          _id:appData.searchIndexes[0]._id
+          _id:appData.searchIndexes[0]._id,
+          pipelineId:appData.searchIndexes[0].queryPipelineId
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();
@@ -171,10 +171,14 @@ export class AppComponent implements OnInit {
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');
       $('.advancemode-checkbox').css({"display":"block"});
+      $('.search-container').addClass('search-container-adv')
+      $('.search-container').addClass('add-new-result')
     }else{
       $('.search-background-div').hide();
       $('.start-search-icon-div').removeClass('active');
       $('.advancemode-checkbox').css({"display":"none"});
+      $('.search-container').removeClass('search-container-adv')
+      $('.search-container').removeClass('add-new-result')
     }
   }
   initSearchSDK(){
@@ -182,7 +186,7 @@ export class AppComponent implements OnInit {
     $('body').append('<div class="start-search-icon-div"></div>');
     $('app-body').append('<div class="search-background-div"></div>');
     $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
-
+   // $('.search-container').addClass('search-container-adv');
     $('.start-search-icon-div').click(function(){
       if(!$('.search-background-div:visible').length){
         _self.showHideSearch(true);

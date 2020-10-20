@@ -163,9 +163,9 @@
                     }
                     .body-content{
                         .accor-scroll{
-                            height: calc(100vh - 226px);                        
+                            height: calc(100vh - 262px);                       
                             &.show_footer{
-                                height: calc(100vh - 286px);
+                                height: calc(100vh - 325px);
                             }
                         }
                         .selected-all-questions{
@@ -404,34 +404,78 @@
                     }
                     .header-info-que{
                         display: flex;
-                        align-items: center;                       
-                        // padding: 20px 0px;
-                        // margin: 0 30px;
-                        // border-bottom: 1px solid #E5E8EC;
-                        padding: 20px 30px;
+                        align-items: center;                                               
+                        padding: 21px 30px;
                         background: #EFF0F1;
                         border-bottom: 0px;
-                        &.with-info{      
-                            .comments-img{
-                                cursor: pointer;
-                            }                      
-                            .elipse-dropdown{
-                                width: auto;
-                                padding: 0;
-                                text-align: right;
-                                margin-left: 15px;
-                                .dropdown-open {
+                        .lef-info{
+                            .approved_title{
+                                color: #9AA0A6;
+                                text-transform: uppercase;
+                                font-size: 12px;
+                                line-height: 14px;
+                                margin-bottom: 10px;
+                            }
+                            .approved_date{
+                                color: #202124;
+                                font-size: 14px;
+                                line-height: 14px;
+                            }
+                        }
+                        .actions-sec{
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-end;
+                            .dropdown-input{                                
+                                &:hover{
+                                    background: #fff;
+                                    transition: 0.3s all ease;
+                                }                                                                        
+                            }
+                            .info_header_dropdown, .comments_header_dropdown{
+                                width: 34px;
+                                height: 34px;
+                                margin-right: 10px;
+                                &.show{
+                                    .dropdown{
+                                        .dropdown-input{
+                                            background:#fff;
+                                            border: 1px solid #BDC1C6;
+                                        }  
+                                    }
+                                }
+                                .dropdown{
                                     .dropdown-input{
-                                        border: 0px solid #BDC1C6;
-                                        box-sizing: border-box;
-                                        border-radius: 0px;
-                                        padding: 0;
-                                        font-size: 14px;
-                                        color: #000000;
-                                        width: auto;
-                                        text-align: center;
-                                        margin-left: 0px;
+                                        border: 0;
+                                        border: 1px solid transparent;
                                         background: transparent;
+                                        cursor: pointer;
+                                        padding: 0;
+                                        text-align: center;
+                                        img{
+                                            width: 16px;
+                                            height: 16px;
+                                        }
+                                        &:hover{
+                                            background: #fff;
+                                            border: 1px solid #BDC1C6;
+                                            transition: 0.3s all ease;
+                                        }
+                                        &::before{
+                                            display: none;
+                                        }                                        
+                                    }
+                                }
+                            }
+                            .add {
+                                margin-left: 5px;
+                                width: 24px;
+                                .dropdown{
+                                    .dropdown-input{
+                                        padding: 0;                                        
+                                        text-align: center;
+                                        border-radius: 4px;
+                                        border: 1px solid #BDC1C6;
                                         &::before{
                                             display: none;
                                         }
@@ -439,50 +483,78 @@
                                 }
                             }
                         }
-                        .col_{
-                            width: 25%;
-                            &.source{
-                                width: 21%;
-                            }
-                            &.type{
-                                width: 19%;
-                            }
-                            &.review-btn{
-                                // width: 35%;
-                                width: 50%;
-                                text-align: right;
-                                display: flex;
-                                align-items: center;
-                                justify-content: flex-end;
-                                button{
-                                    font-size: 14px;
-                                    padding: 0 15px;
-                                    background: #0D6EFD;
-                                    border-radius: 4px;
-                                    color: #FFFFFF;
-                                }
-                                img{
-                                    margin-left: 18px;
-                                }
-                            }                            
-                        }
-                        .heading{
-                            color: #9AA0A6;
-                            font-size: 12px;
-                            text-transform: uppercase;     
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            padding-right: 10px;                           
-                        }
-                        .info-title{
-                            font-size: 14px;
-                            color: #202124;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            padding-right: 10px;
-                        }
+                        // &.with-info{      
+                        //     .comments-img{
+                        //         cursor: pointer;
+                        //     }                      
+                        //     .elipse-dropdown{
+                        //         width: auto;
+                        //         padding: 0;
+                        //         text-align: right;
+                        //         margin-left: 15px;
+                        //         .dropdown-open {
+                        //             .dropdown-input{
+                        //                 border: 0px solid #BDC1C6;
+                        //                 box-sizing: border-box;
+                        //                 border-radius: 0px;
+                        //                 padding: 0;
+                        //                 font-size: 14px;
+                        //                 color: #000000;
+                        //                 width: auto;
+                        //                 text-align: center;
+                        //                 margin-left: 0px;
+                        //                 background: transparent;
+                        //                 &::before{
+                        //                     display: none;
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        // }
+                        // .col_{
+                        //     width: 25%;
+                        //     &.source{
+                        //         width: 21%;
+                        //     }
+                        //     &.type{
+                        //         width: 19%;
+                        //     }
+                        //     &.review-btn{
+                        //         // width: 35%;
+                        //         width: 50%;
+                        //         text-align: right;
+                        //         display: flex;
+                        //         align-items: center;
+                        //         justify-content: flex-end;
+                        //         button{
+                        //             font-size: 14px;
+                        //             padding: 0 15px;
+                        //             background: #0D6EFD;
+                        //             border-radius: 4px;
+                        //             color: #FFFFFF;
+                        //         }
+                        //         img{
+                        //             margin-left: 18px;
+                        //         }
+                        //     }                            
+                        // }
+                        // .heading{
+                        //     color: #9AA0A6;
+                        //     font-size: 12px;
+                        //     text-transform: uppercase;     
+                        //     white-space: nowrap;
+                        //     overflow: hidden;
+                        //     text-overflow: ellipsis;
+                        //     padding-right: 10px;                           
+                        // }
+                        // .info-title{
+                        //     font-size: 14px;
+                        //     color: #202124;
+                        //     white-space: nowrap;
+                        //     overflow: hidden;
+                        //     text-overflow: ellipsis;
+                        //     padding-right: 10px;
+                        // }
                     }
                     .train-questions-body-scroll{
                         height: calc(100vh - 226px);
@@ -503,9 +575,9 @@
                                 span{
                                     display: inline-block;
                                     max-width: 100%;
-                                    white-space: nowrap;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
+                                    // white-space: nowrap;
+                                    // overflow: hidden;
+                                    // text-overflow: ellipsis;
                                     padding-right: 10px;
                                 }
                                 img{
@@ -546,7 +618,7 @@
                                     // border-bottom: 1px solid #E4E5E7;
                                     &:last-child{
                                         border: 0;
-                                        padding-bottom: 0;
+                                        // padding-bottom: 0;
                                     }
                                 }
                                 .img-view-mode{
@@ -577,21 +649,29 @@
                                 color: #202124;
                                 font-size: 14px;
                                 padding-left: 8px;
+                                font-weight: 600;
                             }
                         }
                         .add-alternative-questions{
-                            padding: 15px 30px;
+                            padding: 14px 30px;
                             align-items: center;
-                            background: #EFF0F1;
+                            background:transparent;
                             margin: 40px 0 0 0;
+                            &.followup_questions{
+                                margin-top: 22px;
+                                border-top: 1px solid #BDC1C6;
+                                padding-top: 25px;
+                            }
                             .question-name{
                                 color: #202124;
-                                font-weight: 500;
-                                font-size: 14px;
+                                font-size: 18px;
+                                font-weight: 600;
+                                line-height: 22px;
                             }
                             .que-desc{
                                 color: #8A959F;
                                 font-size: 12px;
+                                line-height: 15px;
                             }
                             .kr-sg-button-primary{
                                 border-radius: 4px;
@@ -602,9 +682,9 @@
                             }
                         }
                         .added-questions-list{
-                            padding: 13px 30px;
+                            padding: 12px 30px;
                             background: #FFFFFF;
-                            box-shadow: inset 0px -1px 0px #E4E5E7;
+                            // box-shadow: inset 0px -1px 0px #E4E5E7;
                             position: relative;
                             transition: 0.3s all ease;
                             .question-name{
@@ -708,6 +788,8 @@
         width: 3px !important;
     }
 }
+
+
 ::ng-deep.addSourceModalComponent{
     .modal-header {
         padding: 0 !important;
@@ -918,5 +1000,143 @@
                 }
             }
         }
+    }
+}
+.alternate-question-bg{
+    background: #F8F9FA;
+}
+
+::ng-deep .editfaqSourceModalPop{
+    .modal-body{
+        .add-questions-form{
+            padding: 0 !important;
+            .alternative-question-results{
+                .alternative-question{
+                    padding: 20px 23px 5px 23px !important;
+                    background: #F8F9FA !important;
+                    border-radius: 10px !important;
+                }
+            }
+            .add-alternative-questions{                
+                margin: 28px 0 0 0 !important;                
+                .question-name{
+                    color: #202124 !important;
+                    font-size: 14px !important;
+                    font-weight: bold !important;
+                    line-height: 17px !important;
+                    text-transform: uppercase;
+                }
+                .added-tags{
+                    color: #8A959F;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 15px;
+                    margin-bottom: 18px;
+                }
+                .que-desc{
+                    color: #8A959F !important;
+                    font-size: 12px !important;
+                    line-height: 15px !important;
+                }
+                .kr-sg-button-primary{
+                    border-radius: 4px !important;
+                    font-size: 14px !important;
+                    border: 1px solid #BDC1C6 !important;
+                    background: #FFFFFF !important;
+                    color: #202124 !important;
+                }
+            }
+            .added-questions-list{
+                padding: 12px 0px !important;
+                background: #FFFFFF !important;
+                // box-shadow: inset 0px -1px 0px #E4E5E7;
+                position: relative !important;
+                transition: 0.3s all ease !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                .question-name{
+                    color: #202124 !important;
+                    font-weight: 500 !important;
+                    font-size: 14px !important;
+                    padding-right: 20px !important;
+                }
+                .added-tags{
+                    color: #5F6368 !important;
+                    font-size: 12px !important;
+                    padding-right: 20px !important;                                
+                }
+                .delete-icon{                               
+                    display: none !important;
+                    position: absolute !important;
+                    right: 0px !important;
+                    top: 27px !important;
+                }
+                &:hover{
+                    .delete-icon{                                   
+                        display: block !important;
+                        &.pos-trash {
+                            top: 16px !important;
+                        }
+                    }
+                }
+            }
+            hr{
+                border-top: 1px solid #BDC1C6;
+                margin: 20px 0;
+            }
+            .btn-sec{
+                margin: 30px 0 !important;
+                &.another_question_btn{
+                    margin: 20px 0 !important;
+                }
+            }
+            .text{
+                margin-bottom: 15px;
+                .heading{
+                    font-size: 14px !important;
+                    text-transform: uppercase;
+                }
+            }
+            .body_sec{
+                .body-top-content{
+                    padding-top: 0 !important;
+                }
+            }
+            .body-top-content {
+                padding: 0 !important;
+                .question-content {
+                    .bot-response-title{
+                        margin-top: 5px !important;
+                    }
+                    .bot-response-view-mode {
+                        .desc-info{
+                            padding: 0 0px 15px 0 !important;
+                            margin-bottom: 15px !important;
+                            border-bottom: 1px solid #BDC1C6 !important;
+                            // &:last-child{
+                            //     border-bottom: 0px solid #BDC1C6 !important;
+                            // }
+                        }
+                    }
+                    .conditionalBlock{
+                        padding-right: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+::ng-deep perfect-scrollbar .ps--active-y{
+    .ps__thumb-y{
+        width: 3px !important;
+    }
+    .ps__rail-y{
+        width: 3px !important;
+    }
+    .ps__thumb-x{
+        display: none !important;
+    }
+    .ps__rail-x{
+        display: none !important;
     }
 }

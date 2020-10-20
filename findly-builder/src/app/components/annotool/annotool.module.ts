@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnnotoolRoutingModule } from './annotool-routing.module';
 import { AnnotoolComponent } from './annotool.component';
 import { PdfAnnotationComponent } from './components/pdf-annotation/pdf-annotation.component';
@@ -32,7 +32,8 @@ import { ClickOutSideDirective } from './helpers/click-out-side.directive';
     MatProgressBarModule,
     MatExpansionModule,
     SharedModule,
-    AnnotoolRoutingModule,
+    NgbModule,
+    AnnotoolRoutingModule,  
   ],
   exports: [
     AnnotoolComponent, 
