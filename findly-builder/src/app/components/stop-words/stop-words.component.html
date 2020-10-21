@@ -51,6 +51,7 @@
       </div>           
       <ng-container *ngIf="(stopwords && stopwords.length) && !loadingContent">
       <div class="listingHeader">
+         <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div>
           <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
             <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords">           
           </div> 
@@ -66,7 +67,7 @@
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
       <div class="stopWordsListing">
         <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
-          <span class="word">{{word}}</span>
+          <span class="word stopwordBlock" >{{word}}</span>
           <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event)" src="assets/icons/clode_stop_word.svg"></span>
         </span>
         <div class="divBlockEmptylastChild text-center">         

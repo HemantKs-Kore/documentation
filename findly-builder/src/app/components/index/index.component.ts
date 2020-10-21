@@ -226,9 +226,9 @@ export class IndexComponent implements OnInit {
   }
 }
   if(this.selectedStage && this.selectedStage.type === 'semantic_meaning'){
-    if(this.newMappingObj.keyword_extraction && this.newMappingObj.keyword_extraction.defaultValue) {
-      if( this.newMappingObj.keyword_extraction.defaultValue.source_field && this.newMappingObj.keyword_extraction.defaultValue.target_field){
-        this.addFiledmappings(this.newMappingObj.keyword_extraction.defaultValue);
+    if(this.newMappingObj.semantic_meaning && this.newMappingObj.semantic_meaning.defaultValue) {
+      if( this.newMappingObj.semantic_meaning.defaultValue.source_field && this.newMappingObj.semantic_meaning.defaultValue.target_field){
+        this.addFiledmappings(this.newMappingObj.semantic_meaning.defaultValue);
       }
     }
   }
@@ -564,18 +564,6 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     };
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
      this.defaultStageTypes =  res.stages || [];
-     this.defaultStageTypes.push(
-       {
-        category: 'nlp',
-        description: '',
-        index: true,
-        isSysGenerated: true,
-        name: 'Semantic Meaning',
-        query: true,
-        type: 'semantic_meaning',
-        _id: 'fs-e446e48c-5077-49d6-a7f7-99963d5f0c17'
-       }
-     )
      this.selectedStage = this.fieldStage;
     }, errRes => {
       this.errorToaster(errRes,'Failed to get stop words');

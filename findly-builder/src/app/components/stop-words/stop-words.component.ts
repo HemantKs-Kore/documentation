@@ -5,6 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as _ from 'underscore';
+declare const $: any;
 @Component({
   selector: 'app-stop-words',
   templateUrl: './stop-words.component.html',
@@ -186,6 +187,9 @@ export class StopWordsComponent implements OnInit {
           dialogRef.close();
         }
       })
+  }
+  getActiveSearch(){
+    return $('.stopwordBlock').length;
   }
   deleteInfividualStopWords(index,event) {
     if(event){
