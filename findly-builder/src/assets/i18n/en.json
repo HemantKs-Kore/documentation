@@ -32,5 +32,6 @@
     "label":"Label",
     "page":"Page",
     "faq":"FAQ",
-    "content":"Content"
+    "content":"Content",
+    "semantic_meaning":"Sematic Meaning"
 }

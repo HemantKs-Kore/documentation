@@ -132,6 +132,16 @@
     pointer-events: none !important;
     opacity: 0.8;
 }
+.stageToggle{
+    position: relative;
+    top: 30px;
+    .enabled{
+    width: 150px;
+    }
+    .disabled{
+        width: 150px;
+    }
+}
 .workbench_main_container{
     height: calc(100vh - 61px);
     .header_sec{
