@@ -1,140 +1,212 @@
 <div class="faqmain-container">
-    <div class="faqsListContainer">
-        <div class="faq-content-boxes">
-            <div class="content left-content">
-                <div class="content-boxes faq_tasks_list">
-                    <div class="header-sec">
-                        <div class="kr-sg-checkbox">
-                            <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" autocomplete="off">
-                            <label for="selectAllFaqs" class="checkbox-custom-label"></label>
-                        </div>
-                        <div class="kr-sg-input-search">                               
-                            <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch' autocomplete="off">
-                            <img src="assets/icons/search-gray.svg" class="search-icon">
-                        </div>
-                    </div>
-                    <div class="body-content">
-                        <div class="empty-questions-selected d-none">
-                            <div>
-                                <div class="heading">{{'please_wait' | translate}}</div>
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div *ngIf="!loadingContent">
+        <div class="faqsListContainer">
+            <div class="faq-content-boxes">
+                <div class="content left-content">
+                    <div class="content-boxes faq_tasks_list">
+                        <div class="header-sec">
+                            <div class="kr-sg-checkbox">
+                                <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" autocomplete="off">
+                                <label for="selectAllFaqs" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="kr-sg-input-search">                               
+                                <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch' autocomplete="off">
+                                <img src="assets/icons/search-gray.svg" class="search-icon">
                             </div>
                         </div>
-                        <perfect-scrollbar class="accor-scroll" #fqasScrollContainer>
-                            <ng-container >
-                            <div id="accordion" class="accordion-content">
+                        <div class="body-content">
+                            <div class="empty-questions-selected d-none">
                                 <div>
-                                    <div class="card-content">
-                                        <div   class="card_link collapsed">      
-                                            <div class="d-flex align-items-center">
-                                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                    <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
-                                                    <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                                    <div class="heading">{{'please_wait' | translate}}</div>
+                                </div>
+                            </div>
+                            <perfect-scrollbar class="accor-scroll" #fqasScrollContainer>
+                                <ng-container >
+                                    <!-- <div id="accordion" class="accordion-content">
+                                        <div >
+                                            <div class="card-content">
+                                                <div   class="card_link collapsed">      
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                            <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                                            <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                                                        </div>
+                                                        <div class="title-desc-sec">
+                                                            <div class="title">How do I access my account online at Citibank Online?</div>
+                                                            <div class="desc">4 customisations</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="title-desc-sec">
-                                                    <div class="title">How do I access my account online at Citibank Online?</div>
-                                                    <div class="desc">4 customisations</div>
+                                            </div> 
+                                        </div>
+                                        <div class="empty-questions-selected divBlockEmptylastChild">
+                                            <div class="heading">No search results</div>
+                                        </div>
+                                    </div> -->
+    
+                                <div id="accordion" class="accordion-content">
+                                    <div *ngIf="customizeList">
+                                        <div class="card-content" *ngFor="let list of customizeList;let i = index">
+                                            <div   class="card_link collapsed">      
+                                                <div class="d-flex align-items-center">
+                                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                                        <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                                        <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                                                    </div>
+                                                    <div class="title-desc-sec">
+                                                        <div class="title">{{list.searchQuery}}</div>
+                                                        <div class="desc">{{list.numberOfCustomisations}} customisations</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div> 
+                                        </div> 
+                                    </div>
+                                    <div *ngIf="!customizeList" class="empty-questions-selected divBlockEmptylastChild">
+                                        <div class="heading">No search results</div>
+                                    </div>
                                 </div>
-                                <div class="empty-questions-selected divBlockEmptylastChild">
-                                    <div class="heading">No search results</div>
+                               </ng-container>
+                            </perfect-scrollbar>
+                        </div>
+                    </div>
+                </div>            
+                <div class="content right-content">
+                    <div class="content-boxes train_your_questions">
+                        <!-- <ng-container>
+                            <div class="empty-questions-selected">
+                            <img src="assets/images/icons/empty_ill.svg">
+                            <div class="heading">No Questions</div>
+                            <div class="desc">Please select a question</div>
+                           </div>
+                        </ng-container> -->
+                        <ng-container>
+                            <div class="header-info-que">
+                                <div class="row m-0 col-12 p-0">
+                                    <div class="col-4 p-0 lef-info">
+                                        <div class="approved_title">NO. OF CUSTOMISATIONS</div>
+                                        <div class="approved_date"><span class="time">6</span></div>
+                                    </div>
+                                    <div class="col-4 p-0 lef-info">
+                                        <div class="approved_title">LAST CHANGES</div>
+                                        <div class="approved_date"><span class="time">31 Nov,2020</span></div>
+                                    </div>
+                                    <div class="col-4 p-0 actions-sec">
+                                        <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                            <div class="dropdown dropdown-open">                                        
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
+                                                <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                            <div class="dropdown dropdown-open">                                        
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="showLogs()"><img class="cursor" src="assets/icons/Timer.svg"></button>                                            
+                                                <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <button class="kr-sg-button-secondary btn_lg text-danger"> Restore</button>
+                                        </div>
+                                    </div>
+                                    <!-- <perfect-scrollbar class="perfect-scroll-result-rank">
+                                        
+                                    </perfect-scrollbar> -->
+                                    
                                 </div>
                             </div>
-                           </ng-container>
+                        <perfect-scrollbar class="train-questions-body-scroll perfect-scroll-result-rank" #resultRankingRightContainer>               
+                            <div class="body-content" id="resultsRankingRight">
+                                <div class="body-top-content">
+                                    <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index">
+                                        <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
+                                            <div class="mb-0">
+                                             <div class="row">
+                                                 <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" (click)="$event.stopPropagation()"> 
+                                                 <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" (click)="$event.stopPropagation()" >
+                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
+                                                <div class="action-header pl-pr-0  col-lg-2" >
+                                                    <img src="assets/icons/help.svg" class="ml-1"> 
+                                                    <span class="status">{{actLog.status}}</span> 
+                                                </div> 
+                                                <div class="time col-lg-2">{{actLog.time}}</div> 
+                                             </div>
+                                            </div>
+                                        </a>
+                                        <div id="demo_{{i}}" class="collapse">
+                                            <p class="action-desc"> {{actLog.description}} </p>  
+                                            <button class="btn-rem">Remove</button>
+                                            <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
+                                               <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
+                                               <span class="arr-txt">PAST ACTION ON THIS ITEM</span>
+                                            </div>
+                                            <div class="drop-list" *ngIf="actLog.drop">
+                                                <ul class="list-p">
+                                                    <li class="list-c"><span class="arr-txt">Result Boosted</span> <span class="arr-t">4h ago</span></li>
+                                                    <li class="list-c"><span class="arr-txt">Result Pinned</span> <span class="arr-t">2w ago</span></li>
+                                                    <li class="list-c"><span class="arr-txt">Result Hidden</span> <span class="arr-t">3wh ago</span></li>
+                                                    <li class="list-c"><span class="arr-txt">Result Unhidden</span> <span class="arr-t">4d ago</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                 </div>
+                                </div>
+                            </div>
                         </perfect-scrollbar>
+                       </ng-container>
                     </div>
                 </div>
-            </div>            
-            <div class="content right-content">
-                <div class="content-boxes train_your_questions">
-                    <!-- <ng-container>
-                        <div class="empty-questions-selected">
-                        <img src="assets/images/icons/empty_ill.svg">
-                        <div class="heading">No Questions</div>
-                        <div class="desc">Please select a question</div>
-                       </div>
-                    </ng-container> -->
-                    <ng-container>
-                        <div class="header-info-que">
-                            <div class="row m-0 col-12 p-0">
-                                <div class="col-4 p-0 lef-info">
-                                    <div class="approved_title">NO. OF CUSTOMISATIONS</div>
-                                    <div class="approved_date"><span class="time">6</span></div>
-                                </div>
-                                <div class="col-4 p-0 lef-info">
-                                    <div class="approved_title">LAST CHANGES</div>
-                                    <div class="approved_date"><span class="time">31 Nov,2020</span></div>
-                                </div>
-                                <div class="col-4 p-0 actions-sec">
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                        <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                        <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/Timer.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end">
-                                        <button class="kr-sg-button-secondary btn_lg text-danger"> Restore</button>
-                                    </div>
-                                </div>
-                                <!-- <perfect-scrollbar class="perfect-scroll-result-rank">
-                                    
-                                </perfect-scrollbar> -->
-                                
-                            </div>
-                        </div>
-                    <perfect-scrollbar class="train-questions-body-scroll perfect-scroll-result-rank" #resultRankingRightContainer>               
-                        <div class="body-content" id="resultsRankingRight">
-                            <div class="body-top-content">
-                                <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index">
-                                    <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
-                                        <div class="mb-0">
-                                         <div class="row">
-                                             <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" (click)="$event.stopPropagation()"> 
-                                             <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" (click)="$event.stopPropagation()" >
-                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
-                                            <div class="action-header pl-pr-0  col-lg-2" >
-                                                <img src="assets/icons/help.svg" class="ml-1"> 
-                                                <span class="status">{{actLog.status}}</span> 
-                                            </div> 
-                                            <div class="time col-lg-2">{{actLog.time}}</div> 
-                                         </div>
-                                        </div>
-                                    </a>
-                                    <div id="demo_{{i}}" class="collapse">
-                                        <p class="action-desc"> {{actLog.description}} </p>  
-                                        <button class="btn-rem">Remove</button>
-                                        <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
-                                           <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
-                                           <span class="arr-txt">PAST ACTION ON THIS ITEM</span>
-                                        </div>
-                                        <div class="drop-list" *ngIf="actLog.drop">
-                                            <ul class="list-p">
-                                                <li class="list-c"><span class="arr-txt">Result Boosted</span> <span class="arr-t">4h ago</span></li>
-                                                <li class="list-c"><span class="arr-txt">Result Pinned</span> <span class="arr-t">2w ago</span></li>
-                                                <li class="list-c"><span class="arr-txt">Result Hidden</span> <span class="arr-t">3wh ago</span></li>
-                                                <li class="list-c"><span class="arr-txt">Result Unhidden</span> <span class="arr-t">4d ago</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                             </div>
-                            </div>
-                        </div>
-                    </perfect-scrollbar>
-                   </ng-container>
-                </div>
+            </div>        
+        </div>
+        <div class="log_section " [ngClass] ="{'d-none' : !resultLogs}">
+            <div class="header-log">
+                <div class="title">Log (26)</div>
+                <div class="close_log" (click) = "closeLogs()"><img src="assets/images/close-cross.svg"></div>
             </div>
-        </div>        
+            <div class="empty_log d-none">
+                <img src="assets/icons/empty-log.svg">
+                <div class="main-title">Nothing in log to display</div>
+                <div class="desc">Go ahead and make some changes.</div>
+            </div>
+
+            <!-- dummy logs -->
+            <!-- ACCORDION START HERE -->
+                          
+            <!-- <div class="panel-group kr-sg-accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel">
+                  <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                      <a role="button" class="accor-collapse" data-toggle="collapse" data-parent="#accordion" href="#collapse17" aria-expanded="true" aria-controls="collapseOne">Title</a>
+                    </h4>
+                  </div>
+                  <div id="collapse17" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    </div>
+                  </div>
+                </div> 
+                                                                                     
+            </div> -->
+
+            <!-- ACCORDION ENDS HERE -->
+            <div class = "watch-log" *ngFor="let log of customizeLog;let i = index">
+                <div class="action-on-this" (click)="toggleLogAction( i,log.selected)">
+                    <span class="arr-txt col-10"> {{log.header}}</span>
+                    <span class="arrow" [ngClass] = " log.selected ?  'up' : 'down'"></span>
+                    
+                 </div>
+                 <div class="drop-list" *ngIf="log.selected">
+                     <div class="arr-txt-desc col-12"> {{log.description}}</div>
+                     <div class="info">{{log.name}} {{log.time}}</div>
+                 </div>
+            </div>
+            <!-- dummy logs -->
+        </div>
     </div>
 </div>

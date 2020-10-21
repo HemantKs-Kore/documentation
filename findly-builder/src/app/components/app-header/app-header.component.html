@@ -22,7 +22,7 @@
                        <span routerLink="/attributes" class="d-none"></span>
                        
                     </div>
-                    <div class="headerMenuTab">Analytics</div>
+                    <div class="headerMenuTab" [routerLink]="['/metrics']" skipLocationChange routerLinkActive="active">Analytics</div>
                     <div class="headerMenuTab">Experiments</div>
                     <div class="headerMenuTab">Settings <span class="statusIndicator d-none"></span></div>
                 </div>
