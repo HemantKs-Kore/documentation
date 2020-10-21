@@ -207,6 +207,7 @@
                         font-size: 12px;
                         line-height: 20px;
                         font-weight: normal;
+                        cursor: default;
                     }
                     &:hover{
                         border: 1px solid #0D6EFD;
@@ -288,7 +289,7 @@
                     font-style: normal;
                     font-weight: 500;
                     font-size: 12px;
-                    line-height: 14px;
+                    // line-height: 14px;
                     margin-right: 30px;
                     img{
                         margin-right: 7px;
@@ -328,11 +329,14 @@
                         padding: 18px 15px;
                         box-shadow: inset 0px -1px 0px #E4E5E7;                        
                         transition: 0.3s all ease-in;
-                        cursor: pointer;
+                        // cursor: pointer;
                         &:hover{
                             background: #F8F9FA;
                             .action_links{
                                 visibility: visible;
+                                img{
+                                    cursor: pointer;
+                                }
                             }
                         }
                         .title{
@@ -341,6 +345,7 @@
                             font-size: 14px;
                             line-height: 14px;
                             color: #202124;   
+                            cursor: default;
                             img{
                                 cursor: pointer;
                             } 
