@@ -21,7 +21,7 @@
             <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">Stop word should not have space in between</div>
         </div>
         <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()">Save</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">Add</button>
         </div>
      </div> 
       <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
