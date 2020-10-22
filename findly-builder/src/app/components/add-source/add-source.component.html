@@ -153,7 +153,85 @@
                 placeholder="Enter description" class="input-text"></textarea>
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
-            <div class="kr-sg-input-text-area mb-4"
+
+            <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#fromfile">Extract from file</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#fromurl">Extract from url</a>
+                  </li>             
+                </ul>
+                  <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="fromfile" class="tab-pane browsebyfile active">
+                    <div class="kr-sg-input-text-area mb-4">
+                      <div class="kr-sg-file-drag-drop">
+                        <div class="drag-drop-sec">
+                          <ng-container *ngIf="!fileObj.fileName">
+                            <div class="imageDiv">
+                              <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                            </div>
+                            <div class="info_text">Drag and drop file anywhere on this screen</div>
+                            <div class="or-divider">- or -</div>
+                            <div class="custom-file">
+                              <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
+                            </div>
+                            <label for="sourceFileUploader" class="drag-label">
+                              <span class="browse">Browse</span>                    
+                            </label>
+                          </ng-container>   
+
+                          <ng-container *ngIf="fileObj.fileName">
+                            <div class="kr-sg-file-drag-drop">
+                              <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                                <div class="file-close-text">
+                                  <div class="d-flex align-items-center">
+                                    <img class="type_img" src="assets/icons/file_type_image.svg">
+                                    <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                                  </div>
+                                  <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                                </div>
+                                <div class="progress-status">
+                                  <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
+                                  <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress" src="assets/icons/info.svg">
+                                </div>
+                              </div>
+                              <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">Error in
+                                uploading file</div>
+                            </div>
+                          </ng-container>
+                          
+                        </div>                   
+                      </div>
+                      <!-- Annotation Start Here -->
+                      <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
+                        <div class="kr-sg-checkbox">
+                          <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
+                          <label for="checkbox-1" class="checkbox-custom-label">Annotate & Extract</label>
+                        </div>
+                      </div>
+                      <!-- Annotation End Here -->
+                      <!-- <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq')">
+                        <div class="label_text mt-3 text-center">or</div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div id="fromurl" class="tab-pane fade browserbyurl">
+                      <div class="input-url-block">
+                        <div class="kr-sg-input-text">
+                          <div class="label-text">Enter URL</div>
+                          <input type="text" placeholder="https://" class="input-text">
+                          <!-- <div class="error-msg">Error message here</div> -->
+                        </div>
+                      </div>         
+                  </div>               
+                </div>
+            </div> 
+
+            <div class="kr-sg-input-text-area mb-4 d-none"
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
               <div class="kr-sg-file-drag-drop">
                 <div class="drag-drop-sec">
@@ -211,7 +289,7 @@
             <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq')">
               <!-- <div class="label_text mt-3 text-center">or</div> -->
             </div>
-          </div>
+            </div>
           <!-- File uploader with Drag & Drop ENDS HERE -->
           <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
             <!-- <div class="kr-sg-input-text mb-4">
