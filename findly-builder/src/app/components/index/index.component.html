@@ -179,7 +179,7 @@
                             <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
                             <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value">
                         </div> 
-                        <div class="colse_form"><img src="assets/images/close-cross.svg"></div>                     
+                        <div class="colse_form"><img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg"></div>                     
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj.field_mapping.defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
                 </div>
@@ -332,7 +332,8 @@
                         <div class="kr-sg-input-text col-4 input-box">
                             <div class="label-text">Target Field</div>
                             <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
-                        </div>                      
+                        </div>      
+                        <div class="colse_form"><img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg"></div>                
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj[selectedStage.type].defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
                 </div>
