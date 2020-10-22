@@ -160,11 +160,10 @@
             }            
         }
         .listingHeader{         
-            border-bottom: 1px solid #E5E8EC;
-            display: flex;
-            justify-content: flex-end;
+            border-bottom: 1px solid #E5E8EC;           
             align-items: center;
-            height: 50px;
+            padding: 8px 0;
+            min-height: 50px;
             .kr-sg-input-search{
                 display: inline-block;
                 width: 0px;

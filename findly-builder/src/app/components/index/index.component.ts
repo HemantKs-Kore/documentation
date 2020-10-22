@@ -60,6 +60,48 @@ export class IndexComponent implements OnInit {
       name:'Custom Script'
     },
   }
+  entityNlp = [
+    {title: 'Address', value: 'address', isDepricated: false},
+    {title: 'Airport', value: 'airport', isDepricated: false},
+    {title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false},
+    {title: 'City', value: 'city', isDepricated: false},
+    // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
+    {title: 'Country', value: 'country', isDepricated: false},
+    // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
+    {title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false},
+    // {"title": "City", "value": "city"},
+    {title: 'Color', value: 'color', isDepricated: false},
+    {title: 'Currency(Deprecated)', value: 'currency', isDepricated: true},
+    {title: 'Currency', value: 'currencyv2', isDepricated: false},
+    {title: 'Custom', value: 'regex', isDepricated: false},
+    {title: 'Composite', value: 'composite', isDepricated: false},
+    {title: 'Date', value: 'date', isDepricated: false},
+    {title: 'Date Period', value: 'dateperiod', isDepricated: false},
+    {title: 'Date Time', value: 'datetime', isDepricated: false},
+    {title: 'Description', value: 'description', isDepricated: false},
+    {title: 'Email', value: 'email', isDepricated: false},
+    // {"title": "JSON Object", "value": "json_object", "isDepricated": false},
+    {title: 'List of items (enumerated)', value: 'list_of_values', isDepricated: false},
+    {title: 'List of items (lookup)', value: 'list_of_items_lookup', isDepricated: false},
+    {title: 'Location', value: 'location', isDepricated: false},
+    {title: 'Number', value: 'number', isDepricated: false},
+    // {"title": "Password", "value": "password", "isDepricated": false},
+    {title: 'Person Name', value: 'person_name', isDepricated: false},
+    {title: 'Percentage', value: 'percentage', isDepricated: false},
+    {title: 'Phone Number', value: 'phone_number', isDepricated: false},
+    // {"title": "Quantity(Number with unit of measure)", "value": "quantity"},
+    {title: 'Quantity', value: 'quantityv2', isDepricated: false},
+    {title: 'String', value: 'label', isDepricated: false},
+    {title: 'Time', value: 'time', isDepricated: false},
+    {title: 'Time Zone', value: 'timezone', isDepricated: false},
+    {title: 'URL', value: 'url', isDepricated: false},
+    {title: 'Zip Code', value: 'zipcode', isDepricated: false},
+
+    {title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true},
+    {title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true},
+    {title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true}
+    // {"title": "City", "value": "city"},
+];
   simulteObj:any = {
     sourceType: 'faq',
     docCount: 5,
@@ -136,14 +178,13 @@ export class IndexComponent implements OnInit {
         delete configObj.value
       }
     }
-
   }
   selectedTag(data: MatAutocompleteSelectedEvent , list) {
-    if (!this.checkDuplicateTags((data.option.viewValue || '').trim(),list)) {
+    if (!this.checkDuplicateTags((data.option.value || '').trim(),list)) {
       this.notificationService.notify('Duplicate tags are not allowed', 'warning');
       return ;
     } else {
-      list.push(data.option.viewValue);
+      list.push(data.option.value);
       this.suggestedInput.nativeElement.value = '';
     }
   }
@@ -180,6 +221,14 @@ export class IndexComponent implements OnInit {
         defaultValue : {
           source_field:'',
           target_field:'',
+          model:'',
+        }
+      },
+      semantic_meaning:{
+        defaultValue : {
+          source_field:'',
+          target_field:'',
+          model:'',
         }
       },
       custom_script:{
@@ -192,7 +241,7 @@ export class IndexComponent implements OnInit {
   checkNewAddition() {
     if(this.selectedStage && this.selectedStage.type === 'field_mapping'){
        if(this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue) {
-          if( this.newMappingObj.field_mapping.defaultValue.operation && this.newMappingObj.field_mapping.defaultValue.target_field && (this.newMappingObj.field_mapping.defaultValue.value || this.newMappingObj.field_mapping.defaultValue.operation === 'remove')){
+          if( this.newMappingObj.field_mapping.defaultValue.operation && this.newMappingObj.field_mapping.defaultValue.target_field && (this.newMappingObj.field_mapping.defaultValue.value || this.newMappingObj.field_mapping.defaultValue.operation === 'remove' || this.newMappingObj.field_mapping.defaultValue.source_field)){
            this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
           }
        }
@@ -218,6 +267,13 @@ export class IndexComponent implements OnInit {
      }
   }
 }
+  if(this.selectedStage && this.selectedStage.type === 'semantic_meaning'){
+    if(this.newMappingObj.semantic_meaning && this.newMappingObj.semantic_meaning.defaultValue) {
+      if( this.newMappingObj.semantic_meaning.defaultValue.source_field && this.newMappingObj.semantic_meaning.defaultValue.target_field){
+        this.addFiledmappings(this.newMappingObj.semantic_meaning.defaultValue);
+      }
+    }
+  }
 if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   if(this.newMappingObj.custom_script && this.newMappingObj.custom_script.defaultValue) {
      if( this.newMappingObj.custom_script.defaultValue.source_field && this.newMappingObj.custom_script.defaultValue.scritp){
@@ -251,17 +307,29 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.pipeline.forEach(stage => {
       const tempStageObj = JSON.parse(JSON.stringify(stage));
       if(tempStageObj && tempStageObj.type === 'field_mapping') {
-        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+        if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length ) {
             const tempConfig :any = [];
             tempStageObj.config.mappings.forEach(config => {
                 if(config && (config.operation === 'set') || (config.operation === 'copy') || (config.operation === 'rename')){
                    if(!config.target_field || !config.value) {
                     this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
                    }
+                   if(config.operation === 'copy' || config.operation === 'rename') {
+                    if(config.hasOwnProperty('value')) {
+                      delete config.value;
+                    }
+                  } else {
+                    if(config.hasOwnProperty('source_field')) {
+                      delete config.source_field;
+                    }
+                  }
                 }
                 if((config.operation === 'remove')) {
                     if(config.hasOwnProperty('value')) {
                        delete config.value;
+                    }
+                    if(config.hasOwnProperty('source_field')) {
+                      delete config.source_field;
                     }
                     if (!config.target_field) {
                       this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
@@ -395,7 +463,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.simulate();
   }
   closeSimulator(){
-    this.setResetNewMappingsObj();
+    this.simulteObj = {
+      sourceType: 'faq',
+      docCount: 5,
+      showSimulation: false,
+    }
   }
   addcode(data?){
     data = data || {};
@@ -444,6 +516,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         if (result === 'yes') {
           this.pipeline.splice(i,1);
           dialogRef.close();
+          this.selectedStage = this.fieldStage;
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -587,6 +660,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       })
   }
   removeConfig(index,list){
+    this.changesDetected = true;
     list.splice(index ,1);
   }
   clearDirtyObj(cancel?){
@@ -712,6 +786,10 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.selectedStage.config.mappings.push(map);
     this.setResetNewMappingsObj();
   }
+  switchStage(systemStage,i){
+    this.selectedStage.type = this.defaultStageTypes[i].type;
+    this.selectedStage.catagory = this.defaultStageTypes[i].category;
+  }
   createNewMap(){
     if(this.changesDetected && false){
       this.confirmChangeDiscard()
@@ -720,6 +798,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     const obj :any = new StageClass();
     const newArray = [];
     obj.name = 'My Stage';
+    obj.enable = true;
     obj.type = this.defaultStageTypes[0].type;
     obj.catagory = this.defaultStageTypes[0].category;
     newArray.push(obj)
@@ -744,6 +823,7 @@ class StageClass {
   name: string
   category: string
   type: string
+  enable: boolean;
   condition: string
   config: any = {}
 }

@@ -43,12 +43,11 @@
                 <div class="body_sec row m-0" cdkDrag *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                     <div class="col-4 content withcheckbox">
                         <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
-                        <div *cdkDragPreview class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
                         <div class="kr-sg-checkbox p-0 m-0">
                             <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                             <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                         </div>
-                        <div class="title">{{facet.facetName}}</div>
+                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facet.isFieldNameExists === false"  src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='Associated Field is deleted or renamed.'></div>
                     </div>
                     <div class="col-3 content">{{facet.facetType | translate}}</div>
                     <div class="col-3 content">{{facet.isMultiSelect?'Yes':'No'}}</div>
@@ -197,8 +196,8 @@
         </ng-container>  
      </div>
     </perfect-scrollbar> 
-    <div class="modal-footer" *ngIf="addEditFacetObj">          
-        <button type="button" class="kr-sg-button-primary btn_lg float-right" [disabled]='!selectField || !addEditFacetObj.facetName' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
+    <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldName === selectedField.fieldName)'>          
+        <button type="button" class="kr-sg-button-primary btn_lg float-right"  [disabled]='!selectedField || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldName !== selectedField.fieldName))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">Cancel</button>
     </div>    
 </kr-modal>

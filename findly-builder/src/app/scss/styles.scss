@@ -235,6 +235,9 @@ html{
           }
     }    
 }
+.CodeMirror {
+    height: 100% !important;
+  }
 .tooltip{
     z-index: 10501 !important;
 }
@@ -1356,7 +1359,7 @@ div.divBlockEmptylastChild:first-child {
 .delete-popup{
     .mat-dialog-container{
         .m-footer{
-            .kr-sg-button-primary{
+            .dangerBtn {
                 border: 1px solid transparent;
                 background: #d2000d;
                 color: #fff;

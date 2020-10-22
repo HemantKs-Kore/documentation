@@ -13,13 +13,15 @@
       </div>     
     </div>    
     <div *ngIf="!loadingContent" class="stop-words-wrapper">
-      <div class="addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
+      <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
+        <div class="label_text col-12 p-0">Add Stop Word</div>
         <div class="kr-sg-input-text">
-            <div class="label-text">Add Stop Word</div>
-            <input type="text" autocomplete="off" placeholder="Add multiple words with comma seperation" class="input-text" [(ngModel)]="newStopWord">
+            <input type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add multiple words with comma seperation" class="input-text" [(ngModel)]="newStopWord">
+            <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">Stop word already added</div>
+            <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">Stop word should not have space in between</div>
         </div>
         <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()">Save</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">Add</button>
         </div>
      </div> 
       <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
@@ -48,9 +50,13 @@
           <button class="kr-sg-button-primary btn_lg float-right" (click)="createInit()">Continue</button>
       </div>           
       <ng-container *ngIf="(stopwords && stopwords.length) && !loadingContent">
-      <div class="listingHeader">
+      <div class="listingHeader row m-0">
+        <div class="col-5 p-0">
+          <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div>
+        </div>         
+        <div class="col-7 p-0 d-flex align-items-center justify-content-end">
           <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords">           
+            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords" maxlength="50">           
           </div> 
           <div class="searchBlock" (click)="toggleSearch()">
             <img *ngIf="showSearch" class="search-icon" src="assets/images/close.svg">
@@ -59,12 +65,13 @@
           </div>  
           <div class="restoreDefaults" (click)="restoreStopWords($event)">
               <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">Restore to Default</span>              
-          </div>                      
+          </div> 
+        </div>                     
     </div>
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
       <div class="stopWordsListing">
         <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
-          <span class="word">{{word}}</span>
+          <span class="word stopwordBlock" >{{word}}</span>
           <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event)" src="assets/icons/clode_stop_word.svg"></span>
         </span>
         <div class="divBlockEmptylastChild text-center">         

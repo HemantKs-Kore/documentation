@@ -60,6 +60,7 @@ export class FacetsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getFacts();
+    this.getFieldAutoComplete('');
   }
   getType(name){
     if(typeof name === 'number'){
@@ -109,9 +110,9 @@ export class FacetsComponent implements OnInit {
       payload.push(face._id);
     });
     this.service.invoke('reorder.facets', quaryparms,payload).subscribe(res => {
-      this.notificationService.notify('Simulated successfully','success')
+      this.notificationService.notify('Facets updated successfully','success')
     }, errRes => {
-      this.errorToaster(errRes,'Failed to get stop words');
+      this.errorToaster(errRes,'Failed to update words');
     });
   }
   addRemovefacetFromSelection(facetId?,addtion?,clear?){

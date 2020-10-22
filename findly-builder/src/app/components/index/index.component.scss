@@ -132,6 +132,16 @@
     pointer-events: none !important;
     opacity: 0.8;
 }
+.stageToggle{
+    position: relative;
+    top: 30px;
+    .enabled{
+    width: 150px;
+    }
+    .disabled{
+        width: 150px;
+    }
+}
 .workbench_main_container{
     height: calc(100vh - 61px);
     .header_sec{
@@ -384,7 +394,7 @@
             }
             .form_inputs_data{
                 .form_list{
-                    padding: 5px 34px 18px 34px;
+                    padding: 5px 75px 18px 34px;
                     position: relative;
                     box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
                     .drag_drop{
@@ -395,9 +405,15 @@
                     }                
                     .delete_icon{
                         position: absolute;
-                        right: 5px;                       
+                        right: 48px;                    
                         cursor: pointer;
                         top: 34px;
+                    }
+                    .colse_form{
+                        position: absolute;
+                        right: 50px;
+                        bottom: 25px;
+                        cursor: pointer;
                     }
                     .add_icon{
                         position: absolute;
@@ -506,7 +522,7 @@
                         .mat-input-element{
                             margin: 0;
                             border: 0;
-                            height: 36px;
+                            height: 34px;
                             padding-left: 10px;
                             &:focus{   
                                 border: 0 !important;                             

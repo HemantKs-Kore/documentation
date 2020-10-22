@@ -14,7 +14,7 @@
         <div class="stage_sec">
             <div class="stage_header">
                 <div class="title">Stages</div>
-                <div class="add" (click)="createNewMap()" placement="bottom-right" ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
+                <div class="add" (click)="createNewMap()" placement="bottom-right"  ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
             </div>
             <perfect-scrollbar class="scroll_stage_content">
                 <ng-container *ngIf="pipeline && pipeline.length">
@@ -87,13 +87,21 @@
         <div class="form_sec" *ngIf="selectedStage && selectedStage.type && (selectedStage.type !== 'fields')">
             <perfect-scrollbar class="scroll_form">
                 <div class="form_edit_content">
-                    <div class="kr-sg-dropdowns mb-20">
-                        <div class="label-text">Stage Type</div>
-                        <div class="dropdown dropdown-open" [ngClass]="{'disabled': selectedStage._id}">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
-                            <ul class="dropdown-menu content-menu">                                                                    
-                              <li *ngFor="let systemStage of defaultStageTypes.slice(0,5)" (click)="selectedStage.type = systemStage.type"><a>{{systemStage.type | translate}}</a></li>
-                            </ul>
+                    <div class="row m-0 col-12 p-0">
+                        <div class="kr-sg-dropdowns mb-20 col-9 pl-0">
+                            <div class="label-text">Stage Type</div>
+                            <div class="dropdown dropdown-open" [ngClass]="{'disabled': selectedStage._id}">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
+                                <ul class="dropdown-menu content-menu">                                                                    
+                                  <li *ngFor="let systemStage of defaultStageTypes; let index = index" (click)="switchStage(systemStage,index)"><a *ngIf="newMappingObj[systemStage.type]">{{systemStage.type | translate}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-3 p-0">
+                            <label class="kr-sg-toggle stageToggle">                                       
+                                <input type="checkbox" checked [(ngModel)]="selectedStage.enable">
+                                <div class="slider"><span class="enabled">Stage Enabled</span><span class="disabled">Stage disabled</span></div>
+                            </label>
                         </div>
                     </div>
                     <div class="kr-sg-input-text mb-20">
@@ -108,7 +116,7 @@
                 <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
                     <ng-container *ngIf="selectedStage && selectedStage.config && selectedStage.config.mappings && selectedStage.config.mappings.length">
                         <div cdkDropList (cdkDropListDropped)="drop($event,selectedStage.config.mappings)">
-                            <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings" cdkDrag>
+                            <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                                 <div *cdkDragPreview class="drag_drop"><img src="assets/icons/drog_drop.svg">{{map.target_field}}</div>
                                 <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
                                 <div class="kr-sg-dropdowns col-4 input-box">
@@ -123,11 +131,18 @@
                                         </ul>
                                     </div>
                                 </div> 
-                                <div class="kr-sg-input-text col-4 input-box">
-                                    <div class="label-text">Field Name</div>
-                                    <input type="text" placeholder="Enter name" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation === 'copy') || (map.operation === 'rename')">
+                                    <div class="label-text" *ngIf="map.operation === 'copy'">Source Field</div>
+                                    <div class="label-text" *ngIf="map.operation === 'rename'">Field Name</div>
+                                    <input type="text" placeholder="Enter target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                                 </div>
-                                <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
+                                <div class="kr-sg-input-text col-4 input-box">
+                                    <div class="label-text" *ngIf="map.operation === 'copy'">Target Filed</div>
+                                    <div class="label-text" *ngIf="map.operation === 'rename'">New Name</div>
+                                    <div class="label-text" *ngIf="(map.operation !== 'copy') && (map.operation !== 'rename')">Field Name</div>
+                                    <input type="text" placeholder="Enter target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                </div>
+                                <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove') && (map.operation !== 'copy') && (map.operation !== 'rename')">
                                     <div class="label-text">Value</div>
                                     <input type="text" placeholder="Value" class="input-text" [(ngModel)]="map.value">
                                 </div>  
@@ -148,36 +163,56 @@
                                 </ul>
                             </div>
                         </div> 
+                        <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation === 'copy') || (newMappingObj.field_mapping.defaultValue.operation === 'rename')">
+                            <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'copy'">Source Field</div>
+                                    <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">Field Name</div>
+                            <input type="text" placeholder="Enter source field" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.source_field">
+                        </div>
                         <div class="kr-sg-input-text col-4 input-box">
-                            <div class="label-text">Field Name</div>
+                            <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'copy'">Target Filed</div>
+                            <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
+                            <div class="label-text" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'copy') && (newMappingObj.field_mapping.defaultValue.operation !== 'rename')">Field Name</div>
                             <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
                         </div>
-                        <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove')">
-                            <div class="label-text">Value</div>
+                        <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove') && (newMappingObj.field_mapping.defaultValue.operation !== 'copy') && (newMappingObj.field_mapping.defaultValue.operation !== 'rename')">
+                            <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation !== 'rename'">Value</div>
+                            <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
                             <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value">
-                        </div>                      
+                        </div> 
+                        <div class="colse_form"><img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg"></div>                     
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj.field_mapping.defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
                 </div>
-                <div class="form_inputs_data" *ngIf="(selectedStage.type === 'entity_extraction') || (selectedStage.type === 'traits_extraction') || (selectedStage.type === 'keyword_extraction')">
+                <div class="form_inputs_data" *ngIf="(selectedStage.type === 'entity_extraction') || (selectedStage.type === 'traits_extraction') || (selectedStage.type === 'keyword_extraction') || (selectedStage.type === 'semantic_meaning')">
                     
                     <ng-container *ngIf="selectedStage && selectedStage.config && selectedStage.config.mappings && selectedStage.config.mappings.length">
                         <div cdkDropList (cdkDropListDropped)="drop($event,selectedStage.config.mappings)">
                         <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                             <div *cdkDragPreview class="drag_drop"><img src="assets/icons/drog_drop.svg">{{map.target_field}}</div>
                             <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
-                            <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': (selectedStage.type === 'keyword_extraction')}">
+                            <div class="kr-sg-input-text col-4 input-box">
                                 <div class="label-text">Source Field</div>
                                 <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                             </div>
-                            <div class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction')">
+                            <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction') || (selectedStage.type === 'semantic_meaning')">
+                                <div class="label-text">Choose Model</div>
+                                <div class="dropdown dropdown-open">
+                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
+                                    <ul class="dropdown-menu content-menu">                                                                    
+                                      <li (click)='map.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
+                                      <li (click)='map.model = "Sentence Transformers"'><a>Sentence Transformers</a></li>
+                                      <li (click)='map.model = "InferSent"'><a>InferSent</a></li>
+                                    </ul>
+                                </div>
+                            </div> 
+                            <div class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction') && !(selectedStage.type === 'semantic_meaning')">
                                 <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'keyword_extraction')">Choose Kwywords</div>
                                 <ng-container  *ngIf="(selectedStage.type === 'entity_extraction')">
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
                                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                          <mat-chip *ngFor="let entity of map.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
+                                          <mat-chip *ngFor="let entity of map.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity | translate}}</span>
                                             <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                           </mat-chip>                                  
                                           <input placeholder="Type and Enter"
@@ -188,9 +223,9 @@
                                                 (matChipInputTokenEnd)="addEntityList($event,map)" #suggestedInput>
                                         </mat-chip-list>
                                         <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.entity_types)" >
-                                            <ng-container *ngFor = "let suggestion of entitySuggestionTags">
-                                              <mat-option>
-                                                {{suggestion}}
+                                            <ng-container *ngFor = "let suggestion of entityNlp">
+                                              <mat-option [value]="suggestion.value">
+                                                {{suggestion.title}}
                                               </mat-option>
                                             </ng-container>
                                           </mat-autocomplete>
@@ -211,29 +246,15 @@
                                         </mat-chip-list>
                                         <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.trait_groups)" >
                                             <ng-container *ngFor = "let suggestion of traitsSuggesitions">
-                                              <mat-option>
+                                              <mat-option [value]="suggestion">
                                                 {{suggestion}}
                                               </mat-option>
                                             </ng-container>
                                           </mat-autocomplete>
                                       </mat-form-field>
                                 </ng-container>
-                                <ng-container  *ngIf="(selectedStage.type === 'keyword_extraction')">
-                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                        <mat-chip-list #chipList>
-                                          <mat-chip *ngFor="let entity of map.keywords"  [selectable]="true" [removable]="true" (removed)="removeKeyWordsList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
-                                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                          </mat-chip>                                  
-                                          <input placeholder="Type and Enter"
-                                                [matChipInputFor]="chipList"
-                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                [matChipInputAddOnBlur]="false"
-                                                (matChipInputTokenEnd)="addKeyWordsList($event,map)" #suggestedInput>
-                                        </mat-chip-list>
-                                  </mat-form-field>
-                                </ng-container>
                             </div>
-                            <div class="kr-sg-input-text col-4 input-box"  [ngClass]="{'col-6': (selectedStage.type === 'keyword_extraction')}">
+                            <div class="kr-sg-input-text col-4 input-box" >
                                 <div class="label-text">Target Field</div>
                                 <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                             </div>  
@@ -243,11 +264,22 @@
                     </ng-container>
                   
                     <div class="row m-0 form_list" *ngIf="newMappingObj[selectedStage.type]&&newMappingObj[selectedStage.type].defaultValue">
-                        <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': (selectedStage.type === 'keyword_extraction')}">
+                        <div class="kr-sg-input-text col-4 input-box">
                             <div class="label-text">Source Field</div>
                             <input type="text" placeholder="Value" class="input-text" [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.source_field">
                         </div>
-                        <div  class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction')">
+                        <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction') || (selectedStage.type === 'semantic_meaning')">
+                            <div class="label-text">Choose Model</div>
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model?newMappingObj[selectedStage.type].defaultValue.model:'Choose Model'}}</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                    
+                                  <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
+                                  <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "Sentence Transformers"'><a>Sentence Transformers</a></li>
+                                  <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "InferSent"'><a>InferSent</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div  class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction') && !(selectedStage.type === 'semantic_meaning')">
                             <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
                             <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
                             <div class="label-text" *ngIf="(selectedStage.type === 'keyword_extraction')">Choose Kwywords</div>
@@ -256,7 +288,7 @@
                                 <mat-chip-list #chipList>
                                     <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.entity_types" [selectable]="true"
                                         [removable]="true" (removed)="removeEntityList(newMappingObj[selectedStage.type].defaultValue,entity)"><span
-                                            class="mat-val" *ngIf="entity">{{entity}}</span>
+                                            class="mat-val" *ngIf="entity">{{entity | translate}}</span>
                                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                     </mat-chip>
                                     <input placeholder="Type and Enter" [matChipInputFor]="chipList" [matAutocomplete]="suggestedItems"
@@ -266,9 +298,9 @@
                                 </mat-chip-list>
                                 <mat-autocomplete #suggestedItems="matAutocomplete"
                                     (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.entity_types)">
-                                    <ng-container *ngFor="let suggestion of entitySuggestionTags">
-                                        <mat-option>
-                                            {{suggestion}}
+                                    <ng-container *ngFor="let suggestion of entityNlp">
+                                        <mat-option  [value]="suggestion.value">
+                                            {{suggestion.title}}
                                         </mat-option>
                                     </ng-container>
                                 </mat-autocomplete>
@@ -289,32 +321,19 @@
                                     </mat-chip-list>
                                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.trait_groups)">
                                         <ng-container *ngFor = "let suggestion of traitsSuggesitions">
-                                          <mat-option>
+                                          <mat-option [value]="suggestion">
                                             {{suggestion}}
                                           </mat-option>
                                         </ng-container>
                                       </mat-autocomplete>
                                     </mat-form-field>
                             </ng-container>
-                            <ng-container *ngIf="(selectedStage.type === 'keyword_extraction')">
-                                        <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                            <mat-chip-list #chipList>
-                                        <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.keywords"  [selectable]="true" [removable]="true" (removed)="removeKeyWordsList(newMappingObj[selectedStage.type].defaultValue,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
-                                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                          </mat-chip> 
-                                          <input placeholder="Type and Enter"
-                                        [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                        [matChipInputAddOnBlur]="false"
-                                        (matChipInputTokenEnd)="addKeyWordsList($event,newMappingObj[selectedStage.type].defaultValue)" #suggestedInput>
-                                    </mat-chip-list>
-                                </mat-form-field>
-                            </ng-container>
                         </div>
-                        <div class="kr-sg-input-text col-4 input-box" [ngClass]="{'col-6': (selectedStage.type === 'keyword_extraction')}">
+                        <div class="kr-sg-input-text col-4 input-box">
                             <div class="label-text">Target Field</div>
                             <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj[selectedStage.type].defaultValue.target_field">
-                        </div>                      
+                        </div>      
+                        <div class="colse_form"><img (click)="setResetNewMappingsObj()" src="assets/images/close-cross.svg"></div>                
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj[selectedStage.type].defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
                 </div>

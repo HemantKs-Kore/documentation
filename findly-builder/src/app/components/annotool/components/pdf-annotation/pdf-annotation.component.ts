@@ -123,13 +123,16 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.pdfPayload.streamId = this.selectedApp._id;
     this.streamId = this.selectedApp._id;
-    if (this.dialogData.pdfResponse) {
-      this.fileId = this.dialogData.pdfResponse.fileId;
-      this.fileName = this.dialogData.pdfResponse.sourceTitle;
+    if(this.dialogData && this.dialogData.type && this.dialogData.type === 'reannotate' && this.dialogData.source) {
+      this.reAnnotateDocument(this.dialogData.source);
     } else {
-      this.fileId = '5f648a17a087965d621a4735';
+      if (this.dialogData.pdfResponse) {
+        this.fileId = this.dialogData.pdfResponse.fileId;
+        this.fileName = this.dialogData.pdfResponse.sourceTitle;
+      }
+      this.getAttachmentFile(this.fileId);
     }
-    this.getAttachmentFile(this.fileId);
+
   }
   // User Guilde - How to annotate
   userGuide() {
@@ -563,6 +566,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.dialogData.annotation.resourceId = res.resourceId;
       this.dialogData.annotation._id = res._id;
       this.dialogData.annotation.status = "Inprogress";
+      this.dialogData.annotation.annotationType = true;
       this.dialogRef.close();
     }, (error: any) => {
       this.extractionLoader = false;
@@ -626,7 +630,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
       this.pdfPayload.ignorePages.splice(index, 1);
       this.pdfConfig.renderTextMode = 2;
-      // this.pdfComponent.renderTextMode = 2;
     }
     this.autoSaveAnno(); // Autosave annotation
   }
@@ -638,6 +641,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else {
       this.pdfForm.get("ignorePages").setValue(false);
     }
+  }
+  // focusInput 
+  focusInput() {
+    this.togglePage = true;
+    setTimeout(() => {
+      $('#pageInput').focus();
+    }, 50);
   }
   // Search page number
   searchPage(event) {
@@ -725,15 +735,15 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       } else {
         // alert("Please select text");
       }
-      var indicatorAreaContainer = $(".options-indicator"); // indicator area dialog
-      var removeAnnotationContainer = $(".remove-indicator"); // remove annotation dialog
-      if ((!indicatorAreaContainer.is($event.target) && indicatorAreaContainer.has($event.target).length === 0) && (!removeAnnotationContainer.is($event) && removeAnnotationContainer.has($event).length === 0)) {
-        indicatorAreaContainer.hide();
-        setTimeout(() => {
-          this.overRectange = null;
-          removeAnnotationContainer.hide();
-        }, 100);
-      }
+      // var indicatorAreaContainer = $(".options-indicator"); // indicator area dialog
+      // var removeAnnotationContainer = $(".remove-indicator"); // remove annotation dialog
+      // if ((!indicatorAreaContainer.is($event.target) && indicatorAreaContainer.has($event.target).length === 0) && (!removeAnnotationContainer.is($event) && removeAnnotationContainer.has($event).length === 0)) {
+      //   indicatorAreaContainer.hide();
+      //   setTimeout(() => {
+      //     this.overRectange = null;
+      //     removeAnnotationContainer.hide();
+      //   }, 100);
+      // }
     }
   }
 
@@ -758,22 +768,37 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Unique values filtering from array
   uniqueListFromArray(arr) {
     if (arr.length) {
-      var finalArr = arr.filter((item, i, ar) => ar.indexOf(item) === i);
-      if(this.pdfPayload.ignorePages.length) {
+      let finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
           let index = finalArr.indexOf(item);
-          if(index !== -1)
-          finalArr.splice(index, 1);
+          if (index !== -1)
+            finalArr.splice(index, 1);
         });
+        if (Array.isArray(finalArr)) {
+          finalArr.sort(function (a, b) {
+            return a - b;
+          });
+        }
         return finalArr.toString();
       }
       if (finalArr.length > 20) {
+        if (Array.isArray(finalArr)) {
+          finalArr.sort(function (a, b) {
+            return a - b;
+          });
+        }
         let firstArr = finalArr.slice(0, 20);
         let moreTxt = '...';
         let result = firstArr.concat(moreTxt);
         return join(result);
-      } 
+      }
       else {
+        if (Array.isArray(finalArr)) {
+          finalArr.sort(function (a, b) {
+            return a - b;
+          });
+        }
         return finalArr.toString();
       }
     }
@@ -782,6 +807,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   tooltipText(arr) {
     if (arr) {
       let finalArr = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      finalArr.sort(function (a, b) {
+        return a - b;
+      });
       return finalArr.join(',');
     } else {
       return 0;
