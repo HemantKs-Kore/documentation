@@ -394,7 +394,7 @@
             }
             .form_inputs_data{
                 .form_list{
-                    padding: 5px 34px 18px 34px;
+                    padding: 5px 75px 18px 34px;
                     position: relative;
                     box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
                     .drag_drop{
@@ -405,9 +405,15 @@
                     }                
                     .delete_icon{
                         position: absolute;
-                        right: 5px;                       
+                        right: 48px;                    
                         cursor: pointer;
                         top: 34px;
+                    }
+                    .colse_form{
+                        position: absolute;
+                        right: 50px;
+                        bottom: 25px;
+                        cursor: pointer;
                     }
                     .add_icon{
                         position: absolute;

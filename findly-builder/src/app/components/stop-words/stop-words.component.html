@@ -50,10 +50,13 @@
           <button class="kr-sg-button-primary btn_lg float-right" (click)="createInit()">Continue</button>
       </div>           
       <ng-container *ngIf="(stopwords && stopwords.length) && !loadingContent">
-      <div class="listingHeader">
-         <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div>
+      <div class="listingHeader row m-0">
+        <div class="col-5 p-0">
+          <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div>
+        </div>         
+        <div class="col-7 p-0 d-flex align-items-center justify-content-end">
           <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords">           
+            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords" maxlength="50">           
           </div> 
           <div class="searchBlock" (click)="toggleSearch()">
             <img *ngIf="showSearch" class="search-icon" src="assets/images/close.svg">
@@ -62,7 +65,8 @@
           </div>  
           <div class="restoreDefaults" (click)="restoreStopWords($event)">
               <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">Restore to Default</span>              
-          </div>                      
+          </div> 
+        </div>                     
     </div>
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
       <div class="stopWordsListing">

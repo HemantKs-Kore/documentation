@@ -178,7 +178,8 @@
                             <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation !== 'rename'">Value</div>
                             <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
                             <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value">
-                        </div>                      
+                        </div> 
+                        <div class="colse_form"><img src="assets/images/close-cross.svg"></div>                     
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj.field_mapping.defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
                     </div>
                 </div>
