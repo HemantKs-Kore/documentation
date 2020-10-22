@@ -211,7 +211,7 @@
                                 <ng-container  *ngIf="(selectedStage.type === 'entity_extraction')">
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
                                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                          <mat-chip *ngFor="let entity of map.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity}}</span>
+                                          <mat-chip *ngFor="let entity of map.entity_types"  [selectable]="true" [removable]="true" (removed)="removeEntityList(map,entity)"><span class="mat-val" *ngIf="entity">{{entity | translate}}</span>
                                             <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                           </mat-chip>                                  
                                           <input placeholder="Type and Enter"
@@ -222,9 +222,9 @@
                                                 (matChipInputTokenEnd)="addEntityList($event,map)" #suggestedInput>
                                         </mat-chip-list>
                                         <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.entity_types)" >
-                                            <ng-container *ngFor = "let suggestion of entitySuggestionTags">
-                                              <mat-option>
-                                                {{suggestion}}
+                                            <ng-container *ngFor = "let suggestion of entityNlp">
+                                              <mat-option [value]="suggestion.value">
+                                                {{suggestion.title}}
                                               </mat-option>
                                             </ng-container>
                                           </mat-autocomplete>
@@ -287,7 +287,7 @@
                                 <mat-chip-list #chipList>
                                     <mat-chip *ngFor="let entity of newMappingObj[selectedStage.type].defaultValue.entity_types" [selectable]="true"
                                         [removable]="true" (removed)="removeEntityList(newMappingObj[selectedStage.type].defaultValue,entity)"><span
-                                            class="mat-val" *ngIf="entity">{{entity}}</span>
+                                            class="mat-val" *ngIf="entity">{{entity | translate}}</span>
                                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                     </mat-chip>
                                     <input placeholder="Type and Enter" [matChipInputFor]="chipList" [matAutocomplete]="suggestedItems"
@@ -297,9 +297,9 @@
                                 </mat-chip-list>
                                 <mat-autocomplete #suggestedItems="matAutocomplete"
                                     (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.entity_types)">
-                                    <ng-container *ngFor="let suggestion of entitySuggestionTags">
-                                        <mat-option>
-                                            {{suggestion}}
+                                    <ng-container *ngFor="let suggestion of entityNlp">
+                                        <mat-option  [value]="suggestion.value">
+                                            {{suggestion.title}}
                                         </mat-option>
                                     </ng-container>
                                 </mat-autocomplete>

@@ -60,6 +60,48 @@ export class IndexComponent implements OnInit {
       name:'Custom Script'
     },
   }
+  entityNlp = [
+    {title: 'Address', value: 'address', isDepricated: false},
+    {title: 'Airport', value: 'airport', isDepricated: false},
+    {title: 'Attachment(Image / File)', value: 'attachment', isDepricated: false},
+    {title: 'City', value: 'city', isDepricated: false},
+    // {"title": "City (Advanced)", "value": "cityAdv", "isDepricated": false},
+    {title: 'Country', value: 'country', isDepricated: false},
+    // {"title": "City with Geo Coordinates", "value": "city_coordinates"},
+    {title: 'Company Name or Organization Name', value: 'company_name', isDepricated: false},
+    // {"title": "City", "value": "city"},
+    {title: 'Color', value: 'color', isDepricated: false},
+    {title: 'Currency(Deprecated)', value: 'currency', isDepricated: true},
+    {title: 'Currency', value: 'currencyv2', isDepricated: false},
+    {title: 'Custom', value: 'regex', isDepricated: false},
+    {title: 'Composite', value: 'composite', isDepricated: false},
+    {title: 'Date', value: 'date', isDepricated: false},
+    {title: 'Date Period', value: 'dateperiod', isDepricated: false},
+    {title: 'Date Time', value: 'datetime', isDepricated: false},
+    {title: 'Description', value: 'description', isDepricated: false},
+    {title: 'Email', value: 'email', isDepricated: false},
+    // {"title": "JSON Object", "value": "json_object", "isDepricated": false},
+    {title: 'List of items (enumerated)', value: 'list_of_values', isDepricated: false},
+    {title: 'List of items (lookup)', value: 'list_of_items_lookup', isDepricated: false},
+    {title: 'Location', value: 'location', isDepricated: false},
+    {title: 'Number', value: 'number', isDepricated: false},
+    // {"title": "Password", "value": "password", "isDepricated": false},
+    {title: 'Person Name', value: 'person_name', isDepricated: false},
+    {title: 'Percentage', value: 'percentage', isDepricated: false},
+    {title: 'Phone Number', value: 'phone_number', isDepricated: false},
+    // {"title": "Quantity(Number with unit of measure)", "value": "quantity"},
+    {title: 'Quantity', value: 'quantityv2', isDepricated: false},
+    {title: 'String', value: 'label', isDepricated: false},
+    {title: 'Time', value: 'time', isDepricated: false},
+    {title: 'Time Zone', value: 'timezone', isDepricated: false},
+    {title: 'URL', value: 'url', isDepricated: false},
+    {title: 'Zip Code', value: 'zipcode', isDepricated: false},
+
+    {title: 'From - number(minimum of a range)(Deprecated)', value: 'from_number', isDepricated: true},
+    {title: 'To - number(maximum of a range, limit)(Deprecated)', value: 'to_number', isDepricated: true},
+    {title: 'Quantity(Deprecated)', value: 'quantity', isDepricated: true}
+    // {"title": "City", "value": "city"},
+];
   simulteObj:any = {
     sourceType: 'faq',
     docCount: 5,
@@ -138,11 +180,11 @@ export class IndexComponent implements OnInit {
     }
   }
   selectedTag(data: MatAutocompleteSelectedEvent , list) {
-    if (!this.checkDuplicateTags((data.option.viewValue || '').trim(),list)) {
+    if (!this.checkDuplicateTags((data.option.value || '').trim(),list)) {
       this.notificationService.notify('Duplicate tags are not allowed', 'warning');
       return ;
     } else {
-      list.push(data.option.viewValue);
+      list.push(data.option.value);
       this.suggestedInput.nativeElement.value = '';
     }
   }
@@ -199,7 +241,7 @@ export class IndexComponent implements OnInit {
   checkNewAddition() {
     if(this.selectedStage && this.selectedStage.type === 'field_mapping'){
        if(this.newMappingObj.field_mapping && this.newMappingObj.field_mapping.defaultValue) {
-          if( this.newMappingObj.field_mapping.defaultValue.operation && this.newMappingObj.field_mapping.defaultValue.target_field && (this.newMappingObj.field_mapping.defaultValue.value || this.newMappingObj.field_mapping.defaultValue.operation === 'remove')){
+          if( this.newMappingObj.field_mapping.defaultValue.operation && this.newMappingObj.field_mapping.defaultValue.target_field && (this.newMappingObj.field_mapping.defaultValue.value || this.newMappingObj.field_mapping.defaultValue.operation === 'remove' || this.newMappingObj.field_mapping.defaultValue.source_field)){
            this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
           }
        }
