@@ -247,6 +247,16 @@
                     position: relative;
                     top: 3px;
                     cursor: pointer;
+                    width: 30px;
+                    height: 30px;
+                    background: #fff;
+                    border-radius: 100%;
+                    text-align: center;
+                    line-height: 28px;
+                    padding: 8px;
+                    &:hover{
+                        background: #F3F8FF;
+                    }
                 }
             }
             .modal-body{
@@ -854,13 +864,14 @@
         border-top: solid 0px #e5e8ec;
         /* background-color: #f2f3f5; */
         padding: 6px 30px;
-        display: flex;
+        // display: flex;
         flex-wrap: wrap;
         align-items: center;
         border-bottom-right-radius: calc(.3rem - 1px);
         border-bottom-left-radius: calc(.3rem - 1px);
         .btn_lg{
             margin: 4px;
+            float: right;
         }
     }
     .par{
