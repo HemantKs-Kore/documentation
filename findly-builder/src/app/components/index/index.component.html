@@ -246,7 +246,7 @@
                                         </mat-chip-list>
                                         <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,map.trait_groups)" >
                                             <ng-container *ngFor = "let suggestion of traitsSuggesitions">
-                                              <mat-option>
+                                              <mat-option [value]="suggestion">
                                                 {{suggestion}}
                                               </mat-option>
                                             </ng-container>
@@ -321,7 +321,7 @@
                                     </mat-chip-list>
                                     <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,newMappingObj[selectedStage.type].defaultValue.trait_groups)">
                                         <ng-container *ngFor = "let suggestion of traitsSuggesitions">
-                                          <mat-option>
+                                          <mat-option [value]="suggestion">
                                             {{suggestion}}
                                           </mat-option>
                                         </ng-container>
