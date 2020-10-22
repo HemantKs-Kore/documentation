@@ -636,9 +636,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.closeAddsourceModal();
   }
   bulkUpdate(action,state?,dialogRef?){
-    const payload: any = {
-      faqs : [],
-    };
+    const payload: any = {};
     let custerrMsg = 'Failed to update faqs'
     let custSucessMsg = 'Selected faqs updated successfully';
     if(action === 'update' && state){
@@ -648,25 +646,35 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       custSucessMsg = 'Selected Faqs deleted successfully'
       custerrMsg = 'Failed to delete faqs'
     }
-    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
-    const sekectedFaqsCollection:any = [];
-    if(selectedElements && selectedElements.length){
-      $.each(selectedElements,(i,ele) =>{
-        const  faqId = $(ele)[0].id.split('_')[1];
-        const tempobj= {
-          _id:faqId
-        }
-          sekectedFaqsCollection.push(tempobj);
-      })
+    if(this.faqSelectionObj && this.faqSelectionObj.selectAll){
+      payload.allFaqs = true;
+      payload.currentState = this.selectedtab;
+    } else {
+      const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+      const sekectedFaqsCollection:any = [];
+      if(selectedElements && selectedElements.length){
+        $.each(selectedElements,(i,ele) =>{
+          const  faqId = $(ele)[0].id.split('_')[1];
+          const tempobj= {
+            _id:faqId
+          }
+            sekectedFaqsCollection.push(tempobj);
+        })
+      }
+      payload.faqs = sekectedFaqsCollection;
     }
-    payload.faqs = sekectedFaqsCollection;
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
     }
     this.selectAll(true);
     this.addRemoveFaqFromSelection(null,null,true);
     this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
-      this.getfaqsBy();
+      if(state){
+        this.selectTab(state)
+      }else {
+       this.getfaqsBy();
+       this.selectedFaq = null;
+      }
       this.getStats();
       this.editfaq = null
       this.notificationService.notify(custSucessMsg,'success');
