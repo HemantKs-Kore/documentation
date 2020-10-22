@@ -272,10 +272,22 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
                    if(!config.target_field || !config.value) {
                     this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
                    }
+                   if(config.operation === 'copy' || config.operation === 'rename') {
+                    if(config.hasOwnProperty('value')) {
+                      delete config.value;
+                    }
+                  } else {
+                    if(config.hasOwnProperty('source_field')) {
+                      delete config.source_field;
+                    }
+                  }
                 }
                 if((config.operation === 'remove')) {
                     if(config.hasOwnProperty('value')) {
                        delete config.value;
+                    }
+                    if(config.hasOwnProperty('source_field')) {
+                      delete config.source_field;
                     }
                     if (!config.target_field) {
                       this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
@@ -409,7 +421,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.simulate();
   }
   closeSimulator(){
-    this.setResetNewMappingsObj();
+    this.simulteObj = {
+      sourceType: 'faq',
+      docCount: 5,
+      showSimulation: false,
+    }
   }
   addcode(data?){
     data = data || {};
@@ -458,6 +474,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         if (result === 'yes') {
           this.pipeline.splice(i,1);
           dialogRef.close();
+          this.selectedStage = this.fieldStage;
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -601,6 +618,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       })
   }
   removeConfig(index,list){
+    this.changesDetected = true;
     list.splice(index ,1);
   }
   clearDirtyObj(cancel?){

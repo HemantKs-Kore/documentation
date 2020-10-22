@@ -116,7 +116,7 @@
                 <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
                     <ng-container *ngIf="selectedStage && selectedStage.config && selectedStage.config.mappings && selectedStage.config.mappings.length">
                         <div cdkDropList (cdkDropListDropped)="drop($event,selectedStage.config.mappings)">
-                            <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings" cdkDrag>
+                            <div class="row m-0 form_list" *ngFor="let map of selectedStage.config.mappings; let i = index" cdkDrag>
                                 <div *cdkDragPreview class="drag_drop"><img src="assets/icons/drog_drop.svg">{{map.target_field}}</div>
                                 <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
                                 <div class="kr-sg-dropdowns col-4 input-box">
@@ -131,11 +131,18 @@
                                         </ul>
                                     </div>
                                 </div> 
-                                <div class="kr-sg-input-text col-4 input-box">
-                                    <div class="label-text">Field Name</div>
-                                    <input type="text" placeholder="Enter name" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation === 'copy') || (map.operation === 'rename')">
+                                    <div class="label-text" *ngIf="map.operation === 'copy'">Source Field</div>
+                                    <div class="label-text" *ngIf="map.operation === 'rename'">Field Name</div>
+                                    <input type="text" placeholder="Enter target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                                 </div>
-                                <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove')">
+                                <div class="kr-sg-input-text col-4 input-box">
+                                    <div class="label-text" *ngIf="map.operation === 'copy'">Target Filed</div>
+                                    <div class="label-text" *ngIf="map.operation === 'rename'">New Name</div>
+                                    <div class="label-text" *ngIf="(map.operation !== 'copy') && (map.operation !== 'rename')">Field Name</div>
+                                    <input type="text" placeholder="Enter target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                </div>
+                                <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove') && (map.operation !== 'copy') && (map.operation !== 'rename')">
                                     <div class="label-text">Value</div>
                                     <input type="text" placeholder="Value" class="input-text" [(ngModel)]="map.value">
                                 </div>  
@@ -156,12 +163,20 @@
                                 </ul>
                             </div>
                         </div> 
+                        <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation === 'copy') || (newMappingObj.field_mapping.defaultValue.operation === 'rename')">
+                            <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'copy'">Source Field</div>
+                                    <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">Field Name</div>
+                            <input type="text" placeholder="Enter source field" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.source_field">
+                        </div>
                         <div class="kr-sg-input-text col-4 input-box">
-                            <div class="label-text">Field Name</div>
+                            <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'copy'">Target Filed</div>
+                            <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
+                            <div class="label-text" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'copy') && (newMappingObj.field_mapping.defaultValue.operation !== 'rename')">Field Name</div>
                             <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
                         </div>
-                        <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove')">
-                            <div class="label-text">Value</div>
+                        <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove') && (newMappingObj.field_mapping.defaultValue.operation !== 'copy') && (newMappingObj.field_mapping.defaultValue.operation !== 'rename')">
+                            <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation !== 'rename'">Value</div>
+                            <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
                             <input type="text" placeholder="Value" class="input-text"  [(ngModel)]="newMappingObj.field_mapping.defaultValue.value">
                         </div>                      
                         <div class="add_icon" (click)='addFiledmappings(newMappingObj.field_mapping.defaultValue)'><img src="assets/images/add-input-field.svg"></div>                                   
