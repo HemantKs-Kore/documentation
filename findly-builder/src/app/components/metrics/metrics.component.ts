@@ -15,6 +15,7 @@ export class MetricsComponent implements OnInit {
   mostSearchedQuries : any;
   queriesWithNoClicks : any;
   searchHistogram : any;
+  isAsc = true;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -35,7 +36,7 @@ export class MetricsComponent implements OnInit {
       offset: 0,
       limit:20
     };
-    let payload = {
+    let payload : any = {
       type : type,
       filters: {
         from: "2020-10-14T00:29:38.552Z",
@@ -43,7 +44,7 @@ export class MetricsComponent implements OnInit {
       }
     }
     if(type == "QueriesWithNoClicks"){
-      payload['sort'] = {
+      payload.sort = {
         order: "desc", 
         by: "timestamp"
       }
@@ -66,4 +67,27 @@ export class MetricsComponent implements OnInit {
        }
      });
   }
+  // compare(a: number | string, b: number | string, isAsc: boolean) {
+  //   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  // }
+  // sortBy(sort) {
+  //   const data = this.resources.slice();
+  //   this.selectedSort = sort;
+  //   if (this.selectedSort !== sort) {
+  //     this.isAsc = true;
+  //   } else {
+  //     this.isAsc = !this.isAsc;
+  //   }
+  //   const sortedData = data.sort((a, b) => {
+  //     const isAsc = this.isAsc;
+  //     switch (sort) {
+  //       case 'type': return this.compare(a.type, b.type, isAsc);
+  //       case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);
+  //       case 'name': return this.compare(a.name, b.name, isAsc);
+  //       case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
+  //       default: return 0;
+  //     }
+  //   });
+  //   this.resources = sortedData;
+  // }
 }
