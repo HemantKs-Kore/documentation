@@ -64,5 +64,9 @@
     "zipcode":"Zip Code",
     "from_number":"From - number(minimum of a range)(Deprecated)",
     "to_number":"To - number(maximum of a range, limit)(Deprecated)",
-    "quantity":"Quantity(Deprecated)"
+    "quantity":"Quantity(Deprecated)",
+    "denseVector":"Dense Vector",
+    "trait":"Trait",
+    "entity":"Entity",
+    "keyword":"Keyword"
 }

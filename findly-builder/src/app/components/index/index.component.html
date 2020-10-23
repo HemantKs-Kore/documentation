@@ -403,8 +403,8 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-10 p-0">
                     <div class="label-text">Field Name</div>
-                    <input type="number" *ngIf="newFieldObj.fieldDataType !== 'string'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
-                    <input type="text"  *ngIf="newFieldObj.fieldDataType === 'string'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text"  *ngIf="newFieldObj.fieldDataType !== 'number'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
@@ -415,6 +415,10 @@
                         <ul class="dropdown-menu content-menu">                                                                    
                           <li  (click)="newFieldObj.fieldDataType = 'string';newFieldObj.fieldName = ''"><a>String</a></li>
                           <li  (click)="newFieldObj.fieldDataType = 'number';newFieldObj.fieldName = ''"><a>Number</a></li>
+                          <li  (click)="newFieldObj.fieldDataType = 'trait';newFieldObj.fieldName = ''"><a>Trait</a></li>
+                          <li  (click)="newFieldObj.fieldDataType = 'denseVector';newFieldObj.fieldName = ''"><a>Dense Vector</a></li>
+                          <li  (click)="newFieldObj.fieldDataType = 'entity';newFieldObj.fieldName = ''"><a>Entity</a></li>
+                          <li  (click)="newFieldObj.fieldDataType = 'keyword';newFieldObj.fieldName = ''"><a>Keyword</a></li>
                         </ul>
                     </div>
                 </div>
