@@ -462,5 +462,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations',
       method: 'get'
     }
+    /** get API for Metrics */
+
+    this.serviceList['get.queries'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
+      method: 'post'
+    }
+
+    /** get API for Metrics */
   }
 }
