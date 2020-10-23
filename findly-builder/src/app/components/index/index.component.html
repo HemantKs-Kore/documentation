@@ -413,12 +413,12 @@
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
                         <ul class="dropdown-menu content-menu">                                                                    
-                          <li  (click)="newFieldObj.fieldDataType = 'string';newFieldObj.fieldName = ''"><a>String</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'number';newFieldObj.fieldName = ''"><a>Number</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'trait';newFieldObj.fieldName = ''"><a>Trait</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'denseVector';newFieldObj.fieldName = ''"><a>Dense Vector</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'entity';newFieldObj.fieldName = ''"><a>Entity</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'keyword';newFieldObj.fieldName = ''"><a>Keyword</a></li>
+                          <li  (click)="selectFieldType('string')"><a>String</a></li>
+                          <li  (click)="selectFieldType('number')"><a>Number</a></li>
+                          <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
+                          <li  (click)="selectFieldType('dense_vector')"><a>Dense Vector</a></li>
+                          <li  (click)="selectFieldType('entity')"><a>Entity</a></li>
+                          <li  (click)="selectFieldType('keyword')"><a>Keyword</a></li>
                         </ul>
                     </div>
                 </div>

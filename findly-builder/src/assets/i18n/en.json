@@ -65,8 +65,9 @@
     "from_number":"From - number(minimum of a range)(Deprecated)",
     "to_number":"To - number(maximum of a range, limit)(Deprecated)",
     "quantity":"Quantity(Deprecated)",
-    "denseVector":"Dense Vector",
+    "dense_vector":"Dense Vector",
     "trait":"Trait",
     "entity":"Entity",
-    "keyword":"Keyword"
+    "keyword":"Keyword",
+    "denseVector":"Dense Vector"
 }
