@@ -1,305 +1,446 @@
 <div class="main-metrics-container">
     <div class="tab-sec">
-        <div class="tab-name active">Summary</div>
-        <div class="tab-name">User Engagement</div>
-        <div class="tab-name">Insights</div>
-    </div>
-    <div class="filters-date-sec">
-        <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>
-        <div class="date-select">
-            <span class="day time">24 Hrs</span>
-            <span class="week time active">7 Days</span>
-            <span class="custom time">Custom</span>
-        </div>
-        <div class="export"><img src="assets/icons/export.svg"></div>
+        <div class="tab-name" [ngClass] = "{'active': slider === 0}" (click)="tab(0)">Summary</div>
+        <div class="tab-name" [ngClass] = "{'active': slider === 1}" (click)="tab(1)">User Engagement</div>
+        <div class="tab-name" [ngClass] = "{'active': slider === 2}" (click)="tab(2)">Insights</div>
     </div>
     <perfect-scrollbar class="scroll_content">
-        <div class="top-cards-section row m-0">
-            <div class="col cards-data">
-                <div class="content">
-                    <div class="title-info">Total Users<img src="assets/icons/gray_info.svg" class="pl-1"></div>
-                    <div class="bottom-sec">
-                        <div class="left-sec">
-                            <div class="count">1500</div>
-                            <div class="data-percentage">
-                                <img src="assets/icons/arrow-increase.svg">
-                                <span class="percentage">12%</span>
+        <div class="filters-date-sec">
+            <div class="" *ngIf="slider === 2">
+                <span>Searches</span>
+                <span>Results</span>
+            </div>
+            <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to
+                    07-08-2020</span>
+            </div>
+            <div class="date-select">
+                <span class="day time">24 Hrs</span>
+                <span class="week time active">7 Days</span>
+                <span class="custom time">Custom</span>
+            </div>
+            <div class="export"><img src="assets/icons/export.svg"></div>
+        </div>
+        <div *ngIf="slider === 0">
+            <div class="top-cards-section row m-0">
+                <div class="col cards-data">
+                    <div class="content">
+                        <div class="title-info">Total Users<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="bottom-sec">
+                            <div class="left-sec">
+                                <div class="count">1500</div>
+                                <div class="data-percentage">
+                                    <img src="assets/icons/arrow-increase.svg">
+                                    <span class="percentage">12%</span>
+                                </div>
+                            </div>
+                            <div class="right-sec">
+                                <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
                             </div>
                         </div>
-                        <div class="right-sec">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                    </div>
+                </div>
+                <div class="col cards-data">
+                    <div class="content">
+                        <div class="title-info">Total Search<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="bottom-sec">
+                            <div class="left-sec">
+                                <div class="count">1200</div>
+                                <div class="data-percentage">
+                                    <img src="assets/icons/arrow-increase.svg">
+                                    <span class="percentage">12%</span>
+                                </div>
+                            </div>
+                            <div class="right-sec">
+                                <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col cards-data">
+                    <div class="content">
+                        <div class="title-info">Result Rate<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="bottom-sec">
+                            <div class="left-sec">
+                                <div class="count">70%</div>
+                                <div class="data-percentage failed">
+                                    <img src="assets/icons/arrow-decrease.svg">
+                                    <span class="percentage">34%</span>
+                                </div>
+                            </div>
+                            <div class="right-sec">
+                                <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col cards-data">
+                    <div class="content">
+                        <div class="title-info">CTR<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="bottom-sec">
+                            <div class="left-sec">
+                                <div class="count">70%</div>
+                                <div class="data-percentage">
+                                    <img src="assets/icons/arrow-increase.svg">
+                                    <span class="percentage">34%</span>
+                                </div>
+                            </div>
+                            <div class="right-sec">
+                                <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col cards-data">
+                    <div class="content">
+                        <div class="title-info">Avg. Click Position<img src="assets/icons/gray_info.svg" class="pl-1">
+                        </div>
+                        <div class="bottom-sec">
+                            <div class="left-sec">
+                                <div class="count">1.9</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col cards-data">
-                <div class="content">
-                    <div class="title-info">Total Search<img src="assets/icons/gray_info.svg" class="pl-1"></div>
-                    <div class="bottom-sec">
-                        <div class="left-sec">
-                            <div class="count">1200</div>
-                            <div class="data-percentage">
-                                <img src="assets/icons/arrow-increase.svg">
-                                <span class="percentage">12%</span>
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-12 box-content">
+                    <div class="full-card">
+                        <div class="legends-info">
+                            <div class="content">
+                                <div class="title">Total Searches <span class="toatlsearches"></span></div>
+                                <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="percentage">+12%</span>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="title">Searches with Results <span class="withresults"></span></div>
+                                <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="percentage">+12%</span>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="title">Searches with Clicks <span class="clicks"></span></div>
+                                <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="percentage">+12%</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="right-sec">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                        <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
+                                        src="assets/icons/filter.svg"></button>
+                                <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
+                                    <div class="kr-sg-checkbox d-block p-0">
+                                        <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
+                                    </div>
+                                    <div class="kr-sg-checkbox d-block p-0 m-0">
+                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-6 box-content">
+                    <div class="full-card">
+                        <div class="title-card">Top Search Queries</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
+                                    Count</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 box-content">
+                    <div class="full-card">
+                        <div class="title-card">Top Search Queries with No Result</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Task Name</div>
+                                <div class="col-2 header-title text-right">Count</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col cards-data">
-                <div class="content">
-                    <div class="title-info">Result Rate<img src="assets/icons/gray_info.svg" class="pl-1"></div>
-                    <div class="bottom-sec">
-                        <div class="left-sec">
-                            <div class="count">70%</div>
-                            <div class="data-percentage failed">
-                                <img src="assets/icons/arrow-decrease.svg">
-                                <span class="percentage">34%</span>
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-12 box-content">
+                    <div class="full-card">
+                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
+                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
+                        <div class="title-card">Top Search Queries</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
+                                    Count</div>
                             </div>
-                        </div>
-                        <div class="right-sec">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col cards-data">
-                <div class="content">
-                    <div class="title-info">CTR<img src="assets/icons/gray_info.svg" class="pl-1"></div>
-                    <div class="bottom-sec">
-                        <div class="left-sec">
-                            <div class="count">70%</div>
-                            <div class="data-percentage">
-                                <img src="assets/icons/arrow-increase.svg">
-                                <span class="percentage">34%</span>
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-6 box-content">
+                    <div class="full-card">
+                        <div class="title-card">Top Search Queries</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
+                                    Count</div>
                             </div>
-                        </div>
-                        <div class="right-sec">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col cards-data">
-                <div class="content">
-                    <div class="title-info">Avg. Click Position<img src="assets/icons/gray_info.svg" class="pl-1"></div>
-                    <div class="bottom-sec">
-                        <div class="left-sec">
-                            <div class="count">1.9</div>                        
-                        </div>                   
+                <div class="col-6 box-content">
+                    <div class="full-card">
+                        <div class="title-card">Top Search Queries with No Result</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Task Name</div>
+                                <div class="col-2 header-title text-right">Count</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="data-information-content col-12 m-0 row split-tables">
-            <div class="col-12 box-content">
-                <div class="full-card">                                      
-                    <div class="legends-info">
-                        <div class="content">
-                            <div class="title">Total Searches <span class="toatlsearches"></span></div>
-                            <div class="count-data">
-                                <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
-                                <span class="percentage">+12%</span>
+        <div *ngIf="slider === 1">
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-12 box-content">
+                    <div class="full-card">
+                        <div class="legends-info">
+                            <div class="content">
+                                <div class="title">Total Searches <span class="toatlsearches"></span></div>
+                                <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="percentage">+12%</span>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="title">Searches with Results <span class="withresults"></span></div>
+                                <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="percentage">+12%</span>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="title">Searches with Clicks <span class="clicks"></span></div>
+                                <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="percentage">+12%</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="content">
-                            <div class="title">Searches with Results <span class="withresults"></span></div>
-                            <div class="count-data">
-                                <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
-                                <span class="percentage">+12%</span>
+                        <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
+                                        src="assets/icons/filter.svg"></button>
+                                <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
+                                    <div class="kr-sg-checkbox d-block p-0">
+                                        <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
+                                    </div>
+                                    <div class="kr-sg-checkbox d-block p-0 m-0">
+                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
+                                    </div>
+                                </ul>
                             </div>
                         </div>
-                        <div class="content">
-                            <div class="title">Searches with Clicks <span class="clicks"></span></div>
-                            <div class="count-data">
-                                <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
-                                <span class="percentage">+12%</span>
-                            </div>
-                        </div>                        
+                        <div echarts [options]="userEngagementChartData" class="demo-chart-graphMode"></div>
                     </div>
-                   <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">                                        
-                        <div class="dropdown dropdown-open">                            
-                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/filter.svg"></button>                                            
-                            <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
-                                <div class="kr-sg-checkbox d-block p-0">
-                                    <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
-                                    <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
-                                </div> 
-                                <div class="kr-sg-checkbox d-block p-0 m-0">
-                                    <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
-                                    <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
-                                </div> 
-                            </ul>
-                        </div>
-                    </div>                                  
                 </div>
-             </div>
-         </div>
-        <div class="data-information-content col-12 m-0 row split-tables">
-            <div class="col-6 box-content">
-               <div class="full-card">                  
-                  <div class="title-card">Top Search Queries</div>
-                  <div class="table-content-data">    
-                    <div class="table_header row m-0">
-                        <div class="col-10 header-title">Searched Intent</div>
-                        <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg"> Count</div>
-                    </div>                 
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Access to debit account</div>
-                        <div class="col-2 body-title text-right">100</div>
-                    </div>
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                        <div class="col-2 body-title text-right">30</div>
-                    </div>
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                        <div class="col-2 body-title text-right">20</div>
-                    </div>
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                        <div class="col-2 body-title text-right">15</div>
-                    </div>
-                     <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                        <div class="col-2 body-title text-right">2</div>
-                     </div>
-                  </div>                
-               </div>
             </div>
-            <div class="col-6 box-content">
-                <div class="full-card">                  
-                   <div class="title-card">Top Search Queries with No Result</div>
-                   <div class="table-content-data">     
-                    <div class="table_header row m-0">
-                        <div class="col-10 header-title">Task Name</div>
-                        <div class="col-2 header-title text-right">Count</div>
-                     </div>                 
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Access to debit account</div>
-                         <div class="col-2 body-title text-right">100</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                         <div class="col-2 body-title text-right">30</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                         <div class="col-2 body-title text-right">20</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                         <div class="col-2 body-title text-right">15</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                         <div class="col-2 body-title text-right">2</div>
-                      </div>
-                   </div>                
+        </div>
+        <div *ngIf="slider === 2">
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-12 box-content">
+                    <div class="full-card">
+                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
+                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
+                        <div class="title-card">Top Search Queries</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
+                                    Count</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-             </div>
-         </div>
-         <div class="data-information-content col-12 m-0 row split-tables">
-            <div class="col-12 box-content">
-                <div class="full-card">                  
-                    <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
-                   <div class="title-card">Top Search Queries</div>                 
-                   <div class="table-content-data">    
-                     <div class="table_header row m-0">
-                         <div class="col-10 header-title">Searched Intent</div>
-                         <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg"> Count</div>
-                     </div>                 
-                     <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Access to debit account</div>
-                         <div class="col-2 body-title text-right">100</div>
-                     </div>
-                     <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                         <div class="col-2 body-title text-right">30</div>
-                     </div>
-                     <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                         <div class="col-2 body-title text-right">20</div>
-                     </div>
-                     <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                         <div class="col-2 body-title text-right">15</div>
-                     </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                         <div class="col-2 body-title text-right">2</div>
-                      </div>
-                   </div>                
-                </div>
-             </div>
-         </div>
-         <div class="data-information-content col-12 m-0 row split-tables">
-            <div class="col-6 box-content">
-               <div class="full-card">                  
-                  <div class="title-card">Top Search Queries</div>
-                  <div class="table-content-data">    
-                    <div class="table_header row m-0">
-                        <div class="col-10 header-title">Searched Intent</div>
-                        <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg"> Count</div>
-                    </div>                 
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Access to debit account</div>
-                        <div class="col-2 body-title text-right">100</div>
-                    </div>
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                        <div class="col-2 body-title text-right">30</div>
-                    </div>
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                        <div class="col-2 body-title text-right">20</div>
-                    </div>
-                    <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                        <div class="col-2 body-title text-right">15</div>
-                    </div>
-                     <div class="table_body row m-0">
-                        <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                        <div class="col-2 body-title text-right">2</div>
-                     </div>
-                  </div>                
-               </div>
             </div>
-            <div class="col-6 box-content">
-                <div class="full-card">                  
-                   <div class="title-card">Top Search Queries with No Result</div>
-                   <div class="table-content-data">     
-                    <div class="table_header row m-0">
-                        <div class="col-10 header-title">Task Name</div>
-                        <div class="col-2 header-title text-right">Count</div>
-                     </div>                 
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Access to debit account</div>
-                         <div class="col-2 body-title text-right">100</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                         <div class="col-2 body-title text-right">30</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                         <div class="col-2 body-title text-right">20</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                         <div class="col-2 body-title text-right">15</div>
-                      </div>
-                      <div class="table_body row m-0">
-                         <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                         <div class="col-2 body-title text-right">2</div>
-                      </div>
-                   </div>                
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-12 box-content">
+                    <div class="full-card">
+                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
+                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
+                        <div class="title-card">Top Search Queries</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
+                                    Count</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Access to debit account</div>
+                                <div class="col-2 body-title text-right">100</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">30</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
+                                <div class="col-2 body-title text-right">20</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
+                                <div class="col-2 body-title text-right">15</div>
+                            </div>
+                            <div class="table_body row m-0">
+                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
+                                <div class="col-2 body-title text-right">2</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-             </div>
-         </div>        
+            </div>
+        </div>
     </perfect-scrollbar>
 
     <!-- Tooltips customs all metrics -->
@@ -307,15 +448,18 @@
     <!-- <div class="metrics-tooltips-hover p-2">  
         <div class="data-content m-0 p-1"><span class="title">Total Number Of Users :</span><span class="count-data">225</span></div> 
     </div> -->
-  
-  <div class="metrics-tooltips-hover d-none">
-    <div class="main-title">4th August, 2020</div>
-    <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches :</span><span class="count-data">240</span></div>
-    <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results :</span><span class="count-data">160</span></div>
-    <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks :</span><span class="count-data">80</span></div>   
-  </div>
-  
-  <!-- <div class="metrics-tooltips-hover total_conversatins_tooltips">
+
+    <div class="metrics-tooltips-hover d-none">
+        <div class="main-title">4th August, 2020</div>
+        <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
+                :</span><span class="count-data">240</span></div>
+        <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
+                :</span><span class="count-data">160</span></div>
+        <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
+                :</span><span class="count-data">80</span></div>
+    </div>
+
+    <!-- <div class="metrics-tooltips-hover total_conversatins_tooltips">
     <div class="main-title">4th of Aug, 2020</div>
     <div class="data-content">
       <span class="total-all mr-10">
@@ -352,6 +496,6 @@
     <div class="data-content"><span class="indication withfailures"></span><span class="title">Conversations with failures :</span><span class="count-data">120</span></div>
     <div class="data-content"><span class="indication withoutfailures"></span><span class="title">Conversations without any failures :</span><span class="count-data">120</span></div>  
   </div> -->
-  
-  <!-- End -->
+
+    <!-- End -->
 </div>
