@@ -403,8 +403,8 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-10 p-0">
                     <div class="label-text">Field Name</div>
-                    <input type="number" *ngIf="newFieldObj.fieldDataType !== 'string'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
-                    <input type="text"  *ngIf="newFieldObj.fieldDataType === 'string'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text"  *ngIf="newFieldObj.fieldDataType !== 'number'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
@@ -413,8 +413,12 @@
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
                         <ul class="dropdown-menu content-menu">                                                                    
-                          <li  (click)="newFieldObj.fieldDataType = 'string';newFieldObj.fieldName = ''"><a>String</a></li>
-                          <li  (click)="newFieldObj.fieldDataType = 'number';newFieldObj.fieldName = ''"><a>Number</a></li>
+                          <li  (click)="selectFieldType('string')"><a>String</a></li>
+                          <li  (click)="selectFieldType('number')"><a>Number</a></li>
+                          <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
+                          <li  (click)="selectFieldType('dense_vector')"><a>Dense Vector</a></li>
+                          <li  (click)="selectFieldType('entity')"><a>Entity</a></li>
+                          <li  (click)="selectFieldType('keyword')"><a>Keyword</a></li>
                         </ul>
                     </div>
                 </div>

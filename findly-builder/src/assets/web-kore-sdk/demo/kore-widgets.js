@@ -2008,13 +2008,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "result": {
           "contentType": contentType,
           "contentId": contentId,
-          "config": Object.assign({
+          /*"config": Object.assign({
             "pinIndex": pinIndex,
             "boost": boost,
             "visible": visible
-          }, conf)
+          }, conf)*/
+          "config": conf,
         }
       }
+
+      console.log(payload);
+      console.log(JSON.stringify(payload));
 
       var url = _self.API.queryConfig;
       var successMsg = '';

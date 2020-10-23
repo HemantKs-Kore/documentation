@@ -299,6 +299,14 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
        this.errorToaster(errRes,'Failed to get fields');
      });
   }
+  selectFieldType(type){
+    if(type === 'number'){
+      this.newFieldObj.fieldName = '';
+      this.newFieldObj.fieldDataType = type
+    } else {
+      this.newFieldObj.fieldDataType = type
+    }
+  }
   preparepayload(){
     this.checkNewAddition();
     const stagesArray = [];
