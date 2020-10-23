@@ -1373,3 +1373,24 @@ div.divBlockEmptylastChild:first-child {
 .cursor-pointer{
     cursor: pointer;
 }
+
+.metrics_tooltips{
+    margin-left: 12px;
+    .arrow{
+        display: block;
+        &::before{
+            border-top-color:#26344a;
+        }
+    }
+    .tooltip-inner{
+        background-color: #26344a;
+        max-width: 254px;
+        width: 254px;
+        text-align: center;
+        padding: 30px;
+        line-height: 16px;
+        font-size: 12px;
+        color: #fff;
+        border: 0;
+    }
+}
