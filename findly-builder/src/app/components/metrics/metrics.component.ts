@@ -12,10 +12,16 @@ import { EChartOption } from 'echarts';
 export class MetricsComponent implements OnInit {
   selectedApp;
   serachIndexId;
+  totalRecord = 100;
+  limitpage = 5;
+  recordEnd = 5;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any;
   queriesWithNoClicks : any;
   searchHistogram : any;
+  feedbackPie1 : EChartOption;
+  feedbackPie2 : EChartOption;
+  mostClickBar : EChartOption;
   chartOption : EChartOption;
   userEngagementChartData : EChartOption;
   isAsc = true;
@@ -28,7 +34,9 @@ export class MetricsComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.summaryChart();
-    this.userEngagementChart()
+    this.userEngagementChart();
+    this.mostClick();
+    this.feedback();
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
@@ -37,6 +45,9 @@ export class MetricsComponent implements OnInit {
   }
   tab(index){
     this.slider = index
+  }
+  paginate(event){
+    console.log(event)
   }
   getQueries(type){
    
@@ -101,6 +112,12 @@ export class MetricsComponent implements OnInit {
   // }
   summaryChart(){
         this.chartOption = {
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
           xAxis: {
             type: 'category',
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -120,12 +137,28 @@ export class MetricsComponent implements OnInit {
           },
           splitArea : {show : false}
         },
+        // tooltip: {
+        //     axisPointer: {
+        //         label: {
+        //             //backgroundColor: '#6a7985'
+        //         }
+        //     }
+        // },
         tooltip: {
-            axisPointer: {
-                label: {
-                    //backgroundColor: '#6a7985'
-                }
-            }
+          
+          formatter: `
+          <div class="metrics-tooltips-hover">
+          <div class="main-title">4th August, 2020</div>
+          <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
+                  :</span><span class="count-data">240</span></div>
+          <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
+                  :</span><span class="count-data">160</span></div>
+          <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
+                  :</span><span class="count-data">80</span></div>
+      </div>
+          `,
+          position: 'top',
+          padding: 0
         },
         series: [{
             data: [7, 10, 14, 18, 15, 10, 6],
@@ -154,10 +187,16 @@ export class MetricsComponent implements OnInit {
     this.userEngagementChartData = {
       
       tooltip: {
-          //trigger: 'axis',
-          // axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-          //     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-          // }
+        formatter: `
+        <div class="metrics-tooltips-hover engagement_analysis_tooltip">  
+        <div class="data-content"><span class="indication voice"></span><span class="title"><b>20%</b> conversation in voice</span></div>
+        <div class="data-content"><span class="indication chat"></span><span class="title"><b>30%</b> conversation in Chat</span></div>  
+        <div class="info_message_data">Spent more than 60 Seconds with the bot</div>
+      </div>
+        `,
+        position: 'top',
+        padding: 0
+       
       },
       // legend: {
       //     data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
@@ -220,4 +259,76 @@ export class MetricsComponent implements OnInit {
       ]
   };
   }
+    mostClick(){
+        this.mostClickBar  = {
+          xAxis: {
+              type: 'value'
+              
+          },
+          yAxis: {
+            type: 'category',
+              data: ['1st ', ' 2nd', '3rd']
+          },
+          series: [{
+            itemStyle: {
+              normal: {
+                color: '#B893F2',
+              },
+            },
+              data: [120, 200, 150],
+              type: 'bar'
+          }]
+      };
+    
+    }
+    feedback(){
+      this.feedbackPie1 = {
+    
+            dataset: {
+                source: [
+                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+                    ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+                    
+                ]
+            },
+            series: [{
+                type: 'pie',
+                radius: 60,
+                center: ['25%', '30%'],
+                itemStyle : {
+                  normal : {
+                  
+                             label : {
+                                       show : false
+                                      },
+                             labelLine : {
+                                           show : false
+                                          }
+                             }
+                  }
+                // No encode specified, by default, it is '2012'.
+            }, {
+                type: 'pie',
+                radius: 60,
+                center: ['75%', '30%'],
+                
+                itemStyle : {
+                  normal : {
+                             label : {
+                                       show : false
+                                      },
+                             labelLine : {
+                                           show : false
+                                          }
+                             }
+                  },
+                encode: {
+                    itemName: 'product',
+                    value: '2013'
+                }
+            }]
+        };
+      
+    }
 }

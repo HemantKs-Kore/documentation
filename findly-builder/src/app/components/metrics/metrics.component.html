@@ -183,6 +183,8 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div>
                         </div>
+                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                     </div>
                 </div>
                 <div class="col-6 box-content">
@@ -214,6 +216,8 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div>
                         </div>
+                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                     </div>
                 </div>
             </div>
@@ -250,71 +254,23 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div>
                         </div>
+                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                     </div>
                 </div>
             </div>
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">Top Search Queries</div>
-                        <div class="table-content-data">
-                            <div class="table_header row m-0">
-                                <div class="col-10 header-title">Searched Intent</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    Count</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Access to debit account</div>
-                                <div class="col-2 body-title text-right">100</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                                <div class="col-2 body-title text-right">30</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                                <div class="col-2 body-title text-right">20</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                                <div class="col-2 body-title text-right">15</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                                <div class="col-2 body-title text-right">2</div>
-                            </div>
-                        </div>
+                        <div class="title-card">Most Click Position</div>
+                        <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
                     </div>
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">Top Search Queries with No Result</div>
-                        <div class="table-content-data">
-                            <div class="table_header row m-0">
-                                <div class="col-10 header-title">Task Name</div>
-                                <div class="col-2 header-title text-right">Count</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Access to debit account</div>
-                                <div class="col-2 body-title text-right">100</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                                <div class="col-2 body-title text-right">30</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Password change of Saving account</div>
-                                <div class="col-2 body-title text-right">20</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Opening a new account in HDFC</div>
-                                <div class="col-2 body-title text-right">15</div>
-                            </div>
-                            <div class="table_body row m-0">
-                                <div class="col-10 body-title pr-3">Changing of Net banking Pin</div>
-                                <div class="col-2 body-title text-right">2</div>
-                            </div>
-                        </div>
+                        <div class="title-card">Feedback</div>
+                        <div echarts [options]="feedbackPie1" class="demo-chart-graphMode"></div>
+                        <!-- <div echarts [options]="feedbackPie2" class="demo-chart-graphMode"></div> -->
                     </div>
                 </div>
             </div>
@@ -401,6 +357,8 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div>
                         </div>
+                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                     </div>
                 </div>
             </div>
@@ -437,6 +395,8 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div>
                         </div>
+                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                     </div>
                 </div>
             </div>
