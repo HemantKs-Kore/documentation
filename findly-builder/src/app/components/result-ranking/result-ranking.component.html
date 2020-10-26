@@ -91,7 +91,7 @@
                                 <div class="row m-0 col-12 p-0">
                                     <div class="col-4 p-0 lef-info">
                                         <div class="approved_title">NO. OF CUSTOMISATIONS</div>
-                                        <div class="approved_date"><span class="time">6</span></div>
+                                        <div class="approved_date"><span class="time">{{selectedRecord.numberOfCustomisations}}</span></div>
                                     </div>
                                     <div class="col-4 p-0 lef-info">
                                         <div class="approved_title">LAST CHANGES</div>
@@ -127,7 +127,7 @@
                         <perfect-scrollbar class="train-questions-body-scroll perfect-scroll-result-rank" #resultRankingRightContainer>               
                             <div class="body-content" id="resultsRankingRight">
                                 <div class="body-top-content">
-                                    <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index">
+                                    <!-- <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index">
                                         <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
                                             <div class="mb-0">
                                              <div class="row">
@@ -158,7 +158,42 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                 </div>
+                                 </div> -->
+
+                                 <div class="accordion-result-rank" *ngFor="let actLog of mocData;let i = index">
+                                    <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
+                                        <div class="mb-0">
+                                         <div class="row">
+                                             <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" (click)="$event.stopPropagation()"> 
+                                             <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" (click)="$event.stopPropagation()" >
+                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
+                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo.question}}>{{actLog.header}}</div> 
+                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>  
+                                            <div class="action-header pl-pr-0  col-lg-2" >
+                                                <img src="assets/icons/help.svg" class="ml-1"> 
+                                                <span class="status" >{{actLog.action}}</span> 
+                                            </div> 
+                                            <div class="time col-lg-2">3h ago</div> 
+                                         </div>
+                                        </div>
+                                    </a>
+                                    <div id="demo_{{i}}" class="collapse">
+                                        <p class="action-desc"> {{actLog.description}} </p>  
+                                        <button class="btn-rem">Remove</button>
+                                        <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
+                                           <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
+                                           <span class="arr-txt">PAST ACTION ON THIS ITEM</span>
+                                        </div>
+                                        <div class="drop-list" *ngIf="actLog.drop">
+                                            <ul class="list-p">
+                                                <li class="list-c"><span class="arr-txt">{{actLog.displayMessage}}</span> <span class="arr-t">4h ago</span></li>
+                                                <!-- <li class="list-c"><span class="arr-txt">Result Pinned</span> <span class="arr-t">2w ago</span></li>
+                                                <li class="list-c"><span class="arr-txt">Result Hidden</span> <span class="arr-t">3wh ago</span></li>
+                                                <li class="list-c"><span class="arr-txt">Result Unhidden</span> <span class="arr-t">4d ago</span></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                             </div>
                                 </div>
                             </div>
                         </perfect-scrollbar>
