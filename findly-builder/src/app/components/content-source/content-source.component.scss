@@ -31,7 +31,7 @@
         margin: 0 -5px;
     }
     .kr-sg-data-table section.table-content .content-body{
-        cursor: pointer;
+        cursor: default;
     }
     .kr-sg-data-table{
         section{
@@ -87,6 +87,7 @@
                             border: 1px solid transparent;
                             background: transparent;
                             border-radius: 4px;
+                            font-weight: 500;
                             img{
                                 margin-right: 6px;
                                 position: relative;
@@ -523,6 +524,18 @@
                             }
                         }
                     }          
+                }
+                .kr-sg-data-table{
+                    .content-body{
+                        &.par{
+                            cursor: default;
+                            .actions-images{
+                                img{
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .footer-btns{
