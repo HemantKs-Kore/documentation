@@ -12,17 +12,43 @@ import { EChartOption } from 'echarts';
 export class MetricsComponent implements OnInit {
   selectedApp;
   serachIndexId;
+
+  tsqtotalRecord = 100;
+  tsqlimitpage = 5;
+  tsqrecordEnd = 5;
+
+  tsqNoRtotalRecord = 100;
+  tsqNoRlimitpage = 5;
+  tsqNoRrecordEnd = 5;
+
+  tsqNoCtotalRecord = 100;
+  tsqNoClimitpage = 5;
+  tsqNoCrecordEnd = 5;
+
+  tsqPtotalRecord = 100;
+  tsqPlimitpage = 10;
+  tsqPrecordEnd = 10;
+
+  tsqNoRPtotalRecord = 100;
+  tsqNoRPlimitpage = 10;
+  tsqNoRPrecordEnd = 10;
+  
+  tsqNoCPtotalRecord = 100;
+  tsqNoCPlimitpage = 10;
+  tsqNoCPrecordEnd = 10;
+
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
   topQuriesWithNoResults : any;
-  mostSearchedQuries : any;
+  mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
   searchHistogram : any;
   feedbackPie1 : EChartOption;
   feedbackPie2 : EChartOption;
   mostClickBar : EChartOption;
   chartOption : EChartOption;
+  chartOption1 : EChartOption;
   userEngagementChartData : EChartOption;
   isAsc = true;
   slider = 0;
@@ -33,7 +59,7 @@ export class MetricsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.summaryChart();
+    
     this.userEngagementChart();
     this.mostClick();
     this.feedback();
@@ -74,12 +100,22 @@ export class MetricsComponent implements OnInit {
     this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
       if(type == 'TopQuriesWithNoResults'){
         this.topQuriesWithNoResults = res;
+        this.tsqNoRtotalRecord = res.length;
+        this.tsqNoRlimitpage = 5;
+        this.tsqNoRrecordEnd = 5;
       }else if(type == 'MostSearchedQuries'){
         this.mostSearchedQuries = res;
+        this.tsqtotalRecord = res.length;
+        this.tsqlimitpage = 5;
+        this.tsqrecordEnd = 5;
       }else if(type == 'QueriesWithNoClicks'){
         this.queriesWithNoClicks = res;
+        this.tsqNoCtotalRecord = res.length;
+        this.tsqNoClimitpage = 10;
+        this.tsqNoCrecordEnd = 10;
       }else if(type == 'SearchHistogram'){
         this.searchHistogram = res;
+        this.summaryChart();
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -113,7 +149,103 @@ export class MetricsComponent implements OnInit {
   //   this.resources = sortedData;
   // }
   summaryChart(){
-        this.chartOption = {
+    /** TEST */
+    var data = [["2000-06-05",127,116,216],["2000-06-06",213,129,229],["2000-06-07",199,135,227],["2000-06-08",381,86,66],["2000-06-09",371,73,223],["2000-06-10",187,85,90],["2000-06-11",122,73,123],
+["2000-06-12",168,68,268],["2000-06-13",192,92,292],["2000-06-14",130,130,230],["2000-06-15",145,245,45],["2000-06-16",119,139,249],["2000-06-17",154,115,334],["2000-06-18",111,111,11],
+["2000-06-19",109,309,209],["2000-06-20",145,206,245],["2000-06-21",173,137,376],["2000-06-22",182,128,281],["2000-06-23",111,85,121],["2000-06-24",192,94,300],["2000-06-25",211,71,373],
+["2000-06-26",106,106,209],
+["2000-06-27",11,84,24],["2000-06-28",111,93,193],["2000-06-29",211,85,185],["2000-06-30",112,34,73],["2000-07-01",112,183,289],["2000-07-02",152,125,22],["2000-07-03",289,107,87],["2000-07-04",223,82,45],
+["2000-07-05",222,44,22],["2000-07-06",222,72,85],["2000-07-07",21,106,243],["2000-07-08",254,107,201],["2000-07-09",234,66,98],["2000-07-10",232,91,87],["2000-07-11",267,92,67],["2000-07-12",112,113,77],
+["2000-07-13",102,107,33],["2000-07-14",222,131,96],["2000-07-15",12,111,67],["2000-07-16",202,64,300],["2000-07-17",152,169,69],["2000-07-18",234,88,98],
+["2000-07-19",202,77,247],["2000-07-20",234,83,98],["2000-07-21",112,111,87],["2000-07-22",291,57,301]];
+
+var dateList = data.map(function (item) {
+  return item[0];
+});
+
+var valueList = data.map(function (item) {
+  return item[1];
+});
+var valueList1 = data.map(function (item) {
+  return item[2];
+});
+
+var valueList2 = data.map(function (item) {
+  return item[3];
+});
+// var totaldata = []
+// for(var i = 0 ; i< this.searchHistogram.length; i++){
+//   totaldata.push([this.searchHistogram.date,this.searchHistogram.searchesWithClicks,this.searchHistogram.searchesWithResults,this.searchHistogram.totalSearches])
+// }
+
+// var searchWithResultdata = []
+// var searchWithClickdata = []
+
+// var dateList = totaldata.map(function (item) {
+//     return item[0];
+// });
+
+// var valueList = totaldata.map(function (item) {
+//     return item[1];
+// });
+// var valueList1 = totaldata.map(function (item) {
+//     return item[2];
+// });
+
+// var valueList2 = totaldata.map(function (item) {
+//     return item[3];
+// });
+this.chartOption  = {
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+},
+    
+    tooltip: {
+      trigger: 'axis',  
+      formatter: `
+      <div class="metrics-tooltips-hover">
+      <div class="main-title">4th August, 2020</div>
+      <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
+              :</span><span class="count-data">240</span></div>
+      <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
+              :</span><span class="count-data">160</span></div>
+      <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
+              :</span><span class="count-data">80</span></div>
+  </div>
+      `,
+      position: 'top',
+      padding: 0
+    },
+    xAxis: [{
+        data: dateList,
+        minInterval : 7,
+         boundaryGap:false,
+        show: true,
+    }],
+    yAxis: [{
+        splitLine: {show: false}
+    }],
+    
+    series: [{
+        type: 'line',
+        showSymbol: false,
+        data: valueList
+    },{
+        type: 'line',
+        showSymbol: false,
+        data: valueList1
+    }
+    ,{
+        type: 'line',
+        showSymbol: false,
+        data: valueList2
+    }]
+};
+    /** TEST */
+        this.chartOption1 = {
           grid: {
             left: '3%',
             right: '4%',

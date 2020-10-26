@@ -54,8 +54,8 @@
                                             <div   class="card_link collapsed">      
                                                 <div class="d-flex align-items-center">
                                                     <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"  (click) ="clickCustomizeRecord(list)">
-                                                        <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
+                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"  (click) ="clickCustomizeRecord(list)">
+                                                        <label [attr.for]="i" class="checkbox-custom-label"></label>
                                                     </div>
                                                     <div class="title-desc-sec col-10">
                                                         <div class="title">{{list.searchQuery}}</div>
@@ -159,41 +159,45 @@
                                             </div>
                                         </div>
                                  </div> -->
-
-                                 <div class="accordion-result-rank" *ngFor="let actLog of mocData;let i = index">
-                                    <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
-                                        <div class="mb-0">
-                                         <div class="row">
-                                             <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" (click)="$event.stopPropagation()"> 
-                                             <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" (click)="$event.stopPropagation()" >
-                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
-                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo.question}}>{{actLog.header}}</div> 
-                                             <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>  
-                                            <div class="action-header pl-pr-0  col-lg-2" >
-                                                <img src="assets/icons/help.svg" class="ml-1"> 
-                                                <span class="status" >{{actLog.action}}</span> 
-                                            </div> 
-                                            <div class="time col-lg-2">3h ago</div> 
-                                         </div>
-                                        </div>
-                                    </a>
-                                    <div id="demo_{{i}}" class="collapse">
-                                        <p class="action-desc"> {{actLog.description}} </p>  
-                                        <button class="btn-rem">Remove</button>
-                                        <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
-                                           <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
-                                           <span class="arr-txt">PAST ACTION ON THIS ITEM</span>
-                                        </div>
-                                        <div class="drop-list" *ngIf="actLog.drop">
-                                            <ul class="list-p">
-                                                <li class="list-c"><span class="arr-txt">{{actLog.displayMessage}}</span> <span class="arr-t">4h ago</span></li>
-                                                <!-- <li class="list-c"><span class="arr-txt">Result Pinned</span> <span class="arr-t">2w ago</span></li>
-                                                <li class="list-c"><span class="arr-txt">Result Hidden</span> <span class="arr-t">3wh ago</span></li>
-                                                <li class="list-c"><span class="arr-txt">Result Unhidden</span> <span class="arr-t">4d ago</span></li> -->
-                                            </ul>
+                                 
+                                    <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index">
+                                        <div *ngIf="actLog.target">
+                                        <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
+                                            <div class="mb-0">
+                                             <div class="row" >
+                                                 <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" > 
+                                                 <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" >
+                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
+                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo.question}}</div> 
+                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>  
+                                                <div class="action-header pl-pr-0  col-lg-2" >
+                                                    <img src="assets/icons/help.svg" class="ml-1"> 
+                                                    <span class="status" >pinned</span> 
+                                                </div> 
+                                                <div class="time col-lg-2">3h ago</div> 
+                                             </div>
+                                            </div>
+                                        </a>
+                                        <div id="demo_{{i}}" class="collapse" >
+                                            <p class="action-desc" *ngIf ="actLog.target.contentType == 'page'"> {{actLog.target.contentInfo.searchResultPreview}} </p>  
+                                            <p class="action-desc" *ngIf ="actLog.target.contentType == 'faq'"> {{faqDesc}} </p>  
+                                            <p class="action-desc" *ngIf ="actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.lname}} </p>  
+                                            <!-- <button class="btn-rem">Remove</button> -->
+                                            <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
+                                               <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
+                                               <span class="arr-txt">PAST ACTION ON THIS ITEM</span>
+                                            </div>
+                                            <div  *ngIf="actLog.drop" >
+                                                <div class="drop-list"*ngFor="let log of actLog.logs">
+                                                    <ul class="list-p">
+                                                        <li class="list-c"><span class="arr-txt">{{log.displayMessage}}</span> <span class="arr-t">4h ago</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                             </div>
+                                    </div>
+                                 <!-- </div> -->
                                 </div>
                             </div>
                         </perfect-scrollbar>
@@ -204,7 +208,7 @@
         </div>
         <div class="log_section " [ngClass] ="{'d-none' : !resultLogs}">
             <div class="header-log">
-                <div class="title">Log (26)</div>
+                <div class="title">Log ({{customizeLog.length || 0}})</div>
                 <div class="close_log" (click) = "closeLogs()"><img src="assets/images/close-cross.svg"></div>
             </div>
             <div class="empty_log d-none">
@@ -234,15 +238,21 @@
 
             <!-- ACCORDION ENDS HERE -->
             <div class = "watch-log" *ngFor="let log of customizeLog;let i = index">
-                <div class="action-on-this" (click)="toggleLogAction( i,log.selected)">
-                    <span class="arr-txt col-10"> {{log.header}}</span>
-                    <span class="arrow" [ngClass] = " log.selected ?  'up' : 'down'"></span>
-                    
-                 </div>
-                 <div class="drop-list" *ngIf="log.selected">
-                     <div class="arr-txt-desc col-12"> {{log.description}}</div>
-                     <div class="info">{{log.name}} {{log.time}}</div>
-                 </div>
+                <div *ngIf="log">
+                    <div class="action-on-this" (click)="toggleLogAction( i,log.selected)">
+                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'page'"> {{log.target.contentInfo.title }} - {{ log.target.contentType}} </span>
+                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'faq'"> {{log.target.contentInfo.question }} - {{ log.target.contentType}} </span>
+                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname }} - {{ log.target.contentType}} </span>
+                        <span class="arrow" [ngClass] = " log.selected ?  'up' : 'down'"></span>
+                        
+                     </div>
+                     <div class="drop-list" *ngIf="log.selected">
+                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'page'"> {{log.target.contentInfo.searchResultPreview}}</div>
+                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'faq'"> {{faqDesc}}</div>
+                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
+                         <div class="info">{{log.userDetails.fullName}} {{log.time}}</div>
+                     </div>
+                </div>
             </div>
             <!-- dummy logs -->
         </div>

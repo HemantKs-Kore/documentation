@@ -142,7 +142,7 @@
                     }
                     .body-content{
                         .accor-scroll{
-                            height: calc(100vh - 262px);                       
+                            height: calc(100vh - 150px);                       
                             &.show_footer{
                                 height: calc(100vh - 325px);
                             }
@@ -832,7 +832,7 @@
             .action-on-this{
                 //padding: 5px;
                 //border: 1px solid #979797;
-                margin: 15px;
+                margin: 10px 0;
                 .arr-txt{
                     font-weight: 600;
                     font-size: 12px;

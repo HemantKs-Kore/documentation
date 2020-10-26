@@ -470,6 +470,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/logs?limit=20&skip=0',
       method: 'get'
     }
+    this.serviceList['get.customisationLogs'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
+      method: 'get'
+    }
     /** get API for Metrics */
 
     this.serviceList['get.queries'] = {
