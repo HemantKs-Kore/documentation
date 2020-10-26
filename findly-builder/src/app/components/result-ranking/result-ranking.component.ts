@@ -16,6 +16,7 @@ export class ResultRankingComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   customizeLog : any;
+  selectedRecord : any;
   resultLogs : boolean = false;
   customizeList : any;
   loadingContent : boolean = false;
@@ -141,6 +142,40 @@ export class ResultRankingComponent implements OnInit {
   }
   showLogs(){
     this.resultLogs = true;
+  }
+  clickCustomizeRecord(record){
+    this.selectedRecord = record;
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId,
+      rankingAndPinningId : record._id
+    };
+    this.service.invoke('get.rankingActionLog', quaryparms).subscribe(res => {
+      //this.customizeList = res;
+      this.actionLogData = res;
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed', 'error');
+       }
+     });
+  }
+  restore(record){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId,
+      rankingAndPinningId : record._id
+    };
+    this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
+      //this.customizeList = res;
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed', 'error');
+       }
+     });
   }
   getcustomizeList(){
    

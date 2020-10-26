@@ -196,14 +196,22 @@
                                         }
                                     }
                                     .kr-sg-checkbox{
-                                        visibility: hidden;
+                                        visibility: visible;
                                     }
-                                    &:hover{
+                                    .restore-icon{
+                                        visibility: hidden;
+                                    }&:hover{
                                         background: #E7F1FF;
-                                        .kr-sg-checkbox{
+                                        .restore-icon{
                                             visibility: visible;
                                         }
                                     }
+                                    // &:hover{
+                                    //     background: #E7F1FF;
+                                    //     .kr-sg-checkbox{
+                                    //         visibility: visible;
+                                    //     }
+                                    // }
                                     .title-desc-sec{
                                         width: 93%;
                                         .title{

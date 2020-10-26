@@ -53,13 +53,16 @@
                                         <div class="card-content" *ngFor="let list of customizeList;let i = index">
                                             <div   class="card_link collapsed">      
                                                 <div class="d-flex align-items-center">
-                                                    <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
+                                                    <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
+                                                        <input  [attr.id]="'rank'"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off"  (click) ="clickCustomizeRecord(list)">
                                                         <label [attr.for]="'rank'" class="checkbox-custom-label"></label>
                                                     </div>
-                                                    <div class="title-desc-sec">
+                                                    <div class="title-desc-sec col-10">
                                                         <div class="title">{{list.searchQuery}}</div>
                                                         <div class="desc">{{list.numberOfCustomisations}} customisations</div>
+                                                    </div>
+                                                    <div class="title-desc-sec col-1">
+                                                        <div class="restore-icon" (click) = "restore(list)">Res</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-end">
-                                            <button class="kr-sg-button-secondary btn_lg text-danger"> Restore</button>
+                                            <button class="kr-sg-button-secondary btn_lg text-danger" (click) = "restore(selectedRecord)"> Restore</button>
                                         </div>
                                     </div>
                                     <!-- <perfect-scrollbar class="perfect-scroll-result-rank">
