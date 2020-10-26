@@ -349,7 +349,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         }
       }
       if(tempStageObj && tempStageObj.type === 'custom_script') {
-        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+        if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
             const tempConfig :any = [];
             tempStageObj.config.mappings.forEach(config => {
                 if(!config.script) {
@@ -361,7 +361,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         }
       }
       if(tempStageObj && ((tempStageObj.type === 'entity_extraction')  || (tempStageObj.type === 'traits_extraction') || (tempStageObj.type === 'keyword_extraction'))) {
-        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+        if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
             const tempConfig :any = [];
             tempStageObj.config.mappings.forEach(config => {
               if(!config.source_field || !config.source_field) {
