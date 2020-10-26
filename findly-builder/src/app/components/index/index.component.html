@@ -194,7 +194,7 @@
                                 <div class="label-text">Source Field</div>
                                 <input type="text" placeholder="Value" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                             </div>
-                            <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction') || (selectedStage.type === 'semantic_meaning')">
+                            <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'semantic_meaning')">
                                 <div class="label-text">Choose Model</div>
                                 <div class="dropdown dropdown-open">
                                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
@@ -202,6 +202,17 @@
                                       <li (click)='map.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
                                       <li (click)='map.model = "Sentence Transformers"'><a>Sentence Transformers</a></li>
                                       <li (click)='map.model = "InferSent"'><a>InferSent</a></li>
+                                    </ul>
+                                </div>
+                            </div> 
+                            <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction')">
+                                <div class="label-text">Choose Model</div>
+                                <div class="dropdown dropdown-open">
+                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
+                                    <ul class="dropdown-menu content-menu">                                                                    
+                                      <li (click)='map.model = "topic_rank"'><a>Topic Rank</a></li>
+                                      <li (click)='map.model = "position_rank"'><a>Position Rank</a></li>
+                                      <li (click)='map.model = "multipartite_rank"'><a>Multipartite Rank</a></li>
                                     </ul>
                                 </div>
                             </div> 
