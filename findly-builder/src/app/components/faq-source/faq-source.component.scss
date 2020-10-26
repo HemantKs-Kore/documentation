@@ -616,11 +616,12 @@
                                     line-height: 21px;
                                     padding: 10px 0 20px 0;
                                     // border-bottom: 1px solid #E4E5E7;
-                                    &:last-child{
-                                        border: 0;
-                                        // padding-bottom: 0;
-                                    }
+                            
                                 }
+                                // .desc-info::nth-last-child(1){
+                                //     border: 0 !important;
+                                //     padding-bottom: 0 !important;
+                                // }
                                 .img-view-mode{
                                     padding: 10px 0 20px 0;
                                     img{
@@ -883,6 +884,14 @@
                             display: block !important;
                           } 
                     }
+                    .content-body{
+                        cursor: default;
+                        .actions-links{
+                            .action_icon{
+                                cursor: pointer;
+                            }
+                        }
+                    }
                 }
                 .last-child {
                     max-width: 90px !important;
@@ -1005,11 +1014,12 @@
 .alternate-question-bg{
     background: #F8F9FA;
 }
-
 ::ng-deep .editfaqSourceModalPop{
     .modal-body{
+
         .add-questions-form{
             padding: 0 !important;
+   
             .alternative-question-results{
                 .alternative-question{
                     padding: 20px 23px 5px 23px !important;
