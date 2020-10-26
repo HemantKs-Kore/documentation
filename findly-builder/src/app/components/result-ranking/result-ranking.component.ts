@@ -279,11 +279,13 @@ export class ResultRankingComponent implements OnInit {
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle; 
     this.iconIndex  = index;
+    this.mocData[index].selected = !selected;
     this.actionLogData[index].selected = !selected;
   }
   toggleAction(actiontoggle,index,selected){
    //this.actionToggle = !actiontoggle;
     this.actionIndex = index;
+    this.mocData[index].drop = !selected;
     this.actionLogData[index].drop = !selected;
   }
   toggleLogAction(index,selected){

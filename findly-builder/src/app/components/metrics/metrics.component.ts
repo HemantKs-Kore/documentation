@@ -50,7 +50,9 @@ export class MetricsComponent implements OnInit {
     console.log(event)
   }
   getQueries(type){
-   
+    const header : any= {
+      'x-timezone-offset': '-330'
+    };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: 0,
@@ -69,7 +71,7 @@ export class MetricsComponent implements OnInit {
         by: "timestamp"
       }
     }
-    this.service.invoke('get.queries', quaryparms,payload).subscribe(res => {
+    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
       if(type == 'TopQuriesWithNoResults'){
         this.topQuriesWithNoResults = res;
       }else if(type == 'MostSearchedQuries'){
