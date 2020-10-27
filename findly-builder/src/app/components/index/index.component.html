@@ -14,7 +14,7 @@
         <div class="stage_sec">
             <div class="stage_header">
                 <div class="title">Stages</div>
-                <div class="add" (click)="createNewMap()" placement="bottom-right" [disableTooltip]="(pipeline && pipeline.length)"  ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
+                <div class="add" (click)="createNewMap()" placement="bottom-right" [disableTooltip]="(pipeline && pipeline.length)" #tleft="ngbTooltip" triggers="manual" (mouseenter)="tleft.open()"  ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"><span id="addToolTo" (click)="$event.stopPropagation();tleft.open()"></span></div>
             </div>
             <perfect-scrollbar class="scroll_stage_content">
                 <ng-container *ngIf="pipeline && pipeline.length">

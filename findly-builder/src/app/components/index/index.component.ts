@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild , OnDestroy} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild , OnDestroy, AfterViewInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -13,12 +13,14 @@ import { of, interval, Subject } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+declare const $: any;
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit ,OnDestroy{
+export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   selectedApp: any = {};
   serachIndexId;
   indexPipelineId;
@@ -36,6 +38,7 @@ export class IndexComponent implements OnInit ,OnDestroy{
   changesDetected;
   currentEditIndex :any= -1;
   pollingSubscriber: any = null;
+  @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   newStage:any ={
@@ -153,6 +156,12 @@ export class IndexComponent implements OnInit ,OnDestroy{
     this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
     this.addcode({});
     this.getTraitGroups()
+  }
+  ngAfterViewInit() {
+    const self = this;
+    setTimeout(() => {
+      $('#addToolTo').click();
+    }, 700);
   }
   getTraitGroups(initial?) {
     const quaryparms :any = {
@@ -657,6 +666,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
      this.defaultStageTypes =  res.stages || [];
      this.selectedStage = this.fieldStage;
+     setTimeout(() => {
+      $('#addToolTo').click();
+    }, 700);
     }, errRes => {
       this.errorToaster(errRes,'Failed to get stop words');
     });
