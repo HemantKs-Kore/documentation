@@ -1673,7 +1673,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(evet.target).next().parent().next().hide();
           if (_self.vars.showingMatchedResults == true) {
             // _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand');
-            alert("Clicked on FAQ")
             _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'click');
           }
         } else {
@@ -2035,7 +2034,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
         console.log(e);
-        _self.performRankActions(e, { visible: false });
+        _self.performRankActions(e, { visible: false }, _self.vars.searchObject.searchText);
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
         console.log(e);
@@ -2043,20 +2042,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var _parentEle = $(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call(_parentEle[0].children);
         var pinIndex = nodes.indexOf(_selctedEle[0]);
-        _self.performRankActions(e, { pinIndex: pinIndex });
+        _self.performRankActions(e, { pinIndex: pinIndex }, _self.vars.searchObject.searchText);
 
       });
       $('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
         console.log(e);
-        _self.performRankActions(e, { boost: 0.25 });
+        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText);
       });
       $('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
         console.log(e);
-        _self.performRankActions(e, { boost: -0.25 });
+        _self.performRankActions(e, { boost: -0.25 }, _self.vars.searchObject.searchText);
       })
     };
 
-    KoreWidgetSDK.prototype.performRankActions = function (e, conf) {
+    KoreWidgetSDK.prototype.performRankActions = function (e, conf, searchText) {
       var _self = this;
       e.preventDefault();
       e.stopPropagation();
@@ -2064,7 +2063,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var contentId = _taskWrapDiv.attr('contentid');
       var contentType = _taskWrapDiv.attr('contentType');
-      var queryString = $(e.target).closest('.finalResults').attr('queryString');
+      // var queryString = $(e.target).closest('.finalResults').attr('queryString');
+      var queryString = searchText;
 
       var boost = _taskWrapDiv.attr('boost');
       var pinIndex = _taskWrapDiv.attr('pinIndex');
@@ -2470,7 +2470,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
-                    var faqs = [], pages = [], tasks = [], facets;
+                    var faqs = [], pages = [], tasks = [], facets, documents = [];
                     if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
@@ -2485,6 +2485,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages.push(result);
                         } else if (result.contentType === "task") {
                           tasks.push(result);
+                        } else if (result.contentType === "document") {
+                          documents.push(result);
                         }
                       })
                       facets = res.facets;
@@ -2493,6 +2495,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         pages: pages,
                         tasks: tasks,
                         facets: facets,
+                        documents: documents, 
                         originalQuery: res.originalQuery,
                       }
                       //livesearch
@@ -2537,12 +2540,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           facets: facets
                         }
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           showAllResults: false,
                           noResults: true,
                           taskPrefix: 'MATCHED'
