@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild , OnDestroy} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -9,6 +9,8 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
+import { of, interval, Subject } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
 @Component({
@@ -16,7 +18,7 @@ import { AuthService } from '@kore.services/auth.service';
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit ,OnDestroy{
   selectedApp: any = {};
   serachIndexId;
   indexPipelineId;
@@ -33,6 +35,7 @@ export class IndexComponent implements OnInit {
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
+  pollingSubscriber: any = null;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   newStage:any ={
@@ -307,6 +310,24 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.newFieldObj.fieldDataType = type
     }
   }
+  poling() {
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    this.simulteObj.currentSimulateAnimi = -1;
+    this.pollingSubscriber = interval(1000).pipe(startWith(0)).subscribe(() => {
+      if(this.simulteObj.currentSimulateAnimi === this.simulteObj.totalStages){
+        this.simulteObj.currentSimulateAnimi = -1;
+      }
+      this.simulteObj.currentSimulateAnimi = this.simulteObj.currentSimulateAnimi + 1;
+      console.log('hilight ' + this.simulteObj.currentSimulateAnimi);
+    }
+    )
+  }
+  simulateAnimate(payload){
+    this.simulteObj.totalStages = payload.length-2;
+    this.poling()
+  }
   preparepayload(){
     this.checkNewAddition();
     const stagesArray = [];
@@ -476,6 +497,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       docCount: 5,
       showSimulation: false,
     }
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
   }
   addcode(data?){
     data = data || {};
@@ -495,6 +519,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     } else {
       payload.pipelineConfig = stages
     }
+    this.simulateAnimate(payload.pipelineConfig);
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
@@ -797,6 +822,8 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   switchStage(systemStage,i){
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.catagory = this.defaultStageTypes[i].category;
+    this.selectedStage.name  =this.defaultStageTypesObj[systemStage.type].name;
+    this.selectedStage.config = {}
   }
   createNewMap(){
     if(this.changesDetected && false){
@@ -826,6 +853,12 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
+ ngOnDestroy() {
+  const self = this;
+  if (this.pollingSubscriber) {
+    this.pollingSubscriber.unsubscribe();
+  }
+}
 }
 class StageClass {
   name: string

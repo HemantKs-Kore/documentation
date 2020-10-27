@@ -249,6 +249,23 @@
                             line-height: 20px;
                         }
                     }
+                    &.runningActive{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.5;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    &.runningActive2{
+                        
+                    }
+                    &.allRunningActive{
+                      
+                    }
                     .stateIcon{
                         position: absolute;
                         left: 6px;
