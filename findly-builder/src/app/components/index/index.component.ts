@@ -316,7 +316,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     }
     this.simulteObj.currentSimulateAnimi = -1;
     this.pollingSubscriber = interval(1000).pipe(startWith(0)).subscribe(() => {
-      if(this.simulteObj.currentSimulateAnimi === this.simulteObj.totalStages){
+      if(this.simulteObj.currentSimulateAnimi === (this.simulteObj.totalStages -1)){
         this.simulteObj.currentSimulateAnimi = -1;
       }
       this.simulteObj.currentSimulateAnimi = this.simulteObj.currentSimulateAnimi + 1;
