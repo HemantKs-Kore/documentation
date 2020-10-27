@@ -52,7 +52,7 @@
      </div>
      <div class="saveCacleSynBlock row m-0">
        <div class="float-right">
-        <button class="kr-sg-button-primary btn_lg" (click)="addNewSynonyms(synonymObj)">Save</button>
+        <button class="kr-sg-button-primary btn_lg" [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))" (click)="addNewSynonyms(synonymObj)">Save</button>
         <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddSynonyms()">Cancel</button>
        </div>
     </div>
