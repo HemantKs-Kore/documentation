@@ -132,6 +132,17 @@
     pointer-events: none !important;
     opacity: 0.8;
 }
+.stageToggle{
+    position: relative;
+    top: 30px;
+    width: 174px;
+    .enabled{
+        width: 140px;
+    }
+    .disabled{
+        width: 140px;
+    }
+}
 .workbench_main_container{
     height: calc(100vh - 61px);
     .header_sec{
@@ -202,11 +213,13 @@
                     border-radius: 4px;
                     margin: 12px 30px;
                     transition: 0.3s all ease;
+                    cursor: pointer;
                     .title{
                         color: #5F6368;
                         font-size: 12px;
                         line-height: 20px;
                         font-weight: normal;
+                        // cursor: default;
                     }
                     &:hover{
                         border: 1px solid #0D6EFD;
@@ -219,6 +232,9 @@
                         }
                         .drag_drop_icon{
                             display: block;
+                        }
+                        .stateIcon{
+                            display: none;
                         }
                         .close_icon{
                             display: block;
@@ -233,6 +249,56 @@
                             font-size: 12px;
                             line-height: 20px;
                         }
+                    }
+                    &.runningActive{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.7 !important;
+                        background-color: #E7F1FF;
+                        -webkit-transition: background 1000ms linear;
+                        -ms-transition: background 1000ms linear;
+                        transition: background 1000ms linear;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    &.runningActive2{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.5 !important;
+                        -webkit-transition: background 1000ms linear;
+                        -ms-transition: background 1000ms linear;
+                        transition: background 1000ms linear;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    &.allRunningActive{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.4;
+                        -webkit-transition: background 1000ms linear;
+                        -ms-transition: background 1000ms linear;
+                        transition: background 1000ms linear;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    .stateIcon{
+                        position: absolute;
+                        left: 6px;
+                        top: 14px;
+                        cursor: move;
+                        display: block;
                     }
                     .drag_drop_icon{
                         position: absolute;
@@ -288,7 +354,7 @@
                     font-style: normal;
                     font-weight: 500;
                     font-size: 12px;
-                    line-height: 14px;
+                    // line-height: 14px;
                     margin-right: 30px;
                     img{
                         margin-right: 7px;
@@ -328,11 +394,14 @@
                         padding: 18px 15px;
                         box-shadow: inset 0px -1px 0px #E4E5E7;                        
                         transition: 0.3s all ease-in;
-                        cursor: pointer;
+                        // cursor: pointer;
                         &:hover{
                             background: #F8F9FA;
                             .action_links{
                                 visibility: visible;
+                                img{
+                                    cursor: pointer;
+                                }
                             }
                         }
                         .title{
@@ -341,6 +410,7 @@
                             font-size: 14px;
                             line-height: 14px;
                             color: #202124;   
+                            cursor: default;
                             img{
                                 cursor: pointer;
                             } 
@@ -379,7 +449,7 @@
             }
             .form_inputs_data{
                 .form_list{
-                    padding: 5px 34px 18px 34px;
+                    padding: 5px 75px 18px 34px;
                     position: relative;
                     box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.05);
                     .drag_drop{
@@ -390,9 +460,15 @@
                     }                
                     .delete_icon{
                         position: absolute;
-                        right: 5px;                       
+                        right: 48px;                    
                         cursor: pointer;
                         top: 34px;
+                    }
+                    .colse_form{
+                        position: absolute;
+                        right: 50px;
+                        bottom: 25px;
+                        cursor: pointer;
                     }
                     .add_icon{
                         position: absolute;
@@ -501,7 +577,7 @@
                         .mat-input-element{
                             margin: 0;
                             border: 0;
-                            height: 36px;
+                            height: 34px;
                             padding-left: 10px;
                             &:focus{   
                                 border: 0 !important;                             

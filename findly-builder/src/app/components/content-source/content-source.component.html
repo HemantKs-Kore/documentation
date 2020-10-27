@@ -116,7 +116,7 @@
                       class="list-name">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : 'In Progress')}}<img
+                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
                         class="hide" src="assets/icons/check-blue.svg"></span>
                   </li>
                 </ul>
@@ -135,7 +135,7 @@
         </header>
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
-            <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)">
+            <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
               <div class="col_ col-4">{{source.title || source.name}}</div>
               <div class="col_ col-2">
                 {{(source.type == 'webdomain' ? 'Web' :(source.type == 'document'? 'Doc': '')) | uppercase }}</div>
@@ -207,12 +207,12 @@
   </div>
 </div>
 
-<kr-modal modalType="center" modalClass="sliderComponent" #statusModalPop id="sourceSlider">
-  <div class="modal-header">
+<kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
+  <div class="modal-header noShadow">
     <h4 class="header-title">{{selectedSource.name}}</h4>
     <img src="assets/images/close.svg" class="closeCross" (click)="sliderStep?sliderBack():closeStatusModal();">
   </div>
-  <div class="modal-body source-modal-popup">
+  <div class="modal-body source-modal-popup ">
 
     <div class="sliderBody call-history-filter">
       <div class="mainLoadingSpinner" *ngIf="loadingSliderContent" [@fadeInOutAnimation]>
@@ -328,8 +328,8 @@
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
                           <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
-                            <div class="kr-sg-input-text-area">
-                              <textarea class="wid" [(ngModel)] = "editConfObj.desc"></textarea>
+                            <div class="kr-sg-input-text-area min-ht">
+                              <textarea class="wid min-ht" [(ngModel)] = "editConfObj.desc"></textarea>
                             </div>
                           </div>
                           <div class="col_ col-2" >{{selectedSource.createdOn | dateFormatPipe: 'MM:DD:YYYY hh:mm A'}}

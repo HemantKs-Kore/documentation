@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnnotoolComponent implements OnInit {
 
-  constructor() {    
+  constructor() { 
+    (window as any).pdfWorkerSrc = 'assets/js/pdf-dist/build/pdf.worker.min.js'; // setup worker path
   }
 
   ngOnInit() {

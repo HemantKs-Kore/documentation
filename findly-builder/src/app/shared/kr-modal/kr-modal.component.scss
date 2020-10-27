@@ -331,7 +331,7 @@
                 }
             }
             .modal-footer{
-                justify-content: center !important; 
+                // justify-content: center !important; 
                 height: 60px;
                 border-top: solid 0px #e5e8ec;
                 background-color: #f2f3f5;
@@ -344,6 +344,7 @@
                     border: 1px solid #0D6EFD;
                     font-size: 14px;
                     color: #fff;
+                    float: right;
                     &:hover{
                         background: #0D6EFD;
                         border: 1px solid #0D6EFD;
@@ -358,11 +359,15 @@
                     border: 1px solid #e5e8ec;
                     background: #fff;
                     color: #8a959f;
+                    float: right;
                     &:hover{
                         // background-color: #f2f3f5;
                         // border: 1px solid #f2f3f5;
                         opacity: 0.8;
                     }
+                }
+                .btn_lg{
+                    float: right;
                 }
                 .kr-sg-button-secondary{
                     &.backbtn{

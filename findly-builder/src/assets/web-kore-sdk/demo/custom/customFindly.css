@@ -42,7 +42,7 @@
     display: none !important;
 }
 .search-container.conversation.full-page .faqs-bottom-actions{
-    display: none !important;
+    display: table !important;
 }
 .search-background-div{
     width: 100%;

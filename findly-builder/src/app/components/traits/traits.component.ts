@@ -279,7 +279,7 @@ editTraitFroup = function (traitGroup, index) {
       data: {
         title: 'Delete Trait group',
         text: 'Are you sure you want to delete Trait group?',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
       }
     });
     dialogRef.componentInstance.onSelect
