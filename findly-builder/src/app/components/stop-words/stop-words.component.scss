@@ -86,6 +86,7 @@
     }         
     .stop-words-wrapper{
         padding: 40px 30px;
+        height: calc(100% - 52px);
         .addStopWordsBlock{     
             margin-bottom: 8px;       
            .kr-sg-input-text{
@@ -107,58 +108,72 @@
                 margin-left: 15px;                              
             }         
         }
-        .empty-stopwords{
-            width: 486px;
-            .main_heading{
-                font-weight: 600;
-                font-size: 18px;
-                line-height: 14px;
-                color: #423F3F;
-                margin-bottom: 12px;
-            }
-            .desc_info{
-                font-weight: 500;
-                font-size: 12px;
-                line-height: 14px;
-                color: #423F3F;
-            }
-            .radio-sec{
-                padding: 40px 0;
-                .radio_block{
-                    background: #FAFAFA;
-                    border: 1px solid #E5E8EC;
-                    box-sizing: border-box;
-                    border-radius: 8px;
-                    padding: 16px 24px;
-                    width: 486px;
-                    margin: 12px 0;
-                    .kr-sg-radiobutton{
-                        padding: 0;
-                        .radio-custom {
-                            + .radio-custom-label{
-                                &::before{
-                                    top: 9px;
+        .empty_screen_data{
+            display: flex;         
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: center;
+            .empty-stopwords{
+                width: 569px;
+                background: #FFFFFF;
+                box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+                border-radius: 10px;
+                margin: 0 auto;
+                padding: 45px 40px;
+                .main_heading{
+                    font-weight: 600;
+                    font-size: 18px;
+                    line-height: 14px;
+                    color: #423F3F;
+                    margin-bottom: 12px;
+                    text-align: center;
+                }
+                .desc_info{
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 14px;
+                    color: #423F3F;
+                    text-align: center;
+                }
+                .radio-sec{
+                    padding: 48px 0;
+                    .radio_block{
+                        background: #FAFAFA;
+                        border: 1px solid #E5E8EC;
+                        box-sizing: border-box;
+                        border-radius: 8px;
+                        padding: 16px 24px;
+                        width: 486px;
+                        margin: 12px 0;
+                        .kr-sg-radiobutton{
+                            padding: 0;
+                            .radio-custom {
+                                + .radio-custom-label{
+                                    &::before{
+                                        top: 9px;
+                                    }
+                                }
+                            }
+                            .radio-custom-label{
+                                padding-left: 44px;                       
+                                .label_heading{
+                                    font-size: 14px;
+                                    line-height: 14px;
+                                    margin-bottom: 4px;
+                                    color: #2C2543 !important;
+                                }
+                                .lable_dec{
+                                    color: #979797;
+                                    font-size: 12px;
+                                    line-height: 14px;
                                 }
                             }
                         }
-                        .radio-custom-label{
-                            padding-left: 44px;                       
-                            .label_heading{
-                                font-size: 14px;
-                                line-height: 14px;
-                                margin-bottom: 4px;
-                                color: #2C2543 !important;
-                            }
-                            .lable_dec{
-                                color: #979797;
-                                font-size: 12px;
-                                line-height: 14px;
-                            }
-                        }
                     }
-                }
-            }            
-        }
+                }            
+            }
+        }        
         .listingHeader{         
             border-bottom: 1px solid #E5E8EC;           
             align-items: center;

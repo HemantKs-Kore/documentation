@@ -14,16 +14,18 @@
         <div class="stage_sec">
             <div class="stage_header">
                 <div class="title">Stages</div>
-                <div class="add" (click)="createNewMap()" placement="bottom-right"  ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"></div>
+                <div class="add" (click)="createNewMap()" placement="bottom-right" [disableTooltip]="(pipeline && pipeline.length)" #tleft="ngbTooltip" triggers="manual" (mouseenter)="tleft.open()"  ngbTooltip="Click here to get started by adding a stage" [container]='"body"' tooltipClass="custom_tooltip_class"><img src="assets/icons/add_plus.svg"><span id="addToolTo" (click)="$event.stopPropagation();tleft.open()"></span></div>
             </div>
             <perfect-scrollbar class="scroll_stage_content">
                 <ng-container *ngIf="pipeline && pipeline.length">
                     <div cdkDropList (cdkDropListDropped)="drop($event,pipeline)">
-                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (currentEditIndex === i)}">
+                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (currentEditIndex === i),'runningActive':(simulteObj && simulteObj.currentSimulateAnimi === i), 'runningActive2':(simulteObj && (simulteObj.currentSimulateAnimi === (i-1))), 'allRunningActive':(simulteObj &&   (i < simulteObj.totalStages))}">
                             <div class="field_data" *cdkDragPreview>
                                 <div class="title text-truncate" >{{pipe.name}}</div>
                             </div>
                             <div class="drag_drop_icon"><img src="assets/icons/drog_drop.svg"></div>
+                            <div class="stateIcon" *ngIf="pipe.enable"><img src="assets/images/activeStage.svg"></div>
+                            <div class="stateIcon" *ngIf="!pipe.enable"><img src="assets/images/inActiveStage.svg"></div>
                             <div class="title text-truncate" >{{pipe.name}}</div>
                             <div class="close_icon" (click)="removeStage(i)"><img src="assets/icons/close_field.svg"></div>
                         </div>
@@ -77,7 +79,7 @@
                         </div> 
                     </perfect-scrollbar>  
                     <div class="footer-simulate">
-                        <button class="kr-sg-button-primary btn_lg  mr-5" (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1">Simulate</button>
+                        <span class="mr-5"> <button class="kr-sg-button-primary btn_lg" (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'>Simulate</button><span class="ml- d-none"><img src="assets/icons/help.svg"></span></span>
                     </div>         
                 </div>
                
@@ -87,9 +89,9 @@
         <div class="form_sec" *ngIf="selectedStage && selectedStage.type && (selectedStage.type !== 'fields')">
             <perfect-scrollbar class="scroll_form">
                 <div class="form_edit_content">
-                    <div class="row m-0 col-12 p-0">
-                        <div class="kr-sg-dropdowns mb-20 col-9 pl-0">
-                            <div class="label-text">Stage Type</div>
+                    <div class="d-flex m-0 col-12 p-0">
+                        <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
+                            <div class="label-text">Stage Type <span ngbTooltip="Select an appropriate stage to create and transform pipeline document objects" tooltipClass="metrics_tooltips m-0" placement="top-center" container="body" class="pl-1"><img src="assets/icons/help.svg"></span></div>
                             <div class="dropdown dropdown-open" [ngClass]="{'disabled': selectedStage._id}">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
                                 <ul class="dropdown-menu content-menu">                                                                    
@@ -97,19 +99,19 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-3 p-0">
-                            <label class="kr-sg-toggle stageToggle">                                       
+                        <div class="stageToggle">
+                            <label class="kr-sg-toggle">                                       
                                 <input type="checkbox" checked [(ngModel)]="selectedStage.enable">
-                                <div class="slider"><span class="enabled">Stage Enabled</span><span class="disabled">Stage disabled</span></div>
+                                <div class="slider"><span class="enabled">Stage Active</span><span class="disabled">Stage Inactive</span></div>
                             </label>
                         </div>
                     </div>
                     <div class="kr-sg-input-text mb-20">
-                        <div class="label-text">Stage Name</div>
+                        <div class="label-text">Stage Name <img container="body"  ngbTooltip="Give your own name for the stage" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg"></div>
                         <input type="text" placeholder="Please enter stage name" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
                     </div>
                     <div class="kr-sg-input-text mb-20">
-                        <div class="label-text">Condition</div>
+                        <div class="label-text">Condition <img container="body" ngbTooltip="Condition evaluates to false will skip the stage execution" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg"></div>
                         <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.condition">
                     </div>
                 </div>
@@ -217,8 +219,8 @@
                                 </div>
                             </div> 
                             <div class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction') && !(selectedStage.type === 'semantic_meaning')">
-                                <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
-                                <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
+                                <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Add Entities <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Entities to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
+                                <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Add Trait Groups <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Traits to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'keyword_extraction')">Choose Kwywords</div>
                                 <ng-container  *ngIf="(selectedStage.type === 'entity_extraction')">
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
@@ -302,8 +304,8 @@
                             </div>
                         </div>
                         <div  class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction') && !(selectedStage.type === 'semantic_meaning')">
-                            <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Choose Entity</div>
-                            <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Traits Group</div>
+                            <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Add Entities <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Entities to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
+                            <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Add Trait Groups <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Traits to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
                             <div class="label-text" *ngIf="(selectedStage.type === 'keyword_extraction')">Choose Kwywords</div>
                             <ng-container *ngIf="(selectedStage.type === 'entity_extraction')">
                             <mat-form-field class="example-chip-list" [floatLabel]="'never'">
@@ -370,7 +372,7 @@
                 </div>
             </perfect-scrollbar>    
             <div class="footer-simulate-form">
-                <button class="kr-sg-button-primary btn_lg float-right mr-5" (click)="simulate()"><img src="assets/images/simulate.svg" class="mr-1">Simulate</button>
+                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg " (click)="simulate()" tooltipClass="metrics_tooltips m-0" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'><img src="assets/images/simulate.svg" class="mr-1" >Simulate</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
                 <button class="kr-sg-button-secondary btn_lg float-right" [disabled]="!changesDetected" (click)="clearDirtyObj(true)">Cancel</button>
             </div> 
         </div>          

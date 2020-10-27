@@ -135,11 +135,12 @@
 .stageToggle{
     position: relative;
     top: 30px;
+    width: 174px;
     .enabled{
-    width: 150px;
+        width: 140px;
     }
     .disabled{
-        width: 150px;
+        width: 140px;
     }
 }
 .workbench_main_container{
@@ -232,6 +233,9 @@
                         .drag_drop_icon{
                             display: block;
                         }
+                        .stateIcon{
+                            display: none;
+                        }
                         .close_icon{
                             display: block;
                         }
@@ -245,6 +249,56 @@
                             font-size: 12px;
                             line-height: 20px;
                         }
+                    }
+                    &.runningActive{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.7 !important;
+                        background-color: #E7F1FF;
+                        -webkit-transition: background 1000ms linear;
+                        -ms-transition: background 1000ms linear;
+                        transition: background 1000ms linear;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    &.runningActive2{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.5 !important;
+                        -webkit-transition: background 1000ms linear;
+                        -ms-transition: background 1000ms linear;
+                        transition: background 1000ms linear;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    &.allRunningActive{
+                        border: 1px solid #0D6EFD;
+                        background: #E7F1FF;
+                        opacity: 0.4;
+                        -webkit-transition: background 1000ms linear;
+                        -ms-transition: background 1000ms linear;
+                        transition: background 1000ms linear;
+                        .title{
+                            color: #202124;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 20px;
+                        }
+                    }
+                    .stateIcon{
+                        position: absolute;
+                        left: 6px;
+                        top: 14px;
+                        cursor: move;
+                        display: block;
                     }
                     .drag_drop_icon{
                         position: absolute;
