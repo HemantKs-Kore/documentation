@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
   showMenu(event){
     this.showMainMenu = event
@@ -114,6 +115,7 @@ export class AppComponent implements OnInit {
           pipelineId:appData.searchIndexes[0].queryPipelineId
         }
         window.selectedFindlyApp = searchData;
+        console.log(searchData, window.selectedFindlyApp)
         this.searchInstance.setAPIDetails();
       }
     }

@@ -163,6 +163,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.filterObject = [];
       vars.searchFacetFilters = [];
 
+      vars.showingMatchedResults = false;
+
     }; //********************original widget.js start */
 
 
@@ -240,7 +242,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var pipelineId = ''
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
         SearchIndexID = window.selectedFindlyApp._id;
-        pipelineId = window.selectedFindlyApp.pipelineId
+        pipelineId = window.selectedFindlyApp.pipelineId;
       }
       var baseAPIServer = 'https://app.findly.ai';
       if (_self.isDev) {
@@ -252,6 +254,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
+        metricsUrl: baseAPIServer + "/api/1.1/findlymetrics/logs",
         popularSearchesUrl: baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
         queryConfig: businessTooBaseURL + SearchIndexID + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
@@ -898,7 +901,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
               <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
-                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
+                 <a class="faqs-wrp-content" href="${page.url}" target="_blank" id=${key}>\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
                  </div>\
@@ -1021,8 +1024,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if pages.length && (selectedFacet === "page" || selectedFacet === "all results")}}\
               <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
               <div class="relatedPagesTitle">MATCHED PAGES</div>\
+              <div class="tasks-wrp">\
               {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-              <div class="faqs-shadow">\
+              <div class="faqs-shadow task-wrp" contentId="${page.contentId}" contentType="${page.contentType}" visible="${page.config.visible}">\
                  <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
@@ -1057,6 +1061,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              </div>\
               </div>\
               {{/each}}\
+              </div>\
               {{if selectedFacet !== "page" && pages.length>5}}\
                 <div class="ksa-showMore">Show More</div>\
               {{/if}}\
@@ -1067,7 +1072,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                <div class="faqs-shadow ">\
+                <div class="faqs-shadow task-wrp">\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}</span>\
@@ -1110,6 +1115,46 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="moreFaqs">Show All</div>\
                 {{/if}}\
               </div>\
+              {{/if}}\
+              {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results") }}\
+                <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
+                  <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
+                  {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
+                    <div class="faqs-shadow" contentId="${document.contentId}" contentType="${document.contentType}">\
+                      <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
+                        <div class="image-url-sec">\
+                          <img src="${document.imageUrl}"/>\
+                        </div>\
+                        <div class="pages-content">\
+                          <div class="title" title="${document.title}">${document.title}</div>\
+                          <div class="desc-info">${document.searchResultPreview}</div>\
+                        </div>\
+                      </a>\
+                      <div class="faqs-bottom-actions">\
+                        <span class="appearences">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                          <span class="appearences-count">155 Appearances - 138 Clicks</span>\
+                        </span>\
+                        <span class="actions">\
+                          <span class="img-action dont-show two">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
+                          </span>\
+                          <span class="img-action pin">\
+                            <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                          </span>\
+                          <span class="img-action boostup">\
+                            <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
+                          </span>\
+                          <span class="img-action boostdown">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
+                          </span>\
+                        </span>\
+                      </div>\
+                    </div>\
+                  {{/each}}\
+                </div>\
               {{/if}}\
             </div>\
           </div>\
@@ -1515,10 +1560,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return listT;
     }
     KoreWidgetSDK.prototype.getSuggestion = function (suggestions) {
+      var _self = this;
       var $suggest = $('#suggestion');
       // some other key was pressed
       var needle = $('#search').val();
-
+      _self.vars.showingMatchedResults = false;
       // is the field empty?
       if (!$.trim(needle).length) {
         $suggest.val("");
@@ -1612,6 +1658,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     KoreWidgetSDK.prototype.bindSearchAccordion = function () {
+
+      var _self = this;
+
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).toggleClass('acc-active');
         var panel = $(evet.target).next();
@@ -1622,6 +1671,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
+          if (_self.vars.showingMatchedResults == true) {
+            // _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand');
+            alert("Clicked on FAQ")
+            _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'click');
+          }
         } else {
           $(evet.target).next().parent().next().show();
         }
@@ -1665,6 +1719,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtYmx1ZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtYmx1ZSIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().next().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsup";
+
+          if(_self.vars.showingMatchedResults == true) {
+            _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsUp')
+          }
+
           _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
             console.log(res);
           });
@@ -1678,6 +1737,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ibHVlPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWJsdWUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().prev().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsdown";
+
+          if(_self.vars.showingMatchedResults == true) {
+            _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsDown')
+          }
+
           _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
             console.log(res);
           });
@@ -1707,6 +1771,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         selectedFacet: selectedFacet ? selectedFacet : "all results",
         faqs: _self.vars.searchObject.liveData.faqs,
 
+        documents: _self.vars.searchObject.liveData.documents,
+
         searchFacets: _self.vars.searchFacetFilters,
 
         getFacetDisplayName: function (key) {
@@ -1716,6 +1782,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return "Pages"
           } else if (key.toLowerCase() === 'task') {
             return "Actions"
+          } else if (key.toLowerCase() === 'document') {
+            return "Documents"
           } else {
             return key;
           }
@@ -1775,6 +1843,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     KoreWidgetSDK.prototype.bindAllResultsView = function () {
       var _self = this;
+
+      if (_self.vars.showingMatchedResults == true) {
+        $('a.faqs-wrp-content').off('click').on('click', function (event) {
+          console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
+          _self.captureClickAnalytics(event, $(event.currentTarget).parent().attr('contentType'), 'click');
+        })
+      }
+
       $('.show-all-results').off('click').on('click', function (e) {
         var data = $(e.currentTarget).closest('.finalResults').data() || {};
         _self.vars.searchObject.liveData = data
@@ -1930,6 +2006,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return task;
           })
         }
+
+        if(_self.vars.showingMatchedResults == true) {
+          console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
+          _self.captureClickAnalytics(e, $(e.currentTarget).parent().attr('contentType'), 'click');
+        }
+
         window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
         _self.bindFrequentData();
         //_self.saveOrGetDataInStorage(); 
@@ -1952,10 +2034,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       })
       $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
+        console.log(e);
         _self.performRankActions(e, { visible: false });
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
-
+        console.log(e);
         var _selctedEle = $(e.target).closest('.task-wrp');
         var _parentEle = $(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call(_parentEle[0].children);
@@ -1964,9 +2047,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       });
       $('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
+        console.log(e);
         _self.performRankActions(e, { boost: 0.25 });
       });
       $('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
+        console.log(e);
         _self.performRankActions(e, { boost: -0.25 });
       })
     };
@@ -2196,6 +2281,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
 
         }
+      })
+    }
+
+    KoreWidgetSDK.prototype.captureClickAnalytics = function (event, resultType, eventType) {
+      var _self = this;
+      var url = _self.API.metricsUrl;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        "answerType": resultType,
+        "event": eventType,
+        "streamId": _self.API.streamId,
+      }
+
+      if (payload.answerType == 'page') {
+        payload.answerType = 'webpage';
+      }
+
+      payload.searchResultId = _self.vars.previousSearchObj.requestId;
+      payload.clickRank = parseInt($(event.currentTarget).attr('id')) + 1;
+
+      console.log(payload.event);
+
+      if (payload.event == 'expand' || payload.event == 'thumbsUp' || payload.event == 'thumbsDown') {
+        delete payload.clickRank;
+      }
+
+      console.log(payload);
+
+      _self.dumpClickAnalyticsData(url, 'POST', JSON.stringify(payload)).then(function (res) {
+        console.log(res);
       })
     }
 
@@ -2767,7 +2882,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        var faqs = [], pages = [], tasks = [], facets, searchFacets = [];
+        var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = [];
         if (res && res.requestId && res.template && res.template.originalQuery) {
           _self.vars.previousSearchObj = {};
           _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
@@ -2834,7 +2949,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           faqs = res.results.faq;
           pages = res.results.page;
           tasks = res.results.task;
+          documents = res.results.document;
           facets = res.facets;
+
 
           if (res.searchFacets !== undefined) {
             _self.vars.searchFacetFilters = res.searchFacets;
@@ -2869,6 +2986,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             faqs: faqs,
             pages: pages,
             tasks: tasks,
+            documents: documents,
             facets: facets,
             originalQuery: res.originalQuery || '',
 
@@ -2887,6 +3005,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             faqs: faqs,
             pages: pages,
             tasks: tasks,
+            documents: documents,
             facets: facets,
             originalQuery: res.originalQuery || '',
 
@@ -2921,6 +3040,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 searchData.addClass("hide");
               }
               $('#searchChatContainer').append(searchData);
+              _self.vars.showingMatchedResults = true;
             }
             setTimeout(function () {
               var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
@@ -3236,6 +3356,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
+
+    KoreWidgetSDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
+      var bearer = this.API.jstBarrer;
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: {
+          "Authorization": bearer,
+          "Content-Type": "application/json" 
+        },
+        data: payload,
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        } 
+      })
+    }
+
     KoreWidgetSDK.prototype.bindCloseGreeting = function () {
       var _self = this;
       $('.search-greeting-close-container').off('click').on('click', function (e) {
