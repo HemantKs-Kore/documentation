@@ -105,6 +105,17 @@
             }
         }
     }
+    /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
 }
 
 ::ng-deep perfect-scrollbar .ps--active-y{
@@ -451,6 +462,17 @@
             }
         }
     }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
 }
 
 ::ng-deep .custome_date_picker.mat-datepicker-toggle{
@@ -474,3 +496,4 @@
     right: 4px;
     bottom: -1px;
 }
+

@@ -17,6 +17,7 @@ import * as _ from 'underscore';
 })
 export class AppComponent implements OnInit {
   loading = true;
+  showMainMenu = true;
   previousState;
   appsData: any;
   searchInstance:any;
@@ -43,6 +44,9 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
+  }
+  showMenu(event){
+    this.showMainMenu = event
   }
    restorepreviousState(){
     let route = '/apps';

@@ -458,5 +458,29 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/sentences/ml/train?streamId=:streamId',
       method: 'post'
     }
+    this.serviceList['get.queryCustomizeList'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations',
+      method: 'get'
+    }
+    this.serviceList['put.restoreQueryCustomize'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
+      method: 'put'
+    }
+    this.serviceList['get.rankingActionLog'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/logs?limit=20&skip=0',
+      method: 'get'
+    }
+    this.serviceList['get.customisationLogs'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
+      method: 'get'
+    }
+    /** get API for Metrics */
+
+    this.serviceList['get.queries'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
+      method: 'post'
+    }
+
+    /** get API for Metrics */
   }
 }
