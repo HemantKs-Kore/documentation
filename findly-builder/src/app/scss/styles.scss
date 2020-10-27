@@ -1238,7 +1238,7 @@ div.divBlockEmptylastChild:first-child {
             font-weight: normal;
             font-size: 14px;
             float: left;
-            font-weight: bold;
+            font-weight: 400;
         }
         .close_icon{
             cursor: pointer;
@@ -1374,7 +1374,7 @@ div.divBlockEmptylastChild:first-child {
     }
 }
 .cursor-pointer{
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .metrics_tooltips{
