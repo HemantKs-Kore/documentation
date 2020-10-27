@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
-    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
   showMenu(event){
     this.showMainMenu = event
@@ -228,5 +227,6 @@ export class AppComponent implements OnInit {
            wSdk.setJWT('dummyJWT');
             wSdk.show(widgetsConfig, wizSelector);
             wSdk.showSearch();
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }
