@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild , OnDestroy, AfterViewInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -9,14 +9,18 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
+import { of, interval, Subject } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+declare const $: any;
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   selectedApp: any = {};
   serachIndexId;
   indexPipelineId;
@@ -33,6 +37,8 @@ export class IndexComponent implements OnInit {
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
+  pollingSubscriber: any = null;
+  @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   newStage:any ={
@@ -150,6 +156,12 @@ export class IndexComponent implements OnInit {
     this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
     this.addcode({});
     this.getTraitGroups()
+  }
+  ngAfterViewInit() {
+    const self = this;
+    setTimeout(() => {
+      $('#addToolTo').click();
+    }, 700);
   }
   getTraitGroups(initial?) {
     const quaryparms :any = {
@@ -307,6 +319,24 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.newFieldObj.fieldDataType = type
     }
   }
+  poling() {
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    this.simulteObj.currentSimulateAnimi = -1;
+    this.pollingSubscriber = interval(1000).pipe(startWith(0)).subscribe(() => {
+      if(this.simulteObj.currentSimulateAnimi === (this.simulteObj.totalStages -1)){
+        this.simulteObj.currentSimulateAnimi = -1;
+      }
+      this.simulteObj.currentSimulateAnimi = this.simulteObj.currentSimulateAnimi + 1;
+      console.log('hilight ' + this.simulteObj.currentSimulateAnimi);
+    }
+    )
+  }
+  simulateAnimate(payload){
+    this.simulteObj.totalStages = payload.length-1;
+    this.poling()
+  }
   preparepayload(){
     this.checkNewAddition();
     const stagesArray = [];
@@ -349,7 +379,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         }
       }
       if(tempStageObj && tempStageObj.type === 'custom_script') {
-        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+        if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
             const tempConfig :any = [];
             tempStageObj.config.mappings.forEach(config => {
                 if(!config.script) {
@@ -361,7 +391,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         }
       }
       if(tempStageObj && ((tempStageObj.type === 'entity_extraction')  || (tempStageObj.type === 'traits_extraction') || (tempStageObj.type === 'keyword_extraction'))) {
-        if (tempStageObj.config && tempStageObj.config.mappings.length) {
+        if (tempStageObj.config && tempStageObj.config.mappings && tempStageObj.config.mappings.length) {
             const tempConfig :any = [];
             tempStageObj.config.mappings.forEach(config => {
               if(!config.source_field || !config.source_field) {
@@ -476,6 +506,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       docCount: 5,
       showSimulation: false,
     }
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
   }
   addcode(data?){
     data = data || {};
@@ -495,6 +528,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     } else {
       payload.pipelineConfig = stages
     }
+    this.simulateAnimate(payload.pipelineConfig);
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
@@ -632,6 +666,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
      this.defaultStageTypes =  res.stages || [];
      this.selectedStage = this.fieldStage;
+     setTimeout(() => {
+      $('#addToolTo').click();
+    }, 700);
     }, errRes => {
       this.errorToaster(errRes,'Failed to get stop words');
     });
@@ -797,6 +834,8 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   switchStage(systemStage,i){
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.catagory = this.defaultStageTypes[i].category;
+    this.selectedStage.name  =this.defaultStageTypesObj[systemStage.type].name;
+    this.selectedStage.config = {}
   }
   createNewMap(){
     if(this.changesDetected && false){
@@ -805,7 +844,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.changesDetected = true;
     const obj :any = new StageClass();
     const newArray = [];
-    obj.name = 'My Stage';
+    obj.name = this.defaultStageTypes[0].name;
     obj.enable = true;
     obj.type = this.defaultStageTypes[0].type;
     obj.catagory = this.defaultStageTypes[0].category;
@@ -826,6 +865,12 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
+ ngOnDestroy() {
+  const self = this;
+  if (this.pollingSubscriber) {
+    this.pollingSubscriber.unsubscribe();
+  }
+}
 }
 class StageClass {
   name: string

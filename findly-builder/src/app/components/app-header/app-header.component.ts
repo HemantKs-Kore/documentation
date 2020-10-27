@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { SideBarService } from '../../services/header.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import * as _ from 'underscore';
 })
 export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
+  showMainMenu : boolean = true;
   pagetitle: any;
   fromCallFlow = '';
   showSwichAccountOption = false;
@@ -25,6 +26,7 @@ export class AppHeaderComponent implements OnInit {
   searchText:any;
   search:any;
   formatter:any;
+  @Output() showMenu = new EventEmitter();
   availableRouts = [
     {displayName:'Summary' , routeId:'/summary',quaryParms:{}},
     {displayName:'Add Sources' , routeId:'/source',quaryParms:{}},
@@ -47,7 +49,14 @@ export class AppHeaderComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService
   ) { }
-
+  analyticsClick(menu){
+    if(menu == 'metrics'){
+      this.showMainMenu = false;
+    }else{
+      this.showMainMenu = true;
+    }
+    this.showMenu.emit(this.showMainMenu)
+  }
   logoutClick() {
     this.authService.logout();
   }

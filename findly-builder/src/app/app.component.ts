@@ -17,6 +17,7 @@ import * as _ from 'underscore';
 })
 export class AppComponent implements OnInit {
   loading = true;
+  showMainMenu = true;
   previousState;
   appsData: any;
   searchInstance:any;
@@ -43,7 +44,9 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
-    this.resetFindlySearchSDK(this.workflowService.selectedApp());
+  }
+  showMenu(event){
+    this.showMainMenu = event
   }
    restorepreviousState(){
     let route = '/apps';
@@ -230,5 +233,6 @@ export class AppComponent implements OnInit {
            wSdk.setJWT('dummyJWT');
             wSdk.show(widgetsConfig, wizSelector);
             wSdk.showSearch();
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }
