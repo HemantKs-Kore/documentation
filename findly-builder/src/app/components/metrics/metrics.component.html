@@ -17,11 +17,11 @@
                     <span class="pr-1">Searches</span>
                     <span class="pr-1">Results</span>
                 </div>
-                <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span>
+                 <div class="date-info">All conversation sessions between <span class="bold-text">1 day</span> <!-- 01-08-2020 to 07-08-2020 -->
                 </div>
                 <div class="date-select">
-                    <span class="day time">24 Hrs</span>
-                    <span class="week time active">7 Days</span>
+                    <span class="day time active">24 Hrs</span>
+                    <span class="week time ">7 Days</span>
                     <span class="custom time">Custom</span>
                 </div>
                 <div class="export"><img src="assets/icons/export.svg"></div>
@@ -51,7 +51,7 @@
                         <div class="title-info">Total Search<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
-                                <div class="count">1200</div>
+                                <div class="count">{{totalSearchSum}}</div>
                                 <div class="data-percentage">
                                     <img src="assets/icons/arrow-increase.svg">
                                     <span class="percentage">12%</span>
@@ -117,21 +117,21 @@
                             <div class="content">
                                 <div class="title">Total Searches <span class="toatlsearches"></span></div>
                                 <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+12%</span>
                                 </div>
                             </div>
                             <div class="content">
                                 <div class="title">Searches with Results <span class="withresults"></span></div>
                                 <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithResultsSum}}</span>
                                     <span class="percentage">+12%</span>
                                 </div>
                             </div>
                             <div class="content">
                                 <div class="title">Searches with Clicks <span class="clicks"></span></div>
                                 <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">1140</span>
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithClicksSum}}</span>
                                     <span class="percentage">+12%</span>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                             </div>
                             <div *ngIf="topQuriesWithNoResults">
                                 <div class="table_header row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
-                                    <div class="col-10 header-title">{{top.query}}</div>
+                                    <div class="col-10 header-title pr-3">{{top.query}}</div>
                                     <div class="col-2 header-title text-right">{{top.count}}</div>
                                 </div>
                             </div>
@@ -352,7 +352,7 @@
                         <div class="title-card">Top Search Queries with No Results</div>
                         <div class="table-content-data" *ngIf="topQuriesWithNoResults">
                             <div class="table_header row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
-                                <div class="col-10 header-title">{{top.query}}</div>
+                                <div class="col-10 header-title pr-3">{{top.query}}</div>
                                 <div class="col-2 header-title text-right">{{top.count}}</div>
                             </div>
                         </div>

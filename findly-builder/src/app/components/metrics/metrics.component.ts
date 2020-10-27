@@ -86,7 +86,7 @@ export class MetricsComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
-      searchIndexId: 'sidx-19795308-9d0e-5f85-b35b-7b180a7f8b4d',//this.serachIndexId,
+      searchIndexId: this.serachIndexId,
       offset: 0,
       limit:this.pageLimit
     };
@@ -442,11 +442,20 @@ this.chartOption  = {
       
       tooltip: {
         formatter: `
-        <div class="metrics-tooltips-hover engagement_analysis_tooltip">  
-        <div class="data-content"><span class="indication voice"></span><span class="title"><b>20%</b> conversation in voice</span></div>
-        <div class="data-content"><span class="indication chat"></span><span class="title"><b>30%</b> conversation in Chat</span></div>  
-        <div class="info_message_data">Spent more than 60 Seconds with the bot</div>
-      </div>
+        <div class="metrics-tooltips-hover userengagment-tooltip">          
+        <div class="data-content">
+            <div class="main-title">Total Users</div>
+            <div class="title total">{c0}</div>
+        </div>
+        <div class="data-content">
+            <div class="main-title">New Users</div>
+            <div class="title new">230</div>
+        </div>
+        <div class="data-content border-0">
+            <div class="main-title">Repeat Users</div>
+            <div class="title return">230</div>
+        </div>
+    </div> 
         `,
         position: 'top',
         padding: 0
