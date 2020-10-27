@@ -12,7 +12,10 @@ import { EChartOption } from 'echarts';
 export class MetricsComponent implements OnInit {
   selectedApp;
   serachIndexId;
-
+  pageLimit = 5;
+  totalSearchSum =0;
+  searchesWithClicksSum = 0;
+  searchesWithResultsSum = 0;
   tsqtotalRecord = 100;
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
@@ -71,6 +74,9 @@ export class MetricsComponent implements OnInit {
   }
   tab(index){
     this.slider = index
+    if(index == 2){
+      this.pageLimit = 10
+    }
   }
   paginate(event){
     console.log(event)
@@ -80,15 +86,15 @@ export class MetricsComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: 'sidx-19795308-9d0e-5f85-b35b-7b180a7f8b4d',//this.serachIndexId,
       offset: 0,
-      limit:20
+      limit:this.pageLimit
     };
     let payload : any = {
       type : type,
       filters: {
-        from: "2020-10-14T00:29:38.552Z",
-        to: "2020-10-21T00:29:38.552Z"
+        from: "2020-10-26T05:29:23.754Z",
+        to: "2020-10-27T05:29:23.755Z"
       }
     }
     if(type == "QueriesWithNoClicks"){
@@ -99,22 +105,37 @@ export class MetricsComponent implements OnInit {
     }
     this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
       if(type == 'TopQuriesWithNoResults'){
-        this.topQuriesWithNoResults = res;
-        this.tsqNoRtotalRecord = res.length;
-        this.tsqNoRlimitpage = 5;
-        this.tsqNoRrecordEnd = 5;
+        this.topQuriesWithNoResults = res.response;
+        this.tsqNoRtotalRecord = res.response.length;
+        this.tsqNoRPtotalRecord = res.response.length;
+        if(!res.response.length){
+          this.tsqNoRtotalRecord = 0
+          this.tsqNoRlimitpage = 0;
+          this.tsqNoRrecordEnd = 0;
+        }
+        this.pagination(this.topQuriesWithNoResults,type)
       }else if(type == 'MostSearchedQuries'){
-        this.mostSearchedQuries = res;
-        this.tsqtotalRecord = res.length;
-        this.tsqlimitpage = 5;
-        this.tsqrecordEnd = 5;
+        this.mostSearchedQuries = res.result;
+        this.tsqtotalRecord = res.result.length;
+        this.tsqPtotalRecord = res.result.length;
+        if(!res.result.length){
+          this.tsqtotalRecord = 0;
+          this.tsqlimitpage = 0;
+          this.tsqrecordEnd = 0;
+        }
+        this.pagination(this.mostSearchedQuries,type)
       }else if(type == 'QueriesWithNoClicks'){
-        this.queriesWithNoClicks = res;
-        this.tsqNoCtotalRecord = res.length;
-        this.tsqNoClimitpage = 10;
-        this.tsqNoCrecordEnd = 10;
+        this.queriesWithNoClicks = res.result;
+        this.tsqNoCtotalRecord = res.result.length;
+        this.tsqNoCPtotalRecord = res.result.length;
+        if(!res.result.length){
+            this.tsqNoCtotalRecord = 0
+            this.tsqNoClimitpage = 0;
+            this.tsqNoCrecordEnd = 0;
+          }
+          this.pagination(this.queriesWithNoClicks,type)
       }else if(type == 'SearchHistogram'){
-        this.searchHistogram = res;
+        this.searchHistogram = res.result;
         this.summaryChart();
       }
      }, errRes => {
@@ -124,6 +145,34 @@ export class MetricsComponent implements OnInit {
          this.notificationService.notify('Failed ', 'error');
        }
      });
+  }
+  
+  
+  pagination(data,type){
+    if(type == 'MostSearchedQuries'){
+      if(data.length <= this.tsqlimitpage){ this.tsqlimitpage = data.length }
+      if(data.length <= this.tsqrecordEnd){ this.tsqrecordEnd = data.length }
+
+      if(data.length <= this.tsqPlimitpage){ this.tsqPlimitpage = data.length }
+      if(data.length <= this.tsqPrecordEnd){ this.tsqPrecordEnd = data.length }
+
+    }
+    if(type == 'TopQuriesWithNoResults'){
+      if(data.length <= this.tsqNoRlimitpage){ this.tsqNoRlimitpage = data.length }
+      if(data.length <= this.tsqNoRrecordEnd){ this.tsqNoRrecordEnd = data.length }
+
+      if(data.length <= this.tsqNoRPlimitpage){ this.tsqNoRPlimitpage = data.length }
+      if(data.length <= this.tsqNoRPrecordEnd){ this.tsqNoRPrecordEnd = data.length }
+
+    }
+    if(type == 'QueriesWithNoClicks'){
+      if(data.length <= this.tsqNoClimitpage){ this.tsqNoClimitpage = data.length }
+      if(data.length <= this.tsqNoCrecordEnd){ this.tsqNoCrecordEnd = data.length }
+
+      if(data.length <= this.tsqNoCPlimitpage){ this.tsqNoCPlimitpage = data.length }
+      if(data.length <= this.tsqNoCPrecordEnd){ this.tsqNoCPrecordEnd = data.length }
+
+    }
   }
   // compare(a: number | string, b: number | string, isAsc: boolean) {
   //   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -150,78 +199,78 @@ export class MetricsComponent implements OnInit {
   // }
   summaryChart(){
     /** TEST */
-    let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
+    // let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
+    // let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
 
-    let testdata = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
+    // let testdata = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
    
-    var data = [
+    // var data = [
       
-      ["1st Aug",127,116,216],
-      ["1st Aug",213,199,229],
-      ["1st Aug",215,201,227],
-      ["1st Aug",245,202,266],
-      ["1st Aug",246,203,267],
-      ["1st Aug",257,204,290],
-      ["1st Aug",267,211,300],
-      ["2nd Aug",271,209,301],
-      ["2nd Aug",289,321,299],
-      ["2nd Aug",291,312,298],
-      ["2000-06-15",287,345,297],
-      ["2000-06-16",261,346,266],
-      ["2000-06-17",267,347,255],
-      ["2000-06-18",290,357,233],
-      ["2000-06-19",301,366,221],
-      ["2000-06-20",311,367,245],
-      ["2000-06-21",325,367,376],
-      ["2000-06-22",409,366,381],
-      ["2000-06-23",401,365,321],
-      ["2000-06-24",422,364,300],
-      ["2000-06-25",321,363,373],
-      ["2000-06-26",311,306,309],
-      ["2000-06-27",312,312,324],
-      ["2000-06-28",345,301,293],
-      ["2000-06-29",290,302,285],
-      ["2000-06-30",291,303,273],
-      ["2000-07-01",276,299,289],
-      ["2000-07-02",241,298,282],
-      ["2000-07-03",240,289,287],
-      ["2000-07-04",244,277,245],
-      ["2000-07-05",246,261,232],
-      ["2000-07-06",245,260,235],
-      ["2000-07-07",248,255,243],
-      ["2000-07-08",254,245,211],
-      ["2000-07-09",234,234,198],
-      ["2000-07-10",232,211,187],
-      ["2000-07-11",267,201,167],
-      ["2000-07-12",211,200,177],
-      ["2000-07-13",210,107,173],
-      ["2000-07-14",208,106,196],
-      ["2000-07-15",201,105,207],
-      ["2000-07-16",200,104,217],
-      ["2000-07-17",199,100,222],
-      ["2000-07-18",199,88,231],
-      ["2000-07-19",202,77,247],
-      ["2000-07-20",211,83,258],
-      ["2000-07-21",212,111,261],
-      ["2000-07-22",213,57,267],
-      ["2000-07-23",213,57,267],
-      ["2000-07-24",213,57,267],
-      ["2000-07-25",213,57,267]];
+    //   ["1st Aug",227,116,136],
+    //   ["1st Aug",313,299,229],
+    //   ["1st Aug",315,311,227],
+    //   ["1st Aug",345,282,266],
+    //   ["1st Aug",346,293,267],
+    //   ["1st Aug",357,294,290],
+    //   ["2nd Aug",367,311,300],
+    //   ["2nd Aug",371,309,301],
+    //   ["2nd Aug",389,321,299],
+    //   ["2nd Aug",391,312,298],
+    //   ["2nd Aug",387,345,297],
+    //   ["2nd Aug",361,346,266],
+    //   ["3rd Aug",367,347,255],
+    //   ["3rd Aug",390,357,233],
+    //   ["3rd Aug",301,366,221],
+    //   ["3rd Aug",311,307,245],
+    //   ["3rd Aug",325,307,306],
+    //   ["3rd Aug",409,386,381],
+    //   ["4th Aug",401,365,321],
+    //   ["4th Aug",422,364,300],
+    //   ["4th Aug",421,373,363],
+    //   ["4th Aug",411,366,309],
+    //   ["4th Aug",312,311,308],
+    //   ["4th Aug",345,301,293],
+    //   ["5th Aug",290,288,285],
+    //   ["5th Aug",291,283,273],
+    //   ["5th Aug",276,269,259],
+    //   ["5th Aug",341,298,282],
+    //   ["5th Aug",340,289,287],
+    //   ["5th Aug",344,277,245],
+    //   ["6th Aug",346,261,232],
+    //   ["6th Aug",345,260,235],
+    //   ["6th Aug",348,255,243],
+    //   ["6th Aug",354,345,311],
+    //   ["6th Aug",334,334,298],
+    //   ["6th Aug",332,311,287],
+    //   ["7th Aug",367,301,267],
+    //   ["7th Aug",311,300,277],
+    //   ["7th Aug",310,307,273],
+    //   ["7th Aug",308,306,296],
+    //   ["7th Aug",301,305,299],
+    //   ["7th Aug",309,304,297],
+    //   ["8th Aug",289,260,242],
+    //   ["8th Aug",299,288,231],
+    //   ["8th Aug",252,247,245],
+    //   ["8th Aug",241,183,158],
+    //   ["8th Aug",212,167,161],
+    //   ["2000-07-22",213,177,167],
+    //   ["2000-07-22",213,177,167],
+    //   ["2000-07-22",213,177,167],
+    //   ["2000-07-22",213,177,167]];
 
-      var dateList = data.map(function (item) {
-        return item[0];
-      });
-      var valueList = data.map(function (item) {
-        return item[1];
-      });
-      var valueList1 = data.map(function (item) {
-        return item[2];
-      });
+    //   var dateList = data.map(function (item) {
+    //     return item[0];
+    //   });
+    //   var valueList = data.map(function (item) {
+    //     return item[1];
+    //   });
+    //   var valueList1 = data.map(function (item) {
+    //     return item[2];
+    //   });
 
-      var valueList2 = data.map(function (item) {
-        return item[3];
-      });
+    //   var valueList2 = data.map(function (item) {
+    //     return item[3];
+    //   });
 
 // var dateList = data.map(function (item) {
 //   return item[0];
@@ -237,28 +286,32 @@ export class MetricsComponent implements OnInit {
 // var valueList2 = data.map(function (item) {
 //   return item[3];
 // });
-// var totaldata = []
-// for(var i = 0 ; i< this.searchHistogram.length; i++){
-//   totaldata.push([this.searchHistogram.date,this.searchHistogram.searchesWithClicks,this.searchHistogram.searchesWithResults,this.searchHistogram.totalSearches])
-// }
+var totaldata = [];
+this.totalSearchSum = 0;
+for(var i = 0 ; i< this.searchHistogram.length; i++){
+  totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+  this.totalSearchSum = this.totalSearchSum + this.searchHistogram[i].totalSearches;
+  this.searchesWithResultsSum = this.searchesWithResultsSum + this.searchHistogram[i].searchesWithResults;
+  this.searchesWithClicksSum = this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks
+}
 
-// var searchWithResultdata = []
-// var searchWithClickdata = []
+var searchWithResultdata = []
+var searchWithClickdata = []
 
-// var dateList = totaldata.map(function (item) {
-//     return item[0];
-// });
+var dateList = totaldata.map(function (item) {
+    return item[0];
+});
 
-// var valueList = totaldata.map(function (item) {
-//     return item[1];
-// });
-// var valueList1 = totaldata.map(function (item) {
-//     return item[2];
-// });
+var valueList = totaldata.map(function (item) {
+    return item[1];
+});
+var valueList1 = totaldata.map(function (item) {
+    return item[2];
+});
 
-// var valueList2 = totaldata.map(function (item) {
-//     return item[3];
-// });
+var valueList2 = totaldata.map(function (item) {
+    return item[3];
+});
 this.chartOption  = {
   grid: {
     left: '3%',
@@ -266,18 +319,18 @@ this.chartOption  = {
     bottom: '3%',
     containLabel: true
 },
-    
+    // 4th August, 2020
     tooltip: {
       trigger: 'axis',  
       formatter: `
       <div class="metrics-tooltips-hover">
-      <div class="main-title">4th August, 2020</div>
+      <div class="main-title">{b0}</div>
       <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
-              :</span><span class="count-data">240</span></div>
+              :</span><span class="count-data">{c0}</span></div>
       <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
-              :</span><span class="count-data">160</span></div>
+              :</span><span class="count-data">{c1}</span></div>
       <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
-              :</span><span class="count-data">80</span></div>
+              :</span><span class="count-data">{c2}</span></div>
   </div>
       `,
       position: 'top',
@@ -468,6 +521,7 @@ this.chartOption  = {
             type: 'category',
               data: ['1st ', ' 2nd', '3rd']
           },
+          barWidth: 50,
           series: [{
             itemStyle: {
               normal: {
@@ -481,8 +535,11 @@ this.chartOption  = {
     
     }
     feedback(){
+      var colorPalette = ['#28A745','#EAF6EC'];
+      var colorPalette2 = ['#FF784B','#FFF1ED'];
+
       this.feedbackPie1 = {
-    
+        
             dataset: {
                 source: [
                     ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
@@ -491,13 +548,20 @@ this.chartOption  = {
                     
                 ]
             },
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
             series: [{
                 type: 'pie',
                 radius: 60,
+                color: colorPalette,
                 center: ['25%', '30%'],
                 itemStyle : {
                   normal : {
-                  
                              label : {
                                        show : false
                                       },
@@ -510,8 +574,8 @@ this.chartOption  = {
             }, {
                 type: 'pie',
                 radius: 60,
+                color: colorPalette2,
                 center: ['75%', '30%'],
-                
                 itemStyle : {
                   normal : {
                              label : {

@@ -163,7 +163,7 @@
                                     Count</div>
                             </div>
                             <div *ngIf="mostSearchedQuries">
-                                <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries.result;let i = index">
+                                <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries;let i = index">
                                     <div class="col-10 body-title pr-3">{{top.query}}</div>
                                     <div class="col-2 body-title text-right">{{top.count}}</div>
                                 </div>
@@ -183,7 +183,7 @@
                                     Count</div>
                             </div>
                             <div *ngIf="topQuriesWithNoResults">
-                                <div class="table_header row m-0" *ngFor="let top of topQuriesWithNoResults.response;let i = index">
+                                <div class="table_header row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
                                     <div class="col-10 header-title">{{top.query}}</div>
                                     <div class="col-2 header-title text-right">{{top.count}}</div>
                                 </div>
@@ -310,7 +310,7 @@
                                     Count</div>
                             </div>
                             <div *ngIf="mostSearchedQuries">
-                                <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries.result;let i = index">
+                                <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries;let i = index">
                                     <div class="col-10 body-title pr-3">{{top.query}}</div>
                                     <div class="col-2 body-title text-right">{{top.count}}</div>
                                 </div>
@@ -328,7 +328,7 @@
                             [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
                         <div class="title-card">Top Search Queries with No Results</div>
                         <div class="table-content-data" *ngIf="topQuriesWithNoResults">
-                            <div class="table_header row m-0" *ngFor="let top of topQuriesWithNoResults.response;let i = index">
+                            <div class="table_header row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
                                 <div class="col-10 header-title">{{top.query}}</div>
                                 <div class="col-2 header-title text-right">{{top.count}}</div>
                             </div>
@@ -345,7 +345,7 @@
                             [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
                         <div class="title-card">Top Search Queries with No Clicks</div>
                         <div class="table-content-data" *ngIf="queriesWithNoClicks">
-                            <div class="table_header row m-0" *ngFor="let top of queriesWithNoClicks.result;let i = index">
+                            <div class="table_header row m-0" *ngFor="let top of queriesWithNoClicks;let i = index">
                                 <div class="col-10 header-title">{{top.query}}</div>
                                 <div class="col-2 header-title text-right">{{top.count}}</div>
                             </div>
