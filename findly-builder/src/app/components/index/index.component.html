@@ -89,9 +89,9 @@
         <div class="form_sec" *ngIf="selectedStage && selectedStage.type && (selectedStage.type !== 'fields')">
             <perfect-scrollbar class="scroll_form">
                 <div class="form_edit_content">
-                    <div class="row m-0 col-12 p-0">
-                        <div class="kr-sg-dropdowns mb-20 col-9 pl-0">
-                            <div class="label-text">Stage Type <span ngbTooltip="Select an appropriate stage to create and transform pipeline document objects" container="body" class="pl-1"><img src="assets/icons/help.svg"></span></div>
+                    <div class="d-flex m-0 col-12 p-0">
+                        <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
+                            <div class="label-text">Stage Type <span ngbTooltip="Select an appropriate stage to create and transform pipeline document objects" tooltipClass="metrics_tooltips m-0" placement="top-center" container="body" class="pl-1"><img src="assets/icons/help.svg"></span></div>
                             <div class="dropdown dropdown-open" [ngClass]="{'disabled': selectedStage._id}">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(selectedStage.type?selectedStage.type:'choose_an_option') | translate}}</button>                                         
                                 <ul class="dropdown-menu content-menu">                                                                    
@@ -99,19 +99,19 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-3 p-0">
-                            <label class="kr-sg-toggle stageToggle">                                       
+                        <div class="stageToggle">
+                            <label class="kr-sg-toggle">                                       
                                 <input type="checkbox" checked [(ngModel)]="selectedStage.enable">
                                 <div class="slider"><span class="enabled">Stage Active</span><span class="disabled">Stage Inactive</span></div>
                             </label>
                         </div>
                     </div>
                     <div class="kr-sg-input-text mb-20">
-                        <div class="label-text">Stage Name <img container="body"  ngbTooltip="Give your own name for the stage" class="pl-1" src="assets/icons/help.svg"></div>
+                        <div class="label-text">Stage Name <img container="body"  ngbTooltip="Give your own name for the stage" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg"></div>
                         <input type="text" placeholder="Please enter stage name" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
                     </div>
                     <div class="kr-sg-input-text mb-20">
-                        <div class="label-text">Condition <img container="body" ngbTooltip="Condition evaluates to false will skip the stage execution" class="pl-1" src="assets/icons/help.svg"></div>
+                        <div class="label-text">Condition <img container="body" ngbTooltip="Condition evaluates to false will skip the stage execution" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg"></div>
                         <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.condition">
                     </div>
                 </div>
@@ -219,8 +219,8 @@
                                 </div>
                             </div> 
                             <div class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction') && !(selectedStage.type === 'semantic_meaning')">
-                                <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Add Entities <img class="ml-1" ngbTooltip="Entities to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
-                                <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Add Trait Groups <img class="ml-1" ngbTooltip="Traits to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
+                                <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Add Entities <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Entities to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
+                                <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Add Trait Groups <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Traits to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
                                 <div class="label-text" *ngIf="(selectedStage.type === 'keyword_extraction')">Choose Kwywords</div>
                                 <ng-container  *ngIf="(selectedStage.type === 'entity_extraction')">
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
@@ -304,8 +304,8 @@
                             </div>
                         </div>
                         <div  class="kr-sg-input-text col-4 input-box" *ngIf="!(selectedStage.type === 'keyword_extraction') && !(selectedStage.type === 'semantic_meaning')">
-                            <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Add Entities <img class="ml-1" ngbTooltip="Entities to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
-                            <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Add Trait Groups <img class="ml-1" ngbTooltip="Traits to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
+                            <div class="label-text" *ngIf="(selectedStage.type === 'entity_extraction')">Add Entities <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Entities to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
+                            <div class="label-text" *ngIf="(selectedStage.type === 'traits_extraction')">Add Trait Groups <img class="ml-1" tooltipClass="metrics_tooltips m-0" ngbTooltip="Traits to be identified from the source field" [container]='"body"' src="assets/icons/help.svg"></div>
                             <div class="label-text" *ngIf="(selectedStage.type === 'keyword_extraction')">Choose Kwywords</div>
                             <ng-container *ngIf="(selectedStage.type === 'entity_extraction')">
                             <mat-form-field class="example-chip-list" [floatLabel]="'never'">
@@ -372,7 +372,7 @@
                 </div>
             </perfect-scrollbar>    
             <div class="footer-simulate-form">
-                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg " (click)="simulate()" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'><img src="assets/images/simulate.svg" class="mr-1" >Simulate</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
+                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg " (click)="simulate()" tooltipClass="metrics_tooltips m-0" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'><img src="assets/images/simulate.svg" class="mr-1" >Simulate</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
                 <button class="kr-sg-button-secondary btn_lg float-right" [disabled]="!changesDetected" (click)="clearDirtyObj(true)">Cancel</button>
             </div> 
         </div>          

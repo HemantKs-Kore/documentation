@@ -135,11 +135,12 @@
 .stageToggle{
     position: relative;
     top: 30px;
+    width: 174px;
     .enabled{
-    width: 150px;
+        width: 140px;
     }
     .disabled{
-        width: 150px;
+        width: 140px;
     }
 }
 .workbench_main_container{
