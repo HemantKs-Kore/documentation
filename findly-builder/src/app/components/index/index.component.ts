@@ -325,7 +325,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     )
   }
   simulateAnimate(payload){
-    this.simulteObj.totalStages = payload.length-2;
+    this.simulteObj.totalStages = payload.length-1;
     this.poling()
   }
   preparepayload(){
@@ -832,7 +832,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.changesDetected = true;
     const obj :any = new StageClass();
     const newArray = [];
-    obj.name = 'My Stage';
+    obj.name = this.defaultStageTypes[0].name;
     obj.enable = true;
     obj.type = this.defaultStageTypes[0].type;
     obj.catagory = this.defaultStageTypes[0].category;
