@@ -24,7 +24,8 @@
             <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">Add</button>
         </div>
      </div> 
-      <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+      <div class="empty_screen_data">
+        <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
           <div class="main_heading">Let’s start by adding stop words</div>
           <div class="desc_info">Select on how would you like to add stop words.</div>
           <div class="radio-sec">
@@ -47,8 +48,11 @@
               </div> 
             </div>
           </div>
-          <button class="kr-sg-button-primary btn_lg float-right" (click)="createInit()">Continue</button>
-      </div>           
+          <div class="text-center">
+            <button class="kr-sg-button-primary btn_lg" (click)="createInit()">Continue</button>
+          </div>
+        </div>  
+      </div>         
       <ng-container *ngIf="(stopwords && stopwords.length) && !loadingContent">
       <div class="listingHeader row m-0">
         <div class="col-5 p-0">
