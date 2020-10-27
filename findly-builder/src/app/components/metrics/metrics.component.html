@@ -6,19 +6,26 @@
     </div>
     <perfect-scrollbar class="scroll_content">
         <div class="filters-date-sec">
-            <div class="" *ngIf="slider === 2">
-                <span>Searches</span>
-                <span>Results</span>
+            <div class="col-2 p-0">
+                <div class="small-tab-sec" *ngIf="slider === 2">
+                    <div class="tab-name active-tab">Searches</div>
+                    <div class="tab-name">Results</div>
+                </div>
+            </div>            
+            <div class="d-flex col-10 p-0 justify-content-end align-items-center">
+                <div class="date-info m-0" *ngIf="slider === 2">
+                    <span class="pr-1">Searches</span>
+                    <span class="pr-1">Results</span>
+                </div>
+                <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span>
+                </div>
+                <div class="date-select">
+                    <span class="day time">24 Hrs</span>
+                    <span class="week time active">7 Days</span>
+                    <span class="custom time">Custom</span>
+                </div>
+                <div class="export"><img src="assets/icons/export.svg"></div>
             </div>
-            <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to
-                    07-08-2020</span>
-            </div>
-            <div class="date-select">
-                <span class="day time">24 Hrs</span>
-                <span class="week time active">7 Days</span>
-                <span class="custom time">Custom</span>
-            </div>
-            <div class="export"><img src="assets/icons/export.svg"></div>
         </div>
         <div *ngIf="slider === 0">
             <div class="top-cards-section row m-0">
@@ -34,8 +41,7 @@
                                 </div>
                             </div>
                             <div class="right-sec">
-                                <img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
                             </div>
                         </div>
                     </div>
@@ -52,8 +58,7 @@
                                 </div>
                             </div>
                             <div class="right-sec">
-                                <img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
                             </div>
                         </div>
                     </div>
@@ -70,8 +75,7 @@
                                 </div>
                             </div>
                             <div class="right-sec">
-                                <img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAAPCAYAAABdjGkdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAASbSURBVHgB7VZbTFxVFN373HuHx4BtQVKKtbyLEGyLMCBgBQrMiGliouHDRBP98MvEtCZGg2mi/tQPTfth4ncTY2Ki8aNGO1AKqRY6TAdtw6uFGaA8Sqa2oWXIMPdxtvuS0hBLeNRignb93HvOuXc/1l575wA8xn8X155rKAyWu4eDLs/b8JBA2AQMVVcnO2JJhRYZt0CNu5nv++Uu/AtgMtoJMJOTUiXGXsj3dU7CBvFICQkX1SbNO7VSCVhEJBVUFBWBVCKKICpdOb4zV2CTEKpofJNIfAxICi/ZJ/iJjE/z/R39G7GzYUImKisT9GjSbk41TwqM5PR4f70fVLnnIFiygARqAHSNz3dwYLsUBCcScKA4gQLPZ188Mwb/EH1MfkKi4x1CFCCgF0l+BIR7BMLnXICjvJ8CxMQg+Pj5Xp6/dWI9dtdFSEdtrZo2n/hkPJgaV3wvBxCHFstSgDJr3f6pLBAwZva5nZE4ahYoVF2LfPfMhQtzS/+PlLmLBVANKiJVSlBQ0BwHH1ZBDkxOR/qrJrujK/mdrjqUuaBrO6VOY3lXWsNL+6Ou2nQA7bhELOSlrQht8UlwOtff2jJc0bQbyHpfEFRzhll2CzExX+T6Wo+vleuahEyVHk7UVWsfSctBQBrXQ4kZeEsVMpmrkZKgOQIZXT+Pj7jcVayKvULDUE5X6/m/2wmWNmwTDu2AaZml7DQVQTAfUuWenwnPzH21nBRWWgv7yuXvkmlR/qSwwgYRoU+iyECQLwLidpAQBhS/EcpyJmOPpZjNBd3nppb75WJ8wAX80CaF45vi1n19tdZdlZC+omaH0zlbZCng1AgXLMFTwTD/zLzUHrpaVp+jCLHfIjlZ4G/3h1yNb0h2ujBvfF880BlZze7YQc8uU6cMQejhZNMkUCDf3/aNfTZa4XmFbb7GncCEwW2O0Jb6fk5mGwIqPJu42qgi4WhMQktRwHsD1sBIWWM1k/k1CMy224htfou6+VnO7+fGHyBkuKQpTQgjIRqdnikeGNAXg3K9nK6qVpJhgdMUFE8G3CkItA4t/3FROYrutuyFCl1oQKMicCHL5/0B1om+Sk9KvCnfRSF2gj2EEXWSlMzyVoVhHVsecLCsvoFJSudqh6UQobxu7whsEPeUd8xWHfuaY9XV8Qy8vPwbZCk/KzkAULSYMA2WW/w2IWIphmGAiHMoXEVzPDHWX9fZaT7goKLJTZaRbM8NEqRZRDfze856YQOYqDz8lGkZrC6ZxUEqTIhqIpwu6Gn7ETYBoZJDmaCqXzIxr7K/8Tu6XlLyR+fs0jnabRGXHMkjaTq0e5tSkl3460Z8oryh3Y2uRIYNWyVR1GtYgk8sDi6B03k+bwc8JAbL61MdFjpzA2evwyZi9EDtdulw9PIrtxCezPV7jy6d3Z8hdptY3CaqRZaizM083b3y5F8JYxWeOktSBt8Brub2tF2CLYDB51/KipOyl9tnhxDiLb4KnLL3H8nFbKjcna2BrFQlXbQHLmwRBCs8R4DoBL/aLXNS1/VTm3J130oIutwnWBZH7HcmY+x/T4iNUVdjDQ/NT0CIy38B1Y7+DvOnkW4AAAAASUVORK5CYII=">
                             </div>
                         </div>
                     </div>
@@ -243,6 +247,26 @@
                     <div class="full-card">
                         <div class="title-card">Feedback</div>
                         <div echarts [options]="feedbackPie1" class="demo-chart-graphMode"></div>
+                        <div class="legends_sec_piechart row m-0">
+                            <div class="legend-data col-6 p-0">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="indication total"></span>
+                                    <span class="title">Total Searches</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="indication feedback"></span>
+                                    <span class="title">Feedback Recieved</span>
+                                </div>
+                            </div>
+                            <div class="legend-data col-6 p-0">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="indication usefull"></span><span class="title">Useful Result</span>                                   
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="indication notusefull"></span><span class="title">Not Useful Result</span>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div echarts [options]="feedbackPie2" class="demo-chart-graphMode"></div> -->
                     </div>
                 </div>
@@ -306,15 +330,14 @@
                         <div class="table-content-data">
                             <div class="table_header row m-0">
                                 <div class="col-10 header-title">Searched Intent</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    Count</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">Count</div>
                             </div>
-                            <div *ngIf="mostSearchedQuries">
+                            <ng-container *ngIf="mostSearchedQuries">
                                 <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries.result;let i = index">
                                     <div class="col-10 body-title pr-3">{{top.query}}</div>
                                     <div class="col-2 body-title text-right">{{top.count}}</div>
                                 </div>
-                            </div>
+                            </ng-container>
                         </div>
                         <app-pagination  [totalRecord]='tsqPtotalRecord' [limitpage]='tsqPlimitpage' [recordEnd]="tsqPrecordEnd"
                         [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
@@ -373,6 +396,21 @@
         <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
                 :</span><span class="count-data">80</span></div>
     </div>
+
+    <!-- <div class="metrics-tooltips-hover userengagment-tooltip">          
+        <div class="data-content">
+            <div class="main-title">Total Users</div>
+            <div class="title total">230</div>
+        </div>
+        <div class="data-content">
+            <div class="main-title">Total Users</div>
+            <div class="title new">230</div>
+        </div>
+        <div class="data-content border-0">
+            <div class="main-title">Total Users</div>
+            <div class="title return">230</div>
+        </div>
+    </div> -->
 
     <!-- <div class="metrics-tooltips-hover total_conversatins_tooltips">
     <div class="main-title">4th of Aug, 2020</div>
