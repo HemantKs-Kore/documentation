@@ -232,6 +232,9 @@
                         .drag_drop_icon{
                             display: block;
                         }
+                        .stateIcon{
+                            display: none;
+                        }
                         .close_icon{
                             display: block;
                         }
@@ -245,6 +248,13 @@
                             font-size: 12px;
                             line-height: 20px;
                         }
+                    }
+                    .stateIcon{
+                        position: absolute;
+                        left: 6px;
+                        top: 14px;
+                        cursor: move;
+                        display: block;
                     }
                     .drag_drop_icon{
                         position: absolute;
