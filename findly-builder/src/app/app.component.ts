@@ -114,6 +114,7 @@ export class AppComponent implements OnInit {
           pipelineId:appData.searchIndexes[0].queryPipelineId
         }
         window.selectedFindlyApp = searchData;
+        console.log(searchData, window.selectedFindlyApp)
         this.searchInstance.setAPIDetails();
       }
     }
@@ -226,5 +227,6 @@ export class AppComponent implements OnInit {
            wSdk.setJWT('dummyJWT');
             wSdk.show(widgetsConfig, wizSelector);
             wSdk.showSearch();
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }

@@ -731,6 +731,7 @@
                 font-weight: normal !important;
                 color: #26344a !important;
                 margin-left: 10px !important;
+                font-size: 14px;
             }    
             .button-close {
                 height: 30px !important;
@@ -742,7 +743,12 @@
                 color: #2c3334 !important;
                 // font-weight: 1000 !important;
                 font-size: 25px !important;
-                background: inherit !important;
+                background: #fff !important;
+                border-radius: 100%;
+                padding: 0;
+                &:hover{
+                    background: #f3f8ff !important;
+                }
             }
         }
         .modal-body {
