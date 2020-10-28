@@ -513,7 +513,7 @@ this.chartOption  = {
                 },
                 
               },
-              data: [320, 302, 301, 334, 390, 330, 320]
+              data: [7, 6, 8, 6, 9, 5, 13]
           },
           {
               name: 'top',
@@ -533,7 +533,7 @@ this.chartOption  = {
               lineStyle: {
                 color: '#0D6EFD',
               },
-              data: [120, 132, 101, 134, 90, 230, 210]
+              data: [3, 4, 2, 4, 1, 5, 7]
           }
       ]
   };
