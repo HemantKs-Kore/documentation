@@ -315,14 +315,14 @@
                     width: 48px;
                     display: inline-block;
                     margin-left: 10px;
-                    &.toatlsearches{
+                    // &.toatlsearches{
+                    //     border-top: 4px solid #0D6EFD;
+                    // }
+                    &.withresults{
                         border-top: 4px solid #0D6EFD;
                     }
-                    &.withresults{
-                        border-top: 4px solid #28A745;
-                    }
                     &.clicks{
-                        border-top: 4px solid #7027E5;
+                        border-top: 4px solid #FF784B;
                     }
                 }               
             }
@@ -347,6 +347,9 @@
             }
         }
     }
+    .text-center{
+        text-align: center!important;
+    }
 }
 
 ::ng-deep perfect-scrollbar .ps--active-y{
@@ -369,7 +372,7 @@
     align-items: center;
     position: absolute;
     bottom: 106px;
-    left: 102px;
+    left: 190px;
     .legend-data{
         .indication{
             width: 20px;
