@@ -4,7 +4,7 @@
         <span class="please-wait-message">Please Wait!</span>
     </div>
     <div class="header_sec">
-        <div class="title">Index Configurations</div>
+        <div class="title">Index Configuration</div>
         <div class="btn_sec">            
             <button class="kr-sg-button-secondary btn_lg"  (click)="saveConfig()">Save Configuration</button>
             <button class="kr-sg-button-primary btn_lg" (click)="reindex()">Re-Index</button>
@@ -40,7 +40,7 @@
                 <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
                     <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
                   </div> 
-                  <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Seach</div>
+                  <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
                 <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>
             </div> 
             <div class="empty-list"  *ngIf="!(filelds && filelds.length)">

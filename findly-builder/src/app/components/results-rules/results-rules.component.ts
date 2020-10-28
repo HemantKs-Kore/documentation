@@ -246,7 +246,6 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     },
     errRes => {
       this.loading = false;
-    this.errorToaster(errRes)
     }
   );
     }
