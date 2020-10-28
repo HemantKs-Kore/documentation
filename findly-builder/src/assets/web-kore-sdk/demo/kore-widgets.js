@@ -854,8 +854,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                <span class="hidden-styling-text">HIDDEN</span>\
+                <div class="faqs-shadow task-wrp test {{if faq.config.visible==false}}hidden-styling{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <span class="hidden-styling-text {{if faq.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
@@ -878,7 +878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
-                    <span class="img-action pin">\
+                    <span class="img-action pin {{if faq.config.pinIndex>-1}}pinned-styling{{/if}}">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                     </span>\
@@ -901,8 +901,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
-              <span class="hidden-styling-text">HIDDEN</span>\
+              <div class="faqs-shadow task-wrp {{if page.config.visible==false}}hidden-styling{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <span class="hidden-styling-text {{if page.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
                  <a class="faqs-wrp-content" href="${page.url}" target="_blank" id=${key}>\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
@@ -923,7 +923,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
-                 <span class="img-action pin">\
+                 <span class="img-action pin {{if page.config.pinIndex>-1}}pinned-styling{{/if}}">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                  </span>\
@@ -1586,7 +1586,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if ($suggest.val() == "") {
           wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
+          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1];
           //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
           regex = new RegExp('^' + lastWords, 'i');
           if (regex.test(term)) {
@@ -2047,7 +2047,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var _selctedEle = $(e.target).closest('.task-wrp');
         var _parentEle = $(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call(_parentEle[0].children);
-        var pinIndex = nodes.indexOf(_selctedEle[0]);
+        var pinIndex;
+        if ($(e.target).closest('.pin').hasClass('pinned-styling') == true) {
+          pinIndex = -1;
+        }
+        else {
+          pinIndex = nodes.indexOf(_selctedEle[0]);
+        }
         _self.performRankActions(e, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
 
       });
@@ -3105,10 +3111,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(searchData).find(".tasks-wrp").sortable();
               $(searchData).attr('queryString', dataObj.originalQuery);
 
-              if ($(searchData).find(".task-wrp").attr('visible') == "false") {
-                $(searchData).find(".task-wrp").addClass('hidden-styling');
-                $(searchData).find('.hidden-styling-text').css('display', 'block');
-              }
+              // if ($(searchData).find(".task-wrp").attr('visible') == "false") {
+              //   console.log($(searchData).find(".task-wrp"))
+              //   $(searchData).find(".task-wrp").addClass('hidden-styling');
+              //   $(searchData).find('.hidden-styling-text').css('display', 'block');
+              // }
+              $(".task-wrp").each(function (index) {
+                console.log(index + ":" + $(this));
+              })
 
               if (topMatchTask) {
                 searchData.addClass("hide");
