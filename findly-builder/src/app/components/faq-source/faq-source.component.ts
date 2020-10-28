@@ -6,7 +6,6 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
-import { tempdata } from './tempdata';
 import * as _ from 'underscore';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
@@ -15,8 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
-import { JAN } from '@angular/material/core';
 import { FaqsService } from '../../services/faqsService/faqs.service';
+import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 declare const $: any;
 declare const koreBotChat : any
 
@@ -637,9 +636,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.closeAddsourceModal();
   }
   bulkUpdate(action,state?,dialogRef?){
-    const payload: any = {
-      faqs : [],
-    };
+    const payload: any = {};
     let custerrMsg = 'Failed to update faqs'
     let custSucessMsg = 'Selected faqs updated successfully';
     if(action === 'update' && state){
@@ -649,25 +646,35 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       custSucessMsg = 'Selected Faqs deleted successfully'
       custerrMsg = 'Failed to delete faqs'
     }
-    const selectedElements = $('.selectEachfaqInput:checkbox:checked');
-    const sekectedFaqsCollection:any = [];
-    if(selectedElements && selectedElements.length){
-      $.each(selectedElements,(i,ele) =>{
-        const  faqId = $(ele)[0].id.split('_')[1];
-        const tempobj= {
-          _id:faqId
-        }
-          sekectedFaqsCollection.push(tempobj);
-      })
+    if(this.faqSelectionObj && this.faqSelectionObj.selectAll){
+      payload.allFaqs = true;
+      payload.currentState = this.selectedtab;
+    } else {
+      const selectedElements = $('.selectEachfaqInput:checkbox:checked');
+      const sekectedFaqsCollection:any = [];
+      if(selectedElements && selectedElements.length){
+        $.each(selectedElements,(i,ele) =>{
+          const  faqId = $(ele)[0].id.split('_')[1];
+          const tempobj= {
+            _id:faqId
+          }
+            sekectedFaqsCollection.push(tempobj);
+        })
+      }
+      payload.faqs = sekectedFaqsCollection;
     }
-    payload.faqs = sekectedFaqsCollection;
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
     }
     this.selectAll(true);
     this.addRemoveFaqFromSelection(null,null,true);
     this.service.invoke('update.faq.bulk', quaryparms,payload).subscribe(res => {
-      this.getfaqsBy();
+      if(state){
+        this.selectTab(state)
+      }else {
+       this.getfaqsBy();
+       this.selectedFaq = null;
+      }
       this.getStats();
       this.editfaq = null
       this.notificationService.notify(custSucessMsg,'success');
@@ -908,6 +915,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   closeStatusSlider() {
     this.sliderComponent.closeSlider('#faqsSourceSlider');
+  }
+  // Re-Annotate document on-demand
+  reAnnotateDocument(source) {
+    const dialogRef = this.dialog.open(PdfAnnotationComponent, {
+      data: { type: 'reannotate', pdfResponse: null, source: source },
+      panelClass: 'kr-annotation-modal',
+      disableClose: true,
+      autoFocus: true
+    });
+    dialogRef.afterClosed().subscribe(res => {
+
+    });
   }
   ngOnDestroy() {
     if(this.pollingSubscriber){

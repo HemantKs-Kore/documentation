@@ -1,4 +1,4 @@
-<div class="thresholdDir paddingLeft5 custom-created-range-slider">
+<div class="thresholdDir paddingLeft5 custom-created-range-slider" [ngClass]="[customClass ? customClass : '']">
     <div class="col-xs-12 single-slider noPadding" [id]="allData.id+'-slider'">
         <div class="countThreshold"><span class="pull-left">{{allData.minVal}}</span><span class="pull-right">{{allData.maxVal}}</span></div>
         <span [id]="allData.id" class="sliderContainerML width-250"  data-handle="round" [attr.data-slider-id]="allData.id+'ex'" type="text" [attr.data-slider-min]="allData.minVal" data-slider-tooltip="hide" [attr.data-slider-max]="allData.maxVal" [attr.data-slider-step]="allData.step"  ticks-tooltip="false" data-slider-value="0"></span>

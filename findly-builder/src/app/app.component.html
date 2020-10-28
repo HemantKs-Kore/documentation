@@ -1,9 +1,9 @@
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <div class="krFindlyAppComponent">
     <div *ngIf="!loading">
-        <app-header></app-header>
-        <app-mainmenu class="toShowAppHeader"></app-mainmenu>
-        <app-body (initSearchSDK)="initSearchSDK()" [query] = "queryText" [bridgeData] = "bridgeDataInsights" class="container-fluid appContent"></app-body>
+        <app-header (showMenu) = "showMenu($event)"></app-header>
+        <app-mainmenu [show] = "showMainMenu" class="toShowAppHeader"></app-mainmenu>
+        <app-body (initSearchSDK)="initSearchSDK()" [query] = "queryText" [bridgeData] = "bridgeDataInsights" class="container-fluid appContent"  [ngClass]= "{'pl-0': !showMainMenu}"></app-body>
     </div>
 </div>
 <div class="loaderContainer"  *ngIf="loading">

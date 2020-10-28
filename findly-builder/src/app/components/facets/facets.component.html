@@ -1,0 +1,203 @@
+<div class="facets-main-container">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div *ngIf="!loadingContent">
+    <div class="header">Facets</div>
+    <div class="search-input-block">
+        <div class="kr-sg-input-search">                               
+            <input type="text" placeholder="Search" class="input-search pl-4" [(ngModel)]="searchfacet">
+            <img src="assets/icons/search_gray.svg" class="search-icon">
+        </div>
+        <div class="actions">
+            <button class="kr-sg-button-primary btn_lg" (click)="createNewFacet()">Add Facet</button>
+            <button ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">Deselect</button>
+            <button class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Delete Facets</button>
+            <img src="assets/icons/clock.svg">
+        </div>
+    </div>
+    <div class="table_section">
+        <div class="header_sec row m-0">
+            <div class="col-4 content withcheckbox">
+                <div class="kr-sg-checkbox p-0 m-0">
+                    <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
+                    <label for="selectAllFacets" class="checkbox-custom-label"></label>
+                </div>
+                <div class="title">FACET Name</div>
+            </div>
+            <div class="col-3 content">TYPE</div>
+            <div class="col-3 content">MULTI SELECT</div>
+            <div class="col-2 content"></div>
+        </div>
+        <perfect-scrollbar class="scroll_table">   
+            <div class="empty-list"  *ngIf="!(facets && facets.length)">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <div class="heading">No facets</div>
+                    <div class="desc">Please add Facets</div>
+                </ng-container>
+            </div>      
+            <ng-container *ngIf="(facets && facets.length)">
+               <div cdkDropList (cdkDropListDropped)="drop($event,facets)">
+                <div class="body_sec row m-0" cdkDrag *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
+                    <div class="col-4 content withcheckbox">
+                        <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
+                        <div class="kr-sg-checkbox p-0 m-0">
+                            <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
+                            <label for="{{facet._id}}" class="checkbox-custom-label"></label>
+                        </div>
+                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facet.isFieldNameExists === false"  src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='Associated Field is deleted or renamed.'></div>
+                    </div>
+                    <div class="col-3 content">{{facet.facetType | translate}}</div>
+                    <div class="col-3 content">{{facet.isMultiSelect?'Yes':'No'}}</div>
+                    <div class="col-2 content actions">
+                        <img class="action_icon" [container]="'body'" ngbTooltip='Edit' (click)="editFacetModal(facet)" src="assets/images/edit-pencil.svg">
+                        <img class="action_icon" ngbTooltip='Delete' [container]="'body'" (click)="deleteFacets(facet)" src="assets/icons/delete-table.svg">
+                    </div>
+                </div> 
+               </div> 
+            </ng-container>    
+            <div class="divBlockEmptylastChild text-center">         
+                <div class="desc">No search results found</div>
+            </div>     
+        </perfect-scrollbar>
+    </div>
+
+    <div class="log_section d-none">
+        <div class="header-log">
+            <div class="title">Log</div>
+            <div class="close_log"><img src="assets/images/close-cross.svg"></div>
+        </div>
+        <div class="empty_log">
+            <img src="assets/icons/empty-log.svg">
+            <div class="main-title">Nothing in log to display</div>
+            <div class="desc">Go ahead and make some changes.</div>
+        </div>
+    </div>
+          
+</div>
+</div>
+
+
+<kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup"  #facetModalPouup>   
+    <div class="modal-header">
+        <div class="title">Add Facet</div>
+        <div class="close_icon"><img (click)="closeModal()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body textAlignLeft" *ngIf="addEditFacetObj">
+        <div class="search_block">
+            <div class="label-text">Field Name</div>             
+            <div class="row m-0 align-items-center">
+                <div class="kr-sg-dropdowns col-10 pl-0" [ngClass]="{'disabled': addEditFacetObj._id}">
+                    <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                        <img src="assets/images/search_gray.svg" class="search-icon">                                                         
+                        <ul class="dropdown-menu content-menu">
+                            <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                        </ul>
+                    </div>                        
+                </div>
+                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  (addEditFacetObj.fieldName!== undefined) && (selectedField && selectedField.fieldName!== null)">
+                    <div class="title">Field Type :<span class="string">{{getType(addEditFacetObj.fieldName)}}</span></div>
+                </div>
+                <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType">
+                    <div class="title">Field Type :<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
+                </div>
+            </div>
+        </div>          
+        <div class="row-content row">
+            <div class="kr-sg-input-text col-7 pl-0">
+                <div class="label-text">Facet Name</div>
+                <input type="text" placeholder="Provide name" class="input-text" [(ngModel)]="addEditFacetObj.facetName">                
+            </div>
+            <div class="kr-sg-dropdowns col-3 pl-2">
+                <div class="label-text">Facet Type</div>
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetType?addEditFacetObj.facetType:'Choose an option') | translate}}</button>                                          
+                    <ul class="dropdown-menu content-menu">                                                                   
+                      <li (click)="switchType('value')"><a>Value</a></li>
+                      <li (click)="switchType('range')"><a>Range</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="kr-sg-checkbox d-block col-2 checkbox-content pr-0 pl-2 m-0">
+                <input id="checkbox_drp1" class="checkbox-custom" type="checkbox" [(ngModel)]="addEditFacetObj.isMultiSelect">
+                <label for="checkbox_drp1" class="checkbox-custom-label" >Multi Select</label>
+            </div>
+        </div>  
+        <div class="box-content" *ngIf="addEditFacetObj.facetType === 'range'">
+            <div class="row row_inputs" *ngFor="let range of addEditFacetObj.facetRange; let i = index">
+                <div class="kr-sg-input-text col-7 pl-0">
+                    <div class="label-text">Range Name (Optional)</div>
+                    <input type="text" placeholder="Enter range name" class="input-text" [(ngModel)]="range.rangeName">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">From</div>
+                    <input type="number" placeholder="Enter form" class="input-text" [(ngModel)]="range.from">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">To</div>
+                    <input type="number" placeholder="Enter to" class="input-text" [(ngModel)]="range.to">                   
+                </div>
+                <div class="col-1 pl-2 add">
+                    <img class="trash" src="assets/images/trashIcon.svg" (click)="removeRange(i)">               
+                </div>
+            </div>
+            <div class="row row_inputs">
+                <div class="kr-sg-input-text col-7 pl-0">
+                    <div class="label-text">Range Name (Optional)</div>
+                    <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">From</div>
+                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].from">                   
+                </div>
+                <div class="kr-sg-input-text col-2 pl-2">
+                    <div class="label-text">To</div>
+                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].to">                   
+                </div>
+                <div class="col-1 pl-2 add">
+                    <img src="assets/images/add-input-field.svg" (click)="addFiled(addEditFacetObj)">               
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="(addEditFacetObj.facetType === 'value') && addEditFacetObj.facetValue">
+        <div class="box-content adjust_padding">
+            <div class="row row_inputs">
+                <div class="kr-sg-input-text col-6 pl-0">
+                    <div class="label-text">Size (Optional)</div>
+                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
+                </div>
+                <div class="kr-sg-dropdowns col-3 pl-2">
+                    <div class="label-text">Order (Optional)</div>
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?addEditFacetObj.facetValue.orderKey:'Choose an option') | translate}}</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                                   
+                          <li (click)="addEditFacetObj.facetValue.orderKey = 'count'"><a>Count</a></li>
+                          <li (click)="addEditFacetObj.facetValue.orderKey = 'label'"><a>Lable</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="kr-sg-dropdowns col-3 pl-2 pr-0">
+                    <div class="label-text">Sort</div>
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditFacetObj.facetValue.asc?'Assending':'Decending'}}</button>                                        
+                        <ul class="dropdown-menu content-menu">                                                                   
+                          <li (click)="addEditFacetObj.facetValue.asc = true"><a>Assending</a></li>
+                          <li (click)="addEditFacetObj.facetValue.asc = false"><a>Decending</a></li>
+                        </ul>
+                    </div>
+                </div>                
+            </div>            
+        </div> 
+        </ng-container>  
+     </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldName === selectedField.fieldName)'>          
+        <button type="button" class="kr-sg-button-primary btn_lg float-right"  [disabled]='!selectedField || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldName !== selectedField.fieldName))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">Cancel</button>
+    </div>    
+</kr-modal>

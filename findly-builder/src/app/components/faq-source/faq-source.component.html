@@ -468,7 +468,11 @@
                         <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                         <div class="col text-right last-child">
                             <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            <!-- <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span> -->
                         </div>
+                        <!-- <div class="col text-right last-child re-annotate">
+                            <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span>
+                        </div> -->
                     </div>
                     <div class="empty">No Search Results found</div>
                     </perfect-scrollbar>
@@ -530,7 +534,9 @@
         </div>
       </ng-container>
 </kr-modal>
-<kr-modal modalType="center" #editfaqSourceModalPop modalClass="modal_popups_">
+
+
+<kr-modal modalType="center" #editfaqSourceModalPop modalClass="modal_popups_ editfaqSourceModalPop">
     <ng-container  *ngIf="editfaq && selectedFaq">
   <div class="modal-header">
     <div class="title">Edit FAQ</div>
@@ -542,9 +548,9 @@
   </div>
 </perfect-scrollbar> 
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">Save</button>
-      <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle()">Cancel</button>
-      <button class="kr-sg-button-danger float-right" (click)="deleteInfividualQuestion(selectedFaq)">Delete</button>
+      <button class="kr-sg-button-primary btn_lg float-right" (click)="faqUpdateEvent()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg float-right" (click)="faqCancle()">Cancel</button>
+      <button class="kr-sg-button-danger btn_lg float-left" (click)="deleteInfividualQuestion(selectedFaq)">Delete</button>
   </div>
 </ng-container>
 </kr-modal>

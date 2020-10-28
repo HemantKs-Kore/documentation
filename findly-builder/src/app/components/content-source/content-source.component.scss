@@ -31,7 +31,7 @@
         margin: 0 -5px;
     }
     .kr-sg-data-table section.table-content .content-body{
-        cursor: pointer;
+        cursor: default;
     }
     .kr-sg-data-table{
         section{
@@ -87,6 +87,7 @@
                             border: 1px solid transparent;
                             background: transparent;
                             border-radius: 4px;
+                            font-weight: 500;
                             img{
                                 margin-right: 6px;
                                 position: relative;
@@ -247,11 +248,21 @@
                     position: relative;
                     top: 3px;
                     cursor: pointer;
+                    width: 30px;
+                    height: 30px;
+                    background: #fff;
+                    border-radius: 100%;
+                    text-align: center;
+                    line-height: 28px;
+                    padding: 8px;
+                    &:hover{
+                        background: #F3F8FF;
+                    }
                 }
             }
             .modal-body{
                 height: calc(100vh - 70px);
-                padding: 20px 0 60px 30px !important;
+               // padding: 20px 0 60px 30px !important;
                 perfect-scrollbar{
                     &.scroll-table{
                         padding-right: 30px;
@@ -514,6 +525,18 @@
                         }
                     }          
                 }
+                .kr-sg-data-table{
+                    .content-body{
+                        &.par{
+                            cursor: default;
+                            .actions-images{
+                                img{
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .footer-btns{
                 background: #FFFFFF;
@@ -581,6 +604,17 @@
                                 display: block;
                             }
                         }
+                        .wid{
+                            width: 100%;
+                            border: solid 1px #BDC1C6;
+                            border-radius: 4px;
+                           
+                            &:focus {
+                                border: solid 1px #BDC1C6;  
+                                box-shadow: 0 0 0 #bdc1c6;
+                            }  
+                        }
+                       
                     }
                 }
             }
@@ -609,7 +643,7 @@
             }
         }
         .toggle-swich-row{
-            margin: 30px 0;
+            margin: 30px 0 0 0;
             .row_data{
                 padding: 15px 0;
                 box-shadow: inset 0px -1px 0px #E4E5E7;
@@ -624,9 +658,20 @@
             }
         }
         .allow-list-data-label{
-            margin-bottom: 16px;
+            color: #202124 !important;
+            padding: 15px 10px !important;
+            position: relative;
+            font-weight: 500 !important;
+            font-size: 12px !important;
+            box-shadow: inset 0px -1px 0px #E4E5E7;
+            //margin-bottom: 16px;
             img{
+
                 cursor: pointer;
+            }
+            .list{
+                position: absolute;
+                right: 8px;
             }
         }
         .mt-16{
@@ -827,15 +872,46 @@
         }
     }
     
-
+    .mod-foot{
+        justify-content: left !important;
+        height: 60px;
+        border-top: solid 0px #e5e8ec;
+        /* background-color: #f2f3f5; */
+        padding: 6px 30px;
+        // display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        border-bottom-right-radius: calc(.3rem - 1px);
+        border-bottom-left-radius: calc(.3rem - 1px);
+        .btn_lg{
+            margin: 4px;
+            float: right;
+        }
+    }
+    .par{
+        .actions-images{
+            display: none;
+            white-space: normal;
+            img{
+                margin: 0 6px;
+            }
+        }
+        &:hover{
+            .actions-images{
+                display: block;
+            }
+        }
+    }
     .downArrow {
         top: 2.3px !important;
         margin-right: 0px !important;
+        margin-left: -8px;
     }
     .upArrow {
         transform: rotate(180deg) !important;
         top: -4px !important;
         left: -12px !important;
+        margin-left: -8px;
     }
     .display-none {
         visibility: hidden;
@@ -843,3 +919,10 @@
     .display-block {
         visibility: visible;
     }
+    
+    .dropdown-toggle{
+        .custom-dropdown-toggle-icon {
+            margin-left: 10px !important;
+        }
+    }
+    

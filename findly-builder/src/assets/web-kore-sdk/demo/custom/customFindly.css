@@ -42,7 +42,7 @@
     display: none !important;
 }
 .search-container.conversation.full-page .faqs-bottom-actions{
-    display: none !important;
+    display: table !important;
 }
 .search-background-div{
     width: 100%;
@@ -172,12 +172,11 @@ img.logo-img{
   }
   
 
-  .search-container-adv{
-    /* transition: 1s; */
+  /* .search-container-adv{
     left: 235px !important;
     width: calc(55% - 245px) !important;
     right: 0 !important;
-  }
+  } */
   
   .add-new-result{
     /* left: 635px !important; */
@@ -185,4 +184,4 @@ img.logo-img{
     left: 234px !important;
     width: calc(55% - 245px) !important;
     right: 0 !important;
-  }
+  } 

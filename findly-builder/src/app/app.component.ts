@@ -16,6 +16,7 @@ import { KgDataService } from '@kore.services/componentsServices/kg-data.service
 })
 export class AppComponent implements OnInit {
   loading = true;
+  showMainMenu = true;
   previousState;
   appsData: any;
   searchInstance:any;
@@ -45,6 +46,9 @@ export class AppComponent implements OnInit {
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
+  }
+  showMenu(event){
+    this.showMainMenu = event
   }
    restorepreviousState(){
     let route = '/apps';
@@ -108,9 +112,11 @@ export class AppComponent implements OnInit {
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
-          _id:appData.searchIndexes[0]._id
+          _id:appData.searchIndexes[0]._id,
+          pipelineId:appData.searchIndexes[0].queryPipelineId
         }
         window.selectedFindlyApp = searchData;
+        console.log(searchData, window.selectedFindlyApp)
         this.searchInstance.setAPIDetails();
       }
     }
