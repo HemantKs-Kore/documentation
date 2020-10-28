@@ -317,7 +317,7 @@
                             </div>
                         </div>
                         <!-- <div echarts [options]="feedbackPie2" class="demo-chart-graphMode"></div> -->
-                        
+
                     </div>
                 </div>
             </div>
@@ -400,11 +400,17 @@
                         <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
                             [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
                         <div class="title-card">Top Search Queries with No Results</div>
-                        <div class="table-content-data" *ngIf="topQuriesWithNoResults">
-                            <div class="table_body row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
-                                <div class="col-10 header-title pr-3">{{top.query}}</div>
-                                <div class="col-2 header-title text-right">{{top.count}}</div>
+                        <div class="table-content-data" >
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">Count</div>
                             </div>
+                            <ng-container *ngIf="topQuriesWithNoResults">
+                                <div class="table_body row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
+                                    <div class="col-10 header-title pr-3">{{top.query}}</div>
+                                    <div class="col-2 header-title text-right">{{top.count}}</div>
+                                </div>
+                            </ng-container>
                         </div>
                         <app-pagination  [totalRecord]='tsqNoRPtotalRecord' [limitpage]='tsqNoRPlimitpage' [recordEnd]="tsqNoRPrecordEnd"
                         [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
@@ -417,11 +423,17 @@
                         <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
                             [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
                         <div class="title-card">Top Search Queries with No Clicks</div>
-                        <div class="table-content-data" *ngIf="queriesWithNoClicks">
-                            <div class="table_body row m-0" *ngFor="let top of queriesWithNoClicks;let i = index">
-                                <div class="col-10 header-title">{{top.query}}</div>
-                                <div class="col-2 header-title text-right">{{top.count}}</div>
+                        <div class="table-content-data">
+                            <div class="table_header row m-0">
+                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">Count</div>
                             </div>
+                            <ng-container *ngIf="queriesWithNoClicks">
+                                <div class="table_body row m-0" *ngFor="let top of queriesWithNoClicks;let i = index">
+                                    <div class="col-10 header-title">{{top.query}}</div>
+                                    <div class="col-2 header-title text-right">{{top.count}}</div>
+                                </div>
+                            </ng-container>
                         </div>
                         <app-pagination  [totalRecord]='tsqNoRPtotalRecord' [limitpage]='tsqNoRPlimitpage' [recordEnd]="tsqNoRPrecordEnd"
                         [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
