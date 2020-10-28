@@ -86,7 +86,6 @@ export class AppHeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
-    this.appName = this.workflowService.selectedApp();
     this.headerService.change.subscribe(data => {
       if (this.workflowService.selectedApp() && this.workflowService.selectedApp().name) {
         this.appName = this.workflowService.selectedApp().name
