@@ -91,6 +91,40 @@
           }
         }
       }
+      .myappname{
+        position: relative;
+        .name{
+          text-align: center;
+          vertical-align: middle;
+          min-height: auto;
+          background: #fff;
+          position: relative;
+          top: 19px;
+          color: #26344A;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 15px;
+          border: 1px solid #BDC1C6;
+          box-sizing: border-box;
+          border-radius: 4px;
+          padding: 1px 10px;
+          margin-left: 30px;
+          max-width: 160px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          display: inline-block;
+          height: 19px;
+        }
+        &::before{
+          content: "";
+          position: absolute;
+          height: calc(100% - 24px);
+          left: 15px;
+          top: 12px;
+          border-right: 1px solid #D8D8D8;
+        }
+      }
 
 
       .nav-flex-icons{

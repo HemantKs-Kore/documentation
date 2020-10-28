@@ -996,7 +996,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <li class="tabTitle">\
             {{each(key, facet) facets}}\
                 <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
-                    <span class="resultCount">(${facet.value})</span>\
                 </a>\
             {{/each}}\
           </li>\
@@ -2037,10 +2036,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
         console.log(e);
         if ($(e.currentTarget).closest('.task-wrp').attr('visible') == "true") {
-          _self.performRankActions(e, { visible: "false" }, _self.vars.searchObject.searchText, 'visibility');
+          _self.performRankActions(e, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
         }
         else {
-          _self.performRankActions(e, { visible: "true" }, _self.vars.searchObject.searchText, 'visibility');
+          _self.performRankActions(e, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
         }
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
@@ -2137,7 +2136,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         // errorMsg = 'Hiding failed';
       } else if ($(e.currentTarget).hasClass('pin')) {
-        if($(e.currentTarget).hasClass('pinned-styling') == true) {
+        if ($(e.currentTarget).hasClass('pinned-styling') == true) {
           successMsg = 'Unpinned';
           errorMsg = 'Unpinning failed';
         }
@@ -2164,7 +2163,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _taskWrapDiv.attr('boost', conf.boost);
         } else if (actionType == 'visibility') {
           _taskWrapDiv.attr('visible', conf.visible);
-          if (conf.visible == "false") {
+          if (conf.visible == false) {
             _taskWrapDiv.addClass('hidden-styling');
             _taskWrapDiv.find('.hidden-styling-text').css('display', 'block');
           }
@@ -2174,7 +2173,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         } else if (actionType == 'pinning') {
           var pinningElement = _taskWrapDiv.find('.pin');
-          if(pinningElement.hasClass('pinned-styling') == true) {
+          if (pinningElement.hasClass('pinned-styling') == true) {
             pinningElement.removeClass('pinned-styling');
           }
           else {
@@ -3106,8 +3105,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(searchData).find(".tasks-wrp").sortable();
               $(searchData).attr('queryString', dataObj.originalQuery);
 
-              if($(searchData).find(".task-wrp").attr('visible') == "false") {
+              if ($(searchData).find(".task-wrp").attr('visible') == "false") {
                 $(searchData).find(".task-wrp").addClass('hidden-styling');
+                $(searchData).find('.hidden-styling-text').css('display', 'block');
               }
 
               if (topMatchTask) {
