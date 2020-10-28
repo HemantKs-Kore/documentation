@@ -19,6 +19,7 @@ import { Input } from '@angular/core';
 })
 export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
+  mainMenu = '';
   showMainMenu : boolean = true;
   pagetitle: any;
   fromCallFlow = '';
@@ -52,11 +53,13 @@ export class AppHeaderComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
   analyticsClick(menu){
+    this.mainMenu = menu;
     if(menu == 'metrics'){
       this.showMainMenu = false;
     }else{
       this.showMainMenu = true;
     }
+    
     this.showMenu.emit(this.showMainMenu)
   }
   logoutClick() {
@@ -112,6 +115,10 @@ export class AppHeaderComponent implements OnInit {
         : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
     this.formatter = (x: {displayName: string}) => (x.displayName || '');
+    if(JSON.parse(localStorage.krPreviousState).route == '/metrics'){
+      this.analyticsClick('metrics');
+    }
+   
   }
 
   removeCallFlowExpand() {
