@@ -58,6 +58,8 @@ export class AppComponent implements OnInit {
         })
         if(selectedApp && selectedApp.length){
           this.workflowService.selectedApp(selectedApp[0]);
+          debugger;
+          this.resetFindlySearchSDK(this.workflowService.selectedApp());
           route = '/source';
         if(this.previousState.route){
           route = this.previousState.route
@@ -72,6 +74,7 @@ export class AppComponent implements OnInit {
           }
          } catch (e) {
          }
+         
         }
       }
     }
@@ -107,12 +110,14 @@ export class AppComponent implements OnInit {
      return previOusState;
    }
   resetFindlySearchSDK(appData){
+    debugger;
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
           _id:appData.searchIndexes[0]._id,
           pipelineId:appData.searchIndexes[0].queryPipelineId
         }
+        debugger;
         window.selectedFindlyApp = searchData;
         console.log(searchData, window.selectedFindlyApp)
         this.searchInstance.setAPIDetails();
@@ -222,6 +227,7 @@ export class AppComponent implements OnInit {
         menu: ".kr-wiz-menu-chat",
         content: ".kr-wiz-content-chat"
     }
+    
     var wSdk = new KoreWidgetSDK(widgetsConfig);
     this.searchInstance = wSdk;
            wSdk.setJWT('dummyJWT');
