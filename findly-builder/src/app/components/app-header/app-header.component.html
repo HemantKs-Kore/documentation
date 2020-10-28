@@ -29,7 +29,7 @@
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                   </ng-template>
-                <li class="nav-item pr-4 mr-2 autoSearchTools">
+                <li class="nav-item pr-2 mr-2 autoSearchTools">
                     <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}" >                               
                         <input type="text" placeholder="Search" class="input-search" (keydown.enter)="triggerRoute(searchText)" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt"  [inputFormatter]="formatter">

@@ -24,7 +24,7 @@
       .logoTabsContainer{
         display: flex;
         .headerTabsContainer{
-          padding-left: 120px;
+          padding-left: 20px;
           .headerMenuTab{
               text-transform: uppercase;
               color: #202124;
@@ -128,6 +128,9 @@
 
 
       .nav-flex-icons{
+        .kr-sg-input-search{
+          width: 200px;
+        }
         .headerIcons{
           .mat-button-focus-overlay{
             display: none !important;
