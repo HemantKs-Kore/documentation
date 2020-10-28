@@ -9851,3 +9851,6 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     top: 20px;
     right: 145px;
 }
+.display-block {
+    display: block;
+}
