@@ -79,6 +79,7 @@ import { ResultRankingComponent } from './components/result-ranking/result-ranki
 import { AddResultComponent } from './components/add-result/add-result.component';
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
+import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -131,7 +132,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FacetsComponent,
     FieldsFilterPipe,
     TraitsFilterPipe,
-    MetricsComponent
+    MetricsComponent,
+    BusinessRulesComponent
     ],
   imports: [
     BrowserModule,
