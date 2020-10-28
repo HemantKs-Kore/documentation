@@ -27,6 +27,8 @@
     "rename":"Rename",
     "copy":"Copy",
     "remove":"Remove",
+    "value":"Value",
+    "range":"Range",
     "choose_an_option":"Choose an option",
     "count":"Count",
     "label":"Label",
