@@ -82,6 +82,8 @@ export class MetricsComponent implements OnInit {
     console.log(event)
   }
   getQueries(type){
+    var today = new Date();
+    var yesterday = new Date(Date.now() - 864e5);
     const header : any= {
       'x-timezone-offset': '-330'
     };
@@ -93,8 +95,8 @@ export class MetricsComponent implements OnInit {
     let payload : any = {
       type : type,
       filters: {
-        from: "2020-10-26T05:29:23.754Z",
-        to: "2020-10-27T05:29:23.755Z"
+        from: yesterday.toJSON(),
+        to: today.toJSON()
       }
     }
     if(type == "QueriesWithNoClicks"){

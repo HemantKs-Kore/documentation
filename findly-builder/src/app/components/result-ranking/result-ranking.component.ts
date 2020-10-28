@@ -226,13 +226,13 @@ export class ResultRankingComponent implements OnInit {
        }
      });
   }
-  toggle(icontoggle,index,selected){
+  toggle(icontoggle,selected){
     let previousIndex = this.iconIndex
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle; 
-    this.iconIndex  = index;
+    // this.iconIndex  = index;
     //this.mocData[index].selected = !selected;
-    this.actionLogData[index].selected = !selected;
+    // this.actionLogData[index].selected = !selected;
   }
   toggleAction(actiontoggle,index,selected){
    //this.actionToggle = !actiontoggle;
