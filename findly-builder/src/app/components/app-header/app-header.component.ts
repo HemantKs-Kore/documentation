@@ -11,6 +11,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 import * as _ from 'underscore';
+import { Input } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
@@ -26,6 +27,7 @@ export class AppHeaderComponent implements OnInit {
   searchText:any;
   search:any;
   formatter:any;
+  appName = '';
   @Output() showMenu = new EventEmitter();
   availableRouts = [
     {displayName:'Summary' , routeId:'/summary',quaryParms:{}},
@@ -84,7 +86,11 @@ export class AppHeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
+    this.appName = this.workflowService.selectedApp();
     this.headerService.change.subscribe(data => {
+      if (this.workflowService.selectedApp() && this.workflowService.selectedApp().name) {
+        this.appName = this.workflowService.selectedApp().name
+      }
       this.pagetitle = data.title;
       this.toShowAppHeader = data.toShowWidgetNavigation;
       this.fromCallFlow = '';
