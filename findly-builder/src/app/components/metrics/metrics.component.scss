@@ -367,6 +367,9 @@
 .legends_sec_piechart{
     display: flex;
     align-items: center;
+    position: absolute;
+    bottom: 106px;
+    left: 102px;
     .legend-data{
         .indication{
             width: 20px;
