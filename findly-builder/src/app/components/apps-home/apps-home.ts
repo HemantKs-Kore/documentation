@@ -5,6 +5,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '@kore.services/notification.service';
+import { SideBarService } from '@kore.services/header.service';
 declare const $: any;
 @Component({
   // tslint:disable-next-line:component-selector
@@ -21,6 +22,7 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
+  showSearch: any = '';
   newApp: any = {
     name: '',
     description: ''
@@ -32,6 +34,7 @@ export class AppsListingComponent implements OnInit {
     public workflowService: WorkflowService,
     private router: Router,
     private notificationService: NotificationService,
+    private headerService: SideBarService
   ) {
     this.authInfo = localstore.getAuthInfo();
    }
@@ -47,6 +50,10 @@ export class AppsListingComponent implements OnInit {
   openApp(app) {
    this.workflowService.selectedApp(app);
    this.router.navigate(['/source'], { skipLocationChange: true });
+   const toogleObj = {
+    title: '',
+  };
+   this.headerService.toggle(toogleObj);
   }
   openCreateApp() {
     this.createAppPopRef  = this.createAppPop.open();
@@ -63,6 +70,15 @@ export class AppsListingComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
+ toggleSearch(){
+  if(this.showSearch && this.searchApp){
+    this.searchApp = '';
+  }
+  this.showSearch = !this.showSearch
+  setTimeout(() => {
+    $('#serachInputBox').focus();
+   }, 100);
+}
   createFindlyApp() {
     const self = this;
     self.creatingInProgress = true;

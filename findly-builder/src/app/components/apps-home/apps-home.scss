@@ -166,9 +166,14 @@
             align-items: center;
             justify-content: flex-end;
             .kr-sg-input-text{
-                width: 300px;
+                width: 0;
                 right: 10px;
                 position: relative;
+                display: none;
+                &.active{
+                    display: block;
+                    width: 250px;
+                }
             }
             .seach-block{
                 color: #202124;

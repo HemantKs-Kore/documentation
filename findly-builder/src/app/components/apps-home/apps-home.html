@@ -50,12 +50,12 @@
               </span>
             </div>          -->
          <div class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0">
-            <div class="kr-sg-input-text m-0 d-none" role="searchbox">                               
+            <div class="kr-sg-input-text m-0" role="searchbox" [ngClass]="{'active': showSearch}">                               
               <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp" autocomplete="off">           
             </div> 
-            <div class="seach-block m-0">
-                <img src="assets/icons/search.svg">
-                <img src="assets/images/close.svg" class="d-none">Seach
+            <div class="seach-block m-0" (click)="toggleSearch()">
+                <img src="assets/icons/search.svg" *ngIf="!showSearch">
+                <img src="assets/images/close.svg" *ngIf="showSearch">Seach
             </div>
             <div class="add_feild" (click)="openCreateApp()">
                 <img src="assets/icons/add_plus.svg">Add Field
