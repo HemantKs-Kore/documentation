@@ -6,6 +6,7 @@
                 <div class="homePageTitle d-none">
                     <span *ngIf="pagetitle !== undefined" class="currentTitle">{{pagetitle}}</span>
                 </div>
+                <div class="myappname"><div class="name">MY Findly APP NAME</div></div>
                 <div class="headerTabsContainer">
                     <div class="headerMenuTab" [routerLink]="['/summary']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('summary')">Summary</div>
                     <div class="headerMenuTab" [routerLink]="['/source']" skipLocationChange  routerLinkActive="active" (click)="analyticsClick('source')">
