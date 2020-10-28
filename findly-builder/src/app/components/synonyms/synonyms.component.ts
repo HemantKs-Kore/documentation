@@ -185,7 +185,7 @@ export class SynonymsComponent implements OnInit {
       height: '306px',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Sunonym',
+        title: 'Delete Synonym',
         text: 'Are you sure you want to delete selected synonym?',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
       }
