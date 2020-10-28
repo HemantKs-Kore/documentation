@@ -9820,3 +9820,34 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
 .associated-filter-count {
     color: rgb(185, 185, 185);
 }
+.hidden-styling {
+    background: gray !important;
+    opacity: 0.25 !important;
+}
+.hidden-styling .faqs-bottom-actions .actions span.img-action.pin img {
+    visibility: hidden !important;
+}
+.hidden-styling .faqs-bottom-actions .actions span.img-action.boostup img {
+    visibility: hidden !important;
+}
+.hidden-styling .faqs-bottom-actions .actions span.img-action.boostdown img {
+    visibility: hidden !important;
+}
+.hidden-styling-text {
+    display: none;
+    font-weight: bold;
+    color: inherit;
+    /*margin: 5px 15px;
+    float: right; */
+    position: absolute;
+    right: 75px;
+    margin-top: 5px;
+}
+.pinned-styling {
+    background: #E7F1FF !important;
+}
+.action-info {
+    position: absolute;
+    top: 20px;
+    right: 145px;
+}
