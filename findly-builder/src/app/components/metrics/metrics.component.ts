@@ -208,71 +208,68 @@ export class MetricsComponent implements OnInit {
    
     // var data = [
       
-    //   ["1st Aug",227,116,136],
-    //   ["1st Aug",313,299,229],
-    //   ["1st Aug",315,311,227],
-    //   ["1st Aug",345,282,266],
-    //   ["1st Aug",346,293,267],
-    //   ["1st Aug",357,294,290],
-    //   ["2nd Aug",367,311,300],
-    //   ["2nd Aug",371,309,301],
-    //   ["2nd Aug",389,321,299],
-    //   ["2nd Aug",391,312,298],
-    //   ["2nd Aug",387,345,297],
-    //   ["2nd Aug",361,346,266],
-    //   ["3rd Aug",367,347,255],
-    //   ["3rd Aug",390,357,233],
-    //   ["3rd Aug",301,366,221],
-    //   ["3rd Aug",311,307,245],
-    //   ["3rd Aug",325,307,306],
-    //   ["3rd Aug",409,386,381],
-    //   ["4th Aug",401,365,321],
-    //   ["4th Aug",422,364,300],
-    //   ["4th Aug",421,373,363],
-    //   ["4th Aug",411,366,309],
-    //   ["4th Aug",312,311,308],
-    //   ["4th Aug",345,301,293],
-    //   ["5th Aug",290,288,285],
-    //   ["5th Aug",291,283,273],
-    //   ["5th Aug",276,269,259],
-    //   ["5th Aug",341,298,282],
-    //   ["5th Aug",340,289,287],
-    //   ["5th Aug",344,277,245],
-    //   ["6th Aug",346,261,232],
-    //   ["6th Aug",345,260,235],
-    //   ["6th Aug",348,255,243],
-    //   ["6th Aug",354,345,311],
-    //   ["6th Aug",334,334,298],
-    //   ["6th Aug",332,311,287],
-    //   ["7th Aug",367,301,267],
-    //   ["7th Aug",311,300,277],
-    //   ["7th Aug",310,307,273],
-    //   ["7th Aug",308,306,296],
-    //   ["7th Aug",301,305,299],
-    //   ["7th Aug",309,304,297],
-    //   ["8th Aug",289,260,242],
-    //   ["8th Aug",299,288,231],
-    //   ["8th Aug",252,247,245],
-    //   ["8th Aug",241,183,158],
-    //   ["8th Aug",212,167,161],
-    //   ["2000-07-22",213,177,167],
-    //   ["2000-07-22",213,177,167],
-    //   ["2000-07-22",213,177,167],
-    //   ["2000-07-22",213,177,167]];
+    //   ["1",227,166,136],
+    //   ["2",313,299,229],
+    //   ["3",315,311,227],
+    //   ["4",345,282,266],
+    //   ["5",346,293,267],
+    //   ["6",357,294,290],
+    //   ["7",367,311,300],
+    //   ["8",371,309,301],
+    //   ["9",389,321,299],
+    //   ["10",391,312,298],
+    //   ["11",387,345,297],
+    //   ["12",361,346,266],
+    //   ["13",367,347,255],
+    //   ["14",390,357,233],
+    //   ["15",301,366,221],
+    //   ["16",311,307,245],
+    //   ["17",325,307,306],
+    //   ["18",409,386,381],
+    //   ["19",401,365,321],
+    //   ["20",422,364,300],
+    //   ["21",421,373,363],
+    //   ["22",411,366,309],
+    //   ["23",312,311,308],
+    //  ["24",345,301,293]];
+      // ["25",290,288,285],
+      // ["26",291,283,273],
+      // ["27",276,269,259],
+      // ["28",341,298,282],
+      // ["29",340,289,287],
+      // ["30",344,277,245],
+      // ["31",346,261,232],
+      // ["32",345,260,235],
+      // ["33",348,255,243],
+      // ["34",354,345,311],
+      // ["35",334,334,298],
+      // ["36",332,311,287],
+      // ["37",367,301,267],
+      // ["38",311,300,277],
+      // ["39",310,307,273],
+      // ["40",308,306,296],
+      // ["41",301,305,299],
+      // ["42",309,304,297],
+      // ["43",289,260,242],
+      // ["44",299,288,231],
+      // ["45",252,247,245],
+      // ["46",241,183,158],
+      // ["47",212,167,161]];
+      
 
-    //   var dateList = data.map(function (item) {
-    //     return item[0];
-    //   });
-    //   var valueList = data.map(function (item) {
-    //     return item[1];
-    //   });
-    //   var valueList1 = data.map(function (item) {
-    //     return item[2];
-    //   });
+//       // var dateList = data.map(function (item) {
+//       //   return item[0];
+//       // });
+//       // var valueList = data.map(function (item) {
+//       //   return item[1];
+//       // });
+//       // var valueList1 = data.map(function (item) {
+//       //   return item[2];
+//       // });
 
-    //   var valueList2 = data.map(function (item) {
-    //     return item[3];
-    //   });
+//       // var valueList2 = data.map(function (item) {
+//       //   return item[3];
+//       // });
 
 // var dateList = data.map(function (item) {
 //   return item[0];
@@ -338,14 +335,32 @@ this.chartOption  = {
       position: 'top',
       padding: 0
     },
+  //   dataZoom: [{
+  //     show: true,
+  //     type: 'inside',
+  //     filterMode: 'none',
+  //     xAxisIndex: [0],
+  //     startValue: 0,
+  //     endValue: 24
+  // }, {
+  //     show: true,
+  //     type: 'inside',
+  //     filterMode: 'none',
+  //     yAxisIndex: [0],
+  //     startValue: 0,
+  //     endValue: 2000
+  // }],
     xAxis: [{
         data: dateList,
+       // type: 'time',
         minInterval : 8,
          boundaryGap:false,
         show: true,
+        //data: ['1st Aug', '2nd Aug' , '3rd Aug', '4th Aug', '5th Aug', '6th Aug', '7th Aug']
+        //splitLine: {show: true}
     }],
     yAxis: [{
-        splitLine: {show: false}
+        splitLine: {show: true}
     }],
     
     series: [{
@@ -443,19 +458,20 @@ this.chartOption  = {
     this.userEngagementChartData = {
       
       tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+          type: 'none'        
+      },
         formatter: `
         <div class="metrics-tooltips-hover userengagment-tooltip">          
-        <div class="data-content">
-            <div class="main-title">Total Users</div>
-            <div class="title total">{c0}</div>
-        </div>
+       
         <div class="data-content">
             <div class="main-title">New Users</div>
-            <div class="title new">230</div>
+            <div class="title new">{c1}</div>
         </div>
         <div class="data-content border-0">
             <div class="main-title">Repeat Users</div>
-            <div class="title return">230</div>
+            <div class="title return">{c0}</div>
         </div>
     </div> 
         `,
@@ -525,15 +541,25 @@ this.chartOption  = {
     mostClick(){
         this.mostClickBar  = {
           xAxis: {
-              type: 'value'
-              
+              type: 'value',
+              axisLabel: {
+                formatter: '{value}'
+            }
           },
           yAxis: {
             type: 'category',
               data: ['1st ', ' 2nd', '3rd']
           },
-          barWidth: 50,
+          barWidth: 40,
           series: [{
+            label : {
+              normal: {
+                  show: true,
+                  color : '#202124',
+                  textBorderColor: '#202124',
+                  textBorderWidth: 1
+              }
+          },
             itemStyle: {
               normal: {
                 color: '#B893F2',
@@ -568,7 +594,7 @@ this.chartOption  = {
             },
             series: [{
                 type: 'pie',
-                radius: 60,
+                radius: 80,
                 color: colorPalette,
                 center: ['25%', '30%'],
                 itemStyle : {
@@ -582,10 +608,11 @@ this.chartOption  = {
                              }
                   }
                 // No encode specified, by default, it is '2012'.
-            }, {
+            }
+            , {
                 type: 'pie',
-                radius: 60,
-                color: colorPalette2,
+                radius: 80,
+                color: ['#FF784B','#FFF1ED'],
                 center: ['75%', '30%'],
                 itemStyle : {
                   normal : {
@@ -601,7 +628,8 @@ this.chartOption  = {
                     itemName: 'product',
                     value: '2013'
                 }
-            }]
+            }
+          ]
         };
       
     }
