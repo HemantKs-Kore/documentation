@@ -24,6 +24,7 @@ export class TraitsComponent implements OnInit {
   emptyData = true;
   loadingTraits = true
   traitCounts;
+  showSearch;
   serachTraits: any = '';
   traits:any = {
     traitGroups:{},
@@ -596,5 +597,11 @@ accordianAction(index){
    }
     // underscores and spaces are not included here//
    return characters.test(str);
+};
+toggleSearch(){
+  if(this.showSearch && this.serachTraits){
+    this.serachTraits = '';
+  }
+  this.showSearch = !this.showSearch
 };
 }

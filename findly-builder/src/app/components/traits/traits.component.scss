@@ -176,18 +176,31 @@
                       right: 180px;
                       width: 200px;
                   }
+                 
                   .action{
-                    position: absolute;
-                    right: 0px;
-                    color: #0D6EFD;
-                    font-size: 14px;
-                    text-transform: uppercase;
+                    
+                    right: 10px;
+                    color: #202124;
+                    font-size: normal;
+                     text-transform: uppercase;
                     cursor: pointer;
                     font-weight: bold;
                   }
               }
           }
       }
+      .seach-block{
+        color: #202124;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        // line-height: 14px;
+        margin-right: 30px;
+        img{
+            margin-right: 7px;
+            cursor: pointer;
+        }
+    }
       .traits{
         padding: 0px 30px 0px 30px;
         width: 100%;

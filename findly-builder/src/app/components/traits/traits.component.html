@@ -89,10 +89,14 @@
                             class="ml-1 hide"></div>
                     <div class="col-9" >TRAITS <img src="assets/icons/caretDown.svg"
                             class="ml-1 hide"></div>
-                            <div class="kr-sg-input-inline-search">                               
+                            <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                                <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search"   [(ngModel)]="serachTraits">           
+                              </div>
+                              <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                            <!-- <div class="kr-sg-input-inline-search">                               
                                 <input type="text" placeholder="Search" class="input-search" [(ngModel)]="serachTraits">
                                 <img src="assets/icons/search.svg" class="search-icon">
-                            </div>
+                            </div> -->
                             <div class="action" (click)='createNewTraits()'>+ Create New Trait</div>
                 </header>
                 <perfect-scrollbar class="trailts">
