@@ -2105,6 +2105,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       // $('.full-search-close').off('click').on('click', function (e)
       $('.custom-chevron-right-icon').off('click').on('click', function (e) {
+
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var randomObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+          //  _self.parentEvent(randomObject);
+        }
+
         if (($('.external-link-show').css('display') == 'none')) {
           $('.external-link-show').css('display', 'block');
           $('.desc-info').css('max-width', '100%');
