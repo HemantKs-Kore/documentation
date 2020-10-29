@@ -21,36 +21,46 @@
     </div>
     <div class="findly-dashboard" *ngIf="apps && apps.length">
       <div class="main-heading d-none" role="doc-introduction">{{'WelcometoFindly' | translate}}</div>
-      <div class="header-sec row ml-0 mr-0">
-          <div class="title col-6 p-0" role="contentinfo">{{'Your_Applications' | translate}}</div>
-          <div class="col-6 p-0 row justify-content-end align-items-center text-right m-0">
-            <div class="kr-sg-input-search" role="searchbox">                               
-              <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp" autocomplete="off">           
-              <img class="search-icon" src="assets/images/search_gray.svg">
-              <img class="search-icon" src="assets/images/close.svg" class="d-none">
-            </div>
-            <!-- <div class="kr-sg-input-search" role="searchbox">                               
-              <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp">
-              <img src="assets/icons/search.svg" class="search-icon">
-            </div> -->
-            <button class="kr-sg-button-primary btn_lg" (click)="openCreateApp()">+ Add New</button>            
-            <span class="dropdown createDropDown d-none">
-              <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
-                <img class="gray_arrow" src="assets/icons/caretDown.svg">
-                <img class="white_arrow" src="assets/icons/caretDownWhit.svg">
-              </div>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                <li><a>Import</a></li>
-              </ul>
-          </span>
-          <span class="kr-sg-dropdowns import_bot_dropdown" #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-            <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/dropdown_gray.svg"></button>                                            
-                <ul class="dropdown-menu content-menu import_bot_dropdown-content" ngbDropdownMenu>
-                  <li>Import</li>
+      <div class="header-sec">
+          <div class="row m-0 adjust-width">
+            <div class="title col-4 p-0" role="contentinfo">{{'Your_Applications' | translate}}</div>
+            <!-- <div class="col-8 p-0 row justify-content-end align-items-center text-right m-0 d-none">
+              <div class="kr-sg-input-search" role="searchbox">                               
+                <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp" autocomplete="off">           
+                <img class="search-icon" src="assets/images/search_gray.svg">
+                <img class="search-icon" src="assets/images/close.svg" class="d-none">
+              </div>           
+              <button class="kr-sg-button-primary btn_lg" (click)="openCreateApp()">+ Add New</button>            
+              <span class="dropdown createDropDown d-none">
+                <div class="dropdown-toggle" id="menu1" data-toggle="dropdown">
+                  <img class="gray_arrow" src="assets/icons/caretDown.svg">
+                  <img class="white_arrow" src="assets/icons/caretDownWhit.svg">
+                </div>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                  <li><a>Import</a></li>
                 </ul>
+              </span>
+              <span class="kr-sg-dropdowns import_bot_dropdown d-none" #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/dropdown_gray.svg"></button>                                            
+                    <ul class="dropdown-menu content-menu import_bot_dropdown-content" ngbDropdownMenu>
+                      <li>Import</li>
+                    </ul>
+                </div>
+              </span>
+            </div>          -->
+         <div class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0">
+            <div class="kr-sg-input-text m-0" role="searchbox" [ngClass]="{'active': showSearch}">                               
+              <input type="text" placeholder="Search" id="serachInputBox" class="input-search" maxlength="128" [(ngModel)]="searchApp" autocomplete="off">           
+            </div> 
+            <div class="seach-block m-0" (click)="toggleSearch()">
+                <img src="assets/icons/search.svg" *ngIf="!showSearch">
+                <img src="assets/images/close.svg" *ngIf="showSearch">Search
             </div>
-          </span>
+            <div class="add_feild" (click)="openCreateApp()">
+                <img src="assets/icons/add_plus.svg">Add Application
+            </div>            
+        </div>
           </div>
       </div>      
         <div class="body-sec">
@@ -103,7 +113,7 @@
       </div>
       </div>
       <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-        <button [disabled]="!newApp.name"  type="button" class="btn kr-btn-primary"  data-dismiss="modal" (click)='createFindlyApp()' >{{creatingInProgress?'Createing...':'Proceed'}}</button>
+        <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Proceed'}}</button>
         <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
       </div>
 </kr-modal>

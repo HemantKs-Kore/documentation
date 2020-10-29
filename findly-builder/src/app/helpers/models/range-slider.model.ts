@@ -10,5 +10,5 @@ export class RangeSlider {
         this.step = step;
         this.default = def;
         this.id = id;
-    }   
+    }
 }

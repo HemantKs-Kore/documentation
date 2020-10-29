@@ -1,31 +1,68 @@
+<!-- <div class="search-background-div"> -->
 <div id="advanceContainer" class="dis advanceContainer">
-    <div class="header">
+    <div class="row">
+        <div class="header col-5">
+            <p>QUERY </p> 
+            <span>{{query}}</span>
+       </div>
+       <div class="col-7">
+        <div class="mini-graph">
+            <div class="search-val">
+                <p>Searches </p> 
+                <span>{{analystic.searches || 0}}</span>
+            </div>
+            <div class="click-val">
+                <p>Clicks </p> 
+                <span>{{analystic.searches || 0}}</span>
+            </div>
+            <div class="ctr-val">
+                <p>CTR </p> 
+                <span>{{ctrVal || 0}}%</span>
+            </div>   
+            <div class="data-val" (click) = "mouseEnter()"> 
+                <div class="graph">
+                    <img class="line-blue" src="assets/images/line-blue.svg" (click)="closeCross()">
+                    <img class="line-black" src="assets/images/line-black.svg" (click)="closeCross()">
+                </div>
+            </div>  
+         </div>
+       </div>
+    </div>
+     <!-- <div class="header">
          <p>QUERY </p> 
-         <span>Open bank account</span>
+         <span>{{query}}</span>
     </div>
     <div class="mini-graph">
-     <div class="search-val">
-         <p>Searches </p> 
-         <span>4983</span>
-     </div>
-     <div class="click-val">
-         <p>Clicks </p> 
-         <span>4254</span>
-     </div>
-     <div class="ctr-val">
-         <p>CTR </p> 
-         <span>94%</span>
-     </div>   
-     <div class="data-val" (mouseenter) ="mouseEnter()">
-         <div class="graph">
-             <div echarts [options]="chartOption" class="demo-chart"></div>
-         </div>
-     </div>  
-         
-     </div>
+        <div class="search-val">
+            <p>Searches </p> 
+            <span>{{analystic.searches || 0}}</span>
+        </div>
+        <div class="click-val">
+            <p>Clicks </p> 
+            <span>{{analystic.searches || 0}}</span>
+        </div>
+        <div class="ctr-val">
+            <p>CTR </p> 
+            <span>{{ctrVal || 0}}%</span>
+        </div>   
+        <div class="data-val" (click) = "mouseEnter()">
+            <div class="graph">
+                <img class="line-blue" src="assets/images/line-blue.svg" (click)="closeCross()">
+                <img class="line-black" src="assets/images/line-black.svg" (click)="closeCross()">
+                
+            </div>
+        </div>  
+        <div class ="graphMode" *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
+        
+            <div class="graph">
+                <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
+              
+            </div>
+        </div> 
+     </div>  -->
      <div class="tab-grp">
-         <span class="tab-name tab-ana active" (click)="swapSlider(0)">ANALYSIS</span>
-         <span class="tab-name tab-act" (click)="swapSlider(1)">ACTION LOG</span>
+         <span class="tab-name tab-ana " (click)="swapSlider(0)">ANALYSIS</span>
+         <span class="tab-name tab-act active" (click)="swapSlider(1)">ACTION LOG</span>
          
      </div>
      <!-- drop -->
@@ -57,29 +94,9 @@
       </ul> -->
       <!-- <img src="assets/icons/filter.svg"  class="sortImg" > -->
      <div class="tabselect" *ngIf="slider == 0" class="tab-slider">
-        <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
-            <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins" (click)="toggle(icontoggle, i,actLog.selected)">
-                <div class="mb-0">
-                    <!-- <img *ngIf ="!icontoggle && iconIndex == undefined; else elseICon" src="assets/icons/caret-right.svg" class="ml-1 mr-0"> 
-                    <ng-container #elseICon> -->
-                        <!-- <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
-                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0">  -->
-                    <!-- </ng-container> -->
-                    <div class="row">
-                        <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
-                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
-                        <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
-                            <div class="action-header pl-pr-0  col-lg-2" >
-                                <img src="assets/icons/help.svg" class="ml-1"> 
-                                <span class="status">{{actLog.status}}</span> 
-                            </div> 
-                            <div class="time col-lg-2">{{actLog.time}}</div>
-                    </div>
-                </div>
-            </a>
-        
-            <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
-     </div>
+       <div class="result-list">
+           
+       </div>
      </div>
      <!-- <perfect-scrollbar class="perfect-scroll"> --> 
         <!-- [ngClass] = "{'active-header' :(icontoggle && i == iconIndex)}" -->
@@ -109,11 +126,34 @@
      <!-- </perfect-scrollbar> -->
      <!-- <button (click)="btnClick()">button</button> -->
  </div>
+<!-- </div> -->
 
- <div class ="graphMode" #graphMode *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
-    <!-- <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()"> -->
-    <div class="graph">
+
+ <div class ="row" #graphMode *ngIf="graphMode"  (mouseleave) ="mouseLeave()">
+    <div class="graphMode col-7">
+        <div class="header">
+            <span class="head-txt">Search & Click Trend</span>
+            <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
+        </div>
+        <div class="legends row">
+            <div class="searches col-lg-4">
+                <img src="assets/icons/search-list.svg" class="" (click)="$event.stopPropagation()">
+                <div class="head">searches</div>
+                <div class="val">2685</div>
+            </div>
+            <div class="clicks col-lg-4">
+                <img src="assets/icons/click.svg" class="" (click)="$event.stopPropagation()">
+                <div class="head">Clicks</div>
+                <div class="val">1268</div>
+            </div>
+            <div class="CTR col-lg-4">
+                <img src="assets/icons/CTR.svg" class="" (click)="$event.stopPropagation()">
+                <div class="head">CTR</div>
+                <div class="val">67%</div>
+            </div>
+        </div>
         <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
+        
     </div>
  </div>
  

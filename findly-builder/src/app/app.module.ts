@@ -48,9 +48,11 @@ import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
+import { SynonymFilterPipe } from './components/synonyms/synonym-filter';
 import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
+import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { AddAlternateQuestionComponent } from './components/faqs/add-alternate-question/add-alternate-question.component';
 import { GroupInputComponent } from './components/faqs/group-input/group-input.component';
@@ -60,6 +62,7 @@ import { RangeSliderComponent } from './helpers/components/range-slider/range-sl
 import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
 import { IndexComponent } from './components/index/index.component';
+import { FieldsFilterPipe } from './components/index/fileds-filter.pipe';
 import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -70,6 +73,13 @@ import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { StopWordsComponent } from './components/stop-words/stop-words.component';
+import { WeightsComponent } from './components/weights/weights.component';
+import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
+import { AddResultComponent } from './components/add-result/add-result.component';
+import { FacetsComponent } from './components/facets/facets.component';
+import { MetricsComponent } from './components/metrics/metrics.component';
+import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -113,7 +123,17 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RulesTableComponent,
     SchedulerComponent,
     InsightsComponent,
-    PaginationComponent
+    PaginationComponent,
+    StopWordsComponent,
+    WeightsComponent,
+    ResultRankingComponent,
+    SynonymFilterPipe,
+    AddResultComponent,
+    FacetsComponent,
+    FieldsFilterPipe,
+    TraitsFilterPipe,
+    MetricsComponent,
+    BusinessRulesComponent
     ],
   imports: [
     BrowserModule,

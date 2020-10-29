@@ -7,8 +7,12 @@ import { Component, OnInit, Input, EventEmitter, AfterViewInit, Output } from '@
 })
 export class AppBodyComponent implements OnInit , AfterViewInit {
   @Output() initSearchSDK = new EventEmitter();
+  @Input() bridgeData; 
+  @Input() query; 
+  insights = true;
   constructor() { }
   ngOnInit() {
+   
   }
   ngAfterViewInit(){
     setTimeout( (a) => {

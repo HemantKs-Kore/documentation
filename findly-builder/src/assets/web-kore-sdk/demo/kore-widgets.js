@@ -159,6 +159,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.searchObject = {
         //recents:[]
       };
+      vars.selectedFiltersArr = [];
+      vars.filterObject = [];
+      vars.searchFacetFilters = [];
+
+      vars.showingMatchedResults = false;
+
     }; //********************original widget.js start */
 
 
@@ -233,32 +239,39 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      if(window.selectedFindlyApp && window.selectedFindlyApp._id){
-        SearchIndexID = window.selectedFindlyApp._id
+      var pipelineId = ''
+      if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
+        SearchIndexID = window.selectedFindlyApp._id;
+        pipelineId = window.selectedFindlyApp.pipelineId;
       }
-      var baseUrl = "https://app.findly.ai/searchAssistant";
-      var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"
+      var baseAPIServer = 'https://app.findly.ai';
+      if (_self.isDev) {
+        baseAPIServer = window.appConfig.API_SERVER_URL;
+      }
+      var baseUrl = baseAPIServer + "/searchAssistant";
+      var businessTooBaseURL = baseAPIServer + "/api/1.1/findly/";
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID +"/popularSearches",
-        newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID +"/search/feedback",
-        queryConfig:businessTooBaseURL+SearchIndexID+"/search/queryConfig",
+        metricsUrl: baseAPIServer + "/api/1.1/findlymetrics/logs",
+        popularSearchesUrl: baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
+        newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
+        queryConfig: businessTooBaseURL + SearchIndexID + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
-        jstBarrer:"bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"
+        jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM"
       };
       _self.API.uuid = uuid.v4();
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
-      if(window.selectedFindlyApp && window.selectedFindlyApp._id){
+      if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
         $.ajax({
           url: botIntigrationUrl,
           type: 'GET',
           dataType: 'json',
           headers: {
-            "Authorization": 'bearer '+window.findlyAccessToken,
-            "AccountId":window.findlyAccountId,
+            "Authorization": 'bearer ' + window.findlyAccessToken,
+            "AccountId": window.findlyAccountId,
             "Content-Type": "application/json"
           },
           data: {},
@@ -841,7 +854,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="faqs-shadow task-wrp test {{if faq.config.visible==false}}hidden-styling{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <span class="hidden-styling-text {{if faq.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
@@ -860,10 +874,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="appearences-count">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
                     </span>\
                     <span class="actions">\
+                    <span class="action-info"></span>\
                     <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
-                    <span class="img-action pin">\
+                    <span class="img-action pin {{if faq.config.pinIndex>-1}}pinned-styling{{/if}}">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                     </span>\
@@ -886,8 +901,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
-                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
+              <div class="faqs-shadow task-wrp {{if page.config.visible==false}}hidden-styling{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <span class="hidden-styling-text {{if page.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
+                 <a class="faqs-wrp-content" href="${page.url}" target="_blank" id=${key}>\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
                  </div>\
@@ -903,10 +919,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
                  </span>\
                  <span class="actions">\
+                 <span class="action-info"></span>\
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
-                 <span class="img-action pin">\
+                 <span class="img-action pin {{if page.config.pinIndex>-1}}pinned-styling{{/if}}">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                  </span>\
@@ -941,7 +958,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <span class="appearences-count">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
                               </span>\
                               <span class="actions">\
-                              <span class="img-action  dont-show">\
+                              <span class="img-action  dont-show one">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action pin">\
@@ -968,6 +985,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       </script>';
       var searchFullData = '<script type="text/x-jqury-tmpl">\
+      <div id="loaderDIV" class="loader-container">Loading...</div>\
       <div class="ksa-results-tabesHeader">\
       <div class="title-backbutton">\
       <div class="title">Search results</div>\
@@ -978,7 +996,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <li class="tabTitle">\
             {{each(key, facet) facets}}\
                 <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
-                    <span class="resultCount">(${facet.value})</span>\
                 </a>\
             {{/each}}\
           </li>\
@@ -1008,8 +1025,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if pages.length && (selectedFacet === "page" || selectedFacet === "all results")}}\
               <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
               <div class="relatedPagesTitle">MATCHED PAGES</div>\
+              <div class="tasks-wrp">\
               {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-              <div class="faqs-shadow">\
+              <div class="faqs-shadow task-wrp" contentId="${page.contentId}" contentType="${page.contentType}" visible="${page.config.visible}">\
                  <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
@@ -1026,7 +1044,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="appearences-count">155 Appearances - 138 Clicks</span>\
                  </span>\
                  <span class="actions">\
-                 <span class="img-action  dont-show">\
+                 <span class="img-action  dont-show two">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
                  <span class="img-action pin">\
@@ -1044,6 +1062,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
              </div>\
               </div>\
               {{/each}}\
+              </div>\
               {{if selectedFacet !== "page" && pages.length>5}}\
                 <div class="ksa-showMore">Show More</div>\
               {{/if}}\
@@ -1054,7 +1073,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                <div class="faqs-shadow ">\
+                <div class="faqs-shadow task-wrp">\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}</span>\
@@ -1098,9 +1117,80 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{/if}}\
               </div>\
               {{/if}}\
+              {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results") }}\
+                <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
+                  <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
+                  {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
+                    <div class="faqs-shadow" contentId="${document.contentId}" contentType="${document.contentType}">\
+                      <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
+                        <div class="image-url-sec">\
+                          <img src="${document.imageUrl}"/>\
+                        </div>\
+                        <div class="pages-content">\
+                          <div class="title" title="${document.title}">${document.title}</div>\
+                          <div class="desc-info">${document.searchResultPreview}</div>\
+                        </div>\
+                      </a>\
+                      <div class="faqs-bottom-actions">\
+                        <span class="appearences">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                          <span class="appearences-count">155 Appearances - 138 Clicks</span>\
+                        </span>\
+                        <span class="actions">\
+                          <span class="img-action dont-show two">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
+                          </span>\
+                          <span class="img-action pin">\
+                            <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                          </span>\
+                          <span class="img-action boostup">\
+                            <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
+                          </span>\
+                          <span class="img-action boostdown">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
+                          </span>\
+                        </span>\
+                      </div>\
+                    </div>\
+                  {{/each}}\
+                </div>\
+              {{/if}}\
             </div>\
           </div>\
         </div>\
+        {{if searchFacets.length}}\
+        <div class="filters-container">\
+          <div class="filters-header">\
+            <h2 class="filters-heading">Filter by</h2>\
+            <h3 class="filters-reset">\
+              <a class="filters-reset-anchor">Clear All</a>\
+            </h3>\
+          </div>\
+          <div class="filters-body">\
+            {{each(i, searchFacet) searchFacets}}\
+            <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+              <h2 class="filters-content-heading">${searchFacet.facetName}</h2>\
+              {{each(j, bucket) searchFacet.buckets}}\
+              {{if searchFacet.facetType == "value"}}\
+                <div class="filters-content-body">\
+                  <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true">\
+                  <label class="associated-filter-label" for="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                </div>\
+              {{/if}}\
+              {{if searchFacet.facetType == "range"}}\
+                <div class="filters-content-body">\
+                  <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true" data-from=${bucket.from} data-to=${bucket.to}>\
+                  <label class="associated-filter-label" for="${bucket.key}">${bucket.from} to ${bucket.to} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                </div>\
+              {{/if}}\
+              {{/each}}\
+            </div>\
+            {{/each}}\
+          </div>\
+        </div>\
+        {{/if}}\
         <div class="ksa-resultsRight">\
             <div class="rightContainer">\
                 <div class="rightContentSubTitle">Near by Branch/ATM</div>\
@@ -1471,10 +1561,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return listT;
     }
     KoreWidgetSDK.prototype.getSuggestion = function (suggestions) {
+      var _self = this;
       var $suggest = $('#suggestion');
       // some other key was pressed
       var needle = $('#search').val();
-
+      _self.vars.showingMatchedResults = false;
       // is the field empty?
       if (!$.trim(needle).length) {
         $suggest.val("");
@@ -1495,7 +1586,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if ($suggest.val() == "") {
           wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
+          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1];
           //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
           regex = new RegExp('^' + lastWords, 'i');
           if (regex.test(term)) {
@@ -1523,15 +1614,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $suggest.val("");
       });
 
-      if(!suggestions.length){
+      if (!suggestions.length) {
         $suggest.val("");
       }
 
     }
-    $(document).mouseup(function(e){
+    $(document).mouseup(function (e) {
       var contextVarAreaContainer = $(".context_variables_textarea"); // Text area dialog
       var contestVarContainer = $(".contest_variables_dropdown"); // Context menu
-      if((!contextVarAreaContainer.is(e.target) && contextVarAreaContainer.has(e.target).length === 0) && (!contestVarContainer.is(e.target) && contestVarContainer.has(e.target).length === 0)){
+      if ((!contextVarAreaContainer.is(e.target) && contextVarAreaContainer.has(e.target).length === 0) && (!contestVarContainer.is(e.target) && contestVarContainer.has(e.target).length === 0)) {
         contextVarAreaContainer.hide();
         contestVarContainer.hide();
       }
@@ -1539,7 +1630,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     KoreWidgetSDK.prototype.bindContextVariable = function () {
       $(document).off('click', '.elipse-overflow').on('click', '.elipse-overflow', function (event) {
         $(event.target).toggleClass('context-active');
-        if($(event.target).hasClass('context-active')) {
+        if ($(event.target).hasClass('context-active')) {
           // $('.contest_variables_dropdown').removeClass('hide');
           // $('.contest_variables_dropdown').show();
           $('.context_variables_textarea').removeClass('hide');
@@ -1568,6 +1659,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     KoreWidgetSDK.prototype.bindSearchAccordion = function () {
+
+      var _self = this;
+
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).toggleClass('acc-active');
         var panel = $(evet.target).next();
@@ -1576,8 +1670,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else {
           panel[0].style.maxHeight = panel[0].scrollHeight + "px";
         }
-        if($(evet.target).hasClass('acc-active')) {
+        if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
+          if (_self.vars.showingMatchedResults == true) {
+            // _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand');
+            _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'click');
+          }
         } else {
           $(evet.target).next().parent().next().show();
         }
@@ -1617,11 +1715,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $(document).off('click', '.yesLike').on('click', '.yesLike', function (event) {
         $(event.target).toggleClass('icon-active');
-        if($(event.target).hasClass('icon-active')) {
+        if ($(event.target).hasClass('icon-active')) {
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtYmx1ZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtYmx1ZSIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().next().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
-           payload.feedbackType = "thumbsup";
-          _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function(res) {
+          payload.feedbackType = "thumbsup";
+
+          if (_self.vars.showingMatchedResults == true) {
+            _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsUp')
+          }
+
+          _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
             console.log(res);
           });
         } else {
@@ -1630,11 +1733,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $(document).off('click', '.noDislike').on('click', '.noDislike', function (event) {
         $(event.target).toggleClass('icon-active');
-        if($(event.target).hasClass('icon-active')) {
+        if ($(event.target).hasClass('icon-active')) {
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ibHVlPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWJsdWUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().prev().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsdown";
-          _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function(res) {
+
+          if (_self.vars.showingMatchedResults == true) {
+            _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsDown')
+          }
+
+          _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
             console.log(res);
           });
         } else {
@@ -1654,14 +1762,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       totalResultsCount = selectedFacet ? _self.vars.searchObject.liveData.facets[selectedFacet] : _self.vars.searchObject.liveData.facets["all results"];
       var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy({
-        facets : facets,
-        dataLoaded : false,
-        search : _self.vars.searchObject.liveData.originalQuery,
-        totalResultsCount : totalResultsCount,
-        tasks : _self.vars.searchObject.liveData.tasks,
-        pages : _self.vars.searchObject.liveData.pages,
-        selectedFacet : selectedFacet ? selectedFacet : "all results",
+        facets: facets,
+        dataLoaded: false,
+        search: _self.vars.searchObject.liveData.originalQuery,
+        totalResultsCount: totalResultsCount,
+        tasks: _self.vars.searchObject.liveData.tasks,
+        pages: _self.vars.searchObject.liveData.pages,
+        selectedFacet: selectedFacet ? selectedFacet : "all results",
         faqs: _self.vars.searchObject.liveData.faqs,
+
+        documents: _self.vars.searchObject.liveData.documents,
+
+        searchFacets: _self.vars.searchFacetFilters,
+
         getFacetDisplayName: function (key) {
           if (key.toLowerCase() === 'faq') {
             return "FAQ's"
@@ -1669,21 +1782,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return "Pages"
           } else if (key.toLowerCase() === 'task') {
             return "Actions"
+          } else if (key.toLowerCase() === 'document') {
+            return "Documents"
           } else {
             return key;
           }
         }
-        
+
       });
       $('.search-container').addClass('full-page');
-      $('.start-search-icon-div').hide();   
+      $('.start-search-icon-div').hide();
       $('.search-body-full').removeClass('hide');
       $('.search-body-full').html(searchFullData);
       $('.search-container').removeClass('active');
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
+        if (_self.vars.selectedFiltersArr.length > 0) {
+          _self.vars.selectedFiltersArr.forEach(function (filter) {
+            $("#" + filter).prop('checked', true)
+            console.log(filter);
+          })
+        }
       } else {
         $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
+        if (_self.vars.selectedFiltersArr.length > 0) {
+          _self.vars.selectedFiltersArr.forEach(function (filter) {
+            $("#" + filter).prop('checked', true)
+            console.log(filter);
+          })
+        }
       }
       _self.bindFacetsToggle();
       _self.bindAllResultsView();
@@ -1692,31 +1819,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // }
 
       var topMatchFAQ;
-      if(_self.vars.searchObject &&_self.vars.searchObject.liveData && _self.vars.searchObject.liveData.faqs){
-        var faqs=_self.vars.searchObject.liveData.faqs;
-        topMatchFAQ=faqs.filter(function(faq){
+      if (_self.vars.searchObject && _self.vars.searchObject.liveData && _self.vars.searchObject.liveData.faqs) {
+        var faqs = _self.vars.searchObject.liveData.faqs;
+        topMatchFAQ = faqs.filter(function (faq) {
           return faq.bestMatch
         });
-        if(topMatchFAQ.length){
+        if (topMatchFAQ.length) {
           //highlight faq;
-          topMatchFAQ=topMatchFAQ[0];
-        }else{
-          topMatchFAQ=false;
+          topMatchFAQ = topMatchFAQ[0];
+        } else {
+          topMatchFAQ = false;
         }
       }
-      setTimeout(function(){
-        debugger;
+      setTimeout(function () {
         if (topMatchFAQ) {
-          var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
+          var bestFAQTitleDiv = $(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
 
-          var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
+          var bestFAQDiv = $(bestFAQTitleDiv).closest('.faqs-wrp-content');
           bestFAQDiv.addClass('faq-highlight');
           bestFAQTitleDiv.find(".accordion").trigger('click');
         }
-      },500);
+      }, 500);
     }
     KoreWidgetSDK.prototype.bindAllResultsView = function () {
       var _self = this;
+
+      if (_self.vars.showingMatchedResults == true) {
+        $('a.faqs-wrp-content').off('click').on('click', function (event) {
+          console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
+          _self.captureClickAnalytics(event, $(event.currentTarget).parent().attr('contentType'), 'click');
+        })
+      }
+
       $('.show-all-results').off('click').on('click', function (e) {
         var data = $(e.currentTarget).closest('.finalResults').data() || {};
         _self.vars.searchObject.liveData = data
@@ -1748,6 +1882,31 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //   }
         // },500);
 
+      })
+      $('.filter-checkbox').off('change').on('change', function (event) {
+        $('#loaderDIV').show();
+        if ($(this).is(':checked')) {
+          console.log($(this).attr("id"));
+          _self.vars.selectedFiltersArr.push($(this).attr("id"));
+          _self.filterResults(event, true);
+        }
+        else {
+          var unselectedFilterID = $(this).attr("id");
+          console.log($(this).attr("id"));
+          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
+            if (filter == unselectedFilterID) {
+              _self.vars.selectedFiltersArr.splice(_self.vars.selectedFiltersArr.indexOf(filter), 1);
+            }
+          })
+          _self.filterResults(event, false);
+        }
+      })
+      $('.filters-reset-anchor').on('click', function (event) {
+        $('.filter-checkbox').prop('checked', false);
+        $('#loaderDIV').show();
+        _self.vars.filterObject = [];
+        _self.vars.selectedFiltersArr = [];
+        _self.searchByFacetFilters([]);
       })
       $('.full-search-close').off('click').on('click', function (e) {
         $('.search-container').removeClass('full-page');
@@ -1847,6 +2006,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return task;
           })
         }
+
+        if (_self.vars.showingMatchedResults == true) {
+          console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
+          _self.captureClickAnalytics(e, $(e.currentTarget).parent().attr('contentType'), 'click');
+        }
+
         window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
         _self.bindFrequentData();
         //_self.saveOrGetDataInStorage(); 
@@ -1862,42 +2027,57 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.sendMessageToSearch('botAction');
         } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
           _self.userLogin(e.target.title.toLowerCase());
-        }else{
+        } else {
           _self.userLogin(e.target.title.toLowerCase());
 
         }
-        
+
       })
       $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
-        _self.performRankActions(e,{visible:false});
+        console.log(e);
+        if ($(e.currentTarget).closest('.task-wrp').attr('visible') == "true") {
+          _self.performRankActions(e, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+        }
+        else {
+          _self.performRankActions(e, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+        }
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
-        
-        debugger;
-        var _selctedEle=$(e.target).closest('.task-wrp');
-        var _parentEle=$(e.target).closest('.tasks-wrp');
-        var nodes = Array.prototype.slice.call( _parentEle[0].children );
-        var pinIndex=nodes.indexOf( _selctedEle[0]);
-        _self.performRankActions(e,{pinIndex:pinIndex});
+        console.log(e);
+        var _selctedEle = $(e.target).closest('.task-wrp');
+        var _parentEle = $(e.target).closest('.tasks-wrp');
+        var nodes = Array.prototype.slice.call(_parentEle[0].children);
+        var pinIndex;
+        if ($(e.target).closest('.pin').hasClass('pinned-styling') == true) {
+          pinIndex = -1;
+        }
+        else {
+          pinIndex = nodes.indexOf(_selctedEle[0]);
+        }
+        _self.performRankActions(e, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
 
       });
       $('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
-        _self.performRankActions(e,{boost:0.25});
+        console.log(e);
+        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText, 'boosting');
       });
       $('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
-        _self.performRankActions(e,{boost:-0.25});
+        console.log(e);
+        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText, 'burying');
       })
     };
 
-    KoreWidgetSDK.prototype.performRankActions = function (e, conf) {
+    KoreWidgetSDK.prototype.performRankActions = function (e, conf, searchText, actionType) {
       var _self = this;
+      console.log(conf);
       e.preventDefault();
       e.stopPropagation();
       var _taskWrapDiv = $(e.target).closest('.task-wrp');
 
       var contentId = _taskWrapDiv.attr('contentid');
       var contentType = _taskWrapDiv.attr('contentType');
-      var queryString = $(e.target).closest('.finalResults').attr('queryString');
+      // var queryString = $(e.target).closest('.finalResults').attr('queryString');
+      var queryString = searchText;
 
       var boost = _taskWrapDiv.attr('boost');
       var pinIndex = _taskWrapDiv.attr('pinIndex');
@@ -1905,44 +2085,314 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       boost = parseFloat(boost);
       pinIndex = parseInt(pinIndex);
-      visible = visible.toLowerCase() == 'true' ? true : false;
+      // visible = visible.toLowerCase() == 'true' ? true : false;
 
-
-
-      var payload = {
-        "searchIndexId": _self.API.SearchIndexID,
-        "queryString": queryString,
-        "contentId": contentId,
-        "contentType": contentType,
-        "config": Object.assign({
-          "pinIndex": pinIndex,
-          "boost": boost,
-          "visible": visible
-        }, conf)
+      if (actionType == 'boosting') {
+        conf.boost = conf.boost + boost
+      } else if (actionType == 'burying') {
+        if (boost > 0.25) {
+          conf.boost = boost - conf.boost;
+        }
+        else {
+          conf.boost = conf - boost - boost;
+        }
       }
 
+
+      // var payload = {
+      //   "searchIndexId": _self.API.SearchIndexID,
+      //   "queryString": queryString,
+      //   "contentId": contentId,
+      //   "contentType": contentType,
+      //   "config": Object.assign({
+      //     "pinIndex": pinIndex,
+      //     "boost": boost,
+      //     "visible": visible
+      //   }, conf)
+      // }
+
+      var payload = {
+        "searchQuery": queryString,
+        "result": {
+          "contentType": contentType,
+          "contentId": contentId,
+          /*"config": Object.assign({
+            "pinIndex": pinIndex,
+            "boost": boost,
+            "visible": visible
+          }, conf)*/
+          "config": conf,
+        }
+      }
+
+      console.log(payload);
+      console.log(JSON.stringify(payload));
+
       var url = _self.API.queryConfig;
-      debugger;
-      _self.makeAPItoFindly(url, 'POST', JSON.stringify(payload)).then(function (res) {
+      var successMsg = '';
+      var errorMsg = '';
+      if ($(e.currentTarget).hasClass('dont-show')) {
+        if (visible == "true") {
+          successMsg = 'Hidden property applied';
+          errorMsg = 'Hiding failed';
+        }
+        else {
+          successMsg = 'Hidden property removed';
+          errorMsg = 'Unhiding failed';
+        }
+        // errorMsg = 'Hiding failed';
+      } else if ($(e.currentTarget).hasClass('pin')) {
+        if ($(e.currentTarget).hasClass('pinned-styling') == true) {
+          successMsg = 'Unpinned';
+          errorMsg = 'Unpinning failed';
+        }
+        else {
+          successMsg = 'Pinned';
+          errorMsg = 'Pinning failed';
+        }
+        /*successMsg = 'Pinned';
+        errorMsg = 'Pinning failed';*/
+      } else if ($(e.currentTarget).hasClass('boostup')) {
+        successMsg = 'Boosted';
+        errorMsg = 'Boosting failed';
+      } else if ($(e.currentTarget).hasClass('boostdown')) {
+        successMsg = 'Buried';
+        errorMsg = 'Burying failed';
+      }
+      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+        _taskWrapDiv.find('.action-info').css({ color: 'green' }).text(successMsg).show().delay(2000).fadeOut(1600, function () {
+          $(this).hide();
+        });
+        if (actionType == 'boosting') {
+          _taskWrapDiv.attr('boost', conf.boost);
+        } else if (actionType == 'burying') {
+          _taskWrapDiv.attr('boost', conf.boost);
+        } else if (actionType == 'visibility') {
+          _taskWrapDiv.attr('visible', conf.visible);
+          if (conf.visible == false) {
+            _taskWrapDiv.addClass('hidden-styling');
+            _taskWrapDiv.find('.hidden-styling-text').css('display', 'block');
+          }
+          else {
+            _taskWrapDiv.removeClass('hidden-styling');
+            _taskWrapDiv.find('.hidden-styling-text').css('display', 'none');
+          }
+        } else if (actionType == 'pinning') {
+          var pinningElement = _taskWrapDiv.find('.pin');
+          if (pinningElement.hasClass('pinned-styling') == true) {
+            pinningElement.removeClass('pinned-styling');
+          }
+          else {
+            pinningElement.addClass('pinned-styling');
+          }
+          _taskWrapDiv.attr('pinindex', conf.pinIndex)
+        }
       }, function (eRes) {
+        _taskWrapDiv.find('.action-info').css({ color: 'red' }).text(errorMsg).show().delay(2000).fadeOut(1600, function () {
+          $(this).hide();
+        });;
       });
     };
 
-    KoreWidgetSDK.prototype.searchEventBinding = function(dataHTML, templateType, e, ignorAppend) {
+    KoreWidgetSDK.prototype.filterResults = function (event, isChecked) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
       var _self = this;
-      _self.vars.searchObject.recents =[]; _self.vars.searchObject.recentTasks = [];
+      var fieldMatches = false;
+      var _filterContainer = $(event.target).closest('.filters-content');
+
+      var fieldName = _filterContainer.attr('data-fieldName');
+      var facetType = _filterContainer.attr('data-facetType');
+      var key = $(event.target).attr('name');
+
+      console.log(`fieldName: ${fieldName}, facetType: ${facetType}, key: ${key}`)
+
+      var responsePayload = {}
+
+      if (facetType == 'value') {
+        responsePayload.fieldName = fieldName,
+          responsePayload.facetType = facetType,
+          responsePayload.facetValue = [];
+
+        responsePayload.facetValue[0] = key;
+      }
+      else {
+        var from = $(event.target).attr('data-from');
+        var to = $(event.target).attr('data-to');
+
+        responsePayload.fieldName = fieldName,
+          responsePayload.facetType = facetType,
+          responsePayload.facetRange = [];
+
+        // key = { 'from': 0, 'to': 100 };
+        key = { 'from': parseInt(from), 'to': parseInt(to) };
+        responsePayload.facetRange[0] = key;
+      }
+
+      console.log(responsePayload);
+
+      if (isChecked == true) {
+        if (_self.vars.filterObject.length == 0) {
+          _self.vars.filterObject.push(responsePayload);
+          fieldMatches = true;
+        }
+        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
+          _self.vars.filterObject.forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
+              if (element.facetType == 'value') {
+                element.facetValue.push(key);
+              }
+              else {
+                element.facetRange.push(key);
+              }
+              fieldMatches = true;
+            }
+          })
+
+        }
+        if (fieldMatches == false) {
+          _self.vars.filterObject.push(responsePayload);
+        }
+      }
+      else {
+        if (_self.vars.filterObject.length > 0) {
+          _self.vars.filterObject.slice(0).forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
+              // var indexOfMatchedFilter = 0, elementsTraversed = 0;
+              if (element.facetType == 'value') {
+                if (element.facetValue.length > 1) {
+                  element.facetValue.slice(0).forEach(function (item) {
+                    if (item === key) {
+                      element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                    }
+                    console.log(item);
+                  })
+                }
+                else {
+                  element.facetValue = [];
+                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                }
+              }
+              else {
+                if (element.facetRange.length > 1) {
+                  element.facetRange.slice(0).forEach(function (item) {
+                    if (JSON.stringify(item) == JSON.stringify(key)) {
+                      element.facetRange.splice(element.facetRange.indexOf(item), 1)
+                    }
+                    console.log(item);
+                  })
+                }
+                else {
+                  element.facetRange = [];
+                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                }
+              }
+            }
+          })
+        }
+      }
+      console.log(_self.vars.filterObject, isChecked);
+      _self.searchByFacetFilters(_self.vars.filterObject);
+    }
+
+    KoreWidgetSDK.prototype.searchByFacetFilters = function (filterObject) {
+      var _self = this;
+      var activeFacet = '';
+      var url = _self.API.searchUrl;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        "maxNumOfResults": 9,
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en",
+        "isDev": true,
+      }
+      if (filterObject.length > 0) {
+        payload.filters = filterObject;
+      }
+
+      console.log(payload);
+
+      facetActive = $('.facetActive').attr('id');
+      console.log("Active Facet Tab: ", facetActive);
+
+      payload.isDev = _self.isDev;
+
+      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+        faqs = [], pages = [], tasks = [], facets = {};
+
+        console.log(response.template);
+
+        if (response.template) {
+          faqs = response.template.results.faq;
+          pages = response.template.results.page;
+          tasks = response.template.results.task;
+          facets = response.template.facets;
+
+          _self.vars.searchObject.liveData = {
+            faqs: faqs,
+            pages: pages,
+            tasks: tasks,
+            facets: facets,
+            originalQuery: response.template.originalQuery || '',
+            // searchFacets: searchFacets,
+          }
+          console.log(_self.vars.searchObject.liveData);
+          _self.prepAllSearchData(facetActive);
+          $('#loaderDIV').hide()
+          // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
+
+        }
+      })
+    }
+
+    KoreWidgetSDK.prototype.captureClickAnalytics = function (event, resultType, eventType) {
+      var _self = this;
+      var url = _self.API.metricsUrl;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        "answerType": resultType,
+        "event": eventType,
+        "streamId": _self.API.streamId,
+      }
+
+      if (payload.answerType == 'page') {
+        payload.answerType = 'webpage';
+      }
+
+      payload.searchResultId = _self.vars.previousSearchObj.requestId;
+      payload.clickRank = parseInt($(event.currentTarget).attr('id')) + 1;
+
+      console.log(payload.event);
+
+      if (payload.event == 'expand' || payload.event == 'thumbsUp' || payload.event == 'thumbsDown') {
+        delete payload.clickRank;
+      }
+
+      console.log(payload);
+
+      _self.dumpClickAnalyticsData(url, 'POST', JSON.stringify(payload)).then(function (res) {
+        console.log(res);
+      })
+    }
+
+    KoreWidgetSDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend) {
+      var _self = this;
+      _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
       var searchResults;
-      
+
       try {
-        
+
         _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
         _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
       } catch (err) {
-  
+
       }
-      
-      
-      $('.close-icon').off('click').on('click', function(e) {
+
+
+      $('.close-icon').off('click').on('click', function (e) {
         $('.search-body').html('');
         $('.search-body').removeClass('h-100');
         $('#search').val('');
@@ -1950,44 +2400,44 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-container').removeClass('active');
       })
       //_self.bindSearchActionEvents();
-     
-  
+
+
       // $('.pay-button').off('click').on('click')
-      if(templateType === "search-container" ) {
-        
-        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function(e) {
+      if (templateType === "search-container") {
+
+        $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
           var code = e.keyCode || e.which;
           if (code == '9' || code == '39') {
             $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
             $('#search').focus();
-  
+
           }
           if (code == '9') {
             e.preventDefault();
           }
           if (code == '13') {
             e.preventDefault();
-            prevStr="";
-            if($('.search-container').hasClass('conversation')){
+            prevStr = "";
+            if ($('.search-container').hasClass('conversation')) {
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
             };
-            _self.vars.searchObject.searchText =  $('#search').val();
+            _self.vars.searchObject.searchText = $('#search').val();
             var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
             _self.bindLiveDataToChat();
-            if($('.search-body:visible').length){
-              if(!_self.vars.searchObject.recents.length || ( _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
+            if ($('.search-body:visible').length) {
+              if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
                 _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
               }
               window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
             }
           }
         })
-        $(dataHTML).off('click', '.search-button').on('click', '.search-button', function(e) {
+        $(dataHTML).off('click', '.search-button').on('click', '.search-button', function (e) {
           e.stopPropagation();
           // if($('#search').val()) {
           //   e.preventDefault();
@@ -1998,12 +2448,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //   _self.sendMessageToSearch('user');
           //   _self.bindLiveDataToChat();
           // }
-          
+
           //$('#search').trigger(jQuery.Event('keydown', { keycode: 13 }));
-          $('#search').focus().trigger({ type : 'keydown', which : 13 });
+          $('#search').focus().trigger({ type: 'keydown', which: 13 });
         })
         $(dataHTML).off('click', '#search').on('click', '#search', function (e) {
-          if(!$('#search').val()) {
+          if (!$('#search').val()) {
             _self.bindFrequentData();
           }
         })
@@ -2030,8 +2480,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           })
         }
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-          if(!$('#search').val()) {
-            if((!_self.vars.searchObject.recentTasks.length || !_self.vars.searchObject.recents.length) && $('.search-container').hasClass('active')) {
+          if (!$('#search').val()) {
+            if ((!_self.vars.searchObject.recentTasks.length || !_self.vars.searchObject.recents.length) && $('.search-container').hasClass('active')) {
               // $('.search-container').removeClass('active');
             }
             _self.bindFrequentData();
@@ -2044,36 +2494,39 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (code == '9') {
               e.preventDefault();
             }
-            if(e.target.value) {
-              var payload={
+            if (e.target.value) {
+              var payload = {
                 "query": e.target.value.toString(),
                 "maxNumOfResults": 16,
                 "userId": _self.API.uuid,
                 "streamId": _self.API.streamId,
                 "lang": "en"
               }
-              var contextObj=$("#contextjsonfield").val();
-              if(contextObj){
+              var contextObj = $("#contextjsonfield").val();
+              if (contextObj) {
                 contextObj.trim();
-                if(contextObj){
+                if (contextObj) {
                   try {
-                    contextObj=JSON.parse(contextObj);
+                    contextObj = JSON.parse(contextObj);
                   } catch (error) {
-                    contextObj="";
+                    contextObj = "";
                   }
                 }
-                if(contextObj){
-                  payload.context=contextObj;
+                if (contextObj) {
+                  payload.context = contextObj;
                 }
-        
+
               }
+
+              payload.isDev = _self.isDev;
+
               var url = _self.API.livesearchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
               var searchData;
-              if(code== '13') {
+              if (code == '13') {
                 $('#search').val('');
               } else {
                 _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-                  if(res && res.requestId && res.template && res.template.originalQuery) {
+                  if (res && res.requestId && res.template && res.template.originalQuery) {
                     _self.vars.previousSearchObj = {};
                     _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
                     _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
@@ -2084,14 +2537,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
-                    var faqs = [], pages = [], tasks = [], facets;
+                    var faqs = [], pages = [], tasks = [], facets, documents = [];
                     if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
                     if (res && res.results && res.results.length) {
                       _self.closeGreetingMsg();
                       var liveResult = res.results;
-  
+
                       liveResult.forEach(function (result) {
                         if (result.contentType === "faq") {
                           faqs.push(result);
@@ -2099,6 +2552,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages.push(result);
                         } else if (result.contentType === "task") {
                           tasks.push(result);
+                        } else if (result.contentType === "document") {
+                          documents.push(result);
                         }
                       })
                       facets = res.facets;
@@ -2107,16 +2562,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         pages: pages,
                         tasks: tasks,
                         facets: facets,
+                        documents: documents,
                         originalQuery: res.originalQuery,
                       }
                       //livesearch
                       searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-                        faqs: faqs.slice(0,2),
-                        pages: pages.slice(0,2),
-                        tasks: tasks.slice(0,2),
+                        faqs: faqs.slice(0, 2),
+                        pages: pages.slice(0, 2),
+                        tasks: tasks.slice(0, 2),
                         showAllResults: true,
                         noResults: false,
-                        taskPrefix:'SUGGESTED'
+                        taskPrefix: 'SUGGESTED'
                       });
                       $(searchData).data(dataObj);
                       $('.search-body').html(searchData);
@@ -2151,15 +2607,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           facets: facets
                         }
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           showAllResults: false,
                           noResults: true,
-                          taskPrefix:'MATCHED'
+                          taskPrefix: 'MATCHED'
                         });
                         $(searchData).data(dataObj);
                         console.log("no results found");
@@ -2180,7 +2638,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
                     // }
                     _self.searchEventBinding(searchData, "livesearch", e);
-                  }else if(res.templateType === 'liveSearchEmpty'){
+                  } else if (res.templateType === 'liveSearchEmpty') {
                     $('.search-body').hide();
                     $('#searchChatContainer').addClass('bgfocus-override');
                   }
@@ -2192,57 +2650,57 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
         })
-        
+
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
           // _self.closeGreetingMsg();
           //clear showing greeting if search bar focused before the greeting msg shown
           clearTimeout(_self.vars.searchObject.clearGreetingTimeOut);
-          
-          if($('.search-container').hasClass('full-page')) {
+
+          if ($('.search-container').hasClass('full-page')) {
             $('.search-container').removeClass('full-page');
             $('.start-search-icon-div').show();
             $('.search-body-full').html('');
-            if(!$('.search-container').hasClass('active')) {
+            if (!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
               //e.stopPropagation();
             }
             e.stopPropagation();
           }
-          if( (_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && !$('#search').val()) {
+          if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && !$('#search').val()) {
             $('.search-container').addClass('active');
-            if(_self.showGreetingMsg){
+            if (_self.showGreetingMsg) {
               _self.showGreetingMsg = false;
-              _self.sendMessageToSearch('bot','&#128075; Hello! How can I help you today?');
+              _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
             var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
               searchResults: searchResults,
-              recents : _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0,6),
-              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0,2),
+              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
               popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
             });
             $('.search-body').html(freqData);
-            setTimeout(function(){
+            setTimeout(function () {
               $('.search-body').scrollTop(2);
-            },100);
+            }, 100);
             _self.deleteRecents();
             _self.bindSearchActionEvents();
             _self.recentClick();
-          } else if((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && $('#search').val()){
+          } else if ((_self.vars.searchObject.recentTasks.length || _self.vars.searchObject.recents.length || _self.vars.searchObject.popularSearches.length) && $('#search').val()) {
             _self.closeGreetingMsg();
-            if(!$('.search-container').hasClass('active')) {
+            if (!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
               e.stopPropagation();
             }
-          } else if($('#search').val()){
+          } else if ($('#search').val()) {
             $('#search').trigger("keyup");
           }
-          
+
           // if(!_self.vars.searchObject.recentAPIResponse ) {  
           //   _self.getFrequentlySearched('https://qa-bots.kore.ai/searchAssistant/frequentSearch', 'GET', {}).then(function (res) {
-  
+
           //     if (res && res.status == "200") {
           //       var searchResults = res.searchResults;
           //       _self.vars.searchObject.recentAPIResponse = searchResults;
@@ -2254,180 +2712,180 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           //         $('.search-body').html(freqData);
           //         _self.bindSearchAccordion();
           //       }
-                
-                
+
+
           //       // $('.search-body').append(searchBox);
           //       // $('.searchBox').append(freqData)
-  
-  
+
+
           //     } else {
-  
+
           //     }
           //   }, function (errResponse) {
-  
+
           //   });
           // }
-  
+
         });
-  
+
       }
-      if(templateType === "livesearch") {
-        if(!$('.search-container').hasClass('active')) {
+      if (templateType === "livesearch") {
+        if (!$('.search-container').hasClass('active')) {
           $('.search-container').addClass('active');
           e.stopPropagation();
         }
         var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
-        if(e.keyCode == 13) {
-          if($('.search-container').hasClass('conversation')){
+        if (e.keyCode == 13) {
+          if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
             var searchText = $('#search').val() || _self.vars.searchObject.searchText;
             $('#search').val('');
             $('#suggestion').val('');
           }
-          if(!_self.vars.searchObject.recents.length || ( _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
+          if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
             _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
-          } 
+          }
           window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
-          if(!ignorAppend){
+          if (!ignorAppend) {
             _self.bindLiveDataToChat();
           }
           e.preventDefault();
         }
-        
-        
+
+
         // _self.bindSearchAccordion();
         _self.bindSearchActionEvents();
-        
-        
+
+
       }
-      if(templateType === "pay bill" || templateType === "pay credit card bill") {
-  
+      if (templateType === "pay bill" || templateType === "pay credit card bill") {
+
         var creditCard = $(_self.getSearchTemplate('payBillContainer')).tmplProxy({
-          selectedBiller:templateType,
+          selectedBiller: templateType,
           data: [
             {
               "biller_name": "AT&T",
               "card_type": "master_card",
               "card_number": "2313",
               "bill_amount": "95.20",
-              "due_date" : "03/07/2020"
+              "due_date": "03/07/2020"
             },
             {
               "biller_name": "Verizon Wireless",
               "card_type": "master_card",
               "card_number": "2313",
               "bill_amount": "64.45",
-              "due_date" : "13/07/2020"
+              "due_date": "13/07/2020"
             },
             {
               "biller_name": "Pico Energy",
               "card_type": "master_card",
               "card_number": "6724",
               "bill_amount": "235.20",
-              "due_date" : "05/07/2020"
+              "due_date": "05/07/2020"
             }
           ]
         });
-        $(creditCard).off('click','.closeAction').on('click','.closeAction',function(e){
+        $(creditCard).off('click', '.closeAction').on('click', '.closeAction', function (e) {
           e.stopPropagation();
           $('.search-body .finalResults').removeClass('hide');
           $('.searchBox').removeClass('hide');
           $('.pay-bill-container').remove();
           $('.search-body').removeClass('h-100');
         })
-        $(creditCard).off('click','.pay-button').on('click','.pay-button',function(e){
+        $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
           var payData = $(this).attr('msgData');
           $('.pay-bill-container .card-container').addClass('hide');
-            var gateway = $(_self.getSearchTemplate('paymentGateWayDemo')).tmplProxy({
-               paymentDetails:JSON.parse(payData)
-            });
-            var defaultlibConfig = {
-              format: 'MM-DD-YYYY',
-              alwaysOpen: false,
-              singleMonth: true,
-              showShortcuts: false,
-              singleDate: true,
-              showTopbar: false,
-              inline: true,
-              startDate:moment().format('MM-DD-YYYY'),
-              container:$(gateway).find('.datePicker'),
-           };
-           $(gateway).off('click','#gatewayNextDemo').on('click','#gatewayNextDemo',function(event1){
+          var gateway = $(_self.getSearchTemplate('paymentGateWayDemo')).tmplProxy({
+            paymentDetails: JSON.parse(payData)
+          });
+          var defaultlibConfig = {
+            format: 'MM-DD-YYYY',
+            alwaysOpen: false,
+            singleMonth: true,
+            showShortcuts: false,
+            singleDate: true,
+            showTopbar: false,
+            inline: true,
+            startDate: moment().format('MM-DD-YYYY'),
+            container: $(gateway).find('.datePicker'),
+          };
+          $(gateway).off('click', '#gatewayNextDemo').on('click', '#gatewayNextDemo', function (event1) {
             event1.stopPropagation();
             var confirmationModal = $(_self.getSearchTemplate('confirmationModal')).tmplProxy({
             });
             $('.confirmationModal').html(confirmationModal);
             $('.confirmationModal').removeClass('hide');
-            $(confirmationModal).off('click','#confirmGatwayPayment').on('click','#confirmGatwayPayment',function(ev){
+            $(confirmationModal).off('click', '#confirmGatwayPayment').on('click', '#confirmGatwayPayment', function (ev) {
               ev.stopPropagation();
               var gatwaySuccess = $(_self.getSearchTemplate('gatwaySuccess')).tmplProxy({
-                selectedDate:$('#demoDatePicker').val()
+                selectedDate: $('#demoDatePicker').val()
               });
               $('.payBillMain').remove();
               $('.LoginWhiteBG ').remove();
               $('.card-pay-title').addClass('hide');
               $('.card-pay-legend').addClass('hide');
-              $(gatwaySuccess).off('click','#makeAnotherPayDemo').on('click','#makeAnotherPayDemo',function(e2){
+              $(gatwaySuccess).off('click', '#makeAnotherPayDemo').on('click', '#makeAnotherPayDemo', function (e2) {
                 e2.stopPropagation();
                 $('.card-pay-title').removeClass('hide');
                 $('.card-pay-legend').removeClass('hide');
                 $('.card-container').removeClass('hide');
                 $('.search-body').addClass('h-100');
                 $('.successContainer').remove();
-                
+
               })
-              $(gatwaySuccess).off('click','#closePayment').on('click','#closePayment',function(e2){
+              $(gatwaySuccess).off('click', '#closePayment').on('click', '#closePayment', function (e2) {
                 e2.stopPropagation();
                 $('.pay-bill-container').remove();
                 $('.search-body .finalResults').removeClass('hide');
                 $('.searchBox').removeClass('hide');
-                $('.search-body').removeClass('h-100'); 
+                $('.search-body').removeClass('h-100');
               })
               $('.pay-bill-container').append(gatwaySuccess);
               $('.confirmationModal').html('');
               $('.confirmationModal').addClass('hide');
               $('.search-body').scrollTop(0);
             });
-            $(confirmationModal).off('click','#cancelGatwayPayment').on('click','#cancelGatwayPayment',function(ev){
+            $(confirmationModal).off('click', '#cancelGatwayPayment').on('click', '#cancelGatwayPayment', function (ev) {
               ev.stopPropagation();
               $('.confirmationModal').html('');
               $('.confirmationModal').addClass('hide');
             });
-           });
-           $(gateway).off('blur','#demoDatePicker').on('blur','#demoDatePicker',function(eventBlur){
-            if($('#demoDatePicker').val()){
+          });
+          $(gateway).off('blur', '#demoDatePicker').on('blur', '#demoDatePicker', function (eventBlur) {
+            if ($('#demoDatePicker').val()) {
               $('#gatewayNextDemo').removeAttr('disabled');
-              $('#gatewayNextDemo').css('cursor','pointer');
-              $('#gatewayNextDemo').css('opacity',1);
-            }else{
+              $('#gatewayNextDemo').css('cursor', 'pointer');
+              $('#gatewayNextDemo').css('opacity', 1);
+            } else {
               $('#gatewayNextDemo').attr('disabled');
-              $('#gatewayNextDemo').css('cursor','auto');
-              $('#gatewayNextDemo').css('opacity',0.7);
+              $('#gatewayNextDemo').css('cursor', 'auto');
+              $('#gatewayNextDemo').css('opacity', 0.7);
             }
-             
-           });
-            $(gateway).find('#demoDatePicker').dateRangePicker(defaultlibConfig).bind('datepicker-open',function(){
-              setTimeout(function(){
-               var scrollBottom = $('.search-body').scrollTop() + $('.search-body').height();
-               $('.search-body').animate({scrollTop: scrollBottom});
-              },150)
-            }).bind('datepicker-closed',function(){
-              setTimeout(function(){
-                if($('#demoDatePicker').val()){
-                  $('#gatewayNextDemo').removeAttr('disabled');
-                  $('#gatewayNextDemo').css('cursor','pointer');
-                  $('#gatewayNextDemo').css('opacity',1);
-                }else{
-                  $('#gatewayNextDemo').attr('disabled');
-                  $('#gatewayNextDemo').css('cursor','auto');
-                  $('#gatewayNextDemo').css('opacity',0.7);
-                }
-               },150)
-            });
-            
-            $('.pay-bill-container').append(gateway);
-            $('.search-body').scrollTop(0);
+
+          });
+          $(gateway).find('#demoDatePicker').dateRangePicker(defaultlibConfig).bind('datepicker-open', function () {
+            setTimeout(function () {
+              var scrollBottom = $('.search-body').scrollTop() + $('.search-body').height();
+              $('.search-body').animate({ scrollTop: scrollBottom });
+            }, 150)
+          }).bind('datepicker-closed', function () {
+            setTimeout(function () {
+              if ($('#demoDatePicker').val()) {
+                $('#gatewayNextDemo').removeAttr('disabled');
+                $('#gatewayNextDemo').css('cursor', 'pointer');
+                $('#gatewayNextDemo').css('opacity', 1);
+              } else {
+                $('#gatewayNextDemo').attr('disabled');
+                $('#gatewayNextDemo').css('cursor', 'auto');
+                $('#gatewayNextDemo').css('opacity', 0.7);
+              }
+            }, 150)
+          });
+
+          $('.pay-bill-container').append(gateway);
+          $('.search-body').scrollTop(0);
         });
         $('.LoginWhiteBG').remove();
         $('search-body .finalResults').addClass('hide');
@@ -2437,8 +2895,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-body').removeClass('hide');
         $('#searchChatContainer').addClass('bgfocus');
         $('.search-body').scrollTop(0);
-        _self.bindPerfectScroll(creditCard,'.card-container', null, 'x','creditcard');
-        
+        _self.bindPerfectScroll(creditCard, '.card-container', null, 'x', 'creditcard');
+
       }
     }
     KoreWidgetSDK.prototype.bindPerfectScroll = function (dataHtml, scrollContainer, update, scrollAxis, contentPSObj) {
@@ -2461,7 +2919,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     }
-    KoreWidgetSDK.prototype.bindLiveDataToChat = function(botAction){
+    KoreWidgetSDK.prototype.bindLiveDataToChat = function (botAction) {
       $('#search').val('');
       $('#suggestion').val('');
       var _self = this;
@@ -2472,32 +2930,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "streamId": _self.API.streamId,
         "lang": "en"
       }
-      if(botAction){
-        _self.vars.searchObject.searchText="";
-        payload.isBotAction=true;
+      if (botAction) {
+        _self.vars.searchObject.searchText = "";
+        payload.isBotAction = true;
       }
-      payload.smallTalk= true;
-      var contextObj=$("#contextjsonfield").val();
-      if(contextObj){
+      payload.smallTalk = true;
+      var contextObj = $("#contextjsonfield").val();
+      if (contextObj) {
         contextObj.trim();
-        if(contextObj){
+        if (contextObj) {
           try {
-            contextObj=JSON.parse(contextObj);
+            contextObj = JSON.parse(contextObj);
           } catch (error) {
-            contextObj="";
+            contextObj = "";
           }
         }
-        if(contextObj){
-          payload.context=contextObj;
+        if (contextObj) {
+          payload.context = contextObj;
         }
 
       }
-      
+
+      payload.isDev = _self.isDev;
+
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        var faqs = [], pages = [], tasks = [], facets; 
-        if(res && res.requestId && res.template && res.template.originalQuery) {
+        var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = [];
+        if (res && res.requestId && res.template && res.template.originalQuery) {
           _self.vars.previousSearchObj = {};
           _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
           _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
@@ -2510,126 +2970,197 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var topMatchFAQ;
           var topMatchTask;
 
-                      // liveResult.forEach(function (result) {
-                      //   if (result.contentType === "faq") {
-                      //     faqs.push(result);
-                      //   } else if (result.contentType === "page") {
-                      //     pages.push(result);
-                      //   } else if (result.contentType === "task") {
-                      //     tasks.push(result);
-                      //   }
-                      // });
-                      faqs=res.results.faq;
-                      pages=res.results.page;
-                      tasks=res.results.task;
-                      facets = res.facets;
+          /*res.searchFacets = [
+            {
+              "fieldName": "String",
+              "facetName": "String",
+              "facetType": "range",
+              "buckets": [
+                {
+                  "key": "djikstra",
+                  "from": 10.0,
+                  "to": 20.0,
+                  "doc_count": 1
+                },
+                {
+                  "key": "prims",
+                  "from": 20.0,
+                  "to": 40.0,
+                  "doc_count": 0
+                }
+              ]
+            },
+            {
+              "fieldName": "benefits_field",
+              "facetName": "benefits",
+              "facetType": "value",
+              "buckets": [
+                {
+                  "key": "accelerating rewards",
+                  "doc_count": 55
+                },
+                {
+                  "key": "page",
+                  "doc_count": 3
+                },
+                {
+                  "key": "task",
+                  "doc_count": 1
+                }
+              ]
+            }
+          ]*/
+
+          // liveResult.forEach(function (result) {
+          //   if (result.contentType === "faq") {
+          //     faqs.push(result);
+          //   } else if (result.contentType === "page") {
+          //     pages.push(result);
+          //   } else if (result.contentType === "task") {
+          //     tasks.push(result);
+          //   }
+          // });
+          faqs = res.results.faq;
+          pages = res.results.page;
+          tasks = res.results.task;
+          documents = res.results.document;
+          facets = res.facets;
 
 
-                      if(tasks.length){
-                        //trigger dialog;
-                        topMatchTask=tasks[0];                       
-                      }
+          if (res.searchFacets !== undefined) {
+            _self.vars.searchFacetFilters = res.searchFacets;
+            // searchFacets = res.searchFacets;
+            searchFacets = _self.vars.searchFacetFilters;
+            console.log("Search Facets", searchFacets);
+          }
+          else {
+            res.searchFacets = [];
+            _self.vars.searchByFacetFilters = res.searchFacets;
+            searchFacets = _self.vars.searchFacetFilters;
+            console.log(searchFacets);
+          }
+
+          if (tasks.length) {
+            //trigger dialog;
+            topMatchTask = tasks[0];
+          }
 
 
-                      topMatchFAQ=faqs.filter(function(faq){
-                        return faq.bestMatch
-                      });
-                      if(topMatchFAQ.length){
-                        //highlight faq;
-                        topMatchFAQ=topMatchFAQ[0];
-                      }else{
-                        topMatchFAQ=false;
-                      }
+          topMatchFAQ = faqs.filter(function (faq) {
+            return faq.bestMatch
+          });
+          if (topMatchFAQ.length) {
+            //highlight faq;
+            topMatchFAQ = topMatchFAQ[0];
+          } else {
+            topMatchFAQ = false;
+          }
 
-                      var dataObj = {
-                        faqs: faqs,
-                        pages: pages,
-                        tasks: tasks,
-                        facets: facets,
-                        originalQuery: res.originalQuery || '',
-                      }
-                      // if(!_self.isDev){
-                      //   dataObj = {
-                      //     faqs: faqs.slice(0,2),
-                      //     pages: pages.slice(0,2),
-                      //     tasks: tasks.slice(0,2),
-                      //     facets: facets,
-                      //     originalQuery: res.originalQuery || '',
-                      //   }
-                      // }
-                      _self.vars.searchObject.liveData = {
-                        faqs: faqs,
-                        pages: pages,
-                        tasks: tasks,
-                        facets: facets,
-                        originalQuery: res.originalQuery || '',
-                      }
-                      if(!_self.vars.searchObject.recents.length || ( _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
-                        _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
-                      } 
-                      window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
-                      if(dataObj.faqs.length ||
-                        dataObj.pages.length ||
-                        dataObj.tasks.length || dataObj.smallTalk) {
-                           if(dataObj.smallTalk) {
-                            _self.sendMessageToSearch('bot',dataObj.smallTalk);
-                          } else {
-                            var _botMessage = 'Sure, please find the matched results below';
-                            searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-                              faqs:dataObj.faqs,
-                              pages:dataObj.pages,
-                              tasks:dataObj.tasks,
-                              showAllResults: true,
-                              noResults:false,
-                              taskPrefix:'MATCHED'
-                            });
-                            $(searchData).data(dataObj);
-                            if(!topMatchTask){
-                              _self.sendMessageToSearch('bot',_botMessage);
-                            }
-                            $(searchData).find(".tasks-wrp").sortable();
-                            $(searchData).attr('queryString',dataObj.originalQuery)
-                            if(topMatchTask){
-                              searchData.addClass("hide");
-                            }
-                            $('#searchChatContainer').append(searchData);
-                          }
-                          setTimeout(function(){
-                            var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-                           $('#searchChatContainer').animate({scrollTop: scrollBottom});
+          var dataObj = {
+            faqs: faqs,
+            pages: pages,
+            tasks: tasks,
+            documents: documents,
+            facets: facets,
+            originalQuery: res.originalQuery || '',
 
-                            if (topMatchTask) {
-                              $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
-                            } else if (topMatchFAQ) {
-                              var bestFAQDiv=$(".resultsOfSearch .task-wrp[contentid='" + topMatchFAQ.contentId + "']:last");
-                              bestFAQDiv.addClass('faq-highlight');
-                              bestFAQDiv.find(".accordion").trigger('click');
-                            }
-                          },200);
-                          if($('.search-container').hasClass('conversation')){
-                            $('.search-body').addClass('hide');
-                            $('#searchChatContainer').removeClass('bgfocus');
-                            $('.search-body').html('');
-                          }
-                          _self.bindAllResultsView();
-                          _self.bindSearchActionEvents();
-                
-                        } else{
-                          if($('.search-container').hasClass('conversation')){
-                          $('.search-body').addClass('hide');
-                          $('#searchChatContainer').removeClass('bgfocus');
-                          }
-                        }
-        } else if(res.templateType === 'botAction'){
-            debugger;
-            res = res.template;
-            var botResponse=res.webhookPayload.text;
-            _self.sendMessageToSearch('bot',botResponse);
-        } else if(res.templateType === 'botActionError') {
-          var errorMessage =  (res.template && res.template.Error)? res.template.Error : 'Failed to connect to the bot'
-          _self.sendMessageToSearch('bot',errorMessage);
-        } else if(res.templateType === 'liveSearchEmpty') {
-          _self.sendMessageToSearch('bot','No results found');
+            searchFacets: searchFacets,
+          }
+          // if(!_self.isDev){
+          //   dataObj = {
+          //     faqs: faqs.slice(0,2),
+          //     pages: pages.slice(0,2),
+          //     tasks: tasks.slice(0,2),
+          //     facets: facets,
+          //     originalQuery: res.originalQuery || '',
+          //   }
+          // }
+          _self.vars.searchObject.liveData = {
+            faqs: faqs,
+            pages: pages,
+            tasks: tasks,
+            documents: documents,
+            facets: facets,
+            originalQuery: res.originalQuery || '',
+
+            searchFacets: searchFacets,
+          }
+          if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
+            _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
+          }
+          window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+          if (dataObj.faqs.length ||
+            dataObj.pages.length ||
+            dataObj.tasks.length || dataObj.smallTalk) {
+            if (dataObj.smallTalk) {
+              _self.sendMessageToSearch('bot', dataObj.smallTalk);
+            } else {
+              var _botMessage = 'Sure, please find the matched results below';
+              searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+                faqs: dataObj.faqs,
+                pages: dataObj.pages,
+                tasks: dataObj.tasks,
+                showAllResults: true,
+                noResults: false,
+                taskPrefix: 'MATCHED'
+              });
+              $(searchData).data(dataObj);
+              if (!topMatchTask) {
+                _self.sendMessageToSearch('bot', _botMessage);
+              }
+              $(searchData).find(".tasks-wrp").sortable();
+              $(searchData).attr('queryString', dataObj.originalQuery);
+
+              // if ($(searchData).find(".task-wrp").attr('visible') == "false") {
+              //   console.log($(searchData).find(".task-wrp"))
+              //   $(searchData).find(".task-wrp").addClass('hidden-styling');
+              //   $(searchData).find('.hidden-styling-text').css('display', 'block');
+              // }
+              $(".task-wrp").each(function (index) {
+                console.log(index + ":" + $(this));
+              })
+
+              if (topMatchTask) {
+                searchData.addClass("hide");
+              }
+              $('#searchChatContainer').append(searchData);
+              _self.vars.showingMatchedResults = true;
+            }
+            setTimeout(function () {
+              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+
+              if (topMatchTask) {
+                $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
+              } else if (topMatchFAQ) {
+                var bestFAQDiv = $(".resultsOfSearch .task-wrp[contentid='" + topMatchFAQ.contentId + "']:last");
+                bestFAQDiv.addClass('faq-highlight');
+                bestFAQDiv.find(".accordion").trigger('click');
+              }
+            }, 200);
+            if ($('.search-container').hasClass('conversation')) {
+              $('.search-body').addClass('hide');
+              $('#searchChatContainer').removeClass('bgfocus');
+              $('.search-body').html('');
+            }
+            _self.bindAllResultsView();
+            _self.bindSearchActionEvents();
+
+          } else {
+            if ($('.search-container').hasClass('conversation')) {
+              $('.search-body').addClass('hide');
+              $('#searchChatContainer').removeClass('bgfocus');
+            }
+          }
+        } else if (res.templateType === 'botAction') {
+          res = res.template;
+          var botResponse = res.webhookPayload.text;
+          _self.sendMessageToSearch('bot', botResponse);
+        } else if (res.templateType === 'botActionError') {
+          var errorMessage = (res.template && res.template.Error) ? res.template.Error : 'Failed to connect to the bot'
+          _self.sendMessageToSearch('bot', errorMessage);
+        } else if (res.templateType === 'liveSearchEmpty') {
+          _self.sendMessageToSearch('bot', 'No results found');
         }
       });
     }
@@ -2654,9 +3185,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $(document).on('click', function (event) {
         if (!$(event.target).closest('.search-container').length) {
-          if($('.search-body').find('.pay-bill-container').length){
-           return;
-          }else {
+          if ($('.search-body').find('.pay-bill-container').length) {
+            return;
+          } else {
             // $('.search-container').removeClass('active');
           }
         } else {
@@ -2685,7 +3216,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (type === 'user' && ($('#search').val() !== null) && ($('#search').val() !== undefined)) {
         messageData.text = $('#search').val();
-        if(messageData.text && messageData.text.trim()){
+        if (messageData.text && messageData.text.trim()) {
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData
           });
@@ -2703,7 +3234,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (messageData.payload && messageData.payload.template_type === "cardTemplate") {
             var y = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "cardTemplate", "elements": [{ "biller_name": "REWARD AND SIGNATURE CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "95.20", "due_date": "03/07/2020" }, { "biller_name": "DINERS CARD", "card_type": "master_card", "card_number": "2313", "bill_amount": "64.45", "due_date": "13/07/2020" }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check } [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
             var cardData = messageData.payload.elements;//y.message[0].component.payload.elements;
-            
+
             var template1 = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
               msgData: {
                 from: "bot",
@@ -2719,8 +3250,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $(creditCard).off('click', '.pay-button').on('click', '.pay-button', function (e) {
               var payData = $(e.currentTarget).attr('msgData');
 
-              payData=JSON.parse(payData);
-              _self.vars.searchObject.searchText=payData.postback_value
+              payData = JSON.parse(payData);
+              _self.vars.searchObject.searchText = payData.postback_value
               messageData.text = payData.postback_value;//"Pay nowwww";
               messageData.from = 'user';
               var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
@@ -2738,7 +3269,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           } else if (messageData.payload && messageData.payload.template_type === "listView") {
 
             var listDefaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "listView", "seeMore": true, "moreCount": 4, "text": "Here are your details", "heading": "Speed Analysis", "buttons": [{ "title": "See more", "type": "postback", "payload": "payload" }], "elements": [{ "title": "Checking", "subtitle": "XXXX192", "value": "$7,496.13", "default_action": { "title": "Checking", "type": "payload", "payload": "Checking" } }, { "title": "Trading", "subtitle": "XXXX045", "value": " $22,053.47", "default_action": { "title": "Trading", "type": "payload", "payload": "Trading" } }, { "title": "Credit Card", "subtitle": "XXXX100", "value": "$3,596.00", "default_action": { "title": "Credit Card", "type": "payload", "payload": "Credit Card" } }, { "title": "Savings", "subtitle": "XXXX277", "value": "$17,290.00", "default_action": { "title": "Savings", "type": "payload", "payload": "Savings" } }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
-            listDefaultMessage.message[0].component=messageData;
+            listDefaultMessage.message[0].component = messageData;
 
             var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
               msgData: {
@@ -2754,7 +3285,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               'helpers': helpers,
               'extension': {}
             });
-            $('#searchChatContainer').append(template);	 
+            $('#searchChatContainer').append(template);
           }
         } else {
           //simple text message
@@ -2762,11 +3293,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             msgData: messageData
           });
           $('#searchChatContainer').append(template);
-        }  
+        }
       }
       if (type === 'botAction') {
         messageData.text = _self.vars.searchObject.searchText;
-        messageData.from='user';
+        messageData.from = 'user';
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
           msgData: messageData
         });
@@ -2774,7 +3305,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-body').hide();
         $('#searchChatContainer').addClass('bgfocus-override');
         _self.bindLiveDataToChat(true);
-        
+
       }
       setTimeout(function () {
         var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
@@ -2836,6 +3367,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     KoreWidgetSDK.prototype.getFrequentlySearched = function (url, type, payload) {
       var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      // console.log(payload);
       return $.ajax({
         url: url,
         type: type,
@@ -2896,8 +3428,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         type: type,
         dataType: 'json',
         headers: {
-          "Authorization": 'bearer '+window.findlyAccessToken,
-          "AccountId":window.findlyAccountId,
+          "Authorization": 'bearer ' + window.findlyAccessToken,
+          "AccountId": window.findlyAccountId,
           "Content-Type": "application/json"
         },
         data: payload,
@@ -2909,6 +3441,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
+
+    KoreWidgetSDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
+      var bearer = this.API.jstBarrer;
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: {
+          "Authorization": bearer,
+          "Content-Type": "application/json"
+        },
+        data: payload,
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    }
+
     KoreWidgetSDK.prototype.bindCloseGreeting = function () {
       var _self = this;
       $('.search-greeting-close-container').off('click').on('click', function (e) {
@@ -2917,17 +3470,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
 
     var final_transcript = '';
-            var recognizing = false;
-            var recognition = null;
-            var prevStr = "";
+    var recognizing = false;
+    var recognition = null;
+    var prevStr = "";
     function getSIDToken() {
-     // if (allowGoogleSpeech) {
-        if (recognition) { // using webkit speech recognition
-          startGoogleWebKitRecognization();
-        }
-        else { // using google cloud speech API
-          micEnable();
-        }
+      // if (allowGoogleSpeech) {
+      if (recognition) { // using webkit speech recognition
+        startGoogleWebKitRecognization();
+      }
+      else { // using google cloud speech API
+        micEnable();
+      }
       // }
       // else {
       //   if (!speechPrefixURL) {
@@ -2952,71 +3505,71 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var two_line = /\n\n/g;
     var one_line = /\n/g;
     function linebreak(s) {
-        return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+      return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
     }
 
     function capitalize(s) {
-        return s.replace(s.substr(0, 1), function (m) { return m.toUpperCase(); });
+      return s.replace(s.substr(0, 1), function (m) { return m.toUpperCase(); });
     }
-    function startGoogleWebKitRecognization() {
-        if (recognizing) {
-            recognition.stop();
-            return;
-        }
-        final_transcript = '';
-        recognition.lang = 'en-US';
-        recognition.start();
-    }
-    function startGoogleSpeech() {
-        if (rec) {
-            rec.record();
-            $('.recordingMicrophone').css('display', 'block');
-            $('.notRecordingMicrophone').css('display', 'none');
-            console.log('recording...');
-            intervalKey = setInterval(function () {
-                rec.export16kMono(function (blob) {
-                    console.log(new Date());
-                    if (allowGoogleSpeech) {
-                        sendBlobToSpeech(blob, 'LINEAR16', 16000);
-                    }
-                    else {
-                        socketSend(blob);
-                    }
-                    rec.clear();
-                }, 'audio/x-raw');
-            }, 1000);
-        }
-    }
-
     function startGoogleWebKitRecognization() {
       if (recognizing) {
-          recognition.stop();
-          return;
+        recognition.stop();
+        return;
       }
       final_transcript = '';
       recognition.lang = 'en-US';
       recognition.start();
-  }
-  function startGoogleSpeech() {
+    }
+    function startGoogleSpeech() {
       if (rec) {
-          rec.record();
-          $('.recordingMicrophone').css('display', 'block');
-          $('.notRecordingMicrophone').css('display', 'none');
-          console.log('recording...');
-          intervalKey = setInterval(function () {
-              rec.export16kMono(function (blob) {
-                  console.log(new Date());
-                  if (allowGoogleSpeech) {
-                      sendBlobToSpeech(blob, 'LINEAR16', 16000);
-                  }
-                  else {
-                      socketSend(blob);
-                  }
-                  rec.clear();
-              }, 'audio/x-raw');
-          }, 1000);
+        rec.record();
+        $('.recordingMicrophone').css('display', 'block');
+        $('.notRecordingMicrophone').css('display', 'none');
+        console.log('recording...');
+        intervalKey = setInterval(function () {
+          rec.export16kMono(function (blob) {
+            console.log(new Date());
+            if (allowGoogleSpeech) {
+              sendBlobToSpeech(blob, 'LINEAR16', 16000);
+            }
+            else {
+              socketSend(blob);
+            }
+            rec.clear();
+          }, 'audio/x-raw');
+        }, 1000);
       }
-  }
+    }
+
+    function startGoogleWebKitRecognization() {
+      if (recognizing) {
+        recognition.stop();
+        return;
+      }
+      final_transcript = '';
+      recognition.lang = 'en-US';
+      recognition.start();
+    }
+    function startGoogleSpeech() {
+      if (rec) {
+        rec.record();
+        $('.recordingMicrophone').css('display', 'block');
+        $('.notRecordingMicrophone').css('display', 'none');
+        console.log('recording...');
+        intervalKey = setInterval(function () {
+          rec.export16kMono(function (blob) {
+            console.log(new Date());
+            if (allowGoogleSpeech) {
+              sendBlobToSpeech(blob, 'LINEAR16', 16000);
+            }
+            else {
+              socketSend(blob);
+            }
+            rec.clear();
+          }, 'audio/x-raw');
+        }, 1000);
+      }
+    }
 
     function micEnable() {
       if (isRecordingStarted) {
@@ -3093,10 +3646,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //     console.error('Recorder undefined');
       // }
       if (recognizing) {
-          recognition.stop();
-          recognizing = false;
+        recognition.stop();
+        recognizing = false;
       }
-  };
+    };
     KoreWidgetSDK.prototype.initWebKitSpeech = function () {
       var _self = this;
       if ('webkitSpeechRecognition' in window && isChrome()) {
@@ -3148,7 +3701,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             //$('.chatInputBox').html(prevStr + "" + interim_transcript);
 
             $("#search").val((prevStr + "" + interim_transcript));
-            $('#search').focus().trigger({ type : 'keyup', which : 32 });
+            $('#search').focus().trigger({ type: 'keyup', which: 32 });
             //8
             //$('.sendButton').removeClass('disabled');
           }
@@ -3162,36 +3715,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     function isChrome() {
       var isChromium = window.chrome,
-          winNav = window.navigator,
-          vendorName = winNav.vendor,
-          isOpera = winNav.userAgent.indexOf("OPR") > -1,
-          isIEedge = winNav.userAgent.indexOf("Edge") > -1,
-          isIOSChrome = winNav.userAgent.match("CriOS");
+        winNav = window.navigator,
+        vendorName = winNav.vendor,
+        isOpera = winNav.userAgent.indexOf("OPR") > -1,
+        isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+        isIOSChrome = winNav.userAgent.match("CriOS");
 
       if (isIOSChrome) {
-          return true;
+        return true;
       } else if (
-          isChromium !== null &&
-          typeof isChromium !== "undefined" &&
-          vendorName === "Google Inc." &&
-          isOpera === false &&
-          isIEedge === false
+        isChromium !== null &&
+        typeof isChromium !== "undefined" &&
+        vendorName === "Google Inc." &&
+        isOpera === false &&
+        isIEedge === false
       ) {
-          return true;
+        return true;
       } else {
-          return false;
+        return false;
       }
-  }
+    }
 
     KoreWidgetSDK.prototype.showSearch = function () {
       var _self = this;
+      _self.isDev = false;
+      if (!$('body').hasClass('demo')) {
+        _self.isDev = true;
+      }
       _self.initWebKitSpeech();
       _self.setAPIDetails();
 
-      _self.isDev=false;
-      if(!$('body').hasClass('demo')){
-        _self.isDev=true;
-      }
 
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
@@ -3208,22 +3761,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     ttsAudioSource.stop();
         // }
         // if (isSpeechEnabled) {
-            getSIDToken();
+        getSIDToken();
         //}
-    });
-    $(dataHTML).off('click', '.recordingMicrophone').on('click', '.recordingMicrophone', function (event) {
+      });
+      $(dataHTML).off('click', '.recordingMicrophone').on('click', '.recordingMicrophone', function (event) {
         stop();
         // setTimeout(function () {
         //     setCaretEnd(document.getElementsByClassName("chatInputBox"));
         // }, 350);
-    });
+      });
       _self.bindContextVariable();
       _self.bindSearchAccordion();
       _self.bindFeedbackEvent();
       $(dataHTML).css('left', left);
-      var container=$('.search-background-div');
-      if(!container.length){
-        container=$('body')
+      var container = $('.search-background-div');
+      if (!container.length) {
+        container = $('body')
       }
       $(container).append(dataHTML);
       _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');

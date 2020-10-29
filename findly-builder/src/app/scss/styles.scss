@@ -6,6 +6,11 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // @import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/theme/neo';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/addon/fold/foldgutter';
+@import '~codemirror/addon/lint/lint';
 @import "./variables/variables";
 @import "./bt-styleguide.scss";
 
@@ -14,6 +19,7 @@ html{
     min-width: 900px;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-font-smoothing: antialiased;
     &.cdk-global-scrollblock{
         overflow: hidden;
     }
@@ -21,6 +27,7 @@ html{
         overflow: hidden;
         font-size: $font-md;
         color: $primaryColor;
+        -webkit-font-smoothing: antialiased;
         button{
             min-width:auto !important;
             &:focus{outline:none !important;}
@@ -228,6 +235,9 @@ html{
           }
     }    
 }
+.CodeMirror {
+    height: 100% !important;
+  }
 .tooltip{
     z-index: 10501 !important;
 }
@@ -319,11 +329,11 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 1200px){
-    html, body {
-        overflow-y:hidden;
-        overflow-x: auto;
-        min-width: 1200px;
-        width: 100%;
+    html, body.mat-typography {
+        overflow-y:hidden !important;
+        overflow-x: auto !important;
+        min-width: 1200px !important;
+        width: 100% !important;
     }
 }
 @media (max-width: 600px){
@@ -390,7 +400,7 @@ body::-webkit-scrollbar {
             background: transparent;
             border-radius: 4px;
             padding: 0;
-            height: auto;
+            height: 16px;
             border: 0;
             line-height: 0;
             img{
@@ -1216,19 +1226,32 @@ div.divBlockEmptylastChild:first-child {
     .modal-header{
         height: auto;
         padding: 22px 30px;
-        border-bottom: 1px solid #BDC1C6 !important;
+        border-bottom: 0px solid #BDC1C6 !important;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
         display: block !important;
+        &.noShadow{
+            box-shadow: none;
+        }
         .title{
             color: #202124;
             font-weight: normal;
             font-size: 14px;
             float: left;
-            font-weight: bold;
+            font-weight: 400;
         }
         .close_icon{
             cursor: pointer;
             float: right;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 100%;
+            text-align: center;
+            line-height: 28px;
+            &:hover{
+                background:  #F3F8FF; 
+            }
         }
     }
     .perfect-scroll-modal-body{
@@ -1247,10 +1270,11 @@ div.divBlockEmptylastChild:first-child {
     .modal-footer{
         padding: 13px 30px !important;
         background-color: #fff !important;       
-        box-shadow: inset 0px 1px 0px #BDC1C6;
+        box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
         display: block !important;
+        text-align: right;
         button{
-            margin:0 20px 0 0 !important;
+            margin:0 0px 0 10px !important;
         }
     }
 }
@@ -1289,5 +1313,293 @@ div.divBlockEmptylastChild:first-child {
 .app-add-faq-insidescroll{
     .add-questions-form{
         padding: 0 !important;
+    }
+}
+.custom_tooltip_class{
+    margin-left: 20px;
+    margin-top: 6px;
+    opacity: 1 !important;
+    .arrow{
+        right: 20px !important;
+        &::before{
+            border-width: 0 .5rem .5rem;
+            border-bottom-color: #E7F1FF;
+        }
+    }
+    .tooltip-inner{
+        border-radius: 2px;
+        color: #4788C7;
+        background: #E7F1FF;
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 10px;
+        text-align: left;
+        border: 0;
+    }
+}
+.addFieldModalPop{
+    .modal-dialog{
+        max-width: 60% !important;
+        height: calc(100% - 100px);        
+        .modal-content{
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            .modal-body{
+                .top_sec{
+                    padding-bottom: 30px;
+                    border-bottom: 1px solid #E5E8EC;
+                    margin-bottom: 30px;
+                    .mb-20{
+                        margin-bottom: 20px !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.delete-popup{
+    .mat-dialog-container{
+        .m-footer{
+            .dangerBtn {
+                border: 1px solid transparent;
+                background: #d2000d;
+                color: #fff;
+                &:hover{
+                    background: #bc000b;
+                }
+            }
+        }
+    }
+}
+.cursor-pointer{
+    cursor: pointer !important;
+}
+
+.metrics_tooltips{
+    margin-left: 12px;
+    .arrow{
+        display: block;
+        &::before{
+            border-top-color:#26344a;
+        }
+    }
+    .tooltip-inner{
+        background-color: #26344a;
+        max-width: 200px;
+        min-width: 200px;
+        text-align: center;
+        padding: 15px;
+        line-height: 16px;
+        font-size: 12px;
+        color: #fff;
+        border: 0;
+    }
+}
+
+.metrics-tooltips-hover{
+    filter: drop-shadow(0px 5px 15px rgba(38, 52, 74, 0.3));
+    border-radius: 4px;
+    background: #fff;
+    display: inline-block;
+    // max-width: 500px;
+    max-width: 360px;
+    padding: 20px 30px;
+    font-size: 12px;
+    position: relative;
+    white-space: normal;
+    &::before{
+        display: none;
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 9px;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+    }
+    .main-title{
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: bold;
+        color:  #202124;
+        margin-bottom: 14px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #202124;
+    }
+    .data-content{
+        display: flex;
+        line-height: normal;
+        align-items: center;
+        margin-bottom: 10px;
+        .indication{            
+            width: 19px;
+            height: 19px;
+            display: inline-block;
+            margin-right: 10px;
+            &.voice{
+                background: #009DAB;
+            }
+            &.chat{            
+                background: #F5A623;                        
+            }
+            &.withfailures{
+                background: #009DAB;
+            }
+            &.withoutfailures{
+                background: #007D88;
+            }
+            &.searches{
+                background: #0D6EFD;
+                border-radius: 16px;
+            }
+            &.result{
+                background: #28A745;
+                border-radius: 17px;
+            }
+            &.clicks{
+                background: #7027E5;
+                border-radius: 14px;
+            }
+        }
+        .title{
+            font-size: 12px;
+            line-height: 14px;            
+            color: #9AA0A6;
+        }
+        .count-data{
+            color:  #202124;
+            font-size: 12px;
+            font-weight: 700;
+            padding-left: 5px;
+        }        
+    }
+    .success_message_data{
+        color: #09A624;
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: normal;
+        margin: 15px 0 0 0;
+    }
+    .info_message_data{
+        font-size: 12px;
+        line-height: 14px;
+        color:  #202124;
+    }
+    &.total_conversatins_tooltips{               
+        .data-content{
+            .total-all{
+                .self{
+                    width: 24px;
+                    height: 7px;
+                    background: #E5E8EC;
+                    display: block;
+                }
+                .dropoff{
+                    width: 24px;
+                    height: 7px;
+                    background:  #202124;
+                    display: block;
+                }
+                .agent{
+                    width: 24px;
+                    height: 7px;
+                    background: #009DAB;
+                    display: block;
+                }
+            }
+            .self{
+                width: 24px;
+                height: 19px;
+                background: #E5E8EC;
+                display: block;
+            }
+            .dropoff{
+                width: 24px;
+                height: 19px;
+                background:  #202124;
+                display: block;
+            }
+            .agent{
+                width: 24px;
+                height: 19px;
+                background: #009DAB;
+                display: block;
+            }
+        }
+    }
+    &.engagement_analysis_tooltip{
+        padding: 18px 20px;
+        width: 235px;      
+    }
+    &.agent_drop_tolltip{
+        .split-sec{
+            display: flex;
+            align-items: center;
+            .main-title{
+                padding-right: 15px;
+                margin: 0;
+            }
+            .data-content{
+                padding-left: 15px;
+                border-left: 1px solid #979797;
+                margin: 0;
+            }
+        }
+        .indication_text{
+            color: #8A959F;
+            font-size: 12px;
+            line-height: 14px;
+            margin: 15px 0;
+        }
+    }
+    .mr-10{
+        margin-right: 10px;
+    } 
+    &.userengagment-tooltip{
+        padding: 0px 20px;
+        &::before{
+            display: block;
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: calc(50% - 5px);
+            margin-left: -5px;
+            border-width: 9px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+        }
+        .data-content{
+            display: block;
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #EFF0F1;
+            .main-title{
+                color: #5F6368;
+                font-weight: 500;
+                font-size: 10px;
+                line-height: 12px;
+                margin: 0 0 4px 0;
+            }
+            .title{
+                color: #000000;
+                font-weight: bold;
+                font-size: 14px;
+                line-height: 17px;
+                &.total{
+                    
+                }
+                &.new{
+                    color: #0D6EFD;
+                }
+                &.return{
+                    color: #FF784B;
+                }
+            }
+        }
     }
 }

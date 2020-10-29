@@ -33,6 +33,7 @@ export class SchedulerComponent implements OnInit {
   month = '';
   year = '';
   endsOnSelected = '';
+  minDate;
   //scheduleData : scheduleOpts = new scheduleOpts();
   @Input() crwalObject : any;
   @Input() schedule : any;
@@ -45,19 +46,32 @@ export class SchedulerComponent implements OnInit {
     this.month =  date.toString().split(" ")[1].toLocaleUpperCase();
     this.date =  date.toString().split(" ")[2];
     this.year =  date.toString().split(" ")[3];
-    ;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const currentDay = new Date().getDate();
+    this.minDate = new Date(currentYear, currentMonth, currentDay);
   }
 
   ngOnInit(): void {
     if(this.schedule == 'get'){
-      $('.mat-datepicker-toggle').addClass('mat-date-icon');
+      //$('.mat-datepicker-toggle').addClass('mat-date-icon');
+      if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings){
+        this.startDate  = this.crwalObject.advanceSettings.date;
+        this.timeHH = this.crwalObject.advanceSettings.hour;
+        this.timeMM = this.crwalObject.advanceSettings.minute;
+        this.meridiem = this.crwalObject.advanceSettings.timeOpt;
+        this.stz = this.crwalObject.advanceSettings.timezone || 'Time Zone';
+        this.rstz = this.crwalObject.advanceSettings.intervalType || 'Does not repeat';
+          this.repeatEvery = this.crwalObject.advanceSettings.every;
+          this.custFreq = this.crwalObject.advanceSettings.schedulePeriod;
+          this.weeKDay = this.crwalObject.advanceSettings.repeatOn;
+          this.endDate  = this.crwalObject.advanceSettings.endDate;
+          this.occurence = this.crwalObject.advanceSettings.occurrences;
+          this.endsFreq(this.crwalObject.advanceSettings.endType);
+      } 
     }else{
-      $('.mat-datepicker-toggle').removeClass('mat-date-icon');
-    }
-    this.endsFreq('endsNever');
-    console.log(this.dateConverter('SUN'))
-    console.log(this.crwalObject);
-    if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
+     // $('.mat-datepicker-toggle').removeClass('mat-date-icon');
+     if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
       this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
       this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
@@ -73,6 +87,11 @@ export class SchedulerComponent implements OnInit {
         this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
       }
     } 
+    }
+    this.endsFreq('endsNever');
+    console.log(this.dateConverter('SUN'))
+    console.log(this.crwalObject);
+    
   }
   modelChangeFn(event,time){
    if(time !='repeatEvery'){
@@ -129,18 +148,25 @@ export class SchedulerComponent implements OnInit {
     this.timeMM == '' ? this.timeMM = '00' :  this.timeMM  = this.timeMM;
     timeHH == '' ? timeHH = '00' :  timeHH  = timeHH;
     if(this.rstz == 'Does not repeat'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
+      //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ' + this.year;
+      this.cronExpression =  '';
     }else if(this.rstz == 'Daily'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' * ' + '*';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' * ' + '*';
+      this.cronExpression =  this.timeMM + ' '+ timeHH + ' * ' + '* ' + '*';
     }else if(this.rstz == 'Weekly'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ? ' + '* ' + this.day +' *';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ? ' + '* ' + this.day +' *';
+      this.cronExpression = this.timeMM + ' '+ timeHH +  ' * ' + '* ' + this.day;
     }else if(this.rstz == 'Monthly'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' '+  this.date + ' * ' + '?';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' '+  this.date + ' * ' + '?';
+      this.cronExpression = this.timeMM + ' '+ timeHH + ' '+  this.date + ' ' + '*' + ' '+ '*';
     }else if(this.rstz == 'Anually'){
       //this.cronExpression = '0' + this.timeMM + ' '+ this.timeHH + ' '+  this.date + ' '+ this.month + '? ' + this.year + ' ' +'-2099';
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ? ' + '*';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ? ' + '*';
+      this.cronExpression =  this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ' + '*';
     }else if(this.rstz == 'Every weekday(Monday to Friday)'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ?' + ' * ' + 'MON-FRI ' + '*';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH +  ' ?' + ' * ' + 'MON-FRI ' + '*';
+      this.cronExpression = this.timeMM + ' '+ timeHH +  ' *' + ' * ' + ' MON,TUE,WED,THU,FRI';
     }else if(this.rstz == 'Custom'){
       this.customFrequency(timeHH);
     }
@@ -152,13 +178,17 @@ export class SchedulerComponent implements OnInit {
       this.repeatEvery = '1';
     }
     if(this.custFreq == 'Days'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' *';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' *';
+      this.cronExpression = this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' * ' + '*';
     }else if(this.custFreq == 'Weeks'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
+      this.cronExpression = this.repeatEvery + ' weeks';
     }else if(this.custFreq == 'Months'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';
+      this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' *';
     }else if(this.custFreq == 'Years'){
-      this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' '+ this.month + ' ' + '?' + ' */'+this.repeatEvery;
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' '+ this.month + ' ' + '?' + ' */'+this.repeatEvery;
+      this.cronExpression = this.repeatEvery + ' years';
     }
   }
   dateConverter(weeKDay){

@@ -4,7 +4,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-
+import { NotificationService } from '@kore.services/notification.service';
+import { SideBarService } from '@kore.services/header.service';
 declare const $: any;
 @Component({
   // tslint:disable-next-line:component-selector
@@ -21,6 +22,7 @@ export class AppsListingComponent implements OnInit {
   creatingInProgress = false;
   searchApp = '';
   apps: any = [];
+  showSearch: any = '';
   newApp: any = {
     name: '',
     description: ''
@@ -31,6 +33,8 @@ export class AppsListingComponent implements OnInit {
     private service: ServiceInvokerService,
     public workflowService: WorkflowService,
     private router: Router,
+    private notificationService: NotificationService,
+    private headerService: SideBarService
   ) {
     this.authInfo = localstore.getAuthInfo();
    }
@@ -46,6 +50,10 @@ export class AppsListingComponent implements OnInit {
   openApp(app) {
    this.workflowService.selectedApp(app);
    this.router.navigate(['/source'], { skipLocationChange: true });
+   const toogleObj = {
+    title: '',
+  };
+   this.headerService.toggle(toogleObj);
   }
   openCreateApp() {
     this.createAppPopRef  = this.createAppPop.open();
@@ -53,6 +61,24 @@ export class AppsListingComponent implements OnInit {
    closeCreateApp() {
     this.createAppPopRef.close();
    }
+   errorToaster(errRes,message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+  }
+ }
+ toggleSearch(){
+  if(this.showSearch && this.searchApp){
+    this.searchApp = '';
+  }
+  this.showSearch = !this.showSearch
+  setTimeout(() => {
+    $('#serachInputBox').focus();
+   }, 100);
+}
   createFindlyApp() {
     const self = this;
     self.creatingInProgress = true;
@@ -74,6 +100,7 @@ export class AppsListingComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
+        this.notificationService.notify('App created successfully', 'success');
         self.workflowService.selectedApp(res);
         self.apps.push(res);
         self.workflowService.showAppCreationHeader(true);
@@ -83,6 +110,7 @@ export class AppsListingComponent implements OnInit {
         $('.toShowAppHeader').removeClass('d-none');
       },
       errRes => {
+        this.errorToaster(errRes,'Error in creating app');
         self.creatingInProgress = false;
       }
     );

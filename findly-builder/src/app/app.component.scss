@@ -7,6 +7,22 @@
         padding-right: 0;
         padding-top: 0;
         padding-left: 0px;
+        .botContainer{
+            .table-list-content{
+                .kr-sg-data-table{
+                    .table-action-header{
+                    }
+
+                    .table-content{
+                        .table-scroll-perfect{
+                            .content-body{
+                                cursor: default;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     .autoSearchTools{
         display: none;
@@ -17,11 +33,17 @@
     .headerTabsContainer{
         visibility: hidden;
     }
+    .myappname{
+        visibility: hidden;
+    }
     &.appSelected{
         .trainBlock{
             display: block !important;
         }
         .headerTabsContainer{
+            visibility: visible !important;
+        }
+        .myappname{
             visibility: visible !important;
         }
         .toShowAppHeader{

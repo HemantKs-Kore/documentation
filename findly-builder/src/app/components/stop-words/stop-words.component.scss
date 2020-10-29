@@ -1,0 +1,253 @@
+@import './../../../app/scss/variables/variables.scss';
+.contentContainer{
+    // padding: 30px 65px 0 70px;
+     padding: 0px;
+     height: calc(100vh - 62px);
+     overflow: hidden;    
+     background: #fff;  
+     .mainLoadingSpinner{
+        position: absolute;
+        top: 40%;
+        // left: 30%;
+        // box-shadow: 0 5px 10px 0 #e9eff5;
+        background:  transparent;
+        width: 223px;
+        height: 40px;
+        padding-top: 10px;
+        border-radius: 4px;
+        opacity: 0.95;
+        padding-left: 5px;
+        width: 100%;
+        .please-wait-message {
+            position: relative;
+            color: #29293b;
+            top: -16px;
+            left: 25px;
+            font-size: 12px;
+        }  
+    }  
+    .header-sec-stopwords{
+        display: flex;
+        align-items: center;
+        background: #F8F9FA;
+        padding: 15px 30px;
+        justify-content: space-between;
+        .title{
+            font-weight: 500;
+            font-size: 18px;   
+            line-height: 22px;
+            color: #000000;         
+        }
+        .toggle_switch{
+            margin-right: 175px;
+            line-height: normal;
+            .kr-sg-toggle{
+                position: relative;
+                display: inline-block;
+                width: 40px;
+                height: 20px;
+                margin: 0;               
+                input{
+                    height: auto;
+                    &:checked {
+                        + .slider{
+                            border: 1px solid #0D6EFD;
+                            background-color: #0D6EFD;
+                            &::before{
+                                transform: translateX(20px);
+                                background-color: #ffffff;
+                            }
+                        }
+                    }
+                }
+                .slider{
+                    background-color: #ffffff;
+                    border: 1px solid #BDC1C6;
+                    &::before{
+                        height: 12px;
+                        top: 3px;
+                        width: 12px;
+                        left: 3px;    
+                        background: #BDC1C6;                  
+                    }
+                    .enabled, .disabled{
+                        width: 214px;
+                        font-size: 12px;
+                        color: #202124;
+                        padding-left: 50px;
+                        top: 1px;
+                    }
+                    .disabled{
+
+                    }
+                }
+            }
+        }
+    }         
+    .stop-words-wrapper{
+        padding: 40px 30px;
+        height: calc(100% - 52px);
+        .addStopWordsBlock{     
+            margin-bottom: 8px;       
+           .kr-sg-input-text{
+               width: 360px;
+               display: inline-block;
+               .label-text{
+                    margin-bottom: 12px;
+                    font-weight: 600;
+               }
+               input{                   
+                   &::placeholder{
+                        color: #BDC1C6;
+                   }
+               }
+            }     
+            .addStopWordsButton{
+                display: inline-block;
+                padding: 0;
+                margin-left: 15px;                              
+            }         
+        }
+        .empty_screen_data{
+            display: flex;         
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: center;
+            .empty-stopwords{
+                width: 569px;
+                background: #FFFFFF;
+                box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+                border-radius: 10px;
+                margin: 0 auto;
+                padding: 45px 40px;
+                .main_heading{
+                    font-weight: 600;
+                    font-size: 18px;
+                    line-height: 14px;
+                    color: #423F3F;
+                    margin-bottom: 12px;
+                    text-align: center;
+                }
+                .desc_info{
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 14px;
+                    color: #423F3F;
+                    text-align: center;
+                }
+                .radio-sec{
+                    padding: 48px 0;
+                    .radio_block{
+                        background: #FAFAFA;
+                        border: 1px solid #E5E8EC;
+                        box-sizing: border-box;
+                        border-radius: 8px;
+                        padding: 16px 24px;
+                        width: 486px;
+                        margin: 12px 0;
+                        .kr-sg-radiobutton{
+                            padding: 0;
+                            .radio-custom {
+                                + .radio-custom-label{
+                                    &::before{
+                                        top: 9px;
+                                    }
+                                }
+                            }
+                            .radio-custom-label{
+                                padding-left: 44px;                       
+                                .label_heading{
+                                    font-size: 14px;
+                                    line-height: 14px;
+                                    margin-bottom: 4px;
+                                    color: #2C2543 !important;
+                                }
+                                .lable_dec{
+                                    color: #979797;
+                                    font-size: 12px;
+                                    line-height: 14px;
+                                }
+                            }
+                        }
+                    }
+                }            
+            }
+        }        
+        .listingHeader{         
+            border-bottom: 1px solid #E5E8EC;           
+            align-items: center;
+            padding: 8px 0;
+            min-height: 50px;
+            .kr-sg-input-search{
+                display: inline-block;
+                width: 0px;
+                display: none;                
+                &.active{
+                    display: block;
+                    width: 300px;
+                }
+            } 
+            .searchBlock{   
+                margin-right: 20px;
+                cursor: pointer;
+                .label_txt{
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 20px;
+                }        
+                .search-icon{
+                    margin: 0 10px;
+                }
+            }
+            .restoreDefaults{  
+                cursor: pointer;  
+                .label_txt{
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 20px;
+                }        
+                .label-icon{
+                    margin: 0 12px 0 0;
+                }
+            }
+        }
+        .table-scroll-perfect-synonyms{
+            height: calc(100vh - 285px);
+            .stopWordsListing{
+                padding: 11px 0;
+                .wordTag{                                                                       
+                    background: #EFF0F1;                    
+                    width: auto;
+                    padding: 5px;
+                    margin: 7px 14px 7px 0px;
+                    display: inline-block;
+                    .word{
+                        font-size: 14px;
+                        line-height: 20px;
+                        color: #202124;
+                    }
+                    .deleteTag{
+                        margin: 0 5px 0 10px;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }  
+}
+
+::ng-deep perfect-scrollbar .ps--active-y{
+    .ps__thumb-y{
+        width: 3px !important;
+    }
+    .ps__rail-y{
+        width: 3px !important;
+    }
+    .ps__thumb-x{
+        display: none !important;
+    }
+    .ps__rail-x{
+        display: none !important;
+    }
+}

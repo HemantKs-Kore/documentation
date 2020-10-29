@@ -32,8 +32,8 @@ and open the template in the editor.
 .kr-sg-toggle {
     position: relative;
     display: inline-block;
-    width: 30px;
-    height: 14px;
+    width: 40px;
+    height: 20px;
     margin: 0;
     &.with-label{
         margin-left: 25px;
@@ -88,9 +88,9 @@ and open the template in the editor.
                 background-color: $hoverBlue;
                 box-shadow: 0 0 1px $hoverBlue;
                 &::before{
-                    -webkit-transform: translateX(13px);
-                    -ms-transform: translateX(13px);
-                    transform: translateX(13px);
+                    -webkit-transform: translateX(20px);
+                    -ms-transform: translateX(20px);
+                    transform: translateX(20px);
                 }
                 span{
                     &.yes{
@@ -141,7 +141,7 @@ and open the template in the editor.
             font-size: 12px;
             color: $secondaryColor;
             &.yes{                
-                padding-left: 37px;
+                padding-left: 45px;
                 position: absolute;
                 top: -2px;
             }
@@ -151,13 +151,13 @@ and open the template in the editor.
                 margin-left: -25px;
             }
             &.enabled{
-                padding-left: 37px;
+                padding-left: 45px;
                 position: absolute;
                 top: -2px;
                 display: none;
             }  
             &.disabled{
-                padding-left: 37px;
+                padding-left: 45px;
                 position: absolute;
                 top: -2px;
             }            
@@ -165,10 +165,10 @@ and open the template in the editor.
         &::before{
             position: absolute;
             content: "";
-            height: 8px;
-            top: 2px;
-            width: 8px;
-            left: 5px;
+            height: 12px;
+            top: 3px;
+            width: 12px;
+            left: 3px;
             right: 0;
             background-color: $whiteColor;
             transition: .4s;
@@ -400,7 +400,7 @@ and open the template in the editor.
         background:#a8000a;
     }
     &:focus{
-        border: solid 1px #1372ff;
+        // border: solid 1px #1372ff;
     }
     &:disabled{
         background:#f1b3b6;
@@ -798,8 +798,8 @@ and open the template in the editor.
                 content: '';
                 display: inline-block;
                 vertical-align: middle;
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 top: 0;
                 padding: 0;
                 margin-right: 12px;
@@ -840,6 +840,7 @@ and open the template in the editor.
                     background-size: 14px;
                     background-repeat: no-repeat;
                     background-position: center;
+                    border: 0 !important;
                 }
             }
             &:focus{
@@ -947,7 +948,7 @@ and open the template in the editor.
                     flex: 1;
                     display: flex;                    
                     align-items: center;
-                    padding: 0px 10px;                   
+                    padding: 0px 10px;              
                 }
             }
         }
@@ -1147,6 +1148,9 @@ and open the template in the editor.
                 align-items: center;
                 padding: 17px 0;
                 border-bottom: 1px solid #8a959f;
+                font-size: 12px;
+                color: #9AA0A6;
+                font-weight: 500;
                 .col{
                     border-bottom: 0px solid #8a959f;                    
                     font-size: 12px;
@@ -1200,7 +1204,7 @@ and open the template in the editor.
     }
     .error-text{
         font-size: 12px;
-        color: #ff001f;
+        color:#DD3646;
         padding: 3px 0px;
     }
     .dropdown-open{
@@ -1213,6 +1217,7 @@ and open the template in the editor.
                     line-height: 34px;
                     font-size: 18px;
                     height: 100%;
+                    top: 0;
                     right: 10px;
                     color: $primaryColor;
                     transition: all 0.3s ease-in;
@@ -1235,6 +1240,10 @@ and open the template in the editor.
             background-color: $whiteColor;
             padding: 0 10px;       
             text-align: left;  
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 25px;
             .multi-selected-items{
                 background: $borderColor;
                 padding: 4px 8px;
@@ -1282,6 +1291,7 @@ and open the template in the editor.
                 font-size: 18px;
                 height: 100%;
                 right: 10px;
+                top: 0;
                 color: $primaryColor;
                 transition: all 0.3s ease-in;
                 z-index: 99;
@@ -1314,7 +1324,7 @@ and open the template in the editor.
                 }
             } 
             &.error{
-                border: solid 1px #ff001f !important;
+                border: solid 1px #DD3646 !important;
             }
             &:hover{               
                 border: solid 1px #ccd1d7;
@@ -1383,6 +1393,11 @@ and open the template in the editor.
                     font-size: 14px;
                     text-decoration: none !important;	
                     display: block;
+                    cursor: pointer;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
                     &.selected{
                         position: relative;
                         background-color: $backgroundColor;
@@ -1586,6 +1601,7 @@ and open the template in the editor.
         width: 100%;
         line-height: normal;
         margin: 0 !important;
+        outline: 0 !important;
         &::placeholder{
             color: $secondaryColor;         
         }
@@ -1600,7 +1616,7 @@ and open the template in the editor.
             color: $secondaryColor;
         }
         &.error{
-            border: solid 1px #ff001f;
+            border: solid 1px#DD3646;
             &::placeholder{
                 color: $primaryColor;   
                 opacity: 1;      
@@ -1616,7 +1632,7 @@ and open the template in the editor.
     .error-msg{
         font-size: 12px;
         margin-top: 5px;
-        color: #ff001f;
+        color:#DD3646;
         line-height: 1.17;
     }
 }
@@ -2001,10 +2017,11 @@ and open the template in the editor.
         background-color: $whiteColor;
         color: $primaryColor;
         border-radius: 4px;
-        padding: 4px 25px 4px 10px;
+        padding: 4px 10px 4px 35px;
         height: 34px;
         line-height: 34px;
         width: 100%;
+        outline: 0 !important;
         &::placeholder{
             color: $secondaryColor;
             opacity: 0.5;
@@ -2023,10 +2040,8 @@ and open the template in the editor.
     }
     .search-icon{
         position: absolute;
-        right: 10px;
-        top: 9px;
-        // width: 12px;
-        // height: 12px;
+        left: 11px;
+        top: 10px;        
         cursor: pointer;
     }
 }
@@ -2043,6 +2058,7 @@ and open the template in the editor.
         padding: 4px 30px;
         height: 30px;
         line-height: 30px;
+        outline: 0 !important;
         width: 100%;
         &::placeholder{
             color: $secondaryColor;

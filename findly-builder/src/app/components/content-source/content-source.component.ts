@@ -25,6 +25,10 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  isEditDoc: boolean = false;
+  editDocObj : any = {};
+  editConfObj : any = {};
+  editTitleFlag : boolean = false;
   isConfig : boolean = false;
   allowUrl : AllowUrl = new AllowUrl()
   blockUrl : BlockUrl = new BlockUrl();
@@ -71,8 +75,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedSource: any = {};
   currentStatusFailed: any = false;
   userInfo: any = {};
+  contentModaltype: any;
   sortedData: any = [];
   statusModalPopRef: any = [];
+  statusModalDocumentRef:any;
+  title:any;
+  editConfigEnable=false;
   addSourceModalPopRef: any = [];
   showSourceAddition: any = null;
   isAsc = true;
@@ -85,7 +93,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   allInOne : boolean = false;
   urlConditionAllow = "Is";
   urlConditionBlock = "Is";
-  doesntContains = "Doesn't Contains"
+  doesntContains = "Doesn't Contains";
+  @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -156,7 +165,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //   }
       // });
       if (res.numPages)
-        this.pageination(res.numPages, 10);
+        this.pageination(res.numPages, false);
       if (this.resources.length) {
         this.resources.forEach(element => {
           this.statusArr.push(element.recentStatus);
@@ -211,7 +220,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
-        this.resourcesStatusObj[source.resourceId] = source;
+        //this.resourcesStatusObj[source.resourceId] = source;
+        this.resourcesStatusObj[source._id] = source;
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -302,18 +312,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       return;
     }
     if (source.recentStatus === 'success') {
-
-      this.openStatusModal();
+      this.contentModaltype=source.type;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
       this.pageination(source.numPages, 10)
-      this.loadingSliderContent = true;
+      if(source.type === 'webdomain'){
+        this.openStatusModal();
+        this.loadingSliderContent = true;
+        this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
+        this.pageination(source.numPages, 10)
+        this.getCrawledPages(this.limitpage, 0);
+      }
+      else if(source.type ==='document'){
+        this. openDocumentModal();
+        this.getCrawledPages(this.limitpage, 0);
+      }
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-
-      this.getCrawledPages(this.limitpage, 0);
     }
+    this.isEditDoc = false;
   }
-  pageination(pages, perPage) {
+  pageination(pages, action) {
     // let count = 0;
     // let divisor = Math.floor(pages/perPage) 
     // let remainder = pages%perPage;
@@ -341,8 +359,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       $('.pre-arrow').addClass("dis-arow");
       $('.nxt-arrow').addClass("dis-arow");
     }
-
+    if(action ==  true && this.totalRecord > this.recordEnd && !(this.totalRecord > this.limitpage)){
+      this.recordEnd = this.totalRecord;
+      this.allInOne = true;
+      $('.pre-arrow').addClass("dis-arow");
+      $('.nxt-arrow').addClass("dis-arow");
+    }
   }
+
   numArr(n: number): any[] {
     return Array(n);
   }
@@ -407,6 +431,71 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     })
     $('#number_' + index).addClass("active");
   }
+  saveDocDetails(){
+    let  payload : any;
+    if(this.isEditDoc){
+       payload = {
+        name: this.editDocObj.title,
+        desc: this.editDocObj.desc
+      }
+    }else{
+       payload = {
+        name: this.selectedSource.name,
+        desc: this.selectedSource.desc
+      }
+    }
+    
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId ,
+      docId : this.selectedSource._id,
+    };
+    this.service.invoke('update.docDetailsSource', quaryparms, payload).subscribe(res => {
+      this.isEditDoc = false;
+      this.getSourceList();
+      this.notificationService.notify('updated ', 'success');
+      this.closeDocumentModal();
+      
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  cancelDocDetails(){
+    this.closeDocumentModal();
+  }
+  editDoc(){
+    this.isEditDoc =  true;
+    this.editDocObj.title = this.selectedSource.name;
+    this.editDocObj.desc = this.selectedSource.desc
+  }
+  deleteDocument(from, record, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title:'Delete Document ',
+        text: 'Are you sure you want to delete selected document?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSource(record, dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
   deletePages(from, record, event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -451,6 +540,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
+      //if(this.isEditDoc){
+        this.isEditDoc = false;
+        this.cancelDocDetails();
+      //} 
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
         return pg._id === record._id;
@@ -482,7 +575,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('delete.content.page', quaryparms).subscribe(res => {
       dialogRef.close();
       this.totalRecord = this.totalRecord - 1;
-      this.pageination(this.totalRecord , null)
+      this.pageination(this.totalRecord , true)
       this.notificationService.notify('Page deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
         return pg._id === page._id;
@@ -649,6 +742,40 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.sectionShow = true;
     }
   }
+  openDocumentModal() {
+    this.statusModalDocumentRef = this.statusModalDocument.open();
+  }
+  closeDocumentModal(){
+    if (this.statusModalDocumentRef && this.statusModalDocumentRef.close){
+    this.statusModalDocumentRef.close();
+  }
+}
+editPages(){
+  this. editConfigEnable=true;
+}
+
+
+keyPress(event){
+  const code = (event.keyCode ? event.keyCode : event.which);
+  if (code === 13) {
+      // event.preventDefault();
+      const payload = {
+        title:this.selectedSource.name ,
+        description: this.selectedSource.desc
+      };
+      const queryParams = {
+        searchIndexId: this.serachIndexId,
+        webdomainId: this.selectedSource._id
+      }
+
+      this.service.invoke('put.EditConfig',queryParams,payload).subscribe(res => {
+        console.log(res)
+
+  }, errRes => {
+    console.log(errRes)
+  });
+}
+};
   openStatusModal() {
     this.statusModalPopRef = this.statusModalPop.open();
   }
@@ -674,6 +801,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     // this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
+   }
+   editTitle(event){
+    this.editTitleFlag = true;
+    //var editConfObj : any = {};
+    this.editConfObj.title = this.selectedSource.name;
+    this.editConfObj.url = this.selectedSource.url;
+    this.editConfObj.desc = this.selectedSource.desc;
+
    }
    blockUrls(data){
     //data['condition'] = this.urlConditionBlock;
@@ -703,8 +838,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      sourceId: this.selectedSource._id
-      //type: this.selectedSourceType.sourceType,
+      sourceId: this.selectedSource._id,
+      sourceType: this.selectedSource.type,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
@@ -730,9 +865,31 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       type == 'block' ?this.blockUrl = new BlockUrl :  this.allowUrl = new AllowUrl;
       this.allowUrlArr= [...this.selectedSource['advanceSettings'].allowedURLs];
       this.blockUrlArr= [...this.selectedSource['advanceSettings'].blockedURLs];
+      this.getSourceList()
       // allowUrls.forEach(element => {
 
       // });
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+   }
+   recrwal(from,record,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+     const quaryparms : any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: record._id,
+      sourceType: record.type,
+    };
+    this.service.invoke('recrwal', quaryparms).subscribe(res => {
+      this.getSourceList();
+      this.notificationService.notify('Recrwaled with status : '+ res.recentStatus, 'success');
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -763,6 +920,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   changeSettings(bool){
     this.selectedSource.advanceSettings.crawlEverything = !bool;
+    this.selectedSource.advanceSettings.allowedOpt = bool;
   }
   proceedWithConfigUpdate(){
     let payload = {}
@@ -770,12 +928,21 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId ,
-      sourceId : this.selectedSource._id
-      //type: this.selectedSourceType.sourceType,
+      sourceId : this.selectedSource._id,
+      sourceType: this.selectedSource.type,
     };
-    crawler.name = this.selectedSource.name;
-    crawler.url = this.selectedSource.url;
-    crawler.desc = this.selectedSource.desc || '';
+    if(this.editTitleFlag){
+      crawler.name = this.editConfObj.title;
+      crawler.url = this.selectedSource.url; // this.editConfObj.url
+      crawler.desc = this.editConfObj.desc || '';
+    }else{
+      crawler.name = this.selectedSource.name;
+      crawler.url = this.selectedSource.url;
+      crawler.desc = this.selectedSource.desc || '';
+    }
+    if(this.selectedSource.advanceSettings.scheduleOpt){
+      crawler.advanceOpts = this.selectedSource.advanceSettings;
+    }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
@@ -785,7 +952,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log(payload);
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
-   
+      this.notificationService.notify('Crwaler Updated', 'success');
+      this.editTitleFlag = false;
+      this.getSourceList();
+      this.closeStatusModal();
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
