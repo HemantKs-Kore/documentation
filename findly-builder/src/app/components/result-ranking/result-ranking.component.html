@@ -160,9 +160,9 @@
                                         </div>
                                  </div> -->
                                  
-                                    <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index">
+                                    <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index" (click)="toggle(icontoggle, actLog.selected)">
                                         <div *ngIf="actLog.target">
-                                        <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  (click)="toggle(icontoggle, i,actLog.selected)">
+                                        <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  >
                                             <div class="mb-0">
                                              <div class="row" >
                                                  <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" > 

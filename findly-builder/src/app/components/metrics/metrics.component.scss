@@ -315,14 +315,14 @@
                     width: 48px;
                     display: inline-block;
                     margin-left: 10px;
-                    &.toatlsearches{
+                    // &.toatlsearches{
+                    //     border-top: 4px solid #0D6EFD;
+                    // }
+                    &.withresults{
                         border-top: 4px solid #0D6EFD;
                     }
-                    &.withresults{
-                        border-top: 4px solid #28A745;
-                    }
                     &.clicks{
-                        border-top: 4px solid #7027E5;
+                        border-top: 4px solid #FF784B;
                     }
                 }               
             }
@@ -347,6 +347,9 @@
             }
         }
     }
+    .text-center{
+        text-align: center!important;
+    }
 }
 
 ::ng-deep perfect-scrollbar .ps--active-y{
@@ -367,6 +370,9 @@
 .legends_sec_piechart{
     display: flex;
     align-items: center;
+    position: relative;
+    bottom: 15%;
+    left: 17%;
     .legend-data{
         .indication{
             width: 20px;

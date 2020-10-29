@@ -73,15 +73,17 @@
         </div>                     
     </div>
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
-      <div class="stopWordsListing"  *ngIf="(stopwords && stopwords.length) && !loadingContent">
-        <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
-          <span class="word stopwordBlock" >{{word}}</span>
-          <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event)" src="assets/icons/clode_stop_word.svg"></span>
-        </span>
-        <div class="divBlockEmptylastChild text-center">         
-          <div class="desc">No search results found</div>
+      <ng-container *ngIf="!loadingWords">
+        <div class="stopWordsListing"  *ngIf="(stopwords && stopwords.length) && !loadingContent">
+          <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
+            <span class="word stopwordBlock" >{{word}}</span>
+            <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event,word,stopwords)" src="assets/icons/clode_stop_word.svg"></span>
+          </span>
+          <div class="divBlockEmptylastChild text-center">         
+            <div class="desc">No search results found</div>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </perfect-scrollbar> 
       </ng-container>
     </div>

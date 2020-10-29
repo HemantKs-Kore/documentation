@@ -19,25 +19,24 @@
 			</div>
 		</div>
 		<div class="sub-title">Sources <img src="assets/icons/sidemenu/plus.svg" [routerLink]="['/source']" skipLocationChange routerLinkActive="active" (click)="preview('Source')"></div>
-
-		<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>			
-			<span class="inlineIconBox">
-				<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">	
-				<img src="assets/icons/sidemenu/new-icons/page-active.svg" class="activeIcon">				
-			</span>
-			<span class="linkTitle">Content</span>
-		</div>
 		<div [routerLink]="['/faqs']" mat-button class="mat-button" skipLocationChange routerLinkActive="active" (click)="preview('Faqs')" mat-button>
 			<span class="inlineIconBox">
 				<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">	
-				<img src="assets/icons/sidemenu/new-icons/faq-active.svg" class="activeIcon">		
+				<img src="assets/icons/sidemenu/new-icons/faq.svg" class="activeIcon">		
 			</span>
 			<span class="linkTitle">FAQs</span>		
+		</div>
+		<div mat-button class="mat-button" [routerLink]="['/content']" skipLocationChange routerLinkActive="active" (click)="preview('Content')" mat-button>			
+			<span class="inlineIconBox">
+				<img src="assets/icons/sidemenu/new-icons/page.svg" class="defaultIcon">	
+				<img src="assets/icons/sidemenu/new-icons/page.svg" class="activeIcon">				
+			</span>
+			<span class="linkTitle">Content</span>
 		</div>
 		<div mat-button class="mat-button" [routerLink]="['/botActions']" skipLocationChange routerLinkActive="active" (click)="preview('Bot Actions')" mat-button>			
 			<span class="inlineIconBox">	
 				<img src="assets/icons/sidemenu/new-icons/actions.svg" class="defaultIcon">	
-				<img src="assets/icons/sidemenu/new-icons/actions-active.svg" class="activeIcon">				
+				<img src="assets/icons/sidemenu/new-icons/actions.svg" class="activeIcon">				
 			</span>
 			<span class="linkTitle">Actions</span>
 		</div>		
@@ -53,14 +52,14 @@
 			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active" (click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
 					<img src="assets/icons/sidemenu/new-icons/traits.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/traits-active.svg" class="activeIcon">				
+					<img src="assets/icons/sidemenu/new-icons/traits.svg" class="activeIcon">				
 				</span>
 				<span class="linkTitle">Traits</span>
 			</div>
 			<div mat-button class="mat-button"  [routerLink]="['/index']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>			
 				<span class="inlineIconBox">	
 					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/index-active.svg" class="activeIcon">			
+					<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">			
 				</span>
 				<span class="linkTitle">Workbench</span>
 			</div>
@@ -75,35 +74,35 @@
 			<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>			
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/synonyms-active.svg" class="activeIcon">					
+					<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="activeIcon">					
 				</span>
 				<span class="linkTitle">Synonyms</span>
 			</div>
 			<div mat-button class="mat-button" [routerLink]="['/stopWords']" skipLocationChange routerLinkActive="active" (click)="preview('stopWords')" mat-button>
 				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/ml.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/ml-active.svg" class="activeIcon">			
+					<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="activeIcon">			
 				</span>
 				<span class="linkTitle">Stop Words</span>
 			</div>
 			<div mat-button class="mat-button" [routerLink]="['/resultranking']" skipLocationChange routerLinkActive="active" (click)="preview('resultranking')" mat-button>
 				<span class="inlineIconBox leftAdjust">
-					<img src="assets/icons/sidemenu/new-icons/demo.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/demo-active.svg" class="activeIcon">				
+					<img src="assets/icons/sidemenu/new-icons/results.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/results.svg" class="activeIcon">				
 				</span>
 				<span class="linkTitle">Results Ranking</span>
 			</div>
 			<div mat-button class="mat-button" [routerLink]="['/facets']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
 				<span class="inlineIconBox">
-					<img src="assets/icons/sidemenu/new-icons/attributes.svg" class="defaultIcon">	
-					<img src="assets/icons/sidemenu/new-icons/attributes-active.svg" class="activeIcon">				
+					<img src="assets/icons/sidemenu/new-icons/facets.svg" class="defaultIcon">	
+					<img src="assets/icons/sidemenu/new-icons/facets.svg" class="activeIcon">				
 				</span>
 				<span class="linkTitle">Facets</span>
 			</div>
 			<div mat-button class="mat-button" [routerLink]="['/rules']" skipLocationChange routerLinkActive="active" (click)="preview('synonyms')" mat-button>
 					<span class="inlineIconBox">
 							<img src="assets/icons/sidemenu/new-icons/rules.svg" class="defaultIcon">	
-							<img src="assets/icons/sidemenu/new-icons/rules-active.svg" class="activeIcon">				
+							<img src="assets/icons/sidemenu/new-icons/rules.svg" class="activeIcon">				
 					</span>
 					<span class="linkTitle">Rules & Personalization</span>
 			</div>

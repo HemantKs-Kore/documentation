@@ -33,11 +33,17 @@
     .headerTabsContainer{
         visibility: hidden;
     }
+    .myappname{
+        visibility: hidden;
+    }
     &.appSelected{
         .trainBlock{
             display: block !important;
         }
         .headerTabsContainer{
+            visibility: visible !important;
+        }
+        .myappname{
             visibility: visible !important;
         }
         .toShowAppHeader{

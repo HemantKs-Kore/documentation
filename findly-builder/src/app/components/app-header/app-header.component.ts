@@ -11,6 +11,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 import * as _ from 'underscore';
+import { Input } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
@@ -18,6 +19,7 @@ import * as _ from 'underscore';
 })
 export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
+  mainMenu = '';
   showMainMenu : boolean = true;
   pagetitle: any;
   fromCallFlow = '';
@@ -26,6 +28,7 @@ export class AppHeaderComponent implements OnInit {
   searchText:any;
   search:any;
   formatter:any;
+  appName = '';
   @Output() showMenu = new EventEmitter();
   availableRouts = [
     {displayName:'Summary' , routeId:'/summary',quaryParms:{}},
@@ -50,11 +53,13 @@ export class AppHeaderComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
   analyticsClick(menu){
+    this.mainMenu = menu;
     if(menu == 'metrics'){
       this.showMainMenu = false;
     }else{
       this.showMainMenu = true;
     }
+    
     this.showMenu.emit(this.showMainMenu)
   }
   logoutClick() {
@@ -85,6 +90,9 @@ export class AppHeaderComponent implements OnInit {
   ngOnInit() {
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
     this.headerService.change.subscribe(data => {
+      if (this.workflowService.selectedApp() && this.workflowService.selectedApp().name) {
+        this.appName = this.workflowService.selectedApp().name
+      }
       this.pagetitle = data.title;
       this.toShowAppHeader = data.toShowWidgetNavigation;
       this.fromCallFlow = '';
@@ -106,6 +114,10 @@ export class AppHeaderComponent implements OnInit {
         : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
     this.formatter = (x: {displayName: string}) => (x.displayName || '');
+    if(JSON.parse(localStorage.krPreviousState).route == '/metrics'){
+      this.analyticsClick('metrics');
+    }
+   
   }
 
   removeCallFlowExpand() {
