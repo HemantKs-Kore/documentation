@@ -284,20 +284,21 @@
                     <div class="full-card">
                         <div class="title-card">Most Click Position</div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
-                        <div class="text-center">Number of Clicks</div>
+                        <!-- <div class="text-center">Number of Clicks</div> -->
                     </div>
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">Feedback</div>
-                        <div class="">
-                            <div echarts [options]="feedbackPie1" class="demo-chart-graphMode"></div>
-                        </div>
-                        <!-- <div class="col-6 box-content">
-                            <div echarts [options]="feedbackPie1" class="demo-chart-graphMode"></div>
-                        </div> -->
                         
-                        <div class="legends_sec_piechart row m-0">
+                        <div class="row col-12 m-0 p-0">
+                            <div class="col-6 m-0 p-0">
+                                <div class="title-card">Feedback</div>
+                                <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
+                            </div>
+                            <div class="title-card"></div>
+                            <div class="col-6 m-0 p-0"><div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div></div>
+                        </div>
+                        <div class="legends_sec_piechart row col-12 m-0">
                             <div class="legend-data col-6 p-0">
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="indication total"></span>
@@ -317,9 +318,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div echarts [options]="feedbackPie2" class="demo-chart-graphMode"></div> -->
-
                     </div>
+
                 </div>
             </div>
         </div>

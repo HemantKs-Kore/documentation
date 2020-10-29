@@ -47,8 +47,8 @@ export class MetricsComponent implements OnInit {
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
   searchHistogram : any;
-  feedbackPie1 : EChartOption;
-  feedbackPie2 : EChartOption;
+  feedbackPieSearches : EChartOption;
+  feedbackPieResult : EChartOption;
   mostClickBar : EChartOption;
   chartOption : EChartOption;
   chartOption1 : EChartOption;
@@ -462,16 +462,19 @@ this.chartOption  = {
         axisPointer: {            
           type: 'none'        
       },
-        formatter: `
+        formatter:  (params) => `
         <div class="metrics-tooltips-hover userengagment-tooltip">          
-       
+        <div class="data-content">
+            <div class="main-title">Total Users</div>
+            <div class="title total">${params[0].value + params[1].value}</div>
+        </div>
         <div class="data-content">
             <div class="main-title">New Users</div>
-            <div class="title new">{c1}</div>
+            <div class="title new">${params[1].value}</div>
         </div>
         <div class="data-content border-0">
             <div class="main-title">Repeat Users</div>
-            <div class="title return">{c0}</div>
+            <div class="title return">${params[0].value}</div>
         </div>
     </div> 
         `,
@@ -544,20 +547,23 @@ this.chartOption  = {
               type: 'value',
               axisLabel: {
                 formatter: '{value}'
-            }
+            },
+           // name: "Number  of  Clicks"
           },
           yAxis: {
             type: 'category',
               data: ['1st ', ' 2nd', '3rd']
+              
           },
           barWidth: 40,
           series: [{
             label : {
               normal: {
                   show: true,
+                  position: 'outside',
                   color : '#202124',
-                  textBorderColor: '#202124',
-                  textBorderWidth: 1
+                  //textBorderColor: '#202124',
+                  //textBorderWidth: 1
               }
           },
             itemStyle: {
@@ -572,63 +578,45 @@ this.chartOption  = {
     
     }
     feedback(){
-      var colorPalette = ['#28A745','#EAF6EC'];
-      var colorPalette2 = ['#FF784B','#FFF1ED'];
-
-      this.feedbackPie1 = {
+      var colorPaletteSearch = ['#28A745','#EAF6EC'];
+      var colorPaletteResult = ['#FF784B','#FFF1ED'];
+      this.feedbackPieSearches = {
         
-            dataset: {
-                source: [
-                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
-                    ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
-                    
-                ]
-            },
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            },
+        series: [{
+            type: 'pie',
+            radius: 90,
+            color: colorPaletteSearch,
+            hoverAnimation: false,
+            center: ['50%', '50%'],
+            data: [30,70],
+            label: {
+                show: true,
+                position: 'inner',
+                formatter: (params) => {
+                  return params.percent ? params.percent + '%' : '';
+                },
+               
+          },
+        } 
+      ]
+    };
+      this.feedbackPieResult = {
+        
             series: [{
                 type: 'pie',
-                radius: 80,
-                color: colorPalette,
-                center: ['25%', '30%'],
-                itemStyle : {
-                  normal : {
-                             label : {
-                                       show : false
-                                      },
-                             labelLine : {
-                                           show : false
-                                          }
-                             }
-                  }
-                // No encode specified, by default, it is '2012'.
-            }
-            , {
-                type: 'pie',
-                radius: 80,
-                color: ['#FF784B','#FFF1ED'],
-                center: ['75%', '30%'],
-                itemStyle : {
-                  normal : {
-                             label : {
-                                       show : false
-                                      },
-                             labelLine : {
-                                           show : false
-                                          }
-                             }
-                  },
-                encode: {
-                    itemName: 'product',
-                    value: '2013'
-                }
-            }
+                radius: 90,
+                color: colorPaletteResult,
+                hoverAnimation: false,
+                center: ['50%', '50%'],
+                data: [30,70],
+                label: {
+                    show: true,
+                    position: 'inner',
+                    formatter: (params) => {
+                      return params.percent ? params.percent + '%' : '';
+                    }
+              },
+            } 
           ]
         };
       
