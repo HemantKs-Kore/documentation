@@ -204,7 +204,7 @@ lineStyle: {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.getQueryLevelAnalytics();
     },5000)
-    
+    this.getcustomizeList();
 
   }
   customInit(){
@@ -368,15 +368,15 @@ lineStyle: {
     };
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
-      this.actionLogData = res;
-      for(let i =0; i<this.actionLogData.length; i++){
-        this.actionLogData[i]["selected"] = false;
-        this.actionLogData[i]["drop"] = false;
-        // if(this.actionLogData[i].target.contentType == 'faq'){
-        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
-        // }
-      }
-
+      // this.actionLogData = res;
+      // for(let i =0; i<this.actionLogData.length; i++){
+      //   this.actionLogData[i]["selected"] = false;
+      //   this.actionLogData[i]["drop"] = false;
+      //   // if(this.actionLogData[i].target.contentType == 'faq'){
+      //   //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
+      //   // }
+      // }
+      console.log(res);
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');

@@ -2312,7 +2312,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var randomObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
           console.log(randomObject);
-          //  _self.parentEvent(randomObject);
+            _self.parentEvent(randomObject);
         }
         $('.custom-header-container-left').css('visibility', 'visible');
         $('.custom-insights-control-container').hide();
@@ -2326,6 +2326,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.custom-insights-control-container').show();
           var randomObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
           console.log(randomObject);
+          _self.parentEvent(randomObject);
         }
         else {
           $('.custom-insights-control-container').hide();
