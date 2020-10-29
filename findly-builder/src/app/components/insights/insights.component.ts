@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EChartOption } from 'echarts';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 
 @Component({
@@ -12,7 +13,9 @@ declare const $: any;
 export class InsightsComponent implements OnInit {
   @Input() data : any;
   @Input() query : any;
+  queryPipelineId;
   show = false;
+  actionLog_id = 0;
   icontoggle : boolean = false;
   graphMode : boolean = false;
   iconIndex;
@@ -160,7 +163,7 @@ lineStyle: {
 ]
   };
   
-  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
+  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService,private notificationService: NotificationService) { }
   getQueryLevelAnalytics(){
     // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
     //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
@@ -192,6 +195,9 @@ lineStyle: {
       });
   }
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.customInit();
     setTimeout(()=>{
       this.selectedApp = this.workflowService.selectedApp();
@@ -199,6 +205,7 @@ lineStyle: {
       this.getQueryLevelAnalytics();
     },5000)
     
+
   }
   customInit(){
     $("#advanceContainer").delay(800).fadeIn();
@@ -334,6 +341,49 @@ lineStyle: {
       $('.tab-ana').removeClass('active')
     }
     console.log('button clicked')
+  }
+
+  getcustomizeList(){
+   
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId
+    };
+    this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      this.actionLog_id = res[res.length-1]._id;
+      this.clickCustomizeRecord(res[res.length-1]._id);
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  clickCustomizeRecord(_id){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId,
+      rankingAndPinningId : _id
+    };
+    this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
+      //this.customizeList = res;
+      this.actionLogData = res;
+      for(let i =0; i<this.actionLogData.length; i++){
+        this.actionLogData[i]["selected"] = false;
+        this.actionLogData[i]["drop"] = false;
+        // if(this.actionLogData[i].target.contentType == 'faq'){
+        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
+        // }
+      }
+
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed', 'error');
+       }
+     });
   }
 
 }
