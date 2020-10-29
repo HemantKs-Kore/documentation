@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 declare const $: any;
@@ -15,16 +15,17 @@ export class AddResultComponent implements OnInit {
   serachIndexId;
   recordArray = [];
   searchTxt = '';
-  
+  @Input() addNew;
   @Output() closeResult = new EventEmitter()
   constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+   
   }
   closeCross(){
-    this.closeResult.emit();
+    this.closeResult.emit(!this.addNew);
   }
   resultClick(type){
     this.searchType = type;
@@ -84,7 +85,9 @@ export class AddResultComponent implements OnInit {
     this.searchResults(this.searchTxt)
   }
   cancelRecord(){
-    $('.add-result').css('display','none');
+    //$('.add-result').css('display','none');
+    this.closeCross();
+    this.addNew = true;
     this.clearReocrd();
     for(let i = 0;i<$('.radio-custom').length;i++){
       $('.radio-custom')[i].checked = false;

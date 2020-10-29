@@ -51,18 +51,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.jqueryManupulations(); //this.on=$(this).on;
       this.addPolyFils();
 
-      // this.parentEvent({ 'type': 'sdkLoaded', data: {} });
+       this.parentEvent({ 'type': 'sdkLoaded', data: {} });
       // this.assignCallbacksToParent();
     }
 
     FindlySDK.prototype = Object.create($.prototype);
 
-    /*FindlySDK.prototype.parentEvent = function (event) {
+    FindlySDK.prototype.parentEvent = function (event) {
       if (this.config && this.config.findlyBusinessConfig && this.config.findlyBusinessConfig.sdkBridge) {
         this.config.findlyBusinessConfig.sdkBridge(event);
       }
     }
-    FindlySDK.prototype.assignCallbacksToParent = function () {
+    /*FindlySDK.prototype.assignCallbacksToParent = function () {
       this.config.findlyBusinessConfig.initVariables = this.initVariables();
     }*/
 
@@ -2070,7 +2070,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var randomObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
           console.log(randomObject);
-          //  _self.parentEvent(randomObject);
+            _self.parentEvent(randomObject);
         }
 
         $(".custom-insights-control-container").hide();
@@ -2109,7 +2109,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var randomObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
           console.log(randomObject);
-          //  _self.parentEvent(randomObject);
+            _self.parentEvent(randomObject);
         }
 
         if (($('.external-link-show').css('display') == 'none')) {
@@ -2139,7 +2139,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var randomObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
           console.log(randomObject);
-          //  _self.parentEvent(randomObject);
+            _self.parentEvent(randomObject);
         }
       })
 
