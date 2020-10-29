@@ -50,6 +50,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.initVariables();
       this.jqueryManupulations(); //this.on=$(this).on;
       this.addPolyFils();
+
       this.parentEvent({ 'type': 'sdkLoaded', data: {} });
       this.assignCallbacksToParent();
     }
@@ -62,7 +63,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     FindlySDK.prototype.assignCallbacksToParent = function () {
-      this.config.findlyBusinessConfig.initVariables = this.initVariables;
+      this.config.findlyBusinessConfig.initVariables = this.initVariables();
     }
 
     FindlySDK.prototype.addPolyFils = function () {
@@ -813,6 +814,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getSearchTemplate = function (type) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
         <div class="search-container conversation">\
+          <div class="custom-insights-control-container">\
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
+          </div>\
           <div id="searchBox" >\
             <div class="heading display-none">\
               <div class="logo-sec-title">\
@@ -1183,7 +1187,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           </span>\
                           </div>\
                           <div class="desc-info">${page.searchResultPreview}</div>\
-                          <div class="custom-matched-results-page-container">\
+                          <div class="custom-matched-results-container">\
                             <div class="custom-matched-results-page-icon">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
                             </div>\
@@ -1196,10 +1200,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </span>\
                             </div>\
                           </div>\
+                          <div class="custom-full-search-matched-results-actions">\
+                            <span class="custom-actions">\
+                              <span class="img-action dont-show">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                                <span class="custom-actions-content">HIDE</span>\
+                              </span>\
+                              <span class="img-action pin">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                                <span class="custom-actions-content">PIN</span>\
+                              </span>\
+                              <span class="img-action boostup">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                                <span class="custom-actions-content">BOOST</span>\
+                              </span>\
+                              <span class="img-action boostdown">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                                <span class="custom-actions-content">BURY</span>\
+                            </span>\
+                          </div>\
                         </div>\
                         <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\<img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                       </a>\
-                      <div class="faqs-bottom-actions">\
+                      <div class="faqs-bottom-actions display-none">\
                         <span class="appearences">\
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
                           <span class="appearences-count">155 Appearances - 138 Clicks</span>\
@@ -1225,7 +1248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{/each}}\
                 </div>\
                 {{if selectedFacet !== "page" && pages.length>5}}\
-                  <div class="ksa-showMore">Show More</div>\
+                  <div class="ksa-showMore custom-show-more-container">Show More</div>\
                 {{/if}}\
               </div>\
               {{/if}}\
@@ -1246,8 +1269,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           </div>\
                         </div>\
                       </div>\
-                    <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
-                  </div>\
+                      <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
+                      <div class="custom-matched-results-container">\
+                        <div class="custom-matched-results-faq-icon">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
+                        </div>\
+                        <div class="custom-matched-results-faq-summary">\
+                          <span class="custom-matched-results-faq-summary-content">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                            <span>VIEWS</span>\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                            <span>CLICKS</span>\
+                          </span>\
+                        </div>\
+                      </div>\
+                    </div>\
                   <div class="faqs-bottom-actions">\
                     <span class="appearences">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
@@ -1274,10 +1310,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{/each}}\
               </div>\
                     {{if selectedFacet !== "faq" && faqs.length>5}}\
-                  <div class="moreFaqs">Show All</div>\
+                  <div class="moreFaqs custom-show-more-container">Show All</div>\
                 {{/if}}\
               </div>\
               {{/if}}\
+              <div class="custom-add-new-result-container">\
+                <div class="custom-add-new-result-icon-container">\
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADOSURBVHgBpVLRFYIwDDx4DsAIdQM2sJuAEwgTyCbgKE6AG4ATMAImj6vUVvDDe+8ebXrphSbAJzLhVTgIZ7IXtkLjC1NvXTBBBWfhkayFCS+oAiNcmGSxjZyawgWMcOLBL1hqs4T1g+X5KPntgrjuxwOdasQw+A5NbNVxpujpOen+xP1dHbA669mQ4g9svWZDhlBtr443eE/sYSRDqPahC52WCfs9dMipNS5QYil5r5eWmmh6Kt7WUmRIy9iEtbcRVNhhmUs35OrSYPmlN14wTi/zFOG6gwAAAABJRU5ErkJggg==">\
+                </div>\
+                <div class="custom-add-new-result-content">\
+                  <span><strong>Not finding the result</strong></span>\
+                  <span>Add new result from repository</span>\
+                </div>\
+              </div>\
             </div>\
           </div>\
         </div>\
@@ -1884,7 +1929,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(".faqs-shadow").addClass('custom-faqs-shadow');
           $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
 
-          $(".custom-matched-results-page-container").css('display', 'block');
+          $(".custom-matched-results-container").css('display', 'block');
 
           if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
             $('.image-url-sec').css('display', 'none');
@@ -1909,7 +1954,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(".faqs-shadow").removeClass('custom-faqs-shadow');
           $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
 
-          $(".custom-matched-results-page-container").css('display', 'none');
+          $(".custom-matched-results-container").css('display', 'none');
 
           $('.faqs-bottom-actions').css('display', 'none');
         }
@@ -1924,6 +1969,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $(".pages-wrp").sortable();
             $(".pages-wrp").sortable("option", "disabled", false);
             $(".pages-wrp").disableSelection();
+
+            $(".faqs-shadow").addClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+            $(".custom-matched-results-container").css('display', 'block');
+
             if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
               $('.image-url-sec').css('display', 'none');
               $('.desc-info').css('max-width', '65%');
@@ -1937,6 +1987,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ($(".pages-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
               $(".pages-wrp").sortable("disable");
             }
+            $(".custom-matched-results-container").css('display', 'none');
             if (($('.custom-external-link-show-container').hasClass('display-none')) == false) {
               $('.image-url-sec').css('display', 'table-cell');
               $('.desc-info').css('max-width', '100%');
@@ -1953,6 +2004,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $(".tasks-wrp").sortable();
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
+
+            $(".faqs-shadow").addClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+            $(".custom-matched-results-container").css('display', 'block');
+
+            $('.desc-info').css('max-width', '65%');
+
             // $('.faqs-bottom-actions').css('display', 'table');
           }
           else {
@@ -1960,6 +2018,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ($(".tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
               $(".tasks-wrp").sortable("disable");
             }
+
+            $(".custom-matched-results-container").css('display', 'none');
+            $('.desc-info').css('max-width', '100%');
+
             $('.faqs-bottom-actions').css('display', 'none');
           }
         }
@@ -2000,6 +2062,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var data = $(e.currentTarget).closest('.finalResults').data() || {};
         _self.vars.searchObject.liveData = data
         console.log(data);
+
+        $(".custom-insights-control-container").hide();
+
         _self.prepAllSearchData();
         _self.bindAllResultsView();
         _self.bindSearchActionEvents();
@@ -2052,6 +2117,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.prepAllSearchData(selectedFacet);
       })
 
+      $('.custom-add-new-result-container').off('click').on('click', function (event) {
+        console.log(event);
+      })
     }
     FindlySDK.prototype.bindFacetsToggle = function () {
       var _self = this;
@@ -2237,6 +2305,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       //_self.bindSearchActionEvents();
 
+
+      $('.custom-insights-control-container').off('click').on('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var randomObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+          //  _self.parentEvent(randomObject);
+        }
+        $('.custom-header-container-left').css('visibility', 'visible');
+        $('.custom-insights-control-container').hide();
+      })
+
+      $('.custom-header-container-left').off('click').on('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+          $('.custom-insights-control-container').show();
+          var randomObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+        }
+        else {
+          $('.custom-insights-control-container').hide();
+        }
+
+        $('.custom-header-container-left').css('visibility', 'hidden');
+      })
 
       // $('.pay-button').off('click').on('click')
       if (templateType === "search-container") {
@@ -2898,6 +2994,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
                 $(".image-url-sec").css('display', 'none');
                 $(".faqs-bottom-actions").css('display', 'table');
+
+                if($('.custom-header-container-left').css('visibility') == 'hidden') {
+                  debugger;
+                  $('.custom-insights-control-container').show();
+                }
               }
               else {
                 // $(searchData).find(".tasks-wrp").sortable("disable");
@@ -5839,8 +5940,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var _self = this;
       console.log(event);
-      
-      
 
       var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
       for (var i = 0; i < navLinks.length; i++) {
@@ -5851,8 +5950,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (koreWidgetSDKInstance.vars.showingMatchedResults == true) {
         if (tabName == 'customize') {
           koreWidgetSDKInstance.vars.customizeView = true;
-          randomObject.data.customizeView = true;
           // $(".faqs-bottom-actions").css('display', 'table');
+          $(".custom-insights-control-container").show();
           $(".tasks-wrp").sortable();
           $(".tasks-wrp").sortable("option", "disabled", false);
           $(".tasks-wrp").disableSelection();
@@ -5867,8 +5966,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else {
           koreWidgetSDKInstance.vars.customizeView = false;
-          randomObject.data.customizeView = false;
-
+          $(".custom-insights-control-container").hide();
           $(".faqs-shadow").removeClass('custom-faqs-shadow');
           $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
           $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
