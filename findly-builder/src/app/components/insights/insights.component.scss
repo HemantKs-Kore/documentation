@@ -342,3 +342,15 @@
         }
     }
 }
+
+
+.search-background-div{
+    width: 100%;
+    height: calc(100% - 20px);
+    background: #ffffff;
+    position: absolute;
+    top: 63px;
+    border: 0;
+    display: none;
+    z-index: 999;
+}
