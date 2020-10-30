@@ -370,6 +370,46 @@
                     </div>
                 </div>
             </div>
+            <div class="data-information-content col-12 m-0 row split-tables">
+                <div class="col-12 box-content">
+                    <div class="full-card">
+                        <div class="legends-info">
+                            <div class="content">
+                                <div class="title">Busy Hours<span class="toatlsearches"></span></div>
+                            </div>
+                        </div>
+                        <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-6 box-content">
+                        <div class="full-card">
+                            <div class="title-card">Most Used Devices</div>
+                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                        </div>
+                    </div>
+                    <div class="col-6 box-content">
+                        <div class="full-card">
+                            <div class="title-card">Most Used Browsers</div>
+                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-6 box-content">
+                        <div class="full-card">
+                            <div class="title-card">GEO</div>
+                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                        </div>
+                    </div>
+                    <div class="col-6 box-content">
+                        <div class="full-card">
+                            <div class="title-card">Sentiments</div>
+                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div *ngIf="slider === 2">
             <div class="data-information-content col-12 m-0 row split-tables">
