@@ -51,21 +51,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.jqueryManupulations(); //this.on=$(this).on;
       this.addPolyFils();
 
-      // this.parentEvent({ 'type': 'sdkLoaded', data: {} });
+       //this.parentEvent({ 'type': 'sdkLoaded', data: {} });
       // this.assignCallbacksToParent();
     }
 
     FindlySDK.prototype = Object.create($.prototype);
-
-    /*FindlySDK.prototype.parentEvent = function (event) {
+    
+    FindlySDK.prototype.parentEvent = function (event) {
       if (this.config && this.config.findlyBusinessConfig && this.config.findlyBusinessConfig.sdkBridge) {
         this.config.findlyBusinessConfig.sdkBridge(event);
       }
     }
-    FindlySDK.prototype.assignCallbacksToParent = function () {
-      this.config.findlyBusinessConfig.initVariables = this.initVariables();
-    }*/
-
+    // FindlySDK.prototype.assignCallbacksToParent = function () {
+    //   this.config.findlyBusinessConfig.applicationDataTransfer = this.applicationDataTransfer();
+    // }
+    FindlySDK.prototype.applicationDataTransfer = function(event){
+      console.log(event);
+    }
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
       if (!Array.from) {
