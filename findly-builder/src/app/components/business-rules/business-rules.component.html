@@ -1,20 +1,20 @@
 <div class="business-rules-wrapper">
     <div class="header-sec col-12 row m-0">
-        <div class="col-4 lef-sec p-0"><span class="title">Business Rules</span></div>
-        <div class="col-4 lef-sec p-0 d-none">
-            <div class="selected-count">
+        <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)"><span class="title">Business Rules</span></div>
+        <div class="col-4 lef-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
+            <div class="selected-count" *ngIf="!selcectionObj.selectAll">
                 <span class="outer-border">
                     <span class="inner-bg"></span>
                 </span>
-                2 Rules Selected
+                {{selcectionObj.selectedCount}} Rules Selected
             </div>
-            <div class="kr-sg-checkbox m-0">
+            <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" checked>
                 <label for="checkbox-1" class="checkbox-custom-label"></label>
                 <span class="allselected">All Rules Selected</span>
             </div>
         </div>
-        <div class="col-8 right-sec p-0">
+        <div class="col-8 right-sec p-0"  *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
             <div class="kr-sg-input-search m-0 d-none">                               
                 <input type="text" placeholder="Search" autocomplete="off" class="input-search" placeholder="Search">           
             </div> 
@@ -27,7 +27,7 @@
             </div>
             <div class="clock"><img src="assets/icons/clock.svg"></div>
         </div>
-        <div class="col-8 right-sec p-0 d-none">
+        <div class="col-8 right-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
             <button class="kr-sg-button-danger btn_lg">Delete</button>
         </div>
     </div>
@@ -35,8 +35,8 @@
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox">
                 <div class="kr-sg-checkbox p-0 m-0">
-                    <input id="selectAllFacets" class="checkbox-custom" type="checkbox">
-                    <label for="selectAllFacets" class="checkbox-custom-label"></label>
+                    <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
+                    <label for="selectAllRules" class="checkbox-custom-label"></label>
                 </div>
                 <div class="title"><img src="assets/icons/sort_up_down.svg" class="pr-1">NAME</div>
             </div>
@@ -45,130 +45,42 @@
             <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">STATUS</div>
         </div>
         <perfect-scrollbar class="scroll_table">                     
-            <div class="body_sec row m-0">
+            <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
                 <div class="col-3 content withcheckbox">                   
                     <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one" class="checkbox-custom" type="checkbox">
-                        <label for="one" class="checkbox-custom-label"></label>
+                        <input id="{{ruleObj._id}}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)">
+                        <label for="{{ruleObj._id}}" class="checkbox-custom-label"></label>
                     </div>
-                    <div class="title">Q1 Campaign Promotion for Credit Cards</div>
+                    <div class="title">{{ruleObj.ruleName}}</div>
                 </div>
                 <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
+                    <ng-container *ngFor="let rule of ruleObj.rules">
+                    <span class="tags-input mr-1 mb-1"><span class="small-text">{{rule.contextType}} :</span> {{rule.contextCategory}}</span>
+                    <span class="outer-name mr-1 mb-1">{{rule.operator}}</span>
+                    <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                    <span class="tags-input mr-1 mb-1" >{{value}}</span>
+                    <span class="divider mr-1 mb-1" *ngIf="valueIndex < (rule.value.length-1)">OR</span>
+                    </ng-container>
+                  </ng-container>
                 </div>
                 <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
+                    <ng-container *ngFor="let outcome of ruleObj.outcomes">
+                        <span class="tags-input mr-1 mb-1">{{outcome.scale}}x BoostResult</span>
+                        <span class="outer-name mr-1 mb-1">{{outcome.outcomeOperator}}</span>
+                        <span class="tags-input mr-1 mb-1">{{outcome.outcomeType}}: 
+                            <span *ngFor="let value of outcome.outcomeValue">{{value}}</span>
+                        </span>
+                    </ng-container>
                 </div>
                 <div class="col-3 content actions">
-                   <span class="active-status"><span class="indication"></span>Active</span>
+                   <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>Active</span>
+                   <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>In-Active</span>
                    <div class="actions-icons">
                        <img src="assets/images/edit-pencil.svg">
                        <img src="assets/icons/delete-table.svg">
                    </div>
                 </div>
             </div>   
-            <div class="body_sec row m-0 selected">
-                <div class="col-3 content withcheckbox">                   
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one2" class="checkbox-custom" type="checkbox" checked>
-                        <label for="one2" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title">Loan Products Eligibility</div>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
-                </div>
-                <div class="col-3 content actions">
-                   <span class="in-active-status"><span class="indication"></span>Inactive</span>
-                    <div class="actions-icons">
-                        <img src="assets/images/edit-pencil.svg">
-                        <img src="assets/icons/delete-table.svg">
-                    </div>
-                </div>
-            </div> 
-            <div class="body_sec row m-0 selected">
-                <div class="col-3 content withcheckbox">                   
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one3" class="checkbox-custom" type="checkbox" checked>
-                        <label for="one3" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title">Personalization for Savings Products</div>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
-                </div>
-                <div class="col-3 content actions">
-                   <span class="active-status"><span class="indication"></span>Active</span>
-                   <div class="actions-icons">
-                    <img src="assets/images/edit-pencil.svg">
-                    <img src="assets/icons/delete-table.svg">
-                    </div>
-                </div>
-            </div>    
-            <div class="body_sec row m-0">
-                <div class="col-3 content withcheckbox">                   
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one" class="checkbox-custom" type="checkbox">
-                        <label for="one" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title">Q1 Campaign Promotion for Credit Cards</div>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
-                </div>
-                <div class="col-3 content actions">
-                   <span class="active-status"><span class="indication"></span>Active</span>
-                   <div class="actions-icons">
-                    <img src="assets/images/edit-pencil.svg">
-                    <img src="assets/icons/delete-table.svg">
-                    </div>
-                </div>
-            </div> 
         </perfect-scrollbar>
     </div>
 </div>
