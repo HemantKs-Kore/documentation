@@ -33,16 +33,16 @@
   width: calc(70% - 245px);
 } */
 .faqs-bottom-actions {   
-    display: table !important;
+    display: table;
 }
 .search-container.conversation .search-body .faqs-bottom-actions{
-    display: none !important;
+    display: none;
 }
 .search-container.conversation.advanced-mode .faqs-bottom-actions{
-    display: none !important;
+    display: none;
 }
 .search-container.conversation.full-page .faqs-bottom-actions{
-    display: none !important;
+    display: none;
 }
 .search-background-div{
     width: 100%;

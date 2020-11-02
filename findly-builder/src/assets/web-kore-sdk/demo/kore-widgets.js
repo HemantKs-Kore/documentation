@@ -8,7 +8,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   //} else if (typeof module !== 'undefined') {      // CommonJS
   //    module.exports = factory();
   //} else {                                         // browser globals
-  window.KoreWidgetSDK = factory(); //}
+  window.FindlySDK = factory(); //}
 })(function () {
   var koreJquery;
 
@@ -21,11 +21,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   var korejstz;
-  if (window.jstz) {
-    korejstz = window.jstz;
-  } else {
-    korejstz = requireKr(2).jstz;
-  }
+  // if (window.jstz) {
+  //   korejstz = window.jstz;
+  // } else {
+  //   korejstz = requireKr(2).jstz;
+  // }
 
   var KRPerfectScrollbar;
   if (window.PerfectScrollbar && typeof PerfectScrollbar === 'function') {
@@ -36,24 +36,37 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     //get dependencies as arguments here 
 
     /**
-    * @param  {Object} KoreWidgetSDK Config
+    * @param  {Object} FindlySDK Config
     */
-    function KoreWidgetSDK(config) {
-      // this.config=config;
+    function FindlySDK(config) {
+      this.config = config;
       // this.config.container=this.config.container || "body";
       // if(typeof this.config.container==="string"){
       //     this.config.container=$(this.config.container);
       // }
       // this.bot = requireKr('/KoreBot.js').instance();
       // //this.config.botOptions.
-      this.init(config);
+      // this.init(config);
       this.initVariables();
       this.jqueryManupulations(); //this.on=$(this).on;
       this.addPolyFils();
+
+      // this.parentEvent({ 'type': 'sdkLoaded', data: {} });
+      // this.assignCallbacksToParent();
     }
 
-    KoreWidgetSDK.prototype = Object.create($.prototype);
-    KoreWidgetSDK.prototype.addPolyFils = function () {
+    FindlySDK.prototype = Object.create($.prototype);
+
+    /*FindlySDK.prototype.parentEvent = function (event) {
+      if (this.config && this.config.findlyBusinessConfig && this.config.findlyBusinessConfig.sdkBridge) {
+        this.config.findlyBusinessConfig.sdkBridge(event);
+      }
+    }
+    FindlySDK.prototype.assignCallbacksToParent = function () {
+      this.config.findlyBusinessConfig.initVariables = this.initVariables();
+    }*/
+
+    FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
       if (!Array.from) {
         Array.from = (function () {
@@ -132,8 +145,57 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           };
         }());
       }
+      String.prototype.isNotAllowedHTMLTags = function () {
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = this;
+
+        var setFlags = {
+          isValid: true,
+          key: ''
+        };
+        try {
+          if ($(wrapper).find('script').length || $(wrapper).find('video').length || $(wrapper).find('audio').length) {
+            setFlags.isValid = false;
+          }
+          if ($(wrapper).find('link').length && $(wrapper).find('link').attr('href').indexOf('script') !== -1) {
+            if (detectScriptTag.test($(wrapper).find('link').attr('href'))) {
+              setFlags.isValid = false;
+            } else {
+              setFlags.isValid = true;
+            }
+          }
+          if ($(wrapper).find('a').length && $(wrapper).find('a').attr('href').indexOf('script') !== -1) {
+            if (detectScriptTag.test($(wrapper).find('a').attr('href'))) {
+              setFlags.isValid = false;
+            } else {
+              setFlags.isValid = true;
+            }
+          }
+          if ($(wrapper).find('img').length && $(wrapper).find('img').attr('src').indexOf('script') !== -1) {
+            if (detectScriptTag.test($(wrapper).find('img').attr('href'))) {
+              setFlags.isValid = false;
+            } else {
+              setFlags.isValid = true;
+            }
+          }
+          if ($(wrapper).find('object').length) {
+            setFlags.isValid = false;
+          }
+
+          return setFlags;
+        }
+        catch (e) {
+          return setFlags;
+        }
+      };
+
+
+      String.prototype.replaceAll = function (search, replacement) {
+        var target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+      };
     };
-    KoreWidgetSDK.prototype.jqueryManupulations = function () {
+    FindlySDK.prototype.jqueryManupulations = function () {
       var _self = this; // $.fn.extend({
       //   tmplProxy: function(a,b,c){
       //     return this.tmpl(a,b,c);
@@ -146,11 +208,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
     };
 
-    KoreWidgetSDK.prototype.initVariables = function () {
+    FindlySDK.prototype.initVariables = function () {
       this.vars = {}; //use this vars to store any local data variable for sdk developers. Will be avaiable as "koreWidgetSDKInstance.vars"
 
       var vars = this.vars;
-      vars.timezone = jstz.determine();
+      vars.timezone //= jstz.determine();
       vars.latitude = '';
       vars.longitude = '';
       //config = {};
@@ -159,23 +221,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.searchObject = {
         //recents:[]
       };
-      vars.selectedFiltersArr = [];
-      vars.filterObject = [];
-      vars.searchFacetFilters = [];
-
+      vars.customizeView = false;
       vars.showingMatchedResults = false;
-
     }; //********************original widget.js start */
 
 
-    KoreWidgetSDK.prototype.show = function (dataConfig, sel) {
+    FindlySDK.prototype.show = function (dataConfig, sel) {
       var _self = this;
       var initialWidgetData = _self.vars.initialWidgetData;
       _self.config.container = sel || {}; //#TODO :need to remove below line on prod
 
       window.koreWidgetSDKInstance = _self;
 
-      var currentTimezone = _self.vars.timezone.name();
+      //var currentTimezone = _self.vars.timezone.name();
 
       var latitude = _self.vars.latitude;
       var longitude = _self.vars.longitude;
@@ -236,15 +294,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    KoreWidgetSDK.prototype.setAPIDetails = function () {
+    FindlySDK.prototype.setAPIDetails = function () {
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      var pipelineId = ''
+      var pipelineId = '';
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
+        // SearchIndexID = window.selectedFindlyApp._id
         SearchIndexID = window.selectedFindlyApp._id;
         pipelineId = window.selectedFindlyApp.pipelineId;
       }
-      var baseAPIServer = 'https://app.findly.ai';
+      /*var baseUrl = "https://app.findly.ai/searchAssistant";
+      var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
+
+      // var baseAPIServer = 'https://app.findly.ai';
+      var baseAPIServer = 'https://dev.findly.ai';
       if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
       }
@@ -254,9 +317,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
-        metricsUrl: baseAPIServer + "/api/1.1/findlymetrics/logs",
+        // popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         popularSearchesUrl: baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
+        // queryConfig: businessTooBaseURL + SearchIndexID +"/search/queryConfig",
         queryConfig: businessTooBaseURL + SearchIndexID + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
@@ -286,7 +350,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.maintainCache = function () {
+    FindlySDK.prototype.maintainCache = function () {
       var _self = this;
       var initialWidgetData = _self.vars.initialWidgetData;
       var cacheData = _self.vars.cacheData;
@@ -340,7 +404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //return compObj[0].componentBody;
 
     }
-    KoreWidgetSDK.prototype.checkMarkdowns = function (val, hyperLinksMap) {
+    FindlySDK.prototype.checkMarkdowns = function (val, hyperLinksMap) {
       if (val === '') {
         return val;
       }
@@ -503,7 +567,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       val = txtArr.join('');
       return val;
     }
-    KoreWidgetSDK.prototype.convertMDtoHTML = function (val, responseType, msgItem) {
+
+    FindlySDK.prototype.convertMDtoHTML = function (val, responseType, msgItem) {
       var hyperLinksMap = {};
       if (msgItem && msgItem.cInfo && msgItem.cInfo.ignoreCheckMark) {
         var ignoreCheckMark = msgItem.cInfo.ignoreCheckMark;
@@ -650,8 +715,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return str;
       }
       var nextln = regEx.NEWLINE;
-      KoreWidgetSDK.prototype.nl2br = function (str, runEmojiCheck) {
-        if (runEmojiCheck) {
+      FindlySDK.prototype.nl2br = function (str, runEmojiCheck) {
+        if (runEmojiCheck && window.emojione && window.emojione.shortnameToImage) {
           str = window.emojione.shortnameToImage(str);
         }
         str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -743,7 +808,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       return this.nl2br(str, true);
     };
-    KoreWidgetSDK.prototype.modifyJSON = function (count) {
+    FindlySDK.prototype.modifyJSON = function (count) {
       var _self = this;
       var initialWidgetData = _self.vars.initialWidgetData;
       var cacheData = _self.vars.cacheData;
@@ -759,14 +824,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }; //********************original widget.js end */
     //********************original widgetTemplate.js start */
 
-    KoreWidgetSDK.prototype.getSearchTemplate = function (type) {
+    FindlySDK.prototype.getSearchTemplate = function (type) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
         <div class="search-container conversation">\
+          <div class="custom-insights-control-container">\
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
+          </div>\
           <div id="searchBox" >\
-            <div class="heading">\
+            <div class="heading display-none">\
               <div class="logo-sec-title">\
-            <img class="show-in-findly logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAW0SURBVHgBrVY7bxxVFD73MbOzu36skzgRDVoLISUFitPQQkoqNl3KICQKGuAXJP4FpESisJEQosNUlCy/gICQCAXyFkgkIDvr7HrncV9858zaROSBkJjR1c7MnTnf+b7znXtX0b8cBx8+GmgXb0VqrpJS22RoYIymGOIkEU1Dnb42ROOtT16avCiOet7Ezzd/HxpFu42fvxlcRREnpUhJedLaku11qeivkjEZ+QVmXdqLgXaufPlswGcC3R89+MAFd7epKgqxIc9A/Bs9qZQoUcBQZHRO1ha0fmmTut0uuYWjPLN3tr7Y3Hkh0MHoYBBpdfdkVo6cc9RglG5GIdSQqkZ4MGJmpHEqKGlJKw3Agnpgd+Glc6SjBnPa18G8s7W/MT2NbZ8EMn6wW5XlqJo1VNYlNdFRHUqw8eRTQyHFNjsFkAQwpGl0B79Iqn5MzczRhQvnqNfrjpROA7x6/SlGv7z+8Ha2Zu8cHR3TvCmpChXVkKuJbX1YQmaTkqIkwikAWMoUAylGx3VOPdOh86sDWl3pU57buy9/s/HRGdD3lw+GxVr3IKRAhydTKhG8Dg1VqUbgBDYQDYNP3AoQCRTAYEOrNUDs8l7RuXydNjrrtLayQtqa61vjjbFIZ6zdtdHQ4WIKJg6jJpc82LTBA+L6xBYgAEaplBdTtMw6KaOeSlTAHE1yNId5MpyFKqhj9W18NlbMJs86Bx5h/qyPqEQtHrNsAHIylozYawLCVgCgZA8xMZ/B7myPFZ2JYdZ1ly5ma3TerlMBKXOdX7PaZCOmP/czSBXomBmBQRMTsiP50KVWrIDgHmD61ElsCrgOpm8lZbMkfk4Si991UAXtPbIdnb/dgMUMDpvi4RwvLiLWAbzEUnHx+VW/dJzHPcvn5Wlr88IouXIxSu005h8j1iUkwiqkFN6wVunhoWeQREcYFV4QIPySvAg20N/jmV5+6ERC5tdWqQqoE+asMq2VIxfV0TBPhByY5NAih+EfCPooMAuFGhmqkO8iJXGaGDO1NYkxSmCWkpRuq4Rrh0Qa9FpHG5FVpTYhLgFDd0kNrcPDYwSYYaLERzw5B3BFrd7sNa5Da2sGYatzVyQwlIfiymbpSGYVpTYksbipV7meRtnpSUyDCh/XCBQQFK+L4+Kpt1KShgtLi6fTrCX/tOyoJPVywp5kaSo5CdwMjJraQptJrrPt2pcinZcAFuIZsTSJoxK13QP5lsFp2bIkdeElqTUPioOaGupilZhhmbL4di3Gexbl/G5gettJleI0z82ILmdmtWisBCBRuyIwHCun0pIJKyDXWlLQkmCO5x0wklQ4zg+68rSfIYMCKzB2GsjX9gUho4CPGMxh3glLK2zF7qq9r5OW7yQ5BlEZ9qsCbuvA4knkc1Ht6ys/rY7XTGesEZhfCFg6OChnFakjQaRRkXkAIEvqBRR9w614ep94Hous7sMQBVhndAiToSyTt+5vjqXJN222s6KZbg4mWEbOBkvITDMxCCeRZJlBYIA23ENSFdQOSeZ6RQbHmQHEyeaoZRMUoNfudceX8/7YChAkw2iWMjmuFT5okDlL6NFnYSklJxORTAKIxvqmVA/PDS0Qs+RtQxd7792/uHcGxMelrH/jWmdj0jfdVj7FIJmwaXDNmZ/ALHOYYQHdK7aygPUwupCqkPouMF8DLFe9SRHynac2Pj6+ulwOHxJ9+2MzH07CHEVsELSW36XRKZ7uRKrdfTTYWcWbAvyG6x5M0Edd8pSu703+/qPy1J+TOwDTSX38m29GD7CNzwUI2wVOn/xZeypZgqjd+hQzyGAfTX1lxvDajf3J1vTJuM/9u/X+q/Nbx0HdnpIfltyMGA3AgmyG0k2yEvAKwADndT65qMPOp7+2Nfnn8Vyg0+PdV05GD2IawRBXsZFvu+WqAP+BRZp0yYxXYvrs88nqmP7P49awHN7EoP94/AUUr0KuNdomKAAAAABJRU5ErkJggg==">\
-              <img class="search-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAARCAYAAABq+XSZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANmSURBVHgB3VddUuJAEO6J2XduYFzZZ/UExBOIJzCcADiBegL1BngC8QTGE8g+q+V4AtlnIr1fz0zCJEuALaG07CqG+e3p7vn6J0QrUhT92qdvRiqKmmf1y6y1fh5EP5sXxNTDRKpfng7pgxRFu21cLcYca/10GYGIwsSuZgNcqmmDFO0070jRKERzWruLVYp2QFNukFIY05jWQ23cewIDaPQvoXhUyMFhilbTJompQcwq9KZSTN5Xdmlp8fodIOQarzKib0BA24H8z5SH4pg8m7cZ/p5QQC2ahgJVwLQZU6BOzOJ00qcg7KKHNTXG+LwKW7jNqV2X/VmfllCVP9iNnRz7kKPr5s/r3KM4zyyIgkwKex9HJXmm/BrSSjSN4QIiTEoGpioC48SubYnhXJ+xFCYQ8iC/DBfdYLpdsFJhjHYJgjIN+CeOv6Bx4OToQo7ExiLdmXfSKMZ0BuWGGN47AzzAIId43NSJCeMEeqa84hMEglaJE6u+b7G5pBC4mI+NQRRdOCETND0T2HLFma+wRwSKF8YZElhqDVlSszcIWoXyCmPzH6S1h6f0B21fAmk+BV7bIg/ZxyvIe3kIj31lTgh0y4hVBxeN3CWCDoH/nluN3T+i+nPP9VNn5HgxX7o1yjKL8To2IxgZoSBf1x3zlTYyyTmBvgS5Cnk+LwzVoLy8PMAplb15w2o2aDhFynyYf+NgTAspG0A8QVLD1Rj7xq1s+k3rTrm02QWSJZ02jAw2S/2ji//yuvCJdZNSUWVie9kRCXIF9InFVY7MgiBi4V1bdySPwME50SQ1fQoFda3q1oA2SspZmyMTgSmHIa9WLeaKWsVjO/l+WbfdIkRF1hUfTbHkMsXevP0bVl6g61xB0Y2J/Cp8cHD8n/Oxmxj56U0MKdUaDOviycSuBXw027MrBVV7HveNKm+sztxxxVLDRH7xf+bblc/7vmoyhk8/xIgxfkez+6gvqQ5GeZOfyUCqGssshcTZjusvKF3feyZ3FjQZYpxK70Xr15lw2TFROaoiOEl6G1rYq7GkTrxXw+cnsUbecK4cedS3cqRl3obXjn/GfSsMTcls7nuy9/lyiZxSktAXJffx04KECVnUpFDkwx9VPq1Y4X0GoaIsfFXc5r1Da6YvrDxdIWrfOsVHeX2/TvoL5IWKplAqwt0AAAAASUVORK5CYII=">\
+                <img class="show-in-findly logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAW0SURBVHgBrVY7bxxVFD73MbOzu36skzgRDVoLISUFitPQQkoqNl3KICQKGuAXJP4FpESisJEQosNUlCy/gICQCAXyFkgkIDvr7HrncV9858zaROSBkJjR1c7MnTnf+b7znXtX0b8cBx8+GmgXb0VqrpJS22RoYIymGOIkEU1Dnb42ROOtT16avCiOet7Ezzd/HxpFu42fvxlcRREnpUhJedLaku11qeivkjEZ+QVmXdqLgXaufPlswGcC3R89+MAFd7epKgqxIc9A/Bs9qZQoUcBQZHRO1ha0fmmTut0uuYWjPLN3tr7Y3Hkh0MHoYBBpdfdkVo6cc9RglG5GIdSQqkZ4MGJmpHEqKGlJKw3Agnpgd+Glc6SjBnPa18G8s7W/MT2NbZ8EMn6wW5XlqJo1VNYlNdFRHUqw8eRTQyHFNjsFkAQwpGl0B79Iqn5MzczRhQvnqNfrjpROA7x6/SlGv7z+8Ha2Zu8cHR3TvCmpChXVkKuJbX1YQmaTkqIkwikAWMoUAylGx3VOPdOh86sDWl3pU57buy9/s/HRGdD3lw+GxVr3IKRAhydTKhG8Dg1VqUbgBDYQDYNP3AoQCRTAYEOrNUDs8l7RuXydNjrrtLayQtqa61vjjbFIZ6zdtdHQ4WIKJg6jJpc82LTBA+L6xBYgAEaplBdTtMw6KaOeSlTAHE1yNId5MpyFKqhj9W18NlbMJs86Bx5h/qyPqEQtHrNsAHIylozYawLCVgCgZA8xMZ/B7myPFZ2JYdZ1ly5ma3TerlMBKXOdX7PaZCOmP/czSBXomBmBQRMTsiP50KVWrIDgHmD61ElsCrgOpm8lZbMkfk4Si991UAXtPbIdnb/dgMUMDpvi4RwvLiLWAbzEUnHx+VW/dJzHPcvn5Wlr88IouXIxSu005h8j1iUkwiqkFN6wVunhoWeQREcYFV4QIPySvAg20N/jmV5+6ERC5tdWqQqoE+asMq2VIxfV0TBPhByY5NAih+EfCPooMAuFGhmqkO8iJXGaGDO1NYkxSmCWkpRuq4Rrh0Qa9FpHG5FVpTYhLgFDd0kNrcPDYwSYYaLERzw5B3BFrd7sNa5Da2sGYatzVyQwlIfiymbpSGYVpTYksbipV7meRtnpSUyDCh/XCBQQFK+L4+Kpt1KShgtLi6fTrCX/tOyoJPVywp5kaSo5CdwMjJraQptJrrPt2pcinZcAFuIZsTSJoxK13QP5lsFp2bIkdeElqTUPioOaGupilZhhmbL4di3Gexbl/G5gettJleI0z82ILmdmtWisBCBRuyIwHCun0pIJKyDXWlLQkmCO5x0wklQ4zg+68rSfIYMCKzB2GsjX9gUho4CPGMxh3glLK2zF7qq9r5OW7yQ5BlEZ9qsCbuvA4knkc1Ht6ys/rY7XTGesEZhfCFg6OChnFakjQaRRkXkAIEvqBRR9w614ep94Hous7sMQBVhndAiToSyTt+5vjqXJN222s6KZbg4mWEbOBkvITDMxCCeRZJlBYIA23ENSFdQOSeZ6RQbHmQHEyeaoZRMUoNfudceX8/7YChAkw2iWMjmuFT5okDlL6NFnYSklJxORTAKIxvqmVA/PDS0Qs+RtQxd7792/uHcGxMelrH/jWmdj0jfdVj7FIJmwaXDNmZ/ALHOYYQHdK7aygPUwupCqkPouMF8DLFe9SRHynac2Pj6+ulwOHxJ9+2MzH07CHEVsELSW36XRKZ7uRKrdfTTYWcWbAvyG6x5M0Edd8pSu703+/qPy1J+TOwDTSX38m29GD7CNzwUI2wVOn/xZeypZgqjd+hQzyGAfTX1lxvDajf3J1vTJuM/9u/X+q/Nbx0HdnpIfltyMGA3AgmyG0k2yEvAKwADndT65qMPOp7+2Nfnn8Vyg0+PdV05GD2IawRBXsZFvu+WqAP+BRZp0yYxXYvrs88nqmP7P49awHN7EoP94/AUUr0KuNdomKAAAAABJRU5ErkJggg==">\
+                <img class="search-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAARCAYAAABq+XSZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANmSURBVHgB3VddUuJAEO6J2XduYFzZZ/UExBOIJzCcADiBegL1BngC8QTGE8g+q+V4AtlnIr1fz0zCJEuALaG07CqG+e3p7vn6J0QrUhT92qdvRiqKmmf1y6y1fh5EP5sXxNTDRKpfng7pgxRFu21cLcYca/10GYGIwsSuZgNcqmmDFO0070jRKERzWruLVYp2QFNukFIY05jWQ23cewIDaPQvoXhUyMFhilbTJompQcwq9KZSTN5Xdmlp8fodIOQarzKib0BA24H8z5SH4pg8m7cZ/p5QQC2ahgJVwLQZU6BOzOJ00qcg7KKHNTXG+LwKW7jNqV2X/VmfllCVP9iNnRz7kKPr5s/r3KM4zyyIgkwKex9HJXmm/BrSSjSN4QIiTEoGpioC48SubYnhXJ+xFCYQ8iC/DBfdYLpdsFJhjHYJgjIN+CeOv6Bx4OToQo7ExiLdmXfSKMZ0BuWGGN47AzzAIId43NSJCeMEeqa84hMEglaJE6u+b7G5pBC4mI+NQRRdOCETND0T2HLFma+wRwSKF8YZElhqDVlSszcIWoXyCmPzH6S1h6f0B21fAmk+BV7bIg/ZxyvIe3kIj31lTgh0y4hVBxeN3CWCDoH/nluN3T+i+nPP9VNn5HgxX7o1yjKL8To2IxgZoSBf1x3zlTYyyTmBvgS5Cnk+LwzVoLy8PMAplb15w2o2aDhFynyYf+NgTAspG0A8QVLD1Rj7xq1s+k3rTrm02QWSJZ02jAw2S/2ji//yuvCJdZNSUWVie9kRCXIF9InFVY7MgiBi4V1bdySPwME50SQ1fQoFda3q1oA2SspZmyMTgSmHIa9WLeaKWsVjO/l+WbfdIkRF1hUfTbHkMsXevP0bVl6g61xB0Y2J/Cp8cHD8n/Oxmxj56U0MKdUaDOviycSuBXw027MrBVV7HveNKm+sztxxxVLDRH7xf+bblc/7vmoyhk8/xIgxfkez+6gvqQ5GeZOfyUCqGssshcTZjusvKF3feyZ3FjQZYpxK70Xr15lw2TFROaoiOEl6G1rYq7GkTrxXw+cnsUbecK4cedS3cqRl3obXjn/GfSsMTcls7nuy9/lyiZxSktAXJffx04KECVnUpFDkwx9VPq1Y4X0GoaIsfFXc5r1Da6YvrDxdIWrfOsVHeX2/TvoL5IWKplAqwt0AAAAASUVORK5CYII=">\
                 <span class="head">Kore Search Assistant</span>\
               </div>\
               <div class="right-side-icons">\
@@ -777,12 +845,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
+            </div>\
+            <div class="custom-header">\
+              <div class="custom-header-container-left">\
+                <img class="custom-chevron-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABgSURBVHgBvY5JDYBAEASLQwASkIAEUAIScABOwAkaUAAOsEBvwv525sFjO6nHpCuZroBNNOLESCceMeIkSkseqRVXlOqEcItBHOEo8VNg7AgvVpyR/8s5VfZfOWFk98oXwWkULEZAstIAAAAASUVORK5CYII=">\
+                &nbsp;<span class="custom-header-text">HIDE INSIGHTS</span>\
               </div>\
+              <div class="custom-header-container-center">\
+                <ul class="custom-header-nav">\
+                  <li class="custom-header-nav-link-item nav-link-item-active" onclick="openTab(event, \'preview\')"><a class="custom-header-nav-link">Preview</a></li>\
+                  <li class="custom-header-nav-link-item" onclick="openTab(event, \'customize\')"><a class="custom-header-nav-link">Customize</a></li>\
+                </ul>\
+              </div>\
+              <div class="custom-header-container-right">\
+                <img class="custom-refresh-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBxZLBDYAgDEW/TsIobgabOIJxAnQC3ahWJbFok/YkL3kXKJ8GCjwENrNkuJXai14ETOzKdoYzO0KB4Ie0Dn4hoX6PJDcH+Eja4VgWoy+jviy+2vKGfGjzCzJgga/9s2bXNgLuMbVGOUOM8gGN7ylbkPg3iwAAAABJRU5ErkJggg==">\
+                <img class="custom-expand-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABVSURBVHgBvZLLDQAhCEQfHdHZ2vGWwm6MGiVq1IOTcOAzZPgIYLQQ5/t8DLy/KWNoqrFM0AmpzhUCA5KPWa9bqPzAXOoFeEkPHUnbQx+tdflwwuZrfGu+IKjlYgIIAAAAAElFTkSuQmCC">\
+              </div>\
+            </div>\
               <div class="contest_variables_dropdown hide">\
               <div class="actions-link">Context</div>\
               </div>\
             <div id="searchChatContainer"></div>\
-              <div class="search-body">\
+              <div class="search-body ps">\
             </div>\
           </div>\
           <div class="search-modal-body hide">\
@@ -854,8 +938,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp test {{if faq.config.visible==false}}hidden-styling{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                <span class="hidden-styling-text {{if faq.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
+                <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="indicator-div"></div>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
@@ -868,17 +952,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </div>\
                   </div>\
                 </div>\
-                <div class="faqs-bottom-actions">\
-                    <span class="appearences">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                    <span class="appearences-count">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                <div class="custom-live-search-matched-results-actions">\
+                  <span class="custom-actions">\
+                    <span class="img-action  dont-show visibility">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                      <span class="custom-actions-content">HIDE</span>\
                     </span>\
-                    <span class="actions">\
-                    <span class="action-info"></span>\
+                    <span class="img-action pin pinning">\
+                      <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                      <span class="custom-actions-content">PIN</span>\
+                    </span>\
+                    <span class="img-action boostup boosting">\
+                      <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                      <span class="custom-actions-content">BOOST</span>\
+                    </span>\
+                    <span class="img-action boostdown burying">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                      <span class="custom-actions-content">BURY</span>\
+                    </span>\
+                  </span>\
+                </div>\
+                <div class="faqs-bottom-actions background-white">\
+                    <span class="appearences">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                    <span class="custom-appearences-content">${faq.feedback.appearance} VIEWS</span>&nbsp;\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                    <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
+                    <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                    <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                    </span>\
+                    <span class="actions display-none">\
                     <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
-                    <span class="img-action pin {{if faq.config.pinIndex>-1}}pinned-styling{{/if}}">\
+                    <span class="img-action pin">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                     </span>\
@@ -901,9 +1010,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp {{if page.config.visible==false}}hidden-styling{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
-              <span class="hidden-styling-text {{if page.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
-                 <a class="faqs-wrp-content" href="${page.url}" target="_blank" id=${key}>\
+              <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <div class="indicator-div"></div>\
+                <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
                  </div>\
@@ -913,17 +1022,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  </div>\
                  <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
-                 <div class="faqs-bottom-actions">\
+                 <div class="custom-live-search-matched-results-actions">\
+                    <span class="custom-actions">\
+                      <span class="img-action  dont-show visibility">\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                        <span class="custom-actions-content">HIDE</span>\
+                      </span>\
+                      <span class="img-action pin pinning">\
+                        <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                        <span class="custom-actions-content">PIN</span>\
+                      </span>\
+                      <span class="img-action boostup boosting">\
+                        <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                        <span class="custom-actions-content">BOOST</span>\
+                      </span>\
+                      <span class="img-action boostdown burying">\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                        <span class="custom-actions-content">BURY</span>\
+                      </span>\
+                    </span>\
+                  </div>\
+                 <div class="faqs-bottom-actions background-white">\
                  <span class="appearences">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                 <span class="appearences-count">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                 <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>&nbsp;\
+                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                 <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
+                 <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                 <span class="appearences-count display-none">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
                  </span>\
-                 <span class="actions">\
-                 <span class="action-info"></span>\
+                 <span class="actions display-none">\
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
-                 <span class="img-action pin {{if page.config.pinIndex>-1}}pinned-styling{{/if}}">\
+                 <span class="img-action pin">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                  </span>\
@@ -952,13 +1086,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
                                 ${task.taskName}\
                             </button>\
-                            <div class="faqs-bottom-actions">\
+                            <div class="faqs-bottom-actions background-white">\
                               <span class="appearences">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                              <span class="appearences-count">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                              <span class="custom-appearences-content">${task.feedback.appearance} VIEWS</span>&nbsp;\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                              <span class="custom-appearences-content>${task.feedback.click} CLICKS</span>\
+                              <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                              <span class="appearences-count display-none">${task.feedback.appearance} Appearances - ${task.feedback.click} Clicks</span>\
                               </span>\
-                              <span class="actions">\
-                              <span class="img-action  dont-show one">\
+                              <span class="actions display-none">\
+                              <span class="img-action  dont-show">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                               </span>\
                               <span class="img-action pin">\
@@ -985,21 +1123,46 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       </script>';
       var searchFullData = '<script type="text/x-jqury-tmpl">\
-      <div id="loaderDIV" class="loader-container">Loading...</div>\
       <div class="ksa-results-tabesHeader">\
-      <div class="title-backbutton">\
-      <div class="title">Search results</div>\
-      <div class=""><button class="full-search-close">Close</button>\
-      </div>\
-      </div>\
-        <ul class="nav nav-tabs">\
-          <li class="tabTitle">\
-            {{each(key, facet) facets}}\
+        <div class="title-backbutton display-none">\
+          <div class="title">Search results</div>\
+          <div class=""><button class="full-search-close">Close</button>\
+          </div>\
+        </div>\
+        <div class="custom-full-page-view-header-container">\
+          <div class="custom-full-page-view-header-container-left">\
+            <img class="custom-chevron-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAANCAYAAACUwi84AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgBpZDdCQAgCIRtE0doo9zMURqlEVohA3vzB+ng8OE7DrwGvrqYIrj0mnBnkCyIWluHV1PMEAi1YXyH3hdpyB2pHOIDPWEQQp4izIEAAAAASUVORK5CYII=">\
+          </div>\
+          <div class="custom-full-page-view-header-container-center-primary">\
+            <div class="custom-search-input>\
+              <input id="customSuggestionInput" class="custom-search" name="search" disabled="disabled">\
+              <input id="customSearchInput" class="custom-search" name="search" value="${search}" autocomplete="off">\
+              <button class="search-button">Go</button>\
+            </div>\
+          </div>\
+          <div class="custom-full-page-view-header-container-center-secondary">\
+            <label class="custom-switch">\
+            <input id="viewTypeCheckbox" type="checkbox">\
+            <span class="custom-slider custom-slider-round"></span>\
+            </label>&nbsp;\
+            <span class="custom-view-type-content">${viewType}</span>\
+          </div>\
+        </div>\
+        <div class="custom-nav-panel-container">\
+          <ul class="nav nav-tabs custom-nav-panel">\
+            <li class="tabTitle">\
+              {{each(key, facet) facets}}\
                 <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
+                    <span class="resultCount">(${facet.value})</span>\
                 </a>\
-            {{/each}}\
-          </li>\
-        </ul>\
+              {{/each}}\
+            </li>\
+          </ul>\
+          <button class="custom-button-filter-results">\
+            <img class="custom-icon-filter" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACYSURBVHgBvY+7EcIwDIalHIXdZQNWYAUmYAa3bggbJBOYxq/KMzBBVmEESlc2EkdBERJX+e9s6f779ELvfYUWtYDMdBSfzrnhHxRCuDJzoO+MiDPBRynlpJR6MZBS6nPOhtLTh2HTGNMLIUZKL2x+m830HuxzMf6OiTEOpRTuArXWm9b6DmuLLx3YQaN2AumgCbZkrR2X/DcSfTcxPB10vwAAAABJRU5ErkJggg==">\
+            &nbsp;Filter\
+          </button\
+        </div>\
       </div>\
       <div class="ksa-resultsContainer">\
         <div class="resultsLeft">\
@@ -1023,49 +1186,85 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </div>\
                 {{/if}}\
                 {{if pages.length && (selectedFacet === "page" || selectedFacet === "all results")}}\
-              <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
-              <div class="relatedPagesTitle">MATCHED PAGES</div>\
-              <div class="tasks-wrp">\
-              {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-              <div class="faqs-shadow task-wrp" contentId="${page.contentId}" contentType="${page.contentType}" visible="${page.config.visible}">\
-                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
-                 <div class="image-url-sec">\
-                     <img src="${page.imageUrl}"></img>\
-                 </div>\
-                 <div class="pages-content">\
-                   <div class="title" title="${page.title}">${page.title}</div>\
-                   <div class="desc-info">${page.searchResultPreview}</div>\
-                 </div>\
-                 <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\<img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
-                 </a>\
-                 <div class="faqs-bottom-actions">\
-                 <span class="appearences">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                 <span class="appearences-count">155 Appearances - 138 Clicks</span>\
-                 </span>\
-                 <span class="actions">\
-                 <span class="img-action  dont-show two">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
-                 </span>\
-                 <span class="img-action pin">\
-                 <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                 </span>\
-                 <span class="img-action boostup">\
-                 <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
-                 </span>\
-                 <span class="img-action boostdown">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
-                 </span>\
-                 </span>\
-             </div>\
-              </div>\
-              {{/each}}\
-              </div>\
-              {{if selectedFacet !== "page" && pages.length>5}}\
-                <div class="ksa-showMore">Show More</div>\
-              {{/if}}\
+                <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
+                  <div class="relatedPagesTitle">MATCHED PAGES</div>\
+                  <div class="pages-wrp">\
+                    {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
+                    <div class="faqs-shadow">\
+                      <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
+                        <div class="image-url-sec">\
+                          <img src="${page.imageUrl}"></img>\
+                        </div>\
+                        <div class="pages-content">\
+                          <div class="title" title="${page.title}">${page.title}\
+                          <span class="custom-external-link-show-container display-none">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
+                          </span>\
+                          </div>\
+                          <div class="desc-info">${page.searchResultPreview}</div>\
+                          <div class="custom-matched-results-container">\
+                            <div class="custom-matched-results-page-icon">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
+                            </div>\
+                            <div class="custom-matched-results-page-summary">\
+                              <span class="custom-matched-results-page-summary-content">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                                <span>VIEWS</span>\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                                <span>CLICKS</span>\
+                              </span>\
+                            </div>\
+                          </div>\
+                          <div class="custom-full-search-matched-results-actions">\
+                            <span class="custom-actions">\
+                              <span class="img-action dont-show">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                                <span class="custom-actions-content">HIDE</span>\
+                              </span>\
+                              <span class="img-action pin">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                                <span class="custom-actions-content">PIN</span>\
+                              </span>\
+                              <span class="img-action boostup">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                                <span class="custom-actions-content">BOOST</span>\
+                              </span>\
+                              <span class="img-action boostdown">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                                <span class="custom-actions-content">BURY</span>\
+                            </span>\
+                          </div>\
+                        </div>\
+                        <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\<img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
+                      </a>\
+                      <div class="faqs-bottom-actions display-none">\
+                        <span class="appearences">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                          <span class="appearences-count">155 Appearances - 138 Clicks</span>\
+                        </span>\
+                        <span class="actions">\
+                          <span class="img-action  dont-show">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
+                        </span>\
+                        <span class="img-action pin">\
+                          <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                        </span>\
+                        <span class="img-action boostup">\
+                          <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
+                        </span>\
+                        <span class="img-action boostdown">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
+                        </span>\
+                      </span>\
+                    </div>\
+                  </div>\
+                {{/each}}\
+                </div>\
+                {{if selectedFacet !== "page" && pages.length>5}}\
+                  <div class="ksa-showMore custom-show-more-container">Show More</div>\
+                {{/if}}\
               </div>\
               {{/if}}\
               {{if faqs.length && (selectedFacet === "faq" || selectedFacet === "all results") }}\
@@ -1073,21 +1272,53 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                <div class="faqs-shadow task-wrp">\
-                <div class="faqs-wrp-content">\
-                  <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                      <span class="accordion" id="${key}">${faq.question}</span>\
-                      <div class="panel">\
-                        <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
-                        <div class="divfeedback">\
-                        <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
-                        <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
+                  <div class="faqs-shadow ">\
+                    <div class="faqs-wrp-content">\
+                      <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                        <span class="accordion" id="${key}">${faq.question}</span>\
+                        <div class="panel">\
+                          <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
+                          <div class="divfeedback">\
+                            <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
+                            <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
+                          </div>\
                         </div>\
+                      </div>\
+                      <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
+                      <div class="custom-matched-results-container">\
+                        <div class="custom-matched-results-faq-icon">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
+                        </div>\
+                        <div class="custom-matched-results-faq-summary">\
+                          <span class="custom-matched-results-faq-summary-content">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                            <span>VIEWS</span>\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                            <span>CLICKS</span>\
+                          </span>\
+                        </div>\
+                      </div>\
+                      <div class="custom-full-search-matched-results-actions">\
+                        <span class="custom-actions">\
+                          <span class="img-action dont-show">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                            <span class="custom-actions-content">HIDE</span>\
+                          </span>\
+                          <span class="img-action pin">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                            <span class="custom-actions-content">PIN</span>\
+                          </span>\
+                          <span class="img-action boostup">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                            <span class="custom-actions-content">BOOST</span>\
+                          </span>\
+                          <span class="img-action boostdown">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                            <span class="custom-actions-content">BURY</span>\
+                          </span>\
+                      </div>\
                     </div>\
-                  </div>\
-                  <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
-                </div>\
-                <div class="faqs-bottom-actions">\
+                  <div class="faqs-bottom-actions">\
                     <span class="appearences">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
                     <span class="appearences-count">155 Appearances - 138 Clicks</span>\
@@ -1108,89 +1339,109 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
                     </span>\
                     </span>\
+                  </div>\
                 </div>\
+                {{/each}}\
               </div>\
-                    {{/each}}\
-                    </div>\
                     {{if selectedFacet !== "faq" && faqs.length>5}}\
-                  <div class="moreFaqs">Show All</div>\
+                  <div class="moreFaqs custom-show-more-container">Show All</div>\
                 {{/if}}\
               </div>\
               {{/if}}\
-              {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results") }}\
+              {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results")}}\
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
                   <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
-                  {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
-                    <div class="faqs-shadow" contentId="${document.contentId}" contentType="${document.contentType}">\
+                  <div class="pages-wrp">\
+                    {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
+                    <div class="faqs-shadow">\
                       <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
-                          <img src="${document.imageUrl}"/>\
+                          <img src="${document.imageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${document.title}">${document.title}</div>\
+                          <div class="title" title="${document.title}">${document.title}\
+                          <span class="custom-external-link-show-container display-none">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
+                          </span>\
+                          </div>\
                           <div class="desc-info">${document.searchResultPreview}</div>\
+                          <div class="custom-matched-results-container">\
+                            <div class="custom-matched-results-page-icon">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
+                            </div>\
+                            <div class="custom-matched-results-page-summary">\
+                              <span class="custom-matched-results-page-summary-content">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                                <span>VIEWS</span>\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                                <span>CLICKS</span>\
+                              </span>\
+                            </div>\
+                          </div>\
+                          <div class="custom-full-search-matched-results-actions">\
+                            <span class="custom-actions">\
+                              <span class="img-action dont-show">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                                <span class="custom-actions-content">HIDE</span>\
+                              </span>\
+                              <span class="img-action pin">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                                <span class="custom-actions-content">PIN</span>\
+                              </span>\
+                              <span class="img-action boostup">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                                <span class="custom-actions-content">BOOST</span>\
+                              </span>\
+                              <span class="img-action boostdown">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                                <span class="custom-actions-content">BURY</span>\
+                            </span>\
+                          </div>\
                         </div>\
+                        <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\<img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                       </a>\
-                      <div class="faqs-bottom-actions">\
+                      <div class="faqs-bottom-actions display-none">\
                         <span class="appearences">\
                           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
                           <span class="appearences-count">155 Appearances - 138 Clicks</span>\
                         </span>\
                         <span class="actions">\
-                          <span class="img-action dont-show two">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
-                          </span>\
-                          <span class="img-action pin">\
-                            <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                          </span>\
-                          <span class="img-action boostup">\
-                            <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
-                          </span>\
-                          <span class="img-action boostdown">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
-                          </span>\
+                          <span class="img-action  dont-show">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                         </span>\
-                      </div>\
+                        <span class="img-action pin">\
+                          <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                        </span>\
+                        <span class="img-action boostup">\
+                          <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAOCAYAAADjXQYbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBddC9EYJAEIbh9UwMLYESLOE6UDvACizBEiwBrEA7UCuwBDEzNDWCd2c+GH6OnXmA+ZbljjOb1g65zdQbMdU4ocZ63MjwwjU15eEGtzZY6p7jjy9WeHi40Pd9aq+XtqjwDFyOuOCHEgcNWNCDh2ctEfFR1tW9t+NB+S4LNbI2DL1m1NqVJf6xsJkqLXFkDWdFGmqp7HU+AAAAAElFTkSuQmCC">\
+                        </span>\
+                        <span class="img-action boostdown">\
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABjSURBVHgBpc6BDYAwCATA10k6QkfRSV3FDToKSoSGKEqon1DSpAcFrmxnVSTDoEnXSsFmBriZHKjhL6/mvuPH5sIHBbCaAYv0jr4wBJC+uyMPF9kQotfNM+LQCHrgDOp4BOEARLAffv7ZxAUAAAAASUVORK5CYII=">\
+                        </span>\
+                      </span>\
                     </div>\
-                  {{/each}}\
+                  </div>\
+                {{/each}}\
                 </div>\
+                {{if selectedFacet !== "document" && documents.length>5}}\
+                  <div class="ksa-showMore custom-show-more-container">Show More</div>\
+                {{/if}}\
+              </div>\
               {{/if}}\
+              <div class="custom-add-new-result-container">\
+                <div class="custom-add-new-result-icon-container">\
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADOSURBVHgBpVLRFYIwDDx4DsAIdQM2sJuAEwgTyCbgKE6AG4ATMAImj6vUVvDDe+8ebXrphSbAJzLhVTgIZ7IXtkLjC1NvXTBBBWfhkayFCS+oAiNcmGSxjZyawgWMcOLBL1hqs4T1g+X5KPntgrjuxwOdasQw+A5NbNVxpujpOen+xP1dHbA669mQ4g9svWZDhlBtr443eE/sYSRDqPahC52WCfs9dMipNS5QYil5r5eWmmh6Kt7WUmRIy9iEtbcRVNhhmUs35OrSYPmlN14wTi/zFOG6gwAAAABJRU5ErkJggg==">\
+                </div>\
+                <div class="custom-add-new-result-content">\
+                  <span><strong>Not finding the result</strong></span>\
+                  <span>Add new result from repository</span>\
+                </div>\
+              </div>\
             </div>\
           </div>\
         </div>\
-        {{if searchFacets.length}}\
-        <div class="filters-container">\
-          <div class="filters-header">\
-            <h2 class="filters-heading">Filter by</h2>\
-            <h3 class="filters-reset">\
-              <a class="filters-reset-anchor">Clear All</a>\
-            </h3>\
-          </div>\
-          <div class="filters-body">\
-            {{each(i, searchFacet) searchFacets}}\
-            <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
-              <h2 class="filters-content-heading">${searchFacet.facetName}</h2>\
-              {{each(j, bucket) searchFacet.buckets}}\
-              {{if searchFacet.facetType == "value"}}\
-                <div class="filters-content-body">\
-                  <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true">\
-                  <label class="associated-filter-label" for="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
-                </div>\
-              {{/if}}\
-              {{if searchFacet.facetType == "range"}}\
-                <div class="filters-content-body">\
-                  <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true" data-from=${bucket.from} data-to=${bucket.to}>\
-                  <label class="associated-filter-label" for="${bucket.key}">${bucket.from} to ${bucket.to} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
-                </div>\
-              {{/if}}\
-              {{/each}}\
-            </div>\
-            {{/each}}\
-          </div>\
-        </div>\
-        {{/if}}\
         <div class="ksa-resultsRight">\
             <div class="rightContainer">\
                 <div class="rightContentSubTitle">Near by Branch/ATM</div>\
@@ -1510,7 +1761,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
-    KoreWidgetSDK.prototype.getListTemplate = function (type) {
+    FindlySDK.prototype.getListTemplate = function (type) {
       var listT =
         '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
             {{if msgData.message}} \
@@ -1560,19 +1811,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </script>';
       return listT;
     }
-    KoreWidgetSDK.prototype.getSuggestion = function (suggestions) {
+    FindlySDK.prototype.getSuggestion = function (suggestions) {
       var _self = this;
       var $suggest = $('#suggestion');
       // some other key was pressed
       var needle = $('#search').val();
-      _self.vars.showingMatchedResults = false;
+
       // is the field empty?
       if (!$.trim(needle).length) {
         $suggest.val("");
         return false;
       }
+
+      _self.vars.showingMatchedResults = false;
+
       // compare input with suggestion array
       $.each(suggestions, function (i, term) {
+        // _self.vars.customizeView = false;
         let wrdArray = needle.split(' ');
         // for(let i=needle.length-1; i>0; i--) {
         // 	let regex = new RegExp('^' + needle[i], 'i');
@@ -1586,7 +1841,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if ($suggest.val() == "") {
           wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1];
+          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
           //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
           regex = new RegExp('^' + lastWords, 'i');
           if (regex.test(term)) {
@@ -1627,7 +1882,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         contestVarContainer.hide();
       }
     });
-    KoreWidgetSDK.prototype.bindContextVariable = function () {
+    FindlySDK.prototype.bindContextVariable = function () {
       $(document).off('click', '.elipse-overflow').on('click', '.elipse-overflow', function (event) {
         $(event.target).toggleClass('context-active');
         if ($(event.target).hasClass('context-active')) {
@@ -1658,10 +1913,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-    KoreWidgetSDK.prototype.bindSearchAccordion = function () {
-
-      var _self = this;
-
+    FindlySDK.prototype.bindSearchAccordion = function () {
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).toggleClass('acc-active');
         var panel = $(evet.target).next();
@@ -1672,10 +1924,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         if ($(evet.target).hasClass('acc-active')) {
           $(evet.target).next().parent().next().hide();
-          if (_self.vars.showingMatchedResults == true) {
-            // _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand');
-            _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'click');
-          }
         } else {
           $(evet.target).next().parent().next().show();
         }
@@ -1695,7 +1943,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   });
       // }
     }
-    KoreWidgetSDK.prototype.bindFeedbackEvent = function () {
+    FindlySDK.prototype.bindFeedbackEvent = function () {
       var _self = this;
       var payload = {
         requestId: null,
@@ -1719,11 +1967,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtYmx1ZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtYmx1ZSIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().next().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsup";
-
-          if (_self.vars.showingMatchedResults == true) {
-            _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsUp')
-          }
-
           _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
             console.log(res);
           });
@@ -1737,11 +1980,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ibHVlPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWJsdWUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzAwNkJCMCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           $(event.target).parent().prev().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsdown";
-
-          if (_self.vars.showingMatchedResults == true) {
-            _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsDown')
-          }
-
           _self.newSearchFeedbackPost(_self.API.newSearchFeedbackUrl, 'POST', payload).then(function (res) {
             console.log(res);
           });
@@ -1750,8 +1988,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }
-    KoreWidgetSDK.prototype.prepAllSearchData = function (selectedFacet) {
-      var _self = this, facets = [], totalResultsCount = null;
+
+
+
+    FindlySDK.prototype.prepAllSearchData = function (selectedFacet) {
+      var _self = this, facets = [], totalResultsCount = null, viewType = '';
       if (!facets.length) {
         if (_self.vars.searchObject.liveData.facets) {
 
@@ -1759,8 +2000,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             facets.push({ key: facet, value: _self.vars.searchObject.liveData.facets[facet] })
           })
         }
+        console.log(facets);
       }
+
       totalResultsCount = selectedFacet ? _self.vars.searchObject.liveData.facets[selectedFacet] : _self.vars.searchObject.liveData.facets["all results"];
+
+      viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+      console.log("View Type", viewType, _self.vars.customizeView);
+      // debugger;
       var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy({
         facets: facets,
         dataLoaded: false,
@@ -1772,8 +2019,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         faqs: _self.vars.searchObject.liveData.faqs,
 
         documents: _self.vars.searchObject.liveData.documents,
-
-        searchFacets: _self.vars.searchFacetFilters,
+        viewType: viewType,
 
         getFacetDisplayName: function (key) {
           if (key.toLowerCase() === 'faq') {
@@ -1788,8 +2034,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return key;
           }
         }
-
       });
+
       $('.search-container').addClass('full-page');
       $('.start-search-icon-div').hide();
       $('.search-body-full').removeClass('hide');
@@ -1797,19 +2043,111 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-container').removeClass('active');
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
-        if (_self.vars.selectedFiltersArr.length > 0) {
-          _self.vars.selectedFiltersArr.forEach(function (filter) {
-            $("#" + filter).prop('checked', true)
-            console.log(filter);
-          })
+
+        if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+          $('#viewTypeCheckbox').prop('checked', true);
+          $(".pages-wrp, .tasks-wrp").sortable();
+          $(".pages-wrp, .tasks-wrp").sortable("option", "disabled", false);
+          $(".pages-wrp, .tasks-wrp").disableSelection();
+
+          $(".faqs-shadow").addClass('custom-faqs-shadow');
+          $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+
+          $(".custom-matched-results-container").css('display', 'block');
+
+          if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
+            $('.image-url-sec').css('display', 'none');
+            $('.desc-info').css('max-width', '65%');
+            $('.custom-external-link-show-container').removeClass('display-none');
+            $('.external-link-show').css('display', 'none');
+          }
+          // $('.faqs-bottom-actions').css('display', 'table');
         }
-      } else {
+        else {
+          $('#viewTypeCheckbox').prop('checked', false);
+          if ($(".pages-wrp, .tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
+            $(".pages-wrp, .tasks-wrp").sortable("disable");
+          }
+          if (($('.custom-external-link-show-container').hasClass('display-none')) == false) {
+            $('.image-url-sec').css('display', 'table-cell');
+            $('.desc-info').css('max-width', '100%');
+            $('.custom-external-link-show-container').addClass('display-none');
+            $('.external-link-show').css('display', 'none');
+          }
+
+          $(".faqs-shadow").removeClass('custom-faqs-shadow');
+          $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
+
+          $(".custom-matched-results-container").css('display', 'none');
+
+          $('.faqs-bottom-actions').css('display', 'none');
+        }
+
+      }
+      else {
         $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
-        if (_self.vars.selectedFiltersArr.length > 0) {
-          _self.vars.selectedFiltersArr.forEach(function (filter) {
-            $("#" + filter).prop('checked', true)
-            console.log(filter);
-          })
+
+        if (selectedFacet === 'page') {
+          if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+            $('#viewTypeCheckbox').prop('checked', true);
+            $(".pages-wrp").sortable();
+            $(".pages-wrp").sortable("option", "disabled", false);
+            $(".pages-wrp").disableSelection();
+
+            $(".faqs-shadow").addClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+            $(".custom-matched-results-container").css('display', 'block');
+
+            if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
+              $('.image-url-sec').css('display', 'none');
+              $('.desc-info').css('max-width', '65%');
+              $('.custom-external-link-show-container').removeClass('display-none');
+              $('.external-link-show').css('display', 'none');
+            }
+            // $('.faqs-bottom-actions').css('display', 'table');
+          }
+          else {
+            $('#viewTypeCheckbox').prop('checked', false);
+            if ($(".pages-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
+              $(".pages-wrp").sortable("disable");
+            }
+            $(".custom-matched-results-container").css('display', 'none');
+            if (($('.custom-external-link-show-container').hasClass('display-none')) == false) {
+              $('.image-url-sec').css('display', 'table-cell');
+              $('.desc-info').css('max-width', '100%');
+              $('.custom-external-link-show-container').addClass('display-none');
+              $('.external-link-show').css('display', 'none');
+            }
+            $('.faqs-bottom-actions').css('display', 'none');
+          }
+        }
+
+        if (selectedFacet === 'faq') {
+          if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+            $('#viewTypeCheckbox').prop('checked', true);
+            $(".tasks-wrp").sortable();
+            $(".tasks-wrp").sortable("option", "disabled", false);
+            $(".tasks-wrp").disableSelection();
+
+            $(".faqs-shadow").addClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+            $(".custom-matched-results-container").css('display', 'block');
+
+            $('.desc-info').css('max-width', '65%');
+
+            // $('.faqs-bottom-actions').css('display', 'table');
+          }
+          else {
+            $('#viewTypeCheckbox').prop('checked', false);
+            if ($(".tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
+              $(".tasks-wrp").sortable("disable");
+            }
+
+            $(".custom-matched-results-container").css('display', 'none');
+            $('.desc-info').css('max-width', '100%');
+
+            $('.faqs-bottom-actions').css('display', 'none');
+          }
         }
       }
       _self.bindFacetsToggle();
@@ -1832,6 +2170,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       setTimeout(function () {
+        // debugger;
         if (topMatchFAQ) {
           var bestFAQTitleDiv = $(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
 
@@ -1841,20 +2180,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 500);
     }
-    KoreWidgetSDK.prototype.bindAllResultsView = function () {
+    FindlySDK.prototype.bindAllResultsView = function () {
       var _self = this;
-
-      if (_self.vars.showingMatchedResults == true) {
-        $('a.faqs-wrp-content').off('click').on('click', function (event) {
-          console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
-          _self.captureClickAnalytics(event, $(event.currentTarget).parent().attr('contentType'), 'click');
-        })
-      }
 
       $('.show-all-results').off('click').on('click', function (e) {
         var data = $(e.currentTarget).closest('.finalResults').data() || {};
         _self.vars.searchObject.liveData = data
         console.log(data);
+
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var randomObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+          //  _self.parentEvent(randomObject);
+        }
+
+        $(".custom-insights-control-container").hide();
+
         _self.prepAllSearchData();
         _self.bindAllResultsView();
         _self.bindSearchActionEvents();
@@ -1883,32 +2224,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // },500);
 
       })
-      $('.filter-checkbox').off('change').on('change', function (event) {
-        $('#loaderDIV').show();
-        if ($(this).is(':checked')) {
-          console.log($(this).attr("id"));
-          _self.vars.selectedFiltersArr.push($(this).attr("id"));
-          _self.filterResults(event, true);
+      // $('.full-search-close').off('click').on('click', function (e)
+      $('.custom-chevron-right-icon').off('click').on('click', function (e) {
+        if (($('.external-link-show').css('display') == 'none')) {
+          $('.external-link-show').css('display', 'block');
+          $('.desc-info').css('max-width', '100%');
+
         }
-        else {
-          var unselectedFilterID = $(this).attr("id");
-          console.log($(this).attr("id"));
-          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
-            if (filter == unselectedFilterID) {
-              _self.vars.selectedFiltersArr.splice(_self.vars.selectedFiltersArr.indexOf(filter), 1);
-            }
-          })
-          _self.filterResults(event, false);
-        }
-      })
-      $('.filters-reset-anchor').on('click', function (event) {
-        $('.filter-checkbox').prop('checked', false);
-        $('#loaderDIV').show();
-        _self.vars.filterObject = [];
-        _self.vars.selectedFiltersArr = [];
-        _self.searchByFacetFilters([]);
-      })
-      $('.full-search-close').off('click').on('click', function (e) {
+        $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
         $('.search-container').removeClass('full-page');
         $('.start-search-icon-div').show();
         $('.search-body-full').html('');
@@ -1925,8 +2248,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.prepAllSearchData(selectedFacet);
       })
 
+      $('.custom-add-new-result-container').off('click').on('click', function (event) {
+        console.log(event);
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var randomObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+          //  _self.parentEvent(randomObject);
+        }
+      })
+
+      $('#viewTypeCheckbox').off('change').on('change', function (event) {
+        var facetActive = $('.facetActive').attr('id');
+        if ($(this).is(':checked')) {
+          console.log(false);
+          // debugger;
+          _self.vars.customizeView = true;
+          _self.prepAllSearchData(facetActive);
+        }
+        else {
+          console.log(true);
+          // debugger;
+          _self.vars.customizeView = false;
+          _self.prepAllSearchData(facetActive);
+        }
+      })
     }
-    KoreWidgetSDK.prototype.bindFacetsToggle = function () {
+    FindlySDK.prototype.bindFacetsToggle = function () {
       var _self = this;
       $('.facet').off('click').on('click', function (e) {
         var facetThis = this;
@@ -1935,7 +2282,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.prepAllSearchData(selectedFacet);
       })
     }
-    KoreWidgetSDK.prototype.recentClick = function () {
+    FindlySDK.prototype.recentClick = function () {
       var _self = this;
       $('.search-container').off('click', '.recentText').on('click', '.recentText', function (e) {
         var recentSearch = $(this).attr('id');
@@ -1945,7 +2292,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       })
     }
-    KoreWidgetSDK.prototype.deleteRecents = function () {
+    FindlySDK.prototype.deleteRecents = function () {
       var _self = this;
       $('.recentCloseIcon').off('click').on('click', function (e) {
         var recentIndex = $(this).attr('id');
@@ -1967,7 +2314,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         e.stopPropagation();
       })
     }
-    KoreWidgetSDK.prototype.saveOrGetDataInStorage = function (type, dataArray, storageType, action) {
+    FindlySDK.prototype.saveOrGetDataInStorage = function (type, dataArray, storageType, action) {
       if (storageType === "localStorage") {
         if (action === "get") {
           return window.localStorage.getItem(type) ? JSON.parse(window.localStorage.getItem(type)) : [];
@@ -1978,10 +2325,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
-    KoreWidgetSDK.prototype.getLiveSearchResulta = function () {
+    FindlySDK.prototype.getLiveSearchResulta = function () {
 
     }
-    KoreWidgetSDK.prototype.closeGreetingMsg = function () {
+    FindlySDK.prototype.closeGreetingMsg = function () {
       if ($(".search-container").find(".greetingMsg").length) {
         $('.greetingMsg').html('');
         $('.greetingMsg').addClass('hide');
@@ -1989,7 +2336,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
-    KoreWidgetSDK.prototype.bindSearchActionEvents = function () {
+    FindlySDK.prototype.bindSearchActionEvents = function () {
       var _self = this;
       $('.search-container').off('click', '.search-task').on('click', '.search-task', function (e) {
         //console.log("faq", e.target.title);
@@ -2006,12 +2353,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return task;
           })
         }
-
-        if (_self.vars.showingMatchedResults == true) {
-          console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
-          _self.captureClickAnalytics(e, $(e.currentTarget).parent().attr('contentType'), 'click');
-        }
-
         window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
         _self.bindFrequentData();
         //_self.saveOrGetDataInStorage(); 
@@ -2033,51 +2374,92 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
       })
-      $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
-        console.log(e);
-        if ($(e.currentTarget).closest('.task-wrp').attr('visible') == "true") {
-          _self.performRankActions(e, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+      /*$('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
+        _self.performRankActions(e, { visible: false });
+      });*/
+      $('.search-container').off('click', '.visibility').on('click', '.visibility', function (event) {
+        console.log(event.target);
+        console.log($(event.target).closest('.task-wrp').attr('visible'), $(event.target).closest('.task-wrp').attr('contentid'));
+
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
         }
         else {
-          _self.performRankActions(e, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+          _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
         }
       });
-      $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
-        console.log(e);
+      /*$('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
+
+        // debugger;
         var _selctedEle = $(e.target).closest('.task-wrp');
         var _parentEle = $(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call(_parentEle[0].children);
-        var pinIndex;
-        if ($(e.target).closest('.pin').hasClass('pinned-styling') == true) {
-          pinIndex = -1;
-        }
-        else {
-          pinIndex = nodes.indexOf(_selctedEle[0]);
-        }
-        _self.performRankActions(e, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
+        var pinIndex = nodes.indexOf(_selctedEle[0]);
+        _self.performRankActions(e, { pinIndex: pinIndex });
 
+      });*/
+      $('.search-container').off('click', '.pinning').on('click', '.pinning', function (event) {
+        console.log(event.target);
+        console.log($(event.target).closest('.task-wrp').attr('pinindex'), $(event.target).closest('.task-wrp').attr('contentid'));
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          var _selectedElement = $(event.target).closest('.task-wrp');
+          var _parentElement = $(event.target).closest('.tasks-wrp');
+          var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+
+          if ($(event.target).text() == "UNPIN") {
+            var pinIndex = -1
+          }
+          else {
+            var pinIndex = childNodes.indexOf(_selectedElement[0]);
+          }
+          _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
+        }
       });
-      $('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
-        console.log(e);
-        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText, 'boosting');
+      /*$('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
+        _self.performRankActions(e, { boost: 0.25 });
+      });*/
+      $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
+        console.log(event.target);
+        console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.currentTarget).closest('.task-wrp').attr('contentid'));
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          debugger;
+          var boostByValue = $(event.target).closest('.task-wrp').attr('boost') + 0.25;
+          _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+        }
       });
-      $('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
-        console.log(e);
-        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText, 'burying');
+      /*$('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
+        _self.performRankActions(e, { boost: -0.25 });
+      })*/
+      $('.search-container').off('click', '.burying').on('click', '.burying', function (event) {
+        console.log(event.target);
+        console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
+
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          debugger;
+          var buryByValue = $(event.target).closest('.task-wrp').attr('boost');
+
+          if (buryByValue > 0.25) {
+            buryByValue = buryByValue - 0.25;
+            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+          }
+          else {
+            buryByValue = 0.25 - buryByValue;
+            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+          }
+        }
       })
     };
 
-    KoreWidgetSDK.prototype.performRankActions = function (e, conf, searchText, actionType) {
+    FindlySDK.prototype.performRankActions = function (event, conf, searchText, actionType) {
       var _self = this;
-      console.log(conf);
-      e.preventDefault();
-      e.stopPropagation();
-      var _taskWrapDiv = $(e.target).closest('.task-wrp');
+      event.preventDefault();
+      event.stopPropagation();
+
+      /*var _taskWrapDiv = $(e.target).closest('.task-wrp');
 
       var contentId = _taskWrapDiv.attr('contentid');
       var contentType = _taskWrapDiv.attr('contentType');
-      // var queryString = $(e.target).closest('.finalResults').attr('queryString');
-      var queryString = searchText;
+      var queryString = $(e.target).closest('.finalResults').attr('queryString');
 
       var boost = _taskWrapDiv.attr('boost');
       var pinIndex = _taskWrapDiv.attr('pinIndex');
@@ -2085,300 +2467,87 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       boost = parseFloat(boost);
       pinIndex = parseInt(pinIndex);
-      // visible = visible.toLowerCase() == 'true' ? true : false;
+      visible = visible.toLowerCase() == 'true' ? true : false;*/
 
-      if (actionType == 'boosting') {
-        conf.boost = conf.boost + boost
-      } else if (actionType == 'burying') {
-        if (boost > 0.25) {
-          conf.boost = boost - conf.boost;
-        }
-        else {
-          conf.boost = conf - boost - boost;
-        }
-      }
+      var selectedElement = $(event.target).closest('.task-wrp');
 
+      var contentID = selectedElement.attr('contentid');
+      var contentType = selectedElement.attr('contentType');
+      var queryString = _self.vars.searchObject.searchText;
 
-      // var payload = {
-      //   "searchIndexId": _self.API.SearchIndexID,
-      //   "queryString": queryString,
-      //   "contentId": contentId,
-      //   "contentType": contentType,
-      //   "config": Object.assign({
-      //     "pinIndex": pinIndex,
-      //     "boost": boost,
-      //     "visible": visible
-      //   }, conf)
-      // }
 
       var payload = {
         "searchQuery": queryString,
         "result": {
           "contentType": contentType,
-          "contentId": contentId,
-          /*"config": Object.assign({
-            "pinIndex": pinIndex,
-            "boost": boost,
-            "visible": visible
-          }, conf)*/
+          "contentId": contentID,
           "config": conf,
         }
       }
 
       console.log(payload);
-      console.log(JSON.stringify(payload));
 
       var url = _self.API.queryConfig;
-      var successMsg = '';
-      var errorMsg = '';
-      if ($(e.currentTarget).hasClass('dont-show')) {
-        if (visible == "true") {
-          successMsg = 'Hidden property applied';
-          errorMsg = 'Hiding failed';
-        }
-        else {
-          successMsg = 'Hidden property removed';
-          errorMsg = 'Unhiding failed';
-        }
-        // errorMsg = 'Hiding failed';
-      } else if ($(e.currentTarget).hasClass('pin')) {
-        if ($(e.currentTarget).hasClass('pinned-styling') == true) {
-          successMsg = 'Unpinned';
-          errorMsg = 'Unpinning failed';
-        }
-        else {
-          successMsg = 'Pinned';
-          errorMsg = 'Pinning failed';
-        }
-        /*successMsg = 'Pinned';
-        errorMsg = 'Pinning failed';*/
-      } else if ($(e.currentTarget).hasClass('boostup')) {
-        successMsg = 'Boosted';
-        errorMsg = 'Boosting failed';
-      } else if ($(e.currentTarget).hasClass('boostdown')) {
-        successMsg = 'Buried';
-        errorMsg = 'Burying failed';
-      }
-      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
-        _taskWrapDiv.find('.action-info').css({ color: 'green' }).text(successMsg).show().delay(2000).fadeOut(1600, function () {
-          $(this).hide();
+
+      if (actionType == 'visibility') {
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          console.log(res);
+          var elementHidden = selectedElement.find('.visibility');
+          if (selectedElement.attr('visible') == false) {
+            elementHidden.text() = "UNHIDE";
+            selectedElement.addClass('hide-actions');
+          }
+          else {
+            elementHidden.text() = "HIDE";
+            selectedElement.removeClass('hide-actions');
+          }
+          selectedElement.attr('visible', conf.visible)
+        }, function (eRes) {
+          console.log(eRes);
         });
-        if (actionType == 'boosting') {
-          _taskWrapDiv.attr('boost', conf.boost);
-        } else if (actionType == 'burying') {
-          _taskWrapDiv.attr('boost', conf.boost);
-        } else if (actionType == 'visibility') {
-          _taskWrapDiv.attr('visible', conf.visible);
-          if (conf.visible == false) {
-            _taskWrapDiv.addClass('hidden-styling');
-            _taskWrapDiv.find('.hidden-styling-text').css('display', 'block');
+      } else if (actionType == 'pinning') {
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          console.log(res);
+          var elementPinned = selectedElement.find('.pinning');
+          if (elementPinned.text() == "UNPIN") {
+            elementPinned.text() = "PIN";
           }
           else {
-            _taskWrapDiv.removeClass('hidden-styling');
-            _taskWrapDiv.find('.hidden-styling-text').css('display', 'none');
+            elementPinned.text() = "UNPIN";
           }
-        } else if (actionType == 'pinning') {
-          var pinningElement = _taskWrapDiv.find('.pin');
-          if (pinningElement.hasClass('pinned-styling') == true) {
-            pinningElement.removeClass('pinned-styling');
-          }
-          else {
-            pinningElement.addClass('pinned-styling');
-          }
-          _taskWrapDiv.attr('pinindex', conf.pinIndex)
-        }
-      }, function (eRes) {
-        _taskWrapDiv.find('.action-info').css({ color: 'red' }).text(errorMsg).show().delay(2000).fadeOut(1600, function () {
-          $(this).hide();
-        });;
-      });
+          selectedElement.attr('pinindex', conf.pinIndex);
+        }, function (eRes) {
+          console.log(eRes);
+        });
+      } else if (actionType == 'boosting') {
+        var indicatorMessage = "BOOSTED";
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          console.log(res);
+          selectedElement.attr('boost', conf.boost);
+          selectedElement.find('.indicator-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+            $(this).hide();
+          })
+        }, function (eRes) {
+          console.log(eRes);
+        });
+      } else if (actionType == 'burying') {
+        var indicatorMessage = "BURIED";
+        self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+          console.log(res);
+          selectedElement.attr('boost', conf.boost);
+          selectedElement.find('.indicator-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+            $(this).hide();
+          })
+        }, function (eRes) {
+          console.log(eRes);
+        });
+      } else {
+        console.log("Invalid Action");
+      }
+
     };
 
-    KoreWidgetSDK.prototype.filterResults = function (event, isChecked) {
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      var _self = this;
-      var fieldMatches = false;
-      var _filterContainer = $(event.target).closest('.filters-content');
-
-      var fieldName = _filterContainer.attr('data-fieldName');
-      var facetType = _filterContainer.attr('data-facetType');
-      var key = $(event.target).attr('name');
-
-      console.log(`fieldName: ${fieldName}, facetType: ${facetType}, key: ${key}`)
-
-      var responsePayload = {}
-
-      if (facetType == 'value') {
-        responsePayload.fieldName = fieldName,
-          responsePayload.facetType = facetType,
-          responsePayload.facetValue = [];
-
-        responsePayload.facetValue[0] = key;
-      }
-      else {
-        var from = $(event.target).attr('data-from');
-        var to = $(event.target).attr('data-to');
-
-        responsePayload.fieldName = fieldName,
-          responsePayload.facetType = facetType,
-          responsePayload.facetRange = [];
-
-        // key = { 'from': 0, 'to': 100 };
-        key = { 'from': parseInt(from), 'to': parseInt(to) };
-        responsePayload.facetRange[0] = key;
-      }
-
-      console.log(responsePayload);
-
-      if (isChecked == true) {
-        if (_self.vars.filterObject.length == 0) {
-          _self.vars.filterObject.push(responsePayload);
-          fieldMatches = true;
-        }
-        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
-          _self.vars.filterObject.forEach(function (element) {
-            if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
-              if (element.facetType == 'value') {
-                element.facetValue.push(key);
-              }
-              else {
-                element.facetRange.push(key);
-              }
-              fieldMatches = true;
-            }
-          })
-
-        }
-        if (fieldMatches == false) {
-          _self.vars.filterObject.push(responsePayload);
-        }
-      }
-      else {
-        if (_self.vars.filterObject.length > 0) {
-          _self.vars.filterObject.slice(0).forEach(function (element) {
-            if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
-              // var indexOfMatchedFilter = 0, elementsTraversed = 0;
-              if (element.facetType == 'value') {
-                if (element.facetValue.length > 1) {
-                  element.facetValue.slice(0).forEach(function (item) {
-                    if (item === key) {
-                      element.facetValue.splice(element.facetValue.indexOf(item), 1);
-                    }
-                    console.log(item);
-                  })
-                }
-                else {
-                  element.facetValue = [];
-                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                }
-              }
-              else {
-                if (element.facetRange.length > 1) {
-                  element.facetRange.slice(0).forEach(function (item) {
-                    if (JSON.stringify(item) == JSON.stringify(key)) {
-                      element.facetRange.splice(element.facetRange.indexOf(item), 1)
-                    }
-                    console.log(item);
-                  })
-                }
-                else {
-                  element.facetRange = [];
-                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
-                }
-              }
-            }
-          })
-        }
-      }
-      console.log(_self.vars.filterObject, isChecked);
-      _self.searchByFacetFilters(_self.vars.filterObject);
-    }
-
-    KoreWidgetSDK.prototype.searchByFacetFilters = function (filterObject) {
-      var _self = this;
-      var activeFacet = '';
-      var url = _self.API.searchUrl;
-      var payload = {
-        "query": _self.vars.searchObject.searchText,
-        "maxNumOfResults": 9,
-        "userId": _self.API.uuid,
-        "streamId": _self.API.streamId,
-        "lang": "en",
-        "isDev": true,
-      }
-      if (filterObject.length > 0) {
-        payload.filters = filterObject;
-      }
-
-      console.log(payload);
-
-      facetActive = $('.facetActive').attr('id');
-      console.log("Active Facet Tab: ", facetActive);
-
-      payload.isDev = _self.isDev;
-
-      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
-        faqs = [], pages = [], tasks = [], facets = {};
-
-        console.log(response.template);
-
-        if (response.template) {
-          faqs = response.template.results.faq;
-          pages = response.template.results.page;
-          tasks = response.template.results.task;
-          facets = response.template.facets;
-
-          _self.vars.searchObject.liveData = {
-            faqs: faqs,
-            pages: pages,
-            tasks: tasks,
-            facets: facets,
-            originalQuery: response.template.originalQuery || '',
-            // searchFacets: searchFacets,
-          }
-          console.log(_self.vars.searchObject.liveData);
-          _self.prepAllSearchData(facetActive);
-          $('#loaderDIV').hide()
-          // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
-
-        }
-      })
-    }
-
-    KoreWidgetSDK.prototype.captureClickAnalytics = function (event, resultType, eventType) {
-      var _self = this;
-      var url = _self.API.metricsUrl;
-      var payload = {
-        "query": _self.vars.searchObject.searchText,
-        "answerType": resultType,
-        "event": eventType,
-        "streamId": _self.API.streamId,
-      }
-
-      if (payload.answerType == 'page') {
-        payload.answerType = 'webpage';
-      }
-
-      payload.searchResultId = _self.vars.previousSearchObj.requestId;
-      payload.clickRank = parseInt($(event.currentTarget).attr('id')) + 1;
-
-      console.log(payload.event);
-
-      if (payload.event == 'expand' || payload.event == 'thumbsUp' || payload.event == 'thumbsDown') {
-        delete payload.clickRank;
-      }
-
-      console.log(payload);
-
-      _self.dumpClickAnalyticsData(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        console.log(res);
-      })
-    }
-
-    KoreWidgetSDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend) {
+    FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend) {
       var _self = this;
       _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
       var searchResults;
@@ -2391,6 +2560,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       }
 
+      if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+        if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+          $('.custom-insights-control-container').show();
+        }
+      }
+
 
       $('.close-icon').off('click').on('click', function (e) {
         $('.search-body').html('');
@@ -2401,6 +2576,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       //_self.bindSearchActionEvents();
 
+
+      $('.custom-insights-control-container').off('click').on('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var randomObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+          //  _self.parentEvent(randomObject);
+        }
+        $('.custom-header-container-left').css('visibility', 'visible');
+        $('.custom-insights-control-container').hide();
+      })
+
+      $('.custom-header-container-left').off('click').on('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
+          $('.custom-insights-control-container').show();
+          var randomObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
+          console.log(randomObject);
+        }
+        else {
+          $('.custom-insights-control-container').hide();
+        }
+
+        $('.custom-header-container-left').css('visibility', 'hidden');
+      })
 
       // $('.pay-button').off('click').on('click')
       if (templateType === "search-container") {
@@ -2517,9 +2720,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
 
               }
-
-              payload.isDev = _self.isDev;
-
               var url = _self.API.livesearchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
               var searchData;
               if (code == '13') {
@@ -2537,7 +2737,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
-                    var faqs = [], pages = [], tasks = [], facets, documents = [];
+                    var faqs = [], pages = [], tasks = [], facets, documents= [];
                     if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
@@ -2552,7 +2752,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages.push(result);
                         } else if (result.contentType === "task") {
                           tasks.push(result);
-                        } else if (result.contentType === "document") {
+                        } else if(result.contentType === "document") {
                           documents.push(result);
                         }
                       })
@@ -2899,7 +3099,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       }
     }
-    KoreWidgetSDK.prototype.bindPerfectScroll = function (dataHtml, scrollContainer, update, scrollAxis, contentPSObj) {
+    FindlySDK.prototype.bindPerfectScroll = function (dataHtml, scrollContainer, update, scrollAxis, contentPSObj) {
       contentPSObj = contentPSObj || 'contentPSObj'
       var _self = this;
       if (KRPerfectScrollbar) {
@@ -2919,10 +3119,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     }
-    KoreWidgetSDK.prototype.bindLiveDataToChat = function (botAction) {
+    FindlySDK.prototype.bindLiveDataToChat = function (botAction) {
       $('#search').val('');
       $('#suggestion').val('');
       var _self = this;
+      console.log("Appending Live Data to Chat");
       var payload = {
         "query": _self.vars.searchObject.searchText,
         "maxNumOfResults": 9,
@@ -2951,12 +3152,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       }
 
-      payload.isDev = _self.isDev;
-
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = [];
+        var faqs = [], pages = [], tasks = [], documents = [], facets;
         if (res && res.requestId && res.template && res.template.originalQuery) {
           _self.vars.previousSearchObj = {};
           _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
@@ -2970,47 +3169,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var topMatchFAQ;
           var topMatchTask;
 
-          /*res.searchFacets = [
-            {
-              "fieldName": "String",
-              "facetName": "String",
-              "facetType": "range",
-              "buckets": [
-                {
-                  "key": "djikstra",
-                  "from": 10.0,
-                  "to": 20.0,
-                  "doc_count": 1
-                },
-                {
-                  "key": "prims",
-                  "from": 20.0,
-                  "to": 40.0,
-                  "doc_count": 0
-                }
-              ]
-            },
-            {
-              "fieldName": "benefits_field",
-              "facetName": "benefits",
-              "facetType": "value",
-              "buckets": [
-                {
-                  "key": "accelerating rewards",
-                  "doc_count": 55
-                },
-                {
-                  "key": "page",
-                  "doc_count": 3
-                },
-                {
-                  "key": "task",
-                  "doc_count": 1
-                }
-              ]
-            }
-          ]*/
-
           // liveResult.forEach(function (result) {
           //   if (result.contentType === "faq") {
           //     faqs.push(result);
@@ -3023,22 +3181,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           faqs = res.results.faq;
           pages = res.results.page;
           tasks = res.results.task;
-          documents = res.results.document;
           facets = res.facets;
 
-
-          if (res.searchFacets !== undefined) {
-            _self.vars.searchFacetFilters = res.searchFacets;
-            // searchFacets = res.searchFacets;
-            searchFacets = _self.vars.searchFacetFilters;
-            console.log("Search Facets", searchFacets);
+          if (res.results.document !== undefined) {
+            documents = res.results.document;
           }
           else {
-            res.searchFacets = [];
-            _self.vars.searchByFacetFilters = res.searchFacets;
-            searchFacets = _self.vars.searchFacetFilters;
-            console.log(searchFacets);
+            documents = [];
+            res.facets.document = 0;
           }
+
+          debugger;
 
           if (tasks.length) {
             //trigger dialog;
@@ -3060,11 +3213,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             faqs: faqs,
             pages: pages,
             tasks: tasks,
-            documents: documents,
             facets: facets,
-            originalQuery: res.originalQuery || '',
 
-            searchFacets: searchFacets,
+            documents: documents,
+
+            originalQuery: res.originalQuery || '',
           }
           // if(!_self.isDev){
           //   dataObj = {
@@ -3079,11 +3232,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             faqs: faqs,
             pages: pages,
             tasks: tasks,
-            documents: documents,
             facets: facets,
-            originalQuery: res.originalQuery || '',
 
-            searchFacets: searchFacets,
+            documents: documents,
+
+            originalQuery: res.originalQuery || '',
           }
           if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
             _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
@@ -3108,23 +3261,45 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               if (!topMatchTask) {
                 _self.sendMessageToSearch('bot', _botMessage);
               }
-              $(searchData).find(".tasks-wrp").sortable();
-              $(searchData).attr('queryString', dataObj.originalQuery);
+              if (_self.vars.customizeView == true) {
+                $(searchData).find(".tasks-wrp").sortable();
 
-              // if ($(searchData).find(".task-wrp").attr('visible') == "false") {
-              //   console.log($(searchData).find(".task-wrp"))
-              //   $(searchData).find(".task-wrp").addClass('hidden-styling');
-              //   $(searchData).find('.hidden-styling-text').css('display', 'block');
-              // }
-              $(".task-wrp").each(function (index) {
-                console.log(index + ":" + $(this));
-              })
+              }
+              else {
+                $(searchData).find(".tasks-wrp").sortable({ disabled: true })
+              }
 
+              $(searchData).attr('queryString', dataObj.originalQuery)
               if (topMatchTask) {
                 searchData.addClass("hide");
               }
               $('#searchChatContainer').append(searchData);
               _self.vars.showingMatchedResults = true;
+
+              if (_self.vars.customizeView == true) {
+                /*$(searchData).find(".tasks-wrp").sortable();
+                $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
+                $(searchData).find(".tasks-wrp").disableSelection();*/
+                $(".faqs-shadow").addClass('custom-faqs-shadow');
+                $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+                $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
+                $(".image-url-sec").css('display', 'none');
+                $(".faqs-bottom-actions").css('display', 'table');
+
+                if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+                  // debugger;
+                  $('.custom-insights-control-container').show();
+                }
+              }
+              else {
+                // $(searchData).find(".tasks-wrp").sortable("disable");
+                $(".faqs-shadow").removeClass('custom-faqs-shadow');
+                $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+                $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
+
+                $(".image-url-sec").css('display', 'table-cell');
+                $(".faqs-bottom-actions").css('display', 'none');
+              }
             }
             setTimeout(function () {
               var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
@@ -3153,6 +3328,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
         } else if (res.templateType === 'botAction') {
+          // debugger;
           res = res.template;
           var botResponse = res.webhookPayload.text;
           _self.sendMessageToSearch('bot', botResponse);
@@ -3164,7 +3340,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }
-    KoreWidgetSDK.prototype.bindFrequentData = function () {
+    FindlySDK.prototype.bindFrequentData = function () {
       var _self = this;
       $('#suggestion').val('');
       var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
@@ -3181,7 +3357,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.recentClick();
       _self.bindSearchActionEvents();
     }
-    KoreWidgetSDK.prototype.clickOutsideSearch = function () {
+    FindlySDK.prototype.clickOutsideSearch = function () {
 
       $(document).on('click', function (event) {
         if (!$(event.target).closest('.search-container').length) {
@@ -3208,7 +3384,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }();
-    KoreWidgetSDK.prototype.sendMessageToSearch = function (type, mesageData, data) {
+    FindlySDK.prototype.sendMessageToSearch = function (type, mesageData, data) {
       var _self = this;
       var messageData = {
         'text': '',
@@ -3312,7 +3488,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#searchChatContainer').animate({ scrollTop: scrollBottom });
       }, 200);
     }
-    KoreWidgetSDK.prototype.userLogin = function (clickedAction) {
+    FindlySDK.prototype.userLogin = function (clickedAction) {
       _self = this
       var action = clickedAction;
       var userLogin = $(_self.getSearchTemplate('userLogin')).tmplProxy({});
@@ -3365,9 +3541,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-body').removeClass('hide');
       $('#searchChatContainer').addClass('bgfocus');
     };
-    KoreWidgetSDK.prototype.getFrequentlySearched = function (url, type, payload) {
+    FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
       var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
-      // console.log(payload);
       return $.ajax({
         url: url,
         type: type,
@@ -3385,7 +3560,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
-    KoreWidgetSDK.prototype.getPopularSearchList = function (url, type) {
+    FindlySDK.prototype.getPopularSearchList = function (url, type) {
       var bearer = this.API.jstBarrer;
       return $.ajax({
         url: url,
@@ -3403,7 +3578,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
-    KoreWidgetSDK.prototype.newSearchFeedbackPost = function (url, type, payload) {
+    FindlySDK.prototype.newSearchFeedbackPost = function (url, type, payload) {
       var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       return $.ajax({
         url: url,
@@ -3422,7 +3597,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
-    KoreWidgetSDK.prototype.makeAPItoFindly = function (url, type, payload) {
+    FindlySDK.prototype.makeAPItoFindly = function (url, type, payload) {
       return $.ajax({
         url: url,
         type: type,
@@ -3441,28 +3616,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
-
-    KoreWidgetSDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
-      var bearer = this.API.jstBarrer;
-      return $.ajax({
-        url: url,
-        type: type,
-        dataType: 'json',
-        headers: {
-          "Authorization": bearer,
-          "Content-Type": "application/json"
-        },
-        data: payload,
-        success: function (data) {
-          console.log(data);
-        },
-        error: function (err) {
-          console.log(err)
-        }
-      })
-    }
-
-    KoreWidgetSDK.prototype.bindCloseGreeting = function () {
+    FindlySDK.prototype.bindCloseGreeting = function () {
       var _self = this;
       $('.search-greeting-close-container').off('click').on('click', function (e) {
         _self.closeGreetingMsg();
@@ -3650,7 +3804,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         recognizing = false;
       }
     };
-    KoreWidgetSDK.prototype.initWebKitSpeech = function () {
+    FindlySDK.prototype.initWebKitSpeech = function () {
       var _self = this;
       if ('webkitSpeechRecognition' in window && isChrome()) {
         recognition = new window.webkitSpeechRecognition;
@@ -3736,15 +3890,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    KoreWidgetSDK.prototype.showSearch = function () {
+    FindlySDK.prototype.showSearch = function () {
       var _self = this;
+      /*_self.initWebKitSpeech();
+      _self.setAPIDetails();*/
+
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }
       _self.initWebKitSpeech();
       _self.setAPIDetails();
-
 
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
@@ -3805,7 +3961,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.searchEventBinding(dataHTML, 'search-container');
 
     };
-    KoreWidgetSDK.prototype.getTemplate = function (type) {
+    FindlySDK.prototype.getTemplate = function (type) {
       var menuTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl">\
         <div class="menuItemCntr">\
         <div class="sdkBotIcon" {{if botDetails && botDetails.name}}title="${botDetails.name}"{{/if}}>\
@@ -6047,12 +6203,79 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.bindWidgetEvent = function () { };
+    FindlySDK.prototype.bindWidgetEvent = function () { };
 
-    KoreWidgetSDK.prototype.openDropdown = function (data) {
+    FindlySDK.prototype.openDropdown = function (data) {
       console.log(data);
     };
-    KoreWidgetSDK.prototype.openPanel = function (panelName, resPopUp, heightToggle) {
+
+    // FindlySDK.prototype.showingMatchedResults = false;
+
+    FindlySDK.prototype.openTab = function (event, tabName) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      var _self = this;
+      console.log(event);
+
+      var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
+      for (var i = 0; i < navLinks.length; i++) {
+        navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
+      }
+      event.currentTarget.className += " nav-link-item-active";
+
+      if (koreWidgetSDKInstance.vars.showingMatchedResults == true) {
+        if (tabName == 'customize') {
+          koreWidgetSDKInstance.vars.customizeView = true;
+          // $(".faqs-bottom-actions").css('display', 'table');
+          $(".custom-insights-control-container").show();
+          $(".tasks-wrp").sortable();
+          $(".tasks-wrp").sortable("option", "disabled", false);
+          $(".tasks-wrp").disableSelection();
+
+          $(".faqs-shadow").addClass('custom-faqs-shadow');
+          $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+          $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
+
+          $(".image-url-sec").css('display', 'none');
+          $(".faqs-bottom-actions").css('display', 'table');
+
+        }
+        else {
+          koreWidgetSDKInstance.vars.customizeView = false;
+          $(".custom-insights-control-container").hide();
+          $(".faqs-shadow").removeClass('custom-faqs-shadow');
+          $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+          $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
+
+          $(".tasks-wrp").sortable("disable");
+          $(".image-url-sec").css('display', 'table-cell');
+          $(".faqs-bottom-actions").css('display', 'none');
+
+        }
+      }
+      else {
+        if (tabName == 'customize') {
+          koreWidgetSDKInstance.vars.customizeView = true;
+        }
+        else {
+          koreWidgetSDKInstance.vars.customizeView = false;
+        }
+
+      }
+      /*var actionsDivs = document.getElementsByClassName("faqs-bottom-actions");
+      for(var i = 0; i < actionsDivs.length; i++) {
+        if (tabName == 'customize') {
+          actionsDivs[i].style.display = "table";
+        }
+        else {
+          actionsDivs[i].style.display = "none";
+        }
+      }*/
+
+    };
+
+    FindlySDK.prototype.openPanel = function (panelName, resPopUp, heightToggle) {
       if (panelName && (panelName !== 'closePanel')) {
         $(".kore-chat-window").removeClass("selectedHeight");
       }
@@ -6158,7 +6381,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.checkWidgetSwitchEditor = function (newPanel, oldPanel) {
+    FindlySDK.prototype.checkWidgetSwitchEditor = function (newPanel, oldPanel) {
       var _self = this;
 
       if (newPanel !== oldPanel) {
@@ -6196,7 +6419,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return false;
     };
 
-    KoreWidgetSDK.prototype.prepareRenderData = function (panelName) {
+    FindlySDK.prototype.prepareRenderData = function (panelName) {
       var mainPanel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
       var _self = this;
@@ -6338,7 +6561,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.getServerDataGen = function (url, method, payload, _params) {
+    FindlySDK.prototype.getServerDataGen = function (url, method, payload, _params) {
       var _self = this;
       var config = _self.config;
       url = _self.resolveUrl(url, {
@@ -6363,7 +6586,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return $.ajax(apiConfigs);
     };
 
-    KoreWidgetSDK.prototype.getServerData = function (url, method, payload, _params, passedJson) {
+    FindlySDK.prototype.getServerData = function (url, method, payload, _params, passedJson) {
       var _self = this;
       var initialWidgetData = _self.vars.initialWidgetData;
       var cacheData = _self.vars.cacheData;
@@ -6561,7 +6784,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    KoreWidgetSDK.prototype.getCacheDataByWidgetId = function (widgetId) {
+    FindlySDK.prototype.getCacheDataByWidgetId = function (widgetId) {
       var _self = this; //var cacheData=cacheData;
       var cacheData = _self.vars.cacheData;
 
@@ -6576,7 +6799,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
     };
-    KoreWidgetSDK.prototype.getPanelDataByPanelId = function (panelId) {
+    FindlySDK.prototype.getPanelDataByPanelId = function (panelId) {
       var _self = this;
       var panelIndex = -1;
       var initialWidgetData = _self.vars.initialWidgetData;
@@ -6591,7 +6814,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return initialWidgetData.panels[panelIndex];
       }
     };
-    KoreWidgetSDK.prototype.getWidgetDataByWidgetId = function (widgetId) {
+    FindlySDK.prototype.getWidgetDataByWidgetId = function (widgetId) {
       var _self = this;
       var widgetInfo = null;
       var initialWidgetData = _self.vars.initialWidgetData;
@@ -6608,7 +6831,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return widgetInfo;
       }
     };
-    KoreWidgetSDK.prototype.openCloseBottomOverlayContainer = function (open, htmlData) {
+    FindlySDK.prototype.openCloseBottomOverlayContainer = function (open, htmlData) {
       var _self = this;
       if (open && htmlData) {
         $('#widgetSdkBottomOverlayContainer').html(htmlData)
@@ -6629,7 +6852,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 100);
     }
-    KoreWidgetSDK.prototype.applySortingAndFilter = function (e, bindingData, sortInputs) {
+    FindlySDK.prototype.applySortingAndFilter = function (e, bindingData, sortInputs) {
       _self = this;
       if (!bindingData.inputsPayload) {
         bindingData.inputsPayload = {};
@@ -6674,7 +6897,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, {}, panelDetail);
       _self.openCloseBottomOverlayContainer();
     }
-    KoreWidgetSDK.prototype.applySorting = function (e, $ele, templateType, bindingData) {
+    FindlySDK.prototype.applySorting = function (e, $ele, templateType, bindingData) {
       var _self = this;
       var allSorts = $(e.currentTarget).closest('dropdown-contentWidgt').find('dropdown-item');
       if (allSorts && allSorts.length) {
@@ -6687,7 +6910,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       sortInputs[selectedSortObj.field] = selectedSortObj.fieldValue;
       _self.applySortingAndFilter(e, bindingData, sortInputs);
     };
-    KoreWidgetSDK.prototype.openWidgetFilters = function (e, ele, templateType, bindingData) {
+    FindlySDK.prototype.openWidgetFilters = function (e, ele, templateType, bindingData) {
       var _self = this;
       var widgetId = $(e.target).closest('.widgetContParent').attr('id');
       var res = bindingData || _self.getCacheDataByWidgetId(widgetId);
@@ -6713,7 +6936,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.openCloseBottomOverlayContainer(true, filterHTML);
       }
     }
-    KoreWidgetSDK.prototype.bindTemplateEvents = function (ele, templateType, bindingData) {
+    FindlySDK.prototype.bindTemplateEvents = function (ele, templateType, bindingData) {
       var _self = this;
       var initialWidgetData = _self.vars.initialWidgetData;
 
@@ -7265,7 +7488,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.getHTMLTemplate = function (responseData, xhrObject) {
+    FindlySDK.prototype.getHTMLTemplate = function (responseData, xhrObject) {
       var _self = this;
 
       var dataHTML;
@@ -7487,7 +7710,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return dataHTML;
       }
     };
-    KoreWidgetSDK.prototype.prepereWidgetHeader = function (responseData, xhrObject) {
+    FindlySDK.prototype.prepereWidgetHeader = function (responseData, xhrObject) {
       var _self = this;
       var widgetData = _self.getWidgetDataByWidgetId(xhrObject.passedkey.subpanel);
       if (typeof widgetData === 'object') {
@@ -7510,7 +7733,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     }
-    KoreWidgetSDK.prototype.renderTemplate = function (responseData, xhrObject) {
+    FindlySDK.prototype.renderTemplate = function (responseData, xhrObject) {
       var _self = this;
       if (xhrObject && xhrObject.passedkey) {
         _self.prepereWidgetHeader(responseData, xhrObject);
@@ -7556,7 +7779,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } //#todo //applyWidgetOverlay();
     };
 
-    KoreWidgetSDK.prototype.resolveUrl = function (toResolveUrl, values, deleteProp) {
+    FindlySDK.prototype.resolveUrl = function (toResolveUrl, values, deleteProp) {
       var _regExToParamName = /\:([a-zA-Z]+)/g;
       return toResolveUrl.replace(_regExToParamName, function (matchStr, valName) {
         var r = values[valName];
@@ -7573,7 +7796,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    KoreWidgetSDK.prototype.getResolveMeeting = function (obj) {
+    FindlySDK.prototype.getResolveMeeting = function (obj) {
       var _self = this;
 
       var items = [];
@@ -7672,7 +7895,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.filterTabs = function (parentId, subpanelId, filterId) {
+    FindlySDK.prototype.filterTabs = function (parentId, subpanelId, filterId) {
       var _self = this;
 
       $(parentId + ' #' + subpanelId + ' .' + subpanelId + '_content').hide(); // hiding the content panel
@@ -7686,7 +7909,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.resetTask();
     };
 
-    KoreWidgetSDK.prototype.viewMorePanel = function (obj) {
+    FindlySDK.prototype.viewMorePanel = function (obj) {
       var _self = this;
       var initialWidgetData = _self.vars.initialWidgetData;
 
@@ -7762,7 +7985,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.scrollData = function (paneldata, filterdata, panelType, e) {
+    FindlySDK.prototype.scrollData = function (paneldata, filterdata, panelType, e) {
       var _self = this;
 
       var paneldata = JSON.parse(paneldata);
@@ -7791,7 +8014,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     };
-    KoreWidgetSDK.prototype.scrollServerData = function (url, method, payload, passedJson, e, viewMoredata, panelType) {
+    FindlySDK.prototype.scrollServerData = function (url, method, payload, passedJson, e, viewMoredata, panelType) {
       var _self = this;
 
       url = _self.resolveUrl(url, {
@@ -7912,7 +8135,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    KoreWidgetSDK.prototype.mergedata = function (oldJson, newJson) {
+    FindlySDK.prototype.mergedata = function (oldJson, newJson) {
       var oldkeys = Object.keys(oldJson);
       var newkeys = Object.keys(newJson);
       var commonKeys = oldkeys.filter(function (obj) {
@@ -7931,7 +8154,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return oldJson;
     };
 
-    KoreWidgetSDK.prototype.setChatFocus = function () {
+    FindlySDK.prototype.setChatFocus = function () {
       var _self = this;
 
       $('.menuItemCntr .menuItem').removeClass('active');
@@ -7959,12 +8182,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.centerWindow').children().not('.kore-chat-window').not('.koraPanelHeader').not('.centralLoader').remove();
     };
 
-    KoreWidgetSDK.prototype.removeViewMore = function () {
+    FindlySDK.prototype.removeViewMore = function () {
       var _self = this;
 
       $(_self.config.container.content).find('.viewMoreCntr').remove();
     };
-    KoreWidgetSDK.prototype.getColumnWidth = function (width) {
+    FindlySDK.prototype.getColumnWidth = function (width) {
       var _self = this;
       var newWidth;
       var widthToApply = '100%';
@@ -7980,7 +8203,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.refreshElement = function (panelDetails, refreshFullpanel, widgetData) {
+    FindlySDK.prototype.refreshElement = function (panelDetails, refreshFullpanel, widgetData) {
       // need to correct with filter implementation form and imputs mainlt//
       var _self = this;
       var _config = this.config;
@@ -8005,7 +8228,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     };
-    KoreWidgetSDK.prototype.refreshWidgetData = function (widgetData, time, panelDetail) {
+    FindlySDK.prototype.refreshWidgetData = function (widgetData, time, panelDetail) {
       var _self = this;
       var currTime = new Date().getTime();
       var givenTime = new Date().getTime() + 1000 * time;
@@ -8016,7 +8239,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         clearInterval(widgetData.pollingTimer);
       }
     };
-    KoreWidgetSDK.prototype.clearWidgetPolling = function (widgetData) {
+    FindlySDK.prototype.clearWidgetPolling = function (widgetData) {
       var _self = this;
       if (widgetData) {
         clearInterval(widgetData.pollingTimer);
@@ -8035,7 +8258,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
     }
-    KoreWidgetSDK.prototype.startWidgetPolling = function (widgetData, currTime, givenTime, panelDetail) {
+    FindlySDK.prototype.startWidgetPolling = function (widgetData, currTime, givenTime, panelDetail) {
       var _self = this;
       widgetData.pollingTimer = setInterval(function () {
         currTime = currTime + 5000;
@@ -8047,7 +8270,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, 5000);
       console.log(widgetData);
     };
-    KoreWidgetSDK.prototype.refreshData = function (panelName, time) {
+    FindlySDK.prototype.refreshData = function (panelName, time) {
       var _self = this;
 
       var currTime = new Date().getTime();
@@ -8067,7 +8290,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.startPolling = function (panelName, currTime, givenTime) {
+    FindlySDK.prototype.startPolling = function (panelName, currTime, givenTime) {
       var _self = this;
 
       pollingTimer = setInterval(function () {
@@ -8089,7 +8312,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, 5000);
     };
 
-    KoreWidgetSDK.prototype.resetTask = function () {
+    FindlySDK.prototype.resetTask = function () {
       taskList = [];
       taskTitle = {};
       $('.viewMoreCntr .viewTask').find('[type="checkbox"]').prop('checked', false);
@@ -8097,9 +8320,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.allTaskCntr .viewTask').removeClass('selected');
     };
 
-    KoreWidgetSDK.prototype.meetingTimer = function (tdata, m_Data, index) {
+    FindlySDK.prototype.meetingTimer = function (tdata, m_Data, index) {
       var _self = this; //#TODO
-      // if (this.constructor !== KoreWidgetSDK) {
+      // if (this.constructor !== FindlySDK) {
       //   _self = koreWidgetSDKInstance;
       // }
 
@@ -8134,9 +8357,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return timeStatus;
     };
 
-    KoreWidgetSDK.prototype.startTimer = function (mObj) {
+    FindlySDK.prototype.startTimer = function (mObj) {
       var _self = this; //#TODO
-      // if(this.constructor!==KoreWidgetSDK){
+      // if(this.constructor!==FindlySDK){
       //   _self=koreWidgetSDKInstance;
       // }
 
@@ -8168,12 +8391,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       taskTitle = {},
       viewMoreScrollBox = null;
 
-    KoreWidgetSDK.prototype.passHashTag = function (uttarence) {
+    FindlySDK.prototype.passHashTag = function (uttarence) {
       var message = 'find the articles with ' + uttarence;
       window['chatWinRef'].sendMessage($('.chatInputBox'), message, {}, 'onlyMessage');
     };
 
-    KoreWidgetSDK.prototype.openArticle = function (kId) {
+    FindlySDK.prototype.openArticle = function (kId) {
       window.angularComponentReference.zone.run(function () {
         window.angularComponentReference.componentFn({
           'id': kId
@@ -8181,7 +8404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    KoreWidgetSDK.prototype.openAnnouncement = function (kId) {
+    FindlySDK.prototype.openAnnouncement = function (kId) {
       window.angularComponentReference.zone.run(function () {
         window.viewMoreKnowledgeAnncCmp.componentFn({
           'id': kId,
@@ -8190,13 +8413,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     };
 
-    KoreWidgetSDK.prototype.openLink = function (url) {
+    FindlySDK.prototype.openLink = function (url) {
       if (url) {
         window.open(url, '_blank');
       }
     };
 
-    KoreWidgetSDK.prototype.passTaskUtterances = function (e, actionIndex) {
+    FindlySDK.prototype.passTaskUtterances = function (e, actionIndex) {
       var _self = this;
 
       var taskData = JSON.parse($(e).attr('payload'));
@@ -8222,7 +8445,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.passUtterances = function (idss, message, evt) {
+    FindlySDK.prototype.passUtterances = function (idss, message, evt) {
       var _self = this;
 
       if (evt) {
@@ -8263,7 +8486,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     };
 
-    KoreWidgetSDK.prototype.triggerEvent = function (eventName, data) {
+    FindlySDK.prototype.triggerEvent = function (eventName, data) {
       var _self = this;
 
       if (_self.events && _self.events[eventName]) {
@@ -8273,7 +8496,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.triggerAction = function (actionObj, postData) {
+    FindlySDK.prototype.triggerAction = function (actionObj, postData) {
       var _self = this;
 
       if (actionObj.type === "url") {
@@ -8304,7 +8527,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.setChatFocus();
     };
 
-    KoreWidgetSDK.prototype.checkCurrentUser = function (oId, aId) {
+    FindlySDK.prototype.checkCurrentUser = function (oId, aId) {
       var _self = this;
 
       var uId = _self.config.userInfo.id; //$.jStorage.get('currentAccount').userInfo.id;
@@ -8316,7 +8539,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.categoriseMeetingDayWise = function (mData) {
+    FindlySDK.prototype.categoriseMeetingDayWise = function (mData) {
       var ele = object.assign({}, mData);
 
       for (var k = 0; k < ele.length; k++) {
@@ -8326,7 +8549,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.showDropdown = function (obj) {
+    FindlySDK.prototype.showDropdown = function (obj) {
       if ($(obj).next().hasClass('dropdown-contentWidgt')) {
         $(obj).next().toggleClass('show');
       }
@@ -8352,7 +8575,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
     })();
 
-    KoreWidgetSDK.prototype.addArticleAnnouncement = function (type) {
+    FindlySDK.prototype.addArticleAnnouncement = function (type) {
       if (type === 'Article') {
         window.angularComponentReference.zone.run(function () {
           window.addKnowledge.componentFn();
@@ -8364,7 +8587,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.passMeetingUtterances = function (_this) {
+    FindlySDK.prototype.passMeetingUtterances = function (_this) {
       var _self = this;
 
       mainObj = $(_this).attr('mainObj');
@@ -8406,7 +8629,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     };
 
-    KoreWidgetSDK.prototype.meetingAction = function (actionObj, mainObj) {
+    FindlySDK.prototype.meetingAction = function (actionObj, mainObj) {
       try {
         actionObj = JSON.parse(actionObj);
         mainObj = JSON.parse(mainObj);
@@ -8446,7 +8669,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.taskkAction = function (tId, taskName, e) {
+    FindlySDK.prototype.taskkAction = function (tId, taskName, e) {
       if (taskList.indexOf(tId) >= 0) {
         taskList.splice(taskList.indexOf(tId), 1);
         $(e).parents('.viewTask').removeClass('selected');
@@ -8479,7 +8702,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     };
 
-    KoreWidgetSDK.prototype.removeTaskSelection = function () {
+    FindlySDK.prototype.removeTaskSelection = function () {
       resetTask();
 
       if (taskList.length === 0) {
@@ -8489,7 +8712,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.taskSend = function (type) {
+    FindlySDK.prototype.taskSend = function (type) {
       var _self = this;
 
       if ($('.switchKoraDD .switchHeader .skillNameTxt').text().trim().toLowerCase() !== "kora") {
@@ -8511,7 +8734,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.taskCheckbox = function (taskId) {
+    FindlySDK.prototype.taskCheckbox = function (taskId) {
       if (taskList.indexOf(taskId) >= 0) {
         return true;
       } else {
@@ -8519,7 +8742,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.sendTaskAction = function (type, actionPlace) {
+    FindlySDK.prototype.sendTaskAction = function (type, actionPlace) {
       var msg = '';
       var parmaMessage = {
         ids: taskList
@@ -8549,7 +8772,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(_self.config.container.content).find('.viewMoreCntr').remove();
     };
 
-    KoreWidgetSDK.prototype.popupAction = function (data, title, _this) {
+    FindlySDK.prototype.popupAction = function (data, title, _this) {
       var _self = this;
 
       var actionObj = $(_this).attr('actionObj');
@@ -8619,7 +8842,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.createPopup = function (content, actionObj, mainObj) {
+    FindlySDK.prototype.createPopup = function (content, actionObj, mainObj) {
       var _self = this;
 
       var dataHTML = $(_self.getTemplate("popUpTemplate")).tmplProxy({
@@ -8630,7 +8853,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.mgrCntr').append(dataHTML);
     };
 
-    KoreWidgetSDK.prototype.toggelMeetingActionBtn = function (id, e) {
+    FindlySDK.prototype.toggelMeetingActionBtn = function (id, e) {
       if ($(e).children().hasClass("icon-Arrow_Drop_Down_Up")) {
         $(e).children().removeClass("icon-Arrow_Drop_Down_Up");
         $(e).children().addClass("icon-Arrow_Drop_Down");
@@ -8642,7 +8865,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $("#" + id).slideToggle("slow");
     };
 
-    KoreWidgetSDK.prototype.hexToRGBMeeting = function (hex, alpha) {
+    FindlySDK.prototype.hexToRGBMeeting = function (hex, alpha) {
       if (!alpha) {
         if ($("body").hasClass("darkTheme")) {
           alpha = 0.7;
@@ -8662,7 +8885,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.isURL = function (str) {
+    FindlySDK.prototype.isURL = function (str) {
       function hasWhiteSpace(text) {
         return /\s/g.test(text);
       }
@@ -8697,7 +8920,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }; //********************original widgetTemplateEvent.js end */
 
 
-    KoreWidgetSDK.prototype.getTemplateMethods = function () {
+    FindlySDK.prototype.getTemplateMethods = function () {
       var _self = this;
 
       var methodMap = {};
@@ -8708,137 +8931,138 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return methodMap;
     };
 
-    KoreWidgetSDK.prototype.openPanelForWindow = function (panelName, resPopUp, heightToggle) {
-      KoreWidgetSDK.prototype.openPanel.call(koreWidgetSDKInstance, panelName, resPopUp, heightToggle);
+    FindlySDK.prototype.openPanelForWindow = function (panelName, resPopUp, heightToggle) {
+      FindlySDK.prototype.openPanel.call(koreWidgetSDKInstance, panelName, resPopUp, heightToggle);
     };
-    KoreWidgetSDK.prototype.getHTMLForSearch = function (val) {
-      return KoreWidgetSDK.prototype.convertMDtoHTML.call(koreWidgetSDKInstance, val);
-    };
-
-    KoreWidgetSDK.prototype.filterTabsForWindow = function (parentId, subpanelId, filterId) {
-      KoreWidgetSDK.prototype.filterTabs.call(koreWidgetSDKInstance, parentId, subpanelId, filterId);
+    FindlySDK.prototype.getHTMLForSearch = function (val) {
+      return FindlySDK.prototype.convertMDtoHTML.call(koreWidgetSDKInstance, val);
     };
 
-    KoreWidgetSDK.prototype.viewMorePanelForWindow = function (obj) {
-      KoreWidgetSDK.prototype.viewMorePanel.call(koreWidgetSDKInstance, obj);
+    FindlySDK.prototype.filterTabsForWindow = function (parentId, subpanelId, filterId) {
+      FindlySDK.prototype.filterTabs.call(koreWidgetSDKInstance, parentId, subpanelId, filterId);
     };
 
-    KoreWidgetSDK.prototype.scrollDataForWindow = function (paneldata, filterdata, panelType, e) {
-      KoreWidgetSDK.prototype.scrollData.call(koreWidgetSDKInstance, paneldata, filterdata, panelType, e);
+    FindlySDK.prototype.viewMorePanelForWindow = function (obj) {
+      FindlySDK.prototype.viewMorePanel.call(koreWidgetSDKInstance, obj);
     };
 
-    KoreWidgetSDK.prototype.removeViewMoreForWindow = function () {
-      KoreWidgetSDK.prototype.removeViewMore.call(koreWidgetSDKInstance);
+    FindlySDK.prototype.scrollDataForWindow = function (paneldata, filterdata, panelType, e) {
+      FindlySDK.prototype.scrollData.call(koreWidgetSDKInstance, paneldata, filterdata, panelType, e);
     };
 
-    KoreWidgetSDK.prototype.meetingTimerForWindow = function (tdata, m_Data, index) {
-      KoreWidgetSDK.prototype.meetingTimer.call(koreWidgetSDKInstance, tdata, m_Data, index);
+    FindlySDK.prototype.removeViewMoreForWindow = function () {
+      FindlySDK.prototype.removeViewMore.call(koreWidgetSDKInstance);
     };
 
-    KoreWidgetSDK.prototype.passHashTagForWindow = function (uttarence) {
-      KoreWidgetSDK.prototype.passHashTag.call(koreWidgetSDKInstance, uttarence);
+    FindlySDK.prototype.meetingTimerForWindow = function (tdata, m_Data, index) {
+      FindlySDK.prototype.meetingTimer.call(koreWidgetSDKInstance, tdata, m_Data, index);
     };
 
-    KoreWidgetSDK.prototype.openArticleForWindow = function (kId) {
-      KoreWidgetSDK.prototype.openArticle.call(koreWidgetSDKInstance, kId);
+    FindlySDK.prototype.passHashTagForWindow = function (uttarence) {
+      FindlySDK.prototype.passHashTag.call(koreWidgetSDKInstance, uttarence);
     };
 
-    KoreWidgetSDK.prototype.openAnnouncementForWindow = function (kId) {
-      KoreWidgetSDK.prototype.openAnnouncement.call(koreWidgetSDKInstance, kId);
+    FindlySDK.prototype.openArticleForWindow = function (kId) {
+      FindlySDK.prototype.openArticle.call(koreWidgetSDKInstance, kId);
     };
 
-    KoreWidgetSDK.prototype.openLinkForWindow = function (url) {
-      KoreWidgetSDK.prototype.openLink.call(koreWidgetSDKInstance, url);
+    FindlySDK.prototype.openAnnouncementForWindow = function (kId) {
+      FindlySDK.prototype.openAnnouncement.call(koreWidgetSDKInstance, kId);
     };
 
-    KoreWidgetSDK.prototype.passTaskUtterancesForWindow = function (e, actionIndex) {
-      KoreWidgetSDK.prototype.passTaskUtterances.call(koreWidgetSDKInstance, e, actionIndex);
+    FindlySDK.prototype.openLinkForWindow = function (url) {
+      FindlySDK.prototype.openLink.call(koreWidgetSDKInstance, url);
     };
 
-    KoreWidgetSDK.prototype.passUtterancesForWindow = function (idss, message, evt) {
-      KoreWidgetSDK.prototype.passUtterances.call(koreWidgetSDKInstance, idss, message, evt);
+    FindlySDK.prototype.passTaskUtterancesForWindow = function (e, actionIndex) {
+      FindlySDK.prototype.passTaskUtterances.call(koreWidgetSDKInstance, e, actionIndex);
     };
 
-    KoreWidgetSDK.prototype.checkCurrentUserForWindow = function (oId, aId) {
-      KoreWidgetSDK.prototype.checkCurrentUser.call(koreWidgetSDKInstance, oId, aId);
+    FindlySDK.prototype.passUtterancesForWindow = function (idss, message, evt) {
+      FindlySDK.prototype.passUtterances.call(koreWidgetSDKInstance, idss, message, evt);
     };
 
-    KoreWidgetSDK.prototype.showDropdownForWindow = function (obj) {
-      KoreWidgetSDK.prototype.showDropdown.call(koreWidgetSDKInstance, obj);
+    FindlySDK.prototype.checkCurrentUserForWindow = function (oId, aId) {
+      FindlySDK.prototype.checkCurrentUser.call(koreWidgetSDKInstance, oId, aId);
     };
 
-    KoreWidgetSDK.prototype.addArticleAnnouncementForWindow = function (type) {
-      KoreWidgetSDK.prototype.addArticleAnnouncement.call(koreWidgetSDKInstance, type);
+    FindlySDK.prototype.showDropdownForWindow = function (obj) {
+      FindlySDK.prototype.showDropdown.call(koreWidgetSDKInstance, obj);
     };
 
-    KoreWidgetSDK.prototype.refreshElementForWindow = function (type, refreshType) {
-      KoreWidgetSDK.prototype.refreshElement.call(koreWidgetSDKInstance, type, refreshType);
+    FindlySDK.prototype.addArticleAnnouncementForWindow = function (type) {
+      FindlySDK.prototype.addArticleAnnouncement.call(koreWidgetSDKInstance, type);
     };
 
-    KoreWidgetSDK.prototype.passMeetingUtterancesForWindow = function (_this) {
-      KoreWidgetSDK.prototype.passMeetingUtterances.call(koreWidgetSDKInstance, _this);
+    FindlySDK.prototype.refreshElementForWindow = function (type, refreshType) {
+      FindlySDK.prototype.refreshElement.call(koreWidgetSDKInstance, type, refreshType);
     };
 
-    KoreWidgetSDK.prototype.taskkActionForWindow = function (tId, taskName, e) {
-      KoreWidgetSDK.prototype.taskkAction.call(koreWidgetSDKInstance, tId, taskName, e);
+    FindlySDK.prototype.passMeetingUtterancesForWindow = function (_this) {
+      FindlySDK.prototype.passMeetingUtterances.call(koreWidgetSDKInstance, _this);
     };
 
-    KoreWidgetSDK.prototype.removeTaskSelectionForWindow = function () {
-      KoreWidgetSDK.prototype.removeTaskSelection.call(koreWidgetSDKInstance);
+    FindlySDK.prototype.taskkActionForWindow = function (tId, taskName, e) {
+      FindlySDK.prototype.taskkAction.call(koreWidgetSDKInstance, tId, taskName, e);
     };
 
-    KoreWidgetSDK.prototype.taskSendForWindow = function (type) {
-      KoreWidgetSDK.prototype.taskSend.call(koreWidgetSDKInstance, type);
+    FindlySDK.prototype.removeTaskSelectionForWindow = function () {
+      FindlySDK.prototype.removeTaskSelection.call(koreWidgetSDKInstance);
     };
 
-    KoreWidgetSDK.prototype.taskCheckboxForWindow = function (taskId) {
-      KoreWidgetSDK.prototype.taskCheckbox.call(koreWidgetSDKInstance, taskId);
+    FindlySDK.prototype.taskSendForWindow = function (type) {
+      FindlySDK.prototype.taskSend.call(koreWidgetSDKInstance, type);
     };
 
-    KoreWidgetSDK.prototype.popupActionForWindow = function (data, title, _this) {
-      KoreWidgetSDK.prototype.popupAction.call(koreWidgetSDKInstance, data, title, _this);
+    FindlySDK.prototype.taskCheckboxForWindow = function (taskId) {
+      FindlySDK.prototype.taskCheckbox.call(koreWidgetSDKInstance, taskId);
     };
 
-    KoreWidgetSDK.prototype.toggelMeetingActionBtnForWindow = function (id, e) {
-      KoreWidgetSDK.prototype.toggelMeetingActionBtn.call(koreWidgetSDKInstance, id, e);
+    FindlySDK.prototype.popupActionForWindow = function (data, title, _this) {
+      FindlySDK.prototype.popupAction.call(koreWidgetSDKInstance, data, title, _this);
     };
 
-    KoreWidgetSDK.prototype.hexToRGBMeetingForWindow = function (hex, alpha) {
-      KoreWidgetSDK.prototype.hexToRGBMeeting.call(koreWidgetSDKInstance, hex, alpha);
+    FindlySDK.prototype.toggelMeetingActionBtnForWindow = function (id, e) {
+      FindlySDK.prototype.toggelMeetingActionBtn.call(koreWidgetSDKInstance, id, e);
     };
 
-    KoreWidgetSDK.prototype.isURLForWindow = function (str) {
-      KoreWidgetSDK.prototype.isURL.call(koreWidgetSDKInstance, str);
+    FindlySDK.prototype.hexToRGBMeetingForWindow = function (hex, alpha) {
+      FindlySDK.prototype.hexToRGBMeeting.call(koreWidgetSDKInstance, hex, alpha);
     };
 
-    window.openPanel = KoreWidgetSDK.prototype.openPanelForWindow;
-    window.getHTMLForSearch = KoreWidgetSDK.prototype.getHTMLForSearch;
-    window.filterTabs = KoreWidgetSDK.prototype.filterTabsForWindow;
-    window.viewMorePanel = KoreWidgetSDK.prototype.viewMorePanelForWindow;
-    window.scrollData = KoreWidgetSDK.prototype.scrollDataForWindow;
-    window.removeViewMore = KoreWidgetSDK.prototype.removeViewMoreForWindow;
-    window.meetingTimer = KoreWidgetSDK.prototype.meetingTimerForWindow;
-    window.passHashTag = KoreWidgetSDK.prototype.passHashTagForWindow;
-    window.openArticle = KoreWidgetSDK.prototype.openArticleForWindow;
-    window.openAnnouncement = KoreWidgetSDK.prototype.openAnnouncementForWindow;
-    window.openLink = KoreWidgetSDK.prototype.openLinkForWindow;
-    window.passTaskUtterances = KoreWidgetSDK.prototype.passTaskUtterancesForWindow;
-    window.passUtterances = KoreWidgetSDK.prototype.passUtterancesForWindow;
-    window.checkCurrentUser = KoreWidgetSDK.prototype.checkCurrentUserForWindow;
-    window.showDropdown = KoreWidgetSDK.prototype.showDropdownForWindow;
-    window.addArticleAnnouncement = KoreWidgetSDK.prototype.addArticleAnnouncementForWindow;
-    window.refreshElement = KoreWidgetSDK.prototype.refreshElementForWindow;
-    window.passMeetingUtterances = KoreWidgetSDK.prototype.passMeetingUtterancesForWindow;
-    window.taskkAction = KoreWidgetSDK.prototype.taskkActionForWindow;
-    window.removeTaskSelection = KoreWidgetSDK.prototype.removeTaskSelectionForWindow;
-    window.taskSend = KoreWidgetSDK.prototype.taskSendForWindow;
-    window.taskCheckbox = KoreWidgetSDK.prototype.taskCheckboxForWindow;
-    window.popupAction = KoreWidgetSDK.prototype.popupActionForWindow;
-    window.toggelMeetingActionBtn = KoreWidgetSDK.prototype.toggelMeetingActionBtnForWindow;
-    window.hexToRGBMeeting = KoreWidgetSDK.prototype.hexToRGBMeetingForWindow;
-    window.isURL = KoreWidgetSDK.prototype.isURLForWindow;
+    FindlySDK.prototype.isURLForWindow = function (str) {
+      FindlySDK.prototype.isURL.call(koreWidgetSDKInstance, str);
+    };
 
-    KoreWidgetSDK.prototype.getMeetingSlot = function (duration) {
+    window.openPanel = FindlySDK.prototype.openPanelForWindow;
+    window.getHTMLForSearch = FindlySDK.prototype.getHTMLForSearch;
+    window.filterTabs = FindlySDK.prototype.filterTabsForWindow;
+    window.viewMorePanel = FindlySDK.prototype.viewMorePanelForWindow;
+    window.scrollData = FindlySDK.prototype.scrollDataForWindow;
+    window.removeViewMore = FindlySDK.prototype.removeViewMoreForWindow;
+    window.meetingTimer = FindlySDK.prototype.meetingTimerForWindow;
+    window.passHashTag = FindlySDK.prototype.passHashTagForWindow;
+    window.openArticle = FindlySDK.prototype.openArticleForWindow;
+    window.openAnnouncement = FindlySDK.prototype.openAnnouncementForWindow;
+    window.openLink = FindlySDK.prototype.openLinkForWindow;
+    window.passTaskUtterances = FindlySDK.prototype.passTaskUtterancesForWindow;
+    window.passUtterances = FindlySDK.prototype.passUtterancesForWindow;
+    window.checkCurrentUser = FindlySDK.prototype.checkCurrentUserForWindow;
+    window.showDropdown = FindlySDK.prototype.showDropdownForWindow;
+    window.addArticleAnnouncement = FindlySDK.prototype.addArticleAnnouncementForWindow;
+    window.refreshElement = FindlySDK.prototype.refreshElementForWindow;
+    window.passMeetingUtterances = FindlySDK.prototype.passMeetingUtterancesForWindow;
+    window.taskkAction = FindlySDK.prototype.taskkActionForWindow;
+    window.removeTaskSelection = FindlySDK.prototype.removeTaskSelectionForWindow;
+    window.taskSend = FindlySDK.prototype.taskSendForWindow;
+    window.taskCheckbox = FindlySDK.prototype.taskCheckboxForWindow;
+    window.popupAction = FindlySDK.prototype.popupActionForWindow;
+    window.toggelMeetingActionBtn = FindlySDK.prototype.toggelMeetingActionBtnForWindow;
+    window.hexToRGBMeeting = FindlySDK.prototype.hexToRGBMeetingForWindow;
+    window.isURL = FindlySDK.prototype.isURLForWindow;
+    window.openTab = FindlySDK.prototype.openTab;
+
+    FindlySDK.prototype.getMeetingSlot = function (duration) {
       var _self = this;
 
       var slots = [];
@@ -8887,7 +9111,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
 
-    KoreWidgetSDK.prototype.getDateArray = function (start, end) {
+    FindlySDK.prototype.getDateArray = function (start, end) {
       var arr = new Array(),
         dt = new Date(start);
 
@@ -8899,7 +9123,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return arr;
     };
 
-    KoreWidgetSDK.prototype.cloneMessage1 = function (obj) {
+    FindlySDK.prototype.cloneMessage1 = function (obj) {
       var _self = this;
 
       var rv;
@@ -8941,7 +9165,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return rv;
     };
 
-    KoreWidgetSDK.prototype.compare = function (a, b) {
+    FindlySDK.prototype.compare = function (a, b) {
       var startFirst = a.data.duration.start;
       var startSecond = b.data.duration.start;
       var comparison = 0;
@@ -8955,7 +9179,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return comparison;
     };
 
-    KoreWidgetSDK.prototype.init = function (config) {
+    FindlySDK.prototype.init = function (config) {
       this.events = {};
       this.config = config || {}; //this.bot.init(this.config.botOptions);
       //todo:need to remove
@@ -8975,7 +9199,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
     };
 
-    KoreWidgetSDK.prototype.setJWT = function (jwtToken) {
+    FindlySDK.prototype.setJWT = function (jwtToken) {
       var _self = this;
 
       if (_self.config.botOptions && _self.config.botOptions.botInfo) {
@@ -8994,6 +9218,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         };
       }
     };
-    return KoreWidgetSDK;
+    return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
