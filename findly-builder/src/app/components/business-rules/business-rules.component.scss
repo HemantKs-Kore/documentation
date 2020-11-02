@@ -306,3 +306,45 @@
         display: none !important;
     }
 }
+
+::ng-deep .business-rules-popup{
+    .toggle-switch{
+        position: absolute;
+        right: 165px;
+        margin-top: 3px;
+        .slider {
+            span{
+                width: 120px !important;
+                top: -1px !important;
+            }
+        }
+    }
+    .rules-block{
+        .condition-add-text{
+            .title{
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                margin-bottom: 6px;
+            }
+            .desc_text{
+                color: #9AA0A6;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+                margin-bottom: 16px;
+            }
+            .add-condition{
+                color: #0D6EFD;
+                display: inline-block;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                cursor: pointer;
+                img{
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+}

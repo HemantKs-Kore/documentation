@@ -22,7 +22,7 @@
                 <img src="assets/icons/search.svg">
                 <img src="assets/images/close.svg" class="d-none">Seach
             </div>
-            <div class="add_feild">
+            <div class="add_feild" (click)="openModalPopup()">
                 <img src="assets/icons/add_plus.svg">Add Field
             </div>
             <div class="clock"><img src="assets/icons/clock.svg"></div>
@@ -172,3 +172,73 @@
         </perfect-scrollbar>
     </div>
 </div>
+
+
+<kr-modal modalType="center" #addBusinessRules modalClass="modal_popups_ business-rules-popup">
+  <div class="modal-header">
+    <div class="title font-weight-bold">Add Rule</div>
+    <label class="kr-sg-toggle toggle-switch">                                       
+        <input type="checkbox">
+        <div class="slider"><span class="enabled">Rule Active</span><span class="disabled">Rule Inactive</span></div>
+    </label>  
+    <div class="close_icon" (click)="closeModalPopup()"><img class="ng-tns-c11-2" src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+        <div class="kr-sg-input-text">
+            <div class="label-text">Rule Name</div>
+            <input type="text" placeholder="Rule Name" class="input-text">           
+        </div>
+        <div class="rules-block row m-0">
+            <div class="condition-add-text col-3 pl-0 pr-4">
+                <div class="title">Condition</div>
+                <div class="desc_text">The context of this section as to when the trigger takes place.</div>
+                <div class="add-condition"><img src="assets/icons/plus-blue.svg">Add Condition</div>
+            </div>
+            <div class="input-conditions col-9">
+                <div class="row m-0">
+                    <div class="col-2 p-0 title">
+                        Select Context
+                    </div>
+                    <div class="col-10">
+                        <div class="kr-sg-dropdowns">                           
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">User Context</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                          
+                                  <li><a href="#">Option 1</a></li>
+                                  <li><a href="#">Option 2</a></li>
+                                  <li><a href="#">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0">
+                    <div class="col-2 p-0 title">
+                        Select Context
+                    </div>
+                    <div class="col-10">
+                        <div class="kr-sg-dropdowns">                           
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">User Context</button>                                            
+                                <ul class="dropdown-menu content-menu">                                                                          
+                                  <li><a href="#">Option 1</a></li>
+                                  <li><a href="#">Option 2</a></li>
+                                  <li><a href="#">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="delete-rule">
+                <img src="assets/icons/modal-close.svg">
+            </div> -->
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg">Proceed</button>
+      <button class="kr-sg-button-secondary btn_lg">Back</button>
+  </div>
+</kr-modal> 
