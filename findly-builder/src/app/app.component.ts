@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   searchInstance:any;
   findlyBusinessConfig:any = {};
   bridgeDataInsights = true;
+  addNewResult = true;
   queryText ;
   pathsObj: any = {
    '/faq':'Faqs',
@@ -193,19 +194,30 @@ export class AppComponent implements OnInit {
       $('.search-container').removeClass('search-container-adv')
       $('.search-container').removeClass('add-new-result');
       _self.bridgeDataInsights = true;
+      _self.addNewResult = true;
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
     const _self = this;
     console.log(parms);
     //this.bridgeDataInsights = !parms.data;
-    if(parms.data == true && _self.bridgeDataInsights){
+    if(parms.type == "show" && parms.data == true && _self.bridgeDataInsights){
       _self.bridgeDataInsights = false;
     }else{
       _self.bridgeDataInsights = true;
     }
-    _self.queryText = parms.query;
-    
+    if(parms.type == "addNew" && parms.data == true){
+      _self.addNewResult = false;
+    }else{
+      _self.addNewResult = true;
+    }
+    if(parms.query){
+      _self.queryText = parms.query;
+    }
+  }
+  closeResultBody(event){
+    var bridgeObj = { type : "addNew" , data : false , query : null}
+    this.sdkBridge(bridgeObj)
   }
   initSearchSDK(){
     const _self = this;

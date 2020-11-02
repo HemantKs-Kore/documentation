@@ -1,7 +1,7 @@
 <router-outlet></router-outlet>
-<div [hidden]="bridgeData">
+<div *ngIf="!bridgeData">
     <app-insights  [data] = "bridgeData" [query]="query"></app-insights>
 </div> 
-<div [hidden]="true">
-    <app-add-result ></app-add-result>
+<div [hidden]="addNewResult">
+    <app-add-result [addNew] = "addNewResult" (closeResult) = closeResult($event)></app-add-result>
 </div>

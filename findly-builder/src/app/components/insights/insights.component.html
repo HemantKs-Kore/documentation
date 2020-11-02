@@ -13,7 +13,7 @@
             </div>
             <div class="click-val">
                 <p>Clicks </p> 
-                <span>{{analystic.searches || 0}}</span>
+                <span>{{analystic.clicks || 0}}</span>
             </div>
             <div class="ctr-val">
                 <p>CTR </p> 
@@ -103,24 +103,60 @@
         <div class="tabselect" *ngIf="slider == 1" class="tab-slider">
             <perfect-scrollbar class="perfect-scroll-insights">
            <div class="accordion-ins-head" *ngFor="let actLog of actionLogData;let i = index">
-                   <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins"  (click)="toggle(icontoggle, i,actLog.selected)">
-                       <div class="mb-0">
-                        <!-- <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0"> 
-                        <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0">  -->
-                        <div class="row">
-                            <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()"> 
-                            <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-1 mr-0" (click)="$event.stopPropagation()" >
-                            <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' ">{{actLog.header}}</div> 
-                           <div class="action-header pl-pr-0  col-lg-2" >
-                               <img src="assets/icons/help.svg" class="ml-1"> 
-                               <span class="status">{{actLog.status}}</span> 
-                           </div> 
-                           <div class="time col-lg-2">{{actLog.time}}</div> 
+                <div *ngIf="actLog.target">
+                    <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-ins"  (click)="toggle(icontoggle,actLog.selected)">
+                        <div class="mb-0">
+                        
+                         <div class="row">
+                            <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" > 
+                            <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" >
+                            <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
+                            <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo.question}}</div> 
+                            <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div> 
+                            <div class="action-header pl-pr-0  col-lg-2" >
+                                <img src="assets/icons/help.svg" class="ml-1"> 
+                                <span class="status">pinned</span> 
+                            </div> 
+                            <div class="time col-lg-2">3h ago</div> 
+                         </div>
                         </div>
-                       </div>
-                   </a>
-                   <div id="demo_{{i}}" class="collapse"><p class="action-desc"> {{actLog.description}} </p>  </div>
+                    </a>
+                    <div id="demo_{{i}}" class="collapse">
+                                
+                                <p class="action-desc" *ngIf ="actLog.target.contentType == 'page'"> {{actLog.target.contentInfo.searchResultPreview}} </p>  
+                                <p class="action-desc" *ngIf ="actLog.target.contentType == 'faq'"> {{faqDesc}} </p>  
+                                <p class="action-desc" *ngIf ="actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.lname}} </p>  
+                                
+                    </div>
+                </div> 
             </div>
+            <!-- <div class="accordion-result-rank" *ngFor="let actLog of actionLogData;let i = index" (click)="toggle(icontoggle, actLog.selected)">
+                <div *ngIf="actLog.target">
+                <a href="#demo_{{i}}" data-toggle="collapse" class="accordion-rr"  >
+                    <div class="mb-0">
+                     <div class="row" >
+                         <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" > 
+                         <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" >
+                         <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
+                         <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo.question}}</div> 
+                         <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>  
+                        <div class="action-header pl-pr-0  col-lg-2" >
+                            <img src="assets/icons/help.svg" class="ml-1"> 
+                            <span class="status" >pinned</span> 
+                        </div> 
+                        <div class="time col-lg-2">3h ago</div> 
+                     </div>
+                    </div>
+                </a>
+                <div id="demo_{{i}}" class="collapse" >
+                    <p class="action-desc" *ngIf ="actLog.target.contentType == 'page'"> {{actLog.target.contentInfo.searchResultPreview}} </p>  
+                    <p class="action-desc" *ngIf ="actLog.target.contentType == 'faq'"> {{faqDesc}} </p>  
+                    <p class="action-desc" *ngIf ="actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.lname}} </p>  
+                    
+                   
+                </div>
+            </div>
+            </div> -->
         </perfect-scrollbar>
         </div>
      <!-- </perfect-scrollbar> -->

@@ -1,5 +1,5 @@
 
-<div class="add-result">
+<div class="add-result" *ngIf="!addNew">
     <div class="header">
         <span class="head-txt">ADD NEW RESULT</span>
         <img class="closeCross" src="assets/images/close.svg" (click)="cancelRecord()">

@@ -480,7 +480,7 @@
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button" [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" class="kr-sg-button-primary btn_lg float-right" style="margin: 0 !important;" (click)="addField()">{{newFieldObj._id?'Save':'Add'}}</button>                   
+        <button type="button" [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" class="kr-sg-button-primary btn_lg float-right" (click)="addField()">{{newFieldObj._id?'Save':'Add'}}</button>                   
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </ng-container>
