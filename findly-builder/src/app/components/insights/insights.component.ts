@@ -168,7 +168,7 @@ lineStyle: {
     // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
     //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
     // } 
-    this.query = "Open bank account"
+    //this.query = "Open bank account"
     const quaryparms: any={
       searchIndexId: this.serachIndexId,
     }
@@ -179,7 +179,7 @@ lineStyle: {
     //   "searches": 5983,
     //   "clicks": 4254
     // };
-    // this.ctrVal = Math.floor(this.analystic['searches'] / this.analystic['clicks'] ) * 100;
+     this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches'] ) * 100;
     
       this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
         console.log(res)
@@ -324,12 +324,12 @@ lineStyle: {
   filter(){
 
   }
-  toggle(icontoggle,index,selected){
+  toggle(icontoggle,selected){
     let previousIndex = this.iconIndex
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle; 
-    this.iconIndex  = index;
-    this.actionLogData[index].selected = !selected;
+    //this.iconIndex  = index;
+    //this.actionLogData[index].selected = !selected;
   }
   swapSlider(slide){
     this.slider = slide;
@@ -368,14 +368,14 @@ lineStyle: {
     };
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
-      // this.actionLogData = res;
-      // for(let i =0; i<this.actionLogData.length; i++){
-      //   this.actionLogData[i]["selected"] = false;
-      //   this.actionLogData[i]["drop"] = false;
-      //   // if(this.actionLogData[i].target.contentType == 'faq'){
-      //   //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
-      //   // }
-      // }
+      this.actionLogData = res;
+      for(let i =0; i<this.actionLogData.length; i++){
+        this.actionLogData[i]["selected"] = false;
+        this.actionLogData[i]["drop"] = false;
+        // if(this.actionLogData[i].target.contentType == 'faq'){
+        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
+        // }
+      }
       console.log(res);
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
