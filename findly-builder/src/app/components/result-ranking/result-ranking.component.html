@@ -174,7 +174,8 @@
                                                     <img src="assets/icons/help.svg" class="ml-1"> 
                                                     <span class="status" >pinned</span> 
                                                 </div> 
-                                                <div class="time col-lg-2">3h ago</div> 
+                                                <div class="time col-lg-2" id="displayTime">{{time}}
+                                                </div> 
                                              </div>
                                             </div>
                                         </a>
@@ -250,7 +251,7 @@
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'page'"> {{log.target.contentInfo.searchResultPreview}}</div>
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'faq'"> {{faqDesc}}</div>
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
-                         <div class="info">{{log.userDetails.fullName}} {{log.time}}</div>
+                         <div class="info">{{log.userDetails.fullName}} {{log.createdOn}}</div>
                      </div>
                 </div>
             </div>

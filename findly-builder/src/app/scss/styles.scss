@@ -38,6 +38,12 @@ html{
         .headerDropDown{
             margin-top: 10px !important;
         }
+        .dropdown{
+            z-index: 99999 !important;
+        }
+        .dropup{
+            z-index: 99999 !important;
+        }
         .mat-form-field{
             &.mat-focused{ 
                 .mat-form-field-label{
