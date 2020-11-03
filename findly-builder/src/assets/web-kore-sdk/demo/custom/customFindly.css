@@ -54,6 +54,46 @@
     display: none;
     z-index: 999;
 }
+/*---- SEARCH RESULTS ----*/
+.search-body-full.searchInSideApp .custom-nav-panel-container{
+  width: 50%;
+}
+.search-body-full.searchInSideApp .ksa-resultsContainer{
+  width: 50%;
+}
+.sdkInsideApp .insights-container{
+  box-shadow: none !important;
+  right: 0;
+  top: 84px;
+  width: 47%;
+  border: 1px solid #E5EBF0;
+  border-radius: 4px;
+}
+.sdkInsideApp .insights-container .header-sec .col-4{
+  flex: 0 0 100%;
+  max-width: 100%;
+  border-bottom: 1px solid #D8D8D8;
+  padding-bottom: 15px !important;
+  margin-bottom: 15px;
+}
+.sdkInsideApp .insights-container .header-sec .col-4 .query{
+  display: inline-block;
+}
+.sdkInsideApp .insights-container .header-sec .col-4 .q-title{
+  display: inline-block;
+}
+.sdkInsideApp .insights-container .header-sec .col-8.graph-sec{
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.sdkInsideApp .insights-container .header-sec .col-8.graph-sec .data-counts{
+    width: 100px ;
+}
+.sdkInsideApp .insights-container .header-sec .col-8.graph-sec .data-counts.graph{
+  width: 100% ;
+}
+
+/*---- SEARCH RESULTS ----*/
 .search-container #searchChatContainer{
   height: calc(100vh - 185px);
 }
