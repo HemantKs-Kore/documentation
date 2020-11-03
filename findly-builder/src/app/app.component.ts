@@ -208,19 +208,24 @@ export class AppComponent implements OnInit {
     const _self = this;
     console.log(parms);
     //this.bridgeDataInsights = !parms.data;
+    let call = false;
     if(parms.type == "show" && parms.data == true && _self.bridgeDataInsights){
       _self.bridgeDataInsights = false;
+      call = true;
     }else{
       _self.bridgeDataInsights = true;
+      call = false;
     }
-    if(parms.type == "showInsightFull" && parms.data == true && _self.bridgeDataInsights){
-      _self.bridgeDataInsights = false;
-      _self.showInsightFull = true;
-      $('.ksa-resultsContainer').css({"width":"50%"});
-    }else{
-      _self.bridgeDataInsights = true;
-      _self.showInsightFull = false;
-      $('.ksa-resultsContainer').css({"width":"100%"});
+    if( !call ){
+      if(parms.type == "showInsightFull" && parms.data == true && _self.bridgeDataInsights){
+        _self.bridgeDataInsights = false;
+        _self.showInsightFull = true;
+        $('.ksa-resultsContainer').css({"width":"50%"});
+      }else{
+        _self.bridgeDataInsights = true;
+        _self.showInsightFull = false;
+        $('.ksa-resultsContainer').css({"width":"100%"});
+      }
     }
     if(parms.type == "addNew" && parms.data == true){
       _self.addNewResult = false;
