@@ -39,7 +39,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     * @param  {Object} FindlySDK Config
     */
     function FindlySDK(config) {
-      this.config = config;
+      this.config=config;
       // this.config.container=this.config.container || "body";
       // if(typeof this.config.container==="string"){
       //     this.config.container=$(this.config.container);
@@ -51,7 +51,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.jqueryManupulations(); //this.on=$(this).on;
       this.addPolyFils();
 
-      this.parentEvent({ 'type': 'sdkLoaded', data: {} });
+      // this.parentEvent({ 'type': 'sdkLoaded', data: {} });
       // this.assignCallbacksToParent();
     }
 
@@ -62,9 +62,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         this.config.findlyBusinessConfig.sdkBridge(event);
       }
     }
-    FindlySDK.prototype.assignCallbacksToParent = function () {
+    /*FindlySDK.prototype.assignCallbacksToParent = function () {
       this.config.findlyBusinessConfig.initVariables = this.initVariables();
-    }
+    }*/
 
     FindlySDK.prototype.addPolyFils = function () {
       var _self = this;
@@ -221,6 +221,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.searchObject = {
         //recents:[]
       };
+      vars.selectedFiltersArr = [];
+      vars.filterObject = [];
+      vars.searchFacetFilters = [];
+
       vars.customizeView = false;
       vars.showingMatchedResults = false;
     }; //********************original widget.js start */
@@ -938,8 +942,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                <div class="indicator-div"></div>\
+                <div class="faqs-shadow task-wrp matched_pages" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
@@ -1010,8 +1014,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
-              <div class="indicator-div"></div>\
+              <div class="faqs-shadow task-wrp matched_pages" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
@@ -1047,7 +1051,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <div class="faqs-bottom-actions background-white">\
                  <span class="appearences">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                 <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>&nbsp;\
+                 <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
                  <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
                  <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
@@ -1123,13 +1127,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </div>\
       </script>';
       var searchFullData = '<script type="text/x-jqury-tmpl">\
+      <div id="loaderDIV" class="loader-container">Loading...</div>\
       <div class="ksa-results-tabesHeader">\
         <div class="title-backbutton display-none">\
           <div class="title">Search results</div>\
           <div class=""><button class="full-search-close">Close</button>\
           </div>\
         </div>\
-        <div class="custom-full-page-view-header-container">\
+        <div class="custom-full-page-view-header-container hide">\
           <div class="custom-full-page-view-header-container-left">\
             <img class="custom-chevron-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAANCAYAAACUwi84AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgBpZDdCQAgCIRtE0doo9zMURqlEVohA3vzB+ng8OE7DrwGvrqYIrj0mnBnkCyIWluHV1PMEAi1YXyH3hdpyB2pHOIDPWEQQp4izIEAAAAASUVORK5CYII=">\
           </div>\
@@ -1144,11 +1149,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <label class="custom-switch">\
             <input id="viewTypeCheckbox" type="checkbox">\
             <span class="custom-slider custom-slider-round"></span>\
-            </label>&nbsp;\
+            </label>\
             <span class="custom-view-type-content">${viewType}</span>\
           </div>\
         </div>\
         <div class="custom-nav-panel-container">\
+        <div class="custom-full-page-view-header-container-left">\
+          <img class="custom-chevron-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAANCAYAAACUwi84AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgBpZDdCQAgCIRtE0doo9zMURqlEVohA3vzB+ng8OE7DrwGvrqYIrj0mnBnkCyIWluHV1PMEAi1YXyH3hdpyB2pHOIDPWEQQp4izIEAAAAASUVORK5CYII=">\
+        </div>\
           <ul class="nav nav-tabs custom-nav-panel">\
             <li class="tabTitle">\
               {{each(key, facet) facets}}\
@@ -1158,10 +1166,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/each}}\
             </li>\
           </ul>\
-          <button class="custom-button-filter-results">\
-            <img class="custom-icon-filter" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACYSURBVHgBvY+7EcIwDIalHIXdZQNWYAUmYAa3bggbJBOYxq/KMzBBVmEESlc2EkdBERJX+e9s6f779ELvfYUWtYDMdBSfzrnhHxRCuDJzoO+MiDPBRynlpJR6MZBS6nPOhtLTh2HTGNMLIUZKL2x+m830HuxzMf6OiTEOpRTuArXWm9b6DmuLLx3YQaN2AumgCbZkrR2X/DcSfTcxPB10vwAAAABJRU5ErkJggg==">\
-            &nbsp;Filter\
-          </button\
+          <div class="custom-full-page-view-header-container-center-secondary">\
+            <label class="kr-sg-toggle custom_toggle">\
+              <input id="viewTypeCheckboxControl" type="checkbox">\
+              <div class="slider"><span class="enabled">Customize</span><span class="disabled">Preview</span></div>\
+            </label>\
+          </div>\
+          {{if searchFacets.length}}\
+            <button id="closeFacetFilterControl" class="display-none custom-button-filter-results custom-mt-3">\
+              <img class="custom-icon-filter" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABGSURBVHgBlZBRCgAgCEMlUK/T/S/REbpK+BEUzZj7EvZwbOLuQ1W7JAovmH1MBD8egtMHp/FLuWAENamKiqbK0POYGTX4AopSGErWPoL3AAAAAElFTkSuQmCC">\
+            </button>\
+            <button id="openFacetFilterControl" class="custom-button-filter-results">\
+              <img class="custom-icon-filter" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACYSURBVHgBvY+7EcIwDIalHIXdZQNWYAUmYAa3bggbJBOYxq/KMzBBVmEESlc2EkdBERJX+e9s6f779ELvfYUWtYDMdBSfzrnhHxRCuDJzoO+MiDPBRynlpJR6MZBS6nPOhtLTh2HTGNMLIUZKL2x+m830HuxzMf6OiTEOpRTuArXWm9b6DmuLLx3YQaN2AumgCbZkrR2X/DcSfTcxPB10vwAAAABJRU5ErkJggg==">\
+              &nbsp;Filter\
+            </button>\
+          {{/if}}\
         </div>\
       </div>\
       <div class="ksa-resultsContainer">\
@@ -1169,6 +1188,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="tab-content">\
             <div id="home" class="tab-pane fade in active show fullSearch">\
                 <p class="resultsText">Showing ${totalResultsCount} results for "${search}"</p>\
+                <div class="show_insights" data-displayInsights="true">SHOW INSIGHTS <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC"></div>\
                 {{if tasks.length && (selectedFacet === "task" || selectedFacet === "all results") }}\
                     <div class="quickAction fullAsstTask">\
                         <p class="quickTitle">MATCHED ACTIONS</p>\
@@ -1191,6 +1211,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="pages-wrp">\
                     {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
                     <div class="faqs-shadow">\
+                    <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
                       <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                         <div class="image-url-sec">\
                           <img src="${page.imageUrl}"></img>\
@@ -1215,10 +1236,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </span>\
                             </div>\
                           </div>\
-                          <div class="custom-full-search-matched-results-actions">\
+                          <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
                             <span class="custom-actions">\
                               <span class="img-action dont-show">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                                 <span class="custom-actions-content">HIDE</span>\
                               </span>\
                               <span class="img-action pin">\
@@ -1272,7 +1293,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                  <div class="faqs-shadow ">\
+                  <div class="faqs-shadow custom-position-relative">\
+                  <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
                     <div class="faqs-wrp-content">\
                       <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                         <span class="accordion" id="${key}">${faq.question}</span>\
@@ -1298,25 +1320,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           </span>\
                         </div>\
                       </div>\
-                      <div class="custom-full-search-matched-results-actions">\
-                        <span class="custom-actions">\
-                          <span class="img-action dont-show">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                            <span class="custom-actions-content">HIDE</span>\
-                          </span>\
-                          <span class="img-action pin">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                            <span class="custom-actions-content">PIN</span>\
-                          </span>\
-                          <span class="img-action boostup">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
-                            <span class="custom-actions-content">BOOST</span>\
-                          </span>\
-                          <span class="img-action boostdown">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
-                            <span class="custom-actions-content">BURY</span>\
-                          </span>\
-                      </div>\
+                      <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
+                          <span class="custom-actions">\
+                            <span class="img-action dont-show">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
+                              <span class="custom-actions-content">HIDE</span>\
+                            </span>\
+                            <span class="img-action pin">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
+                              <span class="custom-actions-content">PIN</span>\
+                            </span>\
+                            <span class="img-action boostup">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
+                              <span class="custom-actions-content">BOOST</span>\
+                            </span>\
+                            <span class="img-action boostdown">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
+                              <span class="custom-actions-content">BURY</span>\
+                            </span>\
+                          </div>\
                     </div>\
                   <div class="faqs-bottom-actions">\
                     <span class="appearences">\
@@ -1354,6 +1376,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="pages-wrp">\
                     {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
                     <div class="faqs-shadow">\
+                    <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
                       <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
                           <img src="${document.imageUrl}"></img>\
@@ -1378,7 +1401,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </span>\
                             </div>\
                           </div>\
-                          <div class="custom-full-search-matched-results-actions">\
+                          <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
                             <span class="custom-actions">\
                               <span class="img-action dont-show">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
@@ -1442,6 +1465,45 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
           </div>\
         </div>\
+        {{if searchFacets.length}}\
+        <div class="filters-container">\
+          <div class="filters-header">\
+            <h2 class="filters-heading">Filter by</h2>\
+            <h3 class="filters-reset">\
+              <a class="filters-reset-anchor">Clear all</a>\
+            </h3>\
+          </div>\
+          <div class="filters-body">\
+            {{each(i, searchFacet) searchFacets}}\
+              <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                <h2 class="filters-content-heading">${searchFacet.facetName}</h2>\
+                {{each(j, bucket) searchFacet.buckets}}\
+                  {{if searchFacet.facetType == "value"}}\
+                  <div class="filters-content-body hide">\
+                  <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true">\
+                  <label class="associated-filter-label" for="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                  </div>\
+                    <div class="kr-sg-checkbox d-block custom_checkbox">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
+                      <label for="${bucket.key}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    </div>\
+                  {{/if}}\
+                  {{if searchFacet.facetType == "range"}}\
+                  <div class="filters-content-body hide">\
+                      <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true" data-from=${bucket.from} data-to=${bucket.to}>\
+                      <label class="associated-filter-label" for="${bucket.key}">${bucket.from} to ${bucket.to} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    </div>\
+                    <div class="kr-sg-checkbox d-block custom_checkbox">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
+                      <label for="${bucket.key}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    </div>\
+                  {{/if}}\
+                {{/each}}\
+              </div>\
+            {{/each}}\
+          </div>\
+        </div>\
+        {{/if}}\
         <div class="ksa-resultsRight">\
             <div class="rightContainer">\
                 <div class="rightContentSubTitle">Near by Branch/ATM</div>\
@@ -2019,6 +2081,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         faqs: _self.vars.searchObject.liveData.faqs,
 
         documents: _self.vars.searchObject.liveData.documents,
+        searchFacets: _self.vars.searchFacetFilters,
         viewType: viewType,
 
         getFacetDisplayName: function (key) {
@@ -2045,7 +2108,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.facet:first').addClass('facetActive');
 
         if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-          $('#viewTypeCheckbox').prop('checked', true);
+          $('#viewTypeCheckboxControl').prop('checked', true);
           $(".pages-wrp, .tasks-wrp").sortable();
           $(".pages-wrp, .tasks-wrp").sortable("option", "disabled", false);
           $(".pages-wrp, .tasks-wrp").disableSelection();
@@ -2064,7 +2127,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // $('.faqs-bottom-actions').css('display', 'table');
         }
         else {
-          $('#viewTypeCheckbox').prop('checked', false);
+          $('#viewTypeCheckboxControl').prop('checked', false);
           if ($(".pages-wrp, .tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
             $(".pages-wrp, .tasks-wrp").sortable("disable");
           }
@@ -2083,13 +2146,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.faqs-bottom-actions').css('display', 'none');
         }
 
+        if (_self.vars.selectedFiltersArr.length > 0) {
+          _self.vars.selectedFiltersArr.forEach(function (filter) {
+            $("#" + filter).prop('checked', true)
+            console.log(filter);
+          })
+        }
+
       }
       else {
         $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
 
         if (selectedFacet === 'page') {
           if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-            $('#viewTypeCheckbox').prop('checked', true);
+            $('#viewTypeCheckboxControl').prop('checked', true);
             $(".pages-wrp").sortable();
             $(".pages-wrp").sortable("option", "disabled", false);
             $(".pages-wrp").disableSelection();
@@ -2107,7 +2177,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             // $('.faqs-bottom-actions').css('display', 'table');
           }
           else {
-            $('#viewTypeCheckbox').prop('checked', false);
+            $('#viewTypeCheckboxControl').prop('checked', false);
             if ($(".pages-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
               $(".pages-wrp").sortable("disable");
             }
@@ -2120,14 +2190,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             $('.faqs-bottom-actions').css('display', 'none');
           }
+
+          if (_self.vars.selectedFiltersArr.length > 0) {
+            _self.vars.selectedFiltersArr.forEach(function (filter) {
+              $("#" + filter).prop('checked', true)
+              console.log(filter);
+            })
+          }
+
         }
 
         if (selectedFacet === 'faq') {
           if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-            $('#viewTypeCheckbox').prop('checked', true);
+            $('#viewTypeCheckboxControl').prop('checked', true);
             $(".tasks-wrp").sortable();
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
+
 
             $(".faqs-shadow").addClass('custom-faqs-shadow');
             $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
@@ -2138,7 +2217,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             // $('.faqs-bottom-actions').css('display', 'table');
           }
           else {
-            $('#viewTypeCheckbox').prop('checked', false);
+            $('#viewTypeCheckboxControl').prop('checked', false);
             if ($(".tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
               $(".tasks-wrp").sortable("disable");
             }
@@ -2148,7 +2227,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             $('.faqs-bottom-actions').css('display', 'none');
           }
+
+          if (_self.vars.selectedFiltersArr.length > 0) {
+            _self.vars.selectedFiltersArr.forEach(function (filter) {
+              $("#" + filter).prop('checked', true)
+              console.log(filter);
+            })
+          }
         }
+
+        if (_self.vars.selectedFiltersArr.length > 0) {
+          _self.vars.selectedFiltersArr.forEach(function (filter) {
+            $("#" + filter).prop('checked', true)
+            console.log(filter);
+          })
+        }
+
       }
       _self.bindFacetsToggle();
       _self.bindAllResultsView();
@@ -2189,9 +2283,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log(data);
 
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var randomObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
-          console.log(randomObject);
-          _self.parentEvent(randomObject);
+          var responseObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
         }
 
         $(".custom-insights-control-container").hide();
@@ -2251,13 +2345,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.custom-add-new-result-container').off('click').on('click', function (event) {
         console.log(event);
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var randomObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
-          console.log(randomObject);
-          _self.parentEvent(randomObject);
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+         _self.parentEvent(responseObject);
         }
-      })
+      });
 
-      $('#viewTypeCheckbox').off('change').on('change', function (event) {
+      $('#viewTypeCheckboxControl').off('change').on('change', function (event) {
         var facetActive = $('.facetActive').attr('id');
         if ($(this).is(':checked')) {
           console.log(false);
@@ -2270,6 +2364,70 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // debugger;
           _self.vars.customizeView = false;
           _self.prepAllSearchData(facetActive);
+        }
+      });
+
+      $('#openFacetFilterControl').off('click').on('click', function (event) {
+        if ($('.filters-container').css('display') == 'block') {
+          $('.filters-container').hide();
+        }
+        else {
+          $('.filters-container').show();
+        }
+      });
+
+      /*$('#closeFacetFilterControl').off('click').on('click', function (event) {
+        if($('.filters-container').css('display') == 'block') {
+          $('.filters-container').hide();
+        }
+      })*/
+
+      // $('.filter-checkbox').off('change').on('change', function (event) {
+        $('.checkbox-custom').off('change').on('change', function (event) {
+        $('#loaderDIV').show();
+
+        if ($(this).is(':checked')) {
+          console.log($(this).attr("id"));
+          _self.vars.selectedFiltersArr.push($(this).attr("id"));
+          _self.filterResults(event, true);
+        }
+        else {
+          var unselectedFilterID = $(this).attr("id");
+          console.log($(this).attr("id"));
+          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
+            if (filter == unselectedFilterID) {
+              _self.vars.selectedFiltersArr.splice(_self.vars.selectedFiltersArr.indexOf(filter), 1)
+            }
+          })
+          _self.filterResults(event, false);
+        }
+      });
+
+      $('.filters-reset-anchor').on('click', function (event) {
+        // $('.filter-checkbox').prop('checked', false);
+        $('.checkbox-custom').prop('checked', false);
+        $('#loaderDIV').show();
+        _self.vars.filterObject = [];
+        _self.vars.selectedFiltersArr = [];
+        _self.searchByFacetFilters([]);
+      });
+
+      $('.show_insights').on('click', function (event) {
+        var responseObject = {};
+        debugger;
+        if($(this).attr('data-displayinsights') == "true") {
+          responseObject = {'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
+          $(this).attr('data-displayinsights', false);
+          $(this).text = "HIDE INSIGHTS ";
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+        else {
+          responseObject = {'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
+          $(this).attr('data-displayinsights', true);
+          $(this).text = "SHOW INSIGHTS ";
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
         }
       })
     }
@@ -2421,8 +2579,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
         console.log(event.target);
         console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.currentTarget).closest('.task-wrp').attr('contentid'));
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          debugger;
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {          
           var boostByValue = $(event.target).closest('.task-wrp').attr('boost') + 0.25;
           _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
         }
@@ -2434,8 +2591,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log(event.target);
         console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
 
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          debugger;
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {          
           var buryByValue = $(event.target).closest('.task-wrp').attr('boost');
 
           if (buryByValue > 0.25) {
@@ -2547,6 +2703,162 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     };
 
+    FindlySDK.prototype.filterResults = function (event, isChecked) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var _self = this;
+      var fieldMatches = false;
+      var _filterContainer = $(event.target).closest('.filters-content');
+
+      var fieldName = _filterContainer.attr('data-fieldName');
+      var facetType = _filterContainer.attr('data-facetType');
+      var key = $(event.target).attr('name');
+
+      console.log(`fieldName: ${fieldName}, facetType: ${facetType}, key: ${key}`)
+
+      var responsePayload = {}
+
+      if (facetType == 'value') {
+        responsePayload.fieldName = fieldName,
+          responsePayload.facetType = facetType,
+          responsePayload.facetValue = [];
+
+        responsePayload.facetValue[0] = key;
+      }
+      else {
+        var from = $(event.target).attr('data-from');
+        var to = $(event.target).attr('data-to');
+
+        responsePayload.fieldName = fieldName,
+          responsePayload.facetType = facetType,
+          responsePayload.facetRange = [];
+
+        // key = { 'from': 0, 'to': 100 };
+        key = { 'from': parseInt(from), 'to': parseInt(to) };
+        responsePayload.facetRange[0] = key;
+      }
+
+      console.log(responsePayload);
+
+      if (isChecked == true) {
+        if (_self.vars.filterObject.length == 0) {
+          _self.vars.filterObject.push(responsePayload);
+          fieldMatches = true;
+        }
+        if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
+          _self.vars.filterObject.forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
+              if (element.facetType == 'value') {
+                element.facetValue.push(key);
+              }
+              else {
+                element.facetRange.push(key);
+              }
+              fieldMatches = true;
+            }
+          })
+
+        }
+        if (fieldMatches == false) {
+          _self.vars.filterObject.push(responsePayload);
+        }
+      }
+      else {
+        if (_self.vars.filterObject.length > 0) {
+          _self.vars.filterObject.slice(0).forEach(function (element) {
+            if (responsePayload.fieldName == element.fieldName && responsePayload.facetType == element.facetType) {
+              // var indexOfMatchedFilter = 0, elementsTraversed = 0;
+              if (element.facetType == 'value') {
+                if (element.facetValue.length > 1) {
+                  element.facetValue.slice(0).forEach(function (item) {
+                    if (item === key) {
+                      element.facetValue.splice(element.facetValue.indexOf(item), 1);
+                    }
+                    console.log(item);
+                  })
+                }
+                else {
+                  element.facetValue = [];
+                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                }
+              }
+              else {
+                if (element.facetRange.length > 1) {
+                  element.facetRange.slice(0).forEach(function (item) {
+                    if (JSON.stringify(item) == JSON.stringify(key)) {
+                      element.facetRange.splice(element.facetRange.indexOf(item), 1)
+                    }
+                    console.log(item);
+                  })
+                }
+                else {
+                  element.facetRange = [];
+                  _self.vars.filterObject.splice(_self.vars.filterObject.indexOf(element), 1);
+                }
+              }
+            }
+          })
+        }
+      }
+      console.log(_self.vars.filterObject, isChecked);
+      _self.searchByFacetFilters(_self.vars.filterObject);
+    };
+
+    FindlySDK.prototype.searchByFacetFilters = function (filterObject) {
+      var _self = this;
+      // var activeFacet = '';
+      var facetActive = '';
+      var url = _self.API.searchUrl;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        "maxNumOfResults": 9,
+        "userId": _self.API.uuid,
+        "streamId": _self.API.streamId,
+        "lang": "en",
+        // "isDev": true,
+      }
+      if (filterObject.length > 0) {
+        payload.filters = filterObject;
+      }
+
+      console.log(payload);
+
+      facetActive = $('.facetActive').attr('id');
+      console.log("Active Facet Tab: ", facetActive);
+
+      payload.isDev = _self.isDev;
+
+      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+        faqs = [], pages = [], tasks = [], documents = [], facets = {};
+
+        console.log(response.template);
+
+        if (response.template) {
+          faqs = response.template.results.faq;
+          pages = response.template.results.page;
+          tasks = response.template.results.task;
+          documents = response.template.results.document;
+          facets = response.template.facets;
+
+          _self.vars.searchObject.liveData = {
+            faqs: faqs,
+            pages: pages,
+            tasks: tasks,
+            facets: facets,
+            documents: documents,
+            originalQuery: response.template.originalQuery || '',
+            // searchFacets: searchFacets,
+          }
+          console.log(_self.vars.searchObject.liveData);
+          _self.prepAllSearchData(facetActive);
+          $('#loaderDIV').hide()
+          // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
+
+        }
+      });
+    }
+
     FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend) {
       var _self = this;
       _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
@@ -2581,9 +2893,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         event.preventDefault();
         event.stopImmediatePropagation();
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var randomObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
-          console.log(randomObject);
-          _self.parentEvent(randomObject);
+          var responseObject = { 'type': 'show', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
         }
         $('.custom-header-container-left').css('visibility', 'visible');
         $('.custom-insights-control-container').hide();
@@ -2595,9 +2907,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
           $('.custom-insights-control-container').show();
-          var randomObject = { 'type': 'hide', data: false, query: _self.vars.searchObject.searchText }
-          console.log(randomObject);
-          _self.parentEvent(randomObject)
+          var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject)
         }
         else {
           $('.custom-insights-control-container').hide();
@@ -2628,11 +2940,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
             };
-            _self.vars.searchObject.searchText = $('#search').val();
+            _self.vars.searchObject.searchText =  $('#search').val();
+            debugger;
             var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
-            _self.bindLiveDataToChat();
+            if(_self.config.viaSocket){
+              _self.sendMessage(_self.vars.searchObject.searchText);
+            }else{
+              _self.bindLiveDataToChat();
+            }
             if ($('.search-body:visible').length) {
               if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
                 _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
@@ -2738,7 +3055,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
-                    var faqs = [], pages = [], tasks = [], facets, documents= [];
+                    var faqs = [], pages = [], tasks = [], facets;
                     if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
@@ -2753,8 +3070,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages.push(result);
                         } else if (result.contentType === "task") {
                           tasks.push(result);
-                        } else if(result.contentType === "document") {
-                          documents.push(result);
                         }
                       })
                       facets = res.facets;
@@ -2763,7 +3078,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         pages: pages,
                         tasks: tasks,
                         facets: facets,
-                        documents: documents,
                         originalQuery: res.originalQuery,
                       }
                       //livesearch
@@ -2808,14 +3122,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
-                          documents: documents,
                           facets: facets
                         }
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
-                          documents: documents,
                           showAllResults: false,
                           noResults: true,
                           taskPrefix: 'MATCHED'
@@ -3156,191 +3468,255 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        var faqs = [], pages = [], tasks = [], documents = [], facets;
-        if (res && res.requestId && res.template && res.template.originalQuery) {
-          _self.vars.previousSearchObj = {};
-          _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
-          _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
-        } else {
-          console.log('Previous requestId or orinigal query is mising');
-        }
-        if (res.templateType === 'search') {
-          res = res.template;
-          var liveResult = res.results;
-          var topMatchFAQ;
-          var topMatchTask;
-
-          // liveResult.forEach(function (result) {
-          //   if (result.contentType === "faq") {
-          //     faqs.push(result);
-          //   } else if (result.contentType === "page") {
-          //     pages.push(result);
-          //   } else if (result.contentType === "task") {
-          //     tasks.push(result);
-          //   }
-          // });
-          faqs = res.results.faq;
-          pages = res.results.page;
-          tasks = res.results.task;
-          facets = res.facets;
-
-          if (res.results.document !== undefined) {
-            documents = res.results.document;
-          }
-          else {
-            documents = [];
-            res.facets.document = 0;
-          }
-
-          debugger;
-
-          if (tasks.length) {
-            //trigger dialog;
-            topMatchTask = tasks[0];
-          }
-
-
-          topMatchFAQ = faqs.filter(function (faq) {
-            return faq.bestMatch
-          });
-          if (topMatchFAQ.length) {
-            //highlight faq;
-            topMatchFAQ = topMatchFAQ[0];
-          } else {
-            topMatchFAQ = false;
-          }
-
-          var dataObj = {
-            faqs: faqs,
-            pages: pages,
-            tasks: tasks,
-            facets: facets,
-
-            documents: documents,
-
-            originalQuery: res.originalQuery || '',
-          }
-          // if(!_self.isDev){
-          //   dataObj = {
-          //     faqs: faqs.slice(0,2),
-          //     pages: pages.slice(0,2),
-          //     tasks: tasks.slice(0,2),
-          //     facets: facets,
-          //     originalQuery: res.originalQuery || '',
-          //   }
-          // }
-          _self.vars.searchObject.liveData = {
-            faqs: faqs,
-            pages: pages,
-            tasks: tasks,
-            facets: facets,
-
-            documents: documents,
-
-            originalQuery: res.originalQuery || '',
-          }
-          if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
-            _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
-          }
-          window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
-          if (dataObj.faqs.length ||
-            dataObj.pages.length ||
-            dataObj.tasks.length || dataObj.smallTalk) {
-            if (dataObj.smallTalk) {
-              _self.sendMessageToSearch('bot', dataObj.smallTalk);
-            } else {
-              var _botMessage = 'Sure, please find the matched results below';
-              searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
-                faqs: dataObj.faqs,
-                pages: dataObj.pages,
-                tasks: dataObj.tasks,
-                showAllResults: true,
-                noResults: false,
-                taskPrefix: 'MATCHED'
-              });
-              $(searchData).data(dataObj);
-              if (!topMatchTask) {
-                _self.sendMessageToSearch('bot', _botMessage);
-              }
-              if (_self.vars.customizeView == true) {
-                $(searchData).find(".tasks-wrp").sortable();
-
-              }
-              else {
-                $(searchData).find(".tasks-wrp").sortable({ disabled: true })
-              }
-
-              $(searchData).attr('queryString', dataObj.originalQuery)
-              if (topMatchTask) {
-                searchData.addClass("hide");
-              }
-              $('#searchChatContainer').append(searchData);
-              _self.vars.showingMatchedResults = true;
-
-              if (_self.vars.customizeView == true) {
-                /*$(searchData).find(".tasks-wrp").sortable();
-                $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
-                $(searchData).find(".tasks-wrp").disableSelection();*/
-                $(".faqs-shadow").addClass('custom-faqs-shadow');
-                $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
-                $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
-                $(".image-url-sec").css('display', 'none');
-                $(".faqs-bottom-actions").css('display', 'table');
-
-                if ($('.custom-header-container-left').css('visibility') == 'hidden') {
-                  // debugger;
-                  $('.custom-insights-control-container').show();
-                }
-              }
-              else {
-                // $(searchData).find(".tasks-wrp").sortable("disable");
-                $(".faqs-shadow").removeClass('custom-faqs-shadow');
-                $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
-                $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
-
-                $(".image-url-sec").css('display', 'table-cell');
-                $(".faqs-bottom-actions").css('display', 'none');
-              }
-            }
-            setTimeout(function () {
-              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
-
-              if (topMatchTask) {
-                $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
-              } else if (topMatchFAQ) {
-                var bestFAQDiv = $(".resultsOfSearch .task-wrp[contentid='" + topMatchFAQ.contentId + "']:last");
-                bestFAQDiv.addClass('faq-highlight');
-                bestFAQDiv.find(".accordion").trigger('click');
-              }
-            }, 200);
-            if ($('.search-container').hasClass('conversation')) {
-              $('.search-body').addClass('hide');
-              $('#searchChatContainer').removeClass('bgfocus');
-              $('.search-body').html('');
-            }
-            _self.bindAllResultsView();
-            _self.bindSearchActionEvents();
-
-          } else {
-            if ($('.search-container').hasClass('conversation')) {
-              $('.search-body').addClass('hide');
-              $('#searchChatContainer').removeClass('bgfocus');
-            }
-          }
-        } else if (res.templateType === 'botAction') {
-          // debugger;
-          res = res.template;
-          var botResponse = res.webhookPayload.text;
-          _self.sendMessageToSearch('bot', botResponse);
-        } else if (res.templateType === 'botActionError') {
-          var errorMessage = (res.template && res.template.Error) ? res.template.Error : 'Failed to connect to the bot'
-          _self.sendMessageToSearch('bot', errorMessage);
-        } else if (res.templateType === 'liveSearchEmpty') {
-          _self.sendMessageToSearch('bot', 'No results found');
-        }
+        _self.handleSearchRes(res);
       });
     }
+    FindlySDK.prototype.handleSearchRes = function (res) {
+      var _self = this;
+
+      var faqs = [], pages = [], tasks = [], documents = [], facets, searchFacets = [];
+      if (res && res.requestId && res.template && res.template.originalQuery) {
+        _self.vars.previousSearchObj = {};
+        _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+        _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
+      } else {
+        console.log('Previous requestId or orinigal query is mising');
+      }
+      if (res.templateType === 'search') {
+        res = res.template;
+        var liveResult = res.results;
+        var topMatchFAQ;
+        var topMatchTask;
+
+        res.searchFacets = [
+          {
+            "fieldName": "String",
+            "facetName": "String",
+            "facetType": "range",
+            "buckets": [
+              {
+                "key": "djikstra",
+                "from": 10.0,
+                "to": 20.0,
+                "doc_count": 1
+              },
+              {
+                "key": "prims",
+                "from": 20.0,
+                "to": 40.0,
+                "doc_count": 0
+              }
+            ]
+          },
+          {
+            "fieldName": "benefits_field",
+            "facetName": "benefits",
+            "facetType": "value",
+            "buckets": [
+              {
+                "key": "accelerating rewards",
+                "doc_count": 55
+              },
+              {
+                "key": "page",
+                "doc_count": 3
+              },
+              {
+                "key": "task",
+                "doc_count": 1
+              }
+            ]
+          }
+        ]
+        // liveResult.forEach(function (result) {
+        //   if (result.contentType === "faq") {
+        //     faqs.push(result);
+        //   } else if (result.contentType === "page") {
+        //     pages.push(result);
+        //   } else if (result.contentType === "task") {
+        //     tasks.push(result);
+        //   }
+        // });
+        faqs = res.results.faq;
+        pages = res.results.page;
+        tasks = res.results.task;
+        facets = res.facets;
+
+        if (res.results.document !== undefined) {
+          documents = res.results.document;
+        }
+        else {
+          documents = [];
+          res.facets.document = 0;
+        }
+
+        if (res.searchFacets !== undefined) {
+          _self.vars.searchFacetFilters = res.searchFacets;
+          // searchFacets = res.searchFacets;
+          searchFacets = _self.vars.searchFacetFilters;
+          console.log("Search Facets", searchFacets);
+        }
+        else {
+          res.searchFacets = [];
+          _self.vars.searchByFacetFilters = res.searchFacets;
+          searchFacets = _self.vars.searchFacetFilters;
+          console.log(searchFacets);
+        }
+
+        debugger;
+
+        if (tasks.length) {
+          //trigger dialog;
+          topMatchTask = tasks[0];
+        }
+
+
+        topMatchFAQ = faqs.filter(function (faq) {
+          return faq.bestMatch
+        });
+        if (topMatchFAQ.length) {
+          //highlight faq;
+          topMatchFAQ = topMatchFAQ[0];
+        } else {
+          topMatchFAQ = false;
+        }
+
+        var dataObj = {
+          faqs: faqs,
+          pages: pages,
+          tasks: tasks,
+          facets: facets,
+
+          documents: documents,
+
+          searchFacets: searchFacets,
+
+          originalQuery: res.originalQuery || '',
+        }
+        // if(!_self.isDev){
+        //   dataObj = {
+        //     faqs: faqs.slice(0,2),
+        //     pages: pages.slice(0,2),
+        //     tasks: tasks.slice(0,2),
+        //     facets: facets,
+        //     originalQuery: res.originalQuery || '',
+        //   }
+        // }
+        _self.vars.searchObject.liveData = {
+          faqs: faqs,
+          pages: pages,
+          tasks: tasks,
+          facets: facets,
+
+          documents: documents,
+
+          searchFacets: searchFacets,
+
+          originalQuery: res.originalQuery || '',
+        }
+        if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
+          _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
+        }
+        window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+        if (dataObj.faqs.length ||
+          dataObj.pages.length ||
+          dataObj.tasks.length || dataObj.smallTalk) {
+          if (dataObj.smallTalk) {
+            _self.sendMessageToSearch('bot', dataObj.smallTalk);
+          } else {
+            var _botMessage = 'Sure, please find the matched results below';
+            searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+              faqs: dataObj.faqs,
+              pages: dataObj.pages,
+              tasks: dataObj.tasks,
+              showAllResults: true,
+              noResults: false,
+              taskPrefix: 'MATCHED'
+            });
+            $(searchData).data(dataObj);
+            if (!topMatchTask) {
+              _self.sendMessageToSearch('bot', _botMessage);
+            }
+            if (_self.vars.customizeView == true) {
+              $(searchData).find(".tasks-wrp").sortable();
+
+            }
+            else {
+              $(searchData).find(".tasks-wrp").sortable({ disabled: true })
+            }
+
+            $(searchData).attr('queryString', dataObj.originalQuery)
+            if (topMatchTask) {
+              searchData.addClass("hide");
+            }
+            $('#searchChatContainer').append(searchData);
+            _self.vars.showingMatchedResults = true;
+
+            if (_self.vars.customizeView == true) {
+              /*$(searchData).find(".tasks-wrp").sortable();
+              $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
+              $(searchData).find(".tasks-wrp").disableSelection();*/
+              $(".faqs-shadow").addClass('custom-faqs-shadow');
+              $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+              $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
+              $(".image-url-sec").css('display', 'none');
+              $(".faqs-bottom-actions").css('display', 'table');
+
+              if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+                // debugger;
+                $('.custom-insights-control-container').show();
+              }
+            }
+            else {
+              // $(searchData).find(".tasks-wrp").sortable("disable");
+              $(".faqs-shadow").removeClass('custom-faqs-shadow');
+              $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+              $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
+
+              $(".image-url-sec").css('display', 'table-cell');
+              $(".faqs-bottom-actions").css('display', 'none');
+            }
+          }
+          setTimeout(function () {
+            var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+            $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+
+            if (topMatchTask) {
+              $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
+            } else if (topMatchFAQ) {
+              var bestFAQDiv = $(".resultsOfSearch .task-wrp[contentid='" + topMatchFAQ.contentId + "']:last");
+              bestFAQDiv.addClass('faq-highlight');
+              bestFAQDiv.find(".accordion").trigger('click');
+            }
+          }, 200);
+          if ($('.search-container').hasClass('conversation')) {
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+            $('.search-body').html('');
+          }
+          _self.bindAllResultsView();
+          _self.bindSearchActionEvents();
+
+        } else {
+          if ($('.search-container').hasClass('conversation')) {
+            $('.search-body').addClass('hide');
+            $('#searchChatContainer').removeClass('bgfocus');
+          }
+        }
+      } else if (res.templateType === 'botAction') {
+        // debugger;
+        res = res.template;
+        var botResponse = res.webhookPayload.text;
+        _self.sendMessageToSearch('bot', botResponse);
+      } else if (res.templateType === 'botActionError') {
+        var errorMessage = (res.template && res.template.Error) ? res.template.Error : 'Failed to connect to the bot'
+        _self.sendMessageToSearch('bot', errorMessage);
+      } else if (res.templateType === 'liveSearchEmpty') {
+        _self.sendMessageToSearch('bot', 'No results found');
+      }
+    
+    }
+
     FindlySDK.prototype.bindFrequentData = function () {
       var _self = this;
       $('#suggestion').val('');
@@ -3893,9 +4269,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.showSearch = function () {
       var _self = this;
-      /*_self.initWebKitSpeech();
-      _self.setAPIDetails();*/
-
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+      _self.initKoreSDK();
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
@@ -3962,6 +4338,162 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.searchEventBinding(dataHTML, 'search-container');
 
     };
+    FindlySDK.prototype.initKoreSDK = function () {
+      var _self = this;
+      _self.bot = requireKr('/KoreBot.js').instance();
+      _self.bot.init(_self.config.botOptions,_self.config.messageHistoryLimit);  
+      _self.bindSocketEvents();
+      
+    };  
+    FindlySDK.prototype.bindSocketEvents = function () {
+      var _self = this;
+      _self.bot.on("message", function (message) {
+        debugger;
+        // if (me.popupOpened === true) {
+        //     $('.kore-auth-popup .close-popup').trigger("click");
+        // }
+        var tempData = JSON.parse(message.data);
+
+        if (tempData.from === "bot" && tempData.type === "bot_response") {
+            // if (tempData.message[0]) {
+            //     if (!tempData.message[0].cInfo) {
+            //         tempData.message[0].cInfo = {};
+            //     }
+            //     if (tempData.message[0].component && !tempData.message[0].component.payload.text) {
+            //         try {
+            //             tempData.message[0].component = JSON.parse(tempData.message[0].component.payload);
+            //         } catch (err) {
+            //             tempData.message[0].component = tempData.message[0].component.payload;
+            //         }
+            //     }
+            //     if (tempData.message[0].component && tempData.message[0].component.payload && tempData.message[0].component.payload.text) {
+            //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text;
+            //     }
+            //     if(tempData.message[0].component && tempData.message[0].component.payload && (tempData.message[0].component.payload.videoUrl || tempData.message[0].component.payload.audioUrl)){
+            //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text || "";
+            //     }
+            // }
+            // if (loadHistory && historyLoading) {
+            //     messagesQueue.push(tempData);
+            // }
+            // else {
+            //     me.renderMessage(tempData);
+            // }
+            _self.handleSearchRes(tempData.message[0].component.payload);
+        }
+        else if (tempData.from === "self" && tempData.type === "user_message") {
+            var tempmsg = tempData.message;
+            var msgData = {};
+            if (tempmsg && tempmsg.attachments && tempmsg.attachments[0] && tempmsg.attachments[0].fileId) {
+                msgData = {
+                    'type': "currentUser",
+                    "message": [{
+                        'type': 'text',
+                        'cInfo': { 'body': tempmsg.body, attachments: tempmsg.attachments },
+                        'clientMessageId': tempData.id
+                    }],
+                    "createdOn": tempData.id
+                };
+            } else {
+                msgData = {
+                    'type': "currentUser",
+                    "message": [{
+                        'type': 'text',
+                        'cInfo': { 'body': tempmsg.body },
+                        'clientMessageId': tempData.id
+                    }],
+                    "createdOn": tempData.id
+                };
+            }
+            me.renderMessage(msgData);
+        }
+        if (tempData.type === "appInvalidNotification") {
+            setTimeout(function () {
+                $('.trainWarningDiv').addClass('showMsg');
+            }, 2000);
+        }
+    });
+      
+    };
+
+    FindlySDK.prototype.sendMessage = function (chatInput, renderMsg,msgObject) {
+      var _self = this;
+      // if(msgObject && msgObject.message[0]&& msgObject.message[0].component&& msgObject.message[0].component.payload && msgObject.message[0].component.payload.ignoreCheckMark){
+      // var ignoreCheckMark=msgObject.message[0].component.payload.ignoreCheckMark;
+      // }
+      // if (chatInput.text().trim() === "" && $('.attachment').html().trim().length == 0) {
+      //     return;
+      // }
+      // if (me.config.allowLocation) {
+      //     bot.fetchUserLocation();
+      // }
+      // var _bodyContainer = $(me.config.chatContainer).find('.kore-chat-body');
+      // var _footerContainer = $(me.config.chatContainer).find('.kore-chat-footer');
+      var clientMessageId = new Date().getTime();
+      var msgData = {};
+      fileUploaderCounter = 0;
+      //to send \n to server for new lines
+      //chatInput.html(chatInput.html().replaceAll("<br>", "\n"));
+      if (false && attachmentInfo && Object.keys(attachmentInfo).length) {
+          msgData = {
+              'type': "currentUser",
+              "message": [{
+                  'type': 'text',
+                  'cInfo': {
+                      'body': chatInput.text(),
+                      'attachments': [attachmentInfo]
+                  },
+                  'clientMessageId': clientMessageId
+              }],
+              "createdOn": clientMessageId
+          };
+          $('.attachment').html('');
+          $('.kore-chat-window').removeClass('kore-chat-attachment');
+          document.getElementById("captureAttachmnts").value = "";
+      } else {
+          attachmentInfo = {};
+          msgData = {
+              'type': "currentUser",
+              "message": [{
+                  'type': 'text',
+                  'cInfo': { 'body': chatInput},
+                  'clientMessageId': clientMessageId
+              }],
+              "createdOn": clientMessageId
+          };
+      }
+
+      var messageToBot = {};
+      messageToBot["clientMessageId"] = clientMessageId;
+      if (Object.keys(attachmentInfo).length > 0 && chatInput.text().trim().length) {
+          messageToBot["message"] = { body: chatInput.text().trim(), attachments: [attachmentInfo] };
+      } else if (Object.keys(attachmentInfo).length > 0) {
+          messageToBot["message"] = { attachments: [attachmentInfo] };
+      }
+      else {
+          messageToBot["message"] = { body: chatInput };
+      }
+      messageToBot["resourceid"] = '/bot.message';
+
+      if (renderMsg && typeof renderMsg === 'string') {
+          messageToBot["message"].renderMsg = renderMsg;
+      }
+      if(msgObject && msgObject.customdata){
+          messageToBot["message"].customdata=msgObject.customdata;
+      }
+      if(msgObject && msgObject.nlmeta){
+          messageToBot["message"].nlmeta=msgObject.nlmeta;
+      }
+      attachmentInfo = {};
+      _self.bot.sendMessage(messageToBot, function messageSent(err) {
+          if (err && err.message) {
+              setTimeout(function () {
+                  $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
+              }, 350);
+          }
+      });
+  };
+
     FindlySDK.prototype.getTemplate = function (type) {
       var menuTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl">\
         <div class="menuItemCntr">\
