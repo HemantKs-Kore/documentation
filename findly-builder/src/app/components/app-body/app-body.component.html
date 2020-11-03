@@ -1,5 +1,6 @@
 <router-outlet></router-outlet>
 <div *ngIf="!bridgeData">
+     <!-- <div *ngIf="true" class="sdkInsideApp"> -->
     <app-insights  [data] = "bridgeData" [query]="query"></app-insights>
 </div> 
 <div [hidden]="addNewResult">
