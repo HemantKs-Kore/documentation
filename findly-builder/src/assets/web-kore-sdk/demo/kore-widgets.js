@@ -2283,7 +2283,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log(data);
 
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-          var responseObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
+          var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -2325,6 +2325,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.desc-info').css('max-width', '100%');
 
         }
+        
+        var responseObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
+        console.log(responseObject);
+        _self.parentEvent(responseObject);
+
         $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
         $('.search-container').removeClass('full-page');
         $('.start-search-icon-div').show();
@@ -2414,7 +2419,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.show_insights').on('click', function (event) {
         var responseObject = {};
-        debugger;
+        // debugger;
         if($(this).attr('data-displayinsights') == "true") {
           responseObject = {'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', false);
@@ -2941,7 +2946,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#searchChatContainer').removeClass('bgfocus');
             };
             _self.vars.searchObject.searchText =  $('#search').val();
-            debugger;
+            // debugger;
             var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
@@ -3563,7 +3568,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(searchFacets);
         }
 
-        debugger;
+        // debugger;
 
         if (tasks.length) {
           //trigger dialog;
@@ -4348,7 +4353,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
       _self.bot.on("message", function (message) {
-        debugger;
+        // debugger;
         // if (me.popupOpened === true) {
         //     $('.kore-auth-popup .close-popup').trigger("click");
         // }
