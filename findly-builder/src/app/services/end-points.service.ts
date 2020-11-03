@@ -482,5 +482,28 @@ export class EndPointsService {
     }
 
     /** get API for Metrics */
+
+     /** APIs for Business rules */
+     this.serviceList['get.businessRules'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp?offset=:offset&limit=:limit',
+      method: 'get'
+    },
+    this.serviceList['create.businessRules'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp',
+      method: 'post'
+    },
+    this.serviceList['get.businessRuleById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      method: 'get'
+    }
+    this.serviceList['update.businessRule'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      method: 'put'
+    }
+    this.serviceList['delete.businessRule'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      method: 'delete'
+    }
+     /** APIs for Business rules */
   }
 }

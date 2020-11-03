@@ -854,7 +854,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="faqs-shadow task-wrp test {{if faq.config.visible==false}}hidden-styling{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <span class="hidden-styling-text {{if faq.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                       <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
@@ -877,7 +878,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="img-action  dont-show">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                     </span>\
-                    <span class="img-action pin">\
+                    <span class="img-action pin {{if faq.config.pinIndex>-1}}pinned-styling{{/if}}">\
                     <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                     </span>\
@@ -900,7 +901,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <div class="faqs-shadow task-wrp {{if page.config.visible==false}}hidden-styling{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <span class="hidden-styling-text {{if page.config.visible==false}}display-block{{/if}}">HIDDEN</span>\
                  <a class="faqs-wrp-content" href="${page.url}" target="_blank" id=${key}>\
                  <div class="image-url-sec">\
                      <img src="${page.imageUrl}"></img>\
@@ -921,7 +923,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
                  </span>\
-                 <span class="img-action pin">\
+                 <span class="img-action pin {{if page.config.pinIndex>-1}}pinned-styling{{/if}}">\
                  <img class="hide" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                  </span>\
@@ -994,7 +996,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <li class="tabTitle">\
             {{each(key, facet) facets}}\
                 <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
-                    <span class="resultCount">(${facet.value})</span>\
                 </a>\
             {{/each}}\
           </li>\
@@ -1585,7 +1586,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         else if ($suggest.val() == "") {
           wrdArray = needle.trim().split(' ');
-          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1]
+          let lastWords = wrdArray[wrdArray.length - 2] + ' ' + wrdArray[wrdArray.length - 1];
           //wrdArray[wrdArray.length - 1] == '' ? wrdArray[wrdArray.length - 2] : wrdArray[wrdArray.length - 1];
           regex = new RegExp('^' + lastWords, 'i');
           if (regex.test(term)) {
@@ -1673,7 +1674,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(evet.target).next().parent().next().hide();
           if (_self.vars.showingMatchedResults == true) {
             // _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'expand');
-            alert("Clicked on FAQ")
             _self.captureClickAnalytics(evet, $(evet.target).parent().attr('contenttype'), 'click');
           }
         } else {
@@ -1720,7 +1720,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).parent().next().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsup";
 
-          if(_self.vars.showingMatchedResults == true) {
+          if (_self.vars.showingMatchedResults == true) {
             _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsUp')
           }
 
@@ -1738,7 +1738,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $(event.target).parent().prev().children().attr('src', 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
           payload.feedbackType = "thumbsdown";
 
-          if(_self.vars.showingMatchedResults == true) {
+          if (_self.vars.showingMatchedResults == true) {
             _self.captureClickAnalytics(event, $(event.currentTarget).closest('.title').attr('contenttype'), 'thumbsDown')
           }
 
@@ -2007,7 +2007,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           })
         }
 
-        if(_self.vars.showingMatchedResults == true) {
+        if (_self.vars.showingMatchedResults == true) {
           console.log($(e.currentTarget).parent().attr('contentType'), $(e.currentTarget).parent().attr('contentId'));
           _self.captureClickAnalytics(e, $(e.currentTarget).parent().attr('contentType'), 'click');
         }
@@ -2035,36 +2035,49 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
       $('.search-container').off('click', '.dont-show').on('click', '.dont-show', function (e) {
         console.log(e);
-        _self.performRankActions(e, { visible: false });
+        if ($(e.currentTarget).closest('.task-wrp').attr('visible') == "true") {
+          _self.performRankActions(e, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+        }
+        else {
+          _self.performRankActions(e, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+        }
       });
       $('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
         console.log(e);
         var _selctedEle = $(e.target).closest('.task-wrp');
         var _parentEle = $(e.target).closest('.tasks-wrp');
         var nodes = Array.prototype.slice.call(_parentEle[0].children);
-        var pinIndex = nodes.indexOf(_selctedEle[0]);
-        _self.performRankActions(e, { pinIndex: pinIndex });
+        var pinIndex;
+        if ($(e.target).closest('.pin').hasClass('pinned-styling') == true) {
+          pinIndex = -1;
+        }
+        else {
+          pinIndex = nodes.indexOf(_selctedEle[0]);
+        }
+        _self.performRankActions(e, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
 
       });
       $('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
         console.log(e);
-        _self.performRankActions(e, { boost: 0.25 });
+        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText, 'boosting');
       });
       $('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
         console.log(e);
-        _self.performRankActions(e, { boost: -0.25 });
+        _self.performRankActions(e, { boost: 0.25 }, _self.vars.searchObject.searchText, 'burying');
       })
     };
 
-    KoreWidgetSDK.prototype.performRankActions = function (e, conf) {
+    KoreWidgetSDK.prototype.performRankActions = function (e, conf, searchText, actionType) {
       var _self = this;
+      console.log(conf);
       e.preventDefault();
       e.stopPropagation();
       var _taskWrapDiv = $(e.target).closest('.task-wrp');
 
       var contentId = _taskWrapDiv.attr('contentid');
       var contentType = _taskWrapDiv.attr('contentType');
-      var queryString = $(e.target).closest('.finalResults').attr('queryString');
+      // var queryString = $(e.target).closest('.finalResults').attr('queryString');
+      var queryString = searchText;
 
       var boost = _taskWrapDiv.attr('boost');
       var pinIndex = _taskWrapDiv.attr('pinIndex');
@@ -2072,8 +2085,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       boost = parseFloat(boost);
       pinIndex = parseInt(pinIndex);
-      visible = visible.toLowerCase() == 'true' ? true : false;
+      // visible = visible.toLowerCase() == 'true' ? true : false;
 
+      if (actionType == 'boosting') {
+        conf.boost = conf.boost + boost
+      } else if (actionType == 'burying') {
+        if (boost > 0.25) {
+          conf.boost = boost - conf.boost;
+        }
+        else {
+          conf.boost = conf - boost - boost;
+        }
+      }
 
 
       // var payload = {
@@ -2109,22 +2132,61 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var successMsg = '';
       var errorMsg = '';
       if ($(e.currentTarget).hasClass('dont-show')) {
-        successMsg = 'Hidden property applied';
-        errorMsg = 'Hidding failed';
+        if (visible == "true") {
+          successMsg = 'Hidden property applied';
+          errorMsg = 'Hiding failed';
+        }
+        else {
+          successMsg = 'Hidden property removed';
+          errorMsg = 'Unhiding failed';
+        }
+        // errorMsg = 'Hiding failed';
       } else if ($(e.currentTarget).hasClass('pin')) {
-        successMsg = 'Pinned';
-        errorMsg = 'Pinning failed';
+        if ($(e.currentTarget).hasClass('pinned-styling') == true) {
+          successMsg = 'Unpinned';
+          errorMsg = 'Unpinning failed';
+        }
+        else {
+          successMsg = 'Pinned';
+          errorMsg = 'Pinning failed';
+        }
+        /*successMsg = 'Pinned';
+        errorMsg = 'Pinning failed';*/
       } else if ($(e.currentTarget).hasClass('boostup')) {
         successMsg = 'Boosted';
         errorMsg = 'Boosting failed';
       } else if ($(e.currentTarget).hasClass('boostdown')) {
         successMsg = 'Buried';
-        errorMsg = 'Burrying failed';
+        errorMsg = 'Burying failed';
       }
       _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
         _taskWrapDiv.find('.action-info').css({ color: 'green' }).text(successMsg).show().delay(2000).fadeOut(1600, function () {
           $(this).hide();
-        });;
+        });
+        if (actionType == 'boosting') {
+          _taskWrapDiv.attr('boost', conf.boost);
+        } else if (actionType == 'burying') {
+          _taskWrapDiv.attr('boost', conf.boost);
+        } else if (actionType == 'visibility') {
+          _taskWrapDiv.attr('visible', conf.visible);
+          if (conf.visible == false) {
+            _taskWrapDiv.addClass('hidden-styling');
+            _taskWrapDiv.find('.hidden-styling-text').css('display', 'block');
+          }
+          else {
+            _taskWrapDiv.removeClass('hidden-styling');
+            _taskWrapDiv.find('.hidden-styling-text').css('display', 'none');
+          }
+        } else if (actionType == 'pinning') {
+          var pinningElement = _taskWrapDiv.find('.pin');
+          if (pinningElement.hasClass('pinned-styling') == true) {
+            pinningElement.removeClass('pinned-styling');
+          }
+          else {
+            pinningElement.addClass('pinned-styling');
+          }
+          _taskWrapDiv.attr('pinindex', conf.pinIndex)
+        }
       }, function (eRes) {
         _taskWrapDiv.find('.action-info').css({ color: 'red' }).text(errorMsg).show().delay(2000).fadeOut(1600, function () {
           $(this).hide();
@@ -2255,6 +2317,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       facetActive = $('.facetActive').attr('id');
       console.log("Active Facet Tab: ", facetActive);
+
+      payload.isDev = _self.isDev;
 
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
         faqs = [], pages = [], tasks = [], facets = {};
@@ -2453,6 +2517,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 }
 
               }
+
+              payload.isDev = _self.isDev;
+
               var url = _self.API.livesearchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
               var searchData;
               if (code == '13') {
@@ -2470,7 +2537,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
-                    var faqs = [], pages = [], tasks = [], facets;
+                    var faqs = [], pages = [], tasks = [], facets, documents = [];
                     if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
@@ -2485,6 +2552,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages.push(result);
                         } else if (result.contentType === "task") {
                           tasks.push(result);
+                        } else if (result.contentType === "document") {
+                          documents.push(result);
                         }
                       })
                       facets = res.facets;
@@ -2493,6 +2562,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         pages: pages,
                         tasks: tasks,
                         facets: facets,
+                        documents: documents,
                         originalQuery: res.originalQuery,
                       }
                       //livesearch
@@ -2537,12 +2607,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           facets: facets
                         }
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           showAllResults: false,
                           noResults: true,
                           taskPrefix: 'MATCHED'
@@ -2879,6 +2951,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       }
 
+      payload.isDev = _self.isDev;
+
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
@@ -3035,7 +3109,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 _self.sendMessageToSearch('bot', _botMessage);
               }
               $(searchData).find(".tasks-wrp").sortable();
-              $(searchData).attr('queryString', dataObj.originalQuery)
+              $(searchData).attr('queryString', dataObj.originalQuery);
+
+              // if ($(searchData).find(".task-wrp").attr('visible') == "false") {
+              //   console.log($(searchData).find(".task-wrp"))
+              //   $(searchData).find(".task-wrp").addClass('hidden-styling');
+              //   $(searchData).find('.hidden-styling-text').css('display', 'block');
+              // }
+              $(".task-wrp").each(function (index) {
+                console.log(index + ":" + $(this));
+              })
+
               if (topMatchTask) {
                 searchData.addClass("hide");
               }
@@ -3283,6 +3367,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     KoreWidgetSDK.prototype.getFrequentlySearched = function (url, type, payload) {
       var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      // console.log(payload);
       return $.ajax({
         url: url,
         type: type,
@@ -3365,7 +3450,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         dataType: 'json',
         headers: {
           "Authorization": bearer,
-          "Content-Type": "application/json" 
+          "Content-Type": "application/json"
         },
         data: payload,
         success: function (data) {
@@ -3373,7 +3458,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         },
         error: function (err) {
           console.log(err)
-        } 
+        }
       })
     }
 

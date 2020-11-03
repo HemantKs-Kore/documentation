@@ -38,6 +38,12 @@ html{
         .headerDropDown{
             margin-top: 10px !important;
         }
+        .dropdown{
+            z-index: 99999 !important;
+        }
+        .dropup{
+            z-index: 99999 !important;
+        }
         .mat-form-field{
             &.mat-focused{ 
                 .mat-form-field-label{
@@ -1272,8 +1278,9 @@ div.divBlockEmptylastChild:first-child {
         background-color: #fff !important;       
         box-shadow: 0px -2px 4px rgba(32, 33, 36, 0.2);
         display: block !important;
+        text-align: right;
         button{
-            margin:0 10px 0 0 !important;
+            margin:0 0px 0 10px !important;
         }
     }
 }

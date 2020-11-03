@@ -18,6 +18,7 @@ export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   statusModalPopRef: any = [];
   traitsObj: any = [];
+  showSearch;
   traitType: string;
   traitsTableData: any = [];
   loaderFlag = false;
@@ -180,7 +181,10 @@ editTraitFroup = function (traitGroup, index) {
        this.closeModalSlider('#createEditTraitsSlider');
           return;
   }
-  const traitsData = [...this.traits.addEditTraits.traitsArray];
+  let traitsData:any = []
+  if(this.traits.addEditTraits && this.traits.addEditTraits.traitsArray){
+    traitsData = [...this.traits.addEditTraits.traitsArray];
+  }
   $.each(traitsData,(i,trait)=>{
       const displayName = trait.key || trait.displayName;
       // const traitKey = angular.copy((trait.key || trait.displayName).replace(/\s/g,''));
@@ -268,6 +272,12 @@ editTraitFroup = function (traitGroup, index) {
   }
 
 };
+toggleSearch(){
+  if(this.showSearch && this.serachTraits){
+    this.serachTraits = '';
+  }
+  this.showSearch = !this.showSearch
+}
   deleteTraitsGroup (index, traitsGroup, event?) {
     if (event) {
       event.stopImmediatePropagation();

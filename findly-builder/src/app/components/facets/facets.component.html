@@ -100,11 +100,11 @@
                         </ul>
                     </div>                        
                 </div>
-                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  (addEditFacetObj.fieldName!== undefined) && (selectedField && selectedField.fieldName!== null)">
-                    <div class="title">Field Type :<span class="string">{{getType(addEditFacetObj.fieldName)}}</span></div>
-                </div>
                 <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType">
                     <div class="title">Field Type :<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
+                </div>
+                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id && addEditFacetObj.fieldDataType">
+                    <div class="title">Field Type :<span class="string">{{addEditFacetObj.fieldDataType | translate}}</span></div>
                 </div>
             </div>
         </div>          
@@ -177,17 +177,17 @@
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?addEditFacetObj.facetValue.orderKey:'Choose an option') | translate}}</button>                                            
                         <ul class="dropdown-menu content-menu">                                                                   
                           <li (click)="addEditFacetObj.facetValue.orderKey = 'count'"><a>Count</a></li>
-                          <li (click)="addEditFacetObj.facetValue.orderKey = 'label'"><a>Lable</a></li>
+                          <li (click)="addEditFacetObj.facetValue.orderKey = 'label'"><a>Label</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="kr-sg-dropdowns col-3 pl-2 pr-0">
                     <div class="label-text">Sort</div>
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditFacetObj.facetValue.asc?'Assending':'Decending'}}</button>                                        
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{addEditFacetObj.facetValue.asc?'Ascending':'Descending'}}</button>                                        
                         <ul class="dropdown-menu content-menu">                                                                   
-                          <li (click)="addEditFacetObj.facetValue.asc = true"><a>Assending</a></li>
-                          <li (click)="addEditFacetObj.facetValue.asc = false"><a>Decending</a></li>
+                          <li (click)="addEditFacetObj.facetValue.asc = true"><a>Ascending </a></li>
+                          <li (click)="addEditFacetObj.facetValue.asc = false"><a>Descending</a></li>
                         </ul>
                     </div>
                 </div>                

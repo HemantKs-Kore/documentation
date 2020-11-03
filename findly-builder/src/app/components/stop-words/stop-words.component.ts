@@ -22,6 +22,7 @@ export class StopWordsComponent implements OnInit {
     duplicate:false,
     spaceFound:false
   }
+  loadingWords = false;
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
@@ -196,7 +197,7 @@ export class StopWordsComponent implements OnInit {
   getActiveSearch(){
     return $('.stopwordBlock').length;
   }
-  deleteInfividualStopWords(index,event) {
+  deleteInfividualStopWords(index,event,word,list) {
     if(event){
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -215,7 +216,11 @@ export class StopWordsComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.stopwords.splice(index,1);
+          this.loadingWords = true;
+          const deleteindex = this.stopwords.findIndex(f => f=== word);
+          if(deleteindex > -1){
+            this.stopwords.splice(deleteindex,1);
+          }
          this.updateStopWords(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
@@ -258,7 +263,9 @@ export class StopWordsComponent implements OnInit {
        }
      }
      this.notificationService.notify(msg,'success');
+      this.loadingWords = false;
     }, errRes => {
+      this.loadingWords = false;
       this.errorToaster(errRes,'Failed to update');
     });
   }

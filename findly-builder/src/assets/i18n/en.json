@@ -27,6 +27,8 @@
     "rename":"Rename",
     "copy":"Copy",
     "remove":"Remove",
+    "value":"Value",
+    "range":"Range",
     "choose_an_option":"Choose an option",
     "count":"Count",
     "label":"Label",
@@ -72,5 +74,23 @@
     "denseVector":"Dense Vector",
     "topic_rank":"Topic Rank",
     "position_rank":"Position Rank",
-    "multipartite_rank":"Multipartite Rank"
+    "multipartite_rank":"Multipartite Rank",
+    "name_caps":"NAME",
+    "or_caps":"OR",
+    "and_caps":"OR",
+    "businessRules":{
+        "rules_selected":"Rules Selected",
+        "all_rules_selected":"All Rules Selected",
+        "status_caps":"STATUS",
+        "outcome_caps":"OUTCOME",
+        "condition_caps":"CONDITION",
+        "add_rule":"Add Rule",
+        "rule_active":"Rule Active",
+        "rule_in_active":"Rule In-Active",
+        "rule_name":"Rule Name",
+        "condition_desc":"The context of this section as to when the trigger takes place.",
+        "add_condition":"Add Condition",
+        "user_context":"User Context",
+        "condition":"Condition"
+    }
 }

@@ -95,9 +95,13 @@
                     <div class="col-2" >TRAIT GROUP<img src="assets/icons/caretDown.svg"
                             class="ml-1 hide"></div>
                     <div class="col-9" >TRAITS <img src="assets/icons/caretDown.svg"
-                            class="ml-1 hide"></div>
-                           
-                    
+                            class="ml-1 hide">
+                            <!-- <div class="kr-sg-input-inline-search">                               
+                                <input type="text" placeholder="Search" class="input-search" [(ngModel)]="serachTraits">
+                                <img src="assets/icons/search.svg" class="search-icon">
+                            </div>
+                            <div class="action" (click)='createNewTraits()'>+ Create New Trait</div> --> 
+                    </div>
                 </header>
                 <perfect-scrollbar class="trailts">
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">

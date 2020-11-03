@@ -168,9 +168,56 @@
         }
       }
       .table-list-content{
+        .seach_add_feild{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 17px 18px;
+            margin: 10px 0px 10px 0px;
+            background: #F5F8FA;
+            border-radius: 4px;
+            .kr-sg-input-search{
+                display: inline-block;
+                width: 0px;
+                display: none;  
+                width: 300px;
+                height: 20px;
+                position: relative;
+                bottom: 6px;
+                right: 10px;               
+                &.active{
+                    display: block;
+                    width: 300px;
+                }
+            } 
+            .seach-block{
+                color: #202124;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                // line-height: 14px;
+                margin-right: 30px;
+                img{
+                    margin-right: 7px;
+                    cursor: pointer;
+                }
+            }
+            .add_feild{
+                color: #202124;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
+                cursor: pointer;
+                img{
+                    margin-right: 7px;
+                }
+            }
+        }
           .table-content{
               .table-header{
                   position: relative;
+                
                   .kr-sg-input-inline-search{
                       position: absolute;
                       right: 180px;
@@ -239,6 +286,14 @@
       .traits{
         padding: 0px 30px 0px 30px;
         width: 100%;
+        .tost-text{
+            max-width: 80%;
+        }
+        .trainTraits{
+            position: absolute;
+            right: 63px;
+            min-width: 110px !important;
+        }
         .defineTraitsContainer{
             display: flex;
             .backArrowDiv{
