@@ -1420,3 +1420,108 @@
     color: #8a959f !important;
     margin-bottom: 20px;
 }
+
+.browse-file-tabs-container{
+    .nav-tabs{
+        border: 0;
+        border-bottom: 2px solid #F4F4F4;
+        .nav-item{
+            border: 0;
+            margin: 0;
+            margin-right: 27px;
+            .nav-link{
+                padding: 8px 0;
+                border: 0;
+                color: #26344A;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 14px;
+                text-transform: uppercase;
+                cursor: pointer;
+                &.active{
+                    color: #0D6EFD;
+                    position: relative;
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 2px;
+                        background: #0D6EFD;
+                        bottom: -2px;
+                    }
+                }
+            }
+        }
+    }
+    .tab-content{
+        margin-top: 20px;
+        .kr-sg-file-drag-drop{
+            .drag-drop-sec{
+                padding: 43px 60px;
+                margin-bottom: 15px;
+                .imageDiv{
+                    margin-bottom: 14px;
+                }
+                .info_text{
+                    color: #202124;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                .or-divider{
+                    color: #898989;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 14px;
+                    padding: 15px 0;
+                }
+                .drag-label{
+                    margin: 0;
+                    .browse{
+                        background: #F2F2F2;
+                        border: 1px solid #BDC1C6;
+                        box-sizing: border-box;
+                        border-radius: 4px;
+                        margin: 0;
+                        display: inline-block;
+                        padding: 8px 10px;
+                        width: 116px;
+                        color: #202124;
+                        font-size: 14px;
+                        text-decoration: none;
+                        line-height: 20px;
+                        cursor: pointer;
+                    }
+                }
+                .uploaded-file-name{
+                    margin: 54px 0;
+                    padding: 13px 16px;
+                    background: #F8F9FA;
+                    border-radius: 4px;
+                    .file-close-text{
+                        align-items: center;
+                        .type_img{
+                            margin-right: 13px;
+                        }
+                        .file-name{
+                            color: #28A745;
+                            font-size: 14px;
+                            font-weight: normal;
+                        }
+                        .close-file{
+                            top: 0;
+                        }
+                    }
+                }
+            }
+        }
+        .browserbyurl{
+            .input-url-block{
+                padding: 100px 60px 101px 60px;
+                margin-bottom: 15px;
+                border: 1px dashed #BDC1C6;
+                border-radius: 4px;
+                background: #FFFFFF;
+            }
+        }
+    }
+}

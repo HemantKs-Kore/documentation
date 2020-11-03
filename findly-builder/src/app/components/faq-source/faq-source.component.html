@@ -408,14 +408,15 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header modal-table-actions">               
-        <div class="table-action-header row m-0"> 
-            <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div> 
+        <div class="table-action-header row m-0 justify-content-end"> 
+               
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search">                               
                     <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources" autocomplete="off">
                     <img *ngIf="!searchSources" src="assets/images/search_gray.svg" class="search-icon">
                     <img *ngIf="searchSources" src="assets/images/close.svg" class="search-icon close-modal">                
-                </div>                         
+                </div>           
+                              
                   <div class="kr-sg-dropdowns d-none">            
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add FAQs</button>                                            
@@ -427,9 +428,14 @@
                   </div>
                   <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
                   <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
+                 <div class="close-modal ml-2 pl-1">
+                  <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
+                </div>
             </div>
         </div> 
+     
     </div>
+   
     <div *ngIf="!(resources && resources.length)" class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
