@@ -65,6 +65,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // FindlySDK.prototype.assignCallbacksToParent = function () {
     //   this.config.findlyBusinessConfig.applicationDataTransfer = this.applicationDataTransfer();
     // }
+    // from Application 
     FindlySDK.prototype.applicationDataTransfer = function(event){
       console.log(event);
     }
