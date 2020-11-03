@@ -103,8 +103,11 @@
       </div>
       </div>
       <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
-        <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Proceed'}}</button>
-        <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
-      </div>
+         <button type="button" class="btn kr-btn-cancel" data-dismiss="modal" (click)="closeCreateApp()">Close</button>
+         <button [disabled]="!newApp.name"  type="button" class="kr-sg-button-primary btn_lg"  data-dismiss="modal" (click)='createFindlyApp()'>{{creatingInProgress?'Creating...':'Proceed'}}</button>
+     
+        </div>
+
+
 </kr-modal>
 

@@ -51,7 +51,7 @@
         <div class="tost-text">Please click on 'Train' button to update your traits model with the latest
             changes.
             Your bot will identify the traits using latest changes only after the training is completed.</div>
-        <button class="kr-sg-button-primary ml-2" (click)="trainBot()">Train</button>
+        <button class="kr-sg-button-primary ml-2 trainTraits" (click)="trainBot()">Train Traits</button>
     </div>
     <div class="defineTraitsContainer d-none">
         <div class="col-5 leftDiv">
@@ -84,20 +84,20 @@
         <div class="kr-sg-data-table" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
         
             <section class="table-content mt-0">
+                <div class="seach_add_feild">
+                    <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                        <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
+                      </div> 
+                      <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                    <div class="add_feild" (click)="createNewTraits()"><img src="assets/icons/add_plus.svg"> Create New Trait</div>
+                </div>
                 <header class="table-header">
                     <div class="col-2" >TRAIT GROUP<img src="assets/icons/caretDown.svg"
                             class="ml-1 hide"></div>
                     <div class="col-9" >TRAITS <img src="assets/icons/caretDown.svg"
                             class="ml-1 hide"></div>
-                            <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-                                <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search"   [(ngModel)]="serachTraits">           
-                              </div>
-                              <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
-                            <!-- <div class="kr-sg-input-inline-search">                               
-                                <input type="text" placeholder="Search" class="input-search" [(ngModel)]="serachTraits">
-                                <img src="assets/icons/search.svg" class="search-icon">
-                            </div> -->
-                            <div class="action" (click)='createNewTraits()'>+ Create New Trait</div>
+                           
+                    
                 </header>
                 <perfect-scrollbar class="trailts">
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
@@ -201,6 +201,7 @@
     </perfect-scrollbar>
 
     <div class="modal-footer">
-        <button class="kr-sg-button-primary" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-secondary btn_lg"  (click)="closeStatusModal()">Cancel</button>
     </div>
 </kr-modal>

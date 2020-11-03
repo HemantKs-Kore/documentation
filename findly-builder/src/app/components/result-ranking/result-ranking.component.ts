@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-result-ranking',
@@ -10,6 +12,8 @@ import { NotificationService } from '@kore.services/notification.service';
 })
 export class ResultRankingComponent implements OnInit {
   actionLogData : any;
+  time;
+ 
   iconIndex;
   actionIndex;
   selectedApp;
@@ -23,12 +27,16 @@ export class ResultRankingComponent implements OnInit {
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
+  
   timeLogData : any;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
+   
 
   ngOnInit(): void {
+
+
     
     this.actionLogData = [{
       "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
@@ -143,17 +151,21 @@ export class ResultRankingComponent implements OnInit {
   this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
   this.getcustomizeList();
+  
   }
   showLogs(){
     this.resultLogs = true;
   }
+ 
   clickCustomizeRecord(record){
     this.selectedRecord = record;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : record._id
+     
     };
+  
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
       this.actionLogData = res;
@@ -175,14 +187,20 @@ export class ResultRankingComponent implements OnInit {
      });
   }
   timeLog(record){
+    // this.selectedRecord = record;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : record._id
     };
+    // this.time =moment("2020-10-28T05:27:49.499Z").fromNow()
+    // const displayTime=document.getElementById('displayTime')
+    // displayTime.append('time')
     this.service.invoke('get.rankingActionLog', quaryparms).subscribe(res => {
       this.customizeLog = res;
       for(let i = 0 ; i< this.customizeLog.length ; i++){
+        let time= this.customizeLog[i].createdOn
+        this.customizeLog[i].createdOn=moment(time).fromNow()
         this.customizeLog[i]['selected'] = false;
       }
      }, errRes => {
@@ -193,6 +211,7 @@ export class ResultRankingComponent implements OnInit {
        }
      });
   }
+ 
   restore(record){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -245,5 +264,6 @@ export class ResultRankingComponent implements OnInit {
   }
   closeLogs(){
     this.resultLogs = false;
-  }
+
+}
 }
