@@ -245,6 +245,8 @@ export class AppComponent implements OnInit {
     var fSdk = new FindlySDK(findlyConfig);
     fSdk.showSearch();
     console.log(this.findlyBusinessConfig);
+    const e = {'data' : 1}
+    fSdk.applicationDataTransfer(e);
     //this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
     // var chatConfig = KoreSDK.chatConfig;
     // //chatConfig.botOptions.assertionFn = assertion;
@@ -265,5 +267,6 @@ export class AppComponent implements OnInit {
     //        wSdk.setJWT('dummyJWT');
     //         wSdk.show(widgetsConfig, wizSelector);
     //         wSdk.showSearch();
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }

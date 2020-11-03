@@ -100,11 +100,11 @@
                         </ul>
                     </div>                        
                 </div>
-                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  (addEditFacetObj.fieldName!== undefined) && (selectedField && selectedField.fieldName!== null)">
-                    <div class="title">Field Type :<span class="string">{{getType(addEditFacetObj.fieldName)}}</span></div>
-                </div>
                 <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType">
                     <div class="title">Field Type :<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
+                </div>
+                <div class="col-2 pr-0" *ngIf="addEditFacetObj._id && addEditFacetObj.fieldDataType">
+                    <div class="title">Field Type :<span class="string">{{addEditFacetObj.fieldDataType | translate}}</span></div>
                 </div>
             </div>
         </div>          

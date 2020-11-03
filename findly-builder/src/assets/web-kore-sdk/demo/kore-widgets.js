@@ -56,7 +56,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype = Object.create($.prototype);
-
+    
     FindlySDK.prototype.parentEvent = function (event) {
       if (this.config && this.config.findlyBusinessConfig && this.config.findlyBusinessConfig.sdkBridge) {
         this.config.findlyBusinessConfig.sdkBridge(event);
