@@ -9749,15 +9749,16 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
 .custom-insights-control-container {
     display: none;
     position: fixed;
-    margin-top: 5px;
+    margin-top: 0;
     margin-left: -50px;
     height: 40px;
     width: 50px;
-    border-radius: 6px 0px 0px 6px;
-    background: #ffffff;
     padding: 10px 17px;
-    box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
     cursor: pointer;
+    z-index: -1;
+    background: #FFFFFF;
+    box-shadow: -7px 4px 30px rgba(18, 61, 101, 0.2), inset -8px -6px 80px rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
 }
 .custom-header {
     position: relative;

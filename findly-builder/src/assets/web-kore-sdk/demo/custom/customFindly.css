@@ -179,9 +179,9 @@ img.logo-img{
   } */
   
   .add-new-result{
-    /* left: 635px !important; */
-    border-radius: 0px 6px !important;
-    left: 234px !important;
-    width: calc(55% - 245px) !important;
-    right: 0 !important;
+    /* border-radius: 0px 6px !important; */
+    width: 550px !important;
+    margin: 0;
+    right: 255px !important;
+    left: auto !important;
   } 
