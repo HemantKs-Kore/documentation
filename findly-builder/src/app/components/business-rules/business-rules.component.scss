@@ -307,19 +307,21 @@
     }
 }
 
-::ng-deep .business-rules-popup{
+::ng-deep .business-rules-popup{   
     .toggle-switch{
         position: absolute;
         right: 165px;
         margin-top: 3px;
         .slider {
             span{
-                width: 120px !important;
+                width: 130px !important;
                 top: -1px !important;
             }
         }
     }
     .rules-block{
+        margin:15px 0;
+        border-bottom: 1px solid #D8D8D8;
         .condition-add-text{
             .title{
                 font-weight: 500;
@@ -346,5 +348,78 @@
                 }
             }
         }
+        .input-conditions{           
+            padding-right: 0;
+            .input-bg-sec{
+                width: 100%;
+                background: #F8F9FA;
+                border-radius: 4px;
+                padding: 16px 20px;
+                .search-content-sec{
+                    align-items: center;
+                    margin-bottom: 16px !important;
+                    .title{
+                        color: #9AA0A6;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 15px;
+                    }
+                }
+                .setparameetres-sec{
+                    align-items: center;                    
+                    .title{
+                        color: #9AA0A6;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 15px;
+                    }                    
+                }
+                .tags{
+                    padding-right: 0;
+                    .chip-sys-data{
+                        width: 100%;
+                        background: #fff;
+                    }
+                }
+                .action-scontent-sec{
+                    align-items: center;
+                    margin-bottom: 16px !important;
+                    .title{
+                        color: #9AA0A6;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 15px;
+                    }
+                }
+                .response-content-sec{
+                    align-items: center;
+                    margin-bottom: 16px !important;
+                    .title{
+                        color: #9AA0A6;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 15px;
+                    }
+                }
+            }
+            .delete-rule{
+                margin-left: 10px;
+                cursor: pointer;
+            }
+        }
     }
+}
+.dropdownDiv{
+    padding: 0 !important;
+    .kr-sg-dropdowns{
+        .dropdown-open {
+            .dropdown-input{
+                height: 30px;
+                line-height: 28px;
+            }
+        }
+    }
+}
+.mb-13{
+    margin-bottom: 13px;
 }
