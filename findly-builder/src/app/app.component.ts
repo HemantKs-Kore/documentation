@@ -5,7 +5,10 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
+declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
+declare const koreBotChat: any;
+declare const KoreSDK: any;
 declare let window:any;
 import * as _ from 'underscore';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
@@ -247,26 +250,28 @@ export class AppComponent implements OnInit {
     console.log(this.findlyBusinessConfig);
     const e = {'data' : 1}
     fSdk.applicationDataTransfer(e);
-    //this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
-    // var chatConfig = KoreSDK.chatConfig;
-    // //chatConfig.botOptions.assertionFn = assertion;
-    // chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
+    // this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
+  //    var chatConfig = KoreSDK.chatConfig;
+  //   //chatConfig.botOptions.assertionFn = assertion;
+  //   // chatConfig.widgetSDKInstace=fSdk;//passing widget sdk instance to chatwindow 
 
-    // var koreBot = koreBotChat();
-    // koreBot.show(chatConfig);
+  //    var koreBot = koreBotChat();
+  //    koreBot.show(chatConfig);
 
 
-    // var widgetsConfig=KoreSDK.widgetsConfig;
+  //    var widgetsConfig=KoreSDK.widgetsConfig;
 
-    // var wizSelector = {
-    //     menu: ".kr-wiz-menu-chat",
-    //     content: ".kr-wiz-content-chat"
-    // }
-    // var wSdk = new KoreWidgetSDK(widgetsConfig);
-    // this.searchInstance = wSdk;
-    //        wSdk.setJWT('dummyJWT');
-    //         wSdk.show(widgetsConfig, wizSelector);
-    //         wSdk.showSearch();
+  //   var wizSelector = {
+  //       menu: ".kr-wiz-menu-chat",
+  //       content: ".kr-wiz-content-chat"
+  //   }
+  //    var wSdk = new KoreWidgetSDK(widgetsConfig);
+  //    this.searchInstance = wSdk;
+  //  // this.searchInstance = fSdk;
+  //   fSdk.setJWT('dummyJWT');
+  //           fSdk.show(widgetsConfig, wizSelector);
+  //            fSdk.showSearch();
+    
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }
