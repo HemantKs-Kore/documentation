@@ -2417,7 +2417,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.searchByFacetFilters([]);
       });
 
-      $('.show_insights').on('click', function (event) {
+      $('.show_insights').off('click').on('click', function (event) {
         var responseObject = {};
         // debugger;
         if($(this).attr('data-displayinsights') == "true") {

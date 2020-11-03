@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   findlyBusinessConfig:any = {};
   bridgeDataInsights = true;
   addNewResult = true;
+  showInsightFull = false;
   queryText ;
   pathsObj: any = {
    '/faq':'Faqs',
@@ -196,8 +197,11 @@ export class AppComponent implements OnInit {
       $('.advancemode-checkbox').css({"display":"none"});
       $('.search-container').removeClass('search-container-adv')
       $('.search-container').removeClass('add-new-result');
+
+      $('.ksa-resultsContainer').removeClass('search-body-full');
       _self.bridgeDataInsights = true;
       _self.addNewResult = true;
+      _self.showInsightFull = false;
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
@@ -208,6 +212,15 @@ export class AppComponent implements OnInit {
       _self.bridgeDataInsights = false;
     }else{
       _self.bridgeDataInsights = true;
+    }
+    if(parms.type == "showInsightFull" && parms.data == true && _self.bridgeDataInsights){
+      _self.bridgeDataInsights = false;
+      _self.showInsightFull = true;
+      $('.ksa-resultsContainer').css({"width":"50%"});
+    }else{
+      _self.bridgeDataInsights = true;
+      _self.showInsightFull = false;
+      $('.ksa-resultsContainer').css({"width":"100%"});
     }
     if(parms.type == "addNew" && parms.data == true){
       _self.addNewResult = false;

@@ -13,6 +13,7 @@ declare const $: any;
 export class InsightsComponent implements OnInit {
   @Input() data : any;
   @Input() query : any;
+  @Input() showInsightFull : any;
   queryPipelineId;
   show = false;
   actionLog_id = 0;
