@@ -424,7 +424,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   /** file upload  */
-
+  gotoFileUpload(){
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "file");
+    x.click();
+  }
   /** proceed Source API  */
 
   proceedSource() {
