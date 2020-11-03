@@ -18,7 +18,6 @@ export class TraitsComponent implements OnInit {
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   statusModalPopRef: any = [];
   traitsObj: any = [];
-  showSearch;
   traitType: string;
   traitsTableData: any = [];
   loaderFlag = false;
@@ -272,12 +271,6 @@ editTraitFroup = function (traitGroup, index) {
   }
 
 };
-toggleSearch(){
-  if(this.showSearch && this.serachTraits){
-    this.serachTraits = '';
-  }
-  this.showSearch = !this.showSearch
-}
   deleteTraitsGroup (index, traitsGroup, event?) {
     if (event) {
       event.stopImmediatePropagation();
