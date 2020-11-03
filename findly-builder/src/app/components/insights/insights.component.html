@@ -53,9 +53,9 @@
                         <img src="assets/images/empty-illustration.png">
                     </div>
                 </div>
-                <div id="actionlog" class="tab-pane active fade tab-data-content">
+                <div id="actionlog" class="tab-pane show active fade tab-data-content">
                     <div id="accordion">
-                        <ng-container *ngFor="let actLog of actionLogData;let i = index">
+                        <div *ngFor="let actLog of actionLogData;let i = index">
                             <div class="card-data" *ngIf="actLog.target">
                                 <div class="card_header">                        
                                     <a class="row m-0 card-link" data-toggle="collapse" href="#demo_{{i}}" (click)="toggle(icontoggle,actLog.selected)">                            
@@ -75,8 +75,8 @@
                                     <div class="desc-text" *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>
                                     </div>
                                 </div>
-                                </div> 
-                        </ng-container>                                                      
+                            </div> 
+                        </div>                                                      
                     </div>
                 </div>                                 
             </div>

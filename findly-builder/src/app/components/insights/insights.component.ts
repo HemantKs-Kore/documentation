@@ -22,7 +22,7 @@ export class InsightsComponent implements OnInit {
   ctrVal;
   slider : any = 1;
   filterArray : any = [];
-  actionLogData : any;
+  actionLogData : any = [];
   actionLogDatBack : any;
   selectedApp: any = {};
   serachIndexId;
