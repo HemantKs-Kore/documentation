@@ -80,6 +80,10 @@ import { AddResultComponent } from './components/add-result/add-result.component
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
 import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
+import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
+import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -133,7 +137,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FieldsFilterPipe,
     TraitsFilterPipe,
     MetricsComponent,
-    BusinessRulesComponent
+    BusinessRulesComponent,
+    DashboardComponent,
+    UserEngagementComponent,
+    SearchInsightsComponent,
+    ResultInsightsComponent
     ],
   imports: [
     BrowserModule,

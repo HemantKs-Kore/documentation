@@ -52,6 +52,10 @@ export class AppHeaderComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService
   ) { }
+  metricsOption(menu){
+    this.analyticsClick('metrics')
+    this.router.navigate([menu], { skipLocationChange: true });
+  }
   analyticsClick(menu){
     this.mainMenu = menu;
     if(menu == 'metrics'){
