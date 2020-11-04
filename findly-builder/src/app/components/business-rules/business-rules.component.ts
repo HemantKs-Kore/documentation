@@ -30,11 +30,11 @@ export class BusinessRulesComponent implements OnInit {
     selectAll: false,
     selectedItems:[],
   };
-  conditions =['containes','does not contain','equals','not equals']
+  conditions =['containes','doesNotContain','equals','notEquals']
   ruleOptions = {
-    searchContext:['Recent Searches','Current Search', 'Traits', 'Entity','Keywords'],
-    pageContext:['Device', 'Browser', 'Current Page' , 'Recently Pages','Signed','Time Date Day','Session','Time spent on the page/session'],
-    userContext:['User Type', 'User Profile', 'Age', 'Sex'],
+    searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentlyPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    userContext:['userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
     actions:['boost','lower','hide','filter']
   }
@@ -42,7 +42,7 @@ export class BusinessRulesComponent implements OnInit {
   defaultValuesObj: any = {
     contextType:'searchContext',
     operator:'contains',
-    contextCategory:'Recent searches',
+    contextCategory:'recentSearches',
     value:[]
   }
   defaultOutcomeObj: any = {
