@@ -110,8 +110,11 @@ export class BusinessRulesComponent implements OnInit {
   editRule(rule){
     this.addEditRuleObj = rule;
     this.setDataForEdit(this.addEditRuleObj);
+    this.openModalPopup();
   }
   closeModalPopup(){
+    this.rulesArrayforAddEdit = [];
+    this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
   }
   setDataForEdit(ruleObj){
@@ -292,6 +295,8 @@ export class BusinessRulesComponent implements OnInit {
    }
     this.service.invoke('create.businessRules', quaryparms,payload).subscribe(res => {
       this.rules.push(res);
+      this.closeModalPopup();
+      this.notificationService.notify('Rule created successfully','sucecss');
     }, errRes => {
       this.errorToaster(errRes,'Failed to create rules');
     });
@@ -348,22 +353,111 @@ export class BusinessRulesComponent implements OnInit {
       ruleId:rule._id,
       limit:100
     };
-    this.service.invoke('update.businessRule', quaryparms).subscribe(res => {
-     console.log(res);
+    const payload:any ={
+      ruleName: this.addEditRuleObj.ruleName,
+      isRuleActive: this.addEditRuleObj.isRuleActive,
+      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
+      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+   }
+    this.service.invoke('update.businessRule', quaryparms,payload).subscribe(res => {
+      const editRule = _.findIndex(this.rules, (pg) => {
+        return pg._id === rule._id;
+      })
+      this.rules[editRule] = res;
+      this.notificationService.notify('Rule updated successfully','success');
+      this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to update rule');
     });
   }
-  deleteRule(rule,dilogRef?){
+  deleteRulePop(rule,i){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete rule',
+        text: 'Are you sure you want to delete selected rule?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteRule(rule, i ,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteMultiePop(){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete selected rules',
+        text: 'Are you sure you want to delete selected rules?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSelectedRules(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteSelectedRules(dialogRef) {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      limit:100
+    };
+    const payload: any = {
+      rules:[]
+    }
+    if(this.selcectionObj && this.selcectionObj.selectedItems){
+      const selectedItems = Object.keys(this.selcectionObj.selectedItems);
+      if (selectedItems && selectedItems.length) {
+        selectedItems.forEach((ruleId,i) => {
+         const tempobj = {
+           _id:ruleId
+         }
+         payload.rules.push(tempobj);
+        });
+      }
+    }
+    this.service.invoke('delete.businessRulesBulk', quaryparms,payload).subscribe(res => {
+     if(dialogRef && dialogRef.close){
+      dialogRef.close();
+     }
+     this.getRules();
+     this.notificationService.notify('Selected rules are deleted successfully' ,  'success');
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to delete rule');
+    });
+  }
+  deleteRule(rule,i,dilogRef) {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       ruleId:rule._id,
       limit:100
     };
     this.service.invoke('delete.businessRule', quaryparms).subscribe(res => {
+      const deleteIndex = _.findIndex(this.rules, (pg) => {
+        return pg._id === rule._id;
+      })
+      this.rules.splice(deleteIndex,1);
      if(dilogRef && dilogRef.close){
       dilogRef.close();
      }
+     this.notificationService.notify('Selected rule deleted successfully' ,  'success');
     }, errRes => {
       this.errorToaster(errRes,'Failed to delete rule');
     });

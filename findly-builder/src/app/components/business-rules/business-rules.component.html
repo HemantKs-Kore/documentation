@@ -28,7 +28,7 @@
             <div class="clock"><img src="assets/icons/clock.svg"></div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
-            <button class="kr-sg-button-danger btn_lg">{{'delete' | translate}}</button>
+            <button class="kr-sg-button-danger btn_lg" (click)='deleteMultiePop()'>{{'delete' | translate}}</button>
         </div>
     </div>
     <div class="table_section">
@@ -76,8 +76,8 @@
                    <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{'active' | translate}}</span>
                    <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'In-Active' | translate}}</span>
                    <div class="actions-icons">
-                       <img src="assets/images/edit-pencil.svg">
-                       <img src="assets/icons/delete-table.svg">
+                       <img src="assets/images/edit-pencil.svg" (click)='editRule(ruleObj)'>
+                       <img src="assets/icons/delete-table.svg" (click)="deleteRulePop()">
                    </div>
                 </div>
             </div>   
@@ -227,7 +227,7 @@
                                         </ng-container>
                                         <ng-container *ngIf="outcomeObj.fieldName">
                                             <mat-chip  [selectable]="selectable" class="dropdownDiv">                                           
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown container='body'>
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.outcomeOperator}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -271,7 +271,8 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
+    <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="updateRule(addEditRuleObj)">Proceed</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Back</button>
   </div>
 </kr-modal> 
