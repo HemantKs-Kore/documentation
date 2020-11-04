@@ -18,7 +18,7 @@
             <div class="kr-sg-input-search m-0 " [ngClass]="{'active': showSearch}">                               
                 <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search" placeholder="Search" [(ngModel)]="searchRules">           
             </div> 
-            <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">{{'search' | translate}}
+            <div *ngIf="!loadingContent && rules && rules.length" class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">{{'search' | translate}}
             </div>
             <div class="add_feild" (click)="createNewRule()">
                 <img src="assets/icons/add_plus.svg">{{'businessRules.add_rule' | translate}}
@@ -29,7 +29,11 @@
             <button class="kr-sg-button-danger btn_lg" (click)='deleteMultiePop()'>{{'delete' | translate}}</button>
         </div>
     </div>
-    <div class="table_section">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+      </div>
+    <div class="table_section" *ngIf="!loadingContent && rules && rules.length"> 
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox">
                 <div class="kr-sg-checkbox p-0 m-0">
@@ -88,6 +92,11 @@
             </div> 
         </perfect-scrollbar>
     </div>
+    <div class="empty-rules"  *ngIf="!loadingContent && !(rules && rules.length)">
+        <img src="assets/images/icons/empty_ill.svg">
+        <div class="heading">No Rules Available</div>
+        <div class="desc">Please add rules</div>      
+      </div>
 </div>
 
 
