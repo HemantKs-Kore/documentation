@@ -36,7 +36,7 @@ export class BusinessRulesComponent implements OnInit {
   }
   showSearch = false;
   searchRules = '';
-  conditions =['containes','doesNotContain','equals','notEquals']
+  conditions =['contains','doesNotContain','equals','notEquals']
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
     pageContext:['device', 'browser', 'currentPage' , 'recentlyPages','signed','timeDateDay','session','timeSpentOnThePageSession'],

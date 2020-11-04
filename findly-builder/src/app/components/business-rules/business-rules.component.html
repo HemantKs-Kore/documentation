@@ -79,7 +79,7 @@
                    <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'In-Active' | translate}}</span>
                    <div class="actions-icons">
                        <img src="assets/images/edit-pencil.svg" (click)='editRule(ruleObj)'>
-                       <img src="assets/icons/delete-table.svg" (click)="deleteRulePop()">
+                       <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj,ruleIndex)">
                    </div>
                 </div>
             </div>  
