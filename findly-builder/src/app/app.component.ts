@@ -5,7 +5,10 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
+// declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
+// declare const koreBotChat: any;
+// declare const KoreSDK: any;
 declare let window:any;
 import * as _ from 'underscore';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
@@ -23,6 +26,7 @@ export class AppComponent implements OnInit {
   findlyBusinessConfig:any = {};
   bridgeDataInsights = true;
   addNewResult = true;
+  showInsightFull = false;
   queryText ;
   pathsObj: any = {
    '/faq':'Faqs',
@@ -193,18 +197,35 @@ export class AppComponent implements OnInit {
       $('.advancemode-checkbox').css({"display":"none"});
       $('.search-container').removeClass('search-container-adv')
       $('.search-container').removeClass('add-new-result');
+
+      $('.ksa-resultsContainer').removeClass('search-body-full');
       _self.bridgeDataInsights = true;
       _self.addNewResult = true;
+      _self.showInsightFull = false;
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
     const _self = this;
     console.log(parms);
     //this.bridgeDataInsights = !parms.data;
+    let call = false;
     if(parms.type == "show" && parms.data == true && _self.bridgeDataInsights){
       _self.bridgeDataInsights = false;
+      call = true;
     }else{
       _self.bridgeDataInsights = true;
+      call = false;
+    }
+    if( !call ){
+      if(parms.type == "showInsightFull" && parms.data == true && _self.bridgeDataInsights){
+        _self.bridgeDataInsights = false;
+        _self.showInsightFull = true;
+        $('.ksa-resultsContainer').css({"width":"50%"});
+      }else{
+        _self.bridgeDataInsights = true;
+        _self.showInsightFull = false;
+        $('.ksa-resultsContainer').css({"width":"100%"});
+      }
     }
     if(parms.type == "addNew" && parms.data == true){
       _self.addNewResult = false;
@@ -246,27 +267,31 @@ export class AppComponent implements OnInit {
     fSdk.showSearch();
     console.log(this.findlyBusinessConfig);
     const e = {'data' : 1}
-    fSdk.applicationDataTransfer(e);
-    //this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
-    // var chatConfig = KoreSDK.chatConfig;
-    // //chatConfig.botOptions.assertionFn = assertion;
-    // chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
+    //fSdk.applicationDataTransfer(e);
+    this.searchInstance = fSdk;
 
-    // var koreBot = koreBotChat();
-    // koreBot.show(chatConfig);
+    // this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
+  //    var chatConfig = KoreSDK.chatConfig;
+  //   //chatConfig.botOptions.assertionFn = assertion;
+  //   // chatConfig.widgetSDKInstace=fSdk;//passing widget sdk instance to chatwindow 
+
+  //    var koreBot = koreBotChat();
+  //    koreBot.show(chatConfig);
 
 
-    // var widgetsConfig=KoreSDK.widgetsConfig;
+  //    var widgetsConfig=KoreSDK.widgetsConfig;
 
-    // var wizSelector = {
-    //     menu: ".kr-wiz-menu-chat",
-    //     content: ".kr-wiz-content-chat"
-    // }
-    // var wSdk = new KoreWidgetSDK(widgetsConfig);
-    // this.searchInstance = wSdk;
-    //        wSdk.setJWT('dummyJWT');
-    //         wSdk.show(widgetsConfig, wizSelector);
-    //         wSdk.showSearch();
+  //   var wizSelector = {
+  //       menu: ".kr-wiz-menu-chat",
+  //       content: ".kr-wiz-content-chat"
+  //   }
+  //    var wSdk = new KoreWidgetSDK(widgetsConfig);
+  //    this.searchInstance = wSdk;
+  //  // this.searchInstance = fSdk;
+  //   fSdk.setJWT('dummyJWT');
+  //           fSdk.show(widgetsConfig, wizSelector);
+  //            fSdk.showSearch();
+    
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }

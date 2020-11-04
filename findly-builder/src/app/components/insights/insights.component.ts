@@ -13,6 +13,7 @@ declare const $: any;
 export class InsightsComponent implements OnInit {
   @Input() data : any;
   @Input() query : any;
+  @Input() showInsightFull : any;
   queryPipelineId;
   show = false;
   actionLog_id = 0;
@@ -199,17 +200,17 @@ lineStyle: {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.customInit();
-    setTimeout(()=>{
+    //setTimeout(()=>{
       this.selectedApp = this.workflowService.selectedApp();
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.getQueryLevelAnalytics();
-    },5000)
+    //},5000)
     this.getcustomizeList();
 
   }
   customInit(){
-    $("#advanceContainer").delay(800).fadeIn();
-    $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
+   // $("#advanceContainer").delay(800).fadeIn();
+   // $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     
   //   this.actionLogData = [{
   //     "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?

@@ -13,8 +13,10 @@ export class AddResultComponent implements OnInit {
   selectedApp :any = {};
   extractedResults : any = [];
   serachIndexId;
+  queryPipelineId;
   recordArray = [];
   searchTxt = '';
+  loadingContent = false;
   @Input() addNew;
   @Output() closeResult = new EventEmitter()
   constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
@@ -22,7 +24,7 @@ export class AddResultComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-   
+    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
   }
   closeCross(){
     this.closeResult.emit(!this.addNew);
@@ -52,7 +54,7 @@ export class AddResultComponent implements OnInit {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      //queryPipelineId : queryPipelineId
+      queryPipelineId : this.queryPipelineId
     };
     let result :any = [];
     this.recordArray.forEach((element,index) => {
@@ -94,6 +96,8 @@ export class AddResultComponent implements OnInit {
     }
   }
   searchResults(search){
+    this.loadingContent = true;
+    this.extractedResults =[];
     this.recordArray=[];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -104,11 +108,12 @@ export class AddResultComponent implements OnInit {
       skip: 0
     };
     this.service.invoke('get.extractedResult_RR', quaryparms).subscribe(res => {
-      this.extractedResults = res
+      this.extractedResults = res;
+      this.loadingContent = false;
       console.log(res);
     }, errRes => {
       console.log(errRes);
-     
+      this.loadingContent = false;
     });
   }
 }

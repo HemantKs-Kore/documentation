@@ -19,7 +19,8 @@
                 <div class="count blue-color">{{ctrVal || 0}}%</div>
             </div>
             <div class="data-counts graph" (click)="mouseEnter()">
-               <img src="assets/icons/graph.svg" (click)="closeCross()">
+               <img src="assets/icons/graph.svg" *ngIf="!showInsightFull" (click)="closeCross()">
+               <img src="assets/icons/streched-graph.svg" *ngIf="showInsightFull"  (click)="closeCross()">
             </div>
         </div>
     </div>

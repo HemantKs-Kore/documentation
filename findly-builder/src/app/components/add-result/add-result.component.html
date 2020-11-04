@@ -19,7 +19,7 @@
                     <label for="radio-2" class="radio-custom-label">Content</label>
                 </div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('botaction')">
+                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('task')">
                     <label for="radio-3" class="radio-custom-label">Bot Action</label>
                 </div>
                 <!-- <div class="kr-sg-radiobutton radiobutton ">
@@ -51,8 +51,12 @@
 
     <perfect-scrollbar class="accor-scroll-add" #fqasScrollContainer>
         <ng-container >
+            <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+                <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+                <span class="please-wait-message">Please Wait!</span>
+              </div>
         <div id="accordion" class="accordion-content">
-            <div *ngIf="searchType; else empty">
+             <div *ngIf ="extractedResults; else loading">
                 <div  *ngFor="let result of extractedResults;let i = index">
                     <div class="card-content"   *ngIf="searchType == 'faq'">
                         <div class="card_link collapsed">      
@@ -64,6 +68,21 @@
                                 <div class="title-desc-sec" *ngIf="searchType == 'faq'">
                                     <div class="title">{{ result.question}}</div>
                                     <div class="desc">{{ result.answer}}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="card-content"   *ngIf="searchType == 'task'">
+                        <div class="card_link collapsed">      
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                    <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec">
+                                    <div class="title">{{ result.lname}}</div>
+                                    <div class="desc">{{ result.name}}</div>
                                 </div>
                             </div>
                             
@@ -91,8 +110,9 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                
+              
             </div>
             <ng-template #empty>
                 <div  class="empty-questions-selected divBlockEmptylastChild">

@@ -9,6 +9,7 @@ export class AppBodyComponent implements OnInit , AfterViewInit {
   @Output() initSearchSDK = new EventEmitter();
   @Output() closeResultBody = new EventEmitter();
   @Input() bridgeData; 
+  @Input() showInsightFull;
   @Input() addNewResult;
   @Input() query; 
   insights = true;
