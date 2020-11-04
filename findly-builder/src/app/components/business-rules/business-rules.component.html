@@ -182,8 +182,8 @@
         </div>        
         <div class="rules-block row">
             <div class="condition-add-text col-3 pl-0 pr-4">
-                <div class="title">{{'businessRules.condition' | translate}}</div>
-                <div class="desc_text">{{ 'businessRules.condition_desc' | translate }}</div>
+                <div class="title">{{'businessRules.outcome_caps_small' | translate}}</div>
+                <div class="desc_text">{{ 'businessRules.condition_desc_outcome' | translate }}</div>
                 <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
             </div>
             <div class="input-conditions col-9">
@@ -194,8 +194,8 @@
                                 <div class="col-2 p-0 title">
                                     Action
                                 </div>
-                                <div class="col-10">
-                                    <div class="kr-sg-dropdowns col-4">                           
+                                <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
+                                    <div class="kr-sg-dropdowns col-4 pl-0">                           
                                         <div class="dropdown dropdown-open">
                                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{outcomeObj.outcomeType}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
@@ -203,12 +203,12 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-4 pr-0">
                                         <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
                                     </div>
-                                    <div class="col-4">
-                                        <div>Boosting Results by</div>
-                                        <div>{{outcomeObj.scale}}X</div>
+                                    <div class="col-4 pr-0 text-right">
+                                        <span class="result-slider-title">Boosting Results by</span>
+                                        <span class="slider-count">{{outcomeObj.scale}}X</span>
                                     </div>
                                 </div>
                             </div>

@@ -320,7 +320,7 @@
         }
     }
     .rules-block{
-        margin:15px 0;
+        margin:20px 0;
         border-bottom: 1px solid #D8D8D8;
         .condition-add-text{
             .title{
@@ -390,6 +390,56 @@
                         font-size: 12px;
                         line-height: 15px;
                     }
+                    .right-side-sec{
+                        app-range-slider{
+                            .custom-created-range-slider{
+                                .single-slider{
+                                    width: 100%;
+                                    margin: 0;
+                                    .slider-track-high{
+                                        background: #E4E5E7;
+                                    }        
+                                    .slider-selection{
+                                        background: #0D6EFD !important;
+                                    }                            
+                                    .countThreshold{
+                                        width: 100%;
+                                        display: none;
+                                    }                                    
+                                    .slider-horizontal{
+                                        width: 100%;
+                                        .tooltip-main{
+                                            display: none;
+                                        }
+                                        .slider-tick, .slider-handle{
+                                            background: #0D6EFD !important;
+                                            box-shadow: 0px 0.25px 1px rgba(7, 55, 127, 0.25), 0px 0.85px 3px rgba(0, 0, 0, 0.19);
+                                        }   
+                                    }
+                                    .slider-track{
+                                        height: 2px;
+                                        width: 100%;
+                                        margin-top: -3px;
+                                    }
+                                }                               
+                            }
+                        }
+                        .result-slider-title{
+                            color: #9AA0A6;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 15px;
+                            position: relative;
+                            top: -2px;
+                        }
+                        .slider-count{
+                            color: #000000;
+                            font-weight: normal;
+                            font-size: 18px;
+                            line-height: 22px;
+                            padding-left: 5px;
+                        }
+                    }
                 }
                 .response-content-sec{
                     align-items: center;
@@ -418,6 +468,9 @@
                 line-height: 28px;
             }
         }
+    }
+    &::after{
+        display: none;
     }
 }
 .mb-13{
