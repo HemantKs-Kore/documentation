@@ -9762,6 +9762,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
 }
 .background-white {
     background-color: #ffffff;
+    text-align: unset !important;
 }
 .custom-insights-control-container {
     display: none;
@@ -9903,12 +9904,14 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
 .custom-faqs-wrp-content {
     box-shadow: none !important;
     border-radius: 0px !important;
+    margin: 10px 0px !important;
 }
 .custom-faqs-wrp-content-border {
     box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1) !important;
     border-bottom: 0px solid #b6b6b6 !important;
     border-radius: 0px !important;
     padding-left: 0 !important;
+    margin: 10px 0px !important;
 }
 .custom-faqs-bottom-actions {
     border-bottom: 1px solid #b6b6b6 !important;
@@ -10158,6 +10161,20 @@ input:checked + .custom-slider:before {
     display: block;
     color: gray;
     font-size: 10px;
+}
+.notification-div {
+    display: none;
+    position: absolute;
+    /* right: 10px; */
+    border: 1px solid #ffa500;
+    border-radius: 10px;
+    padding: 0px 8px;
+    font-size: 12px;
+    color: #ffa500;
+    background: inherit;
+    top: 4px;
+    left: 10px;
+    text-align: center;
 }
 .indicator-div {
     display: none;

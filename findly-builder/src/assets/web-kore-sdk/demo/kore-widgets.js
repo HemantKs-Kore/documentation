@@ -39,7 +39,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     * @param  {Object} FindlySDK Config
     */
     function FindlySDK(config) {
-      this.config=config;
+      this.config = config;
       // this.config.container=this.config.container || "body";
       // if(typeof this.config.container==="string"){
       //     this.config.container=$(this.config.container);
@@ -56,7 +56,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     FindlySDK.prototype = Object.create($.prototype);
-    
+
     FindlySDK.prototype.parentEvent = function (event) {
       if (this.config && this.config.findlyBusinessConfig && this.config.findlyBusinessConfig.sdkBridge) {
         this.config.findlyBusinessConfig.sdkBridge(event);
@@ -300,8 +300,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.setAPIDetails = function () {
       var _self = this;
-      var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      var pipelineId = '';
+      /*var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
+      var pipelineId = '';*/
+      // var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
+      var SearchIndexID = 'sidx-3531a0d2-8e79-5af9-a14b-5adff9744ff4';
+      // var pipelineId = '';
+      var pipelineId = 'fqp-6edc57e6-7d11-5118-b78a-ad506c5df61b'
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
         // SearchIndexID = window.selectedFindlyApp._id
         SearchIndexID = window.selectedFindlyApp._id;
@@ -943,6 +947,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
                 <div class="faqs-shadow task-wrp matched_pages" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="notification-div"></div>\
                 <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
@@ -1015,6 +1020,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
               <div class="faqs-shadow task-wrp matched_pages" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <div class="notification-div"></div>\
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
@@ -1212,6 +1218,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
                     <div class="faqs-shadow">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
+                      <div class="notification-div"></div>\
                       <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                         <div class="image-url-sec">\
                           <img src="${page.imageUrl}"></img>\
@@ -2325,7 +2332,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.desc-info').css('max-width', '100%');
 
         }
-        
+
         var responseObject = { 'type': 'fullResult', data: false, query: _self.vars.searchObject.searchText }
         console.log(responseObject);
         _self.parentEvent(responseObject);
@@ -2352,7 +2359,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
           var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
           console.log(responseObject);
-         _self.parentEvent(responseObject);
+          _self.parentEvent(responseObject);
         }
       });
 
@@ -2388,7 +2395,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })*/
 
       // $('.filter-checkbox').off('change').on('change', function (event) {
-        $('.checkbox-custom').off('change').on('change', function (event) {
+      $('.checkbox-custom').off('change').on('change', function (event) {
         $('#loaderDIV').show();
 
         if ($(this).is(':checked')) {
@@ -2417,20 +2424,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.searchByFacetFilters([]);
       });
 
-      $('.show_insights').on('click', function (event) {
+      $('.show_insights').off('click').on('click', function (event) {
         var responseObject = {};
         // debugger;
-        if($(this).attr('data-displayinsights') == "true") {
-          responseObject = {'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
+        if ($(this).attr('data-displayinsights') == "true") {
+          responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', false);
-          $(this).text = "HIDE INSIGHTS ";
+          $(this).text("HIDE INSIGHTS ");
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
         else {
-          responseObject = {'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
+          responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', true);
-          $(this).text = "SHOW INSIGHTS ";
+          $(this).text("SHOW INSIGHTS ");
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -2583,9 +2590,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });*/
       $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
         console.log(event.target);
-        console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.currentTarget).closest('.task-wrp').attr('contentid'));
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {          
-          var boostByValue = $(event.target).closest('.task-wrp').attr('boost') + 0.25;
+        console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          var boostByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
+          boostByValue = boostByValue + 0.25;
+          console.log(boostByValue);
           _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
         }
       });
@@ -2596,15 +2605,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log(event.target);
         console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
 
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {          
-          var buryByValue = $(event.target).closest('.task-wrp').attr('boost');
-
+        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          var buryByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
+          console.log(buryByValue);
           if (buryByValue > 0.25) {
             buryByValue = buryByValue - 0.25;
+            console.log(buryByValue);
             _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
           }
           else {
             buryByValue = 0.25 - buryByValue;
+            console.log(buryByValue);
             _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
           }
         }
@@ -2651,32 +2662,52 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.queryConfig;
 
       if (actionType == 'visibility') {
+        var elementHidden = selectedElement.find('.visibility > .custom-actions-content');
+        var indicatorMessage = '';
+        if (selectedElement.attr('visible') == "false") {
+          indicatorMessage = "UNHIDING";
+        }
+        else {
+          indicatorMessage = "HIDING";
+        }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          var elementHidden = selectedElement.find('.visibility');
-          if (selectedElement.attr('visible') == false) {
-            elementHidden.text() = "UNHIDE";
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+            $(this).hide();
+          });
+          selectedElement.attr('visible', conf.visible);
+          if (selectedElement.attr('visible') == "false") {
+            elementHidden.text("UNHIDE");
             selectedElement.addClass('hide-actions');
           }
           else {
-            elementHidden.text() = "HIDE";
+            elementHidden.text("HIDE");
             selectedElement.removeClass('hide-actions');
           }
-          selectedElement.attr('visible', conf.visible)
         }, function (eRes) {
           console.log(eRes);
         });
       } else if (actionType == 'pinning') {
+        var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
+        var indicatorMessage = ''
+        if (elementPinned.text() == "UNPIN") {
+          indicatorMessage = "PINNING";
+        }
+        else {
+          indicatorMessage = "UNPINNING";
+        }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          var elementPinned = selectedElement.find('.pinning');
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+            $(this).hide();
+          });
+          selectedElement.attr('pinindex', conf.pinIndex);
           if (elementPinned.text() == "UNPIN") {
-            elementPinned.text() = "PIN";
+            elementPinned.text("PIN");
           }
           else {
-            elementPinned.text() = "UNPIN";
+            elementPinned.text("UNPIN");
           }
-          selectedElement.attr('pinindex', conf.pinIndex);
         }, function (eRes) {
           console.log(eRes);
         });
@@ -2684,21 +2715,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = "BOOSTED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          selectedElement.attr('boost', conf.boost);
-          selectedElement.find('.indicator-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          })
+          });
+          selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
         });
       } else if (actionType == 'burying') {
         var indicatorMessage = "BURIED";
-        self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+        _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          selectedElement.attr('boost', conf.boost);
-          selectedElement.find('.indicator-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          })
+          });
+          selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
         });
@@ -2945,14 +2976,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
             };
-            _self.vars.searchObject.searchText =  $('#search').val();
+            _self.vars.searchObject.searchText = $('#search').val();
             // debugger;
             var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
-            if(_self.config.viaSocket){
+            if (_self.config.viaSocket) {
               _self.sendMessage(_self.vars.searchObject.searchText);
-            }else{
+            } else {
               _self.bindLiveDataToChat();
             }
             if ($('.search-body:visible').length) {
@@ -3719,7 +3750,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else if (res.templateType === 'liveSearchEmpty') {
         _self.sendMessageToSearch('bot', 'No results found');
       }
-    
+
     }
 
     FindlySDK.prototype.bindFrequentData = function () {
@@ -4346,10 +4377,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.initKoreSDK = function () {
       var _self = this;
       _self.bot = requireKr('/KoreBot.js').instance();
-      _self.bot.init(_self.config.botOptions,_self.config.messageHistoryLimit);  
+      _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
-      
-    };  
+
+    };
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
       _self.bot.on("message", function (message) {
@@ -4360,68 +4391,68 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var tempData = JSON.parse(message.data);
 
         if (tempData.from === "bot" && tempData.type === "bot_response") {
-            // if (tempData.message[0]) {
-            //     if (!tempData.message[0].cInfo) {
-            //         tempData.message[0].cInfo = {};
-            //     }
-            //     if (tempData.message[0].component && !tempData.message[0].component.payload.text) {
-            //         try {
-            //             tempData.message[0].component = JSON.parse(tempData.message[0].component.payload);
-            //         } catch (err) {
-            //             tempData.message[0].component = tempData.message[0].component.payload;
-            //         }
-            //     }
-            //     if (tempData.message[0].component && tempData.message[0].component.payload && tempData.message[0].component.payload.text) {
-            //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text;
-            //     }
-            //     if(tempData.message[0].component && tempData.message[0].component.payload && (tempData.message[0].component.payload.videoUrl || tempData.message[0].component.payload.audioUrl)){
-            //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text || "";
-            //     }
-            // }
-            // if (loadHistory && historyLoading) {
-            //     messagesQueue.push(tempData);
-            // }
-            // else {
-            //     me.renderMessage(tempData);
-            // }
-            _self.handleSearchRes(tempData.message[0].component.payload);
+          // if (tempData.message[0]) {
+          //     if (!tempData.message[0].cInfo) {
+          //         tempData.message[0].cInfo = {};
+          //     }
+          //     if (tempData.message[0].component && !tempData.message[0].component.payload.text) {
+          //         try {
+          //             tempData.message[0].component = JSON.parse(tempData.message[0].component.payload);
+          //         } catch (err) {
+          //             tempData.message[0].component = tempData.message[0].component.payload;
+          //         }
+          //     }
+          //     if (tempData.message[0].component && tempData.message[0].component.payload && tempData.message[0].component.payload.text) {
+          //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text;
+          //     }
+          //     if(tempData.message[0].component && tempData.message[0].component.payload && (tempData.message[0].component.payload.videoUrl || tempData.message[0].component.payload.audioUrl)){
+          //         tempData.message[0].cInfo.body = tempData.message[0].component.payload.text || "";
+          //     }
+          // }
+          // if (loadHistory && historyLoading) {
+          //     messagesQueue.push(tempData);
+          // }
+          // else {
+          //     me.renderMessage(tempData);
+          // }
+          _self.handleSearchRes(tempData.message[0].component.payload);
         }
         else if (tempData.from === "self" && tempData.type === "user_message") {
-            var tempmsg = tempData.message;
-            var msgData = {};
-            if (tempmsg && tempmsg.attachments && tempmsg.attachments[0] && tempmsg.attachments[0].fileId) {
-                msgData = {
-                    'type': "currentUser",
-                    "message": [{
-                        'type': 'text',
-                        'cInfo': { 'body': tempmsg.body, attachments: tempmsg.attachments },
-                        'clientMessageId': tempData.id
-                    }],
-                    "createdOn": tempData.id
-                };
-            } else {
-                msgData = {
-                    'type': "currentUser",
-                    "message": [{
-                        'type': 'text',
-                        'cInfo': { 'body': tempmsg.body },
-                        'clientMessageId': tempData.id
-                    }],
-                    "createdOn": tempData.id
-                };
-            }
-            me.renderMessage(msgData);
+          var tempmsg = tempData.message;
+          var msgData = {};
+          if (tempmsg && tempmsg.attachments && tempmsg.attachments[0] && tempmsg.attachments[0].fileId) {
+            msgData = {
+              'type': "currentUser",
+              "message": [{
+                'type': 'text',
+                'cInfo': { 'body': tempmsg.body, attachments: tempmsg.attachments },
+                'clientMessageId': tempData.id
+              }],
+              "createdOn": tempData.id
+            };
+          } else {
+            msgData = {
+              'type': "currentUser",
+              "message": [{
+                'type': 'text',
+                'cInfo': { 'body': tempmsg.body },
+                'clientMessageId': tempData.id
+              }],
+              "createdOn": tempData.id
+            };
+          }
+          me.renderMessage(msgData);
         }
         if (tempData.type === "appInvalidNotification") {
-            setTimeout(function () {
-                $('.trainWarningDiv').addClass('showMsg');
-            }, 2000);
+          setTimeout(function () {
+            $('.trainWarningDiv').addClass('showMsg');
+          }, 2000);
         }
-    });
-      
+      });
+
     };
 
-    FindlySDK.prototype.sendMessage = function (chatInput, renderMsg,msgObject) {
+    FindlySDK.prototype.sendMessage = function (chatInput, renderMsg, msgObject) {
       var _self = this;
       // if(msgObject && msgObject.message[0]&& msgObject.message[0].component&& msgObject.message[0].component.payload && msgObject.message[0].component.payload.ignoreCheckMark){
       // var ignoreCheckMark=msgObject.message[0].component.payload.ignoreCheckMark;
@@ -4440,64 +4471,64 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //to send \n to server for new lines
       //chatInput.html(chatInput.html().replaceAll("<br>", "\n"));
       if (false && attachmentInfo && Object.keys(attachmentInfo).length) {
-          msgData = {
-              'type': "currentUser",
-              "message": [{
-                  'type': 'text',
-                  'cInfo': {
-                      'body': chatInput.text(),
-                      'attachments': [attachmentInfo]
-                  },
-                  'clientMessageId': clientMessageId
-              }],
-              "createdOn": clientMessageId
-          };
-          $('.attachment').html('');
-          $('.kore-chat-window').removeClass('kore-chat-attachment');
-          document.getElementById("captureAttachmnts").value = "";
+        msgData = {
+          'type': "currentUser",
+          "message": [{
+            'type': 'text',
+            'cInfo': {
+              'body': chatInput.text(),
+              'attachments': [attachmentInfo]
+            },
+            'clientMessageId': clientMessageId
+          }],
+          "createdOn": clientMessageId
+        };
+        $('.attachment').html('');
+        $('.kore-chat-window').removeClass('kore-chat-attachment');
+        document.getElementById("captureAttachmnts").value = "";
       } else {
-          attachmentInfo = {};
-          msgData = {
-              'type': "currentUser",
-              "message": [{
-                  'type': 'text',
-                  'cInfo': { 'body': chatInput},
-                  'clientMessageId': clientMessageId
-              }],
-              "createdOn": clientMessageId
-          };
+        attachmentInfo = {};
+        msgData = {
+          'type': "currentUser",
+          "message": [{
+            'type': 'text',
+            'cInfo': { 'body': chatInput },
+            'clientMessageId': clientMessageId
+          }],
+          "createdOn": clientMessageId
+        };
       }
 
       var messageToBot = {};
       messageToBot["clientMessageId"] = clientMessageId;
       if (Object.keys(attachmentInfo).length > 0 && chatInput.text().trim().length) {
-          messageToBot["message"] = { body: chatInput.text().trim(), attachments: [attachmentInfo] };
+        messageToBot["message"] = { body: chatInput.text().trim(), attachments: [attachmentInfo] };
       } else if (Object.keys(attachmentInfo).length > 0) {
-          messageToBot["message"] = { attachments: [attachmentInfo] };
+        messageToBot["message"] = { attachments: [attachmentInfo] };
       }
       else {
-          messageToBot["message"] = { body: chatInput };
+        messageToBot["message"] = { body: chatInput };
       }
       messageToBot["resourceid"] = '/bot.message';
 
       if (renderMsg && typeof renderMsg === 'string') {
-          messageToBot["message"].renderMsg = renderMsg;
+        messageToBot["message"].renderMsg = renderMsg;
       }
-      if(msgObject && msgObject.customdata){
-          messageToBot["message"].customdata=msgObject.customdata;
+      if (msgObject && msgObject.customdata) {
+        messageToBot["message"].customdata = msgObject.customdata;
       }
-      if(msgObject && msgObject.nlmeta){
-          messageToBot["message"].nlmeta=msgObject.nlmeta;
+      if (msgObject && msgObject.nlmeta) {
+        messageToBot["message"].nlmeta = msgObject.nlmeta;
       }
       attachmentInfo = {};
       _self.bot.sendMessage(messageToBot, function messageSent(err) {
-          if (err && err.message) {
-              setTimeout(function () {
-                  $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
-              }, 350);
-          }
+        if (err && err.message) {
+          setTimeout(function () {
+            $('#msg_' + clientMessageId).find('.messageBubble').append('<div class="errorMsg">Send Failed. Please resend.</div>');
+          }, 350);
+        }
       });
-  };
+    };
 
     FindlySDK.prototype.getTemplate = function (type) {
       var menuTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl">\
