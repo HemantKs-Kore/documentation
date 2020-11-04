@@ -5,10 +5,10 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
-declare const KoreWidgetSDK: any;
+// declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
-declare const koreBotChat: any;
-declare const KoreSDK: any;
+// declare const koreBotChat: any;
+// declare const KoreSDK: any;
 declare let window:any;
 import * as _ from 'underscore';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
@@ -267,7 +267,9 @@ export class AppComponent implements OnInit {
     fSdk.showSearch();
     console.log(this.findlyBusinessConfig);
     const e = {'data' : 1}
-    fSdk.applicationDataTransfer(e);
+    //fSdk.applicationDataTransfer(e);
+    this.searchInstance = fSdk;
+
     // this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
   //    var chatConfig = KoreSDK.chatConfig;
   //   //chatConfig.botOptions.assertionFn = assertion;
