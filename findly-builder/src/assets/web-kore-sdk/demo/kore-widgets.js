@@ -300,12 +300,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.setAPIDetails = function () {
       var _self = this;
-      /*var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      var pipelineId = '';*/
-      // var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
-      var SearchIndexID = 'sidx-3531a0d2-8e79-5af9-a14b-5adff9744ff4';
-      // var pipelineId = '';
-      var pipelineId = 'fqp-6edc57e6-7d11-5118-b78a-ad506c5df61b'
+      var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
+      var pipelineId = '';
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
         // SearchIndexID = window.selectedFindlyApp._id
         SearchIndexID = window.selectedFindlyApp._id;
@@ -946,7 +942,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp matched_pages" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="faqs-shadow task-wrp matched_pages {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                 <div class="notification-div"></div>\
                 <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
@@ -965,12 +961,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <span class="custom-actions">\
                     <span class="img-action  dont-show visibility">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                      <span class="custom-actions-content">HIDE</span>\
+                      {{if faq.config.visible==true}}\
+                        <span class="custom-actions-content">HIDE</span>\
+                      {{/if}}\
+                      {{if faq.config.visible==false}}\
+                        <span class="custom-actions-content">UNHIDE</span>\
+                      {{/if}}\
                     </span>\
                     <span class="img-action pin pinning">\
                       <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                      <span class="custom-actions-content">PIN</span>\
+                      {{if faq.config.pinIndex==-1}}\
+                        <span class="custom-actions-content">PIN</span>\
+                      {{/if}}\
+                      {{if faq.config.pinIndex>-1}}\
+                        <span class="custom-actions-content">UNPIN</span>\
+                      {{/if}}\
                     </span>\
                     <span class="img-action boostup boosting">\
                       <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
@@ -1019,7 +1025,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp matched_pages" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <div class="faqs-shadow task-wrp matched_pages {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
               <div class="notification-div"></div>\
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
@@ -1036,12 +1042,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="custom-actions">\
                       <span class="img-action  dont-show visibility">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                        <span class="custom-actions-content">HIDE</span>\
+                        {{if page.config.visible==true}}\
+                          <span class="custom-actions-content">HIDE</span>\
+                        {{/if}}\
+                        {{if page.config.visible==false}}\
+                          <span class="custom-actions-content">UNHIDE</span>\
+                        {{/if}}\
                       </span>\
                       <span class="img-action pin pinning">\
                         <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                        <span class="custom-actions-content">PIN</span>\
+                        {{if page.config.pinIndex==-1}}\
+                          <span class="custom-actions-content">PIN</span>\
+                        {{/if}}\
+                        {{if page.config.pinIndex>-1}}\
+                          <span class="custom-actions-content">UNPIN</span>\
+                        {{/if}}\
                       </span>\
                       <span class="img-action boostup boosting">\
                         <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
@@ -1177,6 +1193,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <input id="viewTypeCheckboxControl" type="checkbox">\
               <div class="slider"><span class="enabled">Customize</span><span class="disabled">Preview</span></div>\
             </label>\
+            <div class="show_insights" data-displayInsights="true"><span class="show_insights_text">SHOW INSIGHTS </span><img class="show_insights_icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC"></div>\
           </div>\
           {{if searchFacets.length}}\
             <button id="closeFacetFilterControl" class="display-none custom-button-filter-results custom-mt-3">\
@@ -1194,7 +1211,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           <div class="tab-content">\
             <div id="home" class="tab-pane fade in active show fullSearch">\
                 <p class="resultsText">Showing ${totalResultsCount} results for "${search}"</p>\
-                <div class="show_insights" data-displayInsights="true">SHOW INSIGHTS <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC"></div>\
+                <div class="show_insights display-none" data-displayInsights="true"><span>SHOW INSIGHTS <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC"></div>\
                 {{if tasks.length && (selectedFacet === "task" || selectedFacet === "all results") }}\
                     <div class="quickAction fullAsstTask">\
                         <p class="quickTitle">MATCHED ACTIONS</p>\
@@ -1475,34 +1492,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         {{if searchFacets.length}}\
         <div class="filters-container">\
           <div class="filters-header">\
-            <h2 class="filters-heading">Filter by</h2>\
-            <h3 class="filters-reset">\
-              <a class="filters-reset-anchor">Clear all</a>\
-            </h3>\
+            <div class="filters-heading">Filter by</div>\
+            <div class="filters-reset">\
+              <div class="filters-reset-anchor">Clear all</div>\
+            </div>\
           </div>\
           <div class="filters-body">\
             {{each(i, searchFacet) searchFacets}}\
               <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
-                <h2 class="filters-content-heading">${searchFacet.facetName}</h2>\
+                <div class="filters-content-heading">${searchFacet.facetName}</div>\
                 {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.facetType == "value"}}\
-                  <div class="filters-content-body hide">\
-                  <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true">\
-                  <label class="associated-filter-label" for="${bucket.key}">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
-                  </div>\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
                       <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
-                      <label for="${bucket.key}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
                   {{if searchFacet.facetType == "range"}}\
-                  <div class="filters-content-body hide">\
-                      <input type="checkbox" id="checkbox-${i}${j}" class="filter-checkbox" name=${bucket.key} value="true" data-from=${bucket.from} data-to=${bucket.to}>\
-                      <label class="associated-filter-label" for="${bucket.key}">${bucket.from} to ${bucket.to} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
-                    </div>\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
                       <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
-                      <label for="${bucket.key}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
                 {{/each}}\
@@ -2365,6 +2374,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('#viewTypeCheckboxControl').off('change').on('change', function (event) {
         var facetActive = $('.facetActive').attr('id');
+        var responseObject = { type: 'showInsightFull', data: false, query: _self.vars.searchObject.searchText }
         if ($(this).is(':checked')) {
           console.log(false);
           // debugger;
@@ -2377,6 +2387,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.vars.customizeView = false;
           _self.prepAllSearchData(facetActive);
         }
+        _self.parentEvent(responseObject);
       });
 
       $('#openFacetFilterControl').off('click').on('click', function (event) {
@@ -2430,17 +2441,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(this).attr('data-displayinsights') == "true") {
           responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', false);
-          $(this).text("HIDE INSIGHTS ");
+          $(this).find('.show_insights_text').text("HIDE INSIGHTS ");
+          $(this).find('.show_insights_icon').css('transform', 'rotate(180deg)')
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
         else {
           responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', true);
-          $(this).text("SHOW INSIGHTS ");
+          $(this).find('.show_insights_text').text("SHOW INSIGHTS ");
+          $(this).find('.show_insights_icon').css('transform', 'rotate(360deg)');
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
+
       })
     }
     FindlySDK.prototype.bindFacetsToggle = function () {
@@ -2551,11 +2565,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         console.log(event.target);
         console.log($(event.target).closest('.task-wrp').attr('visible'), $(event.target).closest('.task-wrp').attr('contentid'));
 
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
-        }
-        else {
-          _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+        if (parseInt($(event.target).closest('.task-wrp').attr('pinindex')) == -1) {
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+            _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+          }
+          else {
+            _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+          }
         }
       });
       /*$('.search-container').off('click', '.pin').on('click', '.pin', function (e) {
@@ -2690,7 +2706,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       } else if (actionType == 'pinning') {
         var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
         var indicatorMessage = ''
-        if (elementPinned.text() == "UNPIN") {
+        if (elementPinned.text() == "PIN") {
           indicatorMessage = "PINNING";
         }
         else {
@@ -2704,9 +2720,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           selectedElement.attr('pinindex', conf.pinIndex);
           if (elementPinned.text() == "UNPIN") {
             elementPinned.text("PIN");
+            selectedElement.removeClass('hide-visibility-control');
           }
           else {
             elementPinned.text("UNPIN");
+            selectedElement.addClass('hide-visibility-control');
           }
         }, function (eRes) {
           console.log(eRes);
