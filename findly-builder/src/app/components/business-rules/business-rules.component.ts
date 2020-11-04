@@ -13,6 +13,7 @@ import { relativeTimeRounding } from 'moment';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map } from 'rxjs/operators';
+import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -30,6 +31,11 @@ export class BusinessRulesComponent implements OnInit {
     selectAll: false,
     selectedItems:[],
   };
+  sortObj:any = {
+
+  }
+  showSearch = false;
+  searchRules = '';
   conditions =['containes','doesNotContain','equals','notEquals']
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
@@ -69,7 +75,8 @@ export class BusinessRulesComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sortPipe: SortPipe
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -165,6 +172,12 @@ export class BusinessRulesComponent implements OnInit {
     });
     }
     return _verifiedRules;
+  }
+  removeRule(index){
+    this.rulesArrayforAddEdit.splice(index,1);
+  }
+  removeOutcome(index){
+    this.outcomeArrayforAddEdit.splice(index,1);
   }
   addRules(event: MatChipInputEvent,ruleObj,i){
     const input = event.input;
@@ -290,8 +303,16 @@ export class BusinessRulesComponent implements OnInit {
     const payload:any ={
       ruleName: this.addEditRuleObj.ruleName,
       isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+   }
+   if(!payload.rules.length){
+    this.errorToaster(null,'Atleast one condition is required');
+    return;
+   }
+   if(!payload.outcomes.length){
+    this.errorToaster(null,'Atleast one outcome is required');
+    return;
    }
     this.service.invoke('create.businessRules', quaryparms,payload).subscribe(res => {
       this.rules.push(res);
@@ -351,13 +372,20 @@ export class BusinessRulesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       ruleId:rule._id,
-      limit:100
     };
     const payload:any ={
       ruleName: this.addEditRuleObj.ruleName,
       isRuleActive: this.addEditRuleObj.isRuleActive,
       rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
       outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+   }
+   if(!payload.rules.length){
+    this.errorToaster(null,'Atleast one condition is required');
+    return;
+   }
+   if(!payload.outcomes.length){
+    this.errorToaster(null,'Atleast one outcome is required');
+    return;
    }
     this.service.invoke('update.businessRule', quaryparms,payload).subscribe(res => {
       const editRule = _.findIndex(this.rules, (pg) => {
@@ -462,6 +490,15 @@ export class BusinessRulesComponent implements OnInit {
       this.errorToaster(errRes,'Failed to delete rule');
     });
   }
+  toggleSearch(){
+    if(this.showSearch && this.searchRules){
+      this.searchRules = '';
+    }
+    this.showSearch = !this.showSearch
+    if (this.showSearch) {
+      $('#searchInput').focus();
+    }
+  };
   errorToaster(errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');

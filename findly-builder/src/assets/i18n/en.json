@@ -77,7 +77,7 @@
     "multipartite_rank":"Multipartite Rank",
     "name_caps":"NAME",
     "or_caps":"OR",
-    "and_caps":"OR",
+    "and_caps":"AND",
     "search":"Search",
     "businessRules":{
         "rules_selected":"Rules Selected",

@@ -15,17 +15,15 @@
             </div>
         </div>
         <div class="col-8 right-sec p-0"  *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
-            <div class="kr-sg-input-search m-0 d-none">                               
-                <input type="text" placeholder="Search" autocomplete="off" class="input-search" placeholder="Search">           
+            <div class="kr-sg-input-search m-0 " [ngClass]="{'active': showSearch}">                               
+                <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search" placeholder="Search" [(ngModel)]="searchRules">           
             </div> 
-            <div class="seach-block">
-                <img src="assets/icons/search.svg">
-                <img src="assets/images/close.svg" class="d-none">{{'search' | translate}}
+            <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">{{'search' | translate}}
             </div>
             <div class="add_feild" (click)="createNewRule()">
                 <img src="assets/icons/add_plus.svg">{{'businessRules.add_rule' | translate}}
             </div>
-            <div class="clock"><img src="assets/icons/clock.svg"></div>
+            <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
             <button class="kr-sg-button-danger btn_lg" (click)='deleteMultiePop()'>{{'delete' | translate}}</button>
@@ -40,12 +38,15 @@
                 </div>
                 <div class="title"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'name_caps' | translate}}</div>
             </div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.condition_caps' | translate}}</div>
+            <div class="col-3 content">
+                <img ng src="assets/icons/sort_up_down.svg" class="pr-1">
+                <img src="assets/icons/sort_up_down.svg" class="pr-1">
+                {{'businessRules.condition_caps' | translate}}</div>
             <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.outcome_caps' | translate}}</div>
             <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.status_caps' | translate}}</div>
         </div>
         <perfect-scrollbar class="scroll_table">                     
-            <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
+            <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [ searchRules, 'ruleName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
                 <div class="col-3 content withcheckbox">                   
                     <div class="kr-sg-checkbox p-0 m-0">
                         <input id="{{ruleObj._id}}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)">
@@ -54,7 +55,8 @@
                     <div class="title">{{ruleObj.ruleName}}</div>
                 </div>
                 <div class="col-3 content">
-                    <ng-container *ngFor="let rule of ruleObj.rules">
+                    <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
+                    <span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{'and_caps' | translate}}</span> 
                     <span class="tags-input mr-1 mb-1"><span class="small-text">{{rule.contextType}} :</span> {{rule.contextCategory}}</span>
                     <span class="outer-name mr-1 mb-1">{{rule.operator}}</span>
                     <ng-container *ngFor="let value of rule.value; let valueIndex = index">
@@ -80,7 +82,10 @@
                        <img src="assets/icons/delete-table.svg" (click)="deleteRulePop()">
                    </div>
                 </div>
-            </div>   
+            </div>  
+            <div class="divBlockEmptylastChild text-center">         
+                <div class="desc">No search results found</div>
+            </div> 
         </perfect-scrollbar>
     </div>
 </div>
@@ -108,7 +113,7 @@
                 <div class="add-condition" (click)="addNewRule()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
             </div>
             <div class="input-conditions col-9">
-                <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit">
+                <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit; let ruleIndex = index">
                     <div class="d-flex align-items-center w-100 mb-13">
                         <div class="input-bg-sec">
                             <div class="row m-0 search-content-sec">
@@ -173,7 +178,7 @@
                                 </div>                    
                             </div>
                         </div>
-                        <div class="delete-rule">
+                        <div class="delete-rule" (click)='removeRule(ruleIndex)'>
                             <img src="assets/icons/modal-close.svg">
                         </div> 
                     </div>                                
@@ -184,7 +189,7 @@
             <div class="condition-add-text col-3 pl-0 pr-4">
                 <div class="title">{{'businessRules.outcome_caps_small' | translate}}</div>
                 <div class="desc_text">{{ 'businessRules.condition_desc_outcome' | translate }}</div>
-                <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
+                <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Outcome</div>
             </div>
             <div class="input-conditions col-9">
                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
@@ -261,7 +266,7 @@
                                 </div>                            
                             </div>
                         </div>
-                        <div class="delete-rule">
+                        <div class="delete-rule" (click)='removeOutcome(index)'>
                             <img src="assets/icons/modal-close.svg">
                         </div>
                     </div>                    
