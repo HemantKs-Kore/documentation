@@ -97,11 +97,11 @@
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body">
-        <div class="kr-sg-input-text">
+        <div class="kr-sg-input-text mb-5">
             <div class="label-text">{{'businessRules.rule_name' | translate}}</div>
             <input type="text" placeholder="Rule Name" class="input-text" [(ngModel)]="addEditRuleObj.ruleName">           
         </div>
-        <div class="rules-block row m-0">
+        <div class="rules-block row">
             <div class="condition-add-text col-3 pl-0 pr-4">
                 <div class="title">{{'businessRules.condition' | translate}}</div>
                 <div class="desc_text">{{ 'businessRules.condition_desc' | translate }}</div>
@@ -109,70 +109,78 @@
             </div>
             <div class="input-conditions col-9">
                 <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit">
-                <div class="row m-0">
-                    <div class="col-2 p-0 title">
-                        Select Context
-                    </div>
-                    <div class="col-10">
-                        <div class="kr-sg-dropdowns">                           
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ruleObj.contextType}}</button>                                            
-                                <ul class="dropdown-menu content-menu">                                                                          
-                                  <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{contextType}}</a></li>
-                                </ul>
+                    <div class="d-flex align-items-center w-100 mb-13">
+                        <div class="input-bg-sec">
+                            <div class="row m-0 search-content-sec">
+                                <div class="col-2 p-0 title">
+                                    Select Context
+                                </div>
+                                <div class="col-10 pr-0">
+                                    <div class="kr-sg-dropdowns w-auto">                           
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ruleObj.contextType}}</button>                                            
+                                            <ul class="dropdown-menu content-menu">                                                                          
+                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{contextType}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0 setparameetres-sec">
+                                <div class="col-2 p-0 title">
+                                    Set Parameters
+                                </div>
+                                <div class="tags row m-0 col-10">
+                                    <div class="chip-sys-data">                      
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                        <ng-container>
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv">                                       
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.contextCategory}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{contextCategory}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container>
+                                            <mat-chip [selectable]="selectable" class="dropdownDiv">
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.operator}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{operator}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>                             
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container *ngFor="let value of ruleObj.value">
+                                            <mat-chip  [selectable]="selectable" [removable]="removable"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <input placeholder="Type Alternatives and Press Enter"
+                                                [matChipInputFor]="chipList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="addRules($event,ruleObj,i)"  #suggestedInput>
+                                        </mat-chip-list>
+                                    </mat-form-field>
+                                    </div>
+                                </div>                    
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row m-0">
-                        <div class="tags row m-0">
-                            <div class="chip-sys-data">                      
-                              <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                  <ng-container>
-                                    <mat-chip  [selectable]="selectable" class="dropdownDiv">
-                                      <div ngbDropdown class="d-inline-block" container="body">
-                                          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.contextCategory}}</button>
-                                          <ul ngbDropdownMenu >
-                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{contextCategory}}</li>
-                                          </ul>
-                                        </div>
-                                    </mat-chip> 
-                                 </ng-container>
-                                 <ng-container>
-                                    <mat-chip  [selectable]="selectable" class="dropdownDiv">
-                                      <div ngbDropdown class="d-inline-block" container="body">
-                                          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.operator}}</button>
-                                          <ul ngbDropdownMenu >
-                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{operator}}</li>
-                                          </ul>
-                                        </div>
-                                    </mat-chip> 
-                                 </ng-container>
-                                 <ng-container *ngFor="let value of ruleObj.value">
-                                    <mat-chip   [selectable]="selectable" [removable]="removable"><span class="mat-val" *ngIf="value">{{value}}</span>
-                                                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                    </mat-chip> 
-                                  </ng-container>
-                                  <input placeholder="Type Alternatives and Press Enter"
-                                        [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                        (matChipInputTokenEnd)="addRules($event,ruleObj,i)"  #suggestedInput>
-                                </mat-chip-list>
-                              </mat-form-field>
-                            </div>
-                         </div>
-                  
-                </div>
-                 </ng-container>
-            </div>
-       
-            <!-- <div class="delete-rule">
-                <img src="assets/icons/modal-close.svg">
-            </div> -->
-        </div>
-        <hr>
-        <div class="rules-block row m-0">
+                        <div class="delete-rule">
+                            <img src="assets/icons/modal-close.svg">
+                        </div> 
+                    </div>                                
+                </ng-container>               
+            </div>                   
+        </div>        
+        <div class="rules-block row">
             <div class="condition-add-text col-3 pl-0 pr-4">
                 <div class="title">{{'businessRules.condition' | translate}}</div>
                 <div class="desc_text">{{ 'businessRules.condition_desc' | translate }}</div>
@@ -180,78 +188,85 @@
             </div>
             <div class="input-conditions col-9">
                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
-                <div class="row m-0">
-                    <div class="col-2 p-0 title">
-                        action
-                    </div>
-                    <div class="col-10">
-                        <div class="kr-sg-dropdowns col-4">                           
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{outcomeObj.outcomeType}}</button>                                            
-                                <ul class="dropdown-menu content-menu">                                                                          
-                                  <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{outcomeType}}</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
-                        </div>
-                        <div class="col-4">
-                          <div>Boosting Results by</div>
-                          <div>{{outcomeObj.scale}}X</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m-0">
-                        <div class="tags row m-0">
-                            <div class="chip-sys-data">                      
-                              <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                <ng-container *ngIf="outcomeObj.fieldName">
-                                    <mat-chip  [selectable]="selectable" class="selectedFiledBlock">
-                                    <span>{{outcomeObj.fieldName}}</span>
-                                    </mat-chip> 
-                                 </ng-container>
-                                 <ng-container *ngIf="outcomeObj.fieldName">
-                                    <mat-chip  [selectable]="selectable" class="dropdownDiv">
-                                      <div ngbDropdown class="d-inline-block" container="body">
-                                          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.outcomeOperator}}</button>
-                                          <ul ngbDropdownMenu >
-                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{operator}}</li>
-                                          </ul>
+                    <div class="d-flex align-items-center w-100 mb-13">
+                        <div class="input-bg-sec">
+                            <div class="row m-0 action-scontent-sec">
+                                <div class="col-2 p-0 title">
+                                    Action
+                                </div>
+                                <div class="col-10">
+                                    <div class="kr-sg-dropdowns col-4">                           
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{outcomeObj.outcomeType}}</button>                                            
+                                            <ul class="dropdown-menu content-menu">                                                                          
+                                            <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{outcomeType}}</a></li>
+                                            </ul>
                                         </div>
-                                    </mat-chip> 
-                                 </ng-container>
-                                 <ng-container *ngFor="let value of outcomeObj.outcomeValue">
-                                    <mat-chip   [selectable]="selectable" [removable]="removable"><span class="mat-val" *ngIf="value">{{value}}</span>
-                                                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                    </mat-chip> 
-                                  </ng-container>
-                                  <input [placeholder]="outcomeObj.fieldName?'Type and Press Enter':'Type and select field'"
-                                        [matChipInputFor]="chipList"
-                                        (keyup)="getFieldAutoComplete($event,outcomeObj)"
-                                        [matAutocomplete]="suggestedItems"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                        (matChipInputTokenEnd)="addOutcome($event,outcomeObj,i)"  #suggestedInput>
-                                </mat-chip-list>
-                                <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,outcomeObj)" >
-                                    <ng-container *ngFor = "let suggestion of fieldAutoSuggestion">
-                                      <mat-option [value]="suggestion">
-                                        {{suggestion.fieldName}}
-                                      </mat-option>
-                                    </ng-container>
-                                  </mat-autocomplete>
-                              </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
+                                    </div>
+                                    <div class="col-4">
+                                        <div>Boosting Results by</div>
+                                        <div>{{outcomeObj.scale}}X</div>
+                                    </div>
+                                </div>
                             </div>
-                         </div>
-                  
-                </div>
+                            <div class="row m-0 response-content-sec">
+                                <div class="col-2 p-0 title">
+                                    Response
+                                </div>
+                                <div class="tags row m-0 col-10">
+                                    <div class="chip-sys-data">                      
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                        <ng-container *ngIf="outcomeObj.fieldName">
+                                            <mat-chip  [selectable]="selectable" class="selectedFiledBlock">
+                                            <span>{{outcomeObj.fieldName}}</span>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container *ngIf="outcomeObj.fieldName">
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv">                                           
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.outcomeOperator}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{operator}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>  
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container *ngFor="let value of outcomeObj.outcomeValue">
+                                            <mat-chip   [selectable]="selectable" [removable]="removable"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <input [placeholder]="outcomeObj.fieldName?'Type and Press Enter':'Type and select field'"
+                                                [matChipInputFor]="chipList"
+                                                (keyup)="getFieldAutoComplete($event,outcomeObj)"
+                                                [matAutocomplete]="suggestedItems"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="addOutcome($event,outcomeObj,i)"  #suggestedInput>
+                                        </mat-chip-list>
+                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,outcomeObj)" >
+                                            <ng-container *ngFor = "let suggestion of fieldAutoSuggestion">
+                                            <mat-option [value]="suggestion">
+                                                {{suggestion.fieldName}}
+                                            </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                        <div class="delete-rule">
+                            <img src="assets/icons/modal-close.svg">
+                        </div>
+                    </div>                    
                  </ng-container>
-            </div>
-       
-            <!-- <div class="delete-rule">
-                <img src="assets/icons/modal-close.svg">
-            </div> -->
+            </div>                  
         </div>
     </div>
   </perfect-scrollbar>
