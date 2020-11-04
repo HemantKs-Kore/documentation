@@ -136,7 +136,7 @@
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
-              <div class="col_ col-4">{{source.title || source.name}}</div>
+              <div class="col_ col-4" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
               <div class="col_ col-2">
                 {{(source.type == 'webdomain' ? 'Web' :(source.type == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-2">

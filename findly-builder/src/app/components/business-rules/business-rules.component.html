@@ -28,7 +28,7 @@
             <div class="clock"><img src="assets/icons/clock.svg"></div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
-            <button class="kr-sg-button-danger btn_lg">{{'delete' | translate}}</button>
+            <button class="kr-sg-button-danger btn_lg" (click)='deleteMultiePop()'>{{'delete' | translate}}</button>
         </div>
     </div>
     <div class="table_section">
@@ -76,8 +76,8 @@
                    <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{'active' | translate}}</span>
                    <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'In-Active' | translate}}</span>
                    <div class="actions-icons">
-                       <img src="assets/images/edit-pencil.svg">
-                       <img src="assets/icons/delete-table.svg">
+                       <img src="assets/images/edit-pencil.svg" (click)='editRule(ruleObj)'>
+                       <img src="assets/icons/delete-table.svg" (click)="deleteRulePop()">
                    </div>
                 </div>
             </div>   
@@ -118,9 +118,9 @@
                                 <div class="col-10 pr-0">
                                     <div class="kr-sg-dropdowns w-auto">                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ruleObj.contextType}}</button>                                            
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
-                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{contextType}}</a></li>
+                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -138,9 +138,9 @@
                                             <mat-chip  [selectable]="selectable" class="dropdownDiv">                                       
                                                 <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.contextCategory}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{contextCategory}}</li>
+                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{'businessRules.' +  contextCategory | translate}}</li>
                                                         </ul>
                                                     </div>                                            
                                                 </div>
@@ -150,9 +150,9 @@
                                             <mat-chip [selectable]="selectable" class="dropdownDiv">
                                                 <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.operator}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{operator}}</li>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{'businessRules.' + operator | translate}}</li>
                                                         </ul>
                                                     </div>                                            
                                                 </div>                             
@@ -182,8 +182,8 @@
         </div>        
         <div class="rules-block row">
             <div class="condition-add-text col-3 pl-0 pr-4">
-                <div class="title">{{'businessRules.condition' | translate}}</div>
-                <div class="desc_text">{{ 'businessRules.condition_desc' | translate }}</div>
+                <div class="title">{{'businessRules.outcome_caps_small' | translate}}</div>
+                <div class="desc_text">{{ 'businessRules.condition_desc_outcome' | translate }}</div>
                 <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
             </div>
             <div class="input-conditions col-9">
@@ -194,21 +194,21 @@
                                 <div class="col-2 p-0 title">
                                     Action
                                 </div>
-                                <div class="col-10">
-                                    <div class="kr-sg-dropdowns col-4">                           
+                                <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
+                                    <div class="kr-sg-dropdowns col-4 pl-0">                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{outcomeObj.outcomeType}}</button>                                            
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' + outcomeObj.outcomeType | translate}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
-                                            <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{outcomeType}}</a></li>
+                                            <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{'businessRules.' + outcomeType | translate}}</a></li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-4 pr-0">
                                         <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
                                     </div>
-                                    <div class="col-4">
-                                        <div>Boosting Results by</div>
-                                        <div>{{outcomeObj.scale}}X</div>
+                                    <div class="col-4 pr-0 text-right">
+                                        <span class="result-slider-title">{{'businessRules.boostResults' | translate}}</span>
+                                        <span class="slider-count">{{outcomeObj.scale}}X</span>
                                     </div>
                                 </div>
                             </div>
@@ -227,11 +227,11 @@
                                         </ng-container>
                                         <ng-container *ngIf="outcomeObj.fieldName">
                                             <mat-chip  [selectable]="selectable" class="dropdownDiv">                                           
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown container='body'>
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.outcomeOperator}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{('businessRules.' + outcomeObj.outcomeOperator) | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{operator}}</li>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{('businessRules.' + operator) | translate}}</li>
                                                         </ul>
                                                     </div>                                            
                                                 </div>  
@@ -271,7 +271,8 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
+    <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="updateRule(addEditRuleObj)">Proceed</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Back</button>
   </div>
 </kr-modal> 

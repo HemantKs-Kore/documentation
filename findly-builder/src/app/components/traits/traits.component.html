@@ -105,7 +105,7 @@
                 </header>
                 <perfect-scrollbar class="trailts">
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col_ col-2">{{traitGroup.groupName || '---'}}</div>
+                        <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
                         <div class="col_ col-9" >
                             <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
                                 <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>

@@ -21,6 +21,7 @@ import { WeightsComponent }  from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
+import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,7 +41,7 @@ const routes: Routes = [
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'ml-threshold', component: MlThresholdComponent },
       { path: 'traits', component: TraitsComponent },
-      { path: 'rules', component: ResultsRulesComponent },
+      { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent},
       { path: 'query', component: QueryComponent},
