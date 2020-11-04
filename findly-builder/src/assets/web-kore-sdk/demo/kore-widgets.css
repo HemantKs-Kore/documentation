@@ -8682,6 +8682,7 @@ ngb-accordion .card-header {
   .ksa-results-tabesHeader .nav-tabs {
     margin: 0;
     padding: 0;
+    border: 0;
   }
   .ksa-results-tabesHeader .nav-tabs .tabTitle {
     padding: 5px;
@@ -9886,7 +9887,12 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     float: left;
 }
 .custom-chevron-right-icon {
-    margin: 15px -20px;
+    /* margin: 15px -20px;
+    cursor: pointer; */
+    width: auto;
+    height: auto;
+    color: #000;
+    margin: 15px 0px;
     cursor: pointer;
 }
 .custom-full-page-view-header-container-center-primary {
