@@ -47,8 +47,9 @@ export class MetricsComponent implements OnInit {
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
   searchHistogram : any;
-  feedbackPie1 : EChartOption;
-  feedbackPie2 : EChartOption;
+  heatMapChartOption : EChartOption;
+  feedbackPieSearches : EChartOption;
+  feedbackPieResult : EChartOption;
   mostClickBar : EChartOption;
   chartOption : EChartOption;
   chartOption1 : EChartOption;
@@ -66,6 +67,7 @@ export class MetricsComponent implements OnInit {
     this.userEngagementChart();
     this.mostClick();
     this.feedback();
+    this.busyHours();
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
@@ -462,16 +464,19 @@ this.chartOption  = {
         axisPointer: {            
           type: 'none'        
       },
-        formatter: `
+        formatter:  (params) => `
         <div class="metrics-tooltips-hover userengagment-tooltip">          
-       
+        <div class="data-content">
+            <div class="main-title">Total Users</div>
+            <div class="title total">${params[0].value + params[1].value}</div>
+        </div>
         <div class="data-content">
             <div class="main-title">New Users</div>
-            <div class="title new">{c1}</div>
+            <div class="title new">${params[1].value}</div>
         </div>
         <div class="data-content border-0">
             <div class="main-title">Repeat Users</div>
-            <div class="title return">{c0}</div>
+            <div class="title return">${params[0].value}</div>
         </div>
     </div> 
         `,
@@ -544,20 +549,23 @@ this.chartOption  = {
               type: 'value',
               axisLabel: {
                 formatter: '{value}'
-            }
+            },
+           // name: "Number  of  Clicks"
           },
           yAxis: {
             type: 'category',
               data: ['1st ', ' 2nd', '3rd']
+              
           },
           barWidth: 40,
           series: [{
             label : {
               normal: {
                   show: true,
+                  position: 'outside',
                   color : '#202124',
-                  textBorderColor: '#202124',
-                  textBorderWidth: 1
+                  //textBorderColor: '#202124',
+                  //textBorderWidth: 1
               }
           },
             itemStyle: {
@@ -572,65 +580,150 @@ this.chartOption  = {
     
     }
     feedback(){
-      var colorPalette = ['#28A745','#EAF6EC'];
-      var colorPalette2 = ['#FF784B','#FFF1ED'];
-
-      this.feedbackPie1 = {
+      var colorPaletteSearch = ['#28A745','#EAF6EC'];
+      var colorPaletteResult = ['#FF784B','#FFF1ED'];
+      this.feedbackPieSearches = {
         
-            dataset: {
-                source: [
-                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
-                    ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
-                    
-                ]
-            },
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            },
+        series: [{
+            type: 'pie',
+            radius: 90,
+            color: colorPaletteSearch,
+            hoverAnimation: false,
+            center: ['50%', '50%'],
+            data: [30,70],
+            label: {
+                show: true,
+                position: 'inner',
+                formatter: (params) => {
+                  return params.percent ? params.percent + '%' : '';
+                },
+               
+          },
+        } 
+      ]
+    };
+      this.feedbackPieResult = {
+        
             series: [{
                 type: 'pie',
-                radius: 80,
-                color: colorPalette,
-                center: ['25%', '30%'],
-                itemStyle : {
-                  normal : {
-                             label : {
-                                       show : false
-                                      },
-                             labelLine : {
-                                           show : false
-                                          }
-                             }
-                  }
-                // No encode specified, by default, it is '2012'.
-            }
-            , {
-                type: 'pie',
-                radius: 80,
-                color: ['#FF784B','#FFF1ED'],
-                center: ['75%', '30%'],
-                itemStyle : {
-                  normal : {
-                             label : {
-                                       show : false
-                                      },
-                             labelLine : {
-                                           show : false
-                                          }
-                             }
-                  },
-                encode: {
-                    itemName: 'product',
-                    value: '2013'
-                }
-            }
+                radius: 90,
+                color: colorPaletteResult,
+                hoverAnimation: false,
+                center: ['50%', '50%'],
+                data: [30,70],
+                label: {
+                    show: true,
+                    position: 'inner',
+                    formatter: (params) => {
+                      return params.percent ? params.percent + '%' : '';
+                    }
+              },
+            } 
           ]
         };
       
+    }
+    busyHours(){
+      let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
+    let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
+
+    let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
+      this.heatMapChartOption = {
+        tooltip: {
+          position: 'top'
+        },
+        animation: false,
+        grid: {
+          height: '70%',
+          top: '10%',
+          left: '5%',
+          right: 0,
+        },
+        xAxis: {
+          type: 'category',
+          data: hours,
+          axisLine: {
+            show: false
+          },
+          axisLabel:{
+            margin: 20,
+            color: "#8a959f",
+            fontWeight: "bold",
+            fontSize: 12,
+            fontFamily: "Lato"
+          },
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#FFF",
+              width: 5
+            }
+          },
+          splitArea: {
+            show: true
+          },
+          boundaryGap: true,
+          position: 'top'
+        },
+        yAxis: {
+          type: 'category',
+          data: days,
+          axisLine: {
+            show: false
+          },
+          axisLabel:{
+            margin: 20,
+            color: "#8a959f",
+            fontWeight: "bold",
+            fontSize: 12,
+            fontFamily: "Lato"
+          },
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#FFF",
+              width: 5
+            }
+          },
+          splitArea: {
+            show: true
+          },
+          boundaryGap: true
+        },
+  
+        visualMap: [{
+          show: false,
+          min: 0,
+          max: 10,
+          calculable: true,
+          orient: 'horizontal',
+          left: 'center',
+          bottom: '0',
+          inRange : {   
+            color: ['rgba(0, 157, 171, 0.1)', '#009dab' ] //From smaller to bigger value ->
+          }
+        }],
+        series: [{
+          name: 'Users',
+          type: 'heatmap',
+          data: data,
+          emphasis: {
+            itemStyle: {
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          itemStyle: {
+            borderColor: "#fff",
+            borderWidth: 4
+          }
+  
+        }]
+      };
     }
 }
