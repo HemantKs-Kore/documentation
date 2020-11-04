@@ -3547,7 +3547,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var topMatchFAQ;
         var topMatchTask;
 
-        res.searchFacets = [
+        /*res.searchFacets = [
           {
             "fieldName": "String",
             "facetName": "String",
@@ -3586,7 +3586,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             ]
           }
-        ]
+        ]*/
         // liveResult.forEach(function (result) {
         //   if (result.contentType === "faq") {
         //     faqs.push(result);

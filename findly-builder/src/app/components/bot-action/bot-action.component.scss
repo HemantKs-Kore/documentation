@@ -796,17 +796,19 @@
                 .accordion {
                     .card {
                         .card-header {
-                            border-bottom: 1px solid !important;
+                            // border-bottom: 1px solid;
+                            border-bottom: 1px solid #eee;
                         }
                     }
                 }
                 .accordion-header-container {
                     display: flex !important;
                     align-items: center !important;
-                    border-bottom: 2px solid #eee !important;
+                    // border-bottom: 1px solid #eee !important;
                     padding: 0px 5px !important;
                     height: 41px !important;
                     background: #fff !important;
+                    width: 100%;
                     &:hover {
                         background: #e5e8ec !important;
                         .button-link {
@@ -893,7 +895,8 @@
 
                 }
                 .acc-active {
-                    // border-bottom: none !important;
+                    border-bottom: none !important;
+
                      .chevron-icon {
                     //     transform: rotate(90deg);
                          transition: 0.33s;
