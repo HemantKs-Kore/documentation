@@ -458,7 +458,7 @@
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
-                        <div class="col">{{source.title || source.name}}</div>
+                        <div class="col" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
                         <div class="col">{{source.source | titlecase}}</div>
                         <div class="col">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
