@@ -8681,7 +8681,8 @@ ngb-accordion .card-header {
   }
   .ksa-results-tabesHeader .nav-tabs {
     margin: 0;
-    padding: 0 105px 0 0;
+    padding: 0;
+    border: 0;
   }
   .ksa-results-tabesHeader .nav-tabs .tabTitle {
     padding: 5px;
@@ -9862,8 +9863,8 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     height: inherit;
 }
 .custom-chevron-right-icon {
-    width: 10px;
-    height: 10px;
+    width: auto;
+    height: auto;
     color: #000;
     margin: 15px 0px;
     cursor: pointer;
@@ -9948,7 +9949,7 @@ body.demo .finalResults .task-wrp:nth-child(n+3) {
     display: block;
 }
 .custom-faqs-wrp-content-border:hover .custom-full-search-matched-results-actions, .custom-full-search-matched-results-actions:hover {
-    display: block;
+    display: flex;
 }
 .custom-actions-content {
     font-size: 12px;
