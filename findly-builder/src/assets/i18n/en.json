@@ -97,7 +97,7 @@
         "condition":"Condition",
         "contains":"Contains",
         "equals":"Equals",
-        "doesNotContains":"Does Not Contains",
+        "doesNotContain":"Does Not Contains",
         "notEquals":"Not Equals",
         "recentSearches":"Reacent Searches",
         "currentSearch":"Current Search",

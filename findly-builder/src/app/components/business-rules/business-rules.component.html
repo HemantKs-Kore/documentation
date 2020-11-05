@@ -40,14 +40,19 @@
                     <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
                     <label for="selectAllRules" class="checkbox-custom-label"></label>
                 </div>
-                <div class="title"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'name_caps' | translate}}</div>
+                <div class="title cursor-pointer" (click)="sortBy('ruleName')">
+                    <img *ngIf="!(selectedSort && (selectedSort === 'ruleName'))" src="assets/icons/sort_up_down.svg" class="pr-1">
+                    <img *ngIf="(selectedSort && (selectedSort === 'ruleName'))" [ngClass]="{'upArrow': !isAsc}" src="assets/icons/caretDown.svg" class="pr-1">
+                    {{'name_caps' | translate}}
+                </div>
             </div>
             <div class="col-3 content">
-                <img ng src="assets/icons/sort_up_down.svg" class="pr-1">
-                <img src="assets/icons/sort_up_down.svg" class="pr-1">
                 {{'businessRules.condition_caps' | translate}}</div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.outcome_caps' | translate}}</div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.status_caps' | translate}}</div>
+            <div class="col-3 content">{{'businessRules.outcome_caps' | translate}}</div>
+            <div class="col-3 content cursor-pointer" (click)="sortBy('isRuleActive')">
+                <img *ngIf="!(selectedSort && (selectedSort === 'isRuleActive'))" src="assets/icons/sort_up_down.svg" class="pr-1">
+                <img *ngIf="(selectedSort && (selectedSort === 'isRuleActive'))" [ngClass]="{'upArrow': isAsc}" src="assets/icons/caretDown.svg" class="pr-1">
+                {{'businessRules.status_caps' | translate}}</div>
         </div>
         <perfect-scrollbar class="scroll_table">                     
             <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [ searchRules, 'ruleName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
@@ -74,7 +79,7 @@
                         <span class="tags-input mr-1 mb-1">{{outcome.scale}}x BoostResult</span>
                         <span class="outer-name mr-1 mb-1">{{outcome.outcomeOperator}}</span>
                         <span class="tags-input mr-1 mb-1">{{outcome.outcomeType}}: 
-                            <span *ngFor="let value of outcome.outcomeValue">{{value}}</span>
+                            <span *ngFor="let value of outcome.outcomeValue; let valueIndex = index">{{value}} <span *ngIf="valueIndex < (outcome.outcomeValue.length-1)" class="divider mr-1 mb-1">{{'or_caps' | translate}}</span></span>
                         </span>
                     </ng-container>
                 </div>
@@ -241,7 +246,7 @@
                                         </ng-container>
                                         <ng-container *ngIf="outcomeObj.fieldName">
                                             <mat-chip  [selectable]="selectable" class="dropdownDiv">                                           
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown container='body'>
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{('businessRules.' + outcomeObj.outcomeOperator) | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>

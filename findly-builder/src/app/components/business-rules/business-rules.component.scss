@@ -150,6 +150,7 @@
             font-size: 14px;
         }
     }
+   
     .table_section{
         padding: 0 0 0 24px;
         .header_sec{
@@ -157,6 +158,9 @@
             padding: 16px 0;
             box-shadow: inset 0px -1px 0px #E4E5E7;
             margin-right: 24px !important;
+            .upArrow {
+                transform: rotate(180deg) !important;
+            }
             .content {
                 color: #9AA0A6;
                 font-weight: 500;
