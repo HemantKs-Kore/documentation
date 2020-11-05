@@ -1,33 +1,22 @@
 <div class="main-metrics-container">
-    <div class="tab-sec">
-        <div class="tab-name" [ngClass] = "{'active': slider === 0}" (click)="tab(0)">Overview</div>
-        <div class="tab-name" [ngClass] = "{'active': slider === 1}" (click)="tab(1)">User Engagement</div>
-        <div class="tab-name" [ngClass] = "{'active': slider === 2}" (click)="tab(2)">Popular</div>
-    </div>
-    <perfect-scrollbar class="scroll_content">
-        <div class="filters-date-sec">
-            <div class="col-2 p-0">
-                <div class="small-tab-sec" *ngIf="slider === 2">
-                    <div class="tab-name active-tab">Searches</div>
-                    <div class="tab-name">Results</div>
-                </div>
-            </div>            
-            <div class="d-flex col-10 p-0 justify-content-end align-items-center">
-                <!-- <div class="date-info m-0" *ngIf="slider === 2">
-                    <span class="pr-1">Searches</span>
-                    <span class="pr-1">Results</span>
-                </div> -->
-                 <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span> </div> 01-08-2020 to 07-08-2020 -->
-                
-                <div class="date-select">
-                    <span class="day time active">24 Hrs</span>
-                    <span class="week time ">7 Days</span>
-                    <span class="custom time">Custom</span>
-                </div>
-                <div class="export"><img src="assets/icons/export.svg"></div>
-            </div>
+    <div class="header-sec row m-0 col-12">
+        <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
+            <div class="bread-name">Analytics</div>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
+            <div class="bread-name active-name">Dashboard</div>
         </div>
-        <div *ngIf="slider === 0">
+        <div class="d-flex justify-content-end align-items-center col-9 p-0">
+            <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                
+            <div class="date-select">
+                <span class="day time active">24 Hrs</span>
+                <span class="week time">7 Days</span>
+                <span class="custom time">Custom</span>
+            </div>
+            <div class="export"><img src="assets/icons/share.svg"></div>
+        </div>
+    </div>
+    <perfect-scrollbar class="scroll_content">        
+        <div *ngIf="slider === 0" class="main-dashbord-metrics">
             <div class="top-cards-section row m-0">
                 <div class="col cards-data">
                     <div class="content">
@@ -322,95 +311,7 @@
 
                 </div>
             </div>
-        </div>
-        <!-- <div *ngIf="slider === 1">
-            <div class="data-information-content col-12 m-0 row split-tables">
-                <div class="col-12 box-content">
-                    <div class="full-card">
-                        <div class="legends-info">
-                            <div class="content">
-                                <div class="title">Total Users <span class="toatlsearches"></span></div>
-                                <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">80</span>
-                                    <span class="percentage">+12%</span>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="title">New Users <span class="withresults"></span></div>
-                                <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">26</span>
-                                    <span class="percentage">+7%</span>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="title">Repeat Users <span class="clicks"></span></div>
-                                <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">54</span>
-                                    <span class="percentage">+3%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
-                                        src="assets/icons/filter.svg"></button>
-                                <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
-                                    <div class="kr-sg-checkbox d-block p-0">
-                                        <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
-                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
-                                    </div>
-                                    <div class="kr-sg-checkbox d-block p-0 m-0">
-                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
-                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                        <div echarts [options]="userEngagementChartData" class="demo-chart-graphMode"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="data-information-content col-12 m-0 row split-tables">
-                <div class="col-12 box-content">
-                    <div class="full-card">
-                        <div class="legends-info">
-                            <div class="content">
-                                <div class="title">Busy Hours<span class="toatlsearches"></span></div>
-                            </div>
-                        </div>
-                        <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
-                    </div>
-                </div>
-                <div class="col-12 row">
-                    <div class="col-6 box-content">
-                        <div class="full-card">
-                            <div class="title-card">Most Used Devices</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
-                        </div>
-                    </div>
-                    <div class="col-6 box-content">
-                        <div class="full-card">
-                            <div class="title-card">Most Used Browsers</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 row">
-                    <div class="col-6 box-content">
-                        <div class="full-card">
-                            <div class="title-card">GEO</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
-                        </div>
-                    </div>
-                    <div class="col-6 box-content">
-                        <div class="full-card">
-                            <div class="title-card">Sentiments</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        </div>        
         <div *ngIf="slider === 2">
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
@@ -482,76 +383,5 @@
                 </div>
             </div>
         </div>
-    </perfect-scrollbar>
-
-    <!-- Tooltips customs all metrics -->
-
-    <!-- <div class="metrics-tooltips-hover p-2">  
-        <div class="data-content m-0 p-1"><span class="title">Total Number Of Users :</span><span class="count-data">225</span></div> 
-    </div> -->
-    <div class="metrics-tooltips-hover d-none">
-        <div class="main-title">4th August, 2020</div>
-        <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
-                :</span><span class="count-data">240</span></div>
-        <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
-                :</span><span class="count-data">160</span></div>
-        <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
-                :</span><span class="count-data">80</span></div>
-    </div>
-
-    
-    <!-- <div class="metrics-tooltips-hover userengagment-tooltip">          
-        <div class="data-content">
-            <div class="main-title">Total Users</div>
-            <div class="title total">230</div>
-        </div>
-        <div class="data-content">
-            <div class="main-title">Total Users</div>
-            <div class="title new">230</div>
-        </div>
-        <div class="data-content border-0">
-            <div class="main-title">Total Users</div>
-            <div class="title return">230</div>
-        </div>
-    </div> -->
-
-    <!-- <div class="metrics-tooltips-hover total_conversatins_tooltips">
-    <div class="main-title">4th of Aug, 2020</div>
-    <div class="data-content">
-      <span class="total-all mr-10">
-        <span class="self"></span>
-        <span class="dropoff"></span>
-        <span class="agent"></span>
-      </span>
-      <span class="title">Total Conversations :</span><span class="count-data">180</span></div>
-    <div class="data-content"><span class="self mr-10"></span><span class="title">Self-Service Conversations :</span><span class="count-data">120</span></div>
-    <div class="data-content"><span class="dropoff mr-10"></span><span class="title">Drop-Offs :</span><span class="count-data">30</span></div>
-    <div class="data-content"><span class="agent mr-10"></span><span class="title">Agent Hand-Offs :</span><span class="count-data">30</span></div>
-  </div>
-  
-  <div class="metrics-tooltips-hover engagement_analysis_tooltip">  
-    <div class="data-content"><span class="indication voice"></span><span class="title"><b>20%</b> conversation in voice</span></div>
-    <div class="data-content"><span class="indication chat"></span><span class="title"><b>30%</b> conversation in Chat</span></div>  
-    <div class="info_message_data">Spent more than 60 Seconds with the bot</div>
-  </div>
-  
-  <div class="metrics-tooltips-hover selfservice_conv_tooltip">
-    <div class="main-title">4th of Aug, 2020</div>
-    <div class="data-content"><img src="assets/images/chart_imgae.svg" class="mr-10"><span class="title">Total Self-Service Conversations :</span><span class="count-data">240</span></div>
-    <div class="data-content"><span class="indication voice"></span><span class="title">Self-Service Conversations in Voice :</span><span class="count-data">120</span></div>
-    <div class="data-content"><span class="indication chat"></span><span class="title">Self-Service Conversations in Chat :</span><span class="count-data">120</span></div>  
-  </div>
-  
-  
-  <div class="metrics-tooltips-hover agent_drop_tolltip">
-    <div class="split-sec">
-      <div class="main-title">4th of Aug, 2020</div>
-      <div class="data-content"><img src="assets/images/chart_imgae.svg" class="mr-10"><span class="title">Total Agent Transfers :</span><span class="count-data">300</span></div>
-    </div>    
-    <div class="indication_text">Conversations transferred to an agent after the completion of <b>2 tasks</b></div>
-    <div class="data-content"><span class="indication withfailures"></span><span class="title">Conversations with failures :</span><span class="count-data">120</span></div>
-    <div class="data-content"><span class="indication withoutfailures"></span><span class="title">Conversations without any failures :</span><span class="count-data">120</span></div>  
-  </div> -->
-
-    <!-- End -->
+    </perfect-scrollbar>        
 </div>
