@@ -401,7 +401,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.newSourceObj.url) {
       this.selectedSourceType.resourceAdded = true;
-      this.selectedSourceType.resourceType = 'webdomain';
+    // if(this.selectedSourceType.sourceType === 'faq')
+    //    this.selectedSourceType.resourceType = 'webdomain';
     } else {
       this.selectedSourceType.resourceAdded = false;
     }

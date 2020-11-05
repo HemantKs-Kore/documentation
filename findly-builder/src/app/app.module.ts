@@ -71,6 +71,7 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { AnnotoolModule } from './components/annotool/annotool.module';
 import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
+import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
@@ -94,6 +95,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppBodyComponent,
     AppMenuComponent,
     FilterPipe,
+    SortPipe,
     DateFormatPipe,
     AppsListingComponent,
     ScrollSpyDirective,
@@ -189,6 +191,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useClass: AuthInterceptor,
       multi: true,
     },
+    SortPipe,
     AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML, MatDatepickerModule
   ],
   bootstrap: [AppComponent]

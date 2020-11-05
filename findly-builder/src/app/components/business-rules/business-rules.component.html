@@ -15,23 +15,25 @@
             </div>
         </div>
         <div class="col-8 right-sec p-0"  *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
-            <div class="kr-sg-input-search m-0 d-none">                               
-                <input type="text" placeholder="Search" autocomplete="off" class="input-search" placeholder="Search">           
+            <div class="kr-sg-input-search m-0 " [ngClass]="{'active': showSearch}">                               
+                <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search" placeholder="Search" [(ngModel)]="searchRules">           
             </div> 
-            <div class="seach-block">
-                <img src="assets/icons/search.svg">
-                <img src="assets/images/close.svg" class="d-none">{{'search' | translate}}
+            <div *ngIf="!loadingContent && rules && rules.length" class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">{{'search' | translate}}
             </div>
             <div class="add_feild" (click)="createNewRule()">
                 <img src="assets/icons/add_plus.svg">{{'businessRules.add_rule' | translate}}
             </div>
-            <div class="clock"><img src="assets/icons/clock.svg"></div>
+            <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
         <div class="col-8 right-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
-            <button class="kr-sg-button-danger btn_lg">{{'delete' | translate}}</button>
+            <button class="kr-sg-button-danger btn_lg" (click)='deleteMultiePop()'>{{'delete' | translate}}</button>
         </div>
     </div>
-    <div class="table_section">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+      </div>
+    <div class="table_section" *ngIf="!loadingContent && rules && rules.length"> 
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox">
                 <div class="kr-sg-checkbox p-0 m-0">
@@ -40,12 +42,15 @@
                 </div>
                 <div class="title"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'name_caps' | translate}}</div>
             </div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.condition_caps' | translate}}</div>
+            <div class="col-3 content">
+                <img ng src="assets/icons/sort_up_down.svg" class="pr-1">
+                <img src="assets/icons/sort_up_down.svg" class="pr-1">
+                {{'businessRules.condition_caps' | translate}}</div>
             <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.outcome_caps' | translate}}</div>
             <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.status_caps' | translate}}</div>
         </div>
         <perfect-scrollbar class="scroll_table">                     
-            <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
+            <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [ searchRules, 'ruleName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
                 <div class="col-3 content withcheckbox">                   
                     <div class="kr-sg-checkbox p-0 m-0">
                         <input id="{{ruleObj._id}}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)">
@@ -54,7 +59,8 @@
                     <div class="title">{{ruleObj.ruleName}}</div>
                 </div>
                 <div class="col-3 content">
-                    <ng-container *ngFor="let rule of ruleObj.rules">
+                    <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
+                    <span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{'and_caps' | translate}}</span> 
                     <span class="tags-input mr-1 mb-1"><span class="small-text">{{rule.contextType}} :</span> {{rule.contextCategory}}</span>
                     <span class="outer-name mr-1 mb-1">{{rule.operator}}</span>
                     <ng-container *ngFor="let value of rule.value; let valueIndex = index">
@@ -76,13 +82,21 @@
                    <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{'active' | translate}}</span>
                    <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'In-Active' | translate}}</span>
                    <div class="actions-icons">
-                       <img src="assets/images/edit-pencil.svg">
-                       <img src="assets/icons/delete-table.svg">
+                       <img src="assets/images/edit-pencil.svg" (click)='editRule(ruleObj)'>
+                       <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj,ruleIndex)">
                    </div>
                 </div>
-            </div>   
+            </div>  
+            <div class="divBlockEmptylastChild text-center">         
+                <div class="desc">No search results found</div>
+            </div> 
         </perfect-scrollbar>
     </div>
+    <div class="empty-rules"  *ngIf="!loadingContent && !(rules && rules.length)">
+        <img src="assets/images/icons/empty_ill.svg">
+        <div class="heading">No Rules Available</div>
+        <div class="desc">Please add rules</div>      
+      </div>
 </div>
 
 
@@ -108,7 +122,7 @@
                 <div class="add-condition" (click)="addNewRule()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
             </div>
             <div class="input-conditions col-9">
-                <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit">
+                <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit; let ruleIndex = index">
                     <div class="d-flex align-items-center w-100 mb-13">
                         <div class="input-bg-sec">
                             <div class="row m-0 search-content-sec">
@@ -118,9 +132,9 @@
                                 <div class="col-10 pr-0">
                                     <div class="kr-sg-dropdowns w-auto">                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ruleObj.contextType}}</button>                                            
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
-                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{contextType}}</a></li>
+                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -138,9 +152,9 @@
                                             <mat-chip  [selectable]="selectable" class="dropdownDiv">                                       
                                                 <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.contextCategory}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{contextCategory}}</li>
+                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{'businessRules.' +  contextCategory | translate}}</li>
                                                         </ul>
                                                     </div>                                            
                                                 </div>
@@ -150,9 +164,9 @@
                                             <mat-chip [selectable]="selectable" class="dropdownDiv">
                                                 <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{ruleObj.operator}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{operator}}</li>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{'businessRules.' + operator | translate}}</li>
                                                         </ul>
                                                     </div>                                            
                                                 </div>                             
@@ -173,7 +187,7 @@
                                 </div>                    
                             </div>
                         </div>
-                        <div class="delete-rule">
+                        <div class="delete-rule" (click)='removeRule(ruleIndex)'>
                             <img src="assets/icons/modal-close.svg">
                         </div> 
                     </div>                                
@@ -182,9 +196,9 @@
         </div>        
         <div class="rules-block row">
             <div class="condition-add-text col-3 pl-0 pr-4">
-                <div class="title">{{'businessRules.condition' | translate}}</div>
-                <div class="desc_text">{{ 'businessRules.condition_desc' | translate }}</div>
-                <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
+                <div class="title">{{'businessRules.outcome_caps_small' | translate}}</div>
+                <div class="desc_text">{{ 'businessRules.condition_desc_outcome' | translate }}</div>
+                <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Outcome</div>
             </div>
             <div class="input-conditions col-9">
                 <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
@@ -194,21 +208,21 @@
                                 <div class="col-2 p-0 title">
                                     Action
                                 </div>
-                                <div class="col-10">
-                                    <div class="kr-sg-dropdowns col-4">                           
+                                <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
+                                    <div class="kr-sg-dropdowns col-4 pl-0">                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{outcomeObj.outcomeType}}</button>                                            
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' + outcomeObj.outcomeType | translate}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
-                                            <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{outcomeType}}</a></li>
+                                            <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{'businessRules.' + outcomeType | translate}}</a></li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-4 pr-0">
                                         <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
                                     </div>
-                                    <div class="col-4">
-                                        <div>Boosting Results by</div>
-                                        <div>{{outcomeObj.scale}}X</div>
+                                    <div class="col-4 pr-0 text-right">
+                                        <span class="result-slider-title">{{'businessRules.boostResults' | translate}}</span>
+                                        <span class="slider-count">{{outcomeObj.scale}}X</span>
                                     </div>
                                 </div>
                             </div>
@@ -227,11 +241,11 @@
                                         </ng-container>
                                         <ng-container *ngIf="outcomeObj.fieldName">
                                             <mat-chip  [selectable]="selectable" class="dropdownDiv">                                           
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown container='body'>
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.outcomeOperator}}</button>
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{('businessRules.' + outcomeObj.outcomeOperator) | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{operator}}</li>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{('businessRules.' + operator) | translate}}</li>
                                                         </ul>
                                                     </div>                                            
                                                 </div>  
@@ -261,7 +275,7 @@
                                 </div>                            
                             </div>
                         </div>
-                        <div class="delete-rule">
+                        <div class="delete-rule" (click)='removeOutcome(index)'>
                             <img src="assets/icons/modal-close.svg">
                         </div>
                     </div>                    
@@ -271,7 +285,8 @@
     </div>
   </perfect-scrollbar>
   <div class="modal-footer">
-      <button class="kr-sg-button-primary btn_lg" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
+    <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="updateRule(addEditRuleObj)">Proceed</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Back</button>
   </div>
 </kr-modal> 

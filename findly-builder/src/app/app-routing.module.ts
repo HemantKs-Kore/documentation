@@ -25,6 +25,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
 import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
+import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 const routes: Routes = [
   {
     path: '',
@@ -44,7 +45,7 @@ const routes: Routes = [
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'ml-threshold', component: MlThresholdComponent },
       { path: 'traits', component: TraitsComponent },
-      { path: 'rules', component: ResultsRulesComponent },
+      { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent},
       { path: 'query', component: QueryComponent},
