@@ -150,7 +150,6 @@
             font-size: 14px;
         }
     }
-   
     .table_section{
         padding: 0 0 0 24px;
         .header_sec{
@@ -348,6 +347,9 @@
             }
         }
     }
+}
+.activeDrop{
+    z-index: 9999999 !important;
 }
 ::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{

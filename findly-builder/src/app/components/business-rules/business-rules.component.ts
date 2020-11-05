@@ -25,6 +25,7 @@ export class BusinessRulesComponent implements OnInit {
   selectedApp;
   serachIndexId;
   indexPipelineId;
+  currentEditInex;
   rules = [];
   selectedSort;
   isAsc;
@@ -225,6 +226,11 @@ export class BusinessRulesComponent implements OnInit {
       this.suggestedInput.nativeElement.value = '';
       this.fieldAutoSuggestion = [];
   }
+  selectField(data, outcomeObj) {
+    outcomeObj.fieldDataType = data.fieldDataType
+    outcomeObj.fieldName= data.fieldName
+    this.fieldAutoSuggestion = [];
+}
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
   }
@@ -326,9 +332,6 @@ export class BusinessRulesComponent implements OnInit {
     });
   }
   getFieldAutoComplete(event,outcomeObj){
-    if(outcomeObj && outcomeObj.fieldName){
-     return;
-    }
     let query:any = '';
     if(event){
       query  = $(event.currentTarget).val();

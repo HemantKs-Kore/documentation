@@ -120,9 +120,14 @@
         "lower":"Lower",
         "hide":"Hide",
         "filter":"Filter",
+        "actionboost":"Boosting",
+        "actionlower":"Lowering",
+        "actionhide":"Hideing",
+        "actionfilter":"Filtering",
         "searchContext":"Search Context",
         "pageContext":"Page Context",
         "userContext":"User Context",
-        "boostResults":"Boosting Results by"
+        "boostResults":"Boosting Results by",
+        "lowerResults":"Lowering Results by"
     }
 }
