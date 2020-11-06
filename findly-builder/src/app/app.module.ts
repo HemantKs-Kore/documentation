@@ -85,6 +85,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
 import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
+import { SettingsComponent } from './components/settings/settings.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -143,7 +144,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DashboardComponent,
     UserEngagementComponent,
     SearchInsightsComponent,
-    ResultInsightsComponent
+    ResultInsightsComponent,
+    SettingsComponent
     ],
   imports: [
     BrowserModule,
