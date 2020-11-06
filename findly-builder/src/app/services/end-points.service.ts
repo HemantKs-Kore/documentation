@@ -504,6 +504,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
       method: 'delete'
     }
+    this.serviceList['delete.businessRulesBulk'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/bulk',
+      method: 'delete'
+    }
+    this.serviceList['get.businessRulesLog'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/logs?subject=rules',
+      method: 'get'
+    }
      /** APIs for Business rules */
   }
 }

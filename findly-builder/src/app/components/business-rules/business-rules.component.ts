@@ -13,6 +13,7 @@ import { relativeTimeRounding } from 'moment';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map } from 'rxjs/operators';
+import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -24,17 +25,25 @@ export class BusinessRulesComponent implements OnInit {
   selectedApp;
   serachIndexId;
   indexPipelineId;
+  currentEditInex;
   rules = [];
+  selectedSort;
+  isAsc;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
     selectedItems:[],
   };
-  conditions =['containes','does not contain','equals','not equals']
+  sortObj:any = {
+
+  }
+  showSearch = false;
+  searchRules = '';
+  conditions =['contains','doesNotContain','equals','notEquals']
   ruleOptions = {
-    searchContext:['Recent Searches','Current Search', 'Traits', 'Entity','Keywords'],
-    pageContext:['Device', 'Browser', 'Current Page' , 'Recently Pages','Signed','Time Date Day','Session','Time spent on the page/session'],
-    userContext:['User Type', 'User Profile', 'Age', 'Sex'],
+    searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentlyPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    userContext:['userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
     actions:['boost','lower','hide','filter']
   }
@@ -42,7 +51,7 @@ export class BusinessRulesComponent implements OnInit {
   defaultValuesObj: any = {
     contextType:'searchContext',
     operator:'contains',
-    contextCategory:'Recent searches',
+    contextCategory:'recentSearches',
     value:[]
   }
   defaultOutcomeObj: any = {
@@ -69,13 +78,15 @@ export class BusinessRulesComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sortPipe: SortPipe
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getRules();
+    this.getFieldAutoComplete(null,null);
   }
   createNewRule(){
     this.addEditRuleObj = {
@@ -110,8 +121,11 @@ export class BusinessRulesComponent implements OnInit {
   editRule(rule){
     this.addEditRuleObj = rule;
     this.setDataForEdit(this.addEditRuleObj);
+    this.openModalPopup();
   }
   closeModalPopup(){
+    this.rulesArrayforAddEdit = [];
+    this.outcomeArrayforAddEdit = [];
     this.addBusinessRulesRef.close();
   }
   setDataForEdit(ruleObj){
@@ -163,6 +177,12 @@ export class BusinessRulesComponent implements OnInit {
     }
     return _verifiedRules;
   }
+  removeRule(index){
+    this.rulesArrayforAddEdit.splice(index,1);
+  }
+  removeOutcome(index){
+    this.outcomeArrayforAddEdit.splice(index,1);
+  }
   addRules(event: MatChipInputEvent,ruleObj,i){
     const input = event.input;
     const value = event.value;
@@ -206,6 +226,11 @@ export class BusinessRulesComponent implements OnInit {
       this.suggestedInput.nativeElement.value = '';
       this.fieldAutoSuggestion = [];
   }
+  selectField(data, outcomeObj) {
+    outcomeObj.fieldDataType = data.fieldDataType
+    outcomeObj.fieldName= data.fieldName
+    this.fieldAutoSuggestion = [];
+}
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
   }
@@ -287,20 +312,30 @@ export class BusinessRulesComponent implements OnInit {
     const payload:any ={
       ruleName: this.addEditRuleObj.ruleName,
       isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+   }
+   if(!payload.rules.length){
+    this.errorToaster(null,'Atleast one condition is required');
+    return;
+   }
+   if(!payload.outcomes.length){
+    this.errorToaster(null,'Atleast one outcome is required');
+    return;
    }
     this.service.invoke('create.businessRules', quaryparms,payload).subscribe(res => {
       this.rules.push(res);
+      this.closeModalPopup();
+      this.notificationService.notify('Rule created successfully','sucecss');
     }, errRes => {
       this.errorToaster(errRes,'Failed to create rules');
     });
   }
   getFieldAutoComplete(event,outcomeObj){
-    if(outcomeObj.fieldName){
-     return;
+    let query:any = '';
+    if(event){
+      query  = $(event.currentTarget).val();
     }
-    let query  = $(event.currentTarget).val();
     if (/^\d+$/.test(query)) {
       query = query.parseInt();
     }
@@ -346,27 +381,153 @@ export class BusinessRulesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       ruleId:rule._id,
-      limit:100
     };
-    this.service.invoke('update.businessRule', quaryparms).subscribe(res => {
-     console.log(res);
+    const payload:any ={
+      ruleName: this.addEditRuleObj.ruleName,
+      isRuleActive: this.addEditRuleObj.isRuleActive,
+      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
+      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+   }
+   if(!payload.rules.length){
+    this.errorToaster(null,'Atleast one condition is required');
+    return;
+   }
+   if(!payload.outcomes.length){
+    this.errorToaster(null,'Atleast one outcome is required');
+    return;
+   }
+    this.service.invoke('update.businessRule', quaryparms,payload).subscribe(res => {
+      const editRule = _.findIndex(this.rules, (pg) => {
+        return pg._id === rule._id;
+      })
+      this.rules[editRule] = res;
+      this.notificationService.notify('Rule updated successfully','success');
+      this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to update rule');
     });
   }
-  deleteRule(rule,dilogRef?){
+  deleteRulePop(rule,i){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete rule',
+        text: 'Are you sure you want to delete selected rule?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteRule(rule, i ,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteMultiePop(){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete selected rules',
+        text: 'Are you sure you want to delete selected rules?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteSelectedRules(dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  deleteSelectedRules(dialogRef) {
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      limit:100
+    };
+    const payload: any = {
+      rules:[]
+    }
+    if(this.selcectionObj && this.selcectionObj.selectedItems){
+      const selectedItems = Object.keys(this.selcectionObj.selectedItems);
+      if (selectedItems && selectedItems.length) {
+        selectedItems.forEach((ruleId,i) => {
+         const tempobj = {
+           _id:ruleId
+         }
+         payload.rules.push(tempobj);
+        });
+      }
+    }
+    this.service.invoke('delete.businessRulesBulk', quaryparms,payload).subscribe(res => {
+     if(dialogRef && dialogRef.close){
+      dialogRef.close();
+     }
+     this.getRules();
+     this.notificationService.notify('Selected rules are deleted successfully' ,  'success');
+    }, errRes => {
+      this.errorToaster(errRes,'Failed to delete rule');
+    });
+  }
+  deleteRule(rule,i,dilogRef) {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       ruleId:rule._id,
       limit:100
     };
     this.service.invoke('delete.businessRule', quaryparms).subscribe(res => {
+      const deleteIndex = _.findIndex(this.rules, (pg) => {
+        return pg._id === rule._id;
+      })
+      this.rules.splice(deleteIndex,1);
      if(dilogRef && dilogRef.close){
       dilogRef.close();
      }
+     this.notificationService.notify('Selected rule deleted successfully' ,  'success');
     }, errRes => {
       this.errorToaster(errRes,'Failed to delete rule');
     });
+  }
+  toggleSearch(){
+    if(this.showSearch && this.searchRules){
+      this.searchRules = '';
+    }
+    this.showSearch = !this.showSearch
+    if (this.showSearch) {
+      $('#searchInput').focus();
+    }
+  };
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.rules.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'ruleName': return this.compare(a.ruleName, b.ruleName, isAsc);
+        case 'isRuleActive': return this.compare(a.isRuleActive, b.isRuleActive, isAsc);
+        default: return 0;
+      }
+    });
+    this.rules = sortedData;
   }
   errorToaster(errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {

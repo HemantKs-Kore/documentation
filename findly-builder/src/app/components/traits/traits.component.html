@@ -85,7 +85,7 @@
         
             <section class="table-content mt-0">
                 <div class="seach_add_feild">
-                    <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                    <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">                               
                         <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
                       </div> 
                       <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
@@ -105,7 +105,7 @@
                 </header>
                 <perfect-scrollbar class="trailts">
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col_ col-2">{{traitGroup.groupName || '---'}}</div>
+                        <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
                         <div class="col_ col-9" >
                             <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
                                 <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>

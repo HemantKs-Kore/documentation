@@ -134,7 +134,7 @@
         <div class="modal-body">
           <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
             <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
-            <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'webdomain')">
+            <div *ngIf= "(selectedSourceType.resourceType === 'webdomain')">
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
@@ -223,7 +223,10 @@
                       <div class="input-url-block">
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
-                          <input type="text" placeholder="https://" class="input-text">
+                          <input type="text"  placeholder="https://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter domain URL"
+                  [(ngModel)]="newSourceObj.url" class="input-text">
+                          <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
                       </div>         
@@ -370,7 +373,7 @@
                             <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
                             <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
                             <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
+                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
                           </ul>
                         </div>
                       </div>
@@ -419,7 +422,7 @@
                             <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
                             <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
                             <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't Contains</a></li>
+                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
                           </ul>
                         </div>
                       </div>
