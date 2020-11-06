@@ -299,6 +299,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
 
     FindlySDK.prototype.setAPIDetails = function () {
+
       var _self = this;
       var SearchIndexID = 'sidx-f3a43e5f-74b6-5632-a488-8af83c480b88';
       var pipelineId = '';
@@ -309,14 +310,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
-
-      // var baseAPIServer = 'https://app.findly.ai';
-      var baseAPIServer = 'https://dev.findly.ai';
+      debugger;
+      var baseAPIServer = 'https://app.findly.ai';
+      // var baseAPIServer = 'https://dev.findly.ai';
       if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
       }
       var baseUrl = baseAPIServer + "/searchAssistant";
+      console.log(baseUrl);
       var businessTooBaseURL = baseAPIServer + "/api/1.1/findly/";
+      console.log(businessTooBaseURL);
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
@@ -942,7 +945,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp matched_pages {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                 <div class="notification-div"></div>\
                 <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
@@ -1025,7 +1028,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp matched_pages {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
+              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&page.config.visible==false}}display-none{{/if}} {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
               <div class="notification-div"></div>\
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
@@ -3795,7 +3798,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               tasks: dataObj.tasks,
               showAllResults: true,
               noResults: false,
-              taskPrefix: 'MATCHED'
+              taskPrefix: 'MATCHED',
+              viewType = _self.vars.customizeView ? 'Customize' : 'Preview',
             });
             $(searchData).data(dataObj);
             if (!topMatchTask) {
@@ -3803,10 +3807,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             if (_self.vars.customizeView == true) {
               $(searchData).find(".tasks-wrp").sortable();
-
             }
             else {
-              $(searchData).find(".tasks-wrp").sortable({ disabled: true })
+              $(searchData).find(".tasks-wrp").sortable({ disabled: true });
             }
 
             $(searchData).attr('queryString', dataObj.originalQuery)
