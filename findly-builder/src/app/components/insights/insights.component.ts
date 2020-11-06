@@ -351,8 +351,10 @@ lineStyle: {
       queryPipelineId : this.queryPipelineId
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
-      this.actionLog_id = res[res.length-1]._id;
-      this.clickCustomizeRecord(res[res.length-1]._id);
+      if(res.length){
+        this.actionLog_id = res[res.length-1]._id;
+        this.clickCustomizeRecord(res[res.length-1]._id);
+      }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
