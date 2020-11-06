@@ -40,14 +40,19 @@
                     <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
                     <label for="selectAllRules" class="checkbox-custom-label"></label>
                 </div>
-                <div class="title"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'name_caps' | translate}}</div>
+                <div class="title cursor-pointer" (click)="sortBy('ruleName')">
+                    <img *ngIf="!(selectedSort && (selectedSort === 'ruleName'))" src="assets/icons/sort_up_down.svg" class="pr-1">
+                    <img *ngIf="(selectedSort && (selectedSort === 'ruleName'))" [ngClass]="{'upArrow': !isAsc}" src="assets/icons/caretDown.svg" class="pr-1">
+                    {{'name_caps' | translate}}
+                </div>
             </div>
             <div class="col-3 content">
-                <img ng src="assets/icons/sort_up_down.svg" class="pr-1">
-                <img src="assets/icons/sort_up_down.svg" class="pr-1">
                 {{'businessRules.condition_caps' | translate}}</div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.outcome_caps' | translate}}</div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">{{'businessRules.status_caps' | translate}}</div>
+            <div class="col-3 content">{{'businessRules.outcome_caps' | translate}}</div>
+            <div class="col-3 content cursor-pointer" (click)="sortBy('isRuleActive')">
+                <img *ngIf="!(selectedSort && (selectedSort === 'isRuleActive'))" src="assets/icons/sort_up_down.svg" class="pr-1">
+                <img *ngIf="(selectedSort && (selectedSort === 'isRuleActive'))" [ngClass]="{'upArrow': isAsc}" src="assets/icons/caretDown.svg" class="pr-1">
+                {{'businessRules.status_caps' | translate}}</div>
         </div>
         <perfect-scrollbar class="scroll_table">                     
             <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [ searchRules, 'ruleName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
@@ -71,10 +76,10 @@
                 </div>
                 <div class="col-3 content">
                     <ng-container *ngFor="let outcome of ruleObj.outcomes">
-                        <span class="tags-input mr-1 mb-1">{{outcome.scale}}x BoostResult</span>
+                        <span class="tags-input mr-1 mb-1"><span *ngIf="(outcome.outcomeType==='boost') || (outcome.outcomeType==='lower')">{{outcome.scale}}x </span>{{'businessRules.action'+ outcome.outcomeType | translate }}</span>
                         <span class="outer-name mr-1 mb-1">{{outcome.outcomeOperator}}</span>
                         <span class="tags-input mr-1 mb-1">{{outcome.outcomeType}}: 
-                            <span *ngFor="let value of outcome.outcomeValue">{{value}}</span>
+                            <span *ngFor="let value of outcome.outcomeValue; let valueIndex = index">{{value}} <span *ngIf="valueIndex < (outcome.outcomeValue.length-1)" class="divider mr-1 mb-1">{{'or_caps' | translate}}</span></span>
                         </span>
                     </ng-container>
                 </div>
@@ -149,8 +154,8 @@
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
                                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                                         <ng-container>
-                                            <mat-chip  [selectable]="selectable" class="dropdownDiv">                                       
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                       
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -161,8 +166,8 @@
                                             </mat-chip> 
                                         </ng-container>
                                         <ng-container>
-                                            <mat-chip [selectable]="selectable" class="dropdownDiv">
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown>
+                                            <mat-chip [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -217,13 +222,17 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-4 pr-0">
-                                        <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
-                                    </div>
-                                    <div class="col-4 pr-0 text-right">
-                                        <span class="result-slider-title">{{'businessRules.boostResults' | translate}}</span>
-                                        <span class="slider-count">{{outcomeObj.scale}}X</span>
-                                    </div>
+                                    <ng-container *ngIf="(outcomeObj.outcomeType === 'boost') || (outcomeObj.outcomeType === 'lower')">
+                                        <div class="col-4 pr-0">
+                                            <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
+                                        </div>
+                                        <div class="col-4 pr-0 text-right">
+                                            <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'boost'">{{'businessRules.boostResults' | translate}}</span>
+                                            <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'lower'">{{'businessRules.lowerResults' | translate}}</span>
+                                            <span class="slider-count">{{outcomeObj.scale}}X</span>
+                                        </div>
+                                    </ng-container>
+                                   
                                 </div>
                             </div>
                             <div class="row m-0 response-content-sec">
@@ -234,14 +243,24 @@
                                     <div class="chip-sys-data">                      
                                     <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
                                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                        <ng-container *ngIf="outcomeObj.fieldName">
-                                            <mat-chip  [selectable]="selectable" class="selectedFiledBlock">
-                                            <span>{{outcomeObj.fieldName}}</span>
+                                        <ng-container>
+                                        <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                           
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.fieldName?outcomeObj.fieldName:'Choose field'}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li class="search-box">
+                                                                <input type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" >
+                                                            </li>  
+                                                            <li ngbDropdownItem *ngFor = "let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion,outcomeObj)">{{suggestion.fieldName}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>  
                                             </mat-chip> 
                                         </ng-container>
-                                        <ng-container *ngIf="outcomeObj.fieldName">
-                                            <mat-chip  [selectable]="selectable" class="dropdownDiv">                                           
-                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown container='body'>
+                                        <ng-container>
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                           
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{('businessRules.' + outcomeObj.outcomeOperator) | translate}}</button>
                                                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -258,18 +277,17 @@
                                         </ng-container>
                                         <input [placeholder]="outcomeObj.fieldName?'Type and Press Enter':'Type and select field'"
                                                 [matChipInputFor]="chipList"
-                                                (keyup)="getFieldAutoComplete($event,outcomeObj)"
                                                 [matAutocomplete]="suggestedItems"
                                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                 (matChipInputTokenEnd)="addOutcome($event,outcomeObj,i)"  #suggestedInput>
                                         </mat-chip-list>
-                                        <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,outcomeObj)" >
+                                        <!-- <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,outcomeObj)" >
                                             <ng-container *ngFor = "let suggestion of fieldAutoSuggestion">
                                             <mat-option [value]="suggestion">
                                                 {{suggestion.fieldName}}
                                             </mat-option>
                                             </ng-container>
-                                        </mat-autocomplete>
+                                        </mat-autocomplete> -->
                                     </mat-form-field>
                                     </div>
                                 </div>                            

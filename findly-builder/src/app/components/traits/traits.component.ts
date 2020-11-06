@@ -453,7 +453,11 @@ createNewTraits () {
   },300);
 };
 accordianAction(index){
-  this.currentTraitEditIndex = index
+  if(this.currentTraitEditIndex === index){
+    this.currentTraitEditIndex = null;
+  } else {
+    this.currentTraitEditIndex = index
+  }
  }
   openStatusModal() {
     this.currentTraitEditIndex = null;
@@ -514,6 +518,17 @@ accordianAction(index){
    addUtterance(utter, key, event, traitsGroup,index) {
     const utteranceData =[];
     if (event && event.keyCode === 13 && traitsGroup && utter!=='') {
+      let utternaceIndex = -1;
+      const utteranceSearch = _.find(traitsGroup.traits[key].data,(utterance,i) =>{
+        if(utter === utterance){
+          utternaceIndex = i;
+          return false;
+        }
+       });
+       if(utternaceIndex > -1){
+         this.notificationService.notify('Utterance is already added', 'error');
+          return;
+       }
         utteranceData.push(utter);
         this.traits.addEditTraits.traits[key].data = utteranceData.concat(this.traits.addEditTraits.traits[key].data);
             // this.traits.addEditTraits.traits[key].data.push(utter);

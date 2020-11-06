@@ -25,7 +25,10 @@ export class BusinessRulesComponent implements OnInit {
   selectedApp;
   serachIndexId;
   indexPipelineId;
+  currentEditInex;
   rules = [];
+  selectedSort;
+  isAsc;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
@@ -83,6 +86,7 @@ export class BusinessRulesComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getRules();
+    this.getFieldAutoComplete(null,null);
   }
   createNewRule(){
     this.addEditRuleObj = {
@@ -222,6 +226,11 @@ export class BusinessRulesComponent implements OnInit {
       this.suggestedInput.nativeElement.value = '';
       this.fieldAutoSuggestion = [];
   }
+  selectField(data, outcomeObj) {
+    outcomeObj.fieldDataType = data.fieldDataType
+    outcomeObj.fieldName= data.fieldName
+    this.fieldAutoSuggestion = [];
+}
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
   }
@@ -323,10 +332,10 @@ export class BusinessRulesComponent implements OnInit {
     });
   }
   getFieldAutoComplete(event,outcomeObj){
-    if(outcomeObj.fieldName){
-     return;
+    let query:any = '';
+    if(event){
+      query  = $(event.currentTarget).val();
     }
-    let query  = $(event.currentTarget).val();
     if (/^\d+$/.test(query)) {
       query = query.parseInt();
     }
@@ -499,6 +508,27 @@ export class BusinessRulesComponent implements OnInit {
       $('#searchInput').focus();
     }
   };
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.rules.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'ruleName': return this.compare(a.ruleName, b.ruleName, isAsc);
+        case 'isRuleActive': return this.compare(a.isRuleActive, b.isRuleActive, isAsc);
+        default: return 0;
+      }
+    });
+    this.rules = sortedData;
+  }
   errorToaster(errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
