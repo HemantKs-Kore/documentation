@@ -183,7 +183,7 @@ export class BotActionComponent implements OnInit {
     let element = document.getElementById(elementRef);
     console.log(element);
     console.log(isActive)
-    document.getElementById(elementRef).style.borderBottom = "none";
+    // document.getElementById(elementRef).style.borderBottom = "none";
   }
 
   getAssociatedBots() {

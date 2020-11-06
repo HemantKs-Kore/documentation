@@ -192,7 +192,8 @@
                           <td><button class="kr-sg-button-primary">Hide Task</button></td>
                         </tbody>
                       </div>
-                      <button class="kr-sg-button-primary" (click)="linkBot(bot._id)">Link Bot</button>
+                      <button *ngIf="streamId == bot._id" class="kr-sg-button-primary background-red" (click)="unlinkBot(bot._id)">Unlink Bot</button>
+                      <button *ngIf="streamId != bot._id"class="kr-sg-button-primary" (click)="linkBot(bot._id)" [disabled]="streamId != null">Link Bot</button>
                       {{bot.content}}
                     </div>
                   </ng-template>

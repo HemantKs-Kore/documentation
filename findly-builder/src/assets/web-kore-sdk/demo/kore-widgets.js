@@ -959,7 +959,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 <div class="custom-live-search-matched-results-actions">\
                   <span class="custom-actions">\
-                    <span class="img-action  dont-show visibility">\
+                    <span class="img-action  dont-show visibility" data-viewMode="chat">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
                       {{if faq.config.visible==true}}\
                         <span class="custom-actions-content">HIDE</span>\
@@ -968,7 +968,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <span class="custom-actions-content">UNHIDE</span>\
                       {{/if}}\
                     </span>\
-                    <span class="img-action pin pinning">\
+                    <span class="img-action pin pinning" data-viewMode="chat">\
                       <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                       {{if faq.config.pinIndex==-1}}\
@@ -978,12 +978,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <span class="custom-actions-content">UNPIN</span>\
                       {{/if}}\
                     </span>\
-                    <span class="img-action boostup boosting">\
+                    <span class="img-action boostup boosting" data-viewMode="chat">\
                       <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
                       <span class="custom-actions-content">BOOST</span>\
                     </span>\
-                    <span class="img-action boostdown burying">\
+                    <span class="img-action boostdown burying" data-viewMode="chat">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
                       <span class="custom-actions-content">BURY</span>\
                     </span>\
@@ -1040,7 +1040,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  </a>\
                  <div class="custom-live-search-matched-results-actions">\
                     <span class="custom-actions">\
-                      <span class="img-action  dont-show visibility">\
+                      <span class="img-action  dont-show visibility" data-viewMode="chat">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
                         {{if page.config.visible==true}}\
                           <span class="custom-actions-content">HIDE</span>\
@@ -1049,7 +1049,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           <span class="custom-actions-content">UNHIDE</span>\
                         {{/if}}\
                       </span>\
-                      <span class="img-action pin pinning">\
+                      <span class="img-action pin pinning" data-viewMode="chat">\
                         <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
                         {{if page.config.pinIndex==-1}}\
@@ -1059,12 +1059,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           <span class="custom-actions-content">UNPIN</span>\
                         {{/if}}\
                       </span>\
-                      <span class="img-action boostup boosting">\
+                      <span class="img-action boostup boosting" data-viewMode="chat">\
                         <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD2SURBVHgBbVDdUcMwDJbi5A4OzJUJyAhlgzIBYQLaV2haOkEYgdIX3jICI8AIbEDZgLv2oYktqXbu3J+kerAtf9L36RPAibiaSHH2LDenMOi9SKonJCGP2gXM8iki3yGPW9RTBy4B5a9T4KmJJAPhOQL2OhIkXDDZmUQyYMU/4R/9cTk2A8TocbVQI53zF4CT8fMQzRsJRFUYU438Wyl8MLVNVRKXZOgfLp7qvs7t0IM6p7K5p1Tqsc12EkHGTZRFEP8y2Ov1e/J65EJQ+iDgLQ4deNux6TrvHZjWdXUHB7FfVMMgs83H+fKwQIUlsVC1XiRv0IotPHprsTWUw1EAAAAASUVORK5CYII=">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
                         <span class="custom-actions-content">BOOST</span>\
                       </span>\
-                      <span class="img-action boostdown burying">\
+                      <span class="img-action boostdown burying" data-viewMode="chat">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
                         <span class="custom-actions-content">BURY</span>\
                       </span>\
@@ -1238,7 +1238,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="relatedPagesTitle">MATCHED PAGES</div>\
                   <div class="pages-wrp">\
                     {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-                    <div class="faqs-shadow">\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&page.config.visible==false}}display-none{{/if}} {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
                       <div class="notification-div"></div>\
                       <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
@@ -1267,19 +1267,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           </div>\
                           <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
                             <span class="custom-actions">\
-                              <span class="img-action dont-show">\
+                              <span class="img-action dont-show visibility" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
-                                <span class="custom-actions-content">HIDE</span>\
+                                {{if page.config.visible==true}}\
+                                  <span class="custom-actions-content">HIDE</span>\
+                                {{/if}}\
+                                {{if page.config.visible==false}}\
+                                  <span class="custom-actions-content">UNHIDE</span>\
+                                {{/if}}\
                               </span>\
-                              <span class="img-action pin">\
+                              <span class="img-action pin pinning" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                                <span class="custom-actions-content">PIN</span>\
+                                {{if page.config.pinIndex==-1}}\
+                                  <span class="custom-actions-content">PIN</span>\
+                                {{/if}}\
+                                {{if page.config.pinIndex>-1}}\
+                                  <span class="custom-actions-content">UNPIN</span>\
+                                {{/if}}\
                               </span>\
-                              <span class="img-action boostup">\
+                              <span class="img-action boostup boosting" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
                                 <span class="custom-actions-content">BOOST</span>\
                               </span>\
-                              <span class="img-action boostdown">\
+                              <span class="img-action boostdown burying" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
                                 <span class="custom-actions-content">BURY</span>\
                             </span>\
@@ -1322,10 +1332,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                  <div class="faqs-shadow custom-position-relative">\
+                  <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                   <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
+                    <div class="notification-div"></div>\
                     <div class="faqs-wrp-content">\
-                      <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                      <div class="title">\
                         <span class="accordion" id="${key}">${faq.question}</span>\
                         <div class="panel">\
                           <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
@@ -1351,19 +1362,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                       <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
                           <span class="custom-actions">\
-                            <span class="img-action dont-show">\
+                            <span class="img-action dont-show visibility" data-viewMode="full">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                              <span class="custom-actions-content">HIDE</span>\
+                              {{if faq.config.visible==true}}\
+                                <span class="custom-actions-content">HIDE</span>\
+                              {{/if}}\
+                              {{if faq.config.visible==false}}\
+                                <span class="custom-actions-content">UNHIDE</span>\
+                              {{/if}}\
                             </span>\
-                            <span class="img-action pin">\
+                            <span class="img-action pin pinning" data-viewMode="full">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                              <span class="custom-actions-content">PIN</span>\
+                              {{if faq.config.pinIndex==-1}}\
+                                <span class="custom-actions-content">PIN</span>\
+                              {{/if}}\
+                              {{if faq.config.pinIndex>-1}}\
+                                <span class="custom-actions-content">UNPIN</span>\
+                              {{/if}}\
                             </span>\
-                            <span class="img-action boostup">\
+                            <span class="img-action boostup boosting" data-viewMode="full">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
                               <span class="custom-actions-content">BOOST</span>\
                             </span>\
-                            <span class="img-action boostdown">\
+                            <span class="img-action boostdown burying" data-viewMode="full">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
                               <span class="custom-actions-content">BURY</span>\
                             </span>\
@@ -1404,8 +1425,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
                   <div class="pages-wrp">\
                     {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
-                    <div class="faqs-shadow">\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
+                      <div class="notification-div"></div>\
                       <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
                           <img src="${document.imageUrl}"></img>\
@@ -1432,19 +1454,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           </div>\
                           <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
                             <span class="custom-actions">\
-                              <span class="img-action dont-show">\
+                              <span class="img-action dont-show visibility" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                                <span class="custom-actions-content">HIDE</span>\
+                                {{if document.config.visible==true}}\
+                                  <span class="custom-actions-content">HIDE</span>\
+                                {{/if}}\
+                                {{if document.config.visible==false}}\
+                                  <span class="custom-actions-content">UNHIDE</span>\
+                                {{/if}}\
                               </span>\
-                              <span class="img-action pin">\
+                              <span class="img-action pin pinning" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                                <span class="custom-actions-content">PIN</span>\
+                                {{if document.config.pinIndex==-1}}\
+                                  <span class="custom-actions-content">PIN</span>\
+                                {{/if}}\
+                                {{if document.config.pinIndex>-1}}\
+                                  <span class="custom-actions-content">UNPIN</span>\
+                                {{/if}}\
                               </span>\
-                              <span class="img-action boostup">\
+                              <span class="img-action boostup boosting" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABySURBVHgBhY1RDYAwDAWbYGAS+ORzEpCCE3AADjYH04CCScAKhbTJy2jZSy6w5S4jsrcKnw2OPDOBmZiTfrYzGc6ZnJeeJZBHQaNkyQfIl6DRhlGRC5QXwYyCIevaSL/vT21kjCrKUS4i+YsYlY6MUbkBGj8attkkmHEAAAAASUVORK5CYII=">\
                                 <span class="custom-actions-content">BOOST</span>\
                               </span>\
-                              <span class="img-action boostdown">\
+                              <span class="img-action boostdown burying" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
                                 <span class="custom-actions-content">BURY</span>\
                             </span>\
@@ -2567,15 +2599,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.performRankActions(e, { visible: false });
       });*/
       $('.search-container').off('click', '.visibility').on('click', '.visibility', function (event) {
-        console.log(event.target);
-        console.log($(event.target).closest('.task-wrp').attr('visible'), $(event.target).closest('.task-wrp').attr('contentid'));
+        console.log($(event.target).closest('.visibility').attr('data-viewmode'));
+        if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+          console.log($(event.target).closest('.faqs-shadow').attr('visible'), $(event.target).closest('.faqs-shadow').attr('contentid'));
 
-        if (parseInt($(event.target).closest('.task-wrp').attr('pinindex')) == -1) {
-          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-            _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+          if (parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
+            if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+              _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+            }
+            else {
+              _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+            }
           }
-          else {
-            _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+        }
+        else {
+          console.log($(event.target).closest('.task-wrp').attr('visible'), $(event.target).closest('.task-wrp').attr('contentid'));
+
+          if (parseInt($(event.target).closest('.task-wrp').attr('pinindex')) == -1) {
+            if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+              _self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+            }
+            else {
+              _self.performRankActions(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+            }
           }
         }
       });
@@ -2590,54 +2636,109 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       });*/
       $('.search-container').off('click', '.pinning').on('click', '.pinning', function (event) {
-        console.log(event.target);
-        console.log($(event.target).closest('.task-wrp').attr('pinindex'), $(event.target).closest('.task-wrp').attr('contentid'));
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          var _selectedElement = $(event.target).closest('.task-wrp');
-          var _parentElement = $(event.target).closest('.tasks-wrp');
-          var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+        console.log($(event.target).closest('.pinning').attr('data-viewmode'));
+        if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+          console.log($(event.target).closest('.faqs-shadow').attr('pinindex'), $(event.target).closest('.faqs-shadow').attr('contentid'));
 
-          if ($(event.target).text() == "UNPIN") {
-            var pinIndex = -1
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+            var _selectedElement = $(event.target).closest('.faqs-shadow');
+            var _parentElement = $(event.target).closest('.faqs-shadow');
+            var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+
+            if ($(event.target).text() == "UNPIN") {
+              var pinIndex = -1;
+            }
+            else {
+              var pinIndex = childNodes.indexOf(_selectedElement[0]);
+            }
+            _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
           }
-          else {
-            var pinIndex = childNodes.indexOf(_selectedElement[0]);
+        }
+        else {
+          // console.log(event.target);
+          console.log($(event.target).closest('.pinning').attr('data-viewmode'));
+          console.log($(event.target).closest('.task-wrp').attr('pinindex'), $(event.target).closest('.task-wrp').attr('contentid'));
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+            var _selectedElement = $(event.target).closest('.task-wrp');
+            var _parentElement = $(event.target).closest('.tasks-wrp');
+            var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+
+            if ($(event.target).text() == "UNPIN") {
+              var pinIndex = -1
+            }
+            else {
+              var pinIndex = childNodes.indexOf(_selectedElement[0]);
+            }
+            _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
           }
-          _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
         }
       });
       /*$('.search-container').off('click', '.boostup').on('click', '.boostup', function (e) {
         _self.performRankActions(e, { boost: 0.25 });
       });*/
       $('.search-container').off('click', '.boosting').on('click', '.boosting', function (event) {
-        console.log(event.target);
-        console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          var boostByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
-          boostByValue = boostByValue + 0.25;
-          console.log(boostByValue);
-          _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+        console.log($(event.target).closest('.boosting').attr('data-viewMode'));
+        if ($(event.target).closest('.boosting').attr('data-viewMode') == "full") {
+          console.log($(event.target).closest('.faqs-shadow').attr('boost'), $(event.target).closest('.faqs-shadow').attr('contentid'));
+
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+            var boostByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
+            boostByValue = boostByValue + 0.25;
+            console.log(boostByValue);
+            _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+          }
+        }
+        else {
+          // console.log(event.target);
+          console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+            var boostByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
+            boostByValue = boostByValue + 0.25;
+            console.log(boostByValue);
+            _self.performRankActions(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+          }
         }
       });
       /*$('.search-container').off('click', '.boostdown').on('click', '.boostdown', function (e) {
         _self.performRankActions(e, { boost: -0.25 });
       })*/
       $('.search-container').off('click', '.burying').on('click', '.burying', function (event) {
-        console.log(event.target);
-        console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
+        console.log($(event.target).closest('.burying').attr('data-viewMode'));
+        if ($(event.target).closest('.burying').attr('data-viewMode') == 'full') {
+          console.log($(event.target).closest('.faqs-shadow').attr('boost'), $(event.target).closest('.faqs-shadow').attr('contentid'));
 
-        if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
-          var buryByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
-          console.log(buryByValue);
-          if (buryByValue > 0.25) {
-            buryByValue = buryByValue - 0.25;
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+            var buryByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
             console.log(buryByValue);
-            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            if (buryByValue > 0.25) {
+              buryByValue = buryByValue - 0.25;
+              console.log(buryByValue);
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'boosting');
+            }
+            else {
+              buryByValue = 0.25 - buryByValue;
+              console.log(buryByValue);
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
           }
-          else {
-            buryByValue = 0.25 - buryByValue;
+        }
+        else {
+          // console.log(event.target);
+          console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
+
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+            var buryByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
             console.log(buryByValue);
-            _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            if (buryByValue > 0.25) {
+              buryByValue = buryByValue - 0.25;
+              console.log(buryByValue);
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
+            else {
+              buryByValue = 0.25 - buryByValue;
+              console.log(buryByValue);
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+            }
           }
         }
       })
@@ -2662,8 +2763,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       pinIndex = parseInt(pinIndex);
       visible = visible.toLowerCase() == 'true' ? true : false;*/
 
-      var selectedElement = $(event.target).closest('.task-wrp');
-
+      if ($(event.target).closest(`.${actionType}`).attr('data-viewMode') == "full") {
+        var selectedElement = $(event.target).closest('.faqs-shadow');
+      }
+      else {
+        var selectedElement = $(event.target).closest('.task-wrp');
+      }
       var contentID = selectedElement.attr('contentid');
       var contentType = selectedElement.attr('contentType');
       var queryString = _self.vars.searchObject.searchText;
@@ -3547,7 +3652,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var topMatchFAQ;
         var topMatchTask;
 
-        /*res.searchFacets = [
+        res.searchFacets = [
           {
             "fieldName": "String",
             "facetName": "String",
@@ -3586,7 +3691,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             ]
           }
-        ]*/
+        ]
         // liveResult.forEach(function (result) {
         //   if (result.contentType === "faq") {
         //     faqs.push(result);
