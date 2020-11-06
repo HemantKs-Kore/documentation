@@ -3254,7 +3254,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         tasks: tasks.slice(0, 2),
                         showAllResults: true,
                         noResults: false,
-                        taskPrefix: 'SUGGESTED'
+                        taskPrefix: 'SUGGESTED',
+                        viewType: 'Preview',
                       });
                       $(searchData).data(dataObj);
                       $('.search-body').html(searchData);
@@ -3297,7 +3298,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           tasks: tasks,
                           showAllResults: false,
                           noResults: true,
-                          taskPrefix: 'MATCHED'
+                          taskPrefix: 'MATCHED',
+                          viewType: 'Preview',
                         });
                         $(searchData).data(dataObj);
                         console.log("no results found");
@@ -3655,7 +3657,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var topMatchFAQ;
         var topMatchTask;
 
-        res.searchFacets = [
+        /*res.searchFacets = [
           {
             "fieldName": "String",
             "facetName": "String",
@@ -3694,7 +3696,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
             ]
           }
-        ]
+        ]*/
         // liveResult.forEach(function (result) {
         //   if (result.contentType === "faq") {
         //     faqs.push(result);
@@ -3792,6 +3794,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.sendMessageToSearch('bot', dataObj.smallTalk);
           } else {
             var _botMessage = 'Sure, please find the matched results below';
+            // var viewType = _self.vars.customizeView ? 'Customize' : 'Preview'
             searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
               faqs: dataObj.faqs,
               pages: dataObj.pages,
@@ -3799,7 +3802,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               showAllResults: true,
               noResults: false,
               taskPrefix: 'MATCHED',
-              viewType = _self.vars.customizeView ? 'Customize' : 'Preview',
+              viewType: 'Preview',
             });
             $(searchData).data(dataObj);
             if (!topMatchTask) {
@@ -4436,13 +4439,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.showSearch = function () {
       var _self = this;
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      _self.initKoreSDK();
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+      _self.initKoreSDK();
       _self.initWebKitSpeech();
       _self.setAPIDetails();
 
@@ -4474,6 +4477,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindSearchAccordion();
       _self.bindFeedbackEvent();
       $(dataHTML).css('left', left);
+      debugger;
       var container = $('.search-background-div');
       if (!container.length) {
         container = $('body')

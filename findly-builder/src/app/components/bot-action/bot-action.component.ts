@@ -54,7 +54,7 @@ export class BotActionComponent implements OnInit {
     console.log("StreamID", this.streamId)
     console.log(this.workflowService.selectedApp())
     this.getBots();
-    // this.getAssociatedTasks(this.streamId);
+    this.getAssociatedTasks(this.streamId);
 
     this.userInfo = this.authService.getUserInfo() || {};
     console.log(this.userInfo);
@@ -183,6 +183,7 @@ export class BotActionComponent implements OnInit {
     let element = document.getElementById(elementRef);
     console.log(element);
     console.log(isActive)
+    // document.getElementById(elementRef).style.borderBottom = "none";
   }
 
   getAssociatedBots() {
@@ -251,7 +252,7 @@ export class BotActionComponent implements OnInit {
         console.log(res.status);
         this.streamId = selectedApp.configuredBots[0]._id;
         this.getBots();
-        // this.getAssociatedTasks(this.streamId)
+        this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
         this.notificationService.notify("Bot linked, successfully", 'success')
       },
@@ -288,7 +289,7 @@ export class BotActionComponent implements OnInit {
         this.workflowService.selectedApp(selectedApp);
         this.streamId = null;
         this.getBots();
-        // this.getAssociatedTasks(this.streamId);
+        this.getAssociatedTasks(this.streamId);
         this.getAssociatedBots();
         this.notificationService.notify("Bot unlinked, successfully", 'success');
 
@@ -297,7 +298,7 @@ export class BotActionComponent implements OnInit {
       )
     }
   }
-  /*getAssociatedTasks(botID: any) {
+  getAssociatedTasks(botID: any) {
     if (botID) {
       const queryParams: any = {
         botID: botID
@@ -307,22 +308,22 @@ export class BotActionComponent implements OnInit {
         this.loadingContent = false;
 
         console.log("Associated Tasks", res);
-        // this.associatedTasks = [];
+        this.associatedTasks = [];
         this.bots = [];
         res.forEach(element => {
           if (element.state == "published") { // && element.isHidden == false
-            // this.associatedTasks.push(element);
+            this.associatedTasks.push(element);
             this.bots.push(element);
           }
         });
-        // console.log(this.associatedTasks);
+        console.log(this.associatedTasks);
         console.log(this.bots);
       },
         (err) => { console.log(err) },
         // () => { console.log("Call Completed") }
       )
     }
-  }*/
+  }
 
   toggleDisable($event: NgbPanelChangeEvent) {
     $event.preventDefault();

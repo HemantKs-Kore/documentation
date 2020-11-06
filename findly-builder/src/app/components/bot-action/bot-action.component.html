@@ -17,9 +17,10 @@
           <!-- <button *ngIf="!loadingContent" class="kr-sg-button-primary btn_lg button-link-bots"
             (click)="openLinkExistingBotsComponent()">Link
             Bots</button> -->
-          <button *ngIf="!loadingContent" class="button-link-bots"
-            (click)="openLinkExistingBotsComponent()"><img class="add-icon" src="assets/icons/sidemenu/plus-table.svg">&nbsp;<span class="button-link-bots-label">Link
-            Bots</span></button>
+          <button *ngIf="!loadingContent" class="button-link-bots" (click)="openLinkExistingBotsComponent()"><img
+              class="add-icon" src="assets/icons/sidemenu/plus-table.svg">&nbsp;<span
+              class="button-link-bots-label">Link
+              Bots</span></button>
 
           <div *ngIf="currentView === 'list' && (bots && bots.length) " class="grid-list-view-table"
             (click)="currentView='grid'" ngbTooltip='Grid'><img src="assets/icons/grid-view.svg"></div>
@@ -140,59 +141,62 @@
       <ng-container>
         <perfect-scrollbar>
           <div class="list-container">
-            <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
+            <ngb-accordion #accordionList="ngbAccordion" [closeOthers]="true">
               <!-- [closeOthers]="true" -->
               <ng-container *ngFor="let bot of associatedBots | filter: [ searchBots, 'name' ]; let i = index">
                 <ngb-panel id="{{'bot' + i}}">
-                  <ng-template ngbPanelHeader>
+                  <ng-template ngbPanelHeader let-opened="opened">
                     <!-- let-opened="opened" -->
-                    <!-- <div class="accordion-header-container"
-                  [ngStyle]="{'border-bottom': opened === false ? '2px solid #eee' : 'none'}"
-                  (click)="accordionList.toggle('bot' + i); modifyStyles('bot'+ i +'-header', opened); getAssociatedTasks(bot._id)"> -->
-                    <!-- <img class="chevron-icon" [src]="opened ? 'assets/icons/carrot-down-comp.svg' : 'assets/icons/carrot-right.svg'"> -->
-                    <div class="accordion-header-container">
-                      <!-- <img class="chevron-icon"
-                    [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}"
-                    src="assets/icons/carrot-right.svg"> -->
-                      <img class="bot-icon" src="assets/images/botIcon.svg">
-                      <span class="accordion-header-title">{{bot.name}}</span>
-                      <button *ngIf="streamId != bot._id" class="kr-sg-button-primary button-link"
-                        (click)="linkBot(bot._id)" [disabled]="streamId != null">Link Bot</button>
-                      <!-- *ngIf="!opened && streamId != bot._id" -->
-                      <span *ngIf="streamId == bot._id" class="span-link">
-                        <div class="check-icon-container"><img src="assets/images/source-icos/check-green.svg"></div>
-                        &nbsp;Bot is linked
-                      </span>
-                      <div *ngIf="streamId == bot._id" class="dropdown-control"><img class="ellipse-icon"
-                          src="assets/icons/elipse.svg">
-                        <div class="dropdown-content">
-                          <ul class="dropdown-content-list">
-                            <li class="dropdown-content-list-item" (click)="unlinkBot(bot._id)"><span>Unlink Bot</span>
-                            </li>
-                          </ul>
+                    <div class="accordion-header-container"
+                      [ngStyle]="{'border-bottom': opened === false ? '2px solid #eee' : 'none'}"
+                      (click)="accordionList.toggle('bot' + i); modifyStyles('bot'+ i +'-header', opened); getAssociatedTasks(bot._id)">
+                      <!-- <img class="chevron-icon" [src]="opened ? 'assets/icons/carrot-down-comp.svg' : 'assets/icons/carrot-right.svg'"> -->
+                      <div class="accordion-header-container">
+                        <img class="chevron-icon"
+                          [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}"
+                          src="assets/icons/carrot-right.svg">
+                        <img class="bot-icon" src="assets/images/botIcon.svg">
+                        <span class="accordion-header-title">{{bot.name}}</span>
+                        <button *ngIf="streamId != bot._id" class="kr-sg-button-primary button-link"
+                          (click)="linkBot(bot._id)" [disabled]="streamId != null">Link Bot</button>
+                        <!-- *ngIf="!opened && streamId != bot._id" -->
+                        <span *ngIf="streamId == bot._id" class="span-link">
+                          <div class="check-icon-container"><img src="assets/images/source-icos/check-green.svg"></div>
+                          &nbsp;Bot is linked
+                        </span>
+                        <div *ngIf="streamId == bot._id" class="dropdown-control"><img class="ellipse-icon"
+                            src="assets/icons/elipse.svg">
+                          <div class="dropdown-content">
+                            <ul class="dropdown-content-list">
+                              <li class="dropdown-content-list-item" (click)="unlinkBot(bot._id)"><span>Unlink
+                                  Bot</span>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </ng-template>
-                  <!-- <ng-template ngbPanelContent>
-                <div class="accordion-content-container"> -->
-                  <!-- <h4 class="sub-heading-title">Related Tasks</h4> -->
-                  <!-- <div class="table">
-                    <thead>
-                      <tr>
-                        <th>Tasks</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let task of associatedTasks">
-                      <td>{{task.name}}</td>
-                      <td><button class="kr-sg-button-primary">Hide Task</button></td>
-                    </tbody>
-                  </div>
-                  <button class="kr-sg-button-primary" (click)="linkBot(bot._id)">Link Bot</button>
-                  {{bot.content}}
-                </div>
-              </ng-template> -->
+                  <ng-template ngbPanelContent>
+                    <div class="accordion-content-container">
+                      <!-- <h4 class="sub-heading-title">Related Tasks</h4> -->
+                      <div class="table">
+                        <thead>
+                          <tr>
+                            <th>Tasks</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody *ngFor="let task of associatedTasks">
+                          <td>{{task.name}}</td>
+                          <td><button class="kr-sg-button-primary">Hide Task</button></td>
+                        </tbody>
+                      </div>
+                      <button *ngIf="streamId == bot._id" class="kr-sg-button-primary background-red" (click)="unlinkBot(bot._id)">Unlink Bot</button>
+                      <button *ngIf="streamId != bot._id"class="kr-sg-button-primary" (click)="linkBot(bot._id)" [disabled]="streamId != null">Link Bot</button>
+                      {{bot.content}}
+                    </div>
+                  </ng-template>
                 </ngb-panel>
               </ng-container>
             </ngb-accordion>
