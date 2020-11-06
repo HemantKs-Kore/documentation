@@ -53,12 +53,16 @@ export class AppHeaderComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
   metricsOption(menu){
-    this.analyticsClick('metrics')
+    this.analyticsClick(menu)
     this.router.navigate([menu], { skipLocationChange: true });
   }
   analyticsClick(menu){
     this.mainMenu = menu;
-    if(menu == 'metrics'){
+    if(menu == '/metrics' || 
+      menu == '/dashboard' || 
+      menu == '/userEngagement' || 
+      menu == '/searchInsights'  || 
+      menu == '/resultInsights') {
       this.showMainMenu = false;
       this.router.navigate([menu], { skipLocationChange: true });
     }else{
@@ -120,13 +124,8 @@ export class AppHeaderComponent implements OnInit {
         : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
     this.formatter = (x: {displayName: string}) => (x.displayName || '');
-    if(JSON.parse(localStorage.krPreviousState).route == '/metrics' || 
-    JSON.parse(localStorage.krPreviousState).route == '/dashboard' || 
-    JSON.parse(localStorage.krPreviousState).route == '/userEngagement' || 
-    JSON.parse(localStorage.krPreviousState).route == '/searchInsights'  || 
-    JSON.parse(localStorage.krPreviousState).route == '/resultInsights') {
-      this.analyticsClick('metrics');
-    }
+    this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    
    
   }
 
