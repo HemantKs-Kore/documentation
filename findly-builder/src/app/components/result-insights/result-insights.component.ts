@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 
 @Component({
   selector: 'app-result-insights',
@@ -10,6 +11,7 @@ import { EChartOption } from 'echarts';
   styleUrls: ['./result-insights.component.scss']
 })
 export class ResultInsightsComponent implements OnInit {
+  viewQueriesRef:any;
   selectedApp;
   serachIndexId;
   pageLimit = 5;
@@ -59,6 +61,14 @@ export class ResultInsightsComponent implements OnInit {
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
+    @ViewChild('viewQueries') viewQueries: KRModalComponent;
+
+    openModalPopup(){
+      this.viewQueriesRef = this.viewQueries.open();
+    }
+    closeModalPopup(){
+      this.viewQueriesRef.close();
+    }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
