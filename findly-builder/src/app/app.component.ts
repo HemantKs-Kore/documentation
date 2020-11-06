@@ -5,11 +5,13 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 declare const $: any;
-declare const KoreWidgetSDK: any;
-declare const KoreSDK: any;
-declare const koreBotChat: any;
+// declare const KoreWidgetSDK: any;
+declare const FindlySDK: any;
+// declare const koreBotChat: any;
+// declare const KoreSDK: any;
 declare let window:any;
 import * as _ from 'underscore';
+import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,6 +23,11 @@ export class AppComponent implements OnInit {
   previousState;
   appsData: any;
   searchInstance:any;
+  findlyBusinessConfig:any = {};
+  bridgeDataInsights = true;
+  addNewResult = true;
+  showInsightFull = false;
+  queryText ;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -110,7 +117,7 @@ export class AppComponent implements OnInit {
      return previOusState;
    }
   resetFindlySearchSDK(appData){
-    // debugger;
+    debugger;
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
@@ -120,6 +127,7 @@ export class AppComponent implements OnInit {
         // debugger;
         window.selectedFindlyApp = searchData;
         console.log(searchData, window.selectedFindlyApp)
+        debugger;
         this.searchInstance.setAPIDetails();
       }
     }
@@ -173,10 +181,11 @@ export class AppComponent implements OnInit {
   onResize(event?) {
     this.workflowService.disablePerfectScroll = window.innerWidth <= 600;
   }
-  ngOnDistroy(){
+  ngOnDestroy(){
     this.authService.findlyApps.unsubscribe();
   }
   showHideSearch(show){
+    const _self = this;
     if(show){
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');
@@ -188,15 +197,55 @@ export class AppComponent implements OnInit {
       $('.start-search-icon-div').removeClass('active');
       $('.advancemode-checkbox').css({"display":"none"});
       $('.search-container').removeClass('search-container-adv')
-      $('.search-container').removeClass('add-new-result')
+      $('.search-container').removeClass('add-new-result');
+
+      $('.ksa-resultsContainer').removeClass('search-body-full');
+      _self.bridgeDataInsights = true;
+      _self.addNewResult = true;
+      _self.showInsightFull = false;
     }
+  }
+  sdkBridge(parms){  // can be converted as service for common Use
+    const _self = this;
+    console.log(parms);
+    //this.bridgeDataInsights = !parms.data;
+    let call = false;
+    if(parms.type == "show" && parms.data == true && _self.bridgeDataInsights){
+      _self.bridgeDataInsights = false;
+      call = true;
+    }else{
+      _self.bridgeDataInsights = true;
+      call = false;
+    }
+    if( !call ){
+      if(parms.type == "showInsightFull" && parms.data == true && _self.bridgeDataInsights){
+        _self.bridgeDataInsights = false;
+        _self.showInsightFull = true;
+        $('.ksa-resultsContainer').css({"width":"50%"});
+      }else{
+        _self.bridgeDataInsights = true;
+        _self.showInsightFull = false;
+        $('.ksa-resultsContainer').css({"width":"100%"});
+      }
+    }
+    if(parms.type == "addNew" && parms.data == true){
+      _self.addNewResult = false;
+    }else{
+      _self.addNewResult = true;
+    }
+    if(parms.query){
+      _self.queryText = parms.query;
+    }
+  }
+  closeResultBody(event){
+    var bridgeObj = { type : "addNew" , data : false , query : null}
+    this.sdkBridge(bridgeObj)
   }
   initSearchSDK(){
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
     $('app-body').append('<div class="search-background-div"></div>');
     $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
-   // $('.search-container').addClass('search-container-adv');
     $('.start-search-icon-div').click(function(){
       if(!$('.search-background-div:visible').length){
         _self.showHideSearch(true);
@@ -212,27 +261,38 @@ export class AppComponent implements OnInit {
         $('.search-container').addClass('advanced-mode');
       }
   });
-   
-    var chatConfig = KoreSDK.chatConfig;
-    //chatConfig.botOptions.assertionFn = assertion;
-    chatConfig.widgetSDKInstace=wSdk;//passing widget sdk instance to chatwindow 
+    const findlyConfig :any =window.KoreSDK.findlyConfig;
+    this.findlyBusinessConfig = this;
+    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    var fSdk = new FindlySDK(findlyConfig);
+    fSdk.showSearch();
+    console.log(this.findlyBusinessConfig);
+    const e = {'data' : 1}
+    //fSdk.applicationDataTransfer(e);
+    this.searchInstance = fSdk;
 
-    var koreBot = koreBotChat();
-    koreBot.show(chatConfig);
+    // this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
+  //    var chatConfig = KoreSDK.chatConfig;
+  //   //chatConfig.botOptions.assertionFn = assertion;
+  //   // chatConfig.widgetSDKInstace=fSdk;//passing widget sdk instance to chatwindow 
+
+  //    var koreBot = koreBotChat();
+  //    koreBot.show(chatConfig);
 
 
-    var widgetsConfig=KoreSDK.widgetsConfig;
+  //    var widgetsConfig=KoreSDK.widgetsConfig;
 
-    var wizSelector = {
-        menu: ".kr-wiz-menu-chat",
-        content: ".kr-wiz-content-chat"
-    }
+  //   var wizSelector = {
+  //       menu: ".kr-wiz-menu-chat",
+  //       content: ".kr-wiz-content-chat"
+  //   }
+  //    var wSdk = new KoreWidgetSDK(widgetsConfig);
+  //    this.searchInstance = wSdk;
+  //  // this.searchInstance = fSdk;
+  //   fSdk.setJWT('dummyJWT');
+  //           fSdk.show(widgetsConfig, wizSelector);
+  //            fSdk.showSearch();
     
-    var wSdk = new KoreWidgetSDK(widgetsConfig);
-    this.searchInstance = wSdk;
-           wSdk.setJWT('dummyJWT');
-            wSdk.show(widgetsConfig, wizSelector);
-            wSdk.showSearch();
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }
