@@ -2415,18 +2415,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#viewTypeCheckboxControl').off('change').on('change', function (event) {
         var facetActive = $('.facetActive').attr('id');
         var responseObject = { type: 'showInsightFull', data: false, query: _self.vars.searchObject.searchText }
+        $('#loaderDIV').show();
         if ($(this).is(':checked')) {
           console.log(false);
           // debugger;
           _self.vars.customizeView = true;
-          _self.prepAllSearchData(facetActive);
         }
         else {
           console.log(true);
           // debugger;
-          _self.vars.customizeView = false;
-          _self.prepAllSearchData(facetActive);
+          _self.vars.customizeView = false; 
         }
+        // _self.prepAllSearchData(facetActive);
+        _self.searchByFacetFilters(_self.vars.filterObject);
         _self.parentEvent(responseObject);
       });
 
