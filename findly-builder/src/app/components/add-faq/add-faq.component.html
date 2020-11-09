@@ -149,82 +149,107 @@
                 *ngFor="let item of faqObj.conditions;  let index = index"><span
                   *ngIf="index">,</span>{{item.value}}</span></span>
           </div>
+          <div class="condition-view-mode d-none">
+            <div class="label_text">Conditions</div>
+            <div class="condition-view-mode-data">
+              <span class="tag-name">SearchContext</span>
+              <span class="tag-name">RecentSearches</span>
+              <span class="default-data">Contains</span>   
+              <span class="tag-name">Credit</span>
+              <span class="tag-name">NewAccount</span>           
+            </div>
+            <div class="condition-view-mode-data">
+              <span class="default-data and-rule">And</span>
+              <span class="tag-name">UserContext</span>
+              <span class="tag-name">NewCustomer</span>
+              <span class="default-data">Contains</span>    
+              <span class="tag-name">Premuim</span>
+              <span class="tag-name">Credit</span>
+              <span class="tag-name">NewAccount</span>
+              <span class="tag-name">StarAccount</span>          
+              <span class="tag-name">QuickBanking</span>      
+              <span class="tag-name">Credit</span>      
+              <span class="tag-name">NewAccount</span>      
+            </div>
+          </div>
           <ng-container *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex === index)">
-            <div class="label-text pt-3">Conditions</div>
-            <div class="input-conditions col-12">
-              <ng-container *ngFor="let ruleObj of faqObj.conditions; let conditionIndex = index">
-                  <div class="d-flex align-items-center w-100 mb-13">
-                      <div class="input-bg-sec">
-                          <div class="row m-0 search-content-sec">
-                              <div class="col-2 p-0 title">
-                                  Select Context
-                              </div>
-                              <div class="col-10 pr-0">
-                                  <div class="kr-sg-dropdowns w-auto">                           
-                                      <div class="dropdown dropdown-open">
-                                          <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
-                                          <ul class="dropdown-menu content-menu">                                                                          
-                                          <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row m-0 setparameetres-sec">
-                              <div class="col-2 p-0 title">
-                                Set Criteria
-                              </div>
-                              <div class="tags row m-0 col-10">
-                                  <div class="chip-sys-data">                      
-                                  <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
-                                      <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                                      <ng-container>
-                                          <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                       
-                                              <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
-                                                  <div class="dropdown dropdown-open">
-                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
-                                                      <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                          <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{'businessRules.' +  contextCategory | translate}}</li>
-                                                      </ul>
-                                                  </div>                                            
-                                              </div>
-                                          </mat-chip> 
-                                      </ng-container>
-                                      <ng-container>
-                                          <mat-chip [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">
-                                              <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
-                                                  <div class="dropdown dropdown-open">
-                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
-                                                      <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                                          <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{'businessRules.' + operator | translate}}</li>
-                                                      </ul>
-                                                  </div>                                            
-                                              </div>                             
-                                          </mat-chip> 
-                                      </ng-container>
-                                      <ng-container *ngFor="let value of ruleObj.value">
-                                          <mat-chip  [selectable]="selectable" (removed)="removeTag(ruleObj.value,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
-                                                  <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                                          </mat-chip> 
-                                      </ng-container>
-                                      <input placeholder="Type Alternatives and Press Enter"
-                                              [matChipInputFor]="chipList"
-                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                              (matChipInputTokenEnd)="addRules($event,ruleObj,i)"  #suggestedInput>
-                                      </mat-chip-list>
-                                  </mat-form-field>
-                                  </div>
-                              </div>                    
-                          </div>
-                      </div>
-                      <div class="delete-rule" (click)='removeRule(ruleIndex,faqObj.conditions)'>
-                          <img src="assets/icons/modal-close.svg">
-                      </div> 
-                  </div>                                
-              </ng-container>               
-          </div> 
-          <div class="add-condition" (click)="addNewRule(index,faqObj)"><img src="assets/icons/plus-blue.svg">Add Condition</div>
-            </ng-container>
+           <div class="conditional-sec-new">
+              <div class="label-text mb-2">Conditions</div>
+              <div class="input-conditions col-12">
+                <ng-container *ngFor="let ruleObj of faqObj.conditions; let conditionIndex = index">
+                    <div class="d-flex align-items-center w-100 mb-13">
+                        <div class="input-bg-sec">
+                            <div class="row m-0 search-content-sec">
+                                <div class="col-2 p-0 title">
+                                    Select Context
+                                </div>
+                                <div class="col-10 pr-0">
+                                    <div class="kr-sg-dropdowns w-auto">                           
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
+                                            <ul class="dropdown-menu content-menu">                                                                          
+                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0 setparameetres-sec">
+                                <div class="col-2 p-0 title">
+                                  Set Criteria
+                                </div>
+                                <div class="tags row m-0 col-10">
+                                    <div class="chip-sys-data">                      
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                        <ng-container>
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                       
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{'businessRules.' +  contextCategory | translate}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container>
+                                            <mat-chip [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{'businessRules.' + operator | translate}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>                             
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container *ngFor="let value of ruleObj.value">
+                                            <mat-chip  [selectable]="selectable" (removed)="removeTag(ruleObj.value,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <input placeholder="Type Alternatives and Press Enter"
+                                                [matChipInputFor]="chipList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="addRules($event,ruleObj,i)"  #suggestedInput>
+                                        </mat-chip-list>
+                                    </mat-form-field>
+                                    </div>
+                                </div>                    
+                            </div>
+                        </div>
+                        <div class="delete-rule" (click)='removeRule(ruleIndex,faqObj.conditions)'>
+                            <img src="assets/icons/modal-close.svg">
+                        </div> 
+                    </div>                                
+                </ng-container>               
+              </div> 
+           </div>
+            <div class="add-condition" (click)="addNewRule(index,faqObj)"><img src="assets/icons/plus-blue.svg">Add Condition</div>
+          </ng-container>
         </div>
       </div>
     </div>
