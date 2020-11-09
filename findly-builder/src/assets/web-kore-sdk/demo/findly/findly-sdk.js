@@ -873,7 +873,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="actions-link">Context</div>\
               </div>\
             <div id="searchChatContainer"></div>\
-              <div class="search-body ps">\
+              <div class="search-body">\
             </div>\
           </div>\
           <div class="search-modal-body hide">\
@@ -2332,14 +2332,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.bindAllResultsView = function () {
       var _self = this;
-  
+
       $('.custom-header-nav-link-item').off('click').on('click', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
         var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
 
-        var url = _self.API.searchUrl;
+        /*var url = _self.API.searchUrl;
         var payload = {
           "query": _self.vars.searchObject.searchText,
           "maxNumOfResults": 9,
@@ -2347,7 +2347,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "streamId": _self.API.streamId,
           "lang": "en",
         }
-        console.log(payload);
+        console.log(payload);*/
 
         for (var i = 0; i < navLinks.length; i++) {
           navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
@@ -2356,13 +2356,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.showingMatchedResults == true) {
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
             _self.vars.customizeView = true;
+            $(".custom-insights-control-container").show();
+            $(".tasks-wrp").sortable();
+            $(".tasks-wrp").sortable("option", "disabled", false);
+            $(".tasks-wrp").disableSelection();
+
+            $(".faqs-shadow").addClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+            $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
+
+            $(".image-url-sec").css('display', 'none');
+            $(".faqs-bottom-actions").css('display', 'table');
+
           }
           else {
             _self.vars.customizeView = false;
+
+            $(".custom-insights-control-container").hide();
+            $(".faqs-shadow").removeClass('custom-faqs-shadow');
+            $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+            $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
+
+            $(".tasks-wrp").sortable("disable");
+            $(".image-url-sec").css('display', 'table-cell');
+            $(".faqs-bottom-actions").css('display', 'none');
           }
-          _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+          /*_self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
           _self.handleSearchRes(response);
-          });
+          });*/
         }
         else {
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
@@ -2387,7 +2408,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "streamId": _self.API.streamId,
           "lang": "en",
         }
-        _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+        if (_self.vars.showingMatchedResults == true) {
+          _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+            if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+              var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+              console.log(responseObject);
+              _self.parentEvent(responseObject);
+            }
+
+            $(".custom-insights-control-container").hide();
+
+            _self.prepAllSearchData();
+            _self.bindAllResultsView();
+            _self.bindSearchActionEvents();
+          })
+        }
+        else {
           if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
             var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
             console.log(responseObject);
@@ -2399,7 +2435,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.prepAllSearchData();
           _self.bindAllResultsView();
           _self.bindSearchActionEvents();
-        })
+        }
         // var topMatchFAQ;
         // if(data && data.faqs){
         //   var faqs=data.faqs;
@@ -3277,7 +3313,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').show();
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
-                    var faqs = [], pages = [], tasks = [], facets;
+                    var faqs = [], pages = [], tasks = [], documents = [], facets, viewType = "Preview";
                     if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
@@ -3290,6 +3326,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           faqs.push(result);
                         } else if (result.contentType === "page") {
                           pages.push(result);
+                        } else if (result.contentType === "document") {
+                          documents.push(result);
                         } else if (result.contentType === "task") {
                           tasks.push(result);
                         }
@@ -3299,6 +3337,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         faqs: faqs,
                         pages: pages,
                         tasks: tasks,
+                        documents: documents,
                         facets: facets,
                         originalQuery: res.originalQuery,
                       }
@@ -3307,10 +3346,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         faqs: faqs.slice(0, 2),
                         pages: pages.slice(0, 2),
                         tasks: tasks.slice(0, 2),
+                        documents: documents.slice(0, 2),
                         showAllResults: true,
                         noResults: false,
                         taskPrefix: 'SUGGESTED',
-                        viewType: 'Preview',
+                        viewType: viewType
                       });
                       $(searchData).data(dataObj);
                       $('.search-body').html(searchData);
@@ -3345,16 +3385,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           facets: facets
                         }
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
+                          documents: documents,
                           showAllResults: false,
                           noResults: true,
                           taskPrefix: 'MATCHED',
-                          viewType: 'Preview',
+                          viewType: viewType
                         });
                         $(searchData).data(dataObj);
                         console.log("no results found");
@@ -3368,6 +3410,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       faqs: faqs,
                       pages: pages,
                       tasks: tasks,
+                      documents: documents,
                       facets: facets,
                       originalQuery: res.originalQuery || '',
                     }
