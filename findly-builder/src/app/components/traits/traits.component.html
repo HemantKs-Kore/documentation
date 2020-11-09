@@ -205,7 +205,7 @@
     </perfect-scrollbar>
 
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-primary btn_lg" [disabled]="!traits.addEditTraits.groupName" (click)="saveTraits(traits.addEditTraits)">Save</button>
         <button class="kr-sg-button-secondary btn_lg"  (click)="closeStatusModal()">Cancel</button>
     </div>
 </kr-modal>
