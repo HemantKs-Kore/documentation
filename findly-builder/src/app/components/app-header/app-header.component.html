@@ -5,8 +5,8 @@
                 <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps')">
                 <div class="myappname" *ngIf="appName"><div  container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div></div>
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab" [routerLink]="['/summary']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('summary')">Summary</div>
-                    <div class="headerMenuTab" [routerLink]="['/source']" skipLocationChange  routerLinkActive="active" (click)="analyticsClick('source')">
+                    <div class="headerMenuTab"  skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">Summary</div>
+                    <div class="headerMenuTab" skipLocationChange  routerLinkActive="active" (click)="analyticsClick('/source')">
                        <span >Indices</span>
                        <span routerLink="/content" class="d-none"></span>
                        <span routerLink="/faqs" class="d-none"></span>
@@ -19,10 +19,21 @@
                        <span routerLink="/query" class="d-none"></span>
                        <span routerLink="/attributes" class="d-none"></span>
                        
+                    </div>                    
+                    <div class="kr-sg-dropdowns headerMenuTab">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown" > Analytics</button>                                            
+                            <ul class="dropdown-menu content-menu content-width">                                               
+                              <li (click)="analyticsClick('/dashboard')"><a>Dashboard</a></li>
+                              <li (click)="analyticsClick('/userEngagement')"><a>User Engagement</a></li>
+                              <li (click)="analyticsClick('/searchInsights')"><a>Search Insights</a></li>
+                              <li (click)="analyticsClick('/resultInsights')"><a>Results Insights</a></li>
+                            </ul>
+                          </div>
                     </div>
-                    <div class="headerMenuTab" [routerLink]="['/metrics']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div>
-                    <div class="headerMenuTab" (click)="analyticsClick('experiments')">Experiments</div>
-                    <div class="headerMenuTab" (click)="analyticsClick('settings')">Settings <span class="statusIndicator d-none"></span></div>
+                    <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
+                    <div class="headerMenuTab" >Experiments</div>
+                    <div class="headerMenuTab" (click)="analyticsClick('/settings')">Settings </div>
                 </div>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end"> 

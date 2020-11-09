@@ -3,15 +3,13 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
-import { RouterModule, Router, RouterOutlet, ActivatedRoute } from '@angular/router';
-import { Route } from '@angular/compiler/src/core';
 
 @Component({
-  selector: 'app-metrics',
-  templateUrl: './metrics.component.html',
-  styleUrls: ['./metrics.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class MetricsComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   selectedApp;
   serachIndexId;
   pageLimit = 5;
@@ -60,11 +58,9 @@ export class MetricsComponent implements OnInit {
   slider = 0;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService,
-    private route : ActivatedRoute) { }
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-   console.log(this.route.snapshot.paramMap.get('index') );
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     

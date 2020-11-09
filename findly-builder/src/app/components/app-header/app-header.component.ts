@@ -52,12 +52,22 @@ export class AppHeaderComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService
   ) { }
+  metricsOption(menu){
+    this.analyticsClick(menu)
+    this.router.navigate([menu], { skipLocationChange: true });
+  }
   analyticsClick(menu){
     this.mainMenu = menu;
-    if(menu == 'metrics'){
+    if(menu == '/metrics' || 
+      menu == '/dashboard' || 
+      menu == '/userEngagement' || 
+      menu == '/searchInsights'  || 
+      menu == '/resultInsights') {
       this.showMainMenu = false;
+      this.router.navigate([menu], { skipLocationChange: true });
     }else{
       this.showMainMenu = true;
+      this.router.navigate([menu], { skipLocationChange: true });
     }
     
     this.showMenu.emit(this.showMainMenu)
@@ -114,9 +124,8 @@ export class AppHeaderComponent implements OnInit {
         : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
     this.formatter = (x: {displayName: string}) => (x.displayName || '');
-    if(JSON.parse(localStorage.krPreviousState).route == '/metrics'){
-      this.analyticsClick('metrics');
-    }
+    this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    
    
   }
 
