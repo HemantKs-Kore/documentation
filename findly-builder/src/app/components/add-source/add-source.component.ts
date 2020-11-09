@@ -431,7 +431,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     x.click();
   }
   /** proceed Source API  */
-
+  faqAnotate(payload,endPoint,quaryparms){
+    if (payload.hasOwnProperty('url')) delete payload.url;
+    this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+      this.annotationModal();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Duplicate name, try again!', 'error');
+      }
+    });
+  }
   proceedSource() {
     let payload: any = {};
     const crawler = this.crwalObject;
@@ -447,17 +458,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       quaryparms.faqType = 'document';
       payload.resourceType = 'document';
       payload.fileId = this.fileObj.fileId;
-      if (payload.hasOwnProperty('url')) delete payload.url;
-      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-        this.annotationModal();
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Duplicate name, try again!', 'error');
-        }
-      });
-    } else {
+     this.faqAnotate(payload,endPoint,quaryparms)
+    } else if(!this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq') {
+      quaryparms.faqType = 'document';
+      payload.fileId = this.fileObj.fileId;
+      payload.isNew = true;
+      delete payload.desc;
+      this.faqAnotate(payload,endPoint,quaryparms)
+    }else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
         payload.resourceType = resourceType;
@@ -476,11 +484,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
-        payload = crawler
+        payload = {...crawler};
+        delete payload.resourceType;
+        if(!payload.advanceOpts.scheduleOpt){
+          //delete payload.advanceOpts;
+          payload.advanceOpts = {
+            "scheduleOpt" : false
+          }
+        }
+        quaryparms.resourceType = resourceType;
       }
 
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
+        quaryparms.resourceType = resourceType;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {

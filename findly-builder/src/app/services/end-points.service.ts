@@ -49,7 +49,8 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.source.list'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'get'
     };
     this.serviceList['train.app'] = {
@@ -93,11 +94,14 @@ export class EndPointsService {
       method:'post'
     };
     this.serviceList['add.sourceMaterial']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
       method:'post'
     };
     this.serviceList['add.sourceMaterialFaq']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&extractionSource=:faqType',
+     // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
     this.serviceList['put.EditConfig'] = {

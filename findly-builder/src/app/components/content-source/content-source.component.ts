@@ -169,7 +169,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (this.resources.length) {
         this.resources.forEach(element => {
           this.statusArr.push(element.recentStatus);
-          this.docTypeArr.push(element.type);
+          this.docTypeArr.push(element.extractionType);
         });
         this.statusArr = [...new Set(this.statusArr)]
         this.docTypeArr = [...new Set(this.docTypeArr)]
