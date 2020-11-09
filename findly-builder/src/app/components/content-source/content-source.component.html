@@ -524,7 +524,7 @@
                 <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content">
+                      <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
                           {{page.url || selectedSource.url}}</div>
                         <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
@@ -537,7 +537,7 @@
                       <!-- </div> -->
                     </a>
                   </div>
-                  <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
+                  <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
                     <div class="card_body" style="padding-left: 30px;">
                       <div class="info-content pageTitleContainer">
                         <div class="row m-0 row_content">
@@ -567,7 +567,7 @@
                       </div>
                       <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </perfect-scrollbar>
               <!-- pageination -->

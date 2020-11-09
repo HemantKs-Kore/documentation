@@ -157,6 +157,10 @@ editTraitFroup = function (traitGroup, index) {
   const self = this;
   let payload :any= {};
   const confirm = ()=> {
+    if (!this.traits.addEditTraits.groupName) {
+          this.notificationService.notify('Please add trait group name', 'error');
+          return;
+      }
       if (!this.traits.addEditTraits.traits) {
           this.notificationService.notify('Please add atlease one trait', 'error');
           return;
