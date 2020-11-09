@@ -1,0 +1,182 @@
+<div class="main-settings-container">
+    <div class="header-sec row m-0 col-12">
+        <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
+            <div class="bread-name">Channel</div>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
+            <div class="bread-name active-name">Web/Mobile Client</div>
+        </div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-chanel">
+    <div class="channel-body">
+        <div class="slider-nav"></div>
+        
+            <div class="row m-0 steps" *ngIf="slider==0">
+                <div class="col-3 ">
+                    <div class="box">
+                        <div class="stage">STEP 1</div>
+                        <div class="title">Download FindlyKit SDK</div>
+                        <div class="desc">Download the Kore.ai Findly Kit from our GitHub Repo</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="box">
+                        <div class="stage">STEP 2</div>
+                        <div class="title">Download FindlyKit SDK</div>
+                        <div class="desc">Download the Kore.ai Findly Kit from our GitHub Repo</div>
+                    </div>
+                </div>
+                <div class="col-3 ">
+                    <div class="box">
+                        <div class="stage">STEP 3</div>
+                        <div class="title">Download FindlyKit SDK</div>
+                        <div class="desc">Download the Kore.ai Findly Kit from our GitHub Repo</div>
+                    </div>
+                </div>
+                <div class="col-3 ">
+                    <div class="box">
+                        <div class="stage">STEP 4</div>
+                        <div class="title">Download FindlyKit SDK</div>
+                        <div class="desc">Download the Kore.ai Findly Kit from our GitHub Repo</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0 steps" *ngIf="slider == 1">
+                <div class="sel-title">Select Credential</div>
+                <div class="kr-sg-dropdowns schedule-timZon">
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span class="select-placeholder"> Select or Add Credential</span> </button>                                            
+                        <ul class="dropdown-menu content-menu">  
+                            <li *ngFor ="let channel of channnelConguired.apps" (click) = "selctedChannel(channel)"><a>{{channel.appName}}</a></li>                                              
+                            <li (click) = "newCredential()" style="background: #ddddea;"><a>Add New Credential</a></li>
+                        </ul>
+                      </div>
+                  </div>
+            </div>
+            <div class="" *ngIf="slider == 2">
+                <div class=" row genatreToken pt">
+                    <div class="col-10">
+                        <div class="kr-sg-input-text mb-4">
+                            <div class="label-text">App Name</div>
+                            <input type="text" autocomplete="off" id = "clipAppName" name="appName" disabled 
+                               class="input-text" [value]="listData.appName">
+                        </div>
+                    </div>
+                    <div class="col-2 mt-1r">
+                        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="copy(listData.appName,clipAppName)">Copy</button>        
+                    </div>
+                </div>
+                <div class=" row genatreToken">
+                    <div class="col-10">
+                        <div class="kr-sg-input-text mb-4">
+                            <div class="label-text title">App Id</div>
+                            <input type="text" autocomplete="off" id = "clipAppID" name="appID" disabled 
+                               class="input-text" [value]="listData.accountId">
+                        </div>
+                    </div>
+                    <div class="col-2 mt-1r">
+                        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="copy(listData.accountId,clipAppID)">Copy</button>        
+                    </div>
+                </div>
+                <div class=" row genatreToken">
+                    <div class="col-10">
+                        <div class="kr-sg-input-text mb-4">
+                            <div class="label-text title">Client Id</div>
+                            <input type="text" autocomplete="off" id = "clipClientId" name="clientId" disabled 
+                               class="input-text" [value]="listData.clientId">
+                        </div>
+                    </div>
+                    <div class="col-2 mt-1r">
+                        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="copy(listData.clientId,clipClientId)">Copy</button>        
+                    </div>
+                </div>
+                <div class=" row genatreToken">
+                    <div class="col-10">
+                        <div class="kr-sg-input-text mb-4">
+                            <div class="label-text title">Client Secret ID</div>
+                            <input type="password" autocomplete="off" id = "clipClientSecret" name="clientSecret" disabled   
+                               class="input-text" [value]="listData.clientSecret">
+                        </div>
+                    </div>
+                    <div class="col-2 mt-1r">
+                        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="copy(listData.clientSecret,clipClientSecret)">Copy</button>        
+                    </div>
+                </div>
+                <div class="allow-opt mt-2r">
+                    <div class="row m-0 steps">
+                        <div class="title col-12">Allow alert task Setup</div>
+                        <div class="kr-sg-radiobutton mt-1r">
+                            <input id="radio-1" name="radio" class="radio-custom" type="radio" (click)="radio(true)">
+                            <label for="radio-1" class="radio-custom-label">Yes, lets users setup aert task using the web client</label>
+                        </div> 
+                        <div class="kr-sg-radiobutton mt-1r">
+                            <input id="radio-2" name="radio" class="radio-custom" type="radio" checked (click)="radio(false)">
+                            <label for="radio-2" class="radio-custom-label">No,do not list alert tasks or allow users to setup alert tasks using web client</label>
+                        </div>  
+                    </div>
+                    <div  class= "mt-2r switch steps">
+                        <label class="kr-sg-toggle with-label large">                                       
+                            <input type="checkbox" [(ngModel)] = "channelEnabled">
+                            <div class="slider"></div>
+                        </label>
+                        <span class="label_text">channel Enabled</span>
+                    </div>
+                </div>
+                
+            </div>
+        
+    </div>
+    <div class="modal-footer text-left">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="cancel()">Cancel</button>
+        <button type="button" class="kr-sg-button-primary btn_lg mr-0 float-right" (click)="continue()"> {{slider == 2 ? 'Save' : 'Continue'}}</button>        
+    </div> 
+</perfect-scrollbar>
+</div>
+
+<kr-modal modalType="center" #addCredential modalClass="modal_popups_ view-query-modal">
+    <div class="modal-header">
+      <span> Add Credential</span>
+      <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <!-- <perfect-scrollbar class="perfect-scroll-modal-body"> -->
+      <div class="modal-body">
+        <div class="kr-sg-input-text mb-4">
+            <div class="label-text">Credential Name</div>
+            <input type="text" autocomplete="off" name="credname"  placeholder="Enter Name"
+              [(ngModel)]="credntial.name" class="input-text">
+        </div>
+        <div class="kr-sg-checkbox d-block p-0">
+            <input id="checkbox_1" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.anonymus">
+            <label for="checkbox_1" class="checkbox-custom-label">Allow anonymous users to chat with bot</label>
+        </div>
+        <div class="kr-sg-checkbox d-block p-0">
+            <input id="checkbox_2" class="checkbox-custom" type="checkbox" [(ngModel)]="credntial.register">
+            <label for="checkbox_2" class="checkbox-custom-label">Auto register new user Kore.ai Bots Platform</label>
+        </div>
+        <hr>
+
+        <div class="label-text">JWT Signing Algorithm Used For Client App Authentication</div>
+        <div class="kr-sg-dropdowns">
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span class="select-placeholder"> {{credntial.awt}}</span> </button>                                            
+                <ul class="dropdown-menu content-menu">                                               
+                  <li (click) = "jwtAuth('RS256')"><a>RS256</a></li>
+                  <li (click) = "jwtAuth('HS256')"><a>HS256</a></li>
+                </ul>
+              </div>
+          </div>
+          <div class="switch-push-check">
+            <label class="kr-sg-toggle with-label large">                                       
+                <input type="checkbox" [(ngModel)]="credntial.enabled">
+                <div class="slider"></div>
+            </label>
+            <span class="label_text">Push Notification Enabled</span>
+          </div>
+          
+                                
+      </div>
+    <!-- </perfect-scrollbar> -->
+    <div class="modal-footer">
+        <button class="kr-sg-button-primary btn_lg" (click)="saveCredential()">Add</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Cancel</button>
+    </div>
+  </kr-modal> 

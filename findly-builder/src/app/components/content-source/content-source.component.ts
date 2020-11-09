@@ -689,7 +689,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
 
 
-      this.getSourceList();
+      //this.getSourceList();
   }
   transform(date: string): any {
     const _date = new Date(date);

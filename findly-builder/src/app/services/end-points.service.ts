@@ -512,6 +512,27 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/logs?subject=rules',
       method: 'get'
     }
-     /** APIs for Business rules */
+    /** APIs for Business rules */
+
+    /** APIs for Channels */
+    this.serviceList['get.marketStream'] = {
+      endpoint: this.API_SERVER_URL + '/market/streams',
+      method: 'get'
+    }
+    this.serviceList['get.credential'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps',
+      method: 'get'
+    }
+    this.serviceList['create.createCredential'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps',
+      method: 'post'
+    }
+    this.serviceList['configure.credential'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
+      method: 'post'
+    }
+
+  /** APIs for Channels */
+     
   }
 }

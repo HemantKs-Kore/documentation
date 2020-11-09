@@ -77,7 +77,7 @@
     "multipartite_rank":"Multipartite Rank",
     "name_caps":"NAME",
     "or_caps":"OR",
-    "and_caps":"OR",
+    "and_caps":"AND",
     "search":"Search",
     "businessRules":{
         "rules_selected":"Rules Selected",
@@ -95,9 +95,9 @@
         "add_condition":"Add Condition",
         "user_context":"User Context",
         "condition":"Condition",
-        "containes":"Containes",
+        "contains":"Contains",
         "equals":"Equals",
-        "doesNotContains":"Does Not Contain",
+        "doesNotContain":"Does Not Contains",
         "notEquals":"Not Equals",
         "recentSearches":"Reacent Searches",
         "currentSearch":"Current Search",
@@ -120,9 +120,14 @@
         "lower":"Lower",
         "hide":"Hide",
         "filter":"Filter",
+        "actionboost":"Boosting",
+        "actionlower":"Lowering",
+        "actionhide":"Hideing",
+        "actionfilter":"Filtering",
         "searchContext":"Search Context",
         "pageContext":"Page Context",
         "userContext":"User Context",
-        "boostResults":"Boosting Results by"
+        "boostResults":"Boosting Results by",
+        "lowerResults":"Lowering Results by"
     }
 }

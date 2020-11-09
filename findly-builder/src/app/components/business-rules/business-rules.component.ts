@@ -13,6 +13,7 @@ import { relativeTimeRounding } from 'moment';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map } from 'rxjs/operators';
+import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -24,13 +25,21 @@ export class BusinessRulesComponent implements OnInit {
   selectedApp;
   serachIndexId;
   indexPipelineId;
+  currentEditInex;
   rules = [];
+  selectedSort;
+  isAsc;
   loadingContent = true;
   selcectionObj: any = {
     selectAll: false,
     selectedItems:[],
   };
-  conditions =['containes','doesNotContain','equals','notEquals']
+  sortObj:any = {
+
+  }
+  showSearch = false;
+  searchRules = '';
+  conditions =['contains','doesNotContain','equals','notEquals']
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
     pageContext:['device', 'browser', 'currentPage' , 'recentlyPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
@@ -69,13 +78,15 @@ export class BusinessRulesComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sortPipe: SortPipe
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getRules();
+    this.getFieldAutoComplete(null,null);
   }
   createNewRule(){
     this.addEditRuleObj = {
@@ -166,6 +177,12 @@ export class BusinessRulesComponent implements OnInit {
     }
     return _verifiedRules;
   }
+  removeRule(index){
+    this.rulesArrayforAddEdit.splice(index,1);
+  }
+  removeOutcome(index){
+    this.outcomeArrayforAddEdit.splice(index,1);
+  }
   addRules(event: MatChipInputEvent,ruleObj,i){
     const input = event.input;
     const value = event.value;
@@ -209,6 +226,11 @@ export class BusinessRulesComponent implements OnInit {
       this.suggestedInput.nativeElement.value = '';
       this.fieldAutoSuggestion = [];
   }
+  selectField(data, outcomeObj) {
+    outcomeObj.fieldDataType = data.fieldDataType
+    outcomeObj.fieldName= data.fieldName
+    this.fieldAutoSuggestion = [];
+}
   checkDuplicateTags(suggestion: string,alltTags): boolean {
     return  alltTags.every((f) => f !== suggestion);
   }
@@ -290,8 +312,16 @@ export class BusinessRulesComponent implements OnInit {
     const payload:any ={
       ruleName: this.addEditRuleObj.ruleName,
       isRuleActive: this.addEditRuleObj.isRuleActive,
-      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
-      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+      rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
+      outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
+   }
+   if(!payload.rules.length){
+    this.errorToaster(null,'Atleast one condition is required');
+    return;
+   }
+   if(!payload.outcomes.length){
+    this.errorToaster(null,'Atleast one outcome is required');
+    return;
    }
     this.service.invoke('create.businessRules', quaryparms,payload).subscribe(res => {
       this.rules.push(res);
@@ -302,10 +332,10 @@ export class BusinessRulesComponent implements OnInit {
     });
   }
   getFieldAutoComplete(event,outcomeObj){
-    if(outcomeObj.fieldName){
-     return;
+    let query:any = '';
+    if(event){
+      query  = $(event.currentTarget).val();
     }
-    let query  = $(event.currentTarget).val();
     if (/^\d+$/.test(query)) {
       query = query.parseInt();
     }
@@ -351,13 +381,20 @@ export class BusinessRulesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       ruleId:rule._id,
-      limit:100
     };
     const payload:any ={
       ruleName: this.addEditRuleObj.ruleName,
       isRuleActive: this.addEditRuleObj.isRuleActive,
       rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit),
       outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit)
+   }
+   if(!payload.rules.length){
+    this.errorToaster(null,'Atleast one condition is required');
+    return;
+   }
+   if(!payload.outcomes.length){
+    this.errorToaster(null,'Atleast one outcome is required');
+    return;
    }
     this.service.invoke('update.businessRule', quaryparms,payload).subscribe(res => {
       const editRule = _.findIndex(this.rules, (pg) => {
@@ -461,6 +498,36 @@ export class BusinessRulesComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes,'Failed to delete rule');
     });
+  }
+  toggleSearch(){
+    if(this.showSearch && this.searchRules){
+      this.searchRules = '';
+    }
+    this.showSearch = !this.showSearch
+    if (this.showSearch) {
+      $('#searchInput').focus();
+    }
+  };
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.rules.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'ruleName': return this.compare(a.ruleName, b.ruleName, isAsc);
+        case 'isRuleActive': return this.compare(a.isRuleActive, b.isRuleActive, isAsc);
+        default: return 0;
+      }
+    });
+    this.rules = sortedData;
   }
   errorToaster(errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {

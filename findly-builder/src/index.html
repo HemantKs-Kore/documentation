@@ -13,21 +13,34 @@
   <app-root></app-root>
 </body>
 
-<script src="assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js" type="text/javascript"></script>
+
+    <script src="assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/libs/uuid.min.js"></script>
     <script src="assets/web-kore-sdk/demo/libs/jquery.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/demo/libs/jquery-ui.min.js" type="text/javascript"></script>
     <link href="assets/web-kore-sdk/demo/libs/jquery-ui.min.css" rel="stylesheet"></link>
-    <script src="assets/web-kore-sdk/demo/libs/moment.js" type="text/javascript"></script>
+    <script src="assets/web-kore-sdk/kore-bot-sdk-client.js"></script>
+    <script src="assets/web-kore-sdk/demo/findly/findly-sdk.js" type="text/javascript"></script><!--findly sdk file-->
+    <link href="assets/web-kore-sdk/demo/findly/findly-sdk.css" rel="stylesheet"></link><!--findly sdk css file-->
+    <link href="assets/web-kore-sdk/demo/findly/findly-demo.css" rel="stylesheet"></link><!--findly sdk demo file-->
+    
+
+    <script src="assets/web-kore-sdk/demo/findly/findly-config.js" type="text/javascript"></script>
+    <!-- <script src="assets/web-kore-sdk/demo/findly/findly-main.js" type="text/javascript"></script> -->
+    <script src="assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js" type="text/javascript"></script>
+
+    <!-- style -->
+    
+    <!-- <script src="assets/web-kore-sdk/demo/libs/moment.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/libs/lodash.min.js"></script>
     <script src="assets/web-kore-sdk/libs/d3.v4.min.js"></script>
     <script src="assets/web-kore-sdk/libs/KoreGraphAdapter.js" type="text/javascript"></script>
     <script src='assets/web-kore-sdk/libs/anonymousassertion.js'></script>
     <script src="assets/web-kore-sdk/kore-bot-sdk-client.js"></script>
-    <script src="assets/web-kore-sdk/libs/perfect-scrollbar.js" type="text/javascript"></script>
-    <script src="assets/web-kore-sdk/demo/kore-widgets.js" type="text/javascript"></script><!--widget sdk file-->
-    <script src="assets/web-kore-sdk/demo/chatWindow.js" type="text/javascript"></script>
+    <script src="assets/web-kore-sdk/libs/perfect-scrollbar.js" type="text/javascript"></script> -->
+    <!-- <script src="assets/web-kore-sdk/demo/kore-widgets.js" type="text/javascript"></script> widget sdk file -->
+    <!-- <script src="assets/web-kore-sdk/demo/chatWindow.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/demo/libs/jquery.daterangepicker.js" type="text/javascript"></script>
 		<link href="assets/web-kore-sdk/demo/libs/daterangepicker.css" rel="stylesheet"></link>
 		<script src="assets/web-kore-sdk/demo/libs/jquery-clockpicker.js" type="text/javascript"></script>
@@ -36,29 +49,21 @@
 		<script src="assets/web-kore-sdk/libs/kore-pickers.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/libs/emoji.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/libs/recorder.js" type="text/javascript"></script>
-    <script src="assets/web-kore-sdk/libs/recorderWorker.js" type="text/javascript"></script>
-    <link href="assets/web-kore-sdk/demo/kore-widgets.css" rel="stylesheet"></link><!--widget sdk file-->
-    <link href="assets/web-kore-sdk/demo/chatWindow.css" rel="stylesheet"></link>
+    <script src="assets/web-kore-sdk/libs/recorderWorker.js" type="text/javascript"></script> -->
+    <!-- <link href="assets/web-kore-sdk/demo/kore-widgets.css" rel="stylesheet"></link>widget sdk file -->
+    <!-- <link href="assets/web-kore-sdk/demo/chatWindow.css" rel="stylesheet"></link>
     <link href="assets/web-kore-sdk/libs/emojione.sprites.css" rel="stylesheet"></link>
     <link href="assets/web-kore-sdk/libs/purejscarousel.css" rel="stylesheet"></link>
     <link href="assets/web-kore-sdk/libs/prefect-scrollbar.css" rel="stylesheet"></link>
     <script src="assets/web-kore-sdk/libs/purejscarousel.js" type="text/javascript"></script>
     <script src="assets/web-kore-sdk/demo/custom/customTemplate.js" type="text/javascript"></script>
-    <link href="assets/web-kore-sdk/demo/custom/customTemplate.css" rel="stylesheet"></link>
+    <link href="assets/web-kore-sdk/demo/custom/customTemplate.css" rel="stylesheet"></link> -->
+    
+    <!-- <script src="assets/web-kore-sdk/libs/ie11CustomProperties.js"></script> -->
+    <!-- <script src="assets/web-kore-sdk/demo/kore-config.js" type="text/javascript"></script> -->
+    <!-- <script src="assets/web-kore-sdk/demo/kore-widgets-config.js" type="text/javascript"></script> -->
+    <!-- <script src="assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js" type="text/javascript"></script> -->
+
     <link href="assets/web-kore-sdk/demo/custom/customFindly.css" rel="stylesheet"></link>
-    <script src="assets/web-kore-sdk/libs/ie11CustomProperties.js"></script>
-    <!-- <script type="text/javascript" src="libs/loader.js"></script>  -->
-
-    <!-- Uncomment these lines for Google Speech. -->
-    <!-- <script type="text/javascript" src="../libs/speech/app.js"></script>
-		<script type="text/javascript" src="../libs/speech/key.js"></script>
-        <script type="text/javascript" src="../libs/client_api.js"></script> -->
-        
-    <script src="assets/web-kore-sdk/demo/kore-config.js" type="text/javascript"></script>
-    <script src="assets/web-kore-sdk/demo/kore-widgets-config.js" type="text/javascript"></script>
-    <!-- <script src="assets/web-kore-sdk/demo/kore-widgets-chat-main.js" type="text/javascript"></script> -->
-    <script src="assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js" type="text/javascript"></script>
-
-
-
+    <!-- style-->
 </html>

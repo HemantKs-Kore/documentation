@@ -108,10 +108,20 @@ export class AppsListingComponent implements OnInit {
         this.closeCreateApp();
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
+        this.callStream();
       },
       errRes => {
         this.errorToaster(errRes,'Error in creating app');
         self.creatingInProgress = false;
+      }
+    );
+  }
+  callStream(){
+    this.service.invoke('get.credential').subscribe(
+      res => {
+      },
+      errRes => {
+        this.errorToaster(errRes,'Error in creating app');
       }
     );
   }

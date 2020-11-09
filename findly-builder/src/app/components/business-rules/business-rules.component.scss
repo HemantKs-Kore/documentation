@@ -1,4 +1,4 @@
-
+@import './../../../app/scss/variables/variables.scss';
 .business-rules-wrapper{
     height: calc(100vh - 61px);
     .header-sec{
@@ -59,7 +59,13 @@
             .kr-sg-input-search{
                 width: 300px;
                 right: 10px;
+                width: 0px;
+                display: none; 
                 position: relative;
+                &.active{
+                    display: block;
+                    width: 300px;
+                }
             }
             .seach-block{
                 color: #202124;
@@ -97,6 +103,53 @@
             }
         }
     }
+    .mainLoadingSpinner{
+        position: absolute;
+        background:  transparent;
+        width: 223px;
+        height: 40px;
+        padding-top: 10px;
+        border-radius: 4px;
+        opacity: 0.95;
+        padding-left: 5px;
+        width: 100%;
+        .please-wait-message {
+            position: relative;
+            color: #29293b;
+            top: -16px;
+            left: 25px;
+            font-size: 12px;
+        }  
+    }
+    .empty-rules{
+        width: 320px;
+        margin: 0 auto;
+        // height: calc(100% - 60px);
+        text-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;                       
+        -webkit-box-pack: center;                       
+        -ms-flex-pack: center;                       
+        justify-content: center;   
+        height: calc(100vh - 225px);
+        img{
+            width: 75%;
+            margin: 0 auto;
+        }     
+        .heading{
+            margin: 18px 0 8px 0;
+            color: $primaryColor;
+        }
+        .desc{
+            color: $secondaryColor;
+            font-size: 14px;
+        }
+    }
     .table_section{
         padding: 0 0 0 24px;
         .header_sec{
@@ -104,6 +157,9 @@
             padding: 16px 0;
             box-shadow: inset 0px -1px 0px #E4E5E7;
             margin-right: 24px !important;
+            .upArrow {
+                transform: rotate(180deg) !important;
+            }
             .content {
                 color: #9AA0A6;
                 font-weight: 500;
@@ -291,6 +347,9 @@
             }
         }
     }
+}
+.activeDrop{
+    z-index: 9999999 !important;
 }
 ::ng-deep perfect-scrollbar .ps--active-y{
     .ps__thumb-y{
