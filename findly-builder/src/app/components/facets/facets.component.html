@@ -82,7 +82,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup"  #facetModalPouup>   
     <div class="modal-header">
-        <div class="title">Add Facet</div>
+        <div class="title">{{(addEditFacetObj && addEditFacetObj._id)?'Edit Facet':'Add Facet'}}</div>
         <div class="close_icon"><img (click)="closeModal()" src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -199,5 +199,6 @@
     <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldName === selectedField.fieldName)'>          
         <button type="button" class="kr-sg-button-primary btn_lg float-right"  [disabled]='!selectedField || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldName !== selectedField.fieldName))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">Cancel</button>
+        <button type="button" *ngIf="addEditFacetObj && addEditFacetObj._id" class="kr-sg-button-danger btn_lg float-left" (click)="deleteFacets(addEditFacetObj)">Delete</button>
     </div>    
 </kr-modal>

@@ -1383,7 +1383,10 @@ div.divBlockEmptylastChild:first-child {
 .cursor-pointer{
     cursor: pointer !important;
 }
-
+/* Aligining the serach bubble to little right in business app*/
+.start-search-icon-div{
+    right: 15px !important;
+}
 .metrics_tooltips{
     margin-left: 12px;
     .arrow{

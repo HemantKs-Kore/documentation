@@ -77,15 +77,15 @@
                 <div class="col-3 content">
                     <ng-container *ngFor="let outcome of ruleObj.outcomes">
                         <span class="tags-input mr-1 mb-1"><span *ngIf="(outcome.outcomeType==='boost') || (outcome.outcomeType==='lower')">{{outcome.scale}}x </span>{{'businessRules.action'+ outcome.outcomeType | translate }}</span>
-                        <span class="outer-name mr-1 mb-1">{{outcome.outcomeOperator}}</span>
-                        <span class="tags-input mr-1 mb-1">{{outcome.outcomeType}}: 
+                        <span class="outer-name mr-1 mb-1">{{'businessRules.'+ outcome.outcomeOperator | translate}}</span>
+                        <span class="tags-input mr-1 mb-1">{{'businessRules.'+ outcome.outcomeType | translate}}: 
                             <span *ngFor="let value of outcome.outcomeValue; let valueIndex = index">{{value}} <span *ngIf="valueIndex < (outcome.outcomeValue.length-1)" class="divider mr-1 mb-1">{{'or_caps' | translate}}</span></span>
                         </span>
                     </ng-container>
                 </div>
                 <div class="col-3 content actions">
-                   <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{'active' | translate}}</span>
-                   <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'In-Active' | translate}}</span>
+                   <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{'businessRules.active' | translate}}</span>
+                   <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'businessRules.In-Active' | translate}}</span>
                    <div class="actions-icons">
                        <img src="assets/images/edit-pencil.svg" (click)='editRule(ruleObj)'>
                        <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj,ruleIndex)">
@@ -137,7 +137,7 @@
                                 <div class="col-10 pr-0">
                                     <div class="kr-sg-dropdowns w-auto">                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)='currentEditInex = null'>{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
                                             <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
                                             </ul>
@@ -177,8 +177,8 @@
                                                 </div>                             
                                             </mat-chip> 
                                         </ng-container>
-                                        <ng-container *ngFor="let value of ruleObj.value">
-                                            <mat-chip  [selectable]="selectable" [removable]="removable"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                            <mat-chip  [selectable]="selectable" (removed)="removeTag(ruleObj.value,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
                                                     <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                             </mat-chip> 
                                         </ng-container>
@@ -216,7 +216,7 @@
                                 <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
                                     <div class="kr-sg-dropdowns col-4 pl-0">                           
                                         <div class="dropdown dropdown-open">
-                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{'businessRules.' + outcomeObj.outcomeType | translate}}</button>                                            
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)='currentEditInex = null'>{{'businessRules.' + outcomeObj.outcomeType | translate}}</button>                                            
                                             <ul class="dropdown-menu content-menu">                                                                          
                                             <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{'businessRules.' + outcomeType | translate}}</a></li>
                                             </ul>
@@ -270,14 +270,13 @@
                                                 </div>  
                                             </mat-chip> 
                                         </ng-container>
-                                        <ng-container *ngFor="let value of outcomeObj.outcomeValue">
-                                            <mat-chip   [selectable]="selectable" [removable]="removable"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                        <ng-container *ngFor="let value of outcomeObj.outcomeValue; let index = index">
+                                            <mat-chip   [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
                                                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                                             </mat-chip> 
                                         </ng-container>
                                         <input [placeholder]="outcomeObj.fieldName?'Type and Press Enter':'Type and select field'"
                                                 [matChipInputFor]="chipList"
-                                                [matAutocomplete]="suggestedItems"
                                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                 (matChipInputTokenEnd)="addOutcome($event,outcomeObj,i)"  #suggestedInput>
                                         </mat-chip-list>
