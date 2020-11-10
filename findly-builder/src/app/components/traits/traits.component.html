@@ -111,13 +111,13 @@
                                 <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>
                             </span>
                         </div>
-                        <div class="col_ col-1 text-right">
-                            <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'"
+                          <div class="col_ col-1 text-right">
+                            <div class="kr-sg-dropdowns" #traitEdit="ngbDropdown" ngbDropdown [container]="'body'"
                                 [placement]="'bottom-right'">
                                 <div class="dropdown dropdown-open">
                                 <img class="cursor-pointer" ngbDropdownToggle src="assets/icons/elipse.svg">
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                     <li (click)="editTraitFroup(traitGroup)" ><span class="list-name">Edit</span></li>
+                                     <li (click)="traitEdit.close();editTraitFroup(traitGroup)" ><span class="list-name">Edit</span></li>
                                      <li (click)="deleteTraitsGroup(index,traitGroup,$event)"><span class="list-name">Delete</span></li>
                                 </ul>
                                 </div> 

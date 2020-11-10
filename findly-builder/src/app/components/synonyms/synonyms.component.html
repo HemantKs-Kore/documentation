@@ -2,7 +2,7 @@
 <div class="contentContainer">
   <div class="mainLoadingSpinner" *ngIf="loadingContent" >
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <span class="please-wait-message">Please Wait!</span>
+    <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
   </div>
   <div class="table-list-content">
       <div class="kr-sg-data-table" *ngIf="!loadingContent">
@@ -13,29 +13,29 @@
             <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg">
           </div> 
           <div class="left-btns">
-            <button id="addNewSynonymBtn" (click)='enableAddNewSynonymBtn()' class="kr-sg-button-primary btn_lg mr-0"><img src="assets/icons/plus-white.svg" class="mr-2" >Add Synonym</button>
+            <button id="addNewSynonymBtn" (click)='enableAddNewSynonymBtn()' class="kr-sg-button-primary btn_lg mr-0"><img src="assets/icons/plus-white.svg" class="mr-2" >{{'synonyms.adding_a_synonym' | translate }}</button>
           </div>
         </div>                       
       </div>        
   </div>
   <div class="add-synonyms-inputs" *ngIf="!loadingContent && newSynonymObj.addNew">
     <div class="input-group-items">
-      <div class="heading-title">Add Synonym</div>
+      <div class="heading-title">{{'synonyms.adding_a_synonym' | translate }}</div>
       <div class="synonymTypeBlock">
         <div class="group-radiobutton">
           <div class="kr-sg-radiobutton">
               <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom" [(ngModel)]="newSynonymObj.type" type="radio">
-              <label for="buttonIdSynonyms" class="radio-custom-label">Synonyms</label>
+              <label for="buttonIdSynonyms" class="radio-custom-label">{{'synonyms.synonyms'| translate}}</label>
           </div>
           <div class="kr-sg-radiobutton">
               <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType" [(ngModel)]="newSynonymObj.type" class="radio-custom" type="radio">
-              <label for="buttonIdOneWaySynonyms" class="radio-custom-label">One-Way Synonym</label>
+              <label for="buttonIdOneWaySynonyms" class="radio-custom-label">{{'synonyms.one_way_synonym' | translate}}</label>
           </div>
        </div> 
       </div>
       <div class="keyword row m-0" *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="kr-sg-input-text">
-          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="newSynonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Query" required class="input-text">
+          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="newSynonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
         </div>
       </div>
       <div class="tags row m-0">
@@ -52,8 +52,8 @@
      </div>
      <div class="saveCacleSynBlock row m-0">
        <div class="float-right">
-        <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddSynonyms()">Cancel</button>
-        <button class="kr-sg-button-primary btn_lg" [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))" (click)="addNewSynonyms(synonymObj)">Save</button>
+        <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddSynonyms()">{{'synonyms.cancel_it' | translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" [disabled]="!newSynonymObj || (newSynonymObj.values && !newSynonymObj.values.length) || ((newSynonymObj.type === 'oneWaySynonym') && (!newSynonymObj.keyword))" (click)="addNewSynonyms(synonymObj)">{{'synonyms.save' | translate}}</button>
 
        </div>
     </div>
@@ -63,21 +63,21 @@
   <perfect-scrollbar class="table-scroll-perfect-synonyms" [ngClass]="{newRecoredActive: newSynonymObj.addNew}">
     <div class="empty-questions-selected"  *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
       <img src="assets/images/icons/empty_ill.svg">
-      <div class="heading">No Synonyms Available</div>
-      <div class="desc">Please add Synonyms</div>      
+      <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
+      <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div>      
     </div>
       <div class="kr-sg-data-table" *ngIf="(synonymData && synonymData.length) && !loadingContent">
         <section class="table-content">
             <header class="table-header" >
-                <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">TERMS</div>
-                <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">TYPE
+                <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}</div>
+                <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.type'| translate}}
                   <span class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-center'">                                        
                     <div class="dropdown dropdown-open">
                       <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>                                            
                       <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
-                        <li (click)="selectFilter(null)">All<img *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
-                       <li (click)="selectFilter('oneWaySynonym')">One-way Synonym<img class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
-                       <li (click)="selectFilter('synonym')">Synonym<img class="pl-2" *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>		
+                        <li (click)="selectFilter(null)">{{'synonyms.all'| translate}}<img *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
+                       <li (click)="selectFilter('oneWaySynonym')">{{'synonyms.one_way_synonym' | translate}}<img class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
+                       <li (click)="selectFilter('synonym')">{{'synonyms.synonym'| translate}}<img class="pl-2" *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>		
                       </ul>
                     </div>
                   </span>
@@ -88,22 +88,22 @@
                 <div *ngIf="currentEditIndex === i" class="w-100">
                   <div class="add-synonyms-inputs ml-0 mr-0 mb-2">
                     <div class="input-group-items">
-                      <div class="heading-title">Add Synonym</div>
+                      <div class="heading-title">{{'synonyms.edit_synonym'| translate}}</div>
                       <div class="synonymTypeBlock">
                         <div class="group-radiobutton">
                           <div class="kr-sg-radiobutton">
                               <input id="buttonIdSynonyms" value="synonym" name="synonymType" class="radio-custom" [(ngModel)]="synonym.type" [checked]="!synonym.keyword" type="radio">
-                              <label for="buttonIdSynonyms" class="radio-custom-label">Synonyms</label>
+                              <label for="buttonIdSynonyms" class="radio-custom-label">{{'synonyms.synonyms'| translate}}</label>
                           </div>
                           <div class="kr-sg-radiobutton">
                               <input id="buttonIdOneWaySynonyms" value="oneWaySynonym" name="synonymType" [(ngModel)]="synonym.type" [checked]="synonym.keyword" class="radio-custom" type="radio">
-                              <label for="buttonIdOneWaySynonyms" class="radio-custom-label">One-Way Synonym</label>
+                              <label for="buttonIdOneWaySynonyms" class="radio-custom-label">{{'synonyms.one_way_synonym' | translate}}</label>
                           </div>
                        </div> 
                       </div>
                       <div class="keyword row m-0" *ngIf="synonym.type==='oneWaySynonym'">
                         <div class="kr-sg-input-text">
-                          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="synonym.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Query" required class="input-text">
+                          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="synonym.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
                         </div>
                       </div>
                       <div class="tags row m-0">
@@ -124,8 +124,8 @@
                      </div>
                      <div class="saveCacleSynBlock row m-0">
                       <div class="float-right">
-                        <button class="kr-sg-button-primary btn_lg" (click)="updateSynonm(synonym,synonym._id,i)">Save</button>
-                      <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddEdit()">Cancel</button>
+                        <button class="kr-sg-button-primary btn_lg" (click)="updateSynonm(synonym,synonym._id,i)">{{'synonyms.save' | translate}}</button>
+                      <button class="kr-sg-button-secondary btn_lg" (click)="cancleAddEdit()">{{'synonyms.cancel_it' | translate}}</button>
                       </div>
                    </div>
                     </div>
@@ -144,8 +144,8 @@
                   </span>
                 </div>
                 <div class="col-4 data_content">
-                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">One-way Synonym</span>
-                  <span *ngIf="!(synonym.type === 'oneWaySynonym')" class="title_data">Synonym</span>
+                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">{{'synonyms.one_way_synonym'| translate}</span>
+                  <span *ngIf="!(synonym.type === 'oneWaySynonym')" class="title_data">{{'synonyms.synonym'| translate}}</span>
                   <span class="float-right action-links">
                     <span class="actions-links mr-3" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip='Edit' [container]='"body"'><img class="action_icon"  src="assets/images/edit-pencil.svg"></span>
                      <span class="actions-links" (click) = "deleteSynonym(synonym,$event,i)" ngbTooltip='Delete' [container]='"body"'><img class="action_icon" src="assets/icons/delete-table.svg"></span>                  
@@ -154,7 +154,7 @@
                </ng-container>
               </div>
               <div class="divBlockEmptylastChild text-center">         
-                <div class="desc">No search results found</div>
+                <div class="desc">{{'synonyms.Searched_results_are_not_found'| translate}}</div>
               </div>
             </div>
         </section>                               

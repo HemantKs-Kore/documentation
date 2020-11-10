@@ -1,7 +1,7 @@
 <div class="faqmain-container">
     <div class="mainLoadingSpinner" *ngIf="loadingContent" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">Please Wait!</span>
+        <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
     <div *ngIf="!loadingContent">
         <div class="faqsListContainer">
@@ -69,7 +69,7 @@
                                         </div> 
                                     </div>
                                     <div *ngIf="!customizeList" class="empty-questions-selected divBlockEmptylastChild">
-                                        <div class="heading">No search results</div>
+                                        <div class="heading">{{'resultRanking.no_search_results' | translate}}</div>
                                     </div>
                                 </div>
                                </ng-container>
@@ -90,11 +90,11 @@
                             <div class="header-info-que">
                                 <div class="row m-0 col-12 p-0">
                                     <div class="col-4 p-0 lef-info">
-                                        <div class="approved_title">NO. OF CUSTOMISATIONS</div>
+                                        <div class="approved_title">{{'resultRanking.no._of_customizations_caps' | translate}}</div>
                                         <div class="approved_date"><span class="time">{{selectedRecord.numberOfCustomisations}}</span></div>
                                     </div>
                                     <div class="col-4 p-0 lef-info">
-                                        <div class="approved_title">LAST CHANGES</div>
+                                        <div class="approved_title">{{'resultRanking.last_changes_caps' | translate}}</div>
                                         <div class="approved_date"><span class="time">26 Oct,2020</span></div>
                                     </div>
                                     <div class="col-4 p-0 actions-sec">
@@ -115,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-end">
-                                            <button class="kr-sg-button-secondary btn_lg text-danger pl-2 pr-2" (click) = "restore(selectedRecord)"> <span><img src="assets/icons/restore.svg"></span> Restore </button>
+                                            <button class="kr-sg-button-secondary btn_lg text-danger pl-2 pr-2" (click) = "restore(selectedRecord)"> <span><img src="assets/icons/restore.svg"></span> {{'resultRanking.restore' | translate}} </button>
                                         </div>
                                     </div>
                                     <!-- <perfect-scrollbar class="perfect-scroll-result-rank">
@@ -172,7 +172,7 @@
                                                  <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>  
                                                 <div class="action-header pl-pr-0  col-lg-2" >
                                                     <img src="assets/icons/help.svg" class="ml-1"> 
-                                                    <span class="status" >pinned</span> 
+                                                    <span class="status" >{{'resultRanking.pinned' | translate}}</span> 
                                                 </div> 
                                                 <div class="time col-lg-2" id="displayTime">{{time}}
                                                 </div> 
@@ -186,7 +186,7 @@
                                             <!-- <button class="btn-rem">Remove</button> -->
                                             <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
                                                <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
-                                               <span class="arr-txt">PAST ACTION ON THIS ITEM</span>
+                                               <span class="arr-txt">{{'resultRanking.past_action_on_this_item_caps' | translate}}</span>
                                             </div>
                                             <div  *ngIf="actLog.drop" >
                                                 <div class="drop-list"*ngFor="let log of actLog.logs">
@@ -214,8 +214,8 @@
             </div>
             <div class="empty_log d-none">
                 <img src="assets/icons/empty-log.svg">
-                <div class="main-title">Nothing in log to display</div>
-                <div class="desc">Go ahead and make some changes.</div>
+                <div class="main-title">{{'resultRanking.nothing_in_log_to_display' | translate}}</div>
+                <div class="desc">{{'resultRanking.go_ahead_and_make_some_changes.' | translate}}</div>
             </div>
 
             <!-- dummy logs -->

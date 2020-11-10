@@ -482,7 +482,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.rankingActionLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/logs?limit=20&skip=0',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/logs?subject=rankingAndPinning&queryPipelineId=:queryPipelineId&rankingAndPinning=:rankingAndPinningId&limit=20&skip=0',
       method: 'get'
     }
     this.serviceList['get.customisationLogs'] = {
