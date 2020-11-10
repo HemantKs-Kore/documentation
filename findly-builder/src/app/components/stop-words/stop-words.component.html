@@ -1,40 +1,40 @@
 <div class="contentContainer">
     <div class="mainLoadingSpinner" *ngIf="loadingContent" >
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-      <span class="please-wait-message">Please Wait!</span>
+      <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <div class="header-sec-stopwords">
-      <div class="title">Stop Words</div>
+      <div class="title">{{'stopWords.stop_words'| translate}}</div>
       <div class="toggle_switch">
         <label class="kr-sg-toggle">                                       
           <input type="checkbox" (change)="enableStopWords($event)" checked [(ngModel)]="enabled">
-          <div class="slider"><span class="enabled">Enable Stop Word Removal</span><span class="disabled">Stop Word Removal Disabled</span></div>
+          <div class="slider"><span class="enabled">{{'stopWords.enable_stop_word_removal'| translate}}</span><span class="disabled">{{'stopWords.stop_word_removal_disabled'| translate}}</span></div>
         </label>
       </div>     
     </div>    
     <div *ngIf="!loadingContent" class="stop-words-wrapper">
       <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
-        <div class="label_text col-12 p-0">Add Stop Word</div>
+        <div class="label_text col-12 p-0">{{'stopWords.add_stop_word'| translate}}</div>
         <div class="kr-sg-input-text">
             <input type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add multiple words with comma seperation" class="input-text" [(ngModel)]="newStopWord">
-            <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">Stop word already added</div>
-            <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">Stop word should not have space in between</div>
+            <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords.stop_word_already_added'| translate}}</div>
+            <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords.stop_word_should_not_have_space_in_between'| translate}}</div>
         </div>
         <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">Add</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">{{'stopWords.add'| translate}}</button>
         </div>
      </div> 
       <div class="empty_screen_data" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
         <div class="empty-stopwords" >
-          <div class="main_heading">Let’s start by adding stop words</div>
-          <div class="desc_info">Select on how would you like to add stop words.</div>
+          <div class="main_heading">{{'stopWords.lets_start_by_adding_stop_words'| translate}}</div>
+          <div class="desc_info">{{'stopWords.select_on_how_would_you_like_to_add_stop_words'| translate}}</div>
           <div class="radio-sec">
             <div class="radio_block">            
               <div class="kr-sg-radiobutton">
                 <input id="defaultStopWords" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
                 <label for="defaultStopWords" class="radio-custom-label">
-                  <div class="label_heading">Default Stop Words</div>
-                  <div class="lable_dec">Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...</div>
+                  <div class="label_heading">{{'stopWords.default_stop_words'| translate}}</div>
+                  <div class="lable_dec">{{'Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...'| translate}}</div>
                 </label>
               </div>
             </div>
@@ -42,14 +42,14 @@
               <div class="kr-sg-radiobutton">
                 <input id="customStopWords" value="scratch" name="customStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio">
                 <label for="customStopWords" class="radio-custom-label">
-                  <div class="label_heading">Start from Scratch</div>
-                  <div class="lable_dec">Add custom stop words</div>
+                  <div class="label_heading">{{'stopWords.start_from_scratch'| translate}}</div>
+                  <div class="lable_dec">{{'stopWords.add_custom_stop_words' | translate}}</div>
                 </label>
               </div> 
             </div>
           </div>
           <div class="text-center">
-            <button class="kr-sg-button-primary btn_lg" (click)="createInit()">Continue</button>
+            <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopWords.Continue' | translate}}</button>
           </div>
         </div>  
       </div>         
@@ -65,10 +65,10 @@
           <div class="searchBlock" (click)="toggleSearch()">
             <img *ngIf="showSearch" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!showSearch" class="search-icon" src="assets/icons/search_black.svg">
-            <span *ngIf="!showSearch" class="label_txt">Search</span>
+            <span *ngIf="!showSearch" class="label_txt">{{'stopWords.Search'| translate}}</span>
           </div>  
           <div class="restoreDefaults" (click)="restoreStopWords($event)">
-              <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">Restore to Default</span>              
+              <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">{{'stopWords.restore_to_default' | translate}}</span>              
           </div> 
         </div>                     
     </div>
@@ -80,7 +80,7 @@
             <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event,word,stopwords)" src="assets/icons/clode_stop_word.svg"></span>
           </span>
           <div class="divBlockEmptylastChild text-center">         
-            <div class="desc">No search results found</div>
+            <div class="desc">{{'stopWords.no_search_results_found' | translate}}</div>
           </div>
         </div>
       </ng-container>
