@@ -35,7 +35,7 @@
       </div>
       <div class="keyword row m-0" *ngIf="newSynonymObj.type==='oneWaySynonym'">
         <div class="kr-sg-input-text">
-          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="newSynonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Query" required class="input-text">
+          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="newSynonymObj.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
         </div>
       </div>
       <div class="tags row m-0">
@@ -103,7 +103,7 @@
                       </div>
                       <div class="keyword row m-0" *ngIf="synonym.type==='oneWaySynonym'">
                         <div class="kr-sg-input-text">
-                          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="synonym.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Query" required class="input-text">
+                          <input type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="synonym.keyword" [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
                         </div>
                       </div>
                       <div class="tags row m-0">
