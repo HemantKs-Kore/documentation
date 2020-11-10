@@ -594,7 +594,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     console.log(this.resources, source)
     let firstFilterDataBack = [];
     //this.resources = [...this.filterResourcesBack]; // For new Filter..
-    if (headerOption == "type") {
+    if (headerOption == "extractionType") {
       this.filterSystem.typeHeader = headerOption;
       this.filterSystem.typefilter = source;
     } else {
@@ -671,7 +671,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.resources = [...this.filterResourcesBack];
       //firstFilter
       if (this.firstFilter['header'] == headerOption) {
-        if (headerOption == "type") {
+        if (headerOption == "extractionType") {
           this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
         } else {
           this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };

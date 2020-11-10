@@ -58,15 +58,18 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.extracted.pags'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId?skip=:skip&limit=:limit',
       method: 'get'
     };
     this.serviceList['delete.content.page']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexIdextract/sources/:sourceId/content/:contentId',
       method:'delete'
     };
     this.serviceList['delete.content.source']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method:'delete'
     };
     this.serviceList['update.docDetailsSource'] = {
@@ -74,7 +77,9 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.job.status'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/jobs/status?extractionType=:type',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
       method: 'get'
     };
     this.serviceList['get.job.statusById'] = {
@@ -97,6 +102,11 @@ export class EndPointsService {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
+      method:'post'
+    };
+    this.serviceList['add.sourceMaterialManualFaq']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:faqType',
+     // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
     this.serviceList['add.sourceMaterialFaq']={
@@ -455,7 +465,8 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['recrwal'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/recrawl',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
       method: 'post'
     }
     this.serviceList['train.traits'] = {
