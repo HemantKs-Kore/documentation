@@ -21,13 +21,13 @@
                     <div class="desc">Please Add Rankable Field</div>
                 </div>
                 <div class="content-body" *ngFor="let weightModal of weights; let i = index">
-                    <div class="col-3 name">
+                    <div class="col-2 name">
                         <div>{{weightModal.name}} 
                             <!-- <img src="assets/icons/warning_escalation.svg"> -->
                         </div>
                         <div class="pre_defined" *ngIf="!weightModal.isField">SYSTEM-DEFINED</div>
                     </div>
-                    <div class="col-5 desc text-truncate">
+                    <div class="col-6 desc text-truncate">
                         <span *ngIf="currentEditIndex !== i">{{weightModal.desc}}</span>
                         <div class="kr-sg-input-text-area" *ngIf="currentEditIndex === i">
                             <textarea [(ngModel)]="weightModal.desc" (keyup)="disableCancle = false" placeholder="Short description" class="input-text weighDesc"></textarea>
