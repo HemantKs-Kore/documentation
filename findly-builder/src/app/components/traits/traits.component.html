@@ -184,7 +184,7 @@
                             Add utterances or phrases
                         </div>
                         <div class="kr-sg-input-text">
-                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Create trait" class="input-text"
+                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Add utterance" class="input-text"
                             (keyup)='addUtterance(item.utterance,item.key,$event,traits.addEditTraits,index)' [(ngModel)]='item.utterance'
                             name='traitName'>
                         </div>
@@ -205,7 +205,7 @@
     </perfect-scrollbar>
 
     <div class="modal-footer">
-        <button class="kr-sg-button-primary btn_lg" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-primary btn_lg" [disabled]="!traits.addEditTraits.groupName" (click)="saveTraits(traits.addEditTraits)">Save</button>
         <button class="kr-sg-button-secondary btn_lg"  (click)="closeStatusModal()">Cancel</button>
     </div>
 </kr-modal>

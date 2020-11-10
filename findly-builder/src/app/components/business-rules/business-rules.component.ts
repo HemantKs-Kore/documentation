@@ -42,7 +42,7 @@ export class BusinessRulesComponent implements OnInit {
   conditions =['contains','doesNotContain','equals','notEquals']
   ruleOptions = {
     searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
-    pageContext:['device', 'browser', 'currentPage' , 'recentlyPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
     userContext:['userType', 'userProfile', 'age', 'sex'],
     contextTypes:['searchContext','pageContext','userContext'],
     actions:['boost','lower','hide','filter']
@@ -182,6 +182,9 @@ export class BusinessRulesComponent implements OnInit {
   }
   removeOutcome(index){
     this.outcomeArrayforAddEdit.splice(index,1);
+  }
+  removeTag(tags, index) {
+    tags.splice(index, 1);
   }
   addRules(event: MatChipInputEvent,ruleObj,i){
     const input = event.input;
