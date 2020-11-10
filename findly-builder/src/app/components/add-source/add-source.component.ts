@@ -463,7 +463,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       quaryparms.faqType = 'document';
       payload.fileId = this.fileObj.fileId;
       payload.isNew = true;
-      delete payload.desc;
+     // delete payload.desc;
       this.faqAnotate(payload,endPoint,quaryparms)
     }else {
       if (this.selectedSourceType.sourceType === 'content') {

@@ -312,18 +312,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       return;
     }
     if (source.recentStatus === 'success') {
-      this.contentModaltype=source.type;
+      this.contentModaltype=source.extractionType;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
       this.pageination(source.numPages, 10)
-      if(source.type === 'webdomain'){
+      if(source.extractionType === 'webdomain'){
         this.openStatusModal();
         this.loadingSliderContent = true;
         this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
         this.pageination(source.numPages, 10)
         this.getCrawledPages(this.limitpage, 0);
       }
-      else if(source.type ==='document'){
+      else if(source.extractionType ==='document'){
         this. openDocumentModal();
         this.getCrawledPages(this.limitpage, 0);
       }
