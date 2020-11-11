@@ -123,7 +123,7 @@
                                 <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
                                 <div class="kr-sg-dropdowns col-4 input-box">
                                     <div class="label-text">Action</div>
-                                    <div class="dropdown dropdown-open">
+                                    <div class="dropup dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'choose_an_option') | translate}}</button>                                            
                                         <ul class="dropdown-menu content-menu">                                                                    
                                           <li (click)='setRuleObj(map,"operation","set","field_mapping")'><a>Set</a></li>
@@ -155,7 +155,7 @@
                     <div class="row m-0 form_list" *ngIf="newMappingObj && newMappingObj.field_mapping && newMappingObj.field_mapping.defaultValue">
                         <div class="kr-sg-dropdowns col-4 input-box">
                             <div class="label-text">Action</div>
-                            <div class="dropdown dropdown-open">
+                            <div class="dropup dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newMappingObj.field_mapping.defaultValue.operation?newMappingObj.field_mapping.defaultValue.operation:'choose_an_option') | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu">                                                                    
                                   <li (click)='setRuleObj(newMappingObj.field_mapping.defaultValue,"operation","set","field_mapping")'><a>Set</a></li>
@@ -198,7 +198,7 @@
                             </div>
                             <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'semantic_meaning')">
                                 <div class="label-text">Choose Model</div>
-                                <div class="dropdown dropdown-open">
+                                <div class="dropup dropdown-open">
                                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
                                       <li (click)='map.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
@@ -209,7 +209,7 @@
                             </div> 
                             <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction')">
                                 <div class="label-text">Choose Model</div>
-                                <div class="dropdown dropdown-open">
+                                <div class="dropup dropdown-open">
                                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
                                       <li (click)='map.model = "topic_rank"'><a>Topic Rank</a></li>
@@ -283,7 +283,7 @@
                         </div>
                         <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'semantic_meaning')">
                             <div class="label-text">Choose Model</div>
-                            <div class="dropdown dropdown-open">
+                            <div class="dropup dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model?newMappingObj[selectedStage.type].defaultValue.model:'Choose Model'}}</button>                                            
                                 <ul class="dropdown-menu content-menu">                                                                    
                                   <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
@@ -294,7 +294,7 @@
                         </div>
                         <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction')">
                             <div class="label-text">Choose Model</div>
-                            <div class="dropdown dropdown-open">
+                            <div class="dropup dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model?newMappingObj[selectedStage.type].defaultValue.model:'Choose Model'}}</button>                                            
                                 <ul class="dropdown-menu content-menu"> 
                                     <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "topic_rank"'><a>Topic Rank</a></li>
