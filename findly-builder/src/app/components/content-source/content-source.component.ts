@@ -447,9 +447,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     
     const quaryparms: any = {
       searchIndexId: this.serachIndexId ,
-      docId : this.selectedSource._id,
+      sourceId: this.selectedSource._id,
     };
-    this.service.invoke('update.docDetailsSource', quaryparms, payload).subscribe(res => {
+    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
       this.isEditDoc = false;
       this.getSourceList();
       this.notificationService.notify('updated ', 'success');
@@ -562,7 +562,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      webDomainId: this.selectedSource._id,
+      sourceId: this.selectedSource._id,
       pageId: page._id,
       sourceType: this.selectedSource.type
     }
@@ -834,12 +834,12 @@ keyPress(event){
    updateRecord(i,allowUrls,option,type){
     //selectedSource.advanceSettings.allowedURLs
     let payload = {}
-    let resourceType = this.selectedSource.type;
+    let resourceType = this.selectedSource.extractionType;
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       sourceId: this.selectedSource._id,
-      sourceType: this.selectedSource.type,
+      sourceType: this.selectedSource.extractionType,
     };
     crawler.name = this.selectedSource.name;
     crawler.url = this.selectedSource.url;
@@ -924,12 +924,12 @@ keyPress(event){
   }
   proceedWithConfigUpdate(){
     let payload = {}
-    let resourceType = this.selectedSource.type;
+    let resourceType = this.selectedSource.extractionType;
     let crawler = new CrwalObj()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId ,
       sourceId : this.selectedSource._id,
-      sourceType: this.selectedSource.type,
+      sourceType: this.selectedSource.extractionType,
     };
     if(this.editTitleFlag){
       crawler.name = this.editConfObj.title;
@@ -949,7 +949,7 @@ keyPress(event){
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
     crawler.resourceType = resourceType;
     payload = crawler;
-    console.log(payload);
+    //console.log(payload);
 
     this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Crwaler Updated', 'success');

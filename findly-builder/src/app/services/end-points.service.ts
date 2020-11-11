@@ -64,7 +64,7 @@ export class EndPointsService {
     };
     this.serviceList['delete.content.page']={
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexIdextract/sources/:sourceId/content/:contentId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
       method:'delete'
     };
     this.serviceList['delete.content.source']={
@@ -72,8 +72,9 @@ export class EndPointsService {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method:'delete'
     };
-    this.serviceList['update.docDetailsSource'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
+    this.serviceList['update.contentPageSource'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
       method: 'put'
     }
     this.serviceList['get.job.status'] = {
@@ -110,7 +111,7 @@ export class EndPointsService {
       method:'post'
     };
     this.serviceList['add.sourceMaterialFaq']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&extractionSource=:faqType',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:faqType',
      // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
@@ -289,7 +290,8 @@ export class EndPointsService {
       method: 'post'
     };
     this.serviceList['update.crawler'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:sourceId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:sourceId',
       method: 'put'
     };
     /* Annotation tool */
