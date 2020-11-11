@@ -344,7 +344,7 @@
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div>
                           <div class="col_ col-1 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" *ngIf="selectedSource.type == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
+                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
                             <img src="assets/icons/edit-rule.svg" (click)="editTitle($event)" title="Edit">
                             <img src="assets/icons/delete-table.svg" (click)="deletePages('source',page ,$event)" title="Delete">
                           </div>
@@ -600,26 +600,30 @@
         </ng-container>
 
       </div>
-      <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
-        <div class="view-details-data">
-          <div class="title">Title</div>
-          <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
+      <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-sourceContent" #perfectScroll
+      [scrollIndicators]="true">
+
+        <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
+          <div class="view-details-data">
+            <div class="title">Title</div>
+            <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
+          </div>
+          <div class="view-details-data">
+            <div class="title">Body</div>
+            <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
+          </div>
+          <div class="view-details-data">
+            <div class="title">URL</div>
+            <div class="desc-info">{{selectedPage._source.pageImageUrl}}<img class="external_link"
+                (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
+          </div>
+          <div class="view-details-data">
+            <div class="title">Published</div>
+            <div class="desc-info">{{selectedPage.publishedOn}}</div>
+            <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
+          </div> 
         </div>
-        <div class="view-details-data">
-          <div class="title">Body</div>
-          <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
-        </div>
-        <div class="view-details-data">
-          <div class="title">URL</div>
-          <div class="desc-info">{{selectedPage._source.pageImageUrl}}<img class="external_link"
-              (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
-        </div>
-        <div class="view-details-data">
-          <div class="title">Published</div>
-          <div class="desc-info">{{selectedPage.publishedOn}}</div>
-          <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
-        </div>
-      </div>
+    </perfect-scrollbar>
     </div>
 
   </div>
@@ -631,9 +635,9 @@
      
   </div>
   <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
-    <button class="kr-sg-button-primary btn_lg">Update</button>
+    <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
+    <button class="kr-sg-button-primary btn_lg">Check for Update</button>
     <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
-    <button class="kr-sg-button-secondary-two btn_lg">Delete</button>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">

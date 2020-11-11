@@ -536,7 +536,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       type: record.type,
-      webDomainId: record._id
+      sourceId: record._id
     }
     this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
@@ -563,7 +563,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       sourceId: this.selectedSource._id,
-      pageId: page._id,
+      contentId: page._id,
       sourceType: this.selectedSource.type
     }
     if(quaryparms.sourceType === 'webdomain' ){
@@ -856,7 +856,7 @@ keyPress(event){
     payload = crawler;
     console.log(payload);
 
-    this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
+    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
       if(option == 'add'){
         type == 'block' ? this.selectedSource['advanceSettings'].blockedURLs.push(allowUrls):this.selectedSource['advanceSettings'].allowedURLs.push(allowUrls);
       }else{
@@ -908,7 +908,7 @@ keyPress(event){
   }
   cronExpress(cronExpress){
     console.log(cronExpress);
-    this.selectedSource['advanceSettings'].crawlEverything = cronExpress;
+    this.selectedSource['advanceSettings'].repeatInterval = cronExpress;
   }
   exceptUrl(bool){
     this.selectedSource.advanceSettings.allowedOpt = !bool;
@@ -951,7 +951,7 @@ keyPress(event){
     payload = crawler;
     //console.log(payload);
 
-    this.service.invoke('update.crawler', quaryparms, payload).subscribe(res => {
+    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Crwaler Updated', 'success');
       this.editTitleFlag = false;
       this.getSourceList();
