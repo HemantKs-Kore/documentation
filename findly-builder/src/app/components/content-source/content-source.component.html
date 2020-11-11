@@ -603,15 +603,15 @@
       <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
         <div class="view-details-data">
           <div class="title">Title</div>
-          <div class="desc-info">{{selectedPage.title}}</div>
+          <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
         </div>
         <div class="view-details-data">
           <div class="title">Body</div>
-          <div class="desc-info" [innerHtml]="selectedPage.body"></div>
+          <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
         </div>
         <div class="view-details-data">
           <div class="title">URL</div>
-          <div class="desc-info">{{selectedPage.imageUrl}}<img class="external_link"
+          <div class="desc-info">{{selectedPage._source.pageImageUrl}}<img class="external_link"
               (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
         </div>
         <div class="view-details-data">
@@ -630,7 +630,7 @@
       (click)="closeStatusModal()">Cancel</button>
      
   </div>
-  <div class="footer-btns d-none">
+  <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
     <button class="kr-sg-button-primary btn_lg">Update</button>
     <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
     <button class="kr-sg-button-secondary-two btn_lg">Delete</button>
