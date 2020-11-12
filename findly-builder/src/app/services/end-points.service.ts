@@ -531,7 +531,23 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
       method: 'post'
     }
-
+    this.serviceList['get.dialog'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
+      method: 'get'
+    }
+    this.serviceList['standard.publish'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/standardpublish',
+      method: 'post'
+    }
+    this.serviceList['universal.publish'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/universalbot/publish?',
+      method: 'post'
+    }
+    this.serviceList['get.linkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    }
+   
   /** APIs for Channels */
      
   }
