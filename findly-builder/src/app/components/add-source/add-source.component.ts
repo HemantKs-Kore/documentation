@@ -552,11 +552,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let payload: any = {
       // desc: event.response,
       // name: event.question,
-      question: event.question,
+      question: event._source.question,
       // answer: event.response,
-      defaultAnswers: event.defaultAnswers || [],
-      conditionalAnswers: event.conditionalAnswers || [],
-      keywords: event.tags
+      defaultAnswers: event._source.defaultAnswers || [],
+      conditionalAnswers: event._source.conditionalAnswers || [],
+      keywords: event._source.tags
     };
     payload = _.extend(payload, event.quesList);
 
