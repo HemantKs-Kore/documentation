@@ -988,7 +988,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </span>\
                     <span class="img-action boostdown burying" data-viewMode="chat">\
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
-                      <span class="custom-actions-content">BURY</span>\
+                      <span class="custom-actions-content">LOWER</span>\
                     </span>\
                   </span>\
                 </div>\
@@ -1069,7 +1069,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </span>\
                       <span class="img-action boostdown burying" data-viewMode="chat">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
-                        <span class="custom-actions-content">BURY</span>\
+                        <span class="custom-actions-content">LOWER</span>\
                       </span>\
                     </span>\
                   </div>\
@@ -1242,8 +1242,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="pages-wrp">\
                     {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
                     <div class="faqs-shadow {{if viewType=="Preview"&&page.config.visible==false}}display-none{{/if}} {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
-                    <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
-                      <div class="notification-div"></div>\
+                    <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
+                      <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                         <div class="image-url-sec">\
                           <img src="${page.imageUrl}"></img>\
@@ -1262,9 +1262,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="custom-matched-results-page-summary">\
                               <span class="custom-matched-results-page-summary-content">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span>VIEWS</span>\
+                                <span>${page.feedback.appearance} VIEWS</span>\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>CLICKS</span>\
+                                <span>${page.feedback.click} CLICKS</span>\
                               </span>\
                             </div>\
                           </div>\
@@ -1294,7 +1294,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </span>\
                               <span class="img-action boostdown burying" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
-                                <span class="custom-actions-content">BURY</span>\
+                                <span class="custom-actions-content">LOWER</span>\
                             </span>\
                           </div>\
                         </div>\
@@ -1336,8 +1336,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="tasks-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
                   <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                  <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
-                    <div class="notification-div"></div>\
+                  <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
+                    <div class="notification-div fullscreen"></div>\
                     <div class="faqs-wrp-content">\
                       <div class="title">\
                         <span class="accordion" id="${key}">${faq.question}</span>\
@@ -1357,9 +1357,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <div class="custom-matched-results-faq-summary">\
                           <span class="custom-matched-results-faq-summary-content">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                            <span>VIEWS</span>\
+                            <span>${faq.feedback.appearance} VIEWS</span>\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                            <span>CLICKS</span>\
+                            <span>${faq.feedback.click} CLICKS</span>\
                           </span>\
                         </div>\
                       </div>\
@@ -1389,7 +1389,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </span>\
                             <span class="img-action boostdown burying" data-viewMode="full">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
-                              <span class="custom-actions-content">BURY</span>\
+                              <span class="custom-actions-content">LOWER</span>\
                             </span>\
                           </div>\
                     </div>\
@@ -1429,8 +1429,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="pages-wrp">\
                     {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
                     <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.contentType}">\
-                    <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAECAYAAAC6Jt6KAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAhSURBVHgBzc4xAQAACMMw5l9A6wZraOBbFCTqTpUAr9IBX2UFDghGZ8AAAAAASUVORK5CYII="></div>\
-                      <div class="notification-div"></div>\
+                    <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
+                      <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
                           <img src="${document.imageUrl}"></img>\
@@ -1449,9 +1449,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="custom-matched-results-page-summary">\
                               <span class="custom-matched-results-page-summary-content">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span>VIEWS</span>\
+                                <span>${document.feedback.appearance} VIEWS</span>\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>CLICKS</span>\
+                                <span>${document.feedback.click} CLICKS</span>\
                               </span>\
                             </div>\
                           </div>\
@@ -1481,7 +1481,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               </span>\
                               <span class="img-action boostdown burying" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABzSURBVHgBhY8BDYAgEEW/DYxAA2lEFGigDaCBGUxgBKsI8/52smP87cOA98YOAM5aj3m8sHC190TyPUMpGHCQN6dh7k8nBbkjs7Yl10ZD6uHIGVqKIWl4F+aXIr9RIpwtmElKInxoYBlIG74BLzlPk0bgC7ouGvZUI7q8AAAAAElFTkSuQmCC">\
-                                <span class="custom-actions-content">BURY</span>\
+                                <span class="custom-actions-content">LOWER</span>\
                             </span>\
                           </div>\
                         </div>\
@@ -2380,6 +2380,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $(".tasks-wrp").sortable("disable");
             $(".image-url-sec").css('display', 'table-cell');
             $(".faqs-bottom-actions").css('display', 'none');
+
+            $('.notification-div').hide();
           }
           /*_self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
           _self.handleSearchRes(response);
@@ -2478,13 +2480,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.start-search-icon-div').show();
         $('.search-body-full').html('');
         $('.search-body-full').addClass('hide');
+
+        if(_self.vars.customizeView == true) {
+          $('#viewTypeCustomize').trigger("click");
+        }
+        else {
+          $('#viewTypePreview').trigger("click");
+        }
+
         e.keyCode = 13;
         _self.searchEventBinding(_self.vars.searchObject.liveData, "livesearch", e, true);
       })
+
       $('.moreFaqs').off('click').on('click', function (e) {
         var selectedFacet = "faq"
         _self.prepAllSearchData(selectedFacet);
       })
+
       $('.ksa-showMore').off('click').on('click', function (e) {
         var selectedFacet = "page"
         _self.prepAllSearchData(selectedFacet);
@@ -2772,7 +2784,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(event.target).closest('.boosting').attr('data-viewMode') == "full") {
           console.log($(event.target).closest('.faqs-shadow').attr('boost'), $(event.target).closest('.faqs-shadow').attr('contentid'));
 
-          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
             var boostByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
             boostByValue = boostByValue + 0.25;
             console.log(boostByValue);
@@ -2782,7 +2794,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         else {
           // console.log(event.target);
           console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
-          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
             var boostByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
             boostByValue = boostByValue + 0.25;
             console.log(boostByValue);
@@ -2798,13 +2810,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(event.target).closest('.burying').attr('data-viewMode') == 'full') {
           console.log($(event.target).closest('.faqs-shadow').attr('boost'), $(event.target).closest('.faqs-shadow').attr('contentid'));
 
-          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
+          if ($(event.target).closest('.faqs-shadow').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
             var buryByValue = parseFloat($(event.target).closest('.faqs-shadow').attr('boost'));
             console.log(buryByValue);
             if (buryByValue > 0.25) {
               buryByValue = buryByValue - 0.25;
               console.log(buryByValue);
-              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'boosting');
+              _self.performRankActions(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
             }
             else {
               buryByValue = 0.25 - buryByValue;
@@ -2817,7 +2829,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // console.log(event.target);
           console.log($(event.target).closest('.task-wrp').attr('boost'), $(event.target).closest('.task-wrp').attr('contentid'));
 
-          if ($(event.target).closest('.task-wrp').attr('visible') == "true") {
+          if ($(event.target).closest('.task-wrp').attr('visible') == "true" && parseInt($(event.target).closest('.faqs-shadow').attr('pinindex')) == -1) {
             var buryByValue = parseFloat($(event.target).closest('.task-wrp').attr('boost'));
             console.log(buryByValue);
             if (buryByValue > 0.25) {
@@ -2885,19 +2897,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           indicatorMessage = "UNHIDING";
         }
         else {
-          indicatorMessage = "HIDING";
+          // indicatorMessage = "HIDING";
+          indicatorMessage = "HIDDEN"
         }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });
+          });*/
           selectedElement.attr('visible', conf.visible);
           if (selectedElement.attr('visible') == "false") {
+            selectedElement.find('.notification-div').text(indicatorMessage).show();
             elementHidden.text("UNHIDE");
             selectedElement.addClass('hide-actions');
           }
           else {
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
             elementHidden.text("HIDE");
             selectedElement.removeClass('hide-actions');
           }
@@ -2908,22 +2925,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
         var indicatorMessage = ''
         if (elementPinned.text() == "PIN") {
-          indicatorMessage = "PINNING";
+          // indicatorMessage = "PINNING";
+          indicatorMessage = "PINNED"
         }
         else {
           indicatorMessage = "UNPINNING";
         }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });
+          });*/
           selectedElement.attr('pinindex', conf.pinIndex);
           if (elementPinned.text() == "UNPIN") {
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
             elementPinned.text("PIN");
             selectedElement.removeClass('hide-visibility-control');
+
           }
           else {
+            selectedElement.find('.notification-div').text(indicatorMessage).show();
             elementPinned.text("UNPIN");
             selectedElement.addClass('hide-visibility-control');
           }
@@ -2934,20 +2957,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = "BOOSTED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });
+          });*/
+          selectedElement.find('.notification-div').text(indicatorMessage).show();
           selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
         });
       } else if (actionType == 'burying') {
-        var indicatorMessage = "BURIED";
+        var indicatorMessage = "LOWERED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });
+          });*/
+          selectedElement.find('.notification-div').text(indicatorMessage).show();
           selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);

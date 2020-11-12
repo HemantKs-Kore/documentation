@@ -65,6 +65,9 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     custom_script:{
       name:'Custom Script'
     },
+    semantic_meaning:{
+      name:'Semantic Meaning'
+    },
   }
   entityNlp = [
     {title: 'Address', value: 'address', isDepricated: false},
