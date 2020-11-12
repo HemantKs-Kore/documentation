@@ -685,7 +685,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       searchIndexId: this.serachIndexId,
       sourceId : source._id
     }
-    this.service.invoke('delete.faq.source', quaryparms).subscribe(res => {
+    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.notificationService.notify('FAQ source deleted successfully','success');
       const deleteIndex = _.findIndex(this.resources,(fq)=>{
