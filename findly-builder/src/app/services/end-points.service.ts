@@ -64,11 +64,11 @@ export class EndPointsService {
     };
     this.serviceList['delete.content.page']={
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
       method:'delete'
     };
     this.serviceList['delete.content.source']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method:'delete'
     };
