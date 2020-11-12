@@ -288,22 +288,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
 
   addNewFollowUp(event){
     const followUPpayload: any = {
-      question: event.question,
-      defaultAnswers: event.defaultAnswers || [],
-      conditionalAnswers: event.conditionalAnswers || [],
-      keywords: event.tags
+      question: event._source.question,
+      defaultAnswers: event._source.defaultAnswers || [],
+      conditionalAnswers: event._source.conditionalAnswers || [],
+      keywords: event._source.tags
       };
       const existingfollowups =  this.selectedFaq.followupQuestions || [];
       existingfollowups.push(followUPpayload);
     const _payload = {
-        question: this.selectedFaq.question,
-    //  answer: event.response,
-     defaultAnswers: this.selectedFaq.defaultAnswers || [],
-     conditionalAnswers: this.selectedFaq.conditionalAnswers || [],
-     alternateQuestions: this.selectedFaq.alternateQuestions || [],
-     followupQuestions: existingfollowups || [],
-     keywords: this.selectedFaq.tags,
-     state: this.selectedFaq.state
+       followupQuestions: existingfollowups || [],
       };
       this.updateFaq(this.selectedFaq,'updateQA',_payload)
   }
