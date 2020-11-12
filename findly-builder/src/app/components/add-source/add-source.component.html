@@ -95,11 +95,11 @@
         </div>
       </div>
       <div class="modal-footer" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-primary btn_md" data-dismiss="modal"
+        <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
           (click)="closeStatusModal()">Ok</button>
-        <button type="button" class="kr-sg-button-secondary btn_md d-none" data-dismiss="modal"
-          (click)="closeStatusModal()">Cancel</button>
-      </div>
+          <button type="button" class="kr-sg-button-secondary btn_lg " [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+          (click)="closeStatusModal()">Cancel Crawling</button>
+         </div>
     </div>
   </div>
 </kr-modal>
