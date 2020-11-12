@@ -917,7 +917,7 @@ keyPress(event){
   }
   cronExpress(cronExpress){
     console.log(cronExpress);
-    this.selectedSource['advanceSettings'].crawlEverything = cronExpress;
+    this.selectedSource['advanceSettings'].repeatInterval = cronExpress;
   }
   exceptUrl(bool){
     this.selectedSource.advanceSettings.allowedOpt = !bool;
