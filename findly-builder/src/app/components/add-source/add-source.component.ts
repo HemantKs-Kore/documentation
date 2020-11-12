@@ -588,20 +588,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   /** proceed Source API */
   scheduleData(scheduleData) {
     console.log(scheduleData);
-      if(scheduleData.date){
-        let date = scheduleData.date;
-        if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
-      }
-      if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
-        scheduleData.interval.intervalValue = {};
-      }
-      if(scheduleData.interval && 
-        scheduleData.interval.intervalValue &&
-        scheduleData.interval.intervalValue.endsOn &&
-        scheduleData.interval.intervalValue.endsOn.endDate){
-        let endate = scheduleData.interval.intervalValue.endsOn.endDate;
-        if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
-      }
+      // if(scheduleData.date){
+      //   let date = scheduleData.date;
+      //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
+      // }
+      // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
+      //   scheduleData.interval.intervalValue = {};
+      // }
+      // if(scheduleData.interval && 
+      //   scheduleData.interval.intervalValue &&
+      //   scheduleData.interval.intervalValue.endsOn &&
+      //   scheduleData.interval.intervalValue.endsOn.endDate){
+      //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
+      //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
+      // }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
 
     // this.dataFromScheduler = scheduleData

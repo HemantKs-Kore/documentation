@@ -948,21 +948,21 @@ keyPress(event){
       crawler.desc = this.selectedSource.desc || '';
     }
     if(this.selectedSource.advanceSettings.scheduleOpt){
-      if(this.selectedSource.advanceSettings.scheduleOpts.date){
-        let date = this.selectedSource.advanceSettings.scheduleOpts.date;
-        if(String(date).split(" ")) this.selectedSource.advanceSettings.scheduleOpts.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
-      }
-      if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType && 
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
-      }
-      if(this.selectedSource.advanceSettings.scheduleOpts.interval && 
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue &&
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn &&
-        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate){
-        let endate = this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
-        if(String(endate).split(" "))this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
-      }
+      // if(this.selectedSource.advanceSettings.scheduleOpts.date){
+      //   let date = this.selectedSource.advanceSettings.scheduleOpts.date;
+      //   if(String(date).split(" ")) this.selectedSource.advanceSettings.scheduleOpts.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
+      // }
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType && 
+      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
+      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
+      // }
+      // if(this.selectedSource.advanceSettings.scheduleOpts.interval && 
+      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue &&
+      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn &&
+      //   this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate){
+      //   let endate = this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
+      //   if(String(endate).split(" "))this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
+      // }
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
