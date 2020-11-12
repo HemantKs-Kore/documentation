@@ -491,6 +491,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
         quaryparms.resourceType = resourceType;
+        payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
