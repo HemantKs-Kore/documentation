@@ -304,7 +304,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['PdfAnno.faq.annotate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source?sourceType=:sourceType',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=faq&extractionSource=:sourceType',
       method: 'post'
     };
     this.serviceList['PdfAnno.get.reAnnotateData'] = {
