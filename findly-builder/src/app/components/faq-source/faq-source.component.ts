@@ -572,15 +572,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
    this.closeEditFAQModal();
   }
   editFaq(event){
-    const _payload = {
-      question: event.question,
-  //  answer: event.response,
-   defaultAnswers: event.defaultAnswers || [],
-   conditionalAnswers: event.conditionalAnswers || [],
-   alternateQuestions: event.alternateQuestions || [],
+    const _payload:any = {
+   question: event._source.question,
+   defaultAnswers: event._source.defaultAnswers || [],
+   conditionalAnswers: event._source.conditionalAnswers || [],
+   alternateQuestions: event._source.alternateQuestions || [],
    followupQuestions: event.followupQuestions || [],
-   keywords: event.tags,
-   state: event.state
+   keywords: event._source.tags,
+   state: this.selectedFaq._meta.state
     };
     this.updateFaq(this.selectedFaq,'updateQA',_payload)
   }
@@ -711,7 +710,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       searchIndexId: this.serachIndexId,
       faqId : faq._id
     }
-    this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
+    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.faqCancle();
       this.notificationService.notify('Faq deleted succesfully','success')
