@@ -525,8 +525,8 @@
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
-                        <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
-                          {{page.url || selectedSource.url}}</div>
+                        <div class="col-8 link-name p-0" title="{{page._source.url || selectedSource.url}}">
+                          {{page._source.url || selectedSource.url}}</div>
                         <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
                         <div class="col-1 actions p-0">
                           <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
@@ -600,7 +600,7 @@
         </ng-container>
 
       </div>
-      <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-sourceContent" #perfectScroll
+      <perfect-scrollbar *ngIf="sliderStep === 1 && selectedPage" class="scroll-table-sourceContent" #perfectScroll
       [scrollIndicators]="true">
 
         <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">

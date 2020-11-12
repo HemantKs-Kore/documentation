@@ -94,6 +94,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   urlConditionAllow = "Is";
   urlConditionBlock = "Is";
   doesntContains = "Doesn't Contains";
+  filterTableheaderOption = "";
+  filterTableSource = "all";
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -186,6 +188,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         $('#searchContentSources').focus();
       }, 100);
+      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -543,6 +546,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //if(this.isEditDoc){
         this.isEditDoc = false;
         this.cancelDocDetails();
+        this.getSourceList()
       //} 
       this.notificationService.notify('Source deleted successsfully', 'success');
       const deleteIndex = _.findIndex(this.resources, (pg) => {
@@ -592,6 +596,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   filterTable(source, headerOption) {
     console.log(this.resources, source)
+    this.filterTableSource = source;
+    this.filterTableheaderOption = headerOption;
     let firstFilterDataBack = [];
     //this.resources = [...this.filterResourcesBack]; // For new Filter..
     if (headerOption == "extractionType") {
@@ -602,69 +608,69 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.filterSystem.statusFilter = source;
     }
 
-    //this.filterText  = source;
-    /** TYpe */
-    // if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
-    //   this.resources = [...this.filterResourcesBack];
-    //   this.firstFilter = {'header': '' , 'source' : ''};
-    // } else {
-    //  if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
-    //   if(!this.firstFilter['header'])this.firstFilter = {'header': headerOption , 'source' : source};
-    //   if(source == "all") {
-    //     firstFilterDataBack = [...this.filterResourcesBack];
-    //     const resourceData =  firstFilterDataBack.filter((data)=>{
-    //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-    //       })
-    //     if(resourceData.length)this.resources = [...resourceData];
-    //   }else{
-    //     firstFilterDataBack = [...this.filterResourcesBack];
-    //     const resourceData =  firstFilterDataBack.filter((data)=>{
+      //this.filterText  = source;
+      /** TYpe */
+      // if(this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all"){
+      //   this.resources = [...this.filterResourcesBack];
+      //   this.firstFilter = {'header': '' , 'source' : ''};
+      // } else {
+      //  if(this.filterSystem.typefilter == "all" || this.filterSystem.statusFilter == "all"){
+      //   if(!this.firstFilter['header'])this.firstFilter = {'header': headerOption , 'source' : source};
+      //   if(source == "all") {
+      //     firstFilterDataBack = [...this.filterResourcesBack];
+      //     const resourceData =  firstFilterDataBack.filter((data)=>{
+      //       return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+      //       })
+      //     if(resourceData.length)this.resources = [...resourceData];
+      //   }else{
+      //     firstFilterDataBack = [...this.filterResourcesBack];
+      //     const resourceData =  firstFilterDataBack.filter((data)=>{
 
-    //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-    //       })
-    //     if(resourceData.length)this.resources = [...resourceData];
-    //   }
+      //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+      //       })
+      //     if(resourceData.length)this.resources = [...resourceData];
+      //   }
 
-    //  }else {
-    //   this.resources = [...this.filterResourcesBack];
-    //   //firstFilter
-    //   const firstResourceData =  this.resources.filter((data)=>{
-    //     console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-    //     return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-    //     })
-    //     const secondResourceData =  firstResourceData.filter((data)=>{
-    //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-    //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-    //       })
-    //   if(secondResourceData.length)this.resources = [...secondResourceData];
-    //  }
+      //  }else {
+      //   this.resources = [...this.filterResourcesBack];
+      //   //firstFilter
+      //   const firstResourceData =  this.resources.filter((data)=>{
+      //     console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+      //     return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+      //     })
+      //     const secondResourceData =  firstResourceData.filter((data)=>{
+      //       console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+      //       return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+      //       })
+      //   if(secondResourceData.length)this.resources = [...secondResourceData];
+      //  }
 
-    // }
+      // }
 
-    //a/
-    if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-      this.resources = [...this.filterResourcesBack];
-      this.firstFilter = { 'header': '', 'source': '' };
-    }
-    else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
-      if (!this.firstFilter['header']) {
-        this.firstFilter = { 'header': headerOption, 'source': source };
+      //a/
+      if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
+        this.resources = [...this.filterResourcesBack];
+        this.firstFilter = { 'header': '', 'source': '' };
       }
-      firstFilterDataBack = [...this.filterResourcesBack];
-      const resourceData = firstFilterDataBack.filter((data) => {
-        return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
-      })
-      if (resourceData.length) this.resources = [...resourceData];
-    }
-    else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
-      if (!this.firstFilter['header']) {
-        this.firstFilter = { 'header': headerOption, 'source': source };
+      else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
+        if (!this.firstFilter['header']) {
+          this.firstFilter = { 'header': headerOption, 'source': source };
+        }
+        firstFilterDataBack = [...this.filterResourcesBack];
+        const resourceData = firstFilterDataBack.filter((data) => {
+          return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
+        })
+        if (resourceData.length) this.resources = [...resourceData];
       }
-      firstFilterDataBack = [...this.filterResourcesBack];
-      const resourceData = firstFilterDataBack.filter((data) => {
-        return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
-      })
-      if (resourceData.length) this.resources = [...resourceData];
+      else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
+        if (!this.firstFilter['header']) {
+          this.firstFilter = { 'header': headerOption, 'source': source };
+        }
+        firstFilterDataBack = [...this.filterResourcesBack];
+        const resourceData = firstFilterDataBack.filter((data) => {
+          return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
+        })
+        if (resourceData.length) this.resources = [...resourceData];
 
     }
     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
@@ -676,17 +682,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         } else {
           this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
         }
+        const firstResourceData = this.resources.filter((data) => {
+          console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+          return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+        })
+        const secondResourceData = firstResourceData.filter((data) => {
+          console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+          return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+        })
+        if (secondResourceData.length) this.resources = [...secondResourceData];
       }
-      const firstResourceData = this.resources.filter((data) => {
-        console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-        return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-      })
-      const secondResourceData = firstResourceData.filter((data) => {
-        console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-        return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-      })
-      if (secondResourceData.length) this.resources = [...secondResourceData];
     }
+    
 
 
       //this.getSourceList();
