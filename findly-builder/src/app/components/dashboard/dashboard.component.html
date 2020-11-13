@@ -101,29 +101,15 @@
             </div>
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
-                    <div class="full-card">
+                    <div class="full-card pb-4">
                         <div class="legends-info">
                             <div class="content">
-                                <div class="title">Total Searches <span class="toatlsearches"></span></div>
-                                <div class="count-data">
+                                <div class="title">Total Searches</div>
+                                <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+8%</span>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="title">Searches with Results <span class="withresults"></span></div>
-                                <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithResultsSum}}</span>
-                                    <span class="percentage">2%</span>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="title">Searches with Clicks <span class="clicks"></span></div>
-                                <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithClicksSum}}</span>
-                                    <span class="percentage">+1%</span>
-                                </div>
-                            </div>
+                                </div> -->
+                            </div>                        
                         </div>
                         <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -142,6 +128,29 @@
                             </div>
                         </div>
                         <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
+                        <div class="legends-info mt-2 mb-2">
+                            <div class="content">
+                                <div class="title">Total Searches <span class="toatlsearches"></span></div>
+                                <!-- <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
+                                    <span class="percentage">+8%</span>
+                                </div> -->
+                            </div>
+                            <div class="content">
+                                <div class="title">Searches with Results <span class="withresults"></span></div>
+                                <!-- <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithResultsSum}}</span>
+                                    <span class="percentage">2%</span>
+                                </div> -->
+                            </div>
+                            <div class="content">
+                                <div class="title">Searches with Clicks <span class="clicks"></span></div>
+                                <!-- <div class="count-data">
+                                    <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithClicksSum}}</span>
+                                    <span class="percentage">+1%</span>
+                                </div> -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,45 +279,42 @@
             </div>
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
-                    <div class="full-card">
+                    <div class="full-card pb-4">
                         <div class="title-card">Most Click Position</div>
-                        <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
-                        <!-- <div class="text-center">Number of Clicks</div> -->
+                        <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
+                        <div class="text-center">Number of Clicks</div>
                     </div>
                 </div>
                 <div class="col-6 box-content">
-                    <div class="full-card">
-                        
+                    <div class="full-card pb-4">
+                        <div class="title-card">Feedback</div>                        
                         <div class="row col-12 m-0 p-0">
-                            <div class="col-6 m-0 p-0">
-                                <div class="title-card">Feedback</div>
+                            <div class="col-6 m-0 p-0 legends_sec_piechart">                                
                                 <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
+                                <div class="legend-data col-12 p-0">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="indication total"></span>
+                                        <span class="title">Total Searches</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="indication feedback"></span>
+                                        <span class="title">Feedback Recieved</span>
+                                    </div>
+                                </div>
+                            </div>                          
+                            <div class="col-6 m-0 p-0 legends_sec_piechart">
+                                <div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div>
+                                <div class="legend-data col-12 p-0">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="indication usefull"></span><span class="title">Useful Result</span>                                   
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="indication notusefull"></span><span class="title">Not Useful Result</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="title-card"></div>
-                            <div class="col-6 m-0 p-0"><div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div></div>
-                        </div>
-                        <div class="legends_sec_piechart row col-12 m-0">
-                            <div class="legend-data col-6 p-0">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="indication total"></span>
-                                    <span class="title">Total Searches</span>
-                                </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="indication feedback"></span>
-                                    <span class="title">Feedback Recieved</span>
-                                </div>
-                            </div>
-                            <div class="legend-data col-6 p-0">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="indication usefull"></span><span class="title">Useful Result</span>                                   
-                                </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="indication notusefull"></span><span class="title">Not Useful Result</span>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                      
                     </div>
-
                 </div>
             </div>
         </div>        

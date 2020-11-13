@@ -210,7 +210,12 @@
     .legends-info{
         display: flex;
         .content{
-            margin-right: 60px;
+            padding: 10px 60px 10px 10px;
+            background: #F8F9FA;
+            border-radius: 4px;
+            &.no-bg{
+                background: transparent;
+            }
             .title{
                 color: #202124;
                 font-weight: 500;
@@ -224,9 +229,11 @@
                     // }
                     &.withresults{
                         border-top: 4px solid #0D6EFD;
+                        border-radius: 6px;
                     }
                     &.clicks{
                         border-top: 4px solid #FF784B;
+                        border-radius: 6px;
                     }
                 }               
             }
@@ -239,6 +246,9 @@
                     img{
                         margin-right: 5px;
                         vertical-align: baseline;
+                        background: #28A745;
+                        margin: 0 8px 0 0;
+                        border-radius: 100%;
                     }
                 }
                 .percentage{
@@ -310,4 +320,61 @@
     margin: 0 auto 28px auto;
     box-shadow: 0 -4px 18px 0 rgba(0, 0, 0, 0.1);
     border-radius: 100%;
+}
+.bottom-row{
+    .legend-sec{
+        display: flex;
+        .title{
+            color: #26344A;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            margin-right: 25px;
+        }
+        .legends-info{
+            .numbers{
+                color: #9AA0A6;
+                font-weight: normal;
+                font-size: 10px;
+                line-height: 12px;
+                text-align: center;
+                margin-top: 10px;
+            }
+            .one{
+                .bg-color{
+                    width: 70px;
+                    height: 20px;
+                    background: #07377F;
+                }
+            }
+            .two{
+                .bg-color{
+                    width: 70px;
+                    height: 20px;
+                    background: #0D6EFD;
+                }
+            }
+            .three{
+                .bg-color{
+                    width: 70px;
+                    height: 20px;
+                    background: #85B7FE;
+                }
+            }
+            .four{
+                .bg-color{
+                    width: 70px;
+                    height: 20px;
+                    background:#E7F1FF;
+                }
+            }
+            .five{
+                .bg-color{
+                    width: 70px;
+                    height: 20px;
+                    background: #F3F8FF;
+                }
+            }
+        }
+    }
 }
