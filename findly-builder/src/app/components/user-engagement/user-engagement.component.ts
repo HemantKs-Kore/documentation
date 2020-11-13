@@ -44,6 +44,9 @@ export class UserEngagementComponent implements OnInit {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+  group = "hour"
+  usersBusyChart : any;
+  usersChart : any;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
@@ -65,10 +68,12 @@ export class UserEngagementComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     
-    this.userEngagementChart();
+    
     this.mostClick();
     //this.feedback();
-    this.busyHours();
+    
+    this.getuserCharts('UsersChart');
+    this.getuserCharts('UsersBusyChart');
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
@@ -83,6 +88,58 @@ export class UserEngagementComponent implements OnInit {
   }
   paginate(event){
     console.log(event)
+  }
+  getuserCharts(type){
+    var today = new Date();
+    var yesterday = new Date(Date.now() - 864e5);
+    var date_7 = new Date(Date.now() - (6 * 864e5));
+    let from = new Date();
+    if(this.group == 'date'){
+      from = date_7;
+    }else if(this.group == 'hour'){
+      from = yesterday;
+    }else {
+      from = new Date();
+    }
+    const header : any= {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: 'sidx-e91a4194-df09-5e9c-be4e-56988e984343',//this.serachIndexId,
+      offset: 0,
+      limit:this.pageLimit
+    };
+    let payload = {
+      type: type,
+      filters: {
+        from: from.toJSON(),
+        to: today.toJSON()
+      },
+      group: this.group //this.group//"hour - 24 /date - 7 /week - coustom if time > 30 days"
+    }
+    
+    this.service.invoke('get.userChart', quaryparms,payload,header).subscribe(res => {
+     if(type == 'UsersChart'){
+      if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
+        this.usersChart = res.UsersChart;
+      } 
+      this.userEngagementChart();
+     }
+     if(type == 'UsersBusyChart'){
+        if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
+          this.usersBusyChart = res.totalUsersChart;
+        }
+        this.busyHours(); 
+      }
+      
+      
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
   }
   getQueries(type){
     var today = new Date();
@@ -208,138 +265,29 @@ var valueList1 = totaldata.map(function (item) {
 var valueList2 = totaldata.map(function (item) {
     return item[3];
 });
-// this.chartOption  = {
-//   grid: {
-//     left: '3%',
-//     right: '4%',
-//     bottom: '3%',
-//     containLabel: true
-// },
-//     // 4th August, 2020
-//     tooltip: {
-//       trigger: 'axis',  
-//       formatter: `
-//       <div class="metrics-tooltips-hover">
-//       <div class="main-title">{b0}</div>
-//       <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
-//               :</span><span class="count-data">{c0}</span></div>
-//       <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
-//               :</span><span class="count-data">{c1}</span></div>
-//       <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
-//               :</span><span class="count-data">{c2}</span></div>
-//   </div>
-//       `,
-//       position: 'top',
-//       padding: 0
-//     },
- 
-//     xAxis: [{
-//         data: dateList,
-//        // type: 'time',
-//         minInterval : 8,
-//          boundaryGap:false,
-//         show: true,
-//         //data: ['1st Aug', '2nd Aug' , '3rd Aug', '4th Aug', '5th Aug', '6th Aug', '7th Aug']
-//         //splitLine: {show: true}
-//     }],
-//     yAxis: [{
-//         splitLine: {show: true}
-//     }],
-    
-//     series: [{
-//         type: 'line',
-//         showSymbol: false,
-//         data: valueList,
-//         lineStyle: {color: '#0D6EFD'}
-//     },{
-//         type: 'line',
-//         showSymbol: false,
-//         data: valueList1,
-//         lineStyle: {color: '#28A745'}
-//     }
-//     ,{
-//         type: 'line',
-//         showSymbol: false,
-//         data: valueList2,
-//         lineStyle: {color: '#7027E5'}
-//     }]
-// };
-    /** TEST */
-    //     this.chartOption1 = {
-    //       grid: {
-    //         left: '3%',
-    //         right: '4%',
-    //         bottom: '3%',
-    //         containLabel: true
-    //     },
-    //       xAxis: {
-    //         type: 'category',
-    //         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    //         scale: true,
-    //        show:true,
-    //        splitLine:{//remove grid lines
-    //       	show:false
-    //       },
-    //         //splitArea : {show : false}// remove the grid area
-    //     },
-    //     yAxis: {
-    //         type: 'value',
-    //         scale: true,
-    //       show:true,
-    //       splitLine:{
-    //         show:true
-    //       },
-    //       splitArea : {show : false}
-    //     },
-    //     // tooltip: {
-    //     //     axisPointer: {
-    //     //         label: {
-    //     //             //backgroundColor: '#6a7985'
-    //     //         }
-    //     //     }
-    //     // },
-    //     tooltip: {
-          
-    //       formatter: `
-    //       <div class="metrics-tooltips-hover">
-    //       <div class="main-title">4th August, 2020</div>
-    //       <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
-    //               :</span><span class="count-data">240</span></div>
-    //       <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
-    //               :</span><span class="count-data">160</span></div>
-    //       <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
-    //               :</span><span class="count-data">80</span></div>
-    //   </div>
-    //       `,
-    //       position: 'top',
-    //       padding: 0
-    //     },
-    //     series: [{
-    //         data: [7, 10, 14, 18, 15, 10, 6],
-    //         type: 'line',
-    //         lineStyle: {
-    //           color: '#202124',
-    //         }
-    //     },
-    //     {
-    //         data: [8, 11, 21, 15, 10, 5, 5],
-    //         type: 'line',
-    //         lineStyle: {
-    //           color: '#3368BB',
-    //         }
-    //     },
-    //     {
-    //       data: [8, 11, 16, 15, 10, 5, 5],
-    //       type: 'line',
-    //       lineStyle: {
-    //         color: '#009DAB',
-    //       }
-    //   }
-    // ]};
   }
   userEngagementChart(){
-    let data = []
-    let data1 = [];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let xAxisData = [];
+    let yAxisRepeatUser = [];
+    let yAxisNewUsers = [];
+    if(this.group == 'date'){
+      this.usersChart.forEach(element => {
+        let date = new Date(element.date);
+        xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+        yAxisRepeatUser.push(element.repeatedUsers);
+        yAxisNewUsers.push(element.newUsers);
+      });
+    }
+    if(this.group == 'hour'){
+      this.usersChart.forEach((element,index) => {
+        if(index > 0 && index <= 24) { 
+          xAxisData.push(index);
+          yAxisRepeatUser.push(element.repeatedUsers);
+          yAxisNewUsers.push(element.newUsers);
+        }
+      });
+    }
     // for(let i = 0; i<= 90; i++ ){
     //   // if(i % 2 == 0){
     //   //   data.push([[i,i,i]])
@@ -388,7 +336,7 @@ var valueList2 = totaldata.map(function (item) {
       },
       xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] //data//
+          data: xAxisData //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] //data//
          
       },
       yAxis: {
@@ -413,7 +361,7 @@ var valueList2 = totaldata.map(function (item) {
                 },
                 
               },
-              data: [5,5,5,5,5,5,5]//data1
+              data: yAxisRepeatUser
           },
           {
               name: 'top',
@@ -433,7 +381,7 @@ var valueList2 = totaldata.map(function (item) {
               lineStyle: {
                 color: '#0D6EFD',
               },
-              data:  [5,5,5,5,5,5,5]
+              data:  yAxisNewUsers
           }
       ]
   };
@@ -519,6 +467,26 @@ var valueList2 = totaldata.map(function (item) {
       
     // }
     busyHours(){
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      let busyChartArrayData :any = []
+      let yAxisData = [];
+      let xAxisData = [];
+      let heatData = [[]];
+      if(this.group == 'hour'){
+        for (const property in this.usersBusyChart) {
+          busyChartArrayData.push(this.usersBusyChart[property])
+          //console.log(`${property}: ${object[property]}`);
+        }
+          
+          for(let i = 0; i< busyChartArrayData.length ; i++){
+            let date = new Date(busyChartArrayData.date);
+            yAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+            for(let j =0 ; j< busyChartArrayData[i].length;j++){
+              xAxisData.push(j)
+              heatData.push([i,j,busyChartArrayData[j].totalUsers])
+            }
+          }
+      }
       //let hours = ["1","2"]
       let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
     let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
@@ -553,7 +521,7 @@ var valueList2 = totaldata.map(function (item) {
         },
         xAxis: {
           type: 'category',
-          data: hours,
+          data: xAxisData,
           axisLine: {
             show: false
           },
@@ -582,7 +550,7 @@ var valueList2 = totaldata.map(function (item) {
         },
         yAxis: {
           type: 'category',
-          data: days,
+          data: yAxisData,
           axisLine: {
             show: false
           },
@@ -624,7 +592,7 @@ var valueList2 = totaldata.map(function (item) {
         series: [{
           name: 'Users',
           type: 'heatmap',
-          data: data,
+          data: heatData,
           emphasis: {
             itemStyle: {
               shadowColor: 'rgba(0, 0, 0, 0.5)'
