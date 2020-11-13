@@ -480,6 +480,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
       method: 'post'
     }
+    this.serviceList['get.userChart'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/analysis',
+      method: 'post'
+    }
 
     /** get API for Metrics */
 
