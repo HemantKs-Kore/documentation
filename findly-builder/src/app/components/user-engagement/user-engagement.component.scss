@@ -250,6 +250,10 @@
                         margin: 0 0 0 8px;
                         border-radius: 100%;
                     }
+                }&.failed{
+                    img{
+                        background: #DD3646;
+                    }
                 }
                 .percentage{
                     font-weight: normal;

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
+import { Options } from 'ng5-slider';
 import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
 
 @Component({
@@ -44,6 +45,40 @@ export class UserEngagementComponent implements OnInit {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+
+  /**slider */
+  durationRange1: number = 10;
+  durationRange2: number = 60;
+  durationOptions: Options = {
+    floor: 0,
+    ceil: 24
+  };
+
+  messagesRange1: number = 5;
+  messagesRange2: number = 20;
+  messagesOptions: Options = {
+    floor: 0,
+    ceil: 30
+  };
+
+  tasksRange1: number = 2;
+  tasksRange2: number = 5;
+  tasksOptions: Options = {
+    floor: 0,
+    ceil: 20
+  };
+
+
+  ranges = {
+    duration: ["0-10", "10-20", "20-100"],
+    msgCount: ["1-5", "5-10", "10-100"],
+    taskCount: ["0-10", "10-20", "20-100"]
+  }
+  type = '';
+  refElement: any;
+  @Output() updatedRanges = new EventEmitter();
+  /**slider */
+  maxHeatValue = 0;
   group = "hour"
   usersBusyChart : any;
   usersChart : any;
@@ -60,6 +95,12 @@ export class UserEngagementComponent implements OnInit {
   userEngagementChartData : EChartOption;
   isAsc = true;
   slider = 1;
+  totalUser = 0;
+  totalUserProgress = 0;
+  newUser = 0;
+  newUserProgress = 0;
+  repeatUser= 0;
+  repeatUserProgress = 0;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -80,6 +121,70 @@ export class UserEngagementComponent implements OnInit {
     this.getQueries("SearchHistogram");
     
   }
+  //SLider
+  onUserChangeEnd(rangeType: string, $event, parentClass) {
+
+    //this.removeTooltip(parentClass);
+
+    // const endRange = rangeType === 'duration' ? this.ranges.duration[this.ranges.duration.length -1] : rangeType === 'taskCount' ? 30 : 20;
+    // this.ranges[rangeType] = [`0-${$event.value}`, `${$event.value}-${$event.highValue}`, `${$event.highValue}-${endRange}`]
+
+    // let floor = 0;
+    // let ceil = 0;
+
+    // switch (rangeType) {
+    //   case 'duration':
+    //     floor = +this.durationOptions.floor;
+    //     ceil = +this.durationOptions.ceil;
+    //     break;
+    //   case 'msgCount':
+    //     floor = +this.messagesOptions.floor;
+    //     ceil = +this.messagesOptions.ceil;
+    //     break;
+    //   case 'taskCount':
+    //     floor = +this.tasksOptions.floor;
+    //     ceil = +this.tasksOptions.ceil;
+    //     break;
+    // }
+
+    // this.ranges[rangeType] = [];
+    // if ($event.value !== floor) { this.ranges[rangeType].push(`${floor}-${$event.value}`) }
+    // if ($event.value !== $event.highValue) { this.ranges[rangeType].push(`${$event.value}-${$event.highValue}`) }
+    // if ($event.highValue !== ceil) { this.ranges[rangeType].push(`${$event.highValue}-${ceil}`) }
+    // this.updatedRanges.emit({ sessionType: this.type, ranges: this.ranges });
+  }
+  onUserChange(event, parentClass, multiple?) {
+   // this.appendToolTip(event, parentClass, multiple);
+  }
+
+  appendToolTip(event, parentClass, multiple?) {
+    let value;
+    if (event.pointerType == 1) {
+      this.refElement = 'ng5-slider-pointer-max';
+      value = event.highValue;
+    }
+    else {
+      this.refElement = 'ng5-slider-pointer-min';
+      value = event.value;
+    }
+    let elementCollection = document.getElementsByClassName(this.refElement);
+    for (let i = 0; i <= elementCollection.length; i++) {
+      if (elementCollection[i]) {
+        if (elementCollection[i] && elementCollection[i].parentElement.className.includes(parentClass)) {
+          // console.log("message true",  elementCollection[i],  elementCollection[i].parentElement.className);
+          var node = document.createElement("SPAN");                 // Create a <span> node
+          let element: any = document.getElementsByClassName(this.refElement)[i];
+          while (element.firstChild) {
+            element.removeChild(element.firstChild);
+          }
+          var testnode = document.createTextNode(value);
+          node.appendChild(testnode);
+          element.appendChild(node);
+        }
+      }
+    }
+  }
+  //SLider
   tab(index){
     this.slider = index
     if(index == 2){
@@ -122,6 +227,12 @@ export class UserEngagementComponent implements OnInit {
      if(type == 'UsersChart'){
       if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
         this.usersChart = res.UsersChart;
+        this.totalUser = res.totalUsers;
+        this.totalUserProgress = res.increaseInNewUsers;
+        this.newUser = res.newUsers;
+        this.newUserProgress = res.increaseInUsers;
+        this.repeatUser= res.repeatedUsers;
+        this.repeatUserProgress = res.increaseInRepeatedUsers;
       } 
       this.userEngagementChart();
      }
@@ -282,7 +393,7 @@ var valueList2 = totaldata.map(function (item) {
     if(this.group == 'hour'){
       this.usersChart.forEach((element,index) => {
         if(index > 0 && index <= 24) { 
-          xAxisData.push(index);
+          xAxisData.push(index + 'hr');
           yAxisRepeatUser.push(element.repeatedUsers);
           yAxisNewUsers.push(element.newUsers);
         }
@@ -336,11 +447,24 @@ var valueList2 = totaldata.map(function (item) {
       },
       xAxis: {
           type: 'category',
-          data: xAxisData //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] //data//
-         
+          data: xAxisData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] //data//
+          axisLabel:{
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
       },
       yAxis: {
-           type: 'value'
+           type: 'value',
+           axisLabel:{
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
       },
       series: [
         //barMinWidth = 10;
@@ -468,30 +592,54 @@ var valueList2 = totaldata.map(function (item) {
     // }
     busyHours(){
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const hourConversion = ['1 am','2 am','3 am','4 am','5 am','6 am','7 am','8 am','9 am','10 am','11 am','12 pm',
+      '1 pm','2 pm','3 pm','4 pm','5 pm','6 pm','7 pm','8 pm','9pm','10 pm','11 pm','0 am']
       let busyChartArrayData :any = []
       let yAxisData = [];
       let xAxisData = [];
       let heatData = [[]];
+      let totalMaxValueArr = [];
+      let start = -1; // 3
+      let end= 25; // 17
+      let secondIndex = 0;
+      let checkData = [];
       if(this.group == 'hour'){
         for (const property in this.usersBusyChart) {
           busyChartArrayData.push(this.usersBusyChart[property])
+           // let date =  property.split('-')[2]; 
+            yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //console.log(`${property}: ${object[property]}`);
         }
-          
+        let checkIndex = 0;
           for(let i = 0; i< busyChartArrayData.length ; i++){
-            let date = new Date(busyChartArrayData.date);
-            yAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
             for(let j =0 ; j< busyChartArrayData[i].length;j++){
-              xAxisData.push(j)
-              heatData.push([i,j,busyChartArrayData[j].totalUsers])
+              if(busyChartArrayData[i][j].hour > start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
+                xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
+                heatData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
+                if(i != checkIndex){
+                  checkData = [];
+                  checkData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
+                }else{
+                  checkData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
+                }
+                secondIndex = checkData.length;
+                checkIndex = i
+              } 
+              
+              totalMaxValueArr.push(busyChartArrayData[i][j].totalUsers)
             }
           }
       }
+      console.log(heatData)
+     this.maxHeatValue = Math.max(...totalMaxValueArr)
+      heatData = heatData.map(function (item) {
+        return [item[1], item[0], item[2] || '-'];
+    });
       //let hours = ["1","2"]
-      let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
+      //let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
+    //let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
     // let days = [];
-     let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
+    // let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
     // for(let i = 0; i<= 90; i++ ){
     //   for(let j = 0; j<= i; j++ ){
     //     for(let k = 1; k<= j; k++ ){
@@ -526,11 +674,11 @@ var valueList2 = totaldata.map(function (item) {
             show: false
           },
           axisLabel:{
-            margin: 20,
-            color: "#8a959f",
-            fontWeight: "bold",
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
             fontSize: 12,
-            fontFamily: "Lato"
+            fontFamily: "Inter"
           },
           axisTick: {
             show: false
@@ -555,11 +703,11 @@ var valueList2 = totaldata.map(function (item) {
             show: false
           },
           axisLabel:{
-            margin: 20,
-            color: "#8a959f",
-            fontWeight: "bold",
+            //margin: 20,
+            color: "#9AA0A6",
+            fontWeight: "normal",
             fontSize: 12,
-            fontFamily: "Lato"
+            fontFamily: "Inter"
           },
           axisTick: {
             show: false
@@ -578,15 +726,15 @@ var valueList2 = totaldata.map(function (item) {
         },
   
         visualMap: [{
-          show: false,
+          show: true,
           min: 0,
-          max: 10,
+          max: this.maxHeatValue,
           calculable: true,
           orient: 'horizontal',
-          left: 'center',
+          right: 'right',
           bottom: '0',
           inRange : {   
-            color: ['rgba(0, 157, 171, 0.1)', '#009dab' ] //From smaller to bigger value ->
+            color: ['#E7F1FF', '#07377F' ] //From smaller to bigger value ->
           }
         }],
         series: [{
@@ -600,7 +748,7 @@ var valueList2 = totaldata.map(function (item) {
           },
           itemStyle: {
             borderColor: "#fff",
-            borderWidth: 0.1
+            borderWidth: 2
           }
   
         }]
