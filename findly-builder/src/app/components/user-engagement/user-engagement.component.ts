@@ -44,6 +44,9 @@ export class UserEngagementComponent implements OnInit {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+  group = "hour"
+  usersBusyChart : any;
+  usersChart : any;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
@@ -65,10 +68,12 @@ export class UserEngagementComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     
-    this.userEngagementChart();
+    
     this.mostClick();
     //this.feedback();
-    this.busyHours();
+    
+    this.getuserCharts('UsersChart');
+    this.getuserCharts('UsersBusyChart');
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
@@ -83,6 +88,58 @@ export class UserEngagementComponent implements OnInit {
   }
   paginate(event){
     console.log(event)
+  }
+  getuserCharts(type){
+    var today = new Date();
+    var yesterday = new Date(Date.now() - 864e5);
+    var date_7 = new Date(Date.now() - (6 * 864e5));
+    let from = new Date();
+    if(this.group == 'date'){
+      from = date_7;
+    }else if(this.group == 'hour'){
+      from = yesterday;
+    }else {
+      from = new Date();
+    }
+    const header : any= {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: 'sidx-e91a4194-df09-5e9c-be4e-56988e984343',//this.serachIndexId,
+      offset: 0,
+      limit:this.pageLimit
+    };
+    let payload = {
+      type: type,
+      filters: {
+        from: from.toJSON(),
+        to: today.toJSON()
+      },
+      group: this.group //this.group//"hour - 24 /date - 7 /week - coustom if time > 30 days"
+    }
+    
+    this.service.invoke('get.userChart', quaryparms,payload,header).subscribe(res => {
+     if(type == 'UsersChart'){
+      if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
+        this.usersChart = res.UsersChart;
+      } 
+      this.userEngagementChart();
+     }
+     if(type == 'UsersBusyChart'){
+        if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
+          this.usersBusyChart = res.totalUsersChart;
+        }
+        this.busyHours(); 
+      }
+      
+      
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
   }
   getQueries(type){
     var today = new Date();
@@ -208,150 +265,41 @@ var valueList1 = totaldata.map(function (item) {
 var valueList2 = totaldata.map(function (item) {
     return item[3];
 });
-// this.chartOption  = {
-//   grid: {
-//     left: '3%',
-//     right: '4%',
-//     bottom: '3%',
-//     containLabel: true
-// },
-//     // 4th August, 2020
-//     tooltip: {
-//       trigger: 'axis',  
-//       formatter: `
-//       <div class="metrics-tooltips-hover">
-//       <div class="main-title">{b0}</div>
-//       <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
-//               :</span><span class="count-data">{c0}</span></div>
-//       <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
-//               :</span><span class="count-data">{c1}</span></div>
-//       <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
-//               :</span><span class="count-data">{c2}</span></div>
-//   </div>
-//       `,
-//       position: 'top',
-//       padding: 0
-//     },
- 
-//     xAxis: [{
-//         data: dateList,
-//        // type: 'time',
-//         minInterval : 8,
-//          boundaryGap:false,
-//         show: true,
-//         //data: ['1st Aug', '2nd Aug' , '3rd Aug', '4th Aug', '5th Aug', '6th Aug', '7th Aug']
-//         //splitLine: {show: true}
-//     }],
-//     yAxis: [{
-//         splitLine: {show: true}
-//     }],
-    
-//     series: [{
-//         type: 'line',
-//         showSymbol: false,
-//         data: valueList,
-//         lineStyle: {color: '#0D6EFD'}
-//     },{
-//         type: 'line',
-//         showSymbol: false,
-//         data: valueList1,
-//         lineStyle: {color: '#28A745'}
-//     }
-//     ,{
-//         type: 'line',
-//         showSymbol: false,
-//         data: valueList2,
-//         lineStyle: {color: '#7027E5'}
-//     }]
-// };
-    /** TEST */
-    //     this.chartOption1 = {
-    //       grid: {
-    //         left: '3%',
-    //         right: '4%',
-    //         bottom: '3%',
-    //         containLabel: true
-    //     },
-    //       xAxis: {
-    //         type: 'category',
-    //         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    //         scale: true,
-    //        show:true,
-    //        splitLine:{//remove grid lines
-    //       	show:false
-    //       },
-    //         //splitArea : {show : false}// remove the grid area
-    //     },
-    //     yAxis: {
-    //         type: 'value',
-    //         scale: true,
-    //       show:true,
-    //       splitLine:{
-    //         show:true
-    //       },
-    //       splitArea : {show : false}
-    //     },
-    //     // tooltip: {
-    //     //     axisPointer: {
-    //     //         label: {
-    //     //             //backgroundColor: '#6a7985'
-    //     //         }
-    //     //     }
-    //     // },
-    //     tooltip: {
-          
-    //       formatter: `
-    //       <div class="metrics-tooltips-hover">
-    //       <div class="main-title">4th August, 2020</div>
-    //       <div class="data-content"><span class="indication searches"></span><span class="title">Total Searches
-    //               :</span><span class="count-data">240</span></div>
-    //       <div class="data-content"><span class="indication result"></span><span class="title">Searches with Results
-    //               :</span><span class="count-data">160</span></div>
-    //       <div class="data-content"><span class="indication clicks"></span><span class="title">Searches with Clicks
-    //               :</span><span class="count-data">80</span></div>
-    //   </div>
-    //       `,
-    //       position: 'top',
-    //       padding: 0
-    //     },
-    //     series: [{
-    //         data: [7, 10, 14, 18, 15, 10, 6],
-    //         type: 'line',
-    //         lineStyle: {
-    //           color: '#202124',
-    //         }
-    //     },
-    //     {
-    //         data: [8, 11, 21, 15, 10, 5, 5],
-    //         type: 'line',
-    //         lineStyle: {
-    //           color: '#3368BB',
-    //         }
-    //     },
-    //     {
-    //       data: [8, 11, 16, 15, 10, 5, 5],
-    //       type: 'line',
-    //       lineStyle: {
-    //         color: '#009DAB',
-    //       }
-    //   }
-    // ]};
   }
   userEngagementChart(){
-    let data = []
-    let data1 = [];
-    for(let i = 0; i<= 90; i++ ){
-      // if(i % 2 == 0){
-      //   data.push([[i,i,i]])
-      // }else if(i % 3 == 0){
-      //   data.push([[i+1,i+4,i+5]])
-      // }else if(i % 5 == 0){
-      //   data.push([[i+3,i+4,i+2]])
-      // }
-      
-      data.push(i + "Aug")
-      data1.push(i)
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let xAxisData = [];
+    let yAxisRepeatUser = [];
+    let yAxisNewUsers = [];
+    if(this.group == 'date'){
+      this.usersChart.forEach(element => {
+        let date = new Date(element.date);
+        xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+        yAxisRepeatUser.push(element.repeatedUsers);
+        yAxisNewUsers.push(element.newUsers);
+      });
     }
+    if(this.group == 'hour'){
+      this.usersChart.forEach((element,index) => {
+        if(index > 0 && index <= 24) { 
+          xAxisData.push(index);
+          yAxisRepeatUser.push(element.repeatedUsers);
+          yAxisNewUsers.push(element.newUsers);
+        }
+      });
+    }
+    // for(let i = 0; i<= 90; i++ ){
+    //   // if(i % 2 == 0){
+    //   //   data.push([[i,i,i]])
+    //   // }else if(i % 3 == 0){
+    //   //   data.push([[i+1,i+4,i+5]])
+    //   // }else if(i % 5 == 0){
+    //   //   data.push([[i+3,i+4,i+2]])
+    //   // }
+      
+    //   data.push(i + "Aug")
+    //   data1.push(i)
+    // }
     this.userEngagementChartData = {
       
       tooltip: {
@@ -388,7 +336,7 @@ var valueList2 = totaldata.map(function (item) {
       },
       xAxis: {
           type: 'category',
-          data: data//['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: xAxisData //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] //data//
          
       },
       yAxis: {
@@ -413,7 +361,7 @@ var valueList2 = totaldata.map(function (item) {
                 },
                 
               },
-              data: data1
+              data: yAxisRepeatUser
           },
           {
               name: 'top',
@@ -433,7 +381,7 @@ var valueList2 = totaldata.map(function (item) {
               lineStyle: {
                 color: '#0D6EFD',
               },
-              data: data1
+              data:  yAxisNewUsers
           }
       ]
   };
@@ -519,17 +467,37 @@ var valueList2 = totaldata.map(function (item) {
       
     // }
     busyHours(){
-      //let hours = ["1","2"]
-      let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm","5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm","5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    //let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]
-    let days = [];
-    let data = []//[[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
-    for(let i = 0; i<= 90; i++ ){
-      for(let j = 0; j<= i; j++ ){
-        for(let k = 1; k<= j; k++ ){
-          data.push([i,j,k])
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      let busyChartArrayData :any = []
+      let yAxisData = [];
+      let xAxisData = [];
+      let heatData = [[]];
+      if(this.group == 'hour'){
+        for (const property in this.usersBusyChart) {
+          busyChartArrayData.push(this.usersBusyChart[property])
+          //console.log(`${property}: ${object[property]}`);
         }
+          
+          for(let i = 0; i< busyChartArrayData.length ; i++){
+            let date = new Date(busyChartArrayData.date);
+            yAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+            for(let j =0 ; j< busyChartArrayData[i].length;j++){
+              xAxisData.push(j)
+              heatData.push([i,j,busyChartArrayData[j].totalUsers])
+            }
+          }
       }
+      //let hours = ["1","2"]
+      let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
+    let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
+    // let days = [];
+     let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
+    // for(let i = 0; i<= 90; i++ ){
+    //   for(let j = 0; j<= i; j++ ){
+    //     for(let k = 1; k<= j; k++ ){
+    //       data.push([i,j,k])
+    //     }
+    //   }
       // if(i % 2 == 0){
       //   data.push([[i,i,i]])
       // }else if(i % 3 == 0){
@@ -538,8 +506,8 @@ var valueList2 = totaldata.map(function (item) {
       //   data.push([[i+3,i+4,i+2]])
       // }
      
-      days.push(i + "Aug")
-    }  
+    //   days.push(i + "Aug")
+    // }  
     this.heatMapChartOption = {
         tooltip: {
           position: 'top'
@@ -553,7 +521,7 @@ var valueList2 = totaldata.map(function (item) {
         },
         xAxis: {
           type: 'category',
-          data: hours,
+          data: xAxisData,
           axisLine: {
             show: false
           },
@@ -582,7 +550,7 @@ var valueList2 = totaldata.map(function (item) {
         },
         yAxis: {
           type: 'category',
-          data: days,
+          data: yAxisData,
           axisLine: {
             show: false
           },
@@ -624,7 +592,7 @@ var valueList2 = totaldata.map(function (item) {
         series: [{
           name: 'Users',
           type: 'heatmap',
-          data: data,
+          data: heatData,
           emphasis: {
             itemStyle: {
               shadowColor: 'rgba(0, 0, 0, 0.5)'

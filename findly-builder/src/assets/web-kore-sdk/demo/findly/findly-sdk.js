@@ -310,7 +310,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
-      debugger;
+      // debugger;
       var baseAPIServer = 'https://app.findly.ai';
       // var baseAPIServer = 'https://dev.findly.ai';
       if (_self.isDev) {
@@ -4604,7 +4604,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindSearchAccordion();
       _self.bindFeedbackEvent();
       $(dataHTML).css('left', left);
-      debugger;
+      // debugger;
       var container = $('.search-background-div');
       if (!container.length) {
         container = $('body')
