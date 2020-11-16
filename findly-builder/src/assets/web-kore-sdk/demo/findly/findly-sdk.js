@@ -310,7 +310,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
-      debugger;
+      // debugger;
       var baseAPIServer = 'https://app.findly.ai';
       // var baseAPIServer = 'https://dev.findly.ai';
       if (_self.isDev) {
@@ -324,6 +324,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
         searchUrl: baseUrl + "/search/" + SearchIndexID,
+        metricsUrl: baseAPIServer + "/api/1.1/findlymetrics/logs",
         // popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         popularSearchesUrl: baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
@@ -838,7 +839,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
           </div>\
           <div id="searchBox" >\
-            <div class="heading display-none">\
+            <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
               <div class="logo-sec-title">\
                 <img class="show-in-findly logo-img" src="data:image/png;base64,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">\
                 <img class="search-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAARCAYAAABq+XSZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANmSURBVHgB3VddUuJAEO6J2XduYFzZZ/UExBOIJzCcADiBegL1BngC8QTGE8g+q+V4AtlnIr1fz0zCJEuALaG07CqG+e3p7vn6J0QrUhT92qdvRiqKmmf1y6y1fh5EP5sXxNTDRKpfng7pgxRFu21cLcYca/10GYGIwsSuZgNcqmmDFO0070jRKERzWruLVYp2QFNukFIY05jWQ23cewIDaPQvoXhUyMFhilbTJompQcwq9KZSTN5Xdmlp8fodIOQarzKib0BA24H8z5SH4pg8m7cZ/p5QQC2ahgJVwLQZU6BOzOJ00qcg7KKHNTXG+LwKW7jNqV2X/VmfllCVP9iNnRz7kKPr5s/r3KM4zyyIgkwKex9HJXmm/BrSSjSN4QIiTEoGpioC48SubYnhXJ+xFCYQ8iC/DBfdYLpdsFJhjHYJgjIN+CeOv6Bx4OToQo7ExiLdmXfSKMZ0BuWGGN47AzzAIId43NSJCeMEeqa84hMEglaJE6u+b7G5pBC4mI+NQRRdOCETND0T2HLFma+wRwSKF8YZElhqDVlSszcIWoXyCmPzH6S1h6f0B21fAmk+BV7bIg/ZxyvIe3kIj31lTgh0y4hVBxeN3CWCDoH/nluN3T+i+nPP9VNn5HgxX7o1yjKL8To2IxgZoSBf1x3zlTYyyTmBvgS5Cnk+LwzVoLy8PMAplb15w2o2aDhFynyYf+NgTAspG0A8QVLD1Rj7xq1s+k3rTrm02QWSJZ02jAw2S/2ji//yuvCJdZNSUWVie9kRCXIF9InFVY7MgiBi4V1bdySPwME50SQ1fQoFda3q1oA2SspZmyMTgSmHIa9WLeaKWsVjO/l+WbfdIkRF1hUfTbHkMsXevP0bVl6g61xB0Y2J/Cp8cHD8n/Oxmxj56U0MKdUaDOviycSuBXw027MrBVV7HveNKm+sztxxxVLDRH7xf+bblc/7vmoyhk8/xIgxfkez+6gvqQ5GeZOfyUCqGssshcTZjusvKF3feyZ3FjQZYpxK70Xr15lw2TFROaoiOEl6G1rYq7GkTrxXw+cnsUbecK4cedS3cqRl3obXjn/GfSsMTcls7nuy9/lyiZxSktAXJffx04KECVnUpFDkwx9VPq1Y4X0GoaIsfFXc5r1Da6YvrDxdIWrfOsVHeX2/TvoL5IWKplAqwt0AAAAASUVORK5CYII=">\
@@ -853,7 +854,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
             </div>\
-            <div class="custom-header">\
+            <div class="custom-header {{if koreWidgetSDKInstance.isDev==false}}display-none{{/if}}">\
               <div class="custom-header-container-left">\
                 <img class="custom-chevron-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABgSURBVHgBvY5JDYBAEASLQwASkIAEUAIScABOwAkaUAAOsEBvwv525sFjO6nHpCuZroBNNOLESCceMeIkSkseqRVXlOqEcItBHOEo8VNg7AgvVpyR/8s5VfZfOWFk98oXwWkULEZAstIAAAAASUVORK5CYII=">\
                 &nbsp;<span class="custom-header-text">HIDE INSIGHTS</span>\
@@ -865,8 +866,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </ul>\
               </div>\
               <div class="custom-header-container-right">\
-                <img class="custom-refresh-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBxZLBDYAgDEW/TsIobgabOIJxAnQC3ahWJbFok/YkL3kXKJ8GCjwENrNkuJXai14ETOzKdoYzO0KB4Ie0Dn4hoX6PJDcH+Eja4VgWoy+jviy+2vKGfGjzCzJgga/9s2bXNgLuMbVGOUOM8gGN7ylbkPg3iwAAAABJRU5ErkJggg==">\
-                <img class="custom-expand-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABVSURBVHgBvZLLDQAhCEQfHdHZ2vGWwm6MGiVq1IOTcOAzZPgIYLQQ5/t8DLy/KWNoqrFM0AmpzhUCA5KPWa9bqPzAXOoFeEkPHUnbQx+tdflwwuZrfGu+IKjlYgIIAAAAAElFTkSuQmCC">\
+                <img class="custom-refresh-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBxZLBDYAgDEW/TsIobgabOIJxAnQC3ahWJbFok/YkL3kXKJ8GCjwENrNkuJXai14ETOzKdoYzO0KB4Ie0Dn4hoX6PJDcH+Eja4VgWoy+jviy+2vKGfGjzCzJgga/9s2bXNgLuMbVGOUOM8gGN7ylbkPg3iwAAAABJRU5ErkJggg==">\
+                <img class="custom-expand-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABVSURBVHgBvZLLDQAhCEQfHdHZ2vGWwm6MGiVq1IOTcOAzZPgIYLQQ5/t8DLy/KWNoqrFM0AmpzhUCA5KPWa9bqPzAXOoFeEkPHUnbQx+tdflwwuZrfGu+IKjlYgIIAAAAAElFTkSuQmCC">\
               </div>\
             </div>\
               <div class="contest_variables_dropdown hide">\
@@ -1196,7 +1197,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{/each}}\
             </li>\
           </ul>\
-          <div class="custom-full-page-view-header-container-center-secondary">\
+          <div class="custom-full-page-view-header-container-center-secondary {{if devMode=="false"||showingMatchedResults=="false"}}display-none{{/if}}">\
             <label class="kr-sg-toggle custom_toggle">\
               <input id="viewTypeCheckboxControl" type="checkbox">\
               <div class="slider"><span class="enabled">Customize</span><span class="disabled">Preview</span></div>\
@@ -1239,7 +1240,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if pages.length && (selectedFacet === "page" || selectedFacet === "all results")}}\
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
                   <div class="relatedPagesTitle">MATCHED PAGES</div>\
-                  <div class="pages-wrp">\
+                  <div class="pages-wrp results-wrp">\
                     {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
                     <div class="faqs-shadow {{if viewType=="Preview"&&page.config.visible==false}}display-none{{/if}} {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
@@ -1333,7 +1334,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if faqs.length && (selectedFacet === "faq" || selectedFacet === "all results") }}\
               <div class="ksa-mostlyAsked fullAsstFaq matched-faq-containers">\
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
-                <div class="tasks-wrp">\
+                <div class="tasks-wrp results-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
                   <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
                   <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
@@ -1426,7 +1427,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results")}}\
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
                   <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
-                  <div class="pages-wrp">\
+                  <div class="pages-wrp results-wrp">\
                     {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
                     <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
@@ -1517,7 +1518,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{/if}}\
               </div>\
               {{/if}}\
-              <div class="custom-add-new-result-container">\
+              <div class="custom-add-new-result-container {{if devMode=="false"||showingMatchedResults=="false"}}display-none{{/if}}">\
                 <div class="custom-add-new-result-icon-container">\
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADOSURBVHgBpVLRFYIwDDx4DsAIdQM2sJuAEwgTyCbgKE6AG4ATMAImj6vUVvDDe+8ebXrphSbAJzLhVTgIZ7IXtkLjC1NvXTBBBWfhkayFCS+oAiNcmGSxjZyawgWMcOLBL1hqs4T1g+X5KPntgrjuxwOdasQw+A5NbNVxpujpOen+xP1dHbA669mQ4g9svWZDhlBtr443eE/sYSRDqPahC52WCfs9dMipNS5QYil5r5eWmmh6Kt7WUmRIy9iEtbcRVNhhmUs35OrSYPmlN14wTi/zFOG6gwAAAABJRU5ErkJggg==">\
                 </div>\
@@ -2110,7 +2111,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
     FindlySDK.prototype.prepAllSearchData = function (selectedFacet) {
-      var _self = this, facets = [], totalResultsCount = null, viewType = '';
+      var _self = this, facets = [], totalResultsCount = null, viewType = '', showingMatchedResults = '', devMode = '';
       if (!facets.length) {
         if (_self.vars.searchObject.liveData.facets) {
 
@@ -2125,6 +2126,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
       console.log("View Type", viewType, _self.vars.customizeView);
+      showingMatchedResults = _self.vars.showingMatchedResults ? 'true' : 'false';
+      console.log("Showing Matched Results", showingMatchedResults, _self.vars.showingMatchedResults);
+      devMode = _self.isDev ? 'true' : 'false';
+      console.log("DEV Mode", devMode, _self.isDev);
       // debugger;
       var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy({
         facets: facets,
@@ -2139,6 +2144,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         documents: _self.vars.searchObject.liveData.documents,
         searchFacets: _self.vars.searchFacetFilters,
         viewType: viewType,
+        
+        showingMatchedResults: showingMatchedResults,
+        devMode: devMode,
 
         getFacetDisplayName: function (key) {
           if (key.toLowerCase() === 'faq') {
@@ -2481,7 +2489,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.search-body-full').html('');
         $('.search-body-full').addClass('hide');
 
-        if(_self.vars.customizeView == true) {
+        if (_self.vars.customizeView == true) {
           $('#viewTypeCustomize').trigger("click");
         }
         else {
@@ -2745,14 +2753,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           if ($(event.target).closest('.faqs-shadow').attr('visible') == "true") {
             var _selectedElement = $(event.target).closest('.faqs-shadow');
-            var _parentElement = $(event.target).closest('.faqs-shadow');
+            // var _parentElement = $(event.target).closest('.faqs-shadow');
+            var _parentElement = $(event.target).closest('.results-wrp');
             var childNodes = Array.prototype.slice.call(_parentElement[0].children);
-
-            if ($(event.target).text() == "UNPIN") {
-              var pinIndex = -1;
+            var pinIndex = 0;
+            if ($(event.target).closest('.custom-actions-content').text() == "UNPIN") {
+              pinIndex = -1;
+              console.log(pinIndex);
             }
             else {
-              var pinIndex = childNodes.indexOf(_selectedElement[0]);
+              pinIndex = childNodes.indexOf(_selectedElement[0]);
+              console.log(pinIndex);
             }
             _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
           }
@@ -2765,12 +2776,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var _selectedElement = $(event.target).closest('.task-wrp');
             var _parentElement = $(event.target).closest('.tasks-wrp');
             var childNodes = Array.prototype.slice.call(_parentElement[0].children);
-
-            if ($(event.target).text() == "UNPIN") {
-              var pinIndex = -1
+            var pinIndex = 0;
+            if ($(event.target).closest('.custom-actions-content').text() == "UNPIN") {
+              pinIndex = -1;
+              console.log(pinIndex);
             }
             else {
-              var pinIndex = childNodes.indexOf(_selectedElement[0]);
+              pinIndex = childNodes.indexOf(_selectedElement[0]);
+              console.log(pinIndex);
             }
             _self.performRankActions(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
           }
@@ -3137,6 +3150,38 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         }
       });
+    }
+
+    FindlySDK.prototype.captureClickAnalytics = function (event, resultType, eventType) {
+      var _self = this;
+      var url = _self.API.metricsUrl;
+      var payload = {
+        "query": _self.vars.searchObject.searchText,
+        "answer": resultType,
+        "event": eventType,
+        "streamId": _self.API.streamId,
+      }
+
+      if (payload.answerType == 'page') {
+        payload.answerType = 'webpage';
+      }
+
+      payload.searchResultId = _self.vars.previousSearchObj.resultId;
+      payload.clickRank = parentInt($(event.currentTarget).attr('id')) + 1;
+
+      console.log(payload.event);
+
+      if (payload.event == 'expand' || payload.event == 'thumbsUp' || payload.event == 'thumbsDown') {
+        delete payload.clickRank;
+      }
+
+      console.log(payload);
+
+      if (_self.isDev == false) {
+        _self.dumpClickAnalyticsData(url, 'POST', JSON.stringify(payload)).then(function (res) {
+          console.log(res);
+        })
+      }
     }
 
     FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend) {
@@ -4290,6 +4335,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       })
     };
+
+    FindlySDK.prototype.dumpClickAnalyticsData = function (url, type, payload) {
+      var bearer = this.API.jstBarrer;
+
+      return $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        headers: {
+          "Authorization": bearer,
+          "Content-Type": "application/json",
+        },
+        data: payload,
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      })
+    };
+
     FindlySDK.prototype.bindCloseGreeting = function () {
       var _self = this;
       $('.search-greeting-close-container').off('click').on('click', function (e) {
@@ -4604,7 +4671,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.bindSearchAccordion();
       _self.bindFeedbackEvent();
       $(dataHTML).css('left', left);
-      debugger;
+      // debugger;
       var container = $('.search-background-div');
       if (!container.length) {
         container = $('body')

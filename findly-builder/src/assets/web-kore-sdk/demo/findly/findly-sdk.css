@@ -8656,7 +8656,8 @@ ngb-accordion .card-header {
     font-size: 14px;
 }
 .ksa-results-tabesHeader{
-    padding-left: 20px;
+    /* padding-left: 20px; */
+    padding-left: 0px;
 }
 .ksa-results-tabesHeader .title-backbutton {
     display: flex;
@@ -10155,7 +10156,10 @@ input:checked + .custom-slider:before {
 .custom-add-new-result-icon-container {
     display: inline-block;
     width: fit-content;
-    height: inherit
+    height: inherit;
+    position: relative;
+    bottom: 10px;
+
 }
 .custom-add-new-result-content {
     display: inline-block;
