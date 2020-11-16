@@ -76,7 +76,7 @@
             }       
         }
         .modal-footer{
-            text-align: left;
+            text-align: right;
             display: block;
             height: auto;
             padding: 10px 30px;
@@ -366,21 +366,21 @@
            }
            .ends-never{
             position: absolute;
-            left: 30px;
+            left: 45px;
             top: 230px;
             .date-pick{
-                position: absolute;
-                left: 80px;
+                position: relative;
+                margin-left: 100px;
             }
             .occur-span{
                 position: absolute;
-                left: 170px;
+                left: 190px;
                 top: 6px;
             }
             ::ng-deep mat-datepicker-toggle {
-                position: absolute;
-                left: 255px;
+                position: absolute;               
                 top:-4px;
+                right: 0;
             }
            }
        }

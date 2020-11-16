@@ -467,7 +467,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.rankingActionLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/logs?limit=20&skip=0',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/logs?subject=rankingAndPinning&queryPipelineId=:queryPipelineId&rankingAndPinning=:rankingAndPinningId&limit=20&skip=0',
       method: 'get'
     }
     this.serviceList['get.customisationLogs'] = {
@@ -478,6 +478,10 @@ export class EndPointsService {
 
     this.serviceList['get.queries'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
+      method: 'post'
+    }
+    this.serviceList['get.userChart'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/analysis',
       method: 'post'
     }
 
@@ -531,7 +535,23 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
       method: 'post'
     }
-
+    this.serviceList['get.dialog'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
+      method: 'get'
+    }
+    this.serviceList['standard.publish'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/standardpublish',
+      method: 'post'
+    }
+    this.serviceList['universal.publish'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/universalbot/publish?',
+      method: 'post'
+    }
+    this.serviceList['get.linkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    }
+   
   /** APIs for Channels */
      
   }

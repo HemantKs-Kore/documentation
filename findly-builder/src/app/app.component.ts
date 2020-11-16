@@ -4,6 +4,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
+// import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
 declare const FindlySDK: any;
@@ -39,12 +40,14 @@ export class AppComponent implements OnInit {
               public localstore: LocalStoreService,
               public workflowService: WorkflowService,
               private activatedRoute: ActivatedRoute,
-              private headerService: SideBarService
+              private headerService: SideBarService,
+              // private translate: TranslateService
   ) {
 
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
+    // translate.setDefaultLang('en');
   }
 
   ngOnInit() {
@@ -117,7 +120,7 @@ export class AppComponent implements OnInit {
      return previOusState;
    }
   resetFindlySearchSDK(appData){
-    debugger;
+    //debugger;
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
@@ -127,7 +130,7 @@ export class AppComponent implements OnInit {
         // debugger;
         window.selectedFindlyApp = searchData;
         console.log(searchData, window.selectedFindlyApp)
-        debugger;
+        //debugger;
         this.searchInstance.setAPIDetails();
       }
     }

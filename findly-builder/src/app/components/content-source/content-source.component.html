@@ -265,9 +265,9 @@
               <span class="tabname" (click)="swapSlider()">Configuration</span>
             </div>
             <div class="right-side">
-              <div class="kr-sg-input-search">
+              <div class="kr-sg-input-search" *ngIf="!isConfig">
                 <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch"
-                  autocomplete="off">
+                  autocomplete="off" >
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
@@ -310,7 +310,7 @@
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
               <div class="accordion-content-info text-left" *ngIf="isConfig">
                 <div class="table-list-content">
-                  <div class="kr-sg-data-table with-checkbox">
+                  <div class="kr-sg-data-table with-checkbox"  >
                     <section class="table-content">
                       <header class="table-header">
                         <div class="col_ col-2">Title</div>
@@ -624,10 +624,11 @@
 
   </div>
   <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
-    <button type="button" class="kr-sg-button-primary btn_md btn-left-config-ok" data-dismiss="modal"
-      (click)="proceedWithConfigUpdate()">Save</button>
-    <button type="button" class="kr-sg-button-secondary btn_md btn-left-config-ca" data-dismiss="modal"
+    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
+    (click)="proceedWithConfigUpdate()">Save</button>
+    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
       (click)="closeStatusModal()">Cancel</button>
+     
   </div>
   <div class="footer-btns d-none">
     <button class="kr-sg-button-primary btn_lg">Update</button>
@@ -711,8 +712,8 @@
     <!-- DATA TABLE ENDS HERE -->
   </div>
 </perfect-scrollbar>  
-<div class="modal-footer">          
+<!-- <div class="modal-footer">          
   <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>        
   <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button>
-</div>
+</div> -->
 </kr-modal>
