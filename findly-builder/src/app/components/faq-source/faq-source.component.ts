@@ -293,7 +293,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       conditionalAnswers: event._source.conditionalAnswers || [],
       keywords: event._source.tags
       };
-      const existingfollowups =  this.selectedFaq.followupQuestions || [];
+      const existingfollowups =  this.selectedFaq._meta.followupQuestions || [];
       existingfollowups.push(followUPpayload);
     const _payload = {
        followupQuestions: existingfollowups || [],
@@ -862,12 +862,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.selectedFaq.alternateQuestions = _.without(this.selectedFaq.alternateQuestions, _.findWhere(this.selectedFaq.alternateQuestions, { _id: ques._id }));
+          this.selectedFaq._source.alternateQuestions = _.without(this.selectedFaq._source.alternateQuestions, _.findWhere(this.selectedFaq._source.alternateQuestions, { _id: ques._id }));
           const params = {
-            question: this.selectedFaq.question,
-            answer: this.selectedFaq.answer,
-            alternateQuestions: this.selectedFaq.alternateQuestions || [],
-            followupQuestions: this.selectedFaq.followupQuestions || []
+            alternateQuestions: this.selectedFaq._source.alternateQuestions || [],
           };
           this.updateFaq(this.selectedFaq, 'updateQA', params);
           dialogRef.close();
@@ -889,12 +886,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.selectedFaq.followupQuestions = _.without(this.selectedFaq.followupQuestions, _.findWhere(this.selectedFaq.followupQuestions, {_id: ques._id }));
+          this.selectedFaq._meta.followupQuestions = _.without(this.selectedFaq._meta.followupQuestions, _.findWhere(this.selectedFaq._meta.followupQuestions, {_id: ques._id }));
           const params = {
-            question: this.selectedFaq.question,
-            answer: this.selectedFaq.answer,
-            alternateQuestions: this.selectedFaq.alternateQuestions || [],
-            followupQuestions: this.selectedFaq.followupQuestions || []
+            followupQuestions: this.selectedFaq._meta.followupQuestions || []
           };
           this.updateFaq(this.selectedFaq, 'updateQA', params);
           dialogRef.close();
