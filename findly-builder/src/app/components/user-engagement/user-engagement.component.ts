@@ -79,7 +79,7 @@ export class UserEngagementComponent implements OnInit {
   @Output() updatedRanges = new EventEmitter();
   /**slider */
   maxHeatValue = 0;
-  group = "hour"
+  group = "week"; // hour , date , week
   usersBusyChart : any;
   usersChart : any;
   topQuriesWithNoResults : any;
@@ -110,7 +110,9 @@ export class UserEngagementComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     
     
-    this.mostClick();
+    //this.mostClick();
+    this.mostUsedDevice();
+    this.mostUsedBrowser()
     //this.feedback();
     
     this.getuserCharts('UsersChart');
@@ -204,7 +206,7 @@ export class UserEngagementComponent implements OnInit {
     }else if(this.group == 'hour'){
       from = yesterday;
     }else {
-      from = new Date();
+      from = new Date(Date.now() - (24 * 864e5)); //new Date();
     }
     const header : any= {
       'x-timezone-offset': '-330'
@@ -225,7 +227,7 @@ export class UserEngagementComponent implements OnInit {
     
     this.service.invoke('get.userChart', quaryparms,payload,header).subscribe(res => {
      if(type == 'UsersChart'){
-      if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
+      if(this.group == 'date'  || this.group == 'hour' || this.group == 'week'){ // for 7 days
         this.usersChart = res.UsersChart;
         this.totalUser = res.totalUsers;
         this.totalUserProgress = res.increaseInNewUsers;
@@ -237,7 +239,7 @@ export class UserEngagementComponent implements OnInit {
       this.userEngagementChart();
      }
      if(type == 'UsersBusyChart'){
-        if(this.group == 'date'  || this.group == 'hour'){ // for 7 days
+        if(this.group == 'date'  || this.group == 'hour' || this.group == 'week'){
           this.usersBusyChart = res.totalUsersChart;
         }
         this.busyHours(); 
@@ -382,7 +384,7 @@ var valueList2 = totaldata.map(function (item) {
     let xAxisData = [];
     let yAxisRepeatUser = [];
     let yAxisNewUsers = [];
-    if(this.group == 'date'){
+    if(this.group == 'date'){ // 7 days
       this.usersChart.forEach(element => {
         let date = new Date(element.date);
         xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
@@ -390,7 +392,7 @@ var valueList2 = totaldata.map(function (item) {
         yAxisNewUsers.push(element.newUsers);
       });
     }
-    if(this.group == 'hour'){
+    if(this.group == 'hour'){ // 24 hours
       this.usersChart.forEach((element,index) => {
         if(index > 0 && index <= 24) { 
           xAxisData.push(index + 'hr');
@@ -399,18 +401,14 @@ var valueList2 = totaldata.map(function (item) {
         }
       });
     }
-    // for(let i = 0; i<= 90; i++ ){
-    //   // if(i % 2 == 0){
-    //   //   data.push([[i,i,i]])
-    //   // }else if(i % 3 == 0){
-    //   //   data.push([[i+1,i+4,i+5]])
-    //   // }else if(i % 5 == 0){
-    //   //   data.push([[i+3,i+4,i+2]])
-    //   // }
-      
-    //   data.push(i + "Aug")
-    //   data1.push(i)
-    // }
+    if(this.group == 'week'){ // custom
+      this.usersChart.forEach((element,index) => {
+        let date = new Date(element.date);
+        xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+          yAxisRepeatUser.push(element.repeatedUsers);
+          yAxisNewUsers.push(element.newUsers);
+      });
+    }
     this.userEngagementChartData = {
       
       tooltip: {
@@ -510,7 +508,8 @@ var valueList2 = totaldata.map(function (item) {
       ]
   };
   }
-    mostClick(){
+  mostUsedDevice(){
+     
         this.mostClickBar  = {
           xAxis: {
               type: 'value',
@@ -521,8 +520,43 @@ var valueList2 = totaldata.map(function (item) {
           },
           yAxis: {
             type: 'category',
-              data: ['1st ', ' 2nd', '3rd']
-              
+              data: ['Mobile_Image', 'Tablet_Image', 'Desktop_Image'],
+              //inverse: true,
+              axisLabel: {
+                formatter: function (value) {
+                    return '{value|' + value + '}  {' + value + '| }';
+                },
+              rich: {
+                value: {
+                    lineHeight: 30,
+                    align: 'center'
+                },
+                'Mobile_Image': {
+                    height: 40,
+                    width: 45,
+                    align: 'center',
+                    backgroundColor: {
+                        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAA2CAMAAABpy5C3AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC3UExURQAAACAgIGBgYCEhIWNjayAgIGBgaCAgJWBgZSAgJFxgaGBkaCAgI1xgaSAgIyAgJV1iaGBiaCAiJSAgJF1iaWBiZmBkZmBkaSAiJF5iaCAgJF5iaGBkaCAgJCAiJF9iaV9kZyAgI15jaGBjaCAgIyAiJV9jaCAgI15jaCAgJCAiJF9jZyAgJF5jZyAgJCAhJF9jaCAhJF9jZ19jaSAgIyAhIyAhJV9iaF9jaCAhJF9jZyAhJF9jaBQCQ50AAAA7dFJOUwAQEB8fICAwMEBAQFBQYGBgYG9wcHBwcH9/gICAj4+Pj5CQkJ+fn6Cgr6+vsLC/v7/Pz8/f39/f3+/vWU6buQAAAVJJREFUSMft1NtSgzAQBuBNa6xbEKt4TFu1B+xJCdVGTMn7P5dLaGGkmc54oVf8F2yyfBMSLgJQ5SE19Xz0wJknk9RxkphnF+2aAbS2BCae521vxjRKAcbmzGF7efedxEu3e/51vaLRW75Cz2lPAPo/tnB51LbmaZUBHLWOUzS2sY1t7G+s57wSX8yp66Kcm1W/nsRM3Bfw7eFdnd5Bk3+MRFuWwb7RebSF6Q7Ims1sAzOxb2BcVJ9BVrea0XOqyPJhFOQWoyEHCK1l91FQWZErRU+uQlQhoFr6QjHYtHOrRjgrt5IxWvgiIjulBbgG1NRdhIX1X2lCo50F6YPiZO0pN22733BUWKGklBpLi9KPgezCp6lm+EmFptaGEaew0sJaBflLsQS4iumXIDCFheWaA4+gskLZhWCk1jGn/zCTWsDubMFa0nkdYbyo5UcPJn+Qb9pcRrcxvvbzAAAAAElFTkSuQmCC'
+                    }
+                },
+                'Tablet_Image': {
+                    height: 40,
+                    width : 45,
+                    align: 'center',
+                    backgroundColor: {
+                        image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAsCAMAAAAgsQpJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHUExURQAAACAgICEhISAgIGBgaCAgJSAgJCAgIyAgIyAgJV1gaF1iaGBiaCAgJCAiJF5kaCAgJCAgJCAgI15haF5jaGBjaCAgIyAiIyAiJV9jaCAgI15jaCAgJCAiJF9jZ15jZyAhJF9jaCAhJF9jZyAhIyAhJV9iaF9jaCAhJF9iZ19jZyAhJF9jaAjeyywAAAArdFJOUwAQHyAgMEBQYGBgYGBwf3+Aj5CQkJCfn5+foKCvr6+wv7/Pz9/f39/v7+/RD+HEAAABG0lEQVQ4y+2Tb1eDIBTGIdwVK5bRP3SxGJG6ze//+bpep2W2aefUm+p5AQ/w4164HBhDRdmuPqFdFjFSVNYTKlsyqyeVEfhM/okd0y2GJFO82/SZLn4peHe5mgU2JSzmgGtsylmps/P1Hyz4l8DNUfCqA2/mfoWomOKK7huutqew7SZi//o2gSOdHUYpddz266I3AF4DHEaJaSdfetDBW1AnsVlcG9mAiZGcQL6kiWDiASgqBV6ypNJx7ggMGvIHtvBKDCMKypt4tB4QjJtDVHycemlDMO0Zc4lgGvCKFYzAxAqK2ICPMYLKCNQ4osa63CNYCSb2AkEI6HCbi4egCM5bBG3wQdJlUu+CYkzt9YfKY5pB3znOf+alXwEB8Uul/UsUGwAAAABJRU5ErkJggg=='
+                    }
+                },
+                'Desktop_Image': {
+                    height: 40,
+                    width: 45,
+                    align: 'center',
+                    backgroundColor: {
+                        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADUAAAAxCAMAAABNqRFUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACrUExURQAAACAgIGBgYGNjayAgIFhgaGBgaCAgJWBlZSAgJGBkaCAgI2BjZiAjIyAgIyAgJV1iaF5jZyAgJF1iaWBiaWBkaSAiJF5iaCAgJF5iaCAgJCAiJCAgI15haCAiIyAiJV9jaCAgIyAgJCAiJF9jZyAgJCAgJCAhJF9jaCAgJCAgJCAhJF9jZ19jaSAgIyAhIyAhJV9iaF9jaCAhJF9iZ19jZ19jaSAhJF9jaF68u5EAAAA3dFJOUwAQEB8gICAwMEBAUFBfYGBgb3BwcHB/f4CAj4+QkJ+fn6Cvr6+wv7+/wM/Pz8/f39/f3+/v7+9s2eW/AAABYUlEQVRIx+3U3VLbMBCG4Vd0wRUiduvQVCQGQygsoLaiccC5/yvjwBASJ+CSmXCU78Qzq3nGq59ZeM7Ph1ln+rTz789JVyaTVXVOV252aqd2akP1a78r61T3AJh9kjo63ESd9jfu8PeKOp52oukPtpCv88l58AH1bd7V4X+K7+2BP+l3o73VU3jsVgdrDu8Lu2whqaoOpV0dJgDIW8rfWpvFvFVVu/hZo0pAKgNZORQwgzIFtRgvWSzdSz1LBmW6rFDH6NL5aIjeao5agicJuTAILguC3uXutaVGXaQSgXFqamlaO/NNh6YW8AWag71fVmNnK1WNHl9rChor0ygbAHfVbLFu7UuSICJiAHtZoLnXRsn9s3JgllQSCogJlCIjyK5Ri45g7CD0MCFFFQblXNV1/TcHkqjVBRQxxAS1mNgjrUskauVBixCu192fGACztGRe6mqNfPwNvXnh7yZb+NMTH4RuKyAScm4AAAAASUVORK5CYII='
+                    }
+                }
+              }
+            }
           },
           barWidth: 40,
           series: [{
@@ -537,7 +571,7 @@ var valueList2 = totaldata.map(function (item) {
           },
             itemStyle: {
               normal: {
-                color: '#B893F2',
+                color: '#7027E5',
               },
             },
               data: [120, 200, 150],
@@ -545,6 +579,76 @@ var valueList2 = totaldata.map(function (item) {
           }]
       };
     
+    }
+    mostUsedBrowser(){
+      this.mostClickBar  = {
+        xAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value}'
+          },
+         // name: "Number  of  Clicks"
+        },
+        yAxis: {
+          type: 'category',
+            data: ['Mobile_Image', 'Tablet_Image', 'Desktop_Image'],
+            //inverse: true,
+            axisLabel: {
+              formatter: function (value) {
+                  return '{value|' + value + '}  {' + value + '| }';
+              },
+            rich: {
+              value: {
+                  lineHeight: 30,
+                  align: 'center'
+              },
+              'Mobile_Image': {
+                  height: 40,
+                  width: 45,
+                  align: 'center',
+                  backgroundColor: {
+                      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAA2CAMAAABpy5C3AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC3UExURQAAACAgIGBgYCEhIWNjayAgIGBgaCAgJWBgZSAgJFxgaGBkaCAgI1xgaSAgIyAgJV1iaGBiaCAiJSAgJF1iaWBiZmBkZmBkaSAiJF5iaCAgJF5iaGBkaCAgJCAiJF9iaV9kZyAgI15jaGBjaCAgIyAiJV9jaCAgI15jaCAgJCAiJF9jZyAgJF5jZyAgJCAhJF9jaCAhJF9jZ19jaSAgIyAhIyAhJV9iaF9jaCAhJF9jZyAhJF9jaBQCQ50AAAA7dFJOUwAQEB8fICAwMEBAQFBQYGBgYG9wcHBwcH9/gICAj4+Pj5CQkJ+fn6Cgr6+vsLC/v7/Pz8/f39/f3+/vWU6buQAAAVJJREFUSMft1NtSgzAQBuBNa6xbEKt4TFu1B+xJCdVGTMn7P5dLaGGkmc54oVf8F2yyfBMSLgJQ5SE19Xz0wJknk9RxkphnF+2aAbS2BCae521vxjRKAcbmzGF7efedxEu3e/51vaLRW75Cz2lPAPo/tnB51LbmaZUBHLWOUzS2sY1t7G+s57wSX8yp66Kcm1W/nsRM3Bfw7eFdnd5Bk3+MRFuWwb7RebSF6Q7Ims1sAzOxb2BcVJ9BVrea0XOqyPJhFOQWoyEHCK1l91FQWZErRU+uQlQhoFr6QjHYtHOrRjgrt5IxWvgiIjulBbgG1NRdhIX1X2lCo50F6YPiZO0pN22733BUWKGklBpLi9KPgezCp6lm+EmFptaGEaew0sJaBflLsQS4iumXIDCFheWaA4+gskLZhWCk1jGn/zCTWsDubMFa0nkdYbyo5UcPJn+Qb9pcRrcxvvbzAAAAAElFTkSuQmCC'
+                  }
+              },
+              'Tablet_Image': {
+                  height: 40,
+                  width : 45,
+                  align: 'center',
+                  backgroundColor: {
+                      image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAsCAMAAAAgsQpJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHUExURQAAACAgICEhISAgIGBgaCAgJSAgJCAgIyAgIyAgJV1gaF1iaGBiaCAgJCAiJF5kaCAgJCAgJCAgI15haF5jaGBjaCAgIyAiIyAiJV9jaCAgI15jaCAgJCAiJF9jZ15jZyAhJF9jaCAhJF9jZyAhIyAhJV9iaF9jaCAhJF9iZ19jZyAhJF9jaAjeyywAAAArdFJOUwAQHyAgMEBQYGBgYGBwf3+Aj5CQkJCfn5+foKCvr6+wv7/Pz9/f39/v7+/RD+HEAAABG0lEQVQ4y+2Tb1eDIBTGIdwVK5bRP3SxGJG6ze//+bpep2W2aefUm+p5AQ/w4164HBhDRdmuPqFdFjFSVNYTKlsyqyeVEfhM/okd0y2GJFO82/SZLn4peHe5mgU2JSzmgGtsylmps/P1Hyz4l8DNUfCqA2/mfoWomOKK7huutqew7SZi//o2gSOdHUYpddz266I3AF4DHEaJaSdfetDBW1AnsVlcG9mAiZGcQL6kiWDiASgqBV6ypNJx7ggMGvIHtvBKDCMKypt4tB4QjJtDVHycemlDMO0Zc4lgGvCKFYzAxAqK2ICPMYLKCNQ4osa63CNYCSb2AkEI6HCbi4egCM5bBG3wQdJlUu+CYkzt9YfKY5pB3znOf+alXwEB8Uul/UsUGwAAAABJRU5ErkJggg=='
+                  }
+              },
+              'Desktop_Image': {
+                  height: 40,
+                  width: 45,
+                  align: 'center',
+                  backgroundColor: {
+                      image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADUAAAAxCAMAAABNqRFUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACrUExURQAAACAgIGBgYGNjayAgIFhgaGBgaCAgJWBlZSAgJGBkaCAgI2BjZiAjIyAgIyAgJV1iaF5jZyAgJF1iaWBiaWBkaSAiJF5iaCAgJF5iaCAgJCAiJCAgI15haCAiIyAiJV9jaCAgIyAgJCAiJF9jZyAgJCAgJCAhJF9jaCAgJCAgJCAhJF9jZ19jaSAgIyAhIyAhJV9iaF9jaCAhJF9iZ19jZ19jaSAhJF9jaF68u5EAAAA3dFJOUwAQEB8gICAwMEBAUFBfYGBgb3BwcHB/f4CAj4+QkJ+fn6Cvr6+wv7+/wM/Pz8/f39/f3+/v7+9s2eW/AAABYUlEQVRIx+3U3VLbMBCG4Vd0wRUiduvQVCQGQygsoLaiccC5/yvjwBASJ+CSmXCU78Qzq3nGq59ZeM7Ph1ln+rTz789JVyaTVXVOV252aqd2akP1a78r61T3AJh9kjo63ESd9jfu8PeKOp52oukPtpCv88l58AH1bd7V4X+K7+2BP+l3o73VU3jsVgdrDu8Lu2whqaoOpV0dJgDIW8rfWpvFvFVVu/hZo0pAKgNZORQwgzIFtRgvWSzdSz1LBmW6rFDH6NL5aIjeao5agicJuTAILguC3uXutaVGXaQSgXFqamlaO/NNh6YW8AWag71fVmNnK1WNHl9rChor0ygbAHfVbLFu7UuSICJiAHtZoLnXRsn9s3JgllQSCogJlCIjyK5Ri45g7CD0MCFFFQblXNV1/TcHkqjVBRQxxAS1mNgjrUskauVBixCu192fGACztGRe6mqNfPwNvXnh7yZb+NMTH4RuKyAScm4AAAAASUVORK5CYII='
+                  }
+              }
+            }
+          }
+        },
+        barWidth: 40,
+        series: [{
+          label : {
+            normal: {
+                show: true,
+                position: 'outside',
+                color : '#202124',
+                //textBorderColor: '#202124',
+                //textBorderWidth: 1
+            }
+        },
+          itemStyle: {
+            normal: {
+              color: '#7027E5',
+            },
+          },
+            data: [120, 200, 150],
+            type: 'bar'
+        }]
+    };
     }
     // feedback(){
     //   var colorPaletteSearch = ['#28A745','#EAF6EC'];
@@ -599,22 +703,25 @@ var valueList2 = totaldata.map(function (item) {
       let xAxisData = [];
       let heatData = [[]];
       let totalMaxValueArr = [];
-      let start = -1; // 3
-      let end= 25; // 17
+      let start = 0; // 3
+      let end= 24; // 17
       let secondIndex = 0;
       let checkData = [];
-      if(this.group == 'hour'){
+      if(this.group == 'hour' || this.group == 'date' || this.group == 'week'){
         for (const property in this.usersBusyChart) {
           busyChartArrayData.push(this.usersBusyChart[property])
            // let date =  property.split('-')[2]; 
-            yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+           yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+          //  if(this.group == 'hour' || this.group == 'date') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+          //  if(this.group == 'week') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //console.log(`${property}: ${object[property]}`);
         }
         let checkIndex = 0;
           for(let i = 0; i< busyChartArrayData.length ; i++){
             for(let j =0 ; j< busyChartArrayData[i].length;j++){
-              if(busyChartArrayData[i][j].hour > start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
-                xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
+              if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
+                if(this.group == 'hour' ) xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
+                if((this.group == 'date' || this.group == 'week' )&&  i == 0) xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
                 heatData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 if(i != checkIndex){
                   checkData = [];
@@ -726,7 +833,7 @@ var valueList2 = totaldata.map(function (item) {
         },
   
         visualMap: [{
-          show: true,
+          show: false,
           min: 0,
           max: this.maxHeatValue,
           calculable: true,
