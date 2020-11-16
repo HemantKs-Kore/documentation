@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
      return previOusState;
    }
   resetFindlySearchSDK(appData){
-    debugger;
+    //debugger;
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
@@ -130,7 +130,7 @@ export class AppComponent implements OnInit {
         // debugger;
         window.selectedFindlyApp = searchData;
         console.log(searchData, window.selectedFindlyApp)
-        debugger;
+        //debugger;
         this.searchInstance.setAPIDetails();
       }
     }
