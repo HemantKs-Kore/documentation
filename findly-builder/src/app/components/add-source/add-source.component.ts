@@ -176,7 +176,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.userInfo);
 
     this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
-    console.log("StreamID", this.streamID)
+    console.log('StreamID', this.streamID)
     console.log(this.workflowService.selectedApp())
     this.getAssociatedBots();
 
@@ -426,12 +426,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   /** file upload  */
   gotoFileUpload(){
-    var x = document.createElement("INPUT");
-    x.setAttribute("type", "file");
+    const x = document.createElement('INPUT');
+    x.setAttribute('type', 'file');
     x.click();
   }
   /** proceed Source API  */
-
+  faqAnotate(payload,endPoint,quaryparms){
+    if (payload.hasOwnProperty('url')) delete payload.url;
+    this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+      this.annotationModal();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Duplicate name, try again!', 'error');
+      }
+    });
+  }
   proceedSource() {
     let payload: any = {};
     const crawler = this.crwalObject;
@@ -447,16 +458,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       quaryparms.faqType = 'document';
       payload.resourceType = 'document';
       payload.fileId = this.fileObj.fileId;
-      if (payload.hasOwnProperty('url')) delete payload.url;
-      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-        this.annotationModal();
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Duplicate name, try again!', 'error');
-        }
-      });
+     this.faqAnotate(payload,endPoint,quaryparms)
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
@@ -476,11 +478,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
-        payload = crawler
+        payload = {...crawler};
+        delete payload.resourceType;
+        if(!payload.advanceOpts.scheduleOpt){
+          payload.advanceOpts = {
+            scheduleOpt : false
+          }
+        }
+        quaryparms.resourceType = resourceType;
       }
 
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
+        quaryparms.resourceType = resourceType;
+        payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
@@ -541,15 +552,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let payload: any = {
       // desc: event.response,
       // name: event.question,
-      question: event.question,
+      question: event._source.question,
       // answer: event.response,
-      defaultAnswers: event.defaultAnswers || [],
-      conditionalAnswers: event.conditionalAnswers || [],
-      keywords: event.tags
+      defaultAnswers: event._source.defaultAnswers || [],
+      conditionalAnswers: event._source.conditionalAnswers || [],
+      keywords: event._source.tags
     };
     payload = _.extend(payload, event.quesList);
 
-    this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
+    this.service.invoke('add.sourceMaterialManualFaq', quaryparms, payload).subscribe(res => {
       this.selectedSourceType = null;
       this.closeAddManualFAQModal();
       event.cb('success');
@@ -577,6 +588,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   /** proceed Source API */
   scheduleData(scheduleData) {
     console.log(scheduleData);
+      // if(scheduleData.date){
+      //   let date = scheduleData.date;
+      //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
+      // }
+      // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
+      //   scheduleData.interval.intervalValue = {};
+      // }
+      // if(scheduleData.interval && 
+      //   scheduleData.interval.intervalValue &&
+      //   scheduleData.interval.intervalValue.endsOn &&
+      //   scheduleData.interval.intervalValue.endsOn.endDate){
+      //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
+      //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
+      // }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
 
     // this.dataFromScheduler = scheduleData
@@ -585,7 +610,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(cronExpress);
     this.crwalObject.advanceOpts.repeatInterval = cronExpress;
   }
-  /**Crwaler */
+  /*Crwaler */
   allowUrls(data) {
     this.crwalObject.advanceOpts.allowedURLs.push(data);
     this.allowUrl = new AllowUrl();
@@ -595,7 +620,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.crwalObject.advanceOpts.blockedURLs.push(data);
     this.blockUrl = new BlockUrl
   }
-  /**Crwaler */
+  /*Crwaler */
 
   exceptUrl(bool) {
     this.crwalObject.advanceOpts.allowedOpt = !bool;
@@ -655,7 +680,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         userID: this.userInfo.id
       };
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
-        console.log("Associated Bots", res);
+        console.log('Associated Bots', res);
 
         this.associatedBots = JSON.parse(JSON.stringify(res));
         console.log(this.associatedBots);
@@ -676,24 +701,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         else {*/
         this.noAssociatedBots = false;
         if (this.associatedBots.errors?.length) {
-          this.notificationService.notify("Invalid request", 'error')
+          this.notificationService.notify('Invalid request', 'error')
         }
         //}
       },
-        (err) => { console.log(err); this.notificationService.notify("Error in loading associated bots", 'error') },
+        (err) => { console.log(err); this.notificationService.notify('Error in loading associated bots', 'error') },
 
-        () => { console.log("Call Complete") }
+        () => { console.log('Call Complete') }
       )
     }
     else {
-      console.log("Invalid UserID")
+      console.log('Invalid UserID')
     }
   }
 
   linkBot(botID: any) {
     event.stopPropagation();
 
-    let requestBody: any = {};
+    const requestBody: any = {};
     let selectedApp: any;
 
     console.log(botID);
@@ -702,7 +727,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const queryParams: any = {
         searchIndexID: this.searchIndexId
       };
-      requestBody['linkBotId'] = botID;
+      requestBody.linkBotId = botID;
       console.log(requestBody);
       this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
         console.log(res);
@@ -714,23 +739,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(res.status);
         this.streamID = selectedApp.configuredBots[0]._id;
         this.getAssociatedBots();
-        this.notificationService.notify("Bot linked, successfully", 'success');
+        this.notificationService.notify('Bot linked, successfully', 'success');
       },
         (err) => {
           console.log(err);
-          this.notificationService.notify("Bot linking, unsuccessful", 'error');
+          this.notificationService.notify('Bot linking, unsuccessful', 'error');
         }
       )
     }
     else {
-      this.notificationService.notify("Error", 'error');
+      this.notificationService.notify('Error', 'error');
     }
   }
 
   unlinkBot(botID: any) {
     event.stopPropagation();
 
-    let requestBody: any = {};
+    const requestBody: any = {};
     let selectedApp: any;
 
     console.log(botID);
@@ -739,7 +764,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const queryParams = {
         searchIndexID: this.searchIndexId
       }
-      requestBody['linkedBotId'] = botID;
+      requestBody.linkedBotId = botID;
       console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
@@ -750,16 +775,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.workflowService.selectedApp(selectedApp);
         this.streamID = null;
         this.getAssociatedBots();
-        this.notificationService.notify("Bot unlinked, successfully", 'success');
+        this.notificationService.notify('Bot unlinked, successfully', 'success');
       },
         (err) => {
           console.log(err);
-          this.notificationService.notify("Bot unlinking, error", 'error');
+          this.notificationService.notify('Bot unlinking, error', 'error');
         }
       )
     }
     else {
-      this.notificationService.notify("Error", 'error');
+      this.notificationService.notify('Error', 'error');
     }
 
   }

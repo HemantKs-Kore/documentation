@@ -85,9 +85,9 @@
                   <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li (click)="sourceFilter.close();filterTable('all','type')"><span class="list-name">All</span><img
+                  <li (click)="sourceFilter.close();filterTable('all','extractionType')"><span class="list-name">All</span><img
                       [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
-                  <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'type')">
+                  <li *ngFor="let docType of docTypeArr" (click)="sourceFilter.close();filterTable(docType,'extractionType')">
                     <span
                       class="list-name">{{docType == 'webdomain' ? 'Web' :(docType == 'document'? 'Doc': '')}}</span><img
                       [ngClass]="{'hide': filterSystem.typefilter !== docType}" src="assets/icons/check-blue.svg"></li>
@@ -138,7 +138,7 @@
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
               <div class="col_ col-4" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
               <div class="col_ col-2">
-                {{(source.type == 'webdomain' ? 'Web' :(source.type == 'document'? 'Doc': '')) | uppercase }}</div>
+                {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-2">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
@@ -152,7 +152,7 @@
               </div>
               <div class="col_ col-3">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div>
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.type == 'webdomain'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
               </div>
@@ -344,7 +344,7 @@
                               (click)="swapSlider()">{{selectedSource.numPages}}</a>
                           </div>
                           <div class="col_ col-1 p-0 text-right actions-images">
-                            <img src="assets/icons/return.svg" *ngIf="selectedSource.type == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
+                            <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
                             <img src="assets/icons/edit-rule.svg" (click)="editTitle($event)" title="Edit">
                             <img src="assets/icons/delete-table.svg" (click)="deletePages('source',page ,$event)" title="Delete">
                           </div>
@@ -525,8 +525,8 @@
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
-                        <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
-                          {{page.url || selectedSource.url}}</div>
+                        <div class="col-8 link-name p-0" title="{{page._source.url || selectedSource.url}}">
+                          {{page._source.url || selectedSource.url}}</div>
                         <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
                         <div class="col-1 actions p-0">
                           <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
@@ -600,26 +600,30 @@
         </ng-container>
 
       </div>
-      <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
-        <div class="view-details-data">
-          <div class="title">Title</div>
-          <div class="desc-info">{{selectedPage.title}}</div>
+      <perfect-scrollbar *ngIf="sliderStep === 1 && selectedPage" class="scroll-table-sourceContent" #perfectScroll
+      [scrollIndicators]="true">
+
+        <div class="table-view-details" *ngIf="sliderStep === 1 && selectedPage">
+          <div class="view-details-data">
+            <div class="title">Title</div>
+            <div class="desc-info">{{selectedPage._source.pageTitle}}</div>
+          </div>
+          <div class="view-details-data">
+            <div class="title">Body</div>
+            <div class="desc-info" [innerHtml]="selectedPage._source.pageBody"></div>
+          </div>
+          <div class="view-details-data">
+            <div class="title">URL</div>
+            <div class="desc-info">{{selectedPage._source.pageImageUrl}}<img class="external_link"
+                (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
+          </div>
+          <div class="view-details-data">
+            <div class="title">Published</div>
+            <div class="desc-info">{{selectedPage.publishedOn}}</div>
+            <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
+          </div> 
         </div>
-        <div class="view-details-data">
-          <div class="title">Body</div>
-          <div class="desc-info" [innerHtml]="selectedPage.body"></div>
-        </div>
-        <div class="view-details-data">
-          <div class="title">URL</div>
-          <div class="desc-info">{{selectedPage.imageUrl}}<img class="external_link"
-              (click)="openImageLink(selectedPage.imageUrl)" src="assets/icons/sidemenu/external-link.svg"></div>
-        </div>
-        <div class="view-details-data">
-          <div class="title">Published</div>
-          <div class="desc-info">{{selectedPage.publishedOn}}</div>
-          <div class="desc-info" *ngIf="!selectedPage.publishedOn">No publish information available</div>
-        </div>
-      </div>
+    </perfect-scrollbar>
     </div>
 
   </div>
@@ -630,10 +634,10 @@
       (click)="closeStatusModal()">Cancel</button>
      
   </div>
-  <div class="footer-btns d-none">
-    <button class="kr-sg-button-primary btn_lg">Update</button>
+  <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
+    <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
+    <button class="kr-sg-button-primary btn_lg">Check for Update</button>
     <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
-    <button class="kr-sg-button-secondary-two btn_lg">Delete</button>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">

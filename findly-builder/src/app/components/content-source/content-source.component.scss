@@ -825,6 +825,9 @@
     .scroll-table-allowRow{
         height: calc(100vh - 250px);
     }
+    .scroll-table-sourceContent{
+        height: calc(100vh - 180px);
+    }
     .schedule-comp{
         position: relative;
         margin-top: 20px;
