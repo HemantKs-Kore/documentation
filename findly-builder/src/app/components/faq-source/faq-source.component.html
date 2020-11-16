@@ -378,7 +378,7 @@
                             <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 
-                                        {{(selectedFaq.followupQuestions?.length>0?'('+selectedFaq.followupQuestions.length+')':'')}}
+                                        {{(selectedFaq._meta.followupQuestions?.length>0?'('+selectedFaq._meta.followupQuestions.length+')':'')}}
                                     </div>
                                     <div class="que-desc text-truncate">Add followup the question, key terms.</div>
                                 </div>
@@ -387,11 +387,11 @@
                                 </div>
                             </div>
 
-                            <ng-container *ngIf="selectedFaq.followupQuestions?.length">
-                                <div class="added-questions-list" *ngFor="let followQues of selectedFaq.followupQuestions">
-                                    <div class="question-name text-truncate">{{followQues.question}}</div>
+                            <ng-container *ngIf="selectedFaq._meta.followupQuestions?.length">
+                                <div class="added-questions-list" *ngFor="let followQues of selectedFaq._meta.followupQuestions">
+                                    <div class="question-name text-truncate">{{followQues._source.question}}</div>
                                     <div class="added-tags text-truncate">
-                                        <span class="tags-data" *ngFor="let keyword of followQues?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                        <span class="tags-data" *ngFor="let keyword of followQues._source?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                     </div>
                                     <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
