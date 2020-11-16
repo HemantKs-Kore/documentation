@@ -138,39 +138,23 @@
           <div class="bot-response-title">Bot Response <span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span> <span *ngIf="faqObj.answerType !== 'condition'">(DEFAULT)</span>
             <div class="advanced_mode_faq">
               <label class="kr-sg-toggle with-label" *ngIf="(currentEditIndex === index)">
-                <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj)">
+                <input type="checkbox" [checked]='(faqObj.answerType === "condition")' (click)="changeResponseType(faqObj,index)">
                 <div class="slider"><span class="disabled">Conditions</span><span class="enabled">Conditions</span></div>
               </label>
             </div>
             <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)"><img src="assets/images/delete_response.svg">Delete</div>
           </div>
-          <div class="condition-tags" *ngIf="faqObj && (faqObj.answerType === 'condition') && (currentEditIndex !== index)">Conditions : <span
-              *ngIf="faqObj.conditions.length"><span
-                *ngFor="let item of faqObj.conditions;  let index = index"><span
-                  *ngIf="index">,</span>{{item.value}}</span></span>
-          </div>
-          <div class="condition-view-mode d-none">
+          <div class="condition-view-mode">
             <div class="label_text">Conditions</div>
-            <div class="condition-view-mode-data">
-              <span class="tag-name">SearchContext</span>
-              <span class="tag-name">RecentSearches</span>
-              <span class="default-data">Contains</span>   
-              <span class="tag-name">Credit</span>
-              <span class="tag-name">NewAccount</span>           
-            </div>
-            <div class="condition-view-mode-data">
-              <span class="default-data and-rule">And</span>
-              <span class="tag-name">UserContext</span>
-              <span class="tag-name">NewCustomer</span>
-              <span class="default-data">Contains</span>    
-              <span class="tag-name">Premuim</span>
-              <span class="tag-name">Credit</span>
-              <span class="tag-name">NewAccount</span>
-              <span class="tag-name">StarAccount</span>          
-              <span class="tag-name">QuickBanking</span>      
-              <span class="tag-name">Credit</span>      
-              <span class="tag-name">NewAccount</span>      
-            </div>
+            <ng-container *ngFor="let item of faqObj.conditions;  let index = index">
+              <div class="condition-view-mode-data">
+                <span class="default-data and-rule" *ngIf="index > 0">And</span>
+                <span class="tag-name">{{item.contextType}}</span>
+                <span class="tag-name">{{item.contextCategory}}</span>
+                <span class="default-data">{{item.operator}}</span>   
+                <span class="tag-name" *ngFor="let value of item.value">{{value}}</span>
+              </div>
+            </ng-container>
           </div>
           <ng-container *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex === index)">
            <div class="conditional-sec-new">
