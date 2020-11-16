@@ -391,7 +391,7 @@
                                 <div class="added-questions-list" *ngFor="let followQues of selectedFaq._meta.followupQuestions">
                                     <div class="question-name text-truncate">{{followQues._source.question}}</div>
                                     <div class="added-tags text-truncate">
-                                        <span class="tags-data" *ngFor="let keyword of followQues._source?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                        <span class="tags-data" *ngFor="let keyword of followQues._source?.keywords">#{{keyword}}&nbsp;</span>
                                     </div>
                                     <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
