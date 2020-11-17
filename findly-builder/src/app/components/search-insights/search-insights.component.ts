@@ -11,6 +11,7 @@ import { NotificationService } from '@kore.services/notification.service';
 })
 export class SearchInsightsComponent implements OnInit {
   viewQueriesRef:any;
+  searchSources : any = '';
   selectedApp : any;
   serachIndexId: any;
   topQuriesWithNoResults : any;
@@ -26,7 +27,7 @@ export class SearchInsightsComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getQueries("TopQuriesWithNoResults");
-    this.getQueries("GetQueriesWithResults");
+    this.getQueries("QueriesWithResults");
     //this.getQueries("GetSearchQueriesResults");
     
   }
@@ -38,7 +39,7 @@ export class SearchInsightsComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
-      searchIndexId: 'sidx-e91a4194-df09-5e9c-be4e-56988e984343',//this.serachIndexId,
+      searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343'
       offset: 0,
       limit:50
     };
@@ -49,18 +50,18 @@ export class SearchInsightsComponent implements OnInit {
         to: today.toJSON()
       }
     }
-    if(type == 'GetSearchQueriesResults'){
+    if(type == 'SearchQueryResults'){
       payload.query = this.selectedQuery;
     }
     this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
       if(type == 'TopQuriesWithNoResults'){
        this.topQuriesWithNoResults = res.response;
       }
-      if(type == 'GetQueriesWithResults'){
-        this.getQueriesWithResults = res;
+      if(type == 'QueriesWithResults'){
+        this.getQueriesWithResults = res.result;
        }
-       if(type == 'GetSearchQueriesResults'){
-        this.getSearchQueriesResults = res;
+       if(type == 'SearchQueryResults'){
+        this.getSearchQueriesResults = res.result;
        }
        
      }, errRes => {
@@ -73,7 +74,7 @@ export class SearchInsightsComponent implements OnInit {
   }
   openModalPopup(result){
     this.selectedQuery = result.query;
-    this.getQueries('GetSearchQueriesResults')
+    this.getQueries('SearchQueryResults')
     this.viewQueriesRef = this.viewQueries.open();
   }
   closeModalPopup(){
