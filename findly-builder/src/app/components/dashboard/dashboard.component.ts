@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+  topSearchResults : any;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
@@ -72,6 +73,7 @@ export class DashboardComponent implements OnInit {
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
     this.getQueries("SearchHistogram");
+    this.getQueries("TopSearchResults");
     
   }
   tab(index){
@@ -141,6 +143,8 @@ export class DashboardComponent implements OnInit {
       }else if(type == 'SearchHistogram'){
         this.searchHistogram = res.result;
         this.summaryChart();
+      }else if(type == 'TopSearchResults'){
+        this.topSearchResults = res.result;
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

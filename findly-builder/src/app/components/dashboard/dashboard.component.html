@@ -216,16 +216,16 @@
                                 <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
                                     Count</div> -->
                             </div>
-                            <div class="table_body row m-0">
-                                <div class="col-6 body-title ">Access to debit account</div>
-                                <div class="col-1 body-title text-center">1200</div>
-                                <div class="col-1 body-title text-center">1000</div>
-                                <div class="col-1 body-title text-center">90%</div>
-                                <div class="col-1 body-title text-center">2.8</div>
-                                <div class="col-1 body-title text-center">1532</div>
-                                <div class="col-1 body-title text-center">347</div>
+                            <div class="table_body row m-0"  *ngFor="let topSearchResult of topSearchResults;let i = index">
+                                <div class="col-6 body-title ">{{topSearchResult.answer}}</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.appearances}}</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.clicks}}</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.clickThroughRate}}%</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.avgPosition}}</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div>
                             </div>
-                            <div class="table_body row m-0">
+                            <!-- <div class="table_body row m-0">
                                 <div class="col-6 body-title ">Opening a new account in HDFC</div>
                                 <div class="col-1 body-title text-center">1130</div>
                                 <div class="col-1 body-title text-center">1000</div>
@@ -260,7 +260,7 @@
                                 <div class="col-1 body-title text-center">8.8</div>
                                 <div class="col-1 body-title text-center">2532</div>
                                 <div class="col-1 body-title text-center">1347</div>
-                            </div>
+                            </div> -->
                             <!-- 
                            
                             <div class="table_body row m-0">
