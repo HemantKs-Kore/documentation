@@ -574,7 +574,13 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     } else {
       payload.pipelineConfig = stages
     }
-    this.simulateAnimate(payload.pipelineConfig);
+    if(this.currentEditIndex){
+      this.simulateAnimate(payload.pipelineConfig);
+    } else {
+      if (this.pollingSubscriber) {
+        this.pollingSubscriber.unsubscribe();
+      }
+    }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
@@ -587,13 +593,13 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         this.pollingSubscriber.unsubscribe();
       }
       this.simulteObj.currentSimulateAnimi = -1;
-      this.simulteObj.simulationInprogress = true;
+      this.simulteObj.simulationInprogress = false;
     }, errRes => {
       if (this.pollingSubscriber) {
         this.pollingSubscriber.unsubscribe();
       }
       this.simulteObj.currentSimulateAnimi = -1;
-      this.simulteObj.simulationInprogress = true;
+      this.simulteObj.simulationInprogress = false;
       if (this.pollingSubscriber) {
         this.pollingSubscriber.unsubscribe();
       }
