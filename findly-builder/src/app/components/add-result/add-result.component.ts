@@ -26,6 +26,7 @@ export class AddResultComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.searchType = this.searchRadioType;
   }
   closeCross(){
     this.closeResult.emit(!this.addNew);
@@ -62,7 +63,7 @@ export class AddResultComponent implements OnInit {
     let result :any = [];
     this.recordArray.forEach((element,index) => {
       var obj :any = {};
-      obj.contentType = this.searchType;
+      obj.contentType = this.searchType ||  this.searchRadioType;
       obj.contentId = element._id;
       obj.config = {
         pinIndex : -1,
@@ -78,9 +79,9 @@ export class AddResultComponent implements OnInit {
     this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
       this.recordArray=[];
       if($('.checkbox-custom')){
-        $('.checkbox-custom').forEach(element => {
-          element.checked = false;
-        });
+        for(let i = 0;i< $('.checkbox-custom').length; i++){
+          $('.checkbox-custom')[i].checked =  false;
+        }
       }
       //console.log(res);
     }, errRes => {
