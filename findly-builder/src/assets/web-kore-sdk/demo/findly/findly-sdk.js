@@ -4631,7 +4631,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    FindlySDK.prototype.showSearch = function () {
+    FindlySDK.prototype.showSearch = function (config) {
       var _self = this;
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
@@ -4639,7 +4639,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.initWebKitSpeech();
       _self.setAPIDetails();
-      _self.initKoreSDK();
+      _self.initKoreSDK(config);
       _self.initWebKitSpeech();
       _self.setAPIDetails();
 
@@ -4703,12 +4703,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.searchEventBinding(dataHTML, 'search-container');
 
     };
-    FindlySDK.prototype.initKoreSDK = function () {
+    FindlySDK.prototype.initKoreSDK = function (config) {
       var _self = this;
+      config = config || _self.config.botOptions
       _self.bot = requireKr('/KoreBot.js').instance();
-      _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit);
+      _self.bot.init(config, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
 
+    };
+    FindlySDK.prototype.destroy = function (config) {
+      this.bot.destroy();
     };
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
