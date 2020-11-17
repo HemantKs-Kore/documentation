@@ -203,7 +203,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    this.getfaqsBy();
+    // this.getfaqsBy();
+    this.selectTab('draft')
     this.getStats();
     this.showSourceAddition = null;
    }
@@ -315,7 +316,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       };
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.showAddFaqSection = false;
-       this.getFaqsOnSelection();
+       this.selectTab('draft');
        event.cb('success');
      }, errRes => {
        event.cb('error');
@@ -450,6 +451,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   selectTab(tab){
     this.loadingTab = true;
     this.selectedFaq=null
+    this.searchFaq = '';
     this.selectedtab = tab;
     this.getFaqsOnSelection();
   }
@@ -605,7 +607,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.addRemoveFaqFromSelection(null,null,true);
       this.selectAll(true);
       this.selectedFaq = res;
-      this.selectedtab = res.state;
+      this.selectedtab = res._meta.state;
+      this.searchFaq = res._source.question;
+      this.searchFaqs();
       const index = _.findIndex(this.faqs,(faqL)=>{
         return faqL._id ===  this.selectedFaq._id;
          })
