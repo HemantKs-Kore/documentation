@@ -963,6 +963,10 @@ keyPress(event){
       //   let endate = this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
       //   if(String(endate).split(" "))this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
       // }
+      if(this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType && 
+        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalType != "Custom"){
+        this.selectedSource.advanceSettings.scheduleOpts.interval.intervalValue = {};
+      }
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]

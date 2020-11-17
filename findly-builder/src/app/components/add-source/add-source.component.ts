@@ -602,6 +602,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
       //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
       // }
+      if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
+        scheduleData.interval.intervalValue = {};
+      }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
 
     // this.dataFromScheduler = scheduleData
