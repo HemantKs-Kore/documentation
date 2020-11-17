@@ -72,16 +72,16 @@
                                                     <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
                                                 </div>
                                                 <div class="title-desc-sec">
-                                                    <div class="title">{{faq.question}}</div>
-                                                    <div class="desc" *ngIf="faq && faq.defaultAnswers && faq.defaultAnswers.length && faq.defaultAnswers[0] && faq.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq.defaultAnswers[0].payload)'></div>
-                                                    <div class="desc" *ngIf="faq && faq.defaultAnswers && faq.defaultAnswers.length && faq.defaultAnswers[0] && faq.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                    <div class="title">{{faq._source.question}}</div>
+                                                    <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.defaultAnswers[0].payload)'></div>
+                                                    <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
-                                                <ng-container *ngIf="faq.alternateQuestions && faq.alternateQuestions.length">
-                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq.alternateQuestions">
+                                                <ng-container *ngIf="faq._source.alternateQuestions && faq._source.alternateQuestions.length">
+                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq._source.alternateQuestions">
                                                         <div class="title">{{altQuestion.question}}</div>
                                                         <div class="desc" *ngIf="altQuestion && altQuestion.answer">{{altQuestion.answer}}</div>
                                                         <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(altQuestion.defaultAnswers[0].payload)'></div>
@@ -126,11 +126,11 @@
                        </div>
                     </ng-container>
                     <ng-container *ngIf="selectedFaq">
-                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'in_review'">
+                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'in_review'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">Req. Date & Time</div>
-                                    <div class="approved_date" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.modifiedOn | dateFormatPipe:'hh:mm:ss A'}}</span></div>
+                                    <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
                                     <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -140,7 +140,7 @@
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Source</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
@@ -154,14 +154,14 @@
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
                                                 
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="d-flex align-items-center justify-content-end">
                                         <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'draft'">
+                        <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'draft'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
                                     <div class="approved_title">Created ON</div>
@@ -191,7 +191,7 @@
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Source</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
@@ -203,20 +203,20 @@
                                                     </div>
                                                     <div class="col-4 inner-data-column">
                                                         <div class="heading">Modified ON</div>
-                                                        <div class="title" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                                     </div>
                                                 </div>
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
                                                 
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="d-flex align-items-center justify-content-end">
                                         <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -231,11 +231,11 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="header-info-que" *ngIf="selectedFaq && selectedFaq.state === 'approved'">
+                    <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'approved'">
                         <div class="row m-0 col-12 p-0">
                             <div class="col-5 p-0 lef-info">
                                 <div class="approved_title">Approved ON</div>
-                                <div class="approved_date" ngbTooltip="{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.modifiedOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                                <div class="approved_date" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                             </div>
                             <div class="col-7 p-0 actions-sec">
                                 <div class="kr-sg-dropdowns info_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -245,7 +245,7 @@
                                             <div class="row m-0 col-12 p-0">
                                                 <div class="col-2 inner-data-column">
                                                     <div class="heading">Source</div>
-                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) | titlecase}}</div>
+                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
                                                 </div>
                                                 <div class="col-2 inner-data-column">
                                                     <div class="heading">Type</div>
@@ -263,14 +263,14 @@
                                         </ul>
                                     </div>
                                 </div>                             
-                                <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
                                         <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
                                         <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
                                             
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="d-flex align-items-center justify-content-end">
                                     <!-- <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button> -->
                                     <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -292,17 +292,17 @@
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
                                     <div class="title-que">
-                                        <span class="">{{selectedFaq.question}}</span>                                       
+                                        <span class="">{{selectedFaq._source.question}}</span>                                       
                                         <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                     </div>
                                     <div class="keywords">
                                         <span class="key-title">Key Terms :</span>
-                                        <span class="keys" *ngFor="let keyword of selectedFaq.keywords">{{keyword}}</span>
+                                        <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
                                     </div>  
                                     <div class="bot-response-view-mode">
-                                        <ng-container *ngIf="selectedFaq && selectedFaq.defaultAnswers && selectedFaq.defaultAnswers.length">
-                                            <ng-container *ngFor="let answer of selectedFaq.defaultAnswers ;let i = index;">
-                                                <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq.defaultAnswers.length > 1) || (selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                        <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
+                                            <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
+                                                <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
                                                 <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                     <img src="{{answer.multimedia.url}}">
                                                 </div>
@@ -312,9 +312,9 @@
                                         </ng-container>
                                     </div>
                                     <div class="conditionalBlock bot-response-view-mode" >
-                                        <ng-container *ngIf="selectedFaq && selectedFaq.conditionalAnswers && selectedFaq.conditionalAnswers.length">
-                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq.conditionalAnswers; let i = index;">
-                                            <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq.defaultAnswers?selectedFaq.defaultAnswers.length:0))}}</span></div> 
+                                        <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
+                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
+                                            <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
                                             <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
                                             <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
                                                 <div *ngFor="let ans of consitionalAnswer.answers">
@@ -354,7 +354,7 @@
                             <div class="add-alternative-questions row bg-white">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Alternate Questions
-                                        <span>{{selectedFaq.alternateQuestions?.length>0?'('+selectedFaq.alternateQuestions?.length+')':''}}</span>
+                                        <span>{{selectedFaq._source.alternateQuestions?.length>0?'('+selectedFaq._source.alternateQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
                                     <div class="que-desc text-truncate">Add alternate forms of the question, key terms.</div>
@@ -366,19 +366,19 @@
                             <div *ngIf="selectedFaq.isAlt" class="alternate-question-bg">
                                 <app-add-alternate-question [faqServ]="faqServiceAlt"></app-add-alternate-question>
                             </div>
-                            <ng-container *ngIf="selectedFaq.alternateQuestions?.length">
-                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq?.alternateQuestions">
+                            <ng-container *ngIf="selectedFaq._source.alternateQuestions?.length">
+                            <div class="added-questions-list" *ngFor="let alternateQuestion of selectedFaq._source?.alternateQuestions">
                                 <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
                                 <div class="added-tags text-truncate">
                                     <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
                                 </div>
-                                <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
+                                <!-- <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
                             </div>
                            </ng-container>
                             <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 
-                                        {{(selectedFaq.followupQuestions?.length>0?'('+selectedFaq.followupQuestions.length+')':'')}}
+                                        {{(selectedFaq._meta.followupQuestions?.length>0?'('+selectedFaq._meta.followupQuestions.length+')':'')}}
                                     </div>
                                     <div class="que-desc text-truncate">Add followup the question, key terms.</div>
                                 </div>
@@ -387,11 +387,11 @@
                                 </div>
                             </div>
 
-                            <ng-container *ngIf="selectedFaq.followupQuestions?.length">
-                                <div class="added-questions-list" *ngFor="let followQues of selectedFaq.followupQuestions">
-                                    <div class="question-name text-truncate">{{followQues.question}}</div>
+                            <ng-container *ngIf="selectedFaq._meta.followupQuestions?.length">
+                                <div class="added-questions-list" *ngFor="let followQues of selectedFaq._meta.followupQuestions">
+                                    <div class="question-name text-truncate">{{followQues._source.question}}</div>
                                     <div class="added-tags text-truncate">
-                                        <span class="tags-data" *ngFor="let keyword of followQues?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                        <span class="tags-data" *ngFor="let keyword of followQues._source?.keywords">#{{keyword}}&nbsp;</span>
                                     </div>
                                     <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>

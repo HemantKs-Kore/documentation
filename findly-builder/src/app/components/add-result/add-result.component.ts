@@ -72,7 +72,7 @@ export class AddResultComponent implements OnInit {
     
     payload.searchQuery = this.searchTxt;
     payload.result = result[0];
-    this.service.invoke('update.rankingPinning', quaryparms).subscribe(res => {
+    this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
       this.recordArray=[];
       console.log(res);
     }, errRes => {

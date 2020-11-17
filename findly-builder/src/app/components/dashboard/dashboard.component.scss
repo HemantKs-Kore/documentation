@@ -282,11 +282,11 @@
                     width: 48px;
                     display: inline-block;
                     margin-left: 10px;
-                    // &.toatlsearches{
-                    //     border-top: 4px solid #0D6EFD;
-                    // }
-                    &.withresults{
+                    &.toatlsearches{
                         border-top: 4px solid #0D6EFD;
+                    }
+                    &.withresults{
+                        border-top: 4px solid #28A745;
                     }
                     &.clicks{
                         border-top: 4px solid #FF784B;
@@ -334,13 +334,10 @@
     }
 }
 
-.legends_sec_piechart{
-    display: flex;
-    align-items: center;
-    position: relative;
-    top: 20%;
-    left: 17%;
+.legends_sec_piechart{   
     .legend-data{
+        width: 180px !important;
+        margin: 0 auto;
         .indication{
             width: 20px;
             height: 20px;            
@@ -370,7 +367,12 @@
 .pie-chart-graph{
     width: 180px;
     height: 180px;
-    margin: 0 auto 28px auto;
+    margin: 32px auto;
     box-shadow: 0 -4px 18px 0 rgba(0, 0, 0, 0.1);
     border-radius: 100%;
+}
+.demo-chart-graphMode{
+    &.bottom{
+        height: 320px !important;
+    }    
 }

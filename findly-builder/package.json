@@ -36,6 +36,7 @@
     "moment": "^2.27.0",
     "ng2-file-upload": "^1.4.0",
     "ng2-pdf-viewer": "^6.3.2",
+    "ng5-slider": "^1.2.6",
     "ngx-echarts": "^5.1.2",
     "ngx-perfect-scrollbar": "^10.0.1",
     "ngx-toastr": "^13.0.0",
