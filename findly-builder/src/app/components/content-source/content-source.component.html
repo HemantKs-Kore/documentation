@@ -691,7 +691,7 @@
               <input type="text" placeholder="Title" class="input-text" [(ngModel)] = "editDocObj.title">
           </div>
           </div>
-          <div class="col-2">{{selectedSource.fileName || '---'}}</div>
+          <div class="col-2">{{selectedSource.fileMeta.fileName || '---'}}</div>
           <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
           <div class="col-2" *ngIf="isEditDoc"> 
             <div class="kr-sg-input-text-area" >
@@ -704,7 +704,7 @@
             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
             {{statusObj[selectedSource.recentStatus].name}}</div>
           <div class="col-1">{{selectedSource.numPages}}</div>
-          <div class="col-1">{{selectedSource.size|| '--'}}</div>
+          <div class="col-1">{{selectedSource.fileMeta.size|| '--'}}</div>
           <div class="col_ col-1  p-0 text-left actions-images">
             <img src="assets/images/edit-pencil.svg"  (click) = "editDoc()" title="Edit">
             <img src="assets/images/downloadIcon.svg" title="Download">
