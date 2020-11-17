@@ -54,18 +54,18 @@
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">No of Clicks <span class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>                                    
                                 </div>
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Access to debit account Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil</div>
+                                <div class="table_body row m-0" *ngFor="let result of topQuriesWithNoResults;let i = index">                                
+                                    <div class="col-8 title">{{result.query}}</div>
                                     <div class="col-2 title">1000</div>                                                         
                                     <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" (click)="openModalPopup()">
+                                        <span class="count">{{result.count}}</span>
+                                        <div class="view-query" (click)="openModalPopup(result)">
                                             <img src="assets/icons/view-query.svg">    
                                             <span>View Queries</span>                           
                                         </div>
                                     </div>
                                 </div>   
-                                <div class="table_body row m-0">                                
+                                <!-- <div class="table_body row m-0">                                
                                     <div class="col-8 title">Opening a new account in HDFC Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</div>
                                     <div class="col-2 title">1000</div>                                                         
                                     <div class="col-2 title">
@@ -119,7 +119,7 @@
                                             <span>View Queries</span>                           
                                         </div>
                                     </div>
-                                </div> 
+                                </div>  -->
                             </div>
                         </div>
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content">
