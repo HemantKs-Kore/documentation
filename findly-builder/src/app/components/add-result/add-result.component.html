@@ -51,12 +51,12 @@
 
     <perfect-scrollbar class="accor-scroll-add" #fqasScrollContainer>
         <ng-container >
-            <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+            <div class="mainLoadingSpinner" *ngIf="loadingContent" >
                 <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
                 <span class="please-wait-message">Please Wait!</span>
               </div>
         <div id="accordion" class="accordion-content">
-             <div *ngIf ="extractedResults; else loading">
+             <!-- <div *ngIf ="extractedResults; else loading"> -->
                 <div  *ngFor="let result of extractedResults;let i = index">
                     <div class="card-content"   *ngIf="searchType == 'faq'">
                         <div class="card_link collapsed">      
@@ -113,7 +113,7 @@
                     
                 </div>
               
-            </div>
+            <!-- </div> -->
             <ng-template #empty>
                 <div  class="empty-questions-selected divBlockEmptylastChild">
                     <div class="heading">No search results</div>
