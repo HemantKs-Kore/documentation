@@ -13,6 +13,8 @@ declare const $: any;
 })
 export class SettingsComponent implements OnInit {
   slider = 0;
+  refId = "";
+  configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId : any;
   addCredentialRef:any;
@@ -39,6 +41,8 @@ export class SettingsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
 
     this.callStream();
+    this.getdialog();
+    this.getLinkedBot();
   }
   copy(val,elementID){
     const selBox = document.createElement('textarea');
@@ -137,6 +141,112 @@ export class SettingsComponent implements OnInit {
   radio(bool){
     this.isAlertsEnabled = bool;
   }
+  getLinkedBot(){
+    const queryParams = {
+      userId:this.authService.getUserId(),
+      streamId:this.selectedApp._id
+    }
+    
+    this.service.invoke('get.linkedBot',queryParams).subscribe(
+      res => {
+        if(res.configuredBots) this.configuredBot_streamId =  res.configuredBots[0]._id
+        console.log(res);
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to get LInked BOT', 'error');
+        }
+      }
+    );
+  }
+  standardPublish(){
+    const queryParams = {
+      streamId:this.selectedApp._id
+    }
+    let payload = {
+      "resources":
+      [
+        {"namespace":"enterprise",
+        "resourceId":this.refId,
+        "namespaceIds":[],
+        "resourceType":"dialog",
+        "approvalRequestedLanguages":["en"]
+      },
+        {"resourceId":"smalltalk","resourceType":"smalltalk","approvalRequestedLanguages":["en"]},
+        {"resourceId":"NL","resourceType":"NL","modules":["linked_bot_training","bot_synonyms","thresholds_and_configurations","standard_responses","default_dialog","settings"]},
+        {"resourceId":"CHANNELS","resourceType":"CHANNELS","modules":["rtm"]},{"resourceId":"EXTENSIONS","resourceType":"EXTENSIONS","modules":["botkit","websdk","events"]},
+        {"resourceId":"SETTINGS","resourceType":"SETTINGS","modules":["general","pii","ivr","hold_resume","custom_script","advanced","bot_variables"]},
+        {"resourceId":"BOTLANGUAGES","resourceType":"BOTLANGUAGES","modules":{"enabledLanguages":["en"]}}],"publishAllComponents":true,"versionComment":"publishing","linkedBotCount":1}
+
+    this.service.invoke('standard.publish',queryParams,payload).subscribe(
+      res => {
+        this.notificationService.notify('Standard Published', 'success');
+        this.universalPublish();
+        console.log(res);
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed Standard Publish', 'error');
+        }
+      }
+    );
+  }
+  universalPublish(){
+    const queryParams = {
+      userId:this.authService.getUserId(),
+      streamId:this.selectedApp._id
+    }
+    let payload = {
+      "bots":
+        [
+          {
+            "_id": this.configuredBot_streamId,
+            "state":"new"
+          }
+        ],
+        "publishAllComponents":true,
+        "versionComment":"publishing",
+        "linkedBotCount":1
+      }
+
+    this.service.invoke('universal.publish',queryParams,payload).subscribe(
+      res => {
+        this.notificationService.notify('Credential Configuered', 'success');
+        console.log(res);
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+  getdialog(){
+    const queryParams = {
+      streamId:this.selectedApp._id
+    }
+
+    this.service.invoke('get.dialog',queryParams).subscribe(
+      res => {
+        this.refId = res[0]._id;
+        console.log(res)
+        //this.notificationService.notify('Credential Configuered', 'success');
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed get DialogID', 'error');
+        }
+      }
+    );
+  }
   configureCredential(){
     const queryParams = {
       userId:this.authService.getUserId(),
@@ -159,6 +269,7 @@ export class SettingsComponent implements OnInit {
       res => {
         this.slider = 0;
         this.notificationService.notify('Credential Configuered', 'success');
+        this.standardPublish();
         console.log(res);
       },
       errRes => {
