@@ -354,13 +354,21 @@
                   </div>
                 </div>
 
-                <div *ngIf="selectedSource.sitemaps" class="site-map-url-sec">
+                <div *ngIf="selectedSource.sitemaps.length > 0; else noSiteMap" class="site-map-url-sec">
                   <div class="label_text">Sitemap URLS</div>
                   <div class="urls_">
-                    <!-- <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div> -->
-                    <div class="site-url">https://finshots.in /path/sample</div>
+                    <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div>
+                    <!-- <div class="site-url">https://finshots.in /path/sample</div> -->
                   </div>
                 </div>
+                <ng-template #noSiteMap>
+                  <div class="site-map-url-sec">
+                    <div class="label_text">Sitemap URLS</div>
+                    <div class="urls_">
+                      <div class="site-url">No Sitemaps</div>
+                    </div>
+                  </div>
+                </ng-template>
                 <div class="toggle-swich-row">
                   <div class="row m-0 row_data">
                     <div class="col-10 title pl-pr-10">Schedule</div>
@@ -691,7 +699,7 @@
               <input type="text" placeholder="Title" class="input-text" [(ngModel)] = "editDocObj.title">
           </div>
           </div>
-          <div class="col-2">{{selectedSource.fileMeta.fileName || '---'}}</div>
+          <div class="col-2" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.fileName || '---'}}</div>
           <div class="col-2" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
           <div class="col-2" *ngIf="isEditDoc"> 
             <div class="kr-sg-input-text-area" >
@@ -704,7 +712,7 @@
             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
             {{statusObj[selectedSource.recentStatus].name}}</div>
           <div class="col-1">{{selectedSource.numPages}}</div>
-          <div class="col-1">{{selectedSource.fileMeta.size|| '--'}}</div>
+          <div class="col-1" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size|| '--'}}</div>
           <div class="col_ col-1  p-0 text-left actions-images">
             <img src="assets/images/edit-pencil.svg"  (click) = "editDoc()" title="Edit">
             <img src="assets/images/downloadIcon.svg" title="Download">
