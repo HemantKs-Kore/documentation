@@ -144,7 +144,7 @@
                   </span>
                 </div>
                 <div class="col-4 data_content">
-                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">{{'synonyms.one_way_synonym'| translate}</span>
+                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">{{'synonyms.one_way_synonym'| translate}}</span>
                   <span *ngIf="!(synonym.type === 'oneWaySynonym')" class="title_data">{{'synonyms.synonym'| translate}}</span>
                   <span class="float-right action-links">
                     <span class="actions-links mr-3" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip='Edit' [container]='"body"'><img class="action_icon"  src="assets/images/edit-pencil.svg"></span>
