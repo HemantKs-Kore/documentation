@@ -10,6 +10,7 @@ declare const $: any;
 })
 export class AddResultComponent implements OnInit {
   searchType = '';
+  searchRadioType = 'faq';
   selectedApp :any = {};
   extractedResults : any = [];
   serachIndexId;
@@ -30,9 +31,11 @@ export class AddResultComponent implements OnInit {
     this.closeResult.emit(!this.addNew);
   }
   resultClick(type){
-    this.searchType = type;
+    this.searchRadioType = type;
+    this.searchType = this.searchRadioType;
     this.searchTxt ='';
-    this.searchResults(this.searchTxt)
+    this.extractedResults = [];
+    //this.searchResults(this.searchTxt)
     //type == 'FAQ' ? this.searchType = type : type == 'Content' ? this.searchType = type: this.searchType = type;
   }
   keyFunc(txt){
@@ -63,8 +66,8 @@ export class AddResultComponent implements OnInit {
       obj.contentId = element._id;
       obj.config = {
         pinIndex : -1,
-        boost: 1.0,
-        visible: true,
+        //boost: 1.0,
+        //visible: true,
       }
       result.push(obj);
     });
@@ -74,7 +77,12 @@ export class AddResultComponent implements OnInit {
     payload.result = result[0];
     this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
       this.recordArray=[];
-      console.log(res);
+      if($('.checkbox-custom')){
+        $('.checkbox-custom').forEach(element => {
+          element.checked = false;
+        });
+      }
+      //console.log(res);
     }, errRes => {
       console.log(errRes);
      
@@ -84,7 +92,8 @@ export class AddResultComponent implements OnInit {
   clearReocrd(){
     //this.searchType = '';
     this.searchTxt ='';
-    this.searchResults(this.searchTxt)
+    this.extractedResults = [];
+    //this.searchResults(this.searchTxt)
   }
   cancelRecord(){
     //$('.add-result').css('display','none');
@@ -103,7 +112,7 @@ export class AddResultComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       search : search,
-      type: this.searchType,
+      type: this.searchType || this.searchRadioType,
       limit: 50,
       skip: 0
     };
