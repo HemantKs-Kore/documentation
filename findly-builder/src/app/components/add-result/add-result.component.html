@@ -11,15 +11,15 @@
             <div class="group-radiobutton">
                 <div class="heading-title txt">Result Type</div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (click) = "resultClick('faq')">
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType" value = "faq" (click) = "resultClick('faq')">
                     <label for="radio-1" class="radio-custom-label">FAQ</label>
                 </div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-2" name="radio" class="radio-custom" type="radio" (click) = "resultClick('content')">
+                    <input id="radio-2" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType" value = "content" (click) = "resultClick('content')">
                     <label for="radio-2" class="radio-custom-label">Content</label>
                 </div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('task')">
+                    <input id="radio-3" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType"  value = "task" (click) = "resultClick('task')">
                     <label for="radio-3" class="radio-custom-label">Bot Action</label>
                 </div>
                 <!-- <div class="kr-sg-radiobutton radiobutton ">
@@ -66,8 +66,8 @@
                                     <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="title-desc-sec" *ngIf="searchType == 'faq'">
-                                    <div class="title">{{ result.question}}</div>
-                                    <div class="desc">{{ result.answer}}</div>
+                                    <div class="title">{{ result._source.question}}</div>
+                                    <div class="desc" *ngFor="let answer of result._source.defaultAnswers;">{{ answer.payload}}</div>
                                 </div>
                             </div>
                             
@@ -98,10 +98,10 @@
                                             <label [attr.for]="j" class="checkbox-custom-label"></label>
                                         </div>
                                         <div class="title-desc-sec">
-                                            <div class="title">{{ data.title}}</div>
-                                            <div class="desc" *ngIf="data.searchResultPreview;else body">{{ data.searchResultPreview}}</div>
+                                            <div class="title">{{ data._source.pageTitle}}</div>
+                                            <div class="desc" *ngIf="data._source.pageSearchResultPreview;else body">{{ data._source.pageSearchResultPreview}}</div>
                                             <ng-template #body>
-                                                <div class="desc">{{ data.body}}</div>
+                                                <div class="desc">{{ data._source.pageBody}}</div>
                                             </ng-template>
                                         </div>
                                     </div>
