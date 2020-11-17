@@ -14,6 +14,7 @@ declare const $: any;
 export class SettingsComponent implements OnInit {
   slider = 0;
   refId = "";
+  botID = '';
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId : any;
@@ -62,6 +63,7 @@ export class SettingsComponent implements OnInit {
   }
   selctedChannel(channel){
     this.listData = channel;
+    this.botID = channel.bots[0]._id;
     this.slider= this.slider+1;
   }
   cancel(){
@@ -98,6 +100,7 @@ export class SettingsComponent implements OnInit {
       res => {
         console.log(res);
         this.listData = res;
+        this.botID = res.bots[0];
         this.slider = this.slider + 1;
         this.notificationService.notify('Credential Created', 'success');
         this.closeModalPopup();

@@ -79,7 +79,7 @@ export class AddResultComponent implements OnInit {
       this.recordArray=[];
       if($('.checkbox-custom')){
         $('.checkbox-custom').forEach(element => {
-          element.checked = false;
+          return element.checked = false;
         });
       }
       //console.log(res);
