@@ -805,7 +805,6 @@ keyPress(event){
     this.showSourceAddition = null;
   }
   onSourceAdditionSave() {
-    // this.closeAddsourceModal();
     this.getSourceList();
     this.showSourceAddition = null;
    }
