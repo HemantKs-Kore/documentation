@@ -22,7 +22,7 @@
                     <div class="title-card col-4 p-0">Top Search Results</div>
                     <div class="col-8 d-flex justify-content-end p-0 search-filter-block">
                         <div class="kr-sg-input-search">                               
-                            <input type="text" placeholder="Search" class="input-search">
+                            <input type="text" placeholder="Search" class="input-search" name="searchSources" [(ngModel)]="searchSources">
                             <img src="assets/icons/search_gray.svg" class="search-icon">
                         </div>                       
                     </div>                    
@@ -51,150 +51,42 @@
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
                                     <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Search Results <span class=" " placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Count <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">No of Clicks <span class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>                                    
                                 </div>
-                                <div class="table_body row m-0" *ngFor="let result of topQuriesWithNoResults;let i = index">                                
+                                <div class="table_body row m-0" *ngFor="let result of getQueriesWithResults | filter: [ searchSources , 'query']">                                
                                     <div class="col-8 title">{{result.query}}</div>
-                                    <div class="col-2 title">1000</div>                                                         
+                                    <div class="col-2 title">{{result.searches}}</div>                                                         
                                     <div class="col-2 title">
-                                        <span class="count">{{result.count}}</span>
+                                        <span class="count">{{result.clicks}}</span>
                                         <div class="view-query" (click)="openModalPopup(result)">
                                             <img src="assets/icons/view-query.svg">    
                                             <span>View Queries</span>                           
                                         </div>
                                     </div>
                                 </div>   
-                                <!-- <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Opening a new account in HDFC Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" (click)="openModalPopup()">
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Password change of Saving account Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" (click)="openModalPopup()">
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Opening a new account in HDFC Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" (click)="openModalPopup()">
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div>                                                                    
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Changing of Net banking Pin Ut enim ad minim veniam</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" (click)="openModalPopup()">
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Access to debit account Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" (click)="openModalPopup()">
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div>  -->
+                               
                             </div>
                         </div>
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Search Results <span class="info-icon" placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Search Results <span class="info-icon" placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <!-- <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div> -->
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">No of Clicks <span class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>                                    
                                 </div>
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Access to debit account Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil</div>
-                                    <div class="col-2 title">1000</div>                                                         
+                                <div class="table_body row m-0" *ngFor="let result of topQuriesWithNoResults | filter: [ searchSources , 'query']">                                
+                                    <div class="col-10 title">{{result.query}}</div>
+                                    <!-- <div class="col-2 title">1000</div>  -->
                                     <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" >
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div>   
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Opening a new account in HDFC Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" >
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
+                                        <span class="count">{{result.count}}</span>
+                                         <div class="view-query">
+                                            <!-- <img src="assets/icons/view-query.svg">     -->
+                                            <span>{{result.count}}</span>                           
+                                        </div> 
                                     </div>
                                 </div>    
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Password change of Saving account Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" >
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Opening a new account in HDFC Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" >
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div>                                                                    
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Changing of Net banking Pin Ut enim ad minim veniam</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" >
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="table_body row m-0">                                
-                                    <div class="col-8 title">Access to debit account Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</div>
-                                    <div class="col-2 title">1000</div>                                                         
-                                    <div class="col-2 title">
-                                        <span class="count">4837</span>
-                                        <div class="view-query" >
-                                            <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
-                                        </div>
-                                    </div>
-                                </div> 
+                               
                             </div>
                         </div>                                 
                     </div>   
@@ -209,7 +101,7 @@
   <div class="modal-header">
     <div>
         <div class="small-title">Search Queries for</div>
-        <div class="title-small">How do I access my account online at Citibank Online?</div>
+        <div class="title-small">{{selectedQuery}}</div>
         <div class="response">FAQ Response</div>
     </div>
     <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
@@ -226,35 +118,24 @@
                 <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Positive Feedback</span></div>
                 <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Negative Feedback</span></div>
             </div>
-            <div class="table_body row m-0">
+            <div class="table_body row m-0" *ngFor="let result of getSearchQueriesResults;let i = index">
                 <div class="col-2 title d-flex align-items-center">
                     <span class="img-sec"><img src="assets/icons/question-box.svg"></span>
-                    <span class="results">Access Account Details Online</span>
+                    <span class="results">{{result.answer}}</span>
                 </div>
-                <div class="col-2 title">1249</div>
-                <div class="col-2 title">1000</div>
-                <div class="col-2 title">90%</div>
-                <div class="col-2 title">2.8</div>
-                <div class="col-1 title">4736</div>                       
-                <div class="col-1 title">4837</div>
+                <div class="col-2 title">{{result.appearances}}</div>
+                <div class="col-2 title">{{result.clicks}}</div>
+                <div class="col-2 title">{{result.clickThroughRate}} %</div>
+                <div class="col-2 title">{{result.avgPosition}}</div>
+                <div class="col-1 title">{{result.positiveFeedback}}</div>                       
+                <div class="col-1 title">{{result.negativeFeedback}}</div>
             </div>       
-            <div class="table_body row m-0">
-                <div class="col-2 title d-flex align-items-center">
-                    <span class="img-sec"><img src="assets/icons/question-box.svg"></span>
-                    <span class="results">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
-                </div>
-                <div class="col-2 title">1249</div>
-                <div class="col-2 title">1000</div>
-                <div class="col-2 title">90%</div>
-                <div class="col-2 title">2.8</div>
-                <div class="col-1 title">4736</div>                       
-                <div class="col-1 title">4837</div>
-            </div>                                       
+           
         </div>
     </div>
   </perfect-scrollbar>
-  <div class="modal-footer">
+  <!-- <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg">Proceed</button>
       <button class="kr-sg-button-secondary btn_lg">Back</button>
-  </div>
+  </div> -->
 </kr-modal> 
