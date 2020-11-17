@@ -218,7 +218,7 @@ export class SettingsComponent implements OnInit {
 
     this.service.invoke('universal.publish',queryParams,payload).subscribe(
       res => {
-        this.notificationService.notify('Credential Configuered', 'success');
+        this.notificationService.notify('Universal Published', 'success');
         console.log(res);
       },
       errRes => {
