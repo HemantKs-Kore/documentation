@@ -2144,7 +2144,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         documents: _self.vars.searchObject.liveData.documents,
         searchFacets: _self.vars.searchFacetFilters,
         viewType: viewType,
-        
+
         showingMatchedResults: showingMatchedResults,
         devMode: devMode,
 
@@ -2170,7 +2170,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-container').removeClass('active');
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
-        
+
         if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
           $('#viewTypeCheckboxControl').prop('checked', true);
           $(".pages-wrp, .tasks-wrp").sortable();
@@ -2217,7 +2217,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           })
         }
 
-        if(_self.vars.showingMatchedResults == true) {
+        if (_self.vars.showingMatchedResults == true) {
           $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click');
         }
 
@@ -2303,7 +2303,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             })
           }
 
-          if(_self.vars.showingMatchedResults == true) {
+          if (_self.vars.showingMatchedResults == true) {
             $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click');
           }
         }
@@ -4053,7 +4053,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(".faqs-bottom-actions").css('display', 'none');
             }
 
-            if(_self.vars.showingMatchedResults == true && dataObj.faqs.length > 0) {
+            if (_self.vars.showingMatchedResults == true && dataObj.faqs.length > 0) {
               $(searchData).find('.tasks-wrp .faqs-shadow').first().find(".accordion").trigger('click');
             }
           }
@@ -4669,7 +4669,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    FindlySDK.prototype.showSearch = function () {
+    // FindlySDK.prototype.showSearch = function () {
+    FindlySDK.prototype.showSearch = function (config) {
       var _self = this;
       _self.isDev = false;
       if (!$('body').hasClass('demo')) {
@@ -4677,7 +4678,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.initWebKitSpeech();
       _self.setAPIDetails();
-      _self.initKoreSDK();
+      // _self.initKoreSDK();
+      _self.initKoreSDK(config);
       _self.initWebKitSpeech();
       _self.setAPIDetails();
 
@@ -4741,13 +4743,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.searchEventBinding(dataHTML, 'search-container');
 
     };
-    FindlySDK.prototype.initKoreSDK = function () {
+    // FindlySDK.prototype.initKoreSDK = function () {
+    FindlySDK.prototype.initKoreSDK = function (config) {
       var _self = this;
       _self.bot = requireKr('/KoreBot.js').instance();
       _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
 
     };
+
+    FindlySDK.prototype.destroy = function (config) {
+      this.bot.destroy();
+    }
+    
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
       _self.bot.on("message", function (message) {
