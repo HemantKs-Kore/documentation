@@ -150,7 +150,7 @@ export class AppComponent implements OnInit , OnDestroy {
         }
     });
 }
-  resetFindlySearchSDK(appData){
+  resetFindlySearchSDK(appData) {
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
@@ -158,7 +158,6 @@ export class AppComponent implements OnInit , OnDestroy {
           pipelineId:appData.searchIndexes[0].queryPipelineId
         }
         window.selectedFindlyApp = searchData;
-        console.log(searchData, window.selectedFindlyApp)
         this.searchInstance.setAPIDetails();
       }
     }
@@ -224,7 +223,7 @@ export class AppComponent implements OnInit , OnDestroy {
     const botOptionsFindly: any = {};
     botOptionsFindly.logLevel = 'debug';
     botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
-    botOptionsFindly.client = 'botbuilder'
+    botOptionsFindly.client = 'botbuilder';
     botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
@@ -241,13 +240,8 @@ export class AppComponent implements OnInit , OnDestroy {
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
 
     this.searchInstance = new FindlySDK(findlyConfig);
-  //   this.getJWT(findlyConfig.botOptionsFindly).then( (res) => {
-  //     // fSdk.setJWT(res.jwt);
-  //     this.searchInstance.showSearch();
-  //   // },  (errRes)=> {
-  //   //   console.error('Failed getting JWT ' + errRes)
-  // });
   this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
+  this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
   showHideSearch(show){
     const _self = this;
@@ -308,7 +302,6 @@ export class AppComponent implements OnInit , OnDestroy {
     this.sdkBridge(bridgeObj)
   }
   initSearchSDK(){
-    this.resetFindlySearchSDK(this.workflowService.selectedApp());
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
     $('body').off('click','.start-search-icon-div').on('click','.start-search-icon-div',((event)=>{
