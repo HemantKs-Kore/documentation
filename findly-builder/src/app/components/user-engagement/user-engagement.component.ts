@@ -82,6 +82,7 @@ export class UserEngagementComponent implements OnInit {
   group = "week"; // hour , date , week
   usersBusyChart : any;
   usersChart : any;
+  mostUsedDev_bro_geo_sen : any;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
@@ -122,6 +123,7 @@ export class UserEngagementComponent implements OnInit {
     
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
+    this.getuserCharts('MostUsedDevices');
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
@@ -242,12 +244,13 @@ export class UserEngagementComponent implements OnInit {
         this.repeatUserProgress = res.increaseInRepeatedUsers;
       } 
       this.userEngagementChart();
-     }
-     if(type == 'UsersBusyChart'){
+     }else if(type == 'UsersBusyChart'){
         if(this.group == 'date'  || this.group == 'hour' || this.group == 'week'){
           this.usersBusyChart = res.totalUsersChart;
         }
         this.busyHours(); 
+      }else if(type == 'MostUsedDevices'){
+        this.mostUsedDev_bro_geo_sen = res.results;
       }
       
       
@@ -317,6 +320,8 @@ export class UserEngagementComponent implements OnInit {
       }else if(type == 'SearchHistogram'){
         this.searchHistogram = res.result;
         this.summaryChart();
+      }else if(type == "MostUsedDevices"){
+        
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -514,7 +519,10 @@ var valueList2 = totaldata.map(function (item) {
   };
   }
   mostUsedDevice(){
-     
+    let graphData = []
+    this.mostUsedDev_bro_geo_sen.forEach(element => {
+      graphData.push(element.percentOfUsers)
+    });
         this.mostUsedDeviceBar  = {
           xAxis: {
               type: 'value',
@@ -580,13 +588,17 @@ var valueList2 = totaldata.map(function (item) {
                 color: '#7027E5',
               },
             },
-              data: [120, 200, 150],
+              data: graphData,//[120, 200, 150],
               type: 'bar'
           }]
       };
     
     }
     mostUsedBrowser(){
+      let graphData = []
+      this.mostUsedDev_bro_geo_sen.forEach(element => {
+        graphData.push(element.percentOfUsers)
+      });
       this.mostUsedBrowserBar  = {
         xAxis: {
             type: 'value',
@@ -651,12 +663,16 @@ var valueList2 = totaldata.map(function (item) {
               color: '#FF784B',
             },
           },
-            data: [120, 200, 150],
+            data: graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     geo(){
+      let graphData = []
+      this.mostUsedDev_bro_geo_sen.forEach(element => {
+        graphData.push(element.percentOfUsers)
+      });
       this.geoBar  = {
         xAxis: {
             type: 'value',
@@ -687,12 +703,16 @@ var valueList2 = totaldata.map(function (item) {
               color: '#93D3A2',
             },
           },
-            data: [120, 200, 150],
+            data: graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     sentiments(){
+      let graphData = []
+      this.mostUsedDev_bro_geo_sen.forEach(element => {
+        graphData.push(element.percentOfUsers)
+      });
       this.sentimentsBar  = {
         xAxis: {
             type: 'value',
@@ -723,55 +743,12 @@ var valueList2 = totaldata.map(function (item) {
               color: '#28A745',
             },
           },
-            data: [120, 200, 150,500,120,150],
+            data: graphData,//[120, 200, 150,500,120,150],
             type: 'bar'
         }]
     };
     }
-    // feedback(){
-    //   var colorPaletteSearch = ['#28A745','#EAF6EC'];
-    //   var colorPaletteResult = ['#FF784B','#FFF1ED'];
-    //   this.feedbackPieSearches = {
-        
-    //     series: [{
-    //         type: 'pie',
-    //         radius: 90,
-    //         color: colorPaletteSearch,
-    //         hoverAnimation: false,
-    //         center: ['50%', '50%'],
-    //         data: [30,70],
-    //         label: {
-    //             show: true,
-    //             position: 'inner',
-    //             formatter: (params) => {
-    //               return params.percent ? params.percent + '%' : '';
-    //             },
-               
-    //       },
-    //     } 
-    //   ]
-    // };
-    //   this.feedbackPieResult = {
-        
-    //         series: [{
-    //             type: 'pie',
-    //             radius: 90,
-    //             color: colorPaletteResult,
-    //             hoverAnimation: false,
-    //             center: ['50%', '50%'],
-    //             data: [30,70],
-    //             label: {
-    //                 show: true,
-    //                 position: 'inner',
-    //                 formatter: (params) => {
-    //                   return params.percent ? params.percent + '%' : '';
-    //                 }
-    //           },
-    //         } 
-    //       ]
-    //     };
-      
-    // }
+    
     busyHours(){
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const hourConversion = ['1 am','2 am','3 am','4 am','5 am','6 am','7 am','8 am','9 am','10 am','11 am','12 pm',

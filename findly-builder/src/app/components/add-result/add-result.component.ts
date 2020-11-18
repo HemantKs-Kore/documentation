@@ -20,6 +20,7 @@ export class AddResultComponent implements OnInit {
   searchTxt = '';
   contentTypeAny = '';
   loadingContent = false;
+  @Input() query : any;
   @Input() addNew;
   @Output() closeResult = new EventEmitter()
   constructor(public workflowService: WorkflowService,
@@ -65,7 +66,7 @@ export class AddResultComponent implements OnInit {
   //   this.contentTypeAny = record._source.contentType;
   // }
   pushRecord(){
-    let contentType = "faq"
+    let contentType = ""
     let contentTaskFlag = false;
     if(this.searchType == "task" || this.searchRadioType == "task"){
       contentType = this.searchType ||  this.searchRadioType;
@@ -90,10 +91,12 @@ export class AddResultComponent implements OnInit {
     });
     let payload : any = {};
     
-    payload.searchQuery = this.searchTxt;
+    payload.searchQuery = this.query;
     payload.result = result[0];
     this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
       this.recordArray=[];
+      this.extractedResults = [];
+      this.searchTxt = "";
       contentTaskFlag = false;
       if($('.checkbox-custom')){
         for(let i = 0;i< $('.checkbox-custom').length; i++){
