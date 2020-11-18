@@ -22,6 +22,10 @@
                     <input id="radio-3" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType"  value = "task" (click) = "resultClick('task')">
                     <label for="radio-3" class="radio-custom-label">Bot Action</label>
                 </div>
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-4" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType"  value = "all" (click) = "resultClick('all')">
+                    <label for="radio-4" class="radio-custom-label">Any</label>
+                </div>
                 <!-- <div class="kr-sg-radiobutton radiobutton ">
                     <input id="radio-4" name="radio" class="radio-custom" type="radio" (click) = "resultClick('any')">
                     <label for="radio-4" class="radio-custom-label">Any</label>
@@ -88,6 +92,21 @@
                             
                         </div>
                     </div>
+                    <div class="card-content"   *ngIf="searchType == 'all'">
+                        <div class="card_link collapsed">      
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                    <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec">
+                                    <div class="title">{{ result._source.pageTitle}}</div>
+                                    <div class="desc" >{{ result._source.pageSearchResultPreview ||  result._source.pageBody}}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
                     <div *ngIf="searchType == 'content'">
                         <div *ngFor="let data of result.data ;let j = index">
                             <div class="card-content" >
@@ -112,7 +131,8 @@
                     </div>
                     
                 </div>
-              
+                
+                
             <!-- </div> -->
             <ng-template #empty>
                 <div  class="empty-questions-selected divBlockEmptylastChild">

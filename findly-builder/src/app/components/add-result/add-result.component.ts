@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 
 @Component({
@@ -17,10 +18,13 @@ export class AddResultComponent implements OnInit {
   queryPipelineId;
   recordArray = [];
   searchTxt = '';
+  contentTypeAny = '';
   loadingContent = false;
   @Input() addNew;
   @Output() closeResult = new EventEmitter()
-  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
+  constructor(public workflowService: WorkflowService,
+    public notificationService: NotificationService,
+    private service: ServiceInvokerService) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -52,9 +56,21 @@ export class AddResultComponent implements OnInit {
         }
       });
     }
-    if(!duplicate) this.recordArray.push(record)
+    if(!duplicate) this.recordArray.push(record);
+    // if(this.searchType == "all" || this.searchRadioType == "all"){
+    //   this.checkForContentType(record,i)
+    // }
   }
+  // checkForContentType(record,i){
+  //   this.contentTypeAny = record._source.contentType;
+  // }
   pushRecord(){
+    let contentType = "faq"
+    let contentTaskFlag = false;
+    if(this.searchType == "task" || this.searchRadioType == "task"){
+      contentType = this.searchType ||  this.searchRadioType;
+      contentTaskFlag = true;
+    }
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -63,7 +79,7 @@ export class AddResultComponent implements OnInit {
     let result :any = [];
     this.recordArray.forEach((element,index) => {
       var obj :any = {};
-      obj.contentType = this.searchType ||  this.searchRadioType;
+      obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element._id;
       obj.config = {
         pinIndex : -1,
@@ -78,15 +94,20 @@ export class AddResultComponent implements OnInit {
     payload.result = result[0];
     this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
       this.recordArray=[];
+      contentTaskFlag = false;
       if($('.checkbox-custom')){
         for(let i = 0;i< $('.checkbox-custom').length; i++){
           $('.checkbox-custom')[i].checked =  false;
         }
       }
+      this.notificationService.notify('Record Added', 'success');
       //console.log(res);
-    }, errRes => {
-      console.log(errRes);
-     
+    }, errRes =>  {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed Standard Publish', 'error');
+      }
     });
   
   }
@@ -118,9 +139,15 @@ export class AddResultComponent implements OnInit {
       skip: 0
     };
     this.service.invoke('get.extractedResult_RR', quaryparms).subscribe(res => {
-      this.extractedResults = res;
+      if(this.searchType == "all"){
+        this.extractedResults = res.contents[0].results;
+        console.log(this.extractedResults);
+        console.log(res.contents);
+      }else{
+        this.extractedResults = res;
+      }
       this.loadingContent = false;
-      console.log(res);
+      
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
