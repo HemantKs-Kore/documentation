@@ -19,7 +19,7 @@
             <perfect-scrollbar class="scroll_stage_content">
                 <ng-container *ngIf="pipeline && pipeline.length">
                     <div cdkDropList (cdkDropListDropped)="drop($event,pipeline)">
-                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (currentEditIndex === i),'runningActive':(simulteObj && simulteObj.simulationInprogress && simulteObj.currentSimulateAnimi === i), 'runningActive2':(simulteObj && simulteObj.simulationInprogress && (simulteObj.currentSimulateAnimi === (i-1))), 'allRunningActive':(simulteObj &&   (i < simulteObj.totalStages))}">
+                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (selectedStage && selectedStage.name === pipe.name),'runningActive':(simulteObj && simulteObj.simulationInprogress && simulteObj.currentSimulateAnimi === i), 'runningActive2':(simulteObj && simulteObj.simulationInprogress && (simulteObj.currentSimulateAnimi === (i-1))), 'allRunningActive':(simulteObj &&   (i < simulteObj.totalStages))}">
                             <div class="field_data" *cdkDragPreview>
                                 <div class="title text-truncate" >{{pipe.name}}</div>
                             </div>
