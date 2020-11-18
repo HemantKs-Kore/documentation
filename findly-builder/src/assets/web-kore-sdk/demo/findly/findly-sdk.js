@@ -311,8 +311,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
       // debugger;
-      var baseAPIServer = 'https://app.findly.ai';
-      // var baseAPIServer = 'https://dev.findly.ai';
+      // var baseAPIServer = 'https://app.findly.ai';
+      var baseAPIServer = 'https://dev.findly.ai';
       if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
       }
@@ -951,7 +951,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
                   <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
-                      <span class="accordion" id="${key}">${faq.question}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
+                      <span class="accordion" id="${key}">{{html faq.question}}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
                       <div class="panel">\
                         <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
                         <div class="divfeedback">\
@@ -1038,7 +1038,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  </div>\
                  <div class="pages-content">\
                    <div class="title" title="${page.title}">${page.title}</div>\
-                   <div class="desc-info">${page.searchResultPreview}</div>\
+                   <div class="desc-info">{{html page.searchResultPreview}}</div>\
                  </div>\
                  <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
@@ -1255,7 +1255,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">${page.searchResultPreview}</div>\
+                          <div class="desc-info">{{html page.searchResultPreview}}</div>\
                           <div class="custom-matched-results-container">\
                             <div class="custom-matched-results-page-icon">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
@@ -1341,7 +1341,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="notification-div fullscreen"></div>\
                     <div class="faqs-wrp-content">\
                       <div class="title">\
-                        <span class="accordion" id="${key}">${faq.question}</span>\
+                        <span class="accordion" id="${key}">{{html faq.question}}</span>\
                         <div class="panel">\
                           <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
                           <div class="divfeedback">\
@@ -2144,7 +2144,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         documents: _self.vars.searchObject.liveData.documents,
         searchFacets: _self.vars.searchFacetFilters,
         viewType: viewType,
-        
+
         showingMatchedResults: showingMatchedResults,
         devMode: devMode,
 
@@ -2215,6 +2215,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $("#" + filter).prop('checked', true)
             console.log(filter);
           })
+        }
+
+        if (_self.vars.showingMatchedResults == true) {
+          $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click');
         }
 
       }
@@ -2297,6 +2301,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $("#" + filter).prop('checked', true)
               console.log(filter);
             })
+          }
+
+          if (_self.vars.showingMatchedResults == true) {
+            $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click');
           }
         }
 
@@ -3877,6 +3885,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         //     tasks.push(result);
         //   }
         // });
+        /*res.results.document = [
+          {
+            "contentId": "doc-8b6d95d7-f2ff-4523-a11c-cc63e65e5f5f",
+            "contentType": "document",
+            "score": 8.208443,
+            "searchResultPreview": "Can I perform transactions in my <span class = \"highlightText\">Dormant</span> <span class = \"highlightText\">Account</span>?",
+            "config": {
+              "pinIndex": -1,
+              "boost": 1.0,
+              "visible": true
+            },
+            "feedback": {
+              "thumbsup": 0,
+              "thumbsdown": 0,
+              "click": 0,
+              "expand": 0,
+              "appearance": 0
+            },
+            "keywords": [],
+            "imageUrl": "https://www.flaticon.com/svg/static/icons/svg/32/32329.svg",
+            // "externalFileUrl": "https://dev.findly.ai:443/api/getMediaStream/findly/f-51207ac2-d06a-57b1-8652-6828be3c4e44.pdf?e=1603296924&n=6228045778&s=IkE4a2dGa3ZsekphR0JQRXlOUW05bStqd3J0czZRM0tMYkZkSFU1KzY0T2s9Ig$$",
+            "externalFileUrl": "https://dev.findly.ai:443/api/getMediaStream/findly/f-dc66ea4f-5d1a-58ce-aabd-6e62985093d2.pdf?e=1603283268&n=7955810200&s=IlRkdzdPT2dEOTc3YitmTnF5eHB6THVTVUMrWHY4Ui9XM0JhbGdydU52VlE9Ig$$",
+            "title": "Resolution-Framework-for-COVID-19-related-Stress-FAQ.pdf"
+          }
+        ]*/
+
         faqs = res.results.faq;
         pages = res.results.page;
         tasks = res.results.task;
@@ -4017,6 +4051,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
               $(".image-url-sec").css('display', 'table-cell');
               $(".faqs-bottom-actions").css('display', 'none');
+            }
+
+            if (_self.vars.showingMatchedResults == true && dataObj.faqs.length > 0) {
+              $(searchData).find('.tasks-wrp .faqs-shadow').first().find(".accordion").trigger('click');
             }
           }
           setTimeout(function () {
@@ -4631,6 +4669,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
+    // FindlySDK.prototype.showSearch = function () {
     FindlySDK.prototype.showSearch = function (config) {
       var _self = this;
       _self.isDev = false;
@@ -4639,6 +4678,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       _self.initWebKitSpeech();
       _self.setAPIDetails();
+      // _self.initKoreSDK();
       _self.initKoreSDK(config);
       _self.initWebKitSpeech();
       _self.setAPIDetails();
@@ -4703,17 +4743,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.searchEventBinding(dataHTML, 'search-container');
 
     };
+    // FindlySDK.prototype.initKoreSDK = function () {
     FindlySDK.prototype.initKoreSDK = function (config) {
-      var _self = this;
       config = config || _self.config.botOptions
+      var _self = this;
       _self.bot = requireKr('/KoreBot.js').instance();
       _self.bot.init(config, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
 
     };
+
     FindlySDK.prototype.destroy = function (config) {
       this.bot.destroy();
-    };
+    }
+    
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
       _self.bot.on("message", function (message) {

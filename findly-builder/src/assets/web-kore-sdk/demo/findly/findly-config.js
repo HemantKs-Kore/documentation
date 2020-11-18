@@ -53,7 +53,7 @@
 
     var findlyConfig = {
         botOptions: botOptionsFindly,
-        viaSocket: false
+        viaSocket: true
     };
     
     KoreSDK.findlyConfig=findlyConfig

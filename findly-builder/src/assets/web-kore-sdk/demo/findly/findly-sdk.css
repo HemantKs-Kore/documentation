@@ -10632,3 +10632,13 @@ input:checked + .custom-slider:before {
     left: 0px;
     top: 10px;
 }
+.accordion .highlightText {
+    text-decoration: underline !important;
+}
+.desc-info .highlightText {
+    font-weight: bolder !important;
+    text-decoration: none !important;
+}
+.accordion.acc-active .highlightText {
+    text-decoration: none !important;
+}
