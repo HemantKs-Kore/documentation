@@ -261,8 +261,9 @@
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname active" (click)="swapSlider()">Pages</span>
-              <span class="tabname" (click)="swapSlider()">Configuration</span>
+              <span class="tabname active" (click)="swapSlider('page')">Pages</span>
+              <span class="tabname" (click)="swapSlider('config')">Configuration</span>
+              <span class="tabname" (click)="swapSlider('execution')">Execution</span>
             </div>
             <div class="right-side">
               <div class="kr-sg-input-search" *ngIf="!isConfig">
@@ -521,7 +522,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="!isConfig">
+          <div class="accordion-content-info text-left" *ngIf="page">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -603,8 +604,40 @@
             </div>
 
           </div>
-
-
+          <!-- Execution -->
+          <div *ngIf = "execution">
+            <div class="accordion-content-info text-left ">
+              <div class="table-list-content execution">
+                <div class="kr-sg-data-table with-checkbox"  >
+                  <section class="table-content">
+                    <header class="table-header">
+                      <div class="col_ col-3">EXECUTION STATUS</div>
+                      <div class="col_ col-3">DURATION</div>
+                      <div class="col_ col-3">TRIGGERED BY</div>
+                      <div class="col_ col-3">EXECUTED ON</div>
+                    </header>
+                    <ng-container>
+                      <div class="content-body">
+                        <div class="col_ col-3" ><span class="execute-success"></span>
+                           Execution Successful</div>
+                        <div class="col_ col-3" >28s</div>
+                        <div class="col_ col-3" >Scheduled</div>
+                        <div class="col_ col-3">Yesterday</div>
+                      </div>
+                      <div class="content-body">
+                        <div class="col_ col-3" ><span class="execute-failed"></span> 
+                          Execution Failed</div>
+                        <div class="col_ col-3" >1m 35s</div>
+                        <div class="col_ col-3" >Sunil Singh</div>
+                        <div class="col_ col-3">28 Jul 2020</div>
+                      </div>
+                    </ng-container>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Execution -->
         </ng-container>
 
       </div>

@@ -115,10 +115,7 @@ export class UserEngagementComponent implements OnInit {
     
     
     //this.mostClick();
-    this.mostUsedDevice();
-    this.mostUsedBrowser();
-    this.geo();
-    this.sentiments();
+    
     //this.feedback();
     
     this.getuserCharts('UsersChart');
@@ -251,6 +248,10 @@ export class UserEngagementComponent implements OnInit {
         this.busyHours(); 
       }else if(type == 'MostUsedDevices'){
         this.mostUsedDev_bro_geo_sen = res.results;
+        this.mostUsedDevice();
+        this.mostUsedBrowser();
+        this.geo();
+        this.sentiments();
       }
       
       

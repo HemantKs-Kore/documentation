@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, TestabilityRegistry } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
@@ -96,6 +96,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   doesntContains = "Doesn't Contains";
   filterTableheaderOption = "";
   filterTableSource = "all";
+  execution = false;
+  page = true;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -301,13 +303,36 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.sliderStep = this.sliderStep - 1;
     }
   }
-  swapSlider() {
-    $('.tabname').toggleClass("active");
-    if (this.isConfig) {
+  swapSlider(tabName) {
+    if( tabName == 'execution'){
+      this.execution = true;
       this.isConfig = false;
-    } else {
+      this.page = false;
+      $('.tabname')[0].classList.remove('active')
+      $('.tabname')[1].classList.remove('active')
+      $('.tabname')[2].classList.add('active')
+    }else if( tabName == 'config'){
+      $('.tabname')[0].classList.remove('active')
+      $('.tabname')[1].classList.add('active')
+      $('.tabname')[2].classList.remove('active');
+      this.execution = false;
       this.isConfig = true;
+      this.page = false;
+    }else if( tabName == 'page'){
+      $('.tabname')[0].classList.add('active');
+      $('.tabname')[1].classList.remove('active');
+      $('.tabname')[2].classList.remove('active');
+      this.execution = false;
+      this.isConfig = false;
+      this.page = true;
     }
+    
+    // $('.tabname').toggleClass("active");
+    // if (this.isConfig) {
+    //   this.isConfig = false;
+    // } else {
+    //   this.isConfig = true;
+    // }
   }
   openStatusSlider(source) {
     if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
