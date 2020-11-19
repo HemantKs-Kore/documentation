@@ -1,6 +1,4 @@
-<!-- <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
-  
-</kr-modal> -->
+
 <!-- HEADER START HERE -->
 <div class="container-fluid anno-header">
   <div class="navbar" id="pdfAnno">
@@ -99,9 +97,10 @@
         <!-- PDF VIEWER STARTS HERE -->
         <div class="pdf-container" (mouseleave)="mouseLeavePDF($event)" (mouseup)="textLayerMouseup($event)">
           <div [ngClass]="pdfForm.get('ignorePages').value === true ?'disable-selection': ''">
-            <perfect-scrollbar #perfectScroll class="pdf-perfect-scroll" (psScrollY)="onScrollEvent($event)"
+            <ngx-simplebar [options]="options" class="ngx-simplebar" id="simpleBar">
+            <!-- <perfect-scrollbar #perfectScroll class="pdf-perfect-scroll" (psScrollY)="onScrollEvent($event)"
               (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)"
-              (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)">
+              (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)"> -->
               <!-- <div (mouseup)="textLayerMouseup($event); NATIVE> -->
               <pdf-viewer id="pdf-report-id" class="pdf-viewer" [src]="pdfConfig.pdfUrl" [zoom]="pdfConfig.zoom"
                 [show-all]="pdfConfig.showAll" [render-text]="pdfConfig.renderText"
@@ -112,7 +111,8 @@
                 (pagechanging)="pagechanging($event)" (text-layer-rendered)="textLayerRendered($event)"
                 (error)="onError($event)" (on-progress)="onProgress($event)" [c-maps-url]="'assets/js/pdf-dist/cmaps/'" style="display: block;">
               </pdf-viewer>
-            </perfect-scrollbar>
+            <!-- </perfect-scrollbar> -->
+          </ngx-simplebar>
           </div>
           <div *ngIf="hostRectangle" class="indicator options-indicator" [style.left.px]="hostRectangle.left"
             [style.top.px]="hostRectangle.top" [style.width.px]="hostRectangle.width"
@@ -163,8 +163,9 @@
               {{ pdfConfig.currentPage || 0}} / {{ pdfConfig.totalPages || 0}}
             </div>
             <div class="pages" *ngIf="togglePage">
-              <input type="text" id="pageInput" class="search-page-input" #pageInput [value]="pdfConfig.currentPage"
-                (keyup.enter)="searchPage($event)" (focusout)="searchPage($event)">
+              <input type="text" id="pageInput" [ngClass]="pageNumberValid === true ? 'border-red': ''"
+              class="search-page-input" #pageInput [value]="pdfConfig.currentPage" (keyup.enter)="searchPage($event)"
+              (keypress)="numberOnly($event)" (focusout)="searchPage($event)" required>
             </div>
             <button title="Next page" class="kr-sg-button-secondary" (click)="nextPage()"
               [disabled]="pdfConfig.currentPage === pdfConfig.totalPages">
@@ -291,10 +292,11 @@
             <div class="ignored-pages">
               <div class="label">
                 Ignored pages:
-                <ng-container *ngIf="pdfPayload.ignorePages && pdfPayload.ignorePages.length; else noDataFound">
-                  <span class="description" *ngFor="let item of pdfPayload.ignorePages; last as isLast">{{ item }}<span
-                      *ngIf="!isLast">,</span> </span>
-                </ng-container>
+                <span class="description"
+                  *ngIf="pdfPayload.ignorePages && pdfPayload.ignorePages.length; else noDataFound">
+                  <ng-container *ngFor="let item of ignoredPages(pdfPayload.ignorePages); last as isLast">
+                    {{ item }}<span *ngIf="!isLast">, </span> </ng-container>
+                </span>
                 <ng-template #noDataFound>
                   <span class="description"> 0</span>
                 </ng-template>

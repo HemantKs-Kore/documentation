@@ -37,6 +37,8 @@
     "ng2-file-upload": "^1.4.0",
     "ng2-pdf-viewer": "^6.3.2",
     "ng5-slider": "^1.2.6",
+    "pdfjs-dist": "^2.2.228",
+    "simplebar-angular": "^2.3.0",
     "ngx-echarts": "^5.1.2",
     "ngx-perfect-scrollbar": "^10.0.1",
     "ngx-toastr": "^13.0.0",

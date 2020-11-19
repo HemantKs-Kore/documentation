@@ -1,6 +1,9 @@
 import { Component, OnInit, OnChanges, ViewEncapsulation, ViewChild, HostListener, Inject } from '@angular/core';
 import { PdfViewerComponent, PDFProgressData } from 'ng2-pdf-viewer';
 import * as $ from 'jquery';
+import SimpleBar from 'simplebar/dist/simplebar-core.esm';
+import { Platform } from '@angular/cdk/platform';
+
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ServiceInvokerService } from '../../../../services/service-invoker.service';
@@ -10,6 +13,8 @@ import { UserGuideComponent } from '../user-guide/user-guide.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '../../../../services/notification.service';
 import { WorkflowService } from '../../../../services/workflow.service';
+import { SummaryModalComponent } from '../summary-modal/summary-modal.component';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 
 @Component({
@@ -22,9 +27,20 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   @ViewChild(PdfViewerComponent)
   private pdfComponent: PdfViewerComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  options = {
+    autoHide: true,
+    scrollbarMinSize: 100,
+    classNames: {
+      content: 'simplebar-content',
+      scrollContent: 'simplebar-scroll-content',
+      scrollbar: 'simplebar-scrollbar',
+      track: 'simplebar-track'
+    },
+    direction: 'rtl'
+  };
   pdfConfig = {
     rotate: 0,
-    zoom: 1,
+    zoom: 1.03,
     renderTextMode: 2,
     currentPage: 1,
     totalPages: 0,
@@ -89,18 +105,21 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     private rangeService: RangySelectionService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<PdfAnnotationComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: any
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    public platform: Platform
   ) {
     this.createForm();
     this.initPdfViewer();
   }
 
   ngOnInit() {
-    this.userGuide();
+    // this.userGuide();
     this.getSavedAnnotatedDataForStream();
     this.formUpdatation();
     this.createThemeForm();
     this.applyTheme(this.form.value); // Make sure apply default colors
+    const simpleBar = new SimpleBar(document.getElementById('simpleBar'));
+    simpleBar.getScrollElement().addEventListener('scroll', this.onScrollEvent);
   }
   ngAfterViewInit() {
     console.log(this.pdfComponent);
@@ -163,13 +182,15 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if ((getRmvTxt === this.removalText) && this.cancelData(this.removalText)) {
       removeTextClass(this.removeClassName, this.overStateEvent); // remove sibling classes
       this.cancelData(this.removalText); // Pass text to delete from original Payload
+      this.removeProgressBar = true;
       $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
       this.pdfComponent.updateSize();
-      this.pdfConfig.zoom = 1.03;
-      this.removeProgressBar = true;
+      this.pdfConfig.zoom = this.pdfConfig.zoom;
+      setTimeout(() => {
+        this.removeProgressBar = false;
+      }, 150);
     } else {
-      // console.log(this.pdfComponent);
-      this.notificationService.notify("Data miss matching, while trying to remove annotation, Please try again!", "error");
+      this.removeConfirmDialog();
     }
 
     this.removalText = "";
@@ -192,6 +213,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     }
     $event.preventDefault();
     $event.stopPropagation();
+    $(".remove-indicator").show();
     if ($event.target.className === ClassTypes.heading) { // Heading
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
@@ -224,9 +246,22 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // On scroll evnt
   onScrollEvent($event) {
-    this.hostRectangle = null;
+    $(".remove-indicator").hide();
     this.overRectange = null;
     this.removeAnnotationFlag = false;
+  }
+  scrollHandler(event) {
+    let x: any = this.perfectScroll.directiveRef.position(true).x || 0;
+    let y: any = this.perfectScroll.directiveRef.position(true).y || 0;
+    this.perfectScroll.directiveRef.update(); //for update scroll
+    this.perfectScroll.directiveRef.scrollTo(0, 0, 100);
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.overRectange = null;
+    this.removeAnnotationFlag = false;
+    document.getSelection().removeAllRanges(); // Clear selection range
+    this.hostRectangle = null;
   }
 
   // Create form
@@ -578,7 +613,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // check form is valid/In valid
   get isFormValid() {
     if (Object.keys(this.pdfPayload).length) {
-      if (this.pdfPayload.title.length || this.pdfPayload.header.length || this.pdfPayload.footer.length || this.pdfPayload.ignoreText.length) {
+      if (this.pdfPayload.title.length || this.pdfPayload.header.length || this.pdfPayload.footer.length || this.pdfPayload.ignoreText.length || this.pdfPayload.ignorePages.length) {
         return true;
       }
     } else {
@@ -620,12 +655,65 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       }
     });
   }
-
+  // Confirmation dialog 
+  removeConfirmDialog() {
+    if (this.pdfPayload.title.length ||
+      this.pdfPayload.header.length ||
+      this.pdfPayload.footer.length ||
+      this.pdfPayload.ignoreText.length
+    ) {
+      let obj = {
+        title: "Confirmation",
+        confirmationMsg: "Data miss matching with orginal data, please click try again to delete manually.",
+        yes: "Try Again",
+        no: "Close",
+        type: "removeAnnotation"
+      };
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        data: { info: obj },
+        panelClass: 'kr-confirmation-panel',
+        disableClose: true,
+        autoFocus: true
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          this.summaryDialog();
+        }
+      });
+    } else {
+      this.notificationService.notify("Please select an option", "error");
+    }
+  }
+  // Save pdf info 
+  summaryDialog() {
+    if (this.pdfPayload.title.length ||
+      this.pdfPayload.header.length ||
+      this.pdfPayload.footer.length ||
+      this.pdfPayload.ignoreText.length
+    ) {
+      const dialogRef = this.dialog.open(SummaryModalComponent, {
+        data: { pdfResponse: this.pdfPayload },
+        panelClass: 'kr-create-app-panel',
+        disableClose: true,
+        autoFocus: true
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        setTimeout(() => {
+          $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
+          this.pdfComponent.updateSize();
+          this.pdfConfig.zoom = this.pdfConfig.zoom;
+        }, 200);
+      });
+    } else {
+      this.notificationService.notify("Please select an option", "error");
+    }
+  }
   // Ignoraged pages 
   ignorePages(event) {
     if (this.pdfForm.get("ignorePages").value) {
       this.pdfPayload.ignorePages.push(this.pdfConfig.currentPage);
       this.pdfConfig.renderTextMode = 0;
+      this.ignorePageAnnotation();
     } else {
       let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
       this.pdfPayload.ignorePages.splice(index, 1);
@@ -635,12 +723,32 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // update ignore pages
   updateIgnorePages() {
-    let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);;
+    let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
     if (this.pdfPayload.ignorePages[index]) {
       this.pdfForm.get("ignorePages").setValue(true);
     } else {
       this.pdfForm.get("ignorePages").setValue(false);
     }
+  }
+  // Ignore pages need to remove annotation
+  ignorePageAnnotation() {
+    if (this.pdfPayload.serialization.length && this.pdfPayload.ignorePages.length) {
+      let findPageNumber = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
+      if (findPageNumber !== -1) {
+        let findObj = this.pdfPayload.serialization.filter((obj) => {
+          return obj.currentPage === this.pdfConfig.currentPage;
+        });
+        if (findObj && findObj.length) {
+          findObj.forEach((ser) => {
+            this.cancelData(ser.selectedText);
+          });
+        }
+        $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
+        this.pdfComponent.updateSize();
+        this.pdfConfig.zoom = this.pdfConfig.zoom;
+      }
+    }
+
   }
   // focusInput 
   focusInput() {
@@ -663,11 +771,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // Search text in PDF component
   searchText(text) {
-    if (text) {
-      this.pdfComponent.pdfFindController.executeCommand('find', {
-        caseSensitive: false, findPrevious: undefined, highlightAll: true, phraseSearch: true, query: text
-      });
-    }
+    this.pdfComponent.pdfFindController.executeCommand('find', {
+      caseSensitive: false, findPrevious: undefined, highlightAll: true, phraseSearch: true, query: text
+    });
   }
   // Mouse leave to remove range, popovers 
   mouseLeavePDF($event) {
@@ -680,71 +786,36 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // text layer mouseup
   textLayerMouseup($event) {
-    this.selectedText = nativeSelectionText();
-    let contentHtml = this.rangeService.rangeSelectionHtml();
-    let className = $event.target.className;
-    if(contentHtml && checkDuplicateClasses(contentHtml)) { // check duplicate selection
-      console.log("It's already annotated!");
-      $event.preventDefault();
-      return false;
-    }
-    else if (className === ClassTypes.heading || className === ClassTypes.header || className === ClassTypes.footer || className === ClassTypes.exclude) {
-      $event.preventDefault();
-      $($event).attr('unselectable','on')
-     .css({
-           '-moz-user-select':'none',
-           '-o-user-select':'none',
-           '-khtml-user-select':'none', /* you could also put this in a class */
-           '-webkit-user-select':'none',/* and add the CSS class here instead */
-           '-ms-user-select':'none',
-           'user-select':'none'
-     }).bind('selectstart', function(){ return false; });
-      console.log("It's already annotated!");
-      return false;
-    }  
-     else if (!this.selectedText) {
-      this.hostRectangle = null;
-    } else {
-      // this.selectedText = this.rangeService.rangeSelectionText();
-      // if (!removeAnnotationContainer.is($event) && removeAnnotationContainer.has($event).length === 0) {
-      //   // removeAnnotationContainer.hide();
-      //   setTimeout(() => {
-      //     this.overRectange = null;
-      //   }, 2000);
-      // }
-      if (this.selectedText) {
-        this.overRectange = null;
-        // let boundry = $event.target.getBoundingClientRect();
-        // this.hostRectangle = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-        this.hostRectangle = this.rangeService.viewportRectangle();
-        this.updatePayload();
-        // this.saveSelection = this.rangeService.saveSelection();
-        this.rangySerialization = this.rangeService.getSerilization();
-        // setTimeout(() => {
-        // this.rangySerialization = this.rangeService.getSerilization();
-        // if (this.rangySerialization) {
-        //   // this.pdfPayload.serialization.push({ coords: this.rangySerialization, className: this.pdfForm.get("className").value, currentPage: this.pdfConfig.currentPage });
-        //   if (window.getSelection && window.getSelection().isCollapsed) { // If selection text is not visible
-        //     // console.log(document.getSelection(), this.rangeService.getFirstRange());
-
-        //     this.rangeService.singleDeserialization({ coords: this.rangySerialization, className: this.pdfForm.get("className").value, currentPage: this.pdfConfig.currentPage }) // DOM selection removed, then do deserilization
-        //   }
-        // }
-        // this.rangyHightlights = this.rangeService.getTextHighlighter(this.pdfForm.get("className").value); // After selecton of pdf form
-        // }, 0);
-      } else {
-        // alert("Please select text");
+    setTimeout(() => {
+      this.selectedText = getSelectionText();
+      if (this.platform.FIREFOX) { // Firfox special chars
+        this.selectedText = this.selectedText.replace(/(\r\n|\n|\r)/gm, "");
       }
-      // var indicatorAreaContainer = $(".options-indicator"); // indicator area dialog
-      // var removeAnnotationContainer = $(".remove-indicator"); // remove annotation dialog
-      // if ((!indicatorAreaContainer.is($event.target) && indicatorAreaContainer.has($event.target).length === 0) && (!removeAnnotationContainer.is($event) && removeAnnotationContainer.has($event).length === 0)) {
-      //   indicatorAreaContainer.hide();
-      //   setTimeout(() => {
-      //     this.overRectange = null;
-      //     removeAnnotationContainer.hide();
-      //   }, 100);
-      // }
-    }
+      let contentHtml = this.rangeService.rangeSelectionHtml();
+      if (contentHtml && checkDuplicateClasses(contentHtml)) { // check duplicate selection
+        console.log("It's already annotated!");
+        this.hostRectangle = null;
+        return false;
+      } else if (!this.selectedText) {
+        this.hostRectangle = null;
+      } else {
+        if (this.selectedText) {
+          this.overRectange = null;
+          this.hostRectangle = null;
+          this.hostRectangle = this.rangeService.viewportRectangle();
+          if (this.hostRectangle && Math.sign(this.hostRectangle.top) === -1) {
+            let rectange: any = {};
+            rectange.top = 100;
+            rectange.left = this.hostRectangle.left;
+            this.hostRectangle = null;
+            this.hostRectangle = rectange;
+          }
+          this.updatePayload();
+          this.rangySerialization = this.rangeService.getSerilization();
+        } else {
+        }
+      }
+    }, 50);
   }
 
   // Deserialize modal to rehightlight text after delay
@@ -806,14 +877,36 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   tooltipText(arr) {
     if (arr) {
-      let finalArr = arr.filter((item, i, ar) => ar.indexOf(item) === i);
-      finalArr.sort(function (a, b) {
-        return a - b;
-      });
-      return finalArr.join(',');
+      let finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      if (this.pdfPayload.ignorePages.length) {
+        this.pdfPayload.ignorePages.forEach((item) => {
+          let index = finalArr.indexOf(item);
+          if (index !== -1)
+            finalArr.splice(index, 1);
+        });
+        if (Array.isArray(finalArr)) {
+          finalArr.sort(function (a, b) {
+            return a - b;
+          });
+        }
+        return finalArr.toString();
+      } else {
+        if (Array.isArray(finalArr)) {
+          finalArr.sort(function (a, b) {
+            return a - b;
+          });
+        }
+        return finalArr.toString();
+      }
     } else {
       return 0;
     }
+  }
+  ignoredPages(arr) {
+    arr.sort(function (a, b) {
+      return a - b;
+    });
+    return arr || [];
   }
   // Color picker theme
   createThemeForm() {
@@ -855,23 +948,33 @@ enum ClassTypes {
   footer = "footer-highlight",
   exclude = "exclude-highlight"
 }
-// Native selection text
-function nativeSelectionText() {
-  var text = "";
+function getSelectionText() {
+  var document: any = window.document;
   if (window.getSelection) {
-    text = window.getSelection().toString();
+    try {
+      var activeElement = document.activeElement;
+      if (activeElement && activeElement.value) {
+        return activeElement.value.substring(activeElement.selectionStart, activeElement.selectionEnd);
+      } else {
+        return window.getSelection().toString();
+      }
+    } catch (e) {
+    }
+  } else if (document.selection && document.selection.type != "Control") {
+    return document.selection.createRange().text; // For IE
   }
-  //  else if (document.selection && document.selection.type != "Control") {
-  //   text = document.selection.createRange().text;
-  // }
-  return text || '';
 }
+
 
 // Get next, prev & curr Siblings text from current element
 function getAllElements(element, className, payload) {
   // Current
   let resultText: string = element.textContent;
-  if(findMatchedData(payload, '', resultText, '')) {
+  if (findMatchedData(payload, '', resultText, '', className).isMatched) {
+    let findMatchedObj: IFindMatched = findMatchedData(payload, '', resultText, '', className);
+    if (findMatchedObj.isMatched && findMatchedObj.findText && findMatchedObj.option) {
+      return findMatchedObj.findText || '';
+    }
     return resultText;
   }
   // PREV
@@ -881,11 +984,15 @@ function getAllElements(element, className, payload) {
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {
-        if (prevEle.length && $(prevEle).hasClass(className) ) {
+        if (prevEle.length && $(prevEle).hasClass(className)) {
           let text = $(prevEle).text();
           prevResultText.push(text);
-          if(findMatchedData(payload, prevResultText, resultText, nextResultText)) {
+          if (findMatchedData(payload, prevResultText, resultText, nextResultText, className).isMatched) {
             prevEle = {};
+            let findMatchedObj: IFindMatched = findMatchedData(payload, prevResultText, resultText, nextResultText, className);
+            if (findMatchedObj.isMatched && findMatchedObj.findText && findMatchedObj.option) {
+              return findMatchedObj.findText || '';
+            }
           } else {
             prevEle = $(prevEle).parent().prev().children(); // set every div this ele
           }
@@ -902,8 +1009,12 @@ function getAllElements(element, className, payload) {
         if (nextEle.length && $(nextEle).hasClass(className)) {
           let text = $(nextEle).text();
           nextResultText.push(text);
-          if(findMatchedData(payload, prevResultText, resultText, nextResultText)) { 
+          if (findMatchedData(payload, prevResultText, resultText, nextResultText, className).isMatched) {
             nextEle = {};
+            let findMatchedObj: IFindMatched = findMatchedData(payload, prevResultText, resultText, nextResultText, className);
+            if (findMatchedObj.isMatched && findMatchedObj.findText && findMatchedObj.option) {
+              return findMatchedObj.findText || '';
+            }
           } else {
             nextEle = $(nextEle).parent().next().children(); // set every div this element
           }
@@ -981,58 +1092,87 @@ function removeTextClass(className, element) {
   }
 
 }
-
 // join array
-function join(arr,last?)
-{
-    if(!Array.isArray(arr)) throw "Passed value is not of array type.";
-    last=last||' ';
-    
-    return arr.reduce(function(acc,value,index){
-        if(arr.length<2) return arr.join();
-        return acc + (index>=arr.length-2 ? index>arr.length-2 ? value : value+last : value+",");
-    },"");
+function join(arr, last?) {
+  if (!Array.isArray(arr)) throw "Passed value is not of array type.";
+  last = last || ' ';
+
+  return arr.reduce(function (acc, value, index) {
+    if (arr.length < 2) return arr.join();
+    return acc + (index >= arr.length - 2 ? index > arr.length - 2 ? value : value + last : value + ",");
+  }, "");
 }
 // find hasClass from multip divs
 function checkDuplicateClasses(contentHtml: string) {
   try {
-      if((contentHtml.toLocaleLowerCase().indexOf(ClassTypes.heading) !== -1) || 
-      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.header) !== -1) || 
-      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.footer) !== -1) || 
+    if ((contentHtml.toLocaleLowerCase().indexOf(ClassTypes.heading) !== -1) ||
+      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.header) !== -1) ||
+      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.footer) !== -1) ||
       (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.exclude) !== -1)) {
-        return true;
-      } else {
-        return false;
-      }
-      // if((contentHtml.search(ClassTypes.heading)) || (contentHtml.search(ClassTypes.header)) ||
-      //   (contentHtml.search(ClassTypes.footer)) || (contentHtml.search(ClassTypes.exclude))) {
-      //   return false;
-      //  } else {
-      //   return true;
-      //  }
-  } catch(ex) {
-    console.log(ex);
+      return true;
+    } else {
+      return false;
+    }
+  } catch (ex) {
+
   }
 }
-
 // Find Matched Data from orignal payload
-function findMatchedData(payload, prevText, currText, nextText) {
+function findMatchedData(payload, prevText, currText, nextText, className): IFindMatched {
   let prvTxt = prevText && prevText.length ? prevText.reverse().join('') : '';
   let nxtText = nextText && nextText.length ? nextText.join('') : '';
   let finalText = prvTxt + currText + nxtText;
-  console.log(finalText);
+  let resultObj: IFindMatched = { isMatched: true, option: null, index: null, findText: '' };
   if (finalText) {
     if (payload.title.includes(finalText)) {
-      return true;
+      return resultObj;
     } else if (payload.header.includes(finalText)) {
-      return true;
+      return resultObj;
     } else if (payload.footer.includes(finalText)) {
-      return true;
+      return resultObj;
     } else if (payload.ignoreText.includes(finalText)) {
-      return true;
+      return resultObj;
     } else {
-      console.log("No selected text found with Orginal data");
-      return false;
+      resultObj.isMatched = false;
+    }
+    if (!resultObj.isMatched) {
+      if (payload.title.length) {
+        payload.title.forEach((item, index) => {
+          let subStr = item.substr(finalText, finalText.length);
+          if (subStr && payload.title.includes(subStr)) {
+            resultObj = { isMatched: true, option: 'title', index: index, findText: subStr };
+          }
+        });
+      } else if (payload.header.length) {
+        payload.header.forEach((item, index) => {
+          let subStr = item.substr(finalText, finalText.length);
+          if (subStr && payload.header.includes(subStr)) {
+            resultObj = { isMatched: true, option: 'header', index: index, findText: subStr };
+          }
+        });
+      } else if (payload.footer.length) {
+        payload.footer.forEach((item, index) => {
+          let subStr = item.substr(finalText, finalText.length);
+          if (subStr && payload.footer.includes(subStr)) {
+            resultObj = { isMatched: true, option: 'footer', index: index, findText: subStr };
+          }
+        });
+      } else if (payload.ignoreText.length) {
+        payload.ignoreText.forEach((item, index) => {
+          let subStr = item.substr(finalText, finalText.length);
+          if (subStr && payload.ignoreText.includes(subStr)) {
+            resultObj = { isMatched: true, option: 'ignoreText', index: index, findText: subStr };
+          }
+        });
+      }
+      return resultObj;
     }
   }
+}
+// Remove text match obj
+interface IFindMatched {
+  isMatched: boolean;
+  option: string | null;
+  index: number | null;
+  findText: string | null;
 }
