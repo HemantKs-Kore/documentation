@@ -18,7 +18,7 @@ export class InsightsComponent implements OnInit {
   show = false;
   actionLog_id = 0;
   icontoggle : boolean = false;
-  graphMode : boolean = false;
+  graphMode : boolean = true;
   iconIndex;
   ctrVal;
   slider : any = 1;
@@ -172,6 +172,8 @@ lineStyle: {
     //this.query = "Open bank account"
     const quaryparms: any={
       searchIndexId: this.serachIndexId,
+      startDate :new Date(),
+      endDate : new Date(Date.now() - (30 * 864e5)),
     }
     var payload = {
       "searchQuery": this.query
