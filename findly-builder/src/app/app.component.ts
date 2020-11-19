@@ -165,6 +165,7 @@ export class AppComponent implements OnInit , OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     const self = this;
     if (event instanceof NavigationStart) {
+      this.showHideSearch(false);
       this.authService.findlyApps.subscribe( (res) => {
         self.loading = true;
         this.appsData = res;
@@ -304,16 +305,14 @@ export class AppComponent implements OnInit , OnDestroy {
   initSearchSDK(){
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
-    setTimeout(()=>{
-      $('.start-search-icon-div').off('click').on('click',((event)=>{
+    setTimeout(() => {
+      $('.start-search-icon-div').click(()=>{
         if(!$('.search-background-div:visible').length){
           _self.showHideSearch(true);
-          console.log('SDK is opened');
         }else{
           _self.showHideSearch(false);
-          console.log('SDK is closed');
         }
-      }));
+      });
     },200);
       $('#advanceModeSdk').change(function(){
         if($(this).is(':checked')) {
