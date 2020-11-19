@@ -44,6 +44,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
       method: 'post'
     };
+    this.serviceList['jwt.grunt.generate'] = {
+      endpoint: this.API_SERVER_URL,
+      method: 'post'
+    };
+    this.serviceList['bt.post.sts'] = {
+      endpoint: this.API_SERVER_URL + '/users/sts',
+      method: 'post'
+    };
     this.serviceList['get.apps'] = {
       endpoint: this.API_SERVER_URL + '/findly/apps',
       method: 'get'
