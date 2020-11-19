@@ -44,12 +44,21 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
       method: 'post'
     };
+    this.serviceList['jwt.grunt.generate'] = {
+      endpoint: this.API_SERVER_URL,
+      method: 'post'
+    };
+    this.serviceList['bt.post.sts'] = {
+      endpoint: this.API_SERVER_URL + '/users/sts',
+      method: 'post'
+    };
     this.serviceList['get.apps'] = {
       endpoint: this.API_SERVER_URL + '/findly/apps',
       method: 'get'
     };
     this.serviceList['get.source.list'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'get'
     };
     this.serviceList['train.app'] = {
@@ -57,23 +66,29 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.extracted.pags'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId?skip=:skip&limit=:limit',
       method: 'get'
     };
     this.serviceList['delete.content.page']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType/:pageId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
       method:'delete'
     };
     this.serviceList['delete.content.source']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:webDomainId?type=:type',
       method:'delete'
     };
-    this.serviceList['update.docDetailsSource'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
+    this.serviceList['update.contentPageSource'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/document/:docId',
       method: 'put'
     }
     this.serviceList['get.job.status'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/jobs/status?extractionType=:type',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source/status',
       method: 'get'
     };
     this.serviceList['get.job.statusById'] = {
@@ -93,11 +108,19 @@ export class EndPointsService {
       method:'post'
     };
     this.serviceList['add.sourceMaterial']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
+      method:'post'
+    };
+    this.serviceList['add.sourceMaterialManualFaq']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:faqType',
+     // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
     this.serviceList['add.sourceMaterialFaq']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:faqType',
+     // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method:'post'
     };
     this.serviceList['put.EditConfig'] = {
@@ -105,15 +128,15 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.allFaqs']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&source=all',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&extractionSource=all',
       method:'get'
     };
     this.serviceList['get.allFaqsByState']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all',
       method:'get'
     };
     this.serviceList['get.faqs.search']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=all&search=:searchQuary',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all&search=:searchQuary',
       method:'get'
     };
     this.serviceList['get.allFaqsByResources']={
@@ -275,7 +298,8 @@ export class EndPointsService {
       method: 'post'
     };
     this.serviceList['update.crawler'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:sourceId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:sourceId',
       method: 'put'
     };
     /* Annotation tool */
@@ -288,7 +312,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['PdfAnno.faq.annotate'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/source?sourceType=:sourceType',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=faq&contentSource=:sourceType',
       method: 'post'
     };
     this.serviceList['PdfAnno.get.reAnnotateData'] = {
@@ -439,7 +463,7 @@ export class EndPointsService {
       method: 'delete'
     }
     this.serviceList['get.extractedResult_RR'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/resultSearch?resultType=:type&search=:search&skip=:skip&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/resultSearch?extractionType=:type&search=:search&skip=:skip&limit=:limit',
       method: 'get'
     }
     this.serviceList['get.QueryLevelAnalytics'] = {
@@ -451,7 +475,8 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['recrwal'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/recrawl',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
       method: 'post'
     }
     this.serviceList['train.traits'] = {
@@ -478,6 +503,10 @@ export class EndPointsService {
 
     this.serviceList['get.queries'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
+      method: 'post'
+    }
+    this.serviceList['get.userChart'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/analysis',
       method: 'post'
     }
 
@@ -531,7 +560,23 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
       method: 'post'
     }
-
+    this.serviceList['get.dialog'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
+      method: 'get'
+    }
+    this.serviceList['standard.publish'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/standardpublish',
+      method: 'post'
+    }
+    this.serviceList['universal.publish'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/universalbot/publish?',
+      method: 'post'
+    }
+    this.serviceList['get.linkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    }
+   
   /** APIs for Channels */
      
   }

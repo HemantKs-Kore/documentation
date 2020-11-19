@@ -11,16 +11,20 @@
             <div class="group-radiobutton">
                 <div class="heading-title txt">Result Type</div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-1" name="radio" class="radio-custom" type="radio" (click) = "resultClick('faq')">
+                    <input id="radio-1" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType" value = "faq" (click) = "resultClick('faq')">
                     <label for="radio-1" class="radio-custom-label">FAQ</label>
                 </div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-2" name="radio" class="radio-custom" type="radio" (click) = "resultClick('content')">
+                    <input id="radio-2" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType" value = "content" (click) = "resultClick('content')">
                     <label for="radio-2" class="radio-custom-label">Content</label>
                 </div>
                 <div class="kr-sg-radiobutton radiobutton">
-                    <input id="radio-3" name="radio" class="radio-custom" type="radio" (click) = "resultClick('task')">
+                    <input id="radio-3" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType"  value = "task" (click) = "resultClick('task')">
                     <label for="radio-3" class="radio-custom-label">Bot Action</label>
+                </div>
+                <div class="kr-sg-radiobutton radiobutton">
+                    <input id="radio-4" name="radio" class="radio-custom" type="radio" [(ngModel)] = "searchRadioType"  value = "all" (click) = "resultClick('all')">
+                    <label for="radio-4" class="radio-custom-label">Any</label>
                 </div>
                 <!-- <div class="kr-sg-radiobutton radiobutton ">
                     <input id="radio-4" name="radio" class="radio-custom" type="radio" (click) = "resultClick('any')">
@@ -51,12 +55,12 @@
 
     <perfect-scrollbar class="accor-scroll-add" #fqasScrollContainer>
         <ng-container >
-            <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+            <div class="mainLoadingSpinner" *ngIf="loadingContent" >
                 <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
                 <span class="please-wait-message">Please Wait!</span>
               </div>
         <div id="accordion" class="accordion-content">
-             <div *ngIf ="extractedResults; else loading">
+             <!-- <div *ngIf ="extractedResults; else loading"> -->
                 <div  *ngFor="let result of extractedResults;let i = index">
                     <div class="card-content"   *ngIf="searchType == 'faq'">
                         <div class="card_link collapsed">      
@@ -66,8 +70,8 @@
                                     <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="title-desc-sec" *ngIf="searchType == 'faq'">
-                                    <div class="title">{{ result.question}}</div>
-                                    <div class="desc">{{ result.answer}}</div>
+                                    <div class="title">{{ result._source.question}}</div>
+                                    <div class="desc" *ngFor="let answer of result._source.defaultAnswers;">{{ answer.payload}}</div>
                                 </div>
                             </div>
                             
@@ -88,6 +92,21 @@
                             
                         </div>
                     </div>
+                    <div class="card-content"   *ngIf="searchType == 'all'">
+                        <div class="card_link collapsed">      
+                            <div class="d-flex align-items-center">
+                                <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
+                                    <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                    <label [attr.for]="i" class="checkbox-custom-label"></label>
+                                </div>
+                                <div class="title-desc-sec">
+                                    <div class="title">{{ result._source.pageTitle}}</div>
+                                    <div class="desc" >{{ result._source.pageSearchResultPreview ||  result._source.pageBody}}</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
                     <div *ngIf="searchType == 'content'">
                         <div *ngFor="let data of result.data ;let j = index">
                             <div class="card-content" >
@@ -98,10 +117,10 @@
                                             <label [attr.for]="j" class="checkbox-custom-label"></label>
                                         </div>
                                         <div class="title-desc-sec">
-                                            <div class="title">{{ data.title}}</div>
-                                            <div class="desc" *ngIf="data.searchResultPreview;else body">{{ data.searchResultPreview}}</div>
+                                            <div class="title">{{ data._source.pageTitle}}</div>
+                                            <div class="desc" *ngIf="data._source.pageSearchResultPreview;else body">{{ data._source.pageSearchResultPreview}}</div>
                                             <ng-template #body>
-                                                <div class="desc">{{ data.body}}</div>
+                                                <div class="desc">{{ data._source.pageBody}}</div>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -112,8 +131,9 @@
                     </div>
                     
                 </div>
-              
-            </div>
+                
+                
+            <!-- </div> -->
             <ng-template #empty>
                 <div  class="empty-questions-selected divBlockEmptylastChild">
                     <div class="heading">No search results</div>

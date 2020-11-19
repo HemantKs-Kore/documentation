@@ -6,8 +6,8 @@
     <div class="header_sec">
         <div class="title">Index Configuration</div>
         <div class="btn_sec">            
-            <button class="kr-sg-button-secondary btn_lg"  (click)="saveConfig()">Save Configuration</button>
-            <button class="kr-sg-button-primary btn_lg" (click)="reindex()">Re-Index</button>
+            <button class="kr-sg-button-secondary btn_lg" [disabled]='savingConfig'  (click)="saveConfig()">{{(savingConfig)?'Saving...':'Save Configuration'}}</button>
+            <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button>
         </div>
     </div>
     <div class="split_section_stage_table" *ngIf="!loadingContent">
@@ -19,7 +19,7 @@
             <perfect-scrollbar class="scroll_stage_content">
                 <ng-container *ngIf="pipeline && pipeline.length">
                     <div cdkDropList (cdkDropListDropped)="drop($event,pipeline)">
-                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (currentEditIndex === i),'runningActive':(simulteObj && simulteObj.currentSimulateAnimi === i), 'runningActive2':(simulteObj && (simulteObj.currentSimulateAnimi === (i-1))), 'allRunningActive':(simulteObj &&   (i < simulteObj.totalStages))}">
+                        <div (click)="selectStage(pipe,i)" class="field_data" *ngFor="let pipe of pipeline; let i = index;" cdkDrag [ngClass]="{'active': (selectedStage && selectedStage.name === pipe.name),'runningActive':(simulteObj && simulteObj.simulationInprogress && simulteObj.currentSimulateAnimi === i), 'runningActive2':(simulteObj && simulteObj.simulationInprogress && (simulteObj.currentSimulateAnimi === (i-1))), 'allRunningActive':(simulteObj &&   (i < simulteObj.totalStages))}">
                             <div class="field_data" *cdkDragPreview>
                                 <div class="title text-truncate" >{{pipe.name}}</div>
                             </div>
@@ -78,8 +78,8 @@
                             <div class="desc">No search results found</div>
                         </div> 
                     </perfect-scrollbar>  
-                    <div class="footer-simulate">
-                        <span class="mr-5"> <button class="kr-sg-button-primary btn_lg" (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'>Simulate</button><span class="ml- d-none"><img src="assets/icons/help.svg"></span></span>
+                    <div class="footer-simulate simulatebtnContainer">
+                        <span class="mr-5"> <button class="kr-sg-button-primary btn_lg" id="simulateBtn" [disabled]='simulteObj.simulating' (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1" ngbTooltip="Test the field transformations before saving the configuration">{{(simulteObj.simulating)?'Simulating..':'Simulate'}}</button><span class="ml- d-none"><img src="assets/icons/help.svg"></span></span>
                     </div>         
                 </div>
                
@@ -123,7 +123,7 @@
                                 <div class="drag_drop"><img src="assets/icons/drog_drop.svg"></div>
                                 <div class="kr-sg-dropdowns col-4 input-box">
                                     <div class="label-text">Action</div>
-                                    <div class="dropdown dropdown-open">
+                                    <div class="dropup dropdown-open">
                                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(map.operation?map.operation:'choose_an_option') | translate}}</button>                                            
                                         <ul class="dropdown-menu content-menu">                                                                    
                                           <li (click)='setRuleObj(map,"operation","set","field_mapping")'><a>Set</a></li>
@@ -155,7 +155,7 @@
                     <div class="row m-0 form_list" *ngIf="newMappingObj && newMappingObj.field_mapping && newMappingObj.field_mapping.defaultValue">
                         <div class="kr-sg-dropdowns col-4 input-box">
                             <div class="label-text">Action</div>
-                            <div class="dropdown dropdown-open">
+                            <div class="dropup dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newMappingObj.field_mapping.defaultValue.operation?newMappingObj.field_mapping.defaultValue.operation:'choose_an_option') | translate}}</button>                                            
                                 <ul class="dropdown-menu content-menu">                                                                    
                                   <li (click)='setRuleObj(newMappingObj.field_mapping.defaultValue,"operation","set","field_mapping")'><a>Set</a></li>
@@ -198,7 +198,7 @@
                             </div>
                             <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'semantic_meaning')">
                                 <div class="label-text">Choose Model</div>
-                                <div class="dropdown dropdown-open">
+                                <div class="dropup dropdown-open">
                                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
                                       <li (click)='map.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
@@ -209,7 +209,7 @@
                             </div> 
                             <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction')">
                                 <div class="label-text">Choose Model</div>
-                                <div class="dropdown dropdown-open">
+                                <div class="dropup dropdown-open">
                                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{map.model?map.model:'Choose Model'}}</button>                                            
                                     <ul class="dropdown-menu content-menu">                                                                    
                                       <li (click)='map.model = "topic_rank"'><a>Topic Rank</a></li>
@@ -283,7 +283,7 @@
                         </div>
                         <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'semantic_meaning')">
                             <div class="label-text">Choose Model</div>
-                            <div class="dropdown dropdown-open">
+                            <div class="dropup dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model?newMappingObj[selectedStage.type].defaultValue.model:'Choose Model'}}</button>                                            
                                 <ul class="dropdown-menu content-menu">                                                                    
                                   <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "Universal Sentence Encoder"'><a>Universal Sentence Encoder</a></li>
@@ -294,7 +294,7 @@
                         </div>
                         <div class="kr-sg-dropdowns col-4 input-box"  *ngIf="(selectedStage.type === 'keyword_extraction')">
                             <div class="label-text">Choose Model</div>
-                            <div class="dropdown dropdown-open">
+                            <div class="dropup dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{newMappingObj[selectedStage.type].defaultValue.model?newMappingObj[selectedStage.type].defaultValue.model:'Choose Model'}}</button>                                            
                                 <ul class="dropdown-menu content-menu"> 
                                     <li (click)='newMappingObj[selectedStage.type].defaultValue.model = "topic_rank"'><a>Topic Rank</a></li>
@@ -371,13 +371,13 @@
                  
                 </div>
             </perfect-scrollbar>    
-            <div class="footer-simulate-form">
-                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg " (click)="simulate()" tooltipClass="metrics_tooltips m-0" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'><img src="assets/images/simulate.svg" class="mr-1" >Simulate</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
-                <button class="kr-sg-button-secondary btn_lg float-right" [disabled]="!changesDetected" (click)="clearDirtyObj(true)">Cancel</button>
+            <div class="footer-simulate-form simulatebtnContainer">
+                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg" id="simulateBtn" (click)="simulate()" tooltipClass="metrics_tooltips m-0" [disabled]='simulteObj.simulating' ngbTooltip="Test the field transformations before saving the configuration"><img src="assets/images/simulate.svg" class="mr-1" >{{(simulteObj.simulating)?'Simulating..':'Simulate'}}</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
+                <button class="kr-sg-button-secondary btn_lg float-right" id="cancleUnsavedChanges" [disabled]="!changesDetected" (click)="clearDirtyObj(true)">Cancel</button>
             </div> 
         </div>          
     </div>
-    <div class="simulator-div " *ngIf="simulteObj && simulteObj.showSimulation"> 
+    <div class="simulator-div" *ngIf="simulteObj && simulteObj.showSimulation"> 
         <div class="header">
             <div class="title">Simulator</div>
             <div class="close_icon"><img src="assets/images/close.svg" (click)="closeSimulator()"></div>
@@ -417,7 +417,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop"  #addFieldModalPop>   
     <div class="modal-header">
-        <div class="title">Add Field</div>
+        <div class="title">{{(newFieldObj && newFieldObj._id)?'Edit Field':'Add Field'}}</div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <ng-container *ngIf="newFieldObj">
@@ -446,7 +446,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0">
+                <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0 d-none">
                     <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isDynamic">
                     <label for="checkbox-1" class="checkbox-custom-label">Dynamic</label>
                 </div>  
@@ -456,11 +456,11 @@
             <div class="group-checkbox mb-3">
                 <div class="label-text mb-2">Select ones that apply</div>
                 <div class="kr-sg-checkbox">
-                    <input id="checkbox_grpd" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored">
+                    <input id="checkbox_grpd" [disabled]="newFieldObj.isIndexed" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored">
                     <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label>
                 </div>
                 <div class="kr-sg-checkbox">
-                    <input id="checkbox_grpe" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isIndexed">
+                    <input id="checkbox_grpe" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isIndexed" (change)="newFieldObj.isIndexed?(newFieldObj.isStored=true):return">
                     <label for="checkbox_grpe" class="checkbox-custom-label">Indexed</label>
                 </div>
                 <div class="kr-sg-checkbox">
@@ -472,7 +472,7 @@
                     <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label>
                 </div>
             </div>
-            <div class="kr-sg-input-text col-10 p-0">
+            <div class="kr-sg-input-text col-10 p-0  d-none">
                 <div class="label-text">Default Value (Optional)</div>
                 <input type="text" placeholder="Add value here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
             </div>

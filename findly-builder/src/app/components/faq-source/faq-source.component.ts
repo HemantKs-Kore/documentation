@@ -203,7 +203,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.closeAddsourceModal();
     this.getSourceList();
     this.closeStatusModal();
-    this.getfaqsBy();
+    // this.getfaqsBy();
+    this.selectTab('draft')
     this.getStats();
     this.showSourceAddition = null;
    }
@@ -288,22 +289,15 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
 
   addNewFollowUp(event){
     const followUPpayload: any = {
-      question: event.question,
-      defaultAnswers: event.defaultAnswers || [],
-      conditionalAnswers: event.conditionalAnswers || [],
-      keywords: event.tags
+      question: event._source.question,
+      defaultAnswers: event._source.defaultAnswers || [],
+      conditionalAnswers: event._source.conditionalAnswers || [],
+      keywords: event._source.tags
       };
-      const existingfollowups =  this.selectedFaq.followupQuestions || [];
+      const existingfollowups =  this.selectedFaq._meta.followupQuestions || [];
       existingfollowups.push(followUPpayload);
     const _payload = {
-        question: this.selectedFaq.question,
-    //  answer: event.response,
-     defaultAnswers: this.selectedFaq.defaultAnswers || [],
-     conditionalAnswers: this.selectedFaq.conditionalAnswers || [],
-     alternateQuestions: this.selectedFaq.alternateQuestions || [],
-     followupQuestions: existingfollowups || [],
-     keywords: this.selectedFaq.tags,
-     state: this.selectedFaq.state
+       followupQuestions: existingfollowups || [],
       };
       this.updateFaq(this.selectedFaq,'updateQA',_payload)
   }
@@ -322,7 +316,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       };
     this.service.invoke('add.sourceMaterialFaq', quaryparms, payload).subscribe(res => {
        this.showAddFaqSection = false;
-       this.getFaqsOnSelection();
+       this.selectTab('draft');
        event.cb('success');
      }, errRes => {
        event.cb('error');
@@ -457,6 +451,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   selectTab(tab){
     this.loadingTab = true;
     this.selectedFaq=null
+    this.searchFaq = '';
     this.selectedtab = tab;
     this.getFaqsOnSelection();
   }
@@ -572,15 +567,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
    this.closeEditFAQModal();
   }
   editFaq(event){
-    const _payload = {
-      question: event.question,
-  //  answer: event.response,
-   defaultAnswers: event.defaultAnswers || [],
-   conditionalAnswers: event.conditionalAnswers || [],
-   alternateQuestions: event.alternateQuestions || [],
+    const _payload:any = {
+   question: event._source.question,
+   defaultAnswers: event._source.defaultAnswers || [],
+   conditionalAnswers: event._source.conditionalAnswers || [],
+   alternateQuestions: event._source.alternateQuestions || [],
    followupQuestions: event.followupQuestions || [],
-   keywords: event.tags,
-   state: event.state
+   keywords: event._source.tags,
+   state: this.selectedFaq._meta.state
     };
     this.updateFaq(this.selectedFaq,'updateQA',_payload)
   }
@@ -613,7 +607,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.addRemoveFaqFromSelection(null,null,true);
       this.selectAll(true);
       this.selectedFaq = res;
-      this.selectedtab = res.state;
+      this.selectedtab = res._meta.state;
+      this.searchFaq = res._source.question;
+      this.searchFaqs();
       const index = _.findIndex(this.faqs,(faqL)=>{
         return faqL._id ===  this.selectedFaq._id;
          })
@@ -693,7 +689,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       searchIndexId: this.serachIndexId,
       sourceId : source._id
     }
-    this.service.invoke('delete.faq.source', quaryparms).subscribe(res => {
+    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.notificationService.notify('FAQ source deleted successfully','success');
       const deleteIndex = _.findIndex(this.resources,(fq)=>{
@@ -711,7 +707,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       searchIndexId: this.serachIndexId,
       faqId : faq._id
     }
-    this.service.invoke('delete.faq.ind', quaryparms).subscribe(res => {
+    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
       dialogRef.close();
       this.faqCancle();
       this.notificationService.notify('Faq deleted succesfully','success')
@@ -870,12 +866,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.selectedFaq.alternateQuestions = _.without(this.selectedFaq.alternateQuestions, _.findWhere(this.selectedFaq.alternateQuestions, { _id: ques._id }));
+          this.selectedFaq._source.alternateQuestions = _.without(this.selectedFaq._source.alternateQuestions, _.findWhere(this.selectedFaq._source.alternateQuestions, { _id: ques._id }));
           const params = {
-            question: this.selectedFaq.question,
-            answer: this.selectedFaq.answer,
-            alternateQuestions: this.selectedFaq.alternateQuestions || [],
-            followupQuestions: this.selectedFaq.followupQuestions || []
+            alternateQuestions: this.selectedFaq._source.alternateQuestions || [],
           };
           this.updateFaq(this.selectedFaq, 'updateQA', params);
           dialogRef.close();
@@ -897,12 +890,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.selectedFaq.followupQuestions = _.without(this.selectedFaq.followupQuestions, _.findWhere(this.selectedFaq.followupQuestions, {_id: ques._id }));
+          this.selectedFaq._meta.followupQuestions = _.without(this.selectedFaq._meta.followupQuestions, _.findWhere(this.selectedFaq._meta.followupQuestions, {_id: ques._id }));
           const params = {
-            question: this.selectedFaq.question,
-            answer: this.selectedFaq.answer,
-            alternateQuestions: this.selectedFaq.alternateQuestions || [],
-            followupQuestions: this.selectedFaq.followupQuestions || []
+            followupQuestions: this.selectedFaq._meta.followupQuestions || []
           };
           this.updateFaq(this.selectedFaq, 'updateQA', params);
           dialogRef.close();

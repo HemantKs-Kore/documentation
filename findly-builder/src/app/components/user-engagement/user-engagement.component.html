@@ -15,31 +15,44 @@
             <div class="export"><img src="assets/icons/share.svg"></div>
         </div>
     </div>
+    <!-- <div class="data-percentage failed">
+        <img src="assets/icons/arrow-decrease.svg">
+        <span class="percentage">3%</span>
+    </div> -->
     <perfect-scrollbar class="scroll_content">              
         <div *ngIf="slider === 1" class="main-dashbord-metrics">
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
                     <div class="full-card">
                         <div class="legends-info">
-                            <div class="content">
+                            <div class="content no-bg">
                                 <div class="title">Total Users <span class="toatlsearches"></span></div>
                                 <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">80</span>
-                                    <span class="percentage">+12%</span>
+                                    <span class="count">{{totalUser}}
+                                        <img style=" background: #DD3646;" *ngIf ="totalUserProgress < 0" src="assets/icons/arrow-decrease.svg">
+                                        <img *ngIf ="totalUserProgress > 0"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
+                                    <span class="percentage" *ngIf ="totalUserProgress > 0">+ {{totalUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf ="totalUserProgress < 0">{{totalUserProgress}}%</span>
                                 </div>
                             </div>
                             <div class="content">
                                 <div class="title">New Users <span class="withresults"></span></div>
                                 <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">26</span>
-                                    <span class="percentage">+7%</span>
+                                    <span class="count">{{newUser}}
+                                        <img style=" background: #DD3646;" *ngIf ="newUserProgress < 0" src="assets/icons/arrow-decrease.svg">
+                                        <img *ngIf ="newUserProgress > 0"src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
+                                    <span class="percentage" *ngIf ="newUserProgress > 0">+{{newUserProgress}}%</span>
+                                    <span class="percentage"  style=" color: #DD3646;" *ngIf ="newUserProgress < 0">{{newUserProgress}}%</span>
                                 </div>
                             </div>
                             <div class="content">
                                 <div class="title">Repeat Users <span class="clicks"></span></div>
-                                <div class="count-data">
-                                    <span class="count"><img src="assets/icons/arrow_green.svg">54</span>
-                                    <span class="percentage">+3%</span>
+                                <div class="count-data " >
+                                    <span class="count">{{repeatUser}}
+                                        <img style=" background: #DD3646;" *ngIf ="repeatUserProgress < 0" src="assets/icons/arrow-decrease.svg">
+                                        <img *ngIf ="repeatUserProgress > 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABeSURBVHgB7c7BCcAgDAXQZIOOYDfoxh2hI3QER3AFN4j/4CGICElOgh8+YgKPEJ2M4dVSRH48SY0utDLzTZ4AfNCMFvJEAcmFaKD/bcgImJEZ0OdvCAhfYEW+ELB/Ghq8YlSvj06DAAAAAElFTkSuQmCC"></span>
+                                    <span class="percentage"  *ngIf ="repeatUserProgress > 0"><span>+</span>{{repeatUserProgress}}%</span>
+                                    <span class="percentage" style=" color: #DD3646;" *ngIf ="repeatUserProgress < 0">{{repeatUserProgress}}%</span>
                                 </div>
                             </div>
                         </div>
@@ -67,24 +80,57 @@
                 <div class="col-12 box-content">
                     <div class="full-card">
                         <div class="legends-info">
-                            <div class="content">
+                            <div class="content no-bg">
                                 <div class="title">Busy Hours<span class="toatlsearches"></span></div>
                             </div>
                         </div>
                         <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
+                        <div class="d-flex justify-content-between mt-1">
+                            <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
+                            <div class="row m-0 bottom-row col-12 ">
+                                <div class="slider-sec col-6 p-0">
+                                    <!-- <ng5-slider class = "col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
+                                </div>
+                                <div class="legend-sec col-6 p-0">
+                                    <div class="title">Volume Of Users</div>
+                                    <div class="legends-info">
+                                        <div class="one">
+                                            <div class="bg-color"></div>
+                                            <div class="numbers">200 -250</div>
+                                        </div>
+                                        <div class="two">
+                                            <div class="bg-color"></div>
+                                            <div class="numbers">150 -200</div>
+                                        </div>
+                                        <div class="three">
+                                            <div class="bg-color"></div>
+                                            <div class="numbers">100 -150</div>
+                                        </div>
+                                        <div class="four">
+                                            <div class="bg-color"></div>
+                                            <div class="numbers">50 -100</div>
+                                        </div>
+                                        <div class="five">
+                                            <div class="bg-color"></div>
+                                            <div class="numbers">0 -50</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 row m-0 p-0">
                     <div class="col-6 box-content">
                         <div class="full-card">
                             <div class="title-card">Most Used Devices</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                            <div echarts [options]="mostUsedDeviceBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
                         <div class="full-card">
                             <div class="title-card">Most Used Browsers</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                            <div echarts [options]="mostUsedBrowserBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                 </div>
@@ -92,13 +138,13 @@
                     <div class="col-6 box-content">
                         <div class="full-card">
                             <div class="title-card">GEO</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                            <div echarts [options]="geoBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
                         <div class="full-card">
                             <div class="title-card">Sentiments</div>
-                            <div echarts [options]="mostClickBar" class="demo-chart-graphMode"></div>
+                            <div echarts [options]="sentimentsBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                 </div>

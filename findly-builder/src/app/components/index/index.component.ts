@@ -22,6 +22,9 @@ declare const $: any;
 })
 export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   selectedApp: any = {};
+  savingConfig;
+  reIndexing;
+  simulating;
   serachIndexId;
   indexPipelineId;
   pipeline;
@@ -64,6 +67,9 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     },
     custom_script:{
       name:'Custom Script'
+    },
+    semantic_meaning:{
+      name:'Semantic Meaning'
     },
   }
   entityNlp = [
@@ -162,6 +168,17 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     setTimeout(() => {
       $('#addToolTo').click();
     }, 700);
+    this.bindDocumentClickEvents();
+  }
+  bindDocumentClickEvents() {
+    const self = this;
+    $('body').off('click').on('click', (event) => {
+      if (event && event.target) {
+       if (!$(event.target).closest('.simulator-div').length && !$(event.target).closest('.simulatebtnContainer').length) {
+        self.closeSimulator();
+       }
+      }
+    });
   }
   getTraitGroups(initial?) {
     const quaryparms :any = {
@@ -200,11 +217,13 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
       this.suggestedInput.nativeElement.value = '';
     }
   }
-  setResetNewMappingsObj(){
-    this.simulteObj = {
-      sourceType: 'faq',
-      docCount: 5,
-      showSimulation: false,
+  setResetNewMappingsObj(ignoreSimulate?){
+    if(!ignoreSimulate){
+      this.simulteObj = {
+        sourceType: 'faq',
+        docCount: 5,
+        showSimulation: false,
+      }
     }
     this.fieldStage = {type : 'fields'};
     this.newMappingObj = {
@@ -335,6 +354,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   simulateAnimate(payload){
     this.simulteObj.totalStages = payload.length-1;
+    this.simulteObj.simulationInprogress = true;
     this.poling()
   }
   preparepayload(){
@@ -440,6 +460,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     return stagesArray;
   }
   saveConfig(index?,dialogRef?){
+    this.savingConfig = true;
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
@@ -448,6 +469,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
      this.pipeline=  res.stages || [];
      this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
      this.notificationService.notify('Configurations saved successfully','success');
+     this.savingConfig = false;
       if(dialogRef && dialogRef.close){
         dialogRef.close();
       }
@@ -455,7 +477,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
        this.currentEditIndex = -1
       }
       this.clearDirtyObj();
+      this.setResetNewMappingsObj();
     }, errRes => {
+      this.savingConfig = false;
       this.errorToaster(errRes,'Failed to save configurations');
     });
   }
@@ -471,7 +495,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         fieldDataType: 'string',
         isMultiValued: true,
         isRequired: false,
-        isStored: false,
+        isStored: true,
         isIndexed: true
       }
     }
@@ -482,15 +506,45 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.setResetNewMappingsObj();
   }
   reindex(){
-    const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId
-    };
-    this.service.invoke('post.reindex', quaryparms).subscribe(res => {
-      this.notificationService.notify('Re-indexed successfully','success')
-    }, errRes => {
-      this.errorToaster(errRes,'Failed to re-index');
-    });
+    const proceed = ()=>{
+      this.reIndexing = true;
+      const quaryparms: any = {
+        searchIndexID:this.serachIndexId,
+        indexPipelineId:this.indexPipelineId
+      };
+      this.service.invoke('post.reindex', quaryparms).subscribe(res => {
+        this.notificationService.notify('Re-indexed successfully','success')
+        this.reIndexing = false;
+      }, errRes => {
+        this.errorToaster(errRes,'Failed to re-index');
+        this.reIndexing = false;
+      });
+    }
+    if(this.changesDetected){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '446px',
+        height: '306px',
+        panelClass: 'delete-popup',
+        data: {
+          title: 'Are you sure',
+          text: 'There are usaved changes, Are you sure you want to reindex without saving them?',
+          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        }
+      });
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.clearDirtyObj();
+            proceed();
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+            console.log('deleted')
+          }
+        })
+    } else {
+      proceed();
+    }
   }
   changeSimulate(value,type){
     if(type=== 'source'){
@@ -509,14 +563,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    this.simulteObj.currentSimulateAnimi = -1;
   }
   addcode(data?){
     data = data || {};
     this.simulateJson= JSON.stringify(data, null, ' ');
     }
   simulate(){
-    this.simulteObj.showSimulation =  true;
-    this.simulteObj.simulating =  false;
+    const self = this;
+    this.simulating = true;
+    this.simulteObj.simulating =  true;
     const payload :any ={
       sourceType: this.simulteObj.sourceType,
       noOfDocuments:  this.simulteObj.docCount || 5,
@@ -528,16 +584,40 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     } else {
       payload.pipelineConfig = stages
     }
-    this.simulateAnimate(payload.pipelineConfig);
+    if(this.currentEditIndex){
+      this.simulateAnimate(payload.pipelineConfig);
+    } else {
+      if (this.pollingSubscriber) {
+        this.pollingSubscriber.unsubscribe();
+      }
+    }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
+      this.simulteObj.showSimulation =  true;
       this.simulteObj.simulating =  false;
       this.addcode(res);
       this.notificationService.notify('Simulated successfully','success')
+      this.simulating = false;
+      if (this.pollingSubscriber) {
+        this.pollingSubscriber.unsubscribe();
+      }
+      this.simulteObj.currentSimulateAnimi = -1;
+      this.simulteObj.simulationInprogress = false;
     }, errRes => {
+      this.simulating = false;
+      this.simulteObj.simulating =  false;
+      if (this.pollingSubscriber) {
+        this.pollingSubscriber.unsubscribe();
+      }
+      this.simulteObj.currentSimulateAnimi = -1;
+      this.simulteObj.simulationInprogress = false;
+      if (this.pollingSubscriber) {
+        this.pollingSubscriber.unsubscribe();
+      }
+      this.simulteObj.currentSimulateAnimi = -1;
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
@@ -724,6 +804,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.currentEditIndex = -1;
     }
     this.changesDetected = false;
+    this.setResetNewMappingsObj();
   }
   selectStage(stage,i){
     if(this.changesDetected && false){
@@ -829,7 +910,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.selectedStage.config.mappings = [];
     }
     this.selectedStage.config.mappings.push(map);
-    this.setResetNewMappingsObj();
+    this.setResetNewMappingsObj(true);
   }
   switchStage(systemStage,i){
     this.selectedStage.type = this.defaultStageTypes[i].type;
