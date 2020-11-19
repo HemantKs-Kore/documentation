@@ -80,6 +80,7 @@ export class UserEngagementComponent implements OnInit {
   /**slider */
   maxHeatValue = 0;
   group = "week"; // hour , date , week
+  dateType ="hour"
   usersBusyChart : any;
   usersChart : any;
   mostUsedDev_bro_geo_sen : any;
@@ -200,17 +201,27 @@ export class UserEngagementComponent implements OnInit {
   paginate(event){
     console.log(event)
   }
+  dateLimt(type){
+    this.dateType = type;
+    this.getuserCharts('UsersChart');
+    this.getuserCharts('UsersBusyChart');
+    this.getuserCharts('MostUsedDevices');
+  }
   getuserCharts(type){
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
-    var date_7 = new Date(Date.now() - (6 * 864e5));
+    var week = new Date(Date.now() - (6 * 864e5));
+    var custom = new Date(Date.now() - (29 * 864e5));
     let from = new Date();
-    if(this.group == 'date'){
-      from = date_7;
-    }else if(this.group == 'hour'){
+    if(this.dateType == 'hour'){
       from = yesterday;
-    }else {
-      from = new Date(Date.now() - (24 * 864e5)); //new Date();
+      this.group = "hour";
+    }else if(this.dateType == 'week'){
+      from = week;
+      this.group = "date";
+    }else if(this.dateType == 'custom'){
+      from = custom;
+      this.group = "week";
     }
     const header : any= {
       'x-timezone-offset': '-330'

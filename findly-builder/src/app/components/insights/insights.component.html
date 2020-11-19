@@ -1,6 +1,6 @@
 
-<div id="advanceContainer" class="insights-container">
-    <div class="row m-0 header-sec">
+<div id="advanceContainer" class="insights-container d-none ">
+    <div class="row m-0 header-sec ">
         <div class="col-4 p-0">
             <div class="query">Query</div>
             <div class="q-title">{{query}}</div>
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="tab-sec-data">
+    <div class="tab-sec-data ">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#analysis">analysis</a>
@@ -147,6 +147,70 @@
      </div>
 </div>
 
+<!-- TesT -->
+<div class="row m-0 graph-insight" #graphMode *ngIf="graphMode" (mouseleave)="mouseLeave()">
+    <div class="graphMode">
+        <div class="header">
+            <span class="head-txt">Search & Click Trend</span>
+            <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
+        </div>
+        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div> 
+        <div class="legends row m-0">
+            <div class="searches col-lg-4 p-0 d-flex align-items-center">
+                <div class="mr-10">
+                    <img src="assets/icons/search-list.svg" (click)="$event.stopPropagation()">
+                </div>
+                <div>
+                    <div class="head">searches</div>
+                    <div class="val">2685</div>
+                </div>
+            </div>
+            <div class="clicks col-lg-4 p-0 d-flex align-items-center">
+                <div class="mr-10">
+                    <img src="assets/icons/click.svg" (click)="$event.stopPropagation()">
+                </div>
+                <div>
+                    <div class="head">Clicks</div>
+                    <div class="val">1268</div>
+                </div>
+            </div>
+            <div class="CTR col-lg-4 p-0 d-flex align-items-center">
+                <div class="mr-10">
+                    <img src="assets/icons/CTR.svg" (click)="$event.stopPropagation()">
+                </div>
+                <div>
+                    <div class="head">CTR</div>
+                    <div class="val">67%</div>
+                </div>
+            </div>
+        </div>                   
+    </div>
+    <div class="graph-mode-data d-none">
+        <div class="header">
+            <span class="head-txt">Search & Click Trend</span>
+            <img class="closeCross" src="assets/images/close.svg" (click)="closeCross()">
+        </div>
+        <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>  
+        <div class="legends-sec row m-0 col-12 p-0">
+            <div class="searches col-lg-4">
+                <img src="assets/icons/search-list.svg" class="" (click)="$event.stopPropagation()">
+                <div class="head">searches</div>
+                <div class="val">2685</div>
+            </div>
+            <div class="clicks col-lg-4">
+                <img src="assets/icons/click.svg" class="" (click)="$event.stopPropagation()">
+                <div class="head">Clicks</div>
+                <div class="val">1268</div>
+            </div>
+            <div class="CTR col-lg-4">
+                <img src="assets/icons/CTR.svg" class="" (click)="$event.stopPropagation()">
+                <div class="head">CTR</div>
+                <div class="val">67%</div>
+            </div>
+        </div>
+    </div>
+ </div>
+ <!-- Test -->
  
  
  

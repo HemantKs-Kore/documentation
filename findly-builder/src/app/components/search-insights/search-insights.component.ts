@@ -18,6 +18,7 @@ export class SearchInsightsComponent implements OnInit {
   getQueriesWithResults : any;
   getSearchQueriesResults : any;
   selectedQuery = '';
+  dateType = "hour";
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -31,10 +32,24 @@ export class SearchInsightsComponent implements OnInit {
     //this.getQueries("GetSearchQueriesResults");
     
   }
- 
+  dateLimt(type){
+    this.dateType = type;
+    this.getQueries("TopQuriesWithNoResults");
+    this.getQueries("QueriesWithResults");
+  }
   getQueries(type){
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
+    var week = new Date(Date.now() - (6 * 864e5));
+    var custom = new Date(Date.now() - (29 * 864e5));
+    let from = new Date();
+    if(this.dateType == 'hour'){
+      from = yesterday;
+    }else if(this.dateType == 'week'){
+      from = week;
+    }else if(this.dateType == 'custom'){
+      from = custom;
+    }
     const header : any= {
       'x-timezone-offset': '-330'
     };
@@ -46,7 +61,7 @@ export class SearchInsightsComponent implements OnInit {
     let payload : any = {
       type : type,
       filters: {
-        from: new Date(Date.now() - (24 * 864e5)),//yesterday.toJSON(),
+        from: from.toJSON(),//yesterday.toJSON(),
         to: today.toJSON()
       }
     }

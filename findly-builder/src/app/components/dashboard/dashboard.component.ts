@@ -57,6 +57,8 @@ export class DashboardComponent implements OnInit {
   userEngagementChartData : EChartOption;
   isAsc = true;
   slider = 0;
+  dateType= "hour";
+  group = "hour";
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -85,9 +87,30 @@ export class DashboardComponent implements OnInit {
   paginate(event){
     console.log(event)
   }
+  dateLimt(type){
+    this.dateType = type;
+    this.getQueries("TopQuriesWithNoResults");
+    this.getQueries("MostSearchedQuries");
+    this.getQueries("QueriesWithNoClicks");
+    this.getQueries("SearchHistogram");
+    this.getQueries("TopSearchResults");
+  }
   getQueries(type){
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
+    var week = new Date(Date.now() - (6 * 864e5));
+    var custom = new Date(Date.now() - (29 * 864e5));
+    let from = new Date();
+    if(this.dateType == 'hour'){
+      from = yesterday;
+      this.group = "hour";
+    }else if(this.dateType == 'week'){
+      from = week;
+      this.group = "date";
+    }else if(this.dateType == 'custom'){
+      from = custom;
+      this.group = "week";
+    }
     const header : any= {
       'x-timezone-offset': '-330'
     };
@@ -99,7 +122,7 @@ export class DashboardComponent implements OnInit {
     let payload : any = {
       type : type,
       filters: {
-        from: yesterday.toJSON(),
+        from: from.toJSON(),
         to: today.toJSON()
       }
     }
