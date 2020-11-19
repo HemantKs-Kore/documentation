@@ -1,0 +1,38 @@
+@import "../../../../scss/variables/variables.scss";
+
+.confirm-dialog{
+    width: 446px;
+    margin: 0 auto;
+    .modal-header{
+        height: auto;
+        padding: 11px 0 12px 0;
+        background-color: #f2f3f5;
+        border: 0;
+        border-radius: 4px;
+        display: block;
+        text-align: center;
+        .modal-title{
+            font-size: 24px;
+            font-weight: 300;
+            color: #26344a;
+        }
+    }
+    .modal-body{
+        padding: 45px;
+        text-align: center;
+        color: #8a959f;
+        font-size: 14px;
+    }
+    .modal-footer{
+        height: auto;
+        padding: 14px 0 15px 0;
+        background-color: #f2f3f5;
+        border: 0;
+        border-radius: 4px;
+        display: block;
+        text-align: center;
+    }
+}
+::ng-deep .cdk-global-scrollblock {
+    overflow-y: hidden;
+  }
