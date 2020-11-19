@@ -172,6 +172,8 @@ export class ResultRankingComponent implements OnInit {
       for(let i =0; i<this.actionLogData.length; i++){
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
+        this.actionLogData[i].target.contentInfo.createdOn = moment(this.actionLogData[i].target.contentInfo.createdOn).fromNow()
+        this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         // if(this.actionLogData[i].target.contentType == 'faq'){
         //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
         // }

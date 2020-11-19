@@ -82,17 +82,17 @@ export class AddResultComponent implements OnInit {
       var obj :any = {};
       obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element._id;
-      obj.config = {
-        pinIndex : -1,
-        //boost: 1.0,
-        //visible: true,
-      }
+      // obj.config = {
+      //   pinIndex : -1,
+      //   //boost: 1.0,
+      //   //visible: true,
+      // }
       result.push(obj);
     });
     let payload : any = {};
     
     payload.searchQuery = this.query;
-    payload.result = result[0];
+    payload.results = result;
     this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
       this.recordArray=[];
       this.extractedResults = [];
@@ -131,7 +131,6 @@ export class AddResultComponent implements OnInit {
   }
   searchResults(search){
     this.loadingContent = true;
-    this.extractedResults =[];
     this.recordArray=[];
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -143,9 +142,10 @@ export class AddResultComponent implements OnInit {
     };
     this.service.invoke('get.extractedResult_RR', quaryparms).subscribe(res => {
       if(this.searchType == "all"){
+        this.extractedResults =[];
         this.extractedResults = res.contents[0].results;
-        console.log(this.extractedResults);
-        console.log(res.contents);
+        //console.log(this.extractedResults);
+        //console.log(res.contents);
       }else{
         this.extractedResults = res;
       }
