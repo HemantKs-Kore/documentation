@@ -3280,7 +3280,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             };
             _self.vars.searchObject.searchText = $('#search').val();
             // debugger;
-            var searchText = $('#search').val() || _self.vars.searchObject.liveData.originalQuery;
+            var searchText = $('#search').val() || _self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "" || null;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
             if (_self.config.viaSocket) {
@@ -4820,7 +4820,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               "createdOn": tempData.id
             };
           }
-          me.renderMessage(msgData);
+            // me.renderMessage(msgData);
         }
         if (tempData.type === "appInvalidNotification") {
           setTimeout(function () {

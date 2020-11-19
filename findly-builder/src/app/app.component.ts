@@ -165,6 +165,7 @@ export class AppComponent implements OnInit , OnDestroy {
   navigationInterceptor(event: RouterEvent): void {
     const self = this;
     if (event instanceof NavigationStart) {
+      this.showHideSearch(false);
       this.authService.findlyApps.subscribe( (res) => {
         self.loading = true;
         this.appsData = res;
