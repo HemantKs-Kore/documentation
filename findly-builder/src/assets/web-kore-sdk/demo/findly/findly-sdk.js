@@ -4748,9 +4748,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     // FindlySDK.prototype.initKoreSDK = function () {
     FindlySDK.prototype.initKoreSDK = function (config) {
+      config = config || _self.config.botOptions
       var _self = this;
       _self.bot = requireKr('/KoreBot.js').instance();
-      _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit);
+      _self.bot.init(config, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
 
     };
