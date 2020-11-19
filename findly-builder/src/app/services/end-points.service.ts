@@ -140,11 +140,11 @@ export class EndPointsService {
       method:'get'
     };
     this.serviceList['get.allFaqsByResources']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&resourceId=:resourceId&serach=:searchQuary',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&extractionSourceId=:resourceId&serach=:searchQuary',
       method:'get'
     };
     this.serviceList['get.faqsByResourcesState']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&resourceId=:resourceId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSourceId=:resourceId',
       method:'get'
     };
     this.serviceList['addRemove.faqs']={
@@ -172,7 +172,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.faqStaticsByResourceFilter'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?resourceId=:resourceId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?extractionSourceId=:resourceId',
       method: 'get'
     };
     this.serviceList['get.fags'] = {
