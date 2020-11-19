@@ -62,6 +62,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         this.config.findlyBusinessConfig.sdkBridge(event);
       }
     }
+    FindlySDK.prototype.applicationToSDK = function (event) {
+     console.log(event)
+    }
     /*FindlySDK.prototype.assignCallbacksToParent = function () {
       this.config.findlyBusinessConfig.initVariables = this.initVariables();
     }*/

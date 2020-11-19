@@ -22,7 +22,7 @@ export class AddResultComponent implements OnInit {
   loadingContent = false;
   @Input() query : any;
   @Input() addNew;
-  @Output() closeResult = new EventEmitter()
+  @Output() closeResult = new EventEmitter();
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
     private service: ServiceInvokerService) { }
@@ -98,6 +98,7 @@ export class AddResultComponent implements OnInit {
       this.extractedResults = [];
       this.searchTxt = "";
       contentTaskFlag = false;
+      this.closeResult.emit({"addNewResult":true});
       if($('.checkbox-custom')){
         for(let i = 0;i< $('.checkbox-custom').length; i++){
           $('.checkbox-custom')[i].checked =  false;
