@@ -22,6 +22,7 @@ export class AppHeaderComponent implements OnInit {
   mainMenu = '';
   showMainMenu : boolean = true;
   pagetitle: any;
+  training;
   fromCallFlow = '';
   showSwichAccountOption = false;
   searchActive = false;
@@ -53,10 +54,10 @@ export class AppHeaderComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
   metricsOption(menu){
-    this.analyticsClick(menu)
+    this.analyticsClick(menu,true)
     this.router.navigate([menu], { skipLocationChange: true });
   }
-  analyticsClick(menu){
+  analyticsClick(menu,skipRouterLink?){
     this.mainMenu = menu;
     if(menu == '/metrics' || 
       menu == '/dashboard' || 
@@ -64,12 +65,12 @@ export class AppHeaderComponent implements OnInit {
       menu == '/searchInsights'  || 
       menu == '/resultInsights') {
       this.showMainMenu = false;
-      this.router.navigate([menu], { skipLocationChange: true });
     }else{
       this.showMainMenu = true;
+    }
+    if(!skipRouterLink){
       this.router.navigate([menu], { skipLocationChange: true });
     }
-    
     this.showMenu.emit(this.showMainMenu)
   }
   logoutClick() {
@@ -125,8 +126,6 @@ export class AppHeaderComponent implements OnInit {
     )
     this.formatter = (x: {displayName: string}) => (x.displayName || '');
     this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
-    
-   
   }
 
   removeCallFlowExpand() {
@@ -141,14 +140,20 @@ export class AppHeaderComponent implements OnInit {
     this.ref.detectChanges();
   }
   train(){
+    this.training = true;
+    const self = this;
     const selectedApp = this.workflowService.selectedApp();
     if(selectedApp &&  selectedApp.searchIndexes &&  selectedApp.searchIndexes.length){
       const quaryparms = {
         searchIndexId : selectedApp.searchIndexes[0]._id
       }
       this.service.invoke('train.app', quaryparms).subscribe(res => {
-        this.notificationService.notify('Training has been initated','success');
+        setTimeout(()=>{
+          self.training = false;
+          self.notificationService.notify('Training has been initated','success');
+        },5000)
       }, errRes => {
+        self.training = false;
         this.notificationService.notify('Failed to train the app','error');
       });
     }

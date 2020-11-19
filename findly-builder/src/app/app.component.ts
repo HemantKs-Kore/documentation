@@ -304,14 +304,17 @@ export class AppComponent implements OnInit , OnDestroy {
   initSearchSDK(){
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
-    $('body').off('click','.start-search-icon-div').on('click','.start-search-icon-div',((event)=>{
-      if(!$('.search-background-div:visible').length){
-        _self.showHideSearch(true);
-      }else{
-        _self.showHideSearch(false);
-
-      }
-    }));
+    setTimeout(()=>{
+      $('.start-search-icon-div').off('click').on('click',((event)=>{
+        if(!$('.search-background-div:visible').length){
+          _self.showHideSearch(true);
+          console.log('SDK is opened');
+        }else{
+          _self.showHideSearch(false);
+          console.log('SDK is closed');
+        }
+      }));
+    },200);
       $('#advanceModeSdk').change(function(){
         if($(this).is(':checked')) {
           $('.search-container').removeClass('advanced-mode');

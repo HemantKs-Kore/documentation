@@ -22,6 +22,9 @@ declare const $: any;
 })
 export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   selectedApp: any = {};
+  savingConfig;
+  reIndexing;
+  simulating;
   serachIndexId;
   indexPipelineId;
   pipeline;
@@ -457,6 +460,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     return stagesArray;
   }
   saveConfig(index?,dialogRef?){
+    this.savingConfig = true;
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId
@@ -465,6 +469,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
      this.pipeline=  res.stages || [];
      this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
      this.notificationService.notify('Configurations saved successfully','success');
+     this.savingConfig = false;
       if(dialogRef && dialogRef.close){
         dialogRef.close();
       }
@@ -474,6 +479,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.clearDirtyObj();
       this.setResetNewMappingsObj();
     }, errRes => {
+      this.savingConfig = false;
       this.errorToaster(errRes,'Failed to save configurations');
     });
   }
@@ -501,14 +507,17 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   reindex(){
     const proceed = ()=>{
+      this.reIndexing = true;
       const quaryparms: any = {
         searchIndexID:this.serachIndexId,
         indexPipelineId:this.indexPipelineId
       };
       this.service.invoke('post.reindex', quaryparms).subscribe(res => {
         this.notificationService.notify('Re-indexed successfully','success')
+        this.reIndexing = false;
       }, errRes => {
         this.errorToaster(errRes,'Failed to re-index');
+        this.reIndexing = false;
       });
     }
     if(this.changesDetected){
@@ -561,8 +570,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.simulateJson= JSON.stringify(data, null, ' ');
     }
   simulate(){
-    this.simulteObj.showSimulation =  true;
-    this.simulteObj.simulating =  false;
+    const self = this;
+    this.simulating = true;
+    this.simulteObj.simulating =  true;
     const payload :any ={
       sourceType: this.simulteObj.sourceType,
       noOfDocuments:  this.simulteObj.docCount || 5,
@@ -586,15 +596,19 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
+      this.simulteObj.showSimulation =  true;
       this.simulteObj.simulating =  false;
       this.addcode(res);
       this.notificationService.notify('Simulated successfully','success')
+      this.simulating = false;
       if (this.pollingSubscriber) {
         this.pollingSubscriber.unsubscribe();
       }
       this.simulteObj.currentSimulateAnimi = -1;
       this.simulteObj.simulationInprogress = false;
     }, errRes => {
+      this.simulating = false;
+      this.simulteObj.simulating =  false;
       if (this.pollingSubscriber) {
         this.pollingSubscriber.unsubscribe();
       }
