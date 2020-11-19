@@ -2421,7 +2421,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var url = _self.API.searchUrl;
         var payload = {
           "query": _self.vars.searchObject.searchText,
-          "maxNumOfResults": 9,
+          // "maxNumOfResults": 9,
+          "maxNumOfResults": 16,
           "userId": _self.API.uuid,
           "streamId": _self.API.streamId,
           "lang": "en",
@@ -3113,7 +3114,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.searchUrl;
       var payload = {
         "query": _self.vars.searchObject.searchText,
-        "maxNumOfResults": 9,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 16,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en",
@@ -3784,7 +3786,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       console.log("Appending Live Data to Chat");
       var payload = {
         "query": _self.vars.searchObject.searchText,
-        "maxNumOfResults": 9,
+        // "maxNumOfResults": 9,
+        "maxNumOfResults": 16,
         "userId": _self.API.uuid,
         "streamId": _self.API.streamId,
         "lang": "en"
@@ -4755,7 +4758,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.destroy = function (config) {
       this.bot.destroy();
     }
-    
+
     FindlySDK.prototype.bindSocketEvents = function () {
       var _self = this;
       _self.bot.on("message", function (message) {
@@ -4840,6 +4843,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // }
       // var _bodyContainer = $(me.config.chatContainer).find('.kore-chat-body');
       // var _footerContainer = $(me.config.chatContainer).find('.kore-chat-footer');
+      
+      $('#search').val('');
+      $('#suggestion').val('');
+
       var clientMessageId = new Date().getTime();
       var msgData = {};
       fileUploaderCounter = 0;
@@ -4886,6 +4893,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       messageToBot["resourceid"] = '/bot.message';
 
+      messageToBot["maxNumOfResults"] = 16;
+      
       if (renderMsg && typeof renderMsg === 'string') {
         messageToBot["message"].renderMsg = renderMsg;
       }
