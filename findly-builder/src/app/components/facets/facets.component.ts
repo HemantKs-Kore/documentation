@@ -327,6 +327,7 @@ export class FacetsComponent implements OnInit {
     this.service.invoke('delete.bulkFacet', quaryparms,payload).subscribe(res => {
       this.getFacts();
       dialogRef.close();
+      this.closeModal();
       this.notificationService.notify('Facets deleted successfully','success');
     }, errRes => {
       this.loadingContent = false;
@@ -346,6 +347,7 @@ export class FacetsComponent implements OnInit {
       })
       this.facets.splice(deleteIndex,1);
       dialogRef.close();
+      this.closeModal();
       this.notificationService.notify('Facet deleted successfully','success');
     }, errRes => {
       this.loadingContent = false;
@@ -373,7 +375,9 @@ export class FacetsComponent implements OnInit {
     this.facetModalRef = this.facetModalPouup.open();
   }
   closeModal(){
-    this.facetModalRef.close();
+    if(this.facetModalRef && this.facetModalRef.close){
+      this.facetModalRef.close();
+    }
     this.resetDefaults();
     this.addEditFacetObj = null;
   }

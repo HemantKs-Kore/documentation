@@ -21,6 +21,12 @@ import { WeightsComponent }  from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
+import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
+import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
+import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
+import { SettingsComponent } from './components/settings/settings.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,7 +46,7 @@ const routes: Routes = [
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'ml-threshold', component: MlThresholdComponent },
       { path: 'traits', component: TraitsComponent },
-      { path: 'rules', component: ResultsRulesComponent },
+      { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent},
       { path: 'query', component: QueryComponent},
@@ -48,6 +54,11 @@ const routes: Routes = [
       { path: 'weights', component: WeightsComponent},
       { path: 'resultranking', component: ResultRankingComponent},
       { path: 'metrics', component: MetricsComponent},
+      { path: 'dashboard', component: DashboardComponent},
+      { path: 'userEngagement', component: UserEngagementComponent},
+      { path: 'searchInsights', component: SearchInsightsComponent},
+      { path: 'resultInsights', component: ResultInsightsComponent},
+      { path: 'settings', component: SettingsComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

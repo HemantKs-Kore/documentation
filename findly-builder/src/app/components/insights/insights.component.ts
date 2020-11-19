@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EChartOption } from 'echarts';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 
 @Component({
@@ -11,17 +12,21 @@ declare const $: any;
 })
 export class InsightsComponent implements OnInit {
   @Input() data : any;
+  @Input() query : any;
+  @Input() showInsightFull : any;
+  queryPipelineId;
+  show = false;
+  actionLog_id = 0;
   icontoggle : boolean = false;
   graphMode : boolean = false;
   iconIndex;
   ctrVal;
   slider : any = 1;
   filterArray : any = [];
-  actionLogData : any;
+  actionLogData : any = [];
   actionLogDatBack : any;
   selectedApp: any = {};
   serachIndexId;
-  query;
   analystic : any = {};
   staticChartOption : EChartOption = {
         xAxis: {
@@ -158,12 +163,13 @@ lineStyle: {
 }
 ]
   };
-  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService) { }
+  
+  constructor(public workflowService: WorkflowService,private service: ServiceInvokerService,private notificationService: NotificationService) { }
   getQueryLevelAnalytics(){
     // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
-    //   this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
+    //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
     // } 
-    this.query = "Open bank account"
+    //this.query = "Open bank account"
     const quaryparms: any={
       searchIndexId: this.serachIndexId,
     }
@@ -174,10 +180,11 @@ lineStyle: {
     //   "searches": 5983,
     //   "clicks": 4254
     // };
-    // this.ctrVal = Math.floor(this.analystic['searches'] / this.analystic['clicks'] ) * 100;
+     this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches'] ) * 100;
     
       this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
         console.log(res)
+        
         this.analystic =  res;
         if(this.analystic['searches'] == 0 || this.analystic['clicks'] == 0){
           this.ctrVal = 0;
@@ -191,100 +198,110 @@ lineStyle: {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getQueryLevelAnalytics();
-    $("#advanceContainer").delay(800).fadeIn();
-    $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
+    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.customInit();
+    //setTimeout(()=>{
+      this.selectedApp = this.workflowService.selectedApp();
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      this.getQueryLevelAnalytics();
+    //},5000)
+    this.getcustomizeList();
+
+  }
+  customInit(){
+   // $("#advanceContainer").delay(800).fadeIn();
+   // $('#advanceContainer').animate($('.dis').addClass('adv-opt-mode'), 500 );
     
-    this.actionLogData = [{
-      "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "New",
-      "time" : "3h ago",
-      "selected" : false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "help",
-      "status": "Boosted",
-      "time" : "3h ago",
-      "selected" : false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "bot",
-      "status": "Hidden",
-      "time" : "3h ago",
-      "selected" : false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false
-    }
-  ]
+  //   this.actionLogData = [{
+  //     "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "New",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "help",
+  //     "status": "Boosted",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "bot",
+  //     "status": "Hidden",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false
+  //   }
+  // ]
   this.actionLogDatBack = [...this.actionLogData]
   this.actionLogData.forEach(element => {
     this.filterArray.push(element.status)
   });
   this.filterArray = new Set(this.filterArray);
-    console.log(this.data)
+  console.log(this.data)
   }
   filterRecord(type){
     this.actionLogData = [...this.actionLogDatBack];
@@ -308,12 +325,12 @@ lineStyle: {
   filter(){
 
   }
-  toggle(icontoggle,index,selected){
+  toggle(icontoggle,selected){
     let previousIndex = this.iconIndex
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle; 
-    this.iconIndex  = index;
-    this.actionLogData[index].selected = !selected;
+    //this.iconIndex  = index;
+    //this.actionLogData[index].selected = !selected;
   }
   swapSlider(slide){
     this.slider = slide;
@@ -325,6 +342,51 @@ lineStyle: {
       $('.tab-ana').removeClass('active')
     }
     console.log('button clicked')
+  }
+
+  getcustomizeList(){
+   
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId
+    };
+    this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      if(res.length){
+        this.actionLog_id = res[res.length-1]._id;
+        this.clickCustomizeRecord(res[res.length-1]._id);
+      }
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  clickCustomizeRecord(_id){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId,
+      rankingAndPinningId : _id
+    };
+    this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
+      //this.customizeList = res;
+      this.actionLogData = res;
+      for(let i =0; i<this.actionLogData.length; i++){
+        this.actionLogData[i]["selected"] = false;
+        this.actionLogData[i]["drop"] = false;
+        // if(this.actionLogData[i].target.contentType == 'faq'){
+        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
+        // }
+      }
+      console.log(res);
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed', 'error');
+       }
+     });
   }
 
 }

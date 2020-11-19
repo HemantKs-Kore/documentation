@@ -136,7 +136,7 @@
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
-              <div class="col_ col-4">{{source.title || source.name}}</div>
+              <div class="col_ col-4" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
               <div class="col_ col-2">
                 {{(source.type == 'webdomain' ? 'Web' :(source.type == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-2">
@@ -265,9 +265,9 @@
               <span class="tabname" (click)="swapSlider()">Configuration</span>
             </div>
             <div class="right-side">
-              <div class="kr-sg-input-search">
+              <div class="kr-sg-input-search" *ngIf="!isConfig">
                 <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch"
-                  autocomplete="off">
+                  autocomplete="off" >
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
@@ -310,7 +310,7 @@
             <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table-allowRow">
               <div class="accordion-content-info text-left" *ngIf="isConfig">
                 <div class="table-list-content">
-                  <div class="kr-sg-data-table with-checkbox">
+                  <div class="kr-sg-data-table with-checkbox"  >
                     <section class="table-content">
                       <header class="table-header">
                         <div class="col_ col-2">Title</div>
@@ -439,7 +439,7 @@
                             <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
                             <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
                             <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't Contains</a></li>
+                            <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
                           </ul>
                         </div>
                       </div>
@@ -486,7 +486,7 @@
                             <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
                             <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
                             <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't Contains</a></li>
+                            <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
                           </ul>
                         </div>
                       </div>
@@ -524,7 +524,7 @@
                 <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
-                      <div class="row m-0 content">
+                      <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page.url || selectedSource.url}}">
                           {{page.url || selectedSource.url}}</div>
                         <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
@@ -537,7 +537,7 @@
                       <!-- </div> -->
                     </a>
                   </div>
-                  <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
+                  <!-- <div id="collapseOne{{page._id}}" class="collapse pad_adjust" data-parent="#accordion">
                     <div class="card_body" style="padding-left: 30px;">
                       <div class="info-content pageTitleContainer">
                         <div class="row m-0 row_content">
@@ -567,7 +567,7 @@
                       </div>
                       <button class="kr-sg-button-primary btn_md mt-3 mb-3 d-none">Test & Preview</button>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </perfect-scrollbar>
               <!-- pageination -->
@@ -624,10 +624,11 @@
 
   </div>
   <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
-    <button type="button" class="kr-sg-button-primary btn_md btn-left-config-ok" data-dismiss="modal"
-      (click)="proceedWithConfigUpdate()">Save</button>
-    <button type="button" class="kr-sg-button-secondary btn_md btn-left-config-ca" data-dismiss="modal"
+    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
+    (click)="proceedWithConfigUpdate()">Save</button>
+    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
       (click)="closeStatusModal()">Cancel</button>
+     
   </div>
   <div class="footer-btns d-none">
     <button class="kr-sg-button-primary btn_lg">Update</button>
@@ -711,8 +712,8 @@
     <!-- DATA TABLE ENDS HERE -->
   </div>
 </perfect-scrollbar>  
-<div class="modal-footer">          
+<!-- <div class="modal-footer">          
   <button type="button" class="kr-sg-button-primary btn_lg" (click)="saveDocDetails()">Save</button>        
   <button type="button" class="kr-sg-button-secondary btn_lg" (click) = "cancelDocDetails()">Cancel</button>
-</div>
+</div> -->
 </kr-modal>

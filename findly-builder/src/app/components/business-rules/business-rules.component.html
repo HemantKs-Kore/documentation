@@ -1,174 +1,309 @@
 <div class="business-rules-wrapper">
     <div class="header-sec col-12 row m-0">
-        <div class="col-4 lef-sec p-0"><span class="title">Business Rules</span></div>
-        <div class="col-4 lef-sec p-0 d-none">
-            <div class="selected-count">
+        <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)"><span class="title">Business Rules</span></div>
+        <div class="col-4 lef-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
+            <div class="selected-count" *ngIf="!selcectionObj.selectAll">
                 <span class="outer-border">
                     <span class="inner-bg"></span>
                 </span>
-                2 Rules Selected
+                {{selcectionObj.selectedCount}} {{'businessRules.rules_selected' | translate}}
             </div>
-            <div class="kr-sg-checkbox m-0">
+            <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
                 <input id="checkbox-1" class="checkbox-custom" type="checkbox" checked>
                 <label for="checkbox-1" class="checkbox-custom-label"></label>
-                <span class="allselected">All Rules Selected</span>
+                <span class="allselected">{{'businessRules.all_rules_selected' | translate}}</span>
             </div>
         </div>
-        <div class="col-8 right-sec p-0">
-            <div class="kr-sg-input-search m-0 d-none">                               
-                <input type="text" placeholder="Search" autocomplete="off" class="input-search" placeholder="Search">           
+        <div class="col-8 right-sec p-0"  *ngIf="!(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount)">
+            <div class="kr-sg-input-search m-0 " [ngClass]="{'active': showSearch}">                               
+                <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search" placeholder="Search" [(ngModel)]="searchRules">           
             </div> 
-            <div class="seach-block">
-                <img src="assets/icons/search.svg">
-                <img src="assets/images/close.svg" class="d-none">Seach
+            <div *ngIf="!loadingContent && rules && rules.length" class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">{{'search' | translate}}
             </div>
-            <div class="add_feild">
-                <img src="assets/icons/add_plus.svg">Add Field
+            <div class="add_feild" (click)="createNewRule()">
+                <img src="assets/icons/add_plus.svg">{{'businessRules.add_rule' | translate}}
             </div>
-            <div class="clock"><img src="assets/icons/clock.svg"></div>
+            <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
-        <div class="col-8 right-sec p-0 d-none">
-            <button class="kr-sg-button-danger btn_lg">Delete</button>
+        <div class="col-8 right-sec p-0" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
+            <button class="kr-sg-button-danger btn_lg" (click)='deleteMultiePop()'>{{'delete' | translate}}</button>
         </div>
     </div>
-    <div class="table_section">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+      </div>
+    <div class="table_section" *ngIf="!loadingContent && rules && rules.length"> 
         <div class="header_sec row m-0">
             <div class="col-3 content withcheckbox">
                 <div class="kr-sg-checkbox p-0 m-0">
-                    <input id="selectAllFacets" class="checkbox-custom" type="checkbox">
-                    <label for="selectAllFacets" class="checkbox-custom-label"></label>
+                    <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
+                    <label for="selectAllRules" class="checkbox-custom-label"></label>
                 </div>
-                <div class="title"><img src="assets/icons/sort_up_down.svg" class="pr-1">NAME</div>
+                <div class="title cursor-pointer" (click)="sortBy('ruleName')">
+                    <img *ngIf="!(selectedSort && (selectedSort === 'ruleName'))" src="assets/icons/sort_up_down.svg" class="pr-1">
+                    <img *ngIf="(selectedSort && (selectedSort === 'ruleName'))" [ngClass]="{'upArrow': !isAsc}" src="assets/icons/caretDown.svg" class="pr-1">
+                    {{'name_caps' | translate}}
+                </div>
             </div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">condition</div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">outcome</div>
-            <div class="col-3 content"><img src="assets/icons/sort_up_down.svg" class="pr-1">STATUS</div>
+            <div class="col-3 content">
+                {{'businessRules.condition_caps' | translate}}</div>
+            <div class="col-3 content">{{'businessRules.outcome_caps' | translate}}</div>
+            <div class="col-3 content cursor-pointer" (click)="sortBy('isRuleActive')">
+                <img *ngIf="!(selectedSort && (selectedSort === 'isRuleActive'))" src="assets/icons/sort_up_down.svg" class="pr-1">
+                <img *ngIf="(selectedSort && (selectedSort === 'isRuleActive'))" [ngClass]="{'upArrow': isAsc}" src="assets/icons/caretDown.svg" class="pr-1">
+                {{'businessRules.status_caps' | translate}}</div>
         </div>
         <perfect-scrollbar class="scroll_table">                     
-            <div class="body_sec row m-0">
+            <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [ searchRules, 'ruleName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id])}">
                 <div class="col-3 content withcheckbox">                   
                     <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one" class="checkbox-custom" type="checkbox">
-                        <label for="one" class="checkbox-custom-label"></label>
+                        <input id="{{ruleObj._id}}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)">
+                        <label for="{{ruleObj._id}}" class="checkbox-custom-label"></label>
                     </div>
-                    <div class="title">Q1 Campaign Promotion for Credit Cards</div>
+                    <div class="title">{{ruleObj.ruleName}}</div>
                 </div>
                 <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
+                    <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
+                    <span class="divider mr-1 mb-1" *ngIf="ruleIndex > 0">{{'and_caps' | translate}}</span> 
+                    <span class="tags-input mr-1 mb-1"><span class="small-text">{{rule.contextType}} :</span> {{rule.contextCategory}}</span>
+                    <span class="outer-name mr-1 mb-1">{{rule.operator}}</span>
+                    <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                    <span class="tags-input mr-1 mb-1" >{{value}}</span>
+                    <span class="divider mr-1 mb-1" *ngIf="valueIndex < (rule.value.length-1)">{{'or_caps' | translate}}</span>
+                    </ng-container>
+                  </ng-container>
                 </div>
                 <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
+                    <ng-container *ngFor="let outcome of ruleObj.outcomes">
+                        <span class="tags-input mr-1 mb-1"><span *ngIf="(outcome.outcomeType==='boost') || (outcome.outcomeType==='lower')">{{outcome.scale}}x </span>{{'businessRules.action'+ outcome.outcomeType | translate }}</span>
+                        <span class="outer-name mr-1 mb-1">{{'businessRules.'+ outcome.outcomeOperator | translate}}</span>
+                        <span class="tags-input mr-1 mb-1">{{'businessRules.'+ outcome.outcomeType | translate}}: 
+                            <span *ngFor="let value of outcome.outcomeValue; let valueIndex = index">{{value}} <span *ngIf="valueIndex < (outcome.outcomeValue.length-1)" class="divider mr-1 mb-1">{{'or_caps' | translate}}</span></span>
+                        </span>
+                    </ng-container>
                 </div>
                 <div class="col-3 content actions">
-                   <span class="active-status"><span class="indication"></span>Active</span>
+                   <span class="active-status" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{'businessRules.active' | translate}}</span>
+                   <span class="in-active-status" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{'businessRules.In-Active' | translate}}</span>
                    <div class="actions-icons">
-                       <img src="assets/images/edit-pencil.svg">
-                       <img src="assets/icons/delete-table.svg">
+                       <img src="assets/images/edit-pencil.svg" (click)='editRule(ruleObj)'>
+                       <img src="assets/icons/delete-table.svg" (click)="deleteRulePop(ruleObj,ruleIndex)">
                    </div>
                 </div>
-            </div>   
-            <div class="body_sec row m-0 selected">
-                <div class="col-3 content withcheckbox">                   
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one2" class="checkbox-custom" type="checkbox" checked>
-                        <label for="one2" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title">Loan Products Eligibility</div>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
-                </div>
-                <div class="col-3 content actions">
-                   <span class="in-active-status"><span class="indication"></span>Inactive</span>
-                    <div class="actions-icons">
-                        <img src="assets/images/edit-pencil.svg">
-                        <img src="assets/icons/delete-table.svg">
-                    </div>
-                </div>
-            </div> 
-            <div class="body_sec row m-0 selected">
-                <div class="col-3 content withcheckbox">                   
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one3" class="checkbox-custom" type="checkbox" checked>
-                        <label for="one3" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title">Personalization for Savings Products</div>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
-                </div>
-                <div class="col-3 content actions">
-                   <span class="active-status"><span class="indication"></span>Active</span>
-                   <div class="actions-icons">
-                    <img src="assets/images/edit-pencil.svg">
-                    <img src="assets/icons/delete-table.svg">
-                    </div>
-                </div>
-            </div>    
-            <div class="body_sec row m-0">
-                <div class="col-3 content withcheckbox">                   
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="one" class="checkbox-custom" type="checkbox">
-                        <label for="one" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title">Q1 Campaign Promotion for Credit Cards</div>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1"><span class="small-text">SearchContext :</span> RecentSearches</span>
-                    <span class="outer-name mr-1 mb-1">Contains</span>
-                    <span class="tags-input mr-1 mb-1">Credit</span>
-                    <span class="divider mr-1 mb-1">OR</span>
-                </div>
-                <div class="col-3 content">
-                    <span class="tags-input mr-1 mb-1">3x BoostResult</span>
-                    <span class="outer-name mr-1 mb-1">Containing</span>
-                    <span class="tags-input mr-1 mb-1">OfferType: CardOffers</span>
-                </div>
-                <div class="col-3 content actions">
-                   <span class="active-status"><span class="indication"></span>Active</span>
-                   <div class="actions-icons">
-                    <img src="assets/images/edit-pencil.svg">
-                    <img src="assets/icons/delete-table.svg">
-                    </div>
-                </div>
+            </div>  
+            <div class="divBlockEmptylastChild text-center">         
+                <div class="desc">No search results found</div>
             </div> 
         </perfect-scrollbar>
     </div>
+    <div class="empty-rules"  *ngIf="!loadingContent && !(rules && rules.length)">
+        <img src="assets/images/icons/empty_ill.svg">
+        <div class="heading">No Rules Available</div>
+        <div class="desc">Please add rules</div>      
+      </div>
 </div>
+
+
+<kr-modal modalType="center" #addBusinessRules modalClass="modal_popups_ business-rules-popup">
+  <div class="modal-header">
+    <div class="title font-weight-bold">{{'businessRules.add_rule' | translate}}</div>
+    <label class="kr-sg-toggle toggle-switch">                                       
+        <input type="checkbox" [(ngModel)]="addEditRuleObj.isRuleActive">
+        <div class="slider"><span class="enabled">{{'businessRules.rule_active' | translate}}</span><span class="disabled">{{'businessRules.rule_in_active' | translate}}</span></div>
+    </label>  
+    <div class="close_icon" (click)="closeModalPopup()"><img class="ng-tns-c11-2" src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+        <div class="kr-sg-input-text mb-5">
+            <div class="label-text">{{'businessRules.rule_name' | translate}}</div>
+            <input type="text" placeholder="Rule Name" class="input-text" [(ngModel)]="addEditRuleObj.ruleName">           
+        </div>
+        <div class="rules-block row">
+            <div class="condition-add-text col-3 pl-0 pr-4">
+                <div class="title">{{'businessRules.condition' | translate}}</div>
+                <div class="desc_text">{{ 'businessRules.condition_desc' | translate }}</div>
+                <div class="add-condition" (click)="addNewRule()"><img src="assets/icons/plus-blue.svg">Add Condition</div>
+            </div>
+            <div class="input-conditions col-9">
+                <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit; let ruleIndex = index">
+                    <div class="d-flex align-items-center w-100 mb-13">
+                        <div class="input-bg-sec">
+                            <div class="row m-0 search-content-sec">
+                                <div class="col-2 p-0 title">
+                                    Select Context
+                                </div>
+                                <div class="col-10 pr-0">
+                                    <div class="kr-sg-dropdowns w-auto">                           
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)='currentEditInex = null'>{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
+                                            <ul class="dropdown-menu content-menu">                                                                          
+                                            <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"><a>{{'businessRules.' + contextType | translate}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0 setparameetres-sec">
+                                <div class="col-2 p-0 title">
+                                    Set Parameters
+                                </div>
+                                <div class="tags row m-0 col-10">
+                                    <div class="chip-sys-data">                      
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                        <ng-container>
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                       
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.contextCategory | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">{{'businessRules.' +  contextCategory | translate}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container>
+                                            <mat-chip [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{'businessRules.' + ruleObj.operator | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="ruleSelection(ruleObj,operator,'operator')">{{'businessRules.' + operator | translate}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>                             
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                                            <mat-chip  [selectable]="selectable" (removed)="removeTag(ruleObj.value,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                    <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <input placeholder="Type Alternatives and Press Enter"
+                                                [matChipInputFor]="chipList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="addRules($event,ruleObj,i)"  #suggestedInput>
+                                        </mat-chip-list>
+                                    </mat-form-field>
+                                    </div>
+                                </div>                    
+                            </div>
+                        </div>
+                        <div class="delete-rule" (click)='removeRule(ruleIndex)'>
+                            <img src="assets/icons/modal-close.svg">
+                        </div> 
+                    </div>                                
+                </ng-container>               
+            </div>                   
+        </div>        
+        <div class="rules-block row">
+            <div class="condition-add-text col-3 pl-0 pr-4">
+                <div class="title">{{'businessRules.outcome_caps_small' | translate}}</div>
+                <div class="desc_text">{{ 'businessRules.condition_desc_outcome' | translate }}</div>
+                <div class="add-condition" (click)="addNewOutcome()"><img src="assets/icons/plus-blue.svg">Add Outcome</div>
+            </div>
+            <div class="input-conditions col-9">
+                <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
+                    <div class="d-flex align-items-center w-100 mb-13">
+                        <div class="input-bg-sec">
+                            <div class="row m-0 action-scontent-sec">
+                                <div class="col-2 p-0 title">
+                                    Action
+                                </div>
+                                <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
+                                    <div class="kr-sg-dropdowns col-4 pl-0">                           
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)='currentEditInex = null'>{{'businessRules.' + outcomeObj.outcomeType | translate}}</button>                                            
+                                            <ul class="dropdown-menu content-menu">                                                                          
+                                            <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')"><a>{{'businessRules.' + outcomeType | translate}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="(outcomeObj.outcomeType === 'boost') || (outcomeObj.outcomeType === 'lower')">
+                                        <div class="col-4 pr-0">
+                                            <app-range-slider [customClass]='"weightsSlider"' [allData]='outcomeObj.sliderObj' (valueEvent)="valueEvent($event,outcomeObj)"></app-range-slider>
+                                        </div>
+                                        <div class="col-4 pr-0 text-right">
+                                            <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'boost'">{{'businessRules.boostResults' | translate}}</span>
+                                            <span class="result-slider-title" *ngIf="outcomeObj.outcomeType === 'lower'">{{'businessRules.lowerResults' | translate}}</span>
+                                            <span class="slider-count">{{outcomeObj.scale}}X</span>
+                                        </div>
+                                    </ng-container>
+                                   
+                                </div>
+                            </div>
+                            <div class="row m-0 response-content-sec">
+                                <div class="col-2 p-0 title">
+                                    Response
+                                </div>
+                                <div class="tags row m-0 col-10">
+                                    <div class="chip-sys-data">                      
+                                    <mat-form-field  class="example-chip-list" [floatLabel]="'never'">
+                                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                                        <ng-container>
+                                        <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                           
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{outcomeObj.fieldName?outcomeObj.fieldName:'Choose field'}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li class="search-box">
+                                                                <input type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input" >
+                                                            </li>  
+                                                            <li ngbDropdownItem *ngFor = "let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion,outcomeObj)">{{suggestion.fieldName}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>  
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container>
+                                            <mat-chip  [selectable]="selectable" class="dropdownDiv" [ngClass]="{'activeDrop': currentEditInex === index}">                                           
+                                                <div class="kr-sg-dropdowns d-inline-block w-auto" ngbDropdown (click)='currentEditInex = index'>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{('businessRules.' + outcomeObj.outcomeOperator) | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                                            <li ngbDropdownItem *ngFor="let operator of conditions" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{('businessRules.' + operator) | translate}}</li>
+                                                        </ul>
+                                                    </div>                                            
+                                                </div>  
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <ng-container *ngFor="let value of outcomeObj.outcomeValue; let index = index">
+                                            <mat-chip   [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue,tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
+                                                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                                            </mat-chip> 
+                                        </ng-container>
+                                        <input [placeholder]="outcomeObj.fieldName?'Type and Press Enter':'Type and select field'"
+                                                [matChipInputFor]="chipList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="addOutcome($event,outcomeObj,i)"  #suggestedInput>
+                                        </mat-chip-list>
+                                        <!-- <mat-autocomplete #suggestedItems="matAutocomplete" (optionSelected)="selectedTag($event,outcomeObj)" >
+                                            <ng-container *ngFor = "let suggestion of fieldAutoSuggestion">
+                                            <mat-option [value]="suggestion">
+                                                {{suggestion.fieldName}}
+                                            </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete> -->
+                                    </mat-form-field>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                        <div class="delete-rule" (click)='removeOutcome(index)'>
+                            <img src="assets/icons/modal-close.svg">
+                        </div>
+                    </div>                    
+                 </ng-container>
+            </div>                  
+        </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="updateRule(addEditRuleObj)">Proceed</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Back</button>
+  </div>
+</kr-modal> 

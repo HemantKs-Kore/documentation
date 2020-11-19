@@ -106,12 +106,26 @@ export class AppsListingComponent implements OnInit {
         self.workflowService.showAppCreationHeader(true);
         self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();
+        const toogleObj = {
+          title: '',
+        };
+         this.headerService.toggle(toogleObj);
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
+        this.callStream();
       },
       errRes => {
         this.errorToaster(errRes,'Error in creating app');
         self.creatingInProgress = false;
+      }
+    );
+  }
+  callStream(){
+    this.service.invoke('get.credential').subscribe(
+      res => {
+      },
+      errRes => {
+        this.errorToaster(errRes,'Error in creating app');
       }
     );
   }

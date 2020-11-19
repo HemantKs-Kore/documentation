@@ -1,5 +1,8 @@
 <router-outlet></router-outlet>
-<div [hidden]="true">
-    <app-insights [data] = "'insights'"></app-insights>
-    <app-add-result></app-add-result>
+<div *ngIf="!bridgeData" [ngClass]="{'sdkInsideApp': showInsightFull}">
+     <!-- <div *ngIf="true" class="sdkInsideApp"> -->
+    <app-insights  [data] = "bridgeData" [query]="query" [showInsightFull] = "showInsightFull"></app-insights>
 </div> 
+<div [hidden]="addNewResult">
+    <app-add-result [addNew] = "addNewResult" (closeResult) = closeResult($event)></app-add-result>
+</div>

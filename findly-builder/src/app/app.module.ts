@@ -71,6 +71,7 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { AnnotoolModule } from './components/annotool/annotool.module';
 import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
+import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
@@ -80,6 +81,11 @@ import { AddResultComponent } from './components/add-result/add-result.component
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
 import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
+import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
+import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
+import { SettingsComponent } from './components/settings/settings.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -90,6 +96,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppBodyComponent,
     AppMenuComponent,
     FilterPipe,
+    SortPipe,
     DateFormatPipe,
     AppsListingComponent,
     ScrollSpyDirective,
@@ -133,7 +140,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FieldsFilterPipe,
     TraitsFilterPipe,
     MetricsComponent,
-    BusinessRulesComponent
+    BusinessRulesComponent,
+    DashboardComponent,
+    UserEngagementComponent,
+    SearchInsightsComponent,
+    ResultInsightsComponent,
+    SettingsComponent
     ],
   imports: [
     BrowserModule,
@@ -181,6 +193,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useClass: AuthInterceptor,
       multi: true,
     },
+    SortPipe,
     AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML, MatDatepickerModule
   ],
   bootstrap: [AppComponent]

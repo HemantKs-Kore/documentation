@@ -4408,7 +4408,6 @@
                 addWidgetEvents:addWidgetEvents,
                 setWidgetInstance:setWidgetInstance
             };
-
             //Actual chatwindow.js koreBotChat function code end here
         })(koreJquery);
     }

@@ -85,7 +85,7 @@
         
             <section class="table-content mt-0">
                 <div class="seach_add_feild">
-                    <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                    <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">                               
                         <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachTraits">           
                       </div> 
                       <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
@@ -105,19 +105,19 @@
                 </header>
                 <perfect-scrollbar class="trailts">
                     <div class="content-body" *ngFor="let traitGroup of  traits.traitGroups | traitsFilter:serachTraits; let index = index">
-                        <div class="col_ col-2">{{traitGroup.groupName || '---'}}</div>
+                        <div class="col_ col-2" title="{{traitGroup.groupName || '---'}}">{{traitGroup.groupName || '---'}}</div>
                         <div class="col_ col-9" >
                             <span *ngFor="let trait of traitGroup.traits" class="utteranceTag">
                                 <div class="kr-sg-tags small grey"><span class="tag-name">{{trait.traitName || '---'}}</span></div>
                             </span>
                         </div>
-                        <div class="col_ col-1 text-right">
-                            <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'"
+                          <div class="col_ col-1 text-right">
+                            <div class="kr-sg-dropdowns" #traitEdit="ngbDropdown" ngbDropdown [container]="'body'"
                                 [placement]="'bottom-right'">
                                 <div class="dropdown dropdown-open">
                                 <img class="cursor-pointer" ngbDropdownToggle src="assets/icons/elipse.svg">
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                     <li (click)="editTraitFroup(traitGroup)" ><span class="list-name">Edit</span></li>
+                                     <li (click)="traitEdit.close();editTraitFroup(traitGroup)" ><span class="list-name">Edit</span></li>
                                      <li (click)="deleteTraitsGroup(index,traitGroup,$event)"><span class="list-name">Delete</span></li>
                                 </ul>
                                 </div> 
@@ -184,7 +184,7 @@
                             Add utterances or phrases
                         </div>
                         <div class="kr-sg-input-text">
-                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Create trait" class="input-text"
+                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Add utterance" class="input-text"
                             (keyup)='addUtterance(item.utterance,item.key,$event,traits.addEditTraits,index)' [(ngModel)]='item.utterance'
                             name='traitName'>
                         </div>
@@ -205,6 +205,7 @@
     </perfect-scrollbar>
 
     <div class="modal-footer">
-        <button class="kr-sg-button-primary" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-primary btn_lg" [disabled]="!traits.addEditTraits.groupName" (click)="saveTraits(traits.addEditTraits)">Save</button>
+        <button class="kr-sg-button-secondary btn_lg"  (click)="closeStatusModal()">Cancel</button>
     </div>
 </kr-modal>

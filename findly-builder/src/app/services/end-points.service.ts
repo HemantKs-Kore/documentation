@@ -467,7 +467,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.rankingActionLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/logs?limit=20&skip=0',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/logs?subject=rankingAndPinning&queryPipelineId=:queryPipelineId&rankingAndPinning=:rankingAndPinningId&limit=20&skip=0',
       method: 'get'
     }
     this.serviceList['get.customisationLogs'] = {
@@ -480,7 +480,79 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/Analysis?offset=:offset&limit=:limit',
       method: 'post'
     }
+    this.serviceList['get.userChart'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/metrics/analysis',
+      method: 'post'
+    }
 
     /** get API for Metrics */
+
+     /** APIs for Business rules */
+     this.serviceList['get.businessRules'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp?offset=:offset&limit=:limit',
+      method: 'get'
+    },
+    this.serviceList['create.businessRules'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp',
+      method: 'post'
+    },
+    this.serviceList['get.businessRuleById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      method: 'get'
+    }
+    this.serviceList['update.businessRule'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      method: 'put'
+    }
+    this.serviceList['delete.businessRule'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      method: 'delete'
+    }
+    this.serviceList['delete.businessRulesBulk'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/bulk',
+      method: 'delete'
+    }
+    this.serviceList['get.businessRulesLog'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/logs?subject=rules',
+      method: 'get'
+    }
+    /** APIs for Business rules */
+
+    /** APIs for Channels */
+    this.serviceList['get.marketStream'] = {
+      endpoint: this.API_SERVER_URL + '/market/streams',
+      method: 'get'
+    }
+    this.serviceList['get.credential'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps',
+      method: 'get'
+    }
+    this.serviceList['create.createCredential'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps',
+      method: 'post'
+    }
+    this.serviceList['configure.credential'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/channels/rtm',
+      method: 'post'
+    }
+    this.serviceList['get.dialog'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dialogs',
+      method: 'get'
+    }
+    this.serviceList['standard.publish'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/standardpublish',
+      method: 'post'
+    }
+    this.serviceList['universal.publish'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/universalbot/publish?',
+      method: 'post'
+    }
+    this.serviceList['get.linkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    }
+   
+  /** APIs for Channels */
+     
   }
 }

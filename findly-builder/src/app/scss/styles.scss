@@ -38,6 +38,12 @@ html{
         .headerDropDown{
             margin-top: 10px !important;
         }
+        // .dropdown{
+        //     z-index: 99999 !important;
+        // }
+        // .dropup{
+        //     z-index: 99999 !important;
+        // }
         .mat-form-field{
             &.mat-focused{ 
                 .mat-form-field-label{
@@ -472,7 +478,7 @@ div.divBlockEmptylastChild:first-child {
     overflow: auto;
     li{
         font-size: 13px;
-        color: #202124;
+        color: #202124 !important;
         padding: 8px 20px;
         cursor: pointer;
         position: relative;
@@ -1162,7 +1168,7 @@ div.divBlockEmptylastChild:first-child {
                         }
                         .mat-chip{
                             border-radius: 4px;
-                            background-color: #e5e8ec;
+                            background-color: #EFF0F1;
                             padding: 0px 9px;
                             margin: 3px 0px 3px 3px;
                             min-height: 26px;
@@ -1377,7 +1383,10 @@ div.divBlockEmptylastChild:first-child {
 .cursor-pointer{
     cursor: pointer !important;
 }
-
+/* Aligining the serach bubble to little right in business app*/
+.start-search-icon-div{
+    right: 15px !important;
+}
 .metrics_tooltips{
     margin-left: 12px;
     .arrow{

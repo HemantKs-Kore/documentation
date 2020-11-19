@@ -408,14 +408,15 @@
 
 <kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
     <div class="modal-header modal-table-actions">               
-        <div class="table-action-header row m-0"> 
-            <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div> 
+        <div class="table-action-header row m-0 justify-content-end"> 
+               
             <div class="d-flex align-items-center">
                 <div class="kr-sg-input-search">                               
                     <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources" autocomplete="off">
                     <img *ngIf="!searchSources" src="assets/images/search_gray.svg" class="search-icon">
                     <img *ngIf="searchSources" src="assets/images/close.svg" class="search-icon close-modal">                
-                </div>                         
+                </div>           
+                              
                   <div class="kr-sg-dropdowns d-none">            
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add FAQs</button>                                            
@@ -427,9 +428,14 @@
                   </div>
                   <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
                   <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
+                 <div class="close-modal ml-2 pl-1">
+                  <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
+                </div>
             </div>
         </div> 
+     
     </div>
+   
     <div *ngIf="!(resources && resources.length)" class="empty-source-modal">
         <div class="empty-sources">
             <img src="assets/images/icons/empty_ill.svg">
@@ -452,7 +458,7 @@
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
-                        <div class="col">{{source.title || source.name}}</div>
+                        <div class="col" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
                         <div class="col">{{source.source | titlecase}}</div>
                         <div class="col">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
@@ -483,34 +489,36 @@
             </div>
         </ng-container>
         <ng-container  *ngIf="currentView === 'grid'">
-            <div class="list-view-data">
-                <div class="row row_list">
-                    <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
-                    (click)="openStatusSlider(source)">
-                    <div class="box">
-                      <div class="title">{{source.title || source.name}}</div>
-                      <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.source] | titlecase}}</div>
-                      <div class="status-data">
-                        <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
-                        <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                          <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
-                          <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
-                            *ngIf="statusObj[source.recentStatus].name == 'In Progress'"  placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
-                          <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>
+            <perfect-scrollbar class="faqScurceListScroll">
+                <div class="list-view-data">
+                    <div class="row row_list">
+                        <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                        (click)="openStatusSlider(source)">
+                        <div class="box">
+                          <div class="title">{{source.title || source.name}}</div>
+                          <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.source] | titlecase}}</div>
+                          <div class="status-data">
+                            <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
+                            <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                              <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}">
+                              <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
+                                *ngIf="statusObj[source.recentStatus].name == 'In Progress'"  placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                              <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">{{statusObj[source.recentStatus].name}}</div>
+                            </div>
+                            <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
+                            <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
+                              {{source.createdOn | dateFormatPipe}}
+                            </div>
+                          </div>
+                            <div class="actions-delete">                           
+                                <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
+                                <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='Delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
+                            </div>
                         </div>
-                        <div *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</div>
-                        <div class="created-date" *ngIf="statusObj[source.recentStatus].name == 'Success'">
-                          {{source.createdOn | dateFormatPipe}}
-                        </div>
-                      </div>
-                        <div class="actions-delete">                           
-                            <span class="actions-links d-none"><img class="action_icon" src="assets/icons/sidemenu/table-refresh.svg"></span>
-                            <span class="actions-links" (click)="deleteSource(source,$event)"  ngbTooltip='Delete'><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
-                        </div>
+                      </div>          
                     </div>
-                  </div>          
-                </div>
-            </div> 
+                </div> 
+            </perfect-scrollbar>            
         </ng-container>
     </div>
 </kr-modal>
