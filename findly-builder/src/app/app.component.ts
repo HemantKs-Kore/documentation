@@ -6,6 +6,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
+
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -67,7 +68,8 @@ export class AppComponent implements OnInit , OnDestroy {
   }
    restorepreviousState(){
     let route = '/apps';
-    if(this.previousState && this.previousState.selectedApp){
+    const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
+    if(this.previousState && this.previousState.selectedApp && this.previousState.selectedAccountId && this.previousState.selectedAccountId === selectedAccount.accountId ){
       const apps = this.appsData;
       if(apps && apps.length){
         const selectedApp = _.filter(apps,(app) => {
@@ -102,9 +104,11 @@ export class AppComponent implements OnInit , OnDestroy {
        route:''
      };
      if(route){
+       const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
        if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
          this.resetFindlySearchSDK(this.workflowService.selectedApp());
          path.selectedApp = this.workflowService.selectedApp()._id;
+         path.selectedAccountId = selectedAccount.accountId || null;
          path.route = route
          window.localStorage.setItem('krPreviousState',JSON.stringify(path));
        }
