@@ -4844,7 +4844,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // }
       // var _bodyContainer = $(me.config.chatContainer).find('.kore-chat-body');
       // var _footerContainer = $(me.config.chatContainer).find('.kore-chat-footer');
-      
+
       $('#search').val('');
       $('#suggestion').val('');
 
@@ -4895,7 +4895,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       messageToBot["resourceid"] = '/bot.message';
 
       messageToBot["maxNumOfResults"] = 16;
-      
+
       if (renderMsg && typeof renderMsg === 'string') {
         messageToBot["message"].renderMsg = renderMsg;
       }
