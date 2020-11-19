@@ -69,7 +69,7 @@ export class AppComponent implements OnInit , OnDestroy {
    restorepreviousState(){
     let route = '/apps';
     const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
-    if(this.previousState && this.previousState.selectedApp && this.previousState.selectedAccountId && this.previousState.selectedAccountId === selectedAccount.accountId ){
+    if(this.previousState && this.previousState.selectedApp && this.previousState.selectedAccountId && (this.previousState.selectedAccountId === selectedAccount.accountId) ){
       const apps = this.appsData;
       if(apps && apps.length){
         const selectedApp = _.filter(apps,(app) => {
@@ -84,7 +84,11 @@ export class AppComponent implements OnInit , OnDestroy {
           route = this.previousState.route
          }
          try {
-          this.router.navigate([route], { skipLocationChange: true });
+          //  if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
+          //   this.router.navigate([route], { skipLocationChange: true });
+          //  } else {
+          //   this.router.navigate(['/apps'], { skipLocationChange: true });
+          //  }
           $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
