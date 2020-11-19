@@ -86,8 +86,6 @@ export class AppComponent implements OnInit , OnDestroy {
          try {
            if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
             this.router.navigate([route], { skipLocationChange: true });
-           } else {
-            this.router.navigate(['/apps'], { skipLocationChange: true });
            }
           $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
@@ -100,7 +98,9 @@ export class AppComponent implements OnInit , OnDestroy {
 
         }
       }
-    }
+    } else {
+      this.router.navigate(['/apps'], { skipLocationChange: true });
+     }
    }
    setPreviousState(route?){
      const path: any = {
