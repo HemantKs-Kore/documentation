@@ -124,8 +124,10 @@ export class DashboardComponent implements OnInit {
       filters: {
         from: from.toJSON(),
         to: today.toJSON()
-      }
+      },
+      group: this.group 
     }
+    
     if(type == "QueriesWithNoClicks"){
       payload.sort = {
         order: "desc", 
@@ -314,10 +316,21 @@ export class DashboardComponent implements OnInit {
 // var valueList2 = data.map(function (item) {
 //   return item[3];
 // });
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var totaldata = [];
 this.totalSearchSum = 0;
 for(var i = 0 ; i< this.searchHistogram.length; i++){
-  totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+  if(this.dateType == 'hour'){
+    totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+  }else if(this.dateType == 'week' || this.dateType == 'custom'){
+    let date = new Date(this.searchHistogram[i].date);
+    // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+    totaldata.push([date.getDate() + " " +monthNames[date.getMonth()],this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+  }
+  // else if(this.dateType == 'custom'){
+  //   let date = new Date(this.searchHistogram[i].date);
+  //   totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+  // }
   this.totalSearchSum = this.totalSearchSum + this.searchHistogram[i].totalSearches;
   this.searchesWithResultsSum = this.searchesWithResultsSum + this.searchHistogram[i].searchesWithResults;
   this.searchesWithClicksSum = this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks
