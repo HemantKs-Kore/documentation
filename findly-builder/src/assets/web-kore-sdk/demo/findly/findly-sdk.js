@@ -3828,6 +3828,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+          console.log('frequently searched results message event observed');
+          console.log(res);
         _self.handleSearchRes(res);
       });
     }
@@ -4806,6 +4808,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // else {
           //     me.renderMessage(tempData);
           // }
+          console.log('on bot message event observed');
+          console.log(tempData.message[0].component.payload);
           _self.handleSearchRes(tempData.message[0].component.payload);
         }
         else if (tempData.from === "self" && tempData.type === "user_message") {
