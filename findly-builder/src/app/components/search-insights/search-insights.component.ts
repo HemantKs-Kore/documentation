@@ -27,14 +27,14 @@ export class SearchInsightsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getQueries("TopQuriesWithNoResults");
+    this.getQueries("QueriesWithNoResults");
     this.getQueries("QueriesWithResults");
     //this.getQueries("GetSearchQueriesResults");
     
   }
   dateLimt(type){
     this.dateType = type;
-    this.getQueries("TopQuriesWithNoResults");
+    this.getQueries("QueriesWithNoResults");
     this.getQueries("QueriesWithResults");
   }
   getQueries(type){
