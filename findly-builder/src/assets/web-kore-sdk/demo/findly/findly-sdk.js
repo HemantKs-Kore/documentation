@@ -348,26 +348,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       };
       _self.API.uuid = uuid.v4();
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
-      if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
-        $.ajax({
-          url: botIntigrationUrl,
-          type: 'GET',
-          dataType: 'json',
-          headers: {
-            "Authorization": 'bearer ' + window.findlyAccessToken,
-            "AccountId": window.findlyAccountId,
-            "Content-Type": "application/json"
-          },
-          data: {},
-          success: function (data) {
-            _self.API.streamId = data.findlyLinkedBotId;
-            _self.API.jstBarrer = data.app.jwt;
-          },
-          error: function (err) {
-            console.log(err)
-          }
-        })
-      }
+      // if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
+      //   $.ajax({
+      //     url: botIntigrationUrl,
+      //     type: 'GET',
+      //     dataType: 'json',
+      //     headers: {
+      //       "Authorization": 'bearer ' + window.findlyAccessToken,
+      //       "AccountId": window.findlyAccountId,
+      //       "Content-Type": "application/json"
+      //     },
+      //     data: {},
+      //     success: function (data) {
+      //       _self.API.streamId = data.findlyLinkedBotId;
+      //       _self.API.jstBarrer = data.app.jwt;
+      //     },
+      //     error: function (err) {
+      //       console.log(err)
+      //     }
+      //   })
+      // }
     };
 
     FindlySDK.prototype.maintainCache = function () {
