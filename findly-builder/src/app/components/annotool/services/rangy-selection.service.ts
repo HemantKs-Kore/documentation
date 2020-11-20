@@ -9,6 +9,7 @@ declare var rangy;
 export class RangySelectionService implements OnInit, OnDestroy {
 
   private removalTextLoader = new Subject<boolean>();
+  private polling = new Subject<boolean>();
   constructor() {
     // console.log(rangy);
     rangy.init();
@@ -165,6 +166,13 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   setRmvLoader(flag) {
     this.removalTextLoader.next(flag);
+  }
+  // Call poling service to check status api
+  getPolling() {
+    return this.polling.asObservable();
+  }
+  setPolling(flag) {
+    this.polling.next(flag);
   }
   // Single Deserialization
   singleDeserialization(serializeRange) {
