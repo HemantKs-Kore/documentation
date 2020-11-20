@@ -308,7 +308,10 @@ export class AppComponent implements OnInit , OnDestroy {
   }
   closeResultBody(event){
     const bridgeObj = { type : 'addNew' , data : false , query : null}
-    this.sdkBridge(bridgeObj)
+    this.sdkBridge(bridgeObj);
+    if(this.searchInstance && this.searchInstance.applicationToSDK && event){
+      this.searchInstance.applicationToSDK(event);
+    }
   }
   initSearchSDK(){
     const _self = this;

@@ -62,6 +62,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         this.config.findlyBusinessConfig.sdkBridge(event);
       }
     }
+    FindlySDK.prototype.applicationToSDK = function (event) {
+     var _self = this;
+      if(event){
+      $('#loaderDIV').show()
+      facetActive = $('.facetActive').attr('id');
+      _self.searchByFacetFilters(_self.vars.filterObject);
+      //_self.searchByFacetFilters(facetActive)
+      //_self.prepAllSearchData(facetActive);
+      //$('#loaderDIV').hide()
+     }
+      //console.log(event)
+    }
     /*FindlySDK.prototype.assignCallbacksToParent = function () {
       this.config.findlyBusinessConfig.initVariables = this.initVariables();
     }*/
