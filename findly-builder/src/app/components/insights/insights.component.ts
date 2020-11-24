@@ -82,12 +82,12 @@ lineStyle: {
     //this.query = "Open bank account"
     let date = new Date();
     let _month_old_date =new Date(Date.now() - (30 * 864e5));
-    let startDate = date.getFullYear()+ "-" +date.getMonth()+ "-"+ date.getDate();
-    let endDate = _month_old_date.getFullYear()+ "-" +_month_old_date.getMonth()+ "-"+ _month_old_date.getDate();
+    let startDate = date.getFullYear()+ "-" +(date.getMonth()+1)+ "-"+ date.getDate();
+    let endDate = _month_old_date.getFullYear()+ "-" +(_month_old_date.getMonth()+1)+ "-"+ _month_old_date.getDate();
     const quaryparms: any={
       searchIndexId: this.serachIndexId,
-      startDate : "2020-10-10",//startDate,
-      endDate : "2020-11-10"//endDate,
+      startDate : startDate, //"2020-10-10",
+      endDate : endDate, //"2020-11-10"//endDate,
     }
     var payload = {
       "searchQuery": this.query

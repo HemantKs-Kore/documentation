@@ -182,6 +182,14 @@
                             visibility: visible;
                         }
                     }
+                    .ml-2{
+                        margin-left: 2%;
+                    }
+                    .sch-createdOn{
+                        color: #9AA0A6;
+                        font-weight: normal;
+                        font-size: 12px;
+                    }
                 }
             }                     
         }
@@ -524,12 +532,14 @@
                     border-radius: 4px;
                     color: #FFFFFF;
                     font-size: 14px;
+                    float : right;
                 }
                 .kr-sg-button-secondary{
                     background: #FFFFFF;
                     border: 1px solid #BDC1C6;                 
                     border-radius: 4px;
                     color: #202124;
+                    float : right;
                 }
                 .kr-sg-button-secondary-two{
                     background: #DD3646;
