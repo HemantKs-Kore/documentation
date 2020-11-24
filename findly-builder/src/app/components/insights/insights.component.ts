@@ -296,7 +296,7 @@ lineStyle: {
     this.filterArray.push(element.status)
   });
   this.filterArray = new Set(this.filterArray);
-  console.log(this.data)
+  //console.log(this.data)
   }
   filterRecord(type){
     this.actionLogData = [...this.actionLogDatBack];
