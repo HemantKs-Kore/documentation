@@ -60,7 +60,7 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col_ col-4" (click)="sortBy('name')">
+          <div class="col_ col-3" (click)="sortBy('name')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"> -->
@@ -96,7 +96,7 @@
             </div>
           </div>
           <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('recentStatus')"><span
+          <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('recentStatus')"><span
               class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
             <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('recentStatus', 'up')"
@@ -123,25 +123,25 @@
               </div>
             </div>
           </div>
-          <div class="col_ col-3" (click)="sortBy('createdOn')">
+          <div class="col_ col-2" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
               class="ml-1 sortImg"> -->
             <img [ngClass]="getSortIconVisibility('createdOn', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('createdOn', 'up')"
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-              CRAWLED
+              TRIGGERED BY
           </div>
         </header>
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
-              <div class="col_ col-4" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+              <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
               <div class="col_ col-2">
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
-              <div class="col_ col-2">
+              <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
-                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}}<img
+                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}} <img
                     src="assets/icons/failed-status.svg" class="ml-2" placement="top"
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}"
                     container="body" *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img
@@ -149,8 +149,20 @@
                     *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
+                <span class="sch-createdOn ml-2">({{ source.schedule_createdOn }})</span>
+                <span class ="ml-2" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                  <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
+                  <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
+                  {{source.schedule_duration}}</span>
               </div>
-              <div class="col_ col-3">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div>
+              <div class="col_ col-2" *ngIf="source.advanceSettings">
+                <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.userDetails.fullName}}</span>
+                <span *ngIf="source.advanceSettings.scheduleOpt" >Scheduled</span>
+              </div>
+              <div class="col_ col-2" *ngIf="!source.advanceSettings">
+                <span  >{{source.userDetails.fullName}}</span>
+              </div>
+              <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
                 <span class="actions-links" *ngIf="source.extractionType == 'webdomain'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
@@ -266,7 +278,7 @@
               <span class="tabname" (click)="swapSlider('execution')">Execution</span>
             </div>
             <div class="right-side">
-              <div class="kr-sg-input-search" *ngIf="!isConfig">
+              <div class="kr-sg-input-search" *ngIf="page">
                 <input type="text" placeholder="Search" class="input-search" [(ngModel)]="pagesSearch"
                   autocomplete="off" >
                 <img src="assets/images/search-input.svg" class="search-icon">
