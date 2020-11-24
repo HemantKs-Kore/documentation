@@ -6,8 +6,8 @@
     <div class="header_sec">
         <div class="title">Index Configuration</div>
         <div class="btn_sec">            
-            <button class="kr-sg-button-secondary btn_lg"  (click)="saveConfig()">Save Configuration</button>
-            <button class="kr-sg-button-primary btn_lg" (click)="reindex()">Re-Index</button>
+            <button class="kr-sg-button-secondary btn_lg" [disabled]='savingConfig'  (click)="saveConfig()">{{(savingConfig)?'Saving...':'Save Configuration'}}</button>
+            <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button>
         </div>
     </div>
     <div class="split_section_stage_table" *ngIf="!loadingContent">
@@ -79,7 +79,7 @@
                         </div> 
                     </perfect-scrollbar>  
                     <div class="footer-simulate simulatebtnContainer">
-                        <span class="mr-5"> <button class="kr-sg-button-primary btn_lg" id="simulateBtn" (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1" ngbTooltip="Test the field transformations before saving the configuration">Simulate</button><span class="ml- d-none"><img src="assets/icons/help.svg"></span></span>
+                        <span class="mr-5"> <button class="kr-sg-button-primary btn_lg" id="simulateBtn" [disabled]='simulteObj.simulating' (click)="simulate()"><img src="assets/images/simulate.svg"  class="mr-1" ngbTooltip="Test the field transformations before saving the configuration">{{(simulteObj.simulating)?'Simulating..':'Simulate'}}</button><span class="ml- d-none"><img src="assets/icons/help.svg"></span></span>
                     </div>         
                 </div>
                
@@ -372,7 +372,7 @@
                 </div>
             </perfect-scrollbar>    
             <div class="footer-simulate-form simulatebtnContainer">
-                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg" id="simulateBtn" (click)="simulate()" tooltipClass="metrics_tooltips m-0" ngbTooltip="Test the field transformations before saving the configuration" [container]='"body"'><img src="assets/images/simulate.svg" class="mr-1" >Simulate</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
+                <span class="float-right mr-5"><button class="kr-sg-button-primary btn_lg" id="simulateBtn" (click)="simulate()" tooltipClass="metrics_tooltips m-0" [disabled]='simulteObj.simulating' ngbTooltip="Test the field transformations before saving the configuration"><img src="assets/images/simulate.svg" class="mr-1" >{{(simulteObj.simulating)?'Simulating..':'Simulate'}}</button> <span class="ml-1 d-none"><img src="assets/icons/help.svg"></span></span>
                 <button class="kr-sg-button-secondary btn_lg float-right" id="cancleUnsavedChanges" [disabled]="!changesDetected" (click)="clearDirtyObj(true)">Cancel</button>
             </div> 
         </div>          

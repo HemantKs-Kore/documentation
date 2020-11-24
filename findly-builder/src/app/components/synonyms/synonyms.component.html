@@ -18,7 +18,7 @@
           <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img
               *ngIf="showSearch" src="assets/images/close.svg">Search
           </div>
-          <div class="add_feild"  (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
+          <div class="add_feild" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
           </div>
           <div class="clock"> <img src="assets/icons/clock.svg"></div>
 
@@ -98,7 +98,7 @@
       </div>
       <div class="kr-sg-data-table" *ngIf="(synonymData && synonymData.length) && !loadingContent">
         <section class="table-content">
-          <header class="table-header">
+          <!-- <header class="table-header">
             <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}
             </div>
             <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.type'| translate}}
@@ -112,6 +112,26 @@
                         class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg">
                     </li>
                     <li (click)="selectFilter('synonym')">{{'synonyms.synonym'| translate}}<img class="pl-2"
+                        *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>
+                  </ul>
+                </div>
+              </span>
+            </div>
+          </header> -->
+          <header class="table-header">
+            <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}
+            </div>
+            <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.type'| translate}}
+              <span class="kr-sg-dropdowns" #t='ngbDropdown' ngbDropdown [placement]="'bottom-center'">
+                <div class="dropdown dropdown-open">
+                  <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>
+                  <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
+                    <li (click)="selectFilter(null);t.close();">{{'synonyms.All' | translate}}<img
+                        *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
+                    <li (click)="selectFilter('oneWaySynonym');t.close();">
+                      {{'synonyms.one_way_synonym' | translate}}<img class="pl-2"
+                        *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
+                    <li (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>
                   </ul>
                 </div>

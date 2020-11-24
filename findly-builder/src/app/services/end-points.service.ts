@@ -44,6 +44,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
       method: 'post'
     };
+    this.serviceList['jwt.grunt.generate'] = {
+      endpoint: this.API_SERVER_URL,
+      method: 'post'
+    };
+    this.serviceList['bt.post.sts'] = {
+      endpoint: this.API_SERVER_URL + '/users/sts',
+      method: 'post'
+    };
     this.serviceList['get.apps'] = {
       endpoint: this.API_SERVER_URL + '/findly/apps',
       method: 'get'
@@ -132,11 +140,11 @@ export class EndPointsService {
       method:'get'
     };
     this.serviceList['get.allFaqsByResources']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&resourceId=:resourceId&serach=:searchQuary',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&extractionSourceId=:resourceId&serach=:searchQuary',
       method:'get'
     };
     this.serviceList['get.faqsByResourcesState']={
-      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&resourceId=:resourceId',
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSourceId=:resourceId',
       method:'get'
     };
     this.serviceList['addRemove.faqs']={
@@ -164,7 +172,7 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.faqStaticsByResourceFilter'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?resourceId=:resourceId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?extractionSourceId=:resourceId',
       method: 'get'
     };
     this.serviceList['get.fags'] = {
@@ -459,12 +467,12 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.QueryLevelAnalytics'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/analytics',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/search/analytics?startDate=:startDate&endDate=:endDate',
       method: 'post'
     }
     this.serviceList['update.rankingPinning'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
-      method: 'put'
+      method: 'post'
     }
     this.serviceList['recrwal'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/recrawl',
@@ -484,7 +492,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.rankingActionLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/logs?subject=rankingAndPinning&queryPipelineId=:queryPipelineId&rankingAndPinning=:rankingAndPinningId&limit=20&skip=0',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/logs?subject=rankingAndPinning&queryPipelineId=:queryPipelineId&rankingAndPinningId=:rankingAndPinningId&limit=20&skip=0',
       method: 'get'
     }
     this.serviceList['get.customisationLogs'] = {
