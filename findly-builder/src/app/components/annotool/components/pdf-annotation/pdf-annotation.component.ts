@@ -602,7 +602,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.dialogData.annotation._id = res._id;
       this.dialogData.annotation.status = "Inprogress";
       this.dialogData.annotation.annotationType = true;
-      this.dialogRef.close();
+      this.closeModal();
+      this.rangeService.setPolling(true); // status progress
     }, (error: any) => {
       this.extractionLoader = false;
       if (error && error.error && error.error.errors && error.error.errors[0] && error.error.errors[0].msg) {
