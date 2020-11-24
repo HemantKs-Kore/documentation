@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit {
   queriesWithNoClicks : any;
   searchHistogram : any;
   mostClickedPositions : any = [];
+  feedbackStats: any;
   heatMapChartOption : EChartOption;
   feedbackPieSearches : EChartOption;
   feedbackPieResult : EChartOption;
@@ -70,7 +71,7 @@ export class DashboardComponent implements OnInit {
     
     //this.userEngagementChart();
     
-    this.feedback();
+    // this.feedback();
     //this.busyHours();
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
@@ -78,6 +79,8 @@ export class DashboardComponent implements OnInit {
     this.getQueries("SearchHistogram");
     this.getQueries("TopSearchResults");
     this.getQueries("MostClickedPositions");
+    this.getQueries("FeedbackStats");
+    
     
     
   }
@@ -98,6 +101,7 @@ export class DashboardComponent implements OnInit {
     this.getQueries("SearchHistogram");
     this.getQueries("TopSearchResults");
     this.getQueries("MostClickedPositions");
+    this.getQueries("FeedbackStats");
   }
   getQueries(type){
     var today = new Date();
@@ -177,6 +181,9 @@ export class DashboardComponent implements OnInit {
       }else if(type == "MostClickedPositions"){
         this.mostClickedPositions = res.result;
         this.mostClick();
+      }else if(type == "FeedbackStats"){
+        this.feedbackStats = res.result;
+        this.feedback();
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -544,6 +551,7 @@ export class DashboardComponent implements OnInit {
     
     }
     feedback(){
+     // this.feedbackStats
       var colorPaletteSearch = ['#28A745','#EAF6EC'];
       var colorPaletteResult = ['#FF784B','#FFF1ED'];
       this.feedbackPieSearches = {

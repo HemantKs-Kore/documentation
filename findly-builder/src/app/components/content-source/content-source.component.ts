@@ -161,7 +161,34 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
       this.resources = res;
-      this.filterResourcesBack = [...res];
+      this.resources.forEach(element => {
+        if(element.advanceSettings  && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time){
+          element['schedule_title'] = 'Runs '+ element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
+          element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
+          element.advanceSettings.scheduleOpts.time.timeOpt +' '+ element.advanceSettings.scheduleOpts.time.timezone;
+        }
+        if(element.createdOn){
+          element['schedule_createdOn'] = moment(element.createdOn).fromNow();
+        }
+        element['schedule_duration'] = "00:30:00";
+        let hr = element['schedule_duration'].split(":")[0];
+        let min = element['schedule_duration'].split(":")[1];
+        let sec = element['schedule_duration'].split(":")[2];
+        
+        
+        if(hr > 0 ){
+          if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+          if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+          if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
+        }else if(min > 0){
+          if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
+          if(sec <= 0) element['schedule_duration'] =  min + "m ";
+        }else if(sec > 0){
+          element['schedule_duration'] = sec + "s";
+        }
+        
+      });
+      this.filterResourcesBack = [...this.resources];
       // let noPage = 0;
       // res.forEach(element => {
       //   if(element.recentStatus =="success"){
@@ -278,11 +305,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
-      if(this.isConfig && $('.tabname') && $('.tabname').length){
-        $('.tabname')[1].classList.remove('active');
-        $('.tabname')[0].classList.add('active');
-      }
-      this.isConfig = false;
+      this.swapSlider('page')
+      // if(this.isConfig && $('.tabname') && $('.tabname').length){
+      //   $('.tabname')[1].classList.remove('active');
+      //   $('.tabname')[0].classList.add('active');
+      // }
+      // this.isConfig = false;
     }, errRes => {
       this.loadingSliderContent = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -781,6 +809,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     if (this.statusModalDocumentRef && this.statusModalDocumentRef.close){
     this.statusModalDocumentRef.close();
   }
+  
 }
 editPages(){
   this. editConfigEnable=true;
@@ -812,6 +841,7 @@ keyPress(event){
     this.statusModalPopRef = this.statusModalPop.open();
   }
   closeStatusModal() {
+    this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
