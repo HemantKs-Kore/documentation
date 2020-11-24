@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppUrlsService } from '@kore.services/app.urls.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
@@ -20,26 +20,28 @@ import { Input } from '@angular/core';
 export class AppHeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
-  showMainMenu : boolean = true;
+  showMainMenu: boolean = true;
   pagetitle: any;
   fromCallFlow = '';
   showSwichAccountOption = false;
   searchActive = false;
-  searchText:any;
-  search:any;
-  formatter:any;
+  searchText: any;
+  search: any;
+  formatter: any;
   appName = '';
+  menuFlag = false;
   @Output() showMenu = new EventEmitter();
+  @Output() settingMenu = new EventEmitter();
   availableRouts = [
-    {displayName:'Summary' , routeId:'/summary',quaryParms:{}},
-    {displayName:'Add Sources' , routeId:'/source',quaryParms:{}},
-    {displayName:'Crawl Web Domain' , routeId:'/source',quaryParms:{sourceType:'contentWeb'}},
-    {displayName:'Extract Document' , routeId:'/source',quaryParms:{sourceType:'contentDoc'}},
-    {displayName:'Add FAQs Manually' , routeId:'/source',quaryParms:{sourceType:'manual'}},
-    {displayName:'Extract FAQs from Document' , routeId:'/source',quaryParms:{sourceType:'faqDoc'}},
-    {displayName:'Extract FAQs from Webdomain' , routeId:'/source',quaryParms:{sourceType:'faqWeb'}},
-    {displayName:'FAQs' , routeId:'/faqs',quaryParms:{sourceType:'faqWeb'}},
-    {displayName:'Content' , routeId:'/content',quaryParms:{sourceType:'faqWeb'}},
+    { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
+    { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
+    { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
+    { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
+    { displayName: 'Add FAQs Manually', routeId: '/source', quaryParms: { sourceType: 'manual' } },
+    { displayName: 'Extract FAQs from Document', routeId: '/source', quaryParms: { sourceType: 'faqDoc' } },
+    { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
   ]
   constructor(
     private authService: AuthService,
@@ -52,49 +54,56 @@ export class AppHeaderComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService
   ) { }
-  metricsOption(menu){
+  metricsOption(menu) {
     this.analyticsClick(menu)
     this.router.navigate([menu], { skipLocationChange: true });
   }
-  analyticsClick(menu){
+  analyticsClick(menu) {
     this.mainMenu = menu;
-    if(menu == '/metrics' || 
-      menu == '/dashboard' || 
-      menu == '/userEngagement' || 
-      menu == '/searchInsights'  || 
+    if (menu == '/metrics' ||
+      menu == '/dashboard' ||
+      menu == '/userEngagement' ||
+      menu == '/searchInsights' ||
       menu == '/resultInsights') {
       this.showMainMenu = false;
       this.router.navigate([menu], { skipLocationChange: true });
-    }else{
+    } else {
       this.showMainMenu = true;
+      if (menu == '/settings') {
+        this.menuFlag = true;
+      }
+      else {
+        this.menuFlag = false;
+      }
       this.router.navigate([menu], { skipLocationChange: true });
     }
-    
+
     this.showMenu.emit(this.showMainMenu)
+    this.settingMenu.emit(this.menuFlag)
   }
   logoutClick() {
     this.authService.logout();
   }
-  toggleSearch(activate){
+  toggleSearch(activate) {
     this.searchActive = activate;
-    if(!activate){
-    this.searchText = '';
+    if (!activate) {
+      this.searchText = '';
     }
   }
-  triggerRoute(type,routObj?){
+  triggerRoute(type, routObj?) {
     const self = this;
-    let queryParams:any = {};
-    if(type){
-      setTimeout(()=>{
-        const slectedRoute = _.filter(this.availableRouts,{displayName:self.searchText.displayName})
-        if(slectedRoute && slectedRoute.length){
+    let queryParams: any = {};
+    if (type) {
+      setTimeout(() => {
+        const slectedRoute = _.filter(this.availableRouts, { displayName: self.searchText.displayName })
+        if (slectedRoute && slectedRoute.length) {
           queryParams = slectedRoute[0].quaryParms || {};
-          this.router.navigate([slectedRoute[0].routeId], { skipLocationChange: true,queryParams});
+          this.router.navigate([slectedRoute[0].routeId], { skipLocationChange: true, queryParams });
         }
-      },100)
-    } else if (routObj && routObj.routeId){
-       queryParams = routObj.quaryParms || {};
-      this.router.navigate([routObj.routeId], { skipLocationChange: true,queryParams});
+      }, 100)
+    } else if (routObj && routObj.routeId) {
+      queryParams = routObj.quaryParms || {};
+      this.router.navigate([routObj.routeId], { skipLocationChange: true, queryParams });
     }
   }
   ngOnInit() {
@@ -118,15 +127,15 @@ export class AppHeaderComponent implements OnInit {
 
     this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
     this.search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => term === '' ? []
-        : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
-    this.formatter = (x: {displayName: string}) => (x.displayName || '');
+      text$.pipe(
+        debounceTime(200),
+        map(term => term === '' ? []
+          : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      )
+    this.formatter = (x: { displayName: string }) => (x.displayName || '');
     this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
-    
-   
+
+
   }
 
   removeCallFlowExpand() {
@@ -140,16 +149,16 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
-  train(){
+  train() {
     const selectedApp = this.workflowService.selectedApp();
-    if(selectedApp &&  selectedApp.searchIndexes &&  selectedApp.searchIndexes.length){
+    if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
       const quaryparms = {
-        searchIndexId : selectedApp.searchIndexes[0]._id
+        searchIndexId: selectedApp.searchIndexes[0]._id
       }
       this.service.invoke('train.app', quaryparms).subscribe(res => {
-        this.notificationService.notify('Training has been initated','success');
+        this.notificationService.notify('Training has been initated', 'success');
       }, errRes => {
-        this.notificationService.notify('Failed to train the app','error');
+        this.notificationService.notify('Failed to train the app', 'error');
       });
     }
   }

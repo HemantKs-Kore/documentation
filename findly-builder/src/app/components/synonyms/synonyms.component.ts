@@ -20,6 +20,7 @@ declare const $: any;
 export class SynonymsComponent implements OnInit {
   selectedApp: any = {};
   synonymSearch;
+  showSearch;
   serachIndexId
   loadingContent = true;
   haveRecord = false;
@@ -264,6 +265,12 @@ export class SynonymsComponent implements OnInit {
       this.newSynonymObj.values.splice(index, 1);
     }
   }
+  toggleSearch() {
+    if (this.showSearch && this.synonymSearch) {
+      this.synonymSearch = '';
+    }
+    this.showSearch = !this.showSearch
+  };
 }
 class SynonymClass {
   name: String
