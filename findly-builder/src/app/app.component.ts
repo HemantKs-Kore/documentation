@@ -240,7 +240,7 @@ export class AppComponent implements OnInit , OnDestroy {
     // To modify the web socket url use the following option
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: environment.tag + '.findly.ai'
+        hostname: 'pilot.findly.ai'
     };
     const findlyConfig:any = {
       botOptionsFindly,
