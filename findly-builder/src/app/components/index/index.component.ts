@@ -744,7 +744,12 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       searchIndexID:this.serachIndexId,
     };
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
-     this.defaultStageTypes =  res.stages || [];
+    // removing Duplicate value - temporary
+    for (let index = 0; index <  res.stages.length; index++) {
+      if(index < 9)
+      this.defaultStageTypes.push(res.stages[index])
+      }
+    //this.defaultStageTypes =  res.stages || [];
      this.selectedStage = this.fieldStage;
      setTimeout(() => {
       $('#addToolTo').click();

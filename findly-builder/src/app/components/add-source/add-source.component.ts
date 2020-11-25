@@ -18,6 +18,8 @@ import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
+import { RangySelectionService } from '../annotool/services/rangy-selection.service';
+
 @Component({
   selector: 'app-add-source',
   templateUrl: './add-source.component.html',
@@ -156,7 +158,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private rangyService: RangySelectionService
   ) { }
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -196,7 +199,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }
     }
-
+    this.checkAnnotationPolling();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -456,10 +459,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType = this.selectedSourceType.resourceType;
     if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq') {
       quaryparms.faqType = 'document';
-      // payload.resourceType = 'document';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
-     this.faqAnotate(payload,endPoint,quaryparms)
+     this.faqAnotate(payload,endPoint,quaryparms);
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
@@ -643,11 +645,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   /* Annotation Modal */
   annotationModal() {
     if (this.newSourceObj && this.newSourceObj.name && this.fileObj.fileId) {
-      // console.log(this.newSourceObj);
       const payload = {
-        sourceTitle: this.newSourceObj.name || 'test',
-        sourceDesc: this.newSourceObj.desc || 'test desc',
-        fileId: this.fileObj.fileId || '5f6ad9b032d08f34c4f61b73'
+        sourceTitle: this.newSourceObj.name,
+        sourceDesc: this.newSourceObj.desc,
+        fileId: this.fileObj.fileId
       };
       const dialogRef = this.dialog.open(PdfAnnotationComponent, {
         data: { pdfResponse: payload, annotation: this.anntationObj },
@@ -655,13 +656,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         disableClose: true,
         autoFocus: true
       });
-      dialogRef.afterClosed().subscribe(res => {
-        console.log(this.anntationObj);
-        if (this.anntationObj && this.anntationObj.status === 'Inprogress') {
-          this.openStatusModal();
-          this.poling(this.anntationObj._id);
-        }
-      });
+      // dialogRef.afterClosed().subscribe(res => {
+      //   console.log(this.anntationObj);
+      //   if (this.anntationObj && this.anntationObj.status === 'Inprogress') {
+      //     this.openStatusModal();
+      //     this.poling(this.anntationObj._id);
+      //   }
+      // });
     }
   }
   annotateChange(event) {
@@ -670,6 +671,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.selectedSourceType.annotate = false;
     }
+  }
+  // Check poling from annoation tool
+  checkAnnotationPolling() {
+    this.rangyService.getPolling().subscribe(res => {
+      if(res) {
+        console.log(this.anntationObj);
+        this.openStatusModal();
+        this.poling(this.anntationObj._id);
+      }
+    });
   }
   cancelExtraction() {
     if (this.pollingSubscriber) {

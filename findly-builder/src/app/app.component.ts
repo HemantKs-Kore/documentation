@@ -6,6 +6,8 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
+import { environment } from '@kore.environment';
+
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -67,7 +69,8 @@ export class AppComponent implements OnInit , OnDestroy {
   }
    restorepreviousState(){
     let route = '/apps';
-    if(this.previousState && this.previousState.selectedApp){
+    const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
+    if(this.previousState && this.previousState.selectedApp && this.previousState.selectedAccountId && (this.previousState.selectedAccountId === selectedAccount.accountId) ){
       const apps = this.appsData;
       if(apps && apps.length){
         const selectedApp = _.filter(apps,(app) => {
@@ -82,7 +85,9 @@ export class AppComponent implements OnInit , OnDestroy {
           route = this.previousState.route
          }
          try {
-          this.router.navigate([route], { skipLocationChange: true });
+           if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
+            this.router.navigate([route], { skipLocationChange: true });
+           }
           $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
@@ -94,7 +99,9 @@ export class AppComponent implements OnInit , OnDestroy {
 
         }
       }
-    }
+    } else {
+      this.router.navigate(['/apps'], { skipLocationChange: true });
+     }
    }
    setPreviousState(route?){
      const path: any = {
@@ -102,9 +109,11 @@ export class AppComponent implements OnInit , OnDestroy {
        route:''
      };
      if(route){
+       const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
        if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
          this.resetFindlySearchSDK(this.workflowService.selectedApp());
          path.selectedApp = this.workflowService.selectedApp()._id;
+         path.selectedAccountId = selectedAccount.accountId || null;
          path.route = route
          window.localStorage.setItem('krPreviousState',JSON.stringify(path));
        }
@@ -231,7 +240,7 @@ export class AppComponent implements OnInit , OnDestroy {
     // To modify the web socket url use the following option
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: 'dev.findly.ai'
+        hostname: environment.tag + '.findly.ai'
     };
     const findlyConfig:any = {
       botOptionsFindly,
@@ -239,12 +248,12 @@ export class AppComponent implements OnInit , OnDestroy {
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
-
+    this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
   this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
   this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
-  showHideSearch(show){
+  showHideSearch(show,disabelInstanceDistroy?){
     const _self = this;
     if(show){
       $('app-body').append('<div class="search-background-div"></div>');
@@ -263,7 +272,6 @@ export class AppComponent implements OnInit , OnDestroy {
       _self.addNewResult = true;
       _self.showInsightFull = false;
       this.distroySearch();
-
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
@@ -300,21 +308,22 @@ export class AppComponent implements OnInit , OnDestroy {
   }
   closeResultBody(event){
     const bridgeObj = { type : 'addNew' , data : false , query : null}
-    this.sdkBridge(bridgeObj)
+    this.sdkBridge(bridgeObj);
+    if(this.searchInstance && this.searchInstance.applicationToSDK && event){
+      this.searchInstance.applicationToSDK(event);
+    }
   }
   initSearchSDK(){
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
-    setTimeout(()=>{
-      $('.start-search-icon-div').off('click').on('click',((event)=>{
+    setTimeout(() => {
+      $('.start-search-icon-div').click(()=>{
         if(!$('.search-background-div:visible').length){
           _self.showHideSearch(true);
-          console.log('SDK is opened');
         }else{
           _self.showHideSearch(false);
-          console.log('SDK is closed');
         }
-      }));
+      });
     },200);
       $('#advanceModeSdk').change(function(){
         if($(this).is(':checked')) {

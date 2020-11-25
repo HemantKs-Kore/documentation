@@ -269,6 +269,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.singleSelectedFaq = faq;
   }
   selectResourceFilter(source?){
+    this.loadingTab = true;
     if(source){
       if(this.selectedResource && (this.selectedResource._id === source._id)){
         this.selectedResource = null;
@@ -362,7 +363,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       searchIndexId: this.serachIndexId,
       type:'faq'
     };
-    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+    this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
       if (res && res.length) {
        res.forEach(element => {
         this.resourcesStatusObj[element.resourceId] = element;

@@ -6,27 +6,28 @@
             <div class="bread-name active-name">Dashboard</div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
-            <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                
+            <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time active">24 Hrs</span>
-                <span class="week time">7 Days</span>
-                <span class="custom time">Custom</span>
+                <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
+                <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
+                <span class="custom time" [ngClass] = "{'active'  : dateType == 'custom'}" (click)="dateLimt('custom')">Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
         </div>
     </div>
     <perfect-scrollbar class="scroll_content">        
         <div *ngIf="slider === 0" class="main-dashbord-metrics">
-            <div class="top-cards-section row m-0">
+            <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">
                 <div class="col cards-data">
                     <div class="content">
                         <div class="title-info">Total Users<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
-                                <div class="count">80</div>
+                                <div class="count">{{ totalUsersStats.totalUsers || 80}}</div>
                                 <div class="data-percentage">
-                                    <img src="assets/icons/arrow-increase.svg">
-                                    <span class="percentage">12%</span>
+                                    <img src="assets/icons/arrow-increase.svg" *ngIf="totalUsersStats.percentageIncrease >= 0">
+                                    <img src="assets/icons/arrow-decrease.svg" *ngIf="totalUsersStats.percentageIncrease < 0">
+                                    <span class="percentage">{{ totalUsersStats.percentageIncrease || 12}}%</span>
                                 </div>
                             </div>
                             <div class="right-sec">
@@ -40,10 +41,11 @@
                         <div class="title-info">Total Searches<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
-                                <div class="count">2945</div> <!-- {{totalSearchSum}} -->
+                                <div class="count">{{ totalSearchesStats.totalSearches || 2945}}</div> <!-- {{totalSearchSum}} -->
                                 <div class="data-percentage">
-                                    <img src="assets/icons/arrow-increase.svg">
-                                    <span class="percentage">8%</span>
+                                    <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.totalSearches >= 0">
+                                    <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.totalSearches < 0">
+                                    <span class="percentage">{{ totalSearchesStats.totalSearches || 8}}%</span>
                                 </div>
                             </div>
                             <div class="right-sec">
@@ -57,10 +59,11 @@
                         <div class="title-info">Result Rate<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
-                                <div class="count">70%</div>
+                                <div class="count">{{totalSearchesStats.resultRate || 7}}%</div>
                                 <div class="data-percentage failed">
-                                    <img src="assets/icons/arrow-decrease.svg">
-                                    <span class="percentage">3%</span>
+                                    <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
+                                    <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.increasedResultRate < 0">
+                                    <span class="percentage">{{totalSearchesStats.increasedResultRate || 3}}%</span>
                                 </div>
                             </div>
                             <div class="right-sec">
@@ -93,7 +96,7 @@
                         </div>
                         <div class="bottom-sec">
                             <div class="left-sec">
-                                <div class="count">1.9</div>
+                                <div class="count">{{totalSearchesStats.avgPosition || 1.9}}</div>
                             </div>
                         </div>
                     </div>

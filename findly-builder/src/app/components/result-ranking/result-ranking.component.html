@@ -167,22 +167,26 @@
                                              <div class="row" >
                                                  <img *ngIf ="!actLog.selected" src="assets/icons/accordian-close.svg" class="ml-8" > 
                                                  <img *ngIf ="actLog.selected" src="assets/icons/caretDown.svg" class="ml-8" >
-                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
+                                                 <!-- <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'page'">{{actLog.target.contentInfo.title}}</div>
                                                  <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'faq'">{{actLog.target.contentInfo._source.question}}</div> 
-                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>  
+                                                 <div class=" col-lg-7" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType == 'task'">{{actLog.target.contentInfo.lname}}</div>   -->
+                                                 <div class=" col-lg-6" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' "   *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
+                                                 <div class=" col-lg-6" [ngClass] = " actLog.selected ? 'action-header active-header' : 'action-header wrapper' " *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
                                                 <div class="action-header pl-pr-0  col-lg-2" >
                                                     <img src="assets/icons/help.svg" class="ml-1"> 
                                                     <span class="status" >{{actLog.logs[0].action}}</span> 
                                                 </div> 
-                                                <div class="time col-lg-2" id="displayTime">{{time}}
+                                                <div class="time col-lg-3" id="displayTime">{{actLog.target.contentInfo.createdOn}}
                                                 </div> 
                                              </div>
                                             </div>
                                         </a>
                                         <div id="demo_{{i}}" class="collapse" >
-                                            <p class="action-desc" *ngIf ="actLog.target.contentType == 'page'"> {{actLog.target.contentInfo.searchResultPreview}} </p>  
+                                            <!-- <p class="action-desc" *ngIf ="actLog.target.contentType == 'page'"> {{actLog.target.contentInfo.searchResultPreview}} </p>  
                                             <p class="action-desc" *ngIf ="actLog.target.contentType == 'faq'"> {{actLog.target.contentInfo._source.defaultAnswers[0].payload}} </p>  
-                                            <p class="action-desc" *ngIf ="actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.lname}} </p>  
+                                            <p class="action-desc" *ngIf ="actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.lname}} </p>   -->
+                                            <p class="action-desc" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </p>
+                                            <p class="action-desc" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </p> 
                                             <!-- <button class="btn-rem">Remove</button> -->
                                             <div class="action-on-this" (click)="toggleAction(icontoggle, i,actLog.drop)">
                                                <span class="arrow" [ngClass] = " actLog.drop ?  'up' : 'down'"></span>
@@ -191,7 +195,7 @@
                                             <div  *ngIf="actLog.drop" >
                                                 <div class="drop-list"*ngFor="let log of actLog.logs">
                                                     <ul class="list-p">
-                                                        <li class="list-c"><span class="arr-txt">{{log.displayMessage}}</span> <span class="arr-t">4h ago</span></li>
+                                                        <li class="list-c"><span class="arr-txt">{{log.action}}</span> <span class="arr-t">{{log.createdOn}}</span></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -241,16 +245,19 @@
             <div class = "watch-log" *ngFor="let log of customizeLog;let i = index">
                 <div *ngIf="log">
                     <div class="action-on-this" (click)="toggleLogAction( i,log.selected)">
-                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'page'"> {{log.target.contentInfo.title }} - {{ log.target.contentType}} </span>
-                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'faq'"> {{log.target.contentInfo.question }} - {{ log.target.contentType}} </span>
-                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname }} - {{ log.target.contentType}} </span>
+                        <!-- <span class="arr-txt col-10" *ngIf ="log.target.contentInfo._source.contentType == 'page'"> {{log.target.contentInfo._source.pageTitle }} - {{ log.target.contentInfo._source.contentType}} </span>
+                        <span class="arr-txt col-10" *ngIf ="log.target.contentInfo._source.contentType == 'faq'"> {{log.target.contentInfo._source.pageTitle }} - {{ log.target.contentInfo._source.contentType}} </span>
+                        <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname }} - {{ log.target.contentType}} </span> -->
+                        <span class="arr-txt col-10" *ngIf="log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentInfo._source.contentType}} </span>
+                        <span class="arr-txt col-10" *ngIf="!log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentType}} </span>
                         <span class="arrow" [ngClass] = " log.selected ?  'up' : 'down'"></span>
                         
                      </div>
                      <div class="drop-list" *ngIf="log.selected">
-                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'page'"> {{log.target.contentInfo.searchResultPreview}}</div>
-                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'faq'"> {{faqDesc}}</div>
-                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
+                         <!-- <div class="arr-txt-desc col-12" *ngIf ="log.target.contentInfo._source.contentType == 'page'"> {{log.target.contentInfo._source.searchResultPreview}}</div>
+                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentInfo._source.contentType == 'faq'"> {{faqDesc || log.target.contentInfo._source.searchResultPreview }}</div>
+                         <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div> -->
+                         <!-- <div class="arr-txt-desc col-12"> {{log.target.contentInfo._source.searchResultPreview}}</div> -->
                          <div class="info">{{log.userDetails.fullName}} {{log.createdOn}}</div>
                      </div>
                 </div>
