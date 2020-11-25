@@ -162,31 +162,31 @@ export class UserEngagementComponent implements OnInit {
   }
 
   appendToolTip(event, parentClass, multiple?) {
-    let value;
-    if (event.pointerType == 1) {
-      this.refElement = 'ng5-slider-pointer-max';
-      value = event.highValue;
-    }
-    else {
-      this.refElement = 'ng5-slider-pointer-min';
-      value = event.value;
-    }
-    let elementCollection = document.getElementsByClassName(this.refElement);
-    for (let i = 0; i <= elementCollection.length; i++) {
-      if (elementCollection[i]) {
-        if (elementCollection[i] && elementCollection[i].parentElement.className.includes(parentClass)) {
-          // console.log("message true",  elementCollection[i],  elementCollection[i].parentElement.className);
-          var node = document.createElement("SPAN");                 // Create a <span> node
-          let element: any = document.getElementsByClassName(this.refElement)[i];
-          while (element.firstChild) {
-            element.removeChild(element.firstChild);
-          }
-          var testnode = document.createTextNode(value);
-          node.appendChild(testnode);
-          element.appendChild(node);
-        }
-      }
-    }
+    // let value;
+    // if (event.pointerType == 1) {
+    //   this.refElement = 'ng5-slider-pointer-max';
+    //   value = event.highValue;
+    // }
+    // else {
+    //   this.refElement = 'ng5-slider-pointer-min';
+    //   value = event.value;
+    // }
+    // let elementCollection = document.getElementsByClassName(this.refElement);
+    // for (let i = 0; i <= elementCollection.length; i++) {
+    //   if (elementCollection[i]) {
+    //     if (elementCollection[i] && elementCollection[i].parentElement.className.includes(parentClass)) {
+    //       // console.log("message true",  elementCollection[i],  elementCollection[i].parentElement.className);
+    //       var node = document.createElement("SPAN");                 // Create a <span> node
+    //       let element: any = document.getElementsByClassName(this.refElement)[i];
+    //       while (element.firstChild) {
+    //         element.removeChild(element.firstChild);
+    //       }
+    //       var testnode = document.createTextNode(value);
+    //       node.appendChild(testnode);
+    //       element.appendChild(node);
+    //     }
+    //   }
+    // }
   }
   //SLider
   tab(index){

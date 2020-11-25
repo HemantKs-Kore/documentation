@@ -174,7 +174,7 @@ export class SchedulerComponent implements OnInit {
     }else if(this.rstz == 'Monthly'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' '+  this.date + ' * ' + '?';
       this.cronExpression = this.timeMM + ' '+ timeHH + ' '+  this.date + ' ' + '*' + ' '+ '*';
-    }else if(this.rstz == 'Anually'){
+    }else if(this.rstz == 'Annually'){
       //this.cronExpression = '0' + this.timeMM + ' '+ this.timeHH + ' '+  this.date + ' '+ this.month + '? ' + this.year + ' ' +'-2099';
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ? ' + '*';
       this.cronExpression =  this.timeMM + ' '+ timeHH  + ' ' +  this.date + ' '+ this.month + ' ' + '*';
