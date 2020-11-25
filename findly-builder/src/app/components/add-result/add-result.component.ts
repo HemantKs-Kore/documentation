@@ -51,7 +51,7 @@ export class AddResultComponent implements OnInit {
     let duplicate = false;
     if(this.recordArray){
       this.recordArray.forEach((element , index) => {
-        if(element._id == record._id){
+        if(element.contentId == record.contentId){
           this.recordArray.splice(index,1);
           duplicate = true;
         }
@@ -80,7 +80,8 @@ export class AddResultComponent implements OnInit {
     let result :any = [];
     this.recordArray.forEach((element,index) => {
       var obj :any = {};
-      obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
+      obj.contentType = contentTaskFlag ? contentType : element.contentType ;
+      //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = element._id;
       // obj.config = {
       //   pinIndex : -1,
@@ -144,11 +145,34 @@ export class AddResultComponent implements OnInit {
     this.service.invoke('get.extractedResult_RR', quaryparms).subscribe(res => {
       if(this.searchType == "all"){
         this.extractedResults =[];
-        this.extractedResults = res.contents[0].results;
-        //console.log(this.extractedResults);
+        res.content.document.forEach(element => {
+          this.extractedResults.push(element)
+        });
+        res.content.page.forEach(element => {
+          this.extractedResults.push(element)
+        });
+        res.faq.forEach(element => {
+          this.extractedResults.push(element)
+        });
+        res.task.forEach(element => {
+          this.extractedResults.push(element)
+        });
+        //this.extractedResults = res.contents[0].results;
+        console.log(this.extractedResults);
         //console.log(res.contents);
-      }else{
-        this.extractedResults = res;
+      }else if(this.searchType == "faq"){
+        this.extractedResults = res.faq;
+      }else if(this.searchType == "content"){
+        res.content.document.forEach(element => {
+            this.extractedResults.push(element)
+        });
+        res.content.page.forEach(element => {
+          this.extractedResults.push(element)
+        });
+        console.log(this.extractedResults)
+        //this.extractedResults = res.content;
+      }else if(this.searchType == "task"){
+        this.extractedResults = res.task;
       }
       this.loadingContent = false;
       
