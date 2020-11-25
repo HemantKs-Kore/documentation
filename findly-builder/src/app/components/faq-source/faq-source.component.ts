@@ -363,7 +363,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       searchIndexId: this.serachIndexId,
       type:'faq'
     };
-    this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+    this.service.invoke('get.source.list', quaryparms).subscribe(res => { //get.job.status
       if (res && res.length) {
        res.forEach(element => {
         this.resourcesStatusObj[element.resourceId] = element;
