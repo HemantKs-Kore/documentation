@@ -189,12 +189,15 @@
     <div class="header-sec-breadcums col-12 row m-0 " *ngIf="slider==0">
         <div class="col-4 lef-sec p-0"><span class="title">Channels</span></div>
         <div class="col-8 right-sec p-0">
-            <div class="kr-sg-input-search m-0">
+            <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">
                 <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search"
-                    placeholder="Search">
+                    placeholder="Search"  [(ngModel)]="searchchannel">
             </div>
-            <div class="seach-block"><img src="assets/icons/search.svg">{{'search' | translate}}
-            </div>
+            <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch"
+                src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search
+        </div>
+            <!-- <div class="seach-block"><img src="assets/icons/search.svg">{{'search' | translate}}
+            </div> -->
             <div class="clock"><img src="assets/icons/clock.svg"></div>
         </div>
     </div>
@@ -320,7 +323,7 @@
             </div>
 
             <div class="generator-token-sec" *ngIf="slider==3">
-                <div class="row m-0 steps" *ngIf="existingCredential">
+                <div class="row ml-0 mr-0 mb-3 steps" *ngIf="existingCredential">
 
                     <div class="sel-title">Select Credential</div>
                     <div class="kr-sg-dropdowns schedule-timZon">

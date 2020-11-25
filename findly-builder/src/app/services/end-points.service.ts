@@ -578,6 +578,10 @@ export class EndPointsService {
     }
    
   /** APIs for Channels */
-     
+  //API_SERVER_URL + API_URL_PREFIX + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=true';
+  this.serviceList['manage.credentials'] = {
+    endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=true',
+    method: 'get'
+  }
   }
 }

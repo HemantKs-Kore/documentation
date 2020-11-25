@@ -20,6 +20,8 @@ export class SettingsComponent implements OnInit {
   serachIndexId: any;
   addCredentialRef: any;
   listData: any;
+  showSearch;
+  searchchannel:any='';
   isAlertsEnabled: boolean;
   channelEnabled: true;
   existingCredential: boolean = false;
@@ -304,7 +306,7 @@ export class SettingsComponent implements OnInit {
         this.slider = 0;
 
         this.notificationService.notify('Credential Configuered', 'success');
-        // this.standardPublish();
+        this.standardPublish();
         console.log(res);
       },
       errRes => {
@@ -322,4 +324,11 @@ export class SettingsComponent implements OnInit {
   closeModalPopup() {
     this.addCredentialRef.close();
   }
+  toggleSearch(){
+    if (this.showSearch && this.searchchannel) {
+      this.searchchannel = '';
+    }
+    this.showSearch = !this.showSearch
+  };
+  
 }
