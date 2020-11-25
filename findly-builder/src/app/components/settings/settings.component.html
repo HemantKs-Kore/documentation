@@ -317,23 +317,22 @@
                 </div>
                 <label class="kr-sg-toggle">
                     <input type="checkbox" checked>
-                    <div class="slider"><span class="enabled">Push Notifications Enabled</span><span
-                            class="disabled">Push Notifications Enabled</span></div>
+                    <div class="slider"><span class="enabled">Push Notifications Enabled</span><span class="disabled">Push Notifications Enabled</span></div>
                 </label>
             </div>
 
-            <div class="generator-token-sec" *ngIf="slider==3">
-                <div class="row ml-0 mr-0 mb-3 steps" *ngIf="existingCredential">
+            <div class="generator-token-sec" *ngIf="slider==3" [ngClass]="{'m-0': existingCredential}">
+                <div class=" mb-3" *ngIf="existingCredential">
 
                     <div class="sel-title">Select Credential</div>
-                    <div class="kr-sg-dropdowns schedule-timZon">
+                    <div class="kr-sg-dropdowns credentials-dropdown">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span
                                     class="select-placeholder"> Select or Add Credential</span> </button>
                             <ul class="dropdown-menu content-menu">
                                 <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
                                     <a>{{channel.appName}}</a></li>
-                                <li (click)="newCredential()" style="background: #ddddea;"><a>Add New Credential</a>
+                                <li (click)="newCredential()" class="add-custom"><a>Add New Credential</a>
                                 </li>
                             </ul>
                         </div>
@@ -458,12 +457,11 @@
                 </ul>
             </div>
         </div>
-        <div class="switch-push-check">
-            <label class="kr-sg-toggle with-label large">
+        <div class="switch-push-check">            
+            <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="credntial.enabled">
-                <div class="slider"></div>
+                <div class="slider"><span class="enabled">Push Notifications Enabled</span><span class="disabled">Push Notifications Enabled</span></div>
             </label>
-            <span class="label_text">Push Notification Enabled</span>
         </div>
 
 
