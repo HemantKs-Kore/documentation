@@ -161,7 +161,7 @@ export class UserEngagementComponent implements OnInit {
   }
   onUserChange(event, parentClass, multiple?) {
    // this.appendToolTip(event, parentClass, multiple);
-   console.log(multiple,event,parentClass)
+   //console.log(multiple,event,parentClass)
    this.highValue = event.highValue;
    this.lowValue = event.value;
    this.busyHours();
