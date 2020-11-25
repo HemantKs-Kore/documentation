@@ -43,6 +43,8 @@ export class DashboardComponent implements OnInit {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+  totalUsersStats : any;
+  totalSearchesStats : any;
   topSearchResults : any;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any = {};
@@ -73,6 +75,9 @@ export class DashboardComponent implements OnInit {
     
     // this.feedback();
     //this.busyHours();
+
+    this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
@@ -133,9 +138,13 @@ export class DashboardComponent implements OnInit {
         from: from.toJSON(),
         to: today.toJSON()
       },
-      group: this.group 
+     
     }
-    
+    if(type == "TotalUsersStats" || type == "TotalSearchesStats"){
+      //payload.group = this.group 
+    }else{
+      payload.group = this.group 
+    }
     if(type == "QueriesWithNoClicks"){
       payload.sort = {
         order: "desc", 
@@ -184,6 +193,10 @@ export class DashboardComponent implements OnInit {
       }else if(type == "FeedbackStats"){
         this.feedbackStats = res.result;
         this.feedback();
+      }else if(type == "TotalUsersStats"){
+        this.totalUsersStats = res;
+      }else if(type == "TotalSearchesStats"){
+        this.totalSearchesStats = res;
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
