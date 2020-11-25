@@ -6,6 +6,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
+import { environment } from '@kore.environment';
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -239,7 +240,7 @@ export class AppComponent implements OnInit , OnDestroy {
     // To modify the web socket url use the following option
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: 'dev.findly.ai'
+        hostname: environment.tag + '.findly.ai'
     };
     const findlyConfig:any = {
       botOptionsFindly,
@@ -247,12 +248,12 @@ export class AppComponent implements OnInit , OnDestroy {
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
-
+    this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
   this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
   this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
-  showHideSearch(show){
+  showHideSearch(show,disabelInstanceDistroy?){
     const _self = this;
     if(show){
       $('app-body').append('<div class="search-background-div"></div>');
@@ -271,7 +272,6 @@ export class AppComponent implements OnInit , OnDestroy {
       _self.addNewResult = true;
       _self.showInsightFull = false;
       this.distroySearch();
-
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
