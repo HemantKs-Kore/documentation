@@ -268,6 +268,21 @@
     .text-center{
         text-align: center!important;
     }
+    ::ng-deep .ng5-slider{
+        width: 50%;
+        margin: 1px 0px 0px 85px;
+        .ng5-slider-pointer{
+            background: #FFFFFF;
+            border: 1px solid #0D6EFD;
+            width: 16px;
+            height: 16px;
+            top: -7px;
+        }
+         .ng5-slider-selection {
+            z-index: 2;
+            background: #0D6EFD;
+        }
+    }
 }
 
 ::ng-deep perfect-scrollbar .ps--active-y{
