@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit {
   isAlertsEnabled: boolean;
   channelEnabled: true;
   existingCredential: boolean = false;
+  configFlag: boolean = false;
   channnelConguired: any = [];
   credntial: any = {
     name: "",
@@ -167,10 +168,14 @@ export class SettingsComponent implements OnInit {
   continue() {
     if (this.existingCredential && this.slider == 0) {
       this.slider = 3
-      this.listData=this.firstlistData  
+       this.listData=this.firstlistData  
+      this.configFlag=true;
+
     }
     if (this.slider == 2) {
       this.createCredential()
+      this.configFlag=true;
+
     }
     if (this.slider < 3) {
       this.slider = this.slider + 1;

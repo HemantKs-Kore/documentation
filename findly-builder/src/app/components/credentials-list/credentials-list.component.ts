@@ -5,6 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
+import * as moment from 'moment';
 declare const $: any;
 @Component({
   selector: 'app-credentials-list',
@@ -15,11 +16,15 @@ export class CredentialsListComponent implements OnInit {
   slider = 0;
   selectedApp: any;
   serachIndexId: any;
+  firstlistData:any;
   addCredentialRef:any;
+  editCredentialRef:any;
   listData: any;
   configuredBot_streamId = "";
   botID = '';
+  data;
   isAlertsEnabled: boolean;
+  AppUsage:true;
   channelEnabled: true;
   channnelConguired: any = [];
   // existingCredential: boolean = false;
@@ -32,6 +37,8 @@ export class CredentialsListComponent implements OnInit {
     enabled: true
   };
   @ViewChild('addCredential') addCredential: KRModalComponent;
+  @ViewChild('editCredential') editCredential: KRModalComponent;
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -50,7 +57,8 @@ export class CredentialsListComponent implements OnInit {
   manageCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
+      streamId: this.selectedApp._id,
+      getAppsUsage:true,
     }
     this.service.invoke('manage.credentials', queryParams).subscribe(
       res => {
@@ -71,6 +79,15 @@ newCredential() {
 }
 closeModalPopup() {
   this.addCredentialRef.close();
+}
+editnewCredential($event){
+  // this.editTitleFlag = true;
+
+  if(this.editCredentialRef=this.editCredential.open())
+  this.credntial.name=this.data.appName;
+}
+closeEditModalPopup(){
+  this.editCredentialRef.close();
 }
 createCredential() {
   const queryParams = {
@@ -130,6 +147,11 @@ getCredential() {
   this.service.invoke('get.credential', queryParams).subscribe(
     res => {
       this.channnelConguired= res.apps;
+      this.firstlistData=res.apps[0];
+      // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
+   
+
+      // var moment = require('moment/moment');
       // if (this.channnelConguired.apps.length > 0) {
       //   this.existingCredential = true;
       // }

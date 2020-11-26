@@ -32,6 +32,7 @@ export class FacetsComponent implements OnInit {
       facetName: '',
       facetType: 'value',
       isMultiSelect: false,
+      isFacetActive: true,
       facetValue: {},
     },
     range:{
@@ -258,6 +259,7 @@ export class FacetsComponent implements OnInit {
     } else {
       payload.fieldName = this.selectedField.fieldName;
     }
+      payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
     this.service.invoke('create.facet', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Facet created successfully','success');
       this.facets.push(res);

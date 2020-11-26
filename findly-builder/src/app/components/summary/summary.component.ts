@@ -5,6 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
+import { Router } from '@angular/router';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -13,7 +14,9 @@ declare const $: any;
   animations: [fadeInOutAnimation]
 })
 export class SummaryComponent implements OnInit {
-
+  serachIndexId;
+  totalUsersStats;
+  totalSearchesStats;
   selectedApp: any;
   loading = true;
   summary:any;
@@ -71,6 +74,7 @@ export class SummaryComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -79,8 +83,11 @@ export class SummaryComponent implements OnInit {
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
     };
     this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
     this.getSummary();
+    this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
   }
   getSummary() {
     this.loading = false;
@@ -98,5 +105,44 @@ export class SummaryComponent implements OnInit {
     //     this.showError = true;
     //     this.notificationService.notify('Unable to get summary details', 'error');
     //   });
+  }
+  getQueries(type){
+    var today = new Date();
+    let from = new Date(Date.now() - (29 * 864e5));
+    
+    const header : any= {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit:100
+    };
+    let payload : any = {
+      type : type,
+      filters: {
+        from: from.toJSON(),
+        to: today.toJSON()
+      },
+     
+    }
+    
+   
+    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
+      if(type == "TotalUsersStats"){
+        this.totalUsersStats = res;
+      }else if(type == "TotalSearchesStats"){
+        this.totalSearchesStats = res;
+      }
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notificationService.notify('Failed ', 'error');
+       }
+     });
+  }
+  viewAll(route){
+    this.router.navigate([route], { skipLocationChange: true });
   }
 }

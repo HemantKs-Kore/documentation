@@ -551,7 +551,7 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.credential'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps',
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
       method: 'get'
     }
     this.serviceList['create.createCredential'] = {
@@ -582,7 +582,7 @@ export class EndPointsService {
   /** APIs for Channels */
 
   this.serviceList['manage.credentials'] = {
-    endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=true',
+    endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
     method: 'get'
   }
   }
