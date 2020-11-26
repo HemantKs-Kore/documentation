@@ -919,3 +919,90 @@
         }
     }
     
+
+    .grid-data-sec{ 
+        margin: 10px 0;      
+        .grid-card{
+            padding: 10px;
+            .card_sec{
+                background: #FFFFFF;
+                border: 1px solid #BDC1C6;
+                box-sizing: border-box;
+                border-radius: 6px;
+                padding: 16px 18px;   
+                transition: 0.2s all ease-in;
+                position: relative;
+                .delete-refresh{
+                    display: none;
+                    position: absolute;
+                    right: 16px;
+                    top: 12px;
+                    img{
+                        margin-left: 14px;
+                        cursor: pointer;
+                    }
+                }
+                &:hover{
+                    border: 1px solid #0D6EFD;
+                    background: #F3F8FF;
+                    .delete-refresh{
+                        display: inline-block;
+                    }
+                }        
+                .titles-sec{
+                    margin-bottom: 19px;
+                    .name{
+                        color: #202124;
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 19px;
+                        padding-right: 6px;
+                        border-right: 2px solid #BDC1C6;
+                    }
+                    .type-data{
+                        color: #0D6EFD;
+                        font-size: 12px;
+                        line-height: 15px;
+                        text-align: center;
+                        text-transform: uppercase;
+                        font-weight: normal;
+                        padding-left: 6px;
+                        &.doc{
+                            color: #28A745;
+                        }
+                    }
+                }
+                .timestamp{
+                    color: #9AA0A6;
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 14px;
+                }
+                .status{
+                    text-align: right;
+                    .status-title{                    
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 14px;
+                        padding-left: 9px;
+                        &.failed{
+                            color: #DD3646;
+                        }
+                    }
+                }
+                .pages-count{
+                    font-weight: normal;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: #9AA0A6;
+                    .count{
+                        color: #202124;
+                        font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;
+                        padding-right: 6px;
+                    }
+                }
+            }
+        }        
+    }
