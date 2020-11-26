@@ -205,7 +205,14 @@
         "ascending":"Ascending",
         "descending":"Descending",
         "cancel":"Cancel",
-        "delete":"Delete"
+        "delete":"Delete",
+        "status":"Status",
+        "enabled_facet":"Facet Active",
+        "disabled_facet":"Facet Inactive",
+        "active":"Active",
+        "inactive":"Inactive",
+        "Yes":"Yes",
+        "No":"No"
  },
  "resultRanking":{
      "no_search_results":"No search results",
