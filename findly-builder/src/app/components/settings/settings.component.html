@@ -191,11 +191,11 @@
         <div class="col-8 right-sec p-0">
             <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">
                 <input type="text" placeholder="Search" id='searchInput' autocomplete="off" class="input-search"
-                    placeholder="Search"  [(ngModel)]="searchchannel">
+                    placeholder="Search" [(ngModel)]="searchchannel">
             </div>
             <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch"
-                src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search
-        </div>
+                    src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search
+            </div>
             <!-- <div class="seach-block"><img src="assets/icons/search.svg">{{'search' | translate}}
             </div> -->
             <div class="clock"><img src="assets/icons/clock.svg"></div>
@@ -231,7 +231,7 @@
                     <div class="img-block"><img src="assets/icons/web-mobile-client.png"></div>
                     <div class="main-title">Web / Mobile Client</div>
                 </div>
-                <div class="configuration">CONFIGURED</div>
+                <div class="configuration" *ngIf="slider!==0 && !existingCredential">CONFIGURED</div>
             </div>
             <div class="card-content">
                 <div class="img-block"><img src="assets/icons/webhook.svg"></div>
@@ -243,15 +243,17 @@
     <perfect-scrollbar class="stepjourney-scroll">
         <div class="body-sec">
             <div class="progress_indiactors row" *ngIf="slider!==0 && !existingCredential">
-                <div class="progress_bar col-4 p-0 text-center active-bar step1">
+                <div class="progress_bar col-4 text-center active-bar step">
                     <div class="circle"></div>
                     <div class="title ">Instructions</div>
                 </div>
-                <div class="progress_bar col-4 p-0 text-center">
+
+                <div class="progress_bar col-4 p-0 text-center  step" [ngClass] ="{'active-bar' : slider>1}">
                     <div class="circle"></div>
                     <div class="title">Select Credential</div>
+
                 </div>
-                <div class="progress_bar col-4 p-0 text-center">
+                <div class="progress_bar col-4 p-0 text-center step" [ngClass] ="{'active-bar' : slider>2}">
                     <div class="circle"></div>
                     <div class="title">Generate Token</div>
                 </div>
@@ -317,7 +319,8 @@
                 </div>
                 <label class="kr-sg-toggle">
                     <input type="checkbox" checked>
-                    <div class="slider"><span class="enabled">Push Notifications Enabled</span><span class="disabled">Push Notifications Enabled</span></div>
+                    <div class="slider"><span class="enabled">Push Notifications Enabled</span><span
+                            class="disabled">Push Notifications Enabled</span></div>
                 </label>
             </div>
 
@@ -332,7 +335,7 @@
                             <ul class="dropdown-menu content-menu">
                                 <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
                                     <a>{{channel.appName}}</a></li>
-                                <li (click)="newCredential()" class="add-custom"><a>Add New Credential</a>
+                                <li class="add-custom" (click)="newCredential()"><a>Add New Credential</a>
                                 </li>
                             </ul>
                         </div>
@@ -343,8 +346,8 @@
                         <div class="label-text">App Name</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
-                                <input type="text" placeholder="My Findly" class="input-text"
-                                    [value]="listData.appName">
+                                <input type="text" placeholder="My Findly" class="input-text" [value]="listData.appName"
+                                    readonly>
                             </div>
                             <div class="copy-btn"><img src="assets/images/icons/copy.svg"
                                     (click)="copy(listData.appName,clipAppName)">Copy</div>
@@ -457,10 +460,11 @@
                 </ul>
             </div>
         </div>
-        <div class="switch-push-check">            
+        <div class="switch-push-check">
             <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="credntial.enabled">
-                <div class="slider"><span class="enabled">Push Notifications Enabled</span><span class="disabled">Push Notifications Enabled</span></div>
+                <div class="slider"><span class="enabled">Push Notifications Enabled</span><span class="disabled">Push
+                        Notifications Enabled</span></div>
             </label>
         </div>
 

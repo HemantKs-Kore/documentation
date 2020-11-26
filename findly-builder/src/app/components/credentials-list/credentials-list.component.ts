@@ -40,7 +40,7 @@ export class CredentialsListComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.manageCredential();
+    // this.manageCredential();
     this.getCredential();
     // this.getLinkedBot();
   }
@@ -129,7 +129,7 @@ getCredential() {
   }
   this.service.invoke('get.credential', queryParams).subscribe(
     res => {
-      this.channnelConguired = res;
+      this.channnelConguired= res.apps;
       // if (this.channnelConguired.apps.length > 0) {
       //   this.existingCredential = true;
       // }

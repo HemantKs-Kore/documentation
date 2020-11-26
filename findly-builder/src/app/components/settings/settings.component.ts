@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   serachIndexId: any;
   addCredentialRef: any;
   listData: any;
+  firstlistData;
   showSearch;
   searchchannel:any='';
   isAlertsEnabled: boolean;
@@ -47,6 +48,7 @@ export class SettingsComponent implements OnInit {
     this.getCredential();
     this.getdialog();
     this.getLinkedBot();
+    // this.newCredential();
   }
   copy(val, elementID) {
     const selBox = document.createElement('textarea');
@@ -149,6 +151,7 @@ export class SettingsComponent implements OnInit {
         this.channnelConguired = res;
         if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
+          this.firstlistData=res.apps[0];
         }
         console.log(res)
       },
@@ -164,6 +167,7 @@ export class SettingsComponent implements OnInit {
   continue() {
     if (this.existingCredential && this.slider == 0) {
       this.slider = 3
+      this.listData=this.firstlistData  
     }
     if (this.slider == 2) {
       this.createCredential()
@@ -171,6 +175,9 @@ export class SettingsComponent implements OnInit {
     if (this.slider < 3) {
       this.slider = this.slider + 1;
     }
+//     if(this.slider!==0 && !this.existingCredential){
+// this.slider=i1;
+//     }
   }
   radio(bool) {
     this.isAlertsEnabled = bool;
@@ -330,5 +337,6 @@ export class SettingsComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   };
+  
   
 }
