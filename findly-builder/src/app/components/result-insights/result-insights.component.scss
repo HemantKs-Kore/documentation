@@ -204,6 +204,11 @@
             .img-sec{
                 margin-right: 10px//25px;
             }
+        }
+        .data-overview{
+            white-space: normal;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }                    
     }
     .footer-simulate{
