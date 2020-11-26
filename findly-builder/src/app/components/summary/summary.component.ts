@@ -15,8 +15,8 @@ declare const $: any;
 })
 export class SummaryComponent implements OnInit {
   serachIndexId;
-  totalUsersStats;
-  totalSearchesStats;
+  totalUsersStats : any = {};
+  totalSearchesStats: any = {};
   selectedApp: any;
   loading = true;
   summary:any;
@@ -143,6 +143,6 @@ export class SummaryComponent implements OnInit {
      });
   }
   viewAll(route){
-    this.router.navigate([route], { skipLocationChange: true });
+    this.router.navigateByUrl(route, { skipLocationChange: true });
   }
 }
