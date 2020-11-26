@@ -43,7 +43,7 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="searched-details d-flex">
+                <!-- <div class="searched-details d-flex">
                     <div class="bulb-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFISURBVHgBlVHRUYNAEL29uwIQUgADFhArMTMh/9iBVABWEFJB8m8c04F2YP6dmBRgJvwLOd8ih5jgjO4Mw7K89+7tO+GMfN+NglT8sQZRMAXHIf7wxuGCyBzel28JCymt5hgP8TiCxKr6qJJitduBlBlD/v5hE5NVYhV+gfRCgmZlWeY8l1oDZNKqrK74mwXObHiT8HEQXd722Mu8KHzqzuQPhBEjnLQ4JZblMW+st6WhZLjZLzeEphA9BXsFcE7tqsFrJlgAmrXUMkabn6wQw82zPeDMakUyQTApJ2tndW/EFOHciL4dGVDcv66R4Ewp2QaklEoNUuY0m+S/ibjHeWPxKwhJ1xZgyAyPTWBa65Sx9VqsAtUMl9qeYgOw1c0B15Vx8iR6ionY6aK2qtWhS7Sl+4gI6I4JtVX04j/ljoOtOwm3v/3/BFVkg8kakxD7AAAAAElFTkSuQmCC"></div>
                     <div class="seach-content">
                         <div class="names"><b>4%</b> of all searches resulted in zero clicks</div>
@@ -52,7 +52,7 @@
                         <div class="names"><b>46%</b> of all searches resulted in multiple clicks</div>
                         <div class="names"><b>48%</b> of all the total searches resulted in almost no clicks</div>
                     </div>
-                </div>      
+                </div>       -->
                 <div class="table_data_content">
                     <div class="table_header row m-0">
                         <div class="col-3 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Search Results</div>
@@ -73,7 +73,7 @@
                         <div class="col-1 title">{{result.appearances}}</div>
                         <div class="col-1 title">{{result.clicks}}</div>
                         <div class="col-2 title">{{result.clickThroughRate}}%</div>
-                        <div class="col-1 title">{{result.avgPosition}}</div>
+                        <div class="col-1 title data-overview">{{result.avgPosition}}</div>
                         <div class="col-2 title">{{result.positiveFeedback}}</div>                       
                         <div class="col-2 title">
                             <span class="count">{{result.negativeFeedback}}</span>
@@ -120,7 +120,7 @@
                 <div class="col-2 title">{{result.appearances}}</div>
                 <div class="col-2 title">{{result.clicks}}</div>
                 <div class="col-2 title">{{result.clickThroughRate}}%</div>
-                <div class="col-2 title">{{result.avgPosition}}</div>
+                <div class="col-2 title data-overview">{{result.avgPosition}}</div>
                 <div class="col-1 title">{{result.positiveFeedback}}</div>                       
                 <div class="col-1 title">{{result.negativeFeedback}}</div>
             </div>       
