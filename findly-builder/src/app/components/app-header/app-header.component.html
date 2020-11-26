@@ -5,8 +5,8 @@
                 <img src="assets/images/Findly_logo_blackFont.svg" class="logoKoreIcon" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
                 <div class="myappname" *ngIf="appName"><div  container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div></div>
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab"  skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">Overview</div>
-                    <div class="headerMenuTab" skipLocationChange  routerLinkActive="active" (click)="analyticsClick('/source')">
+                    <div class="headerMenuTab" [ngClass] ="{'active' : mainMenu == '/summary'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">Overview</div>
+                    <div class="headerMenuTab" [ngClass] ="{'active' : mainMenu == '/source'}" skipLocationChange  routerLinkActive="active" (click)="analyticsClick('/source')">
                        <span >Indices</span>
                        <span routerLink="/content" class="d-none"></span>
                        <span routerLink="/faqs" class="d-none"></span>
@@ -20,7 +20,8 @@
                        <span routerLink="/attributes" class="d-none"></span>
                        
                     </div>                    
-                    <div class="kr-sg-dropdowns headerMenuTab">
+                    <div class="kr-sg-dropdowns headerMenuTab" [ngClass] ="{'active' : (mainMenu == '/dashboard'
+                     || mainMenu == '/userEngagement' || mainMenu == '/searchInsights' ||mainMenu == '/resultInsights')}">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown" > Analytics</button>                                            
                             <ul class="dropdown-menu content-menu content-width">                                               
@@ -33,7 +34,7 @@
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
                     <div class="headerMenuTab" >Experiments</div>
-                    <div class="headerMenuTab" (click)="analyticsClick('/settings')">Settings </div>
+                    <div class="headerMenuTab" [ngClass] ="{'active' : mainMenu == '/settings'}" (click)="analyticsClick('/settings')">Settings </div>
                 </div>
             </div>
             <ul class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end"> 
