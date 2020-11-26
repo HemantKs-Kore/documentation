@@ -35,6 +35,7 @@ export class SchedulerComponent implements OnInit {
   endsOnSelected = '';
   minDate;
   //scheduleData : scheduleOpts = new scheduleOpts();
+  @Input() scheduleFlag: any;
   @Input() crwalObject : any;
   @Input() schedule : any;
   @Output() scheduleData = new EventEmitter();

@@ -836,7 +836,7 @@
             padding: 19px 10px 19px 20px;
             //margin: 0 0 20px 0;
             background: #FFFFFF;
-            border: 1px solid #BDC1C6;
+            //border: 1px solid #BDC1C6;
             box-sizing: border-box;
             border-radius: 4px;
             .title{
@@ -863,6 +863,9 @@
         .allow-urlBox{
             margin: 0;
             border-radius: 4px 4px 0px 0px;
+        }
+        .padd{
+            padding: 1px 10px 19px 20px;
         }
         .close-path{
             img{

@@ -803,7 +803,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-
+  crawlOption(opt){
+    if(opt != 'any'){
+      this.crwalObject.advanceOpts.crawlEverything = false;
+      if(opt == 'allow'){
+        this.crwalObject.advanceOpts.allowedOpt = true;
+        this.crwalObject.advanceOpts.blockedOpt = false;
+      }else if(opt == 'block'){
+        this.crwalObject.advanceOpts.blockedOpt = true;
+        this.crwalObject.advanceOpts.allowedOpt = false;
+      }
+    }
+  }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
