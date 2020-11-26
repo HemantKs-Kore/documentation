@@ -61,11 +61,12 @@ export class AppHeaderComponent implements OnInit {
   }
   analyticsClick(menu,skipRouterLink?){
     this.mainMenu = menu;
-    if (menu == '/metrics' ||
-      menu == '/dashboard' ||
-      menu == '/userEngagement' ||
-      menu == '/searchInsights' ||
-      menu == '/resultInsights') {
+    if(menu == '/metrics' || 
+      menu == '/dashboard' || 
+      menu == '/userEngagement' || 
+      menu == '/searchInsights'  || 
+      menu == '/resultInsights' ||
+      menu == '/summary') {
       this.showMainMenu = false;
     }else{
       this.showMainMenu = true;

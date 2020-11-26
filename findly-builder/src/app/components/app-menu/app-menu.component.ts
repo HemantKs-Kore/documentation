@@ -25,7 +25,7 @@ export class AppMenuComponent implements OnInit {
     const toogleObj = {
       title: selection,
     };
-    this.showHideSearch(false);
+    // this.showHideSearch(false);
     this.headerService.toggle(toogleObj);
   }
   showHideSearch(show){

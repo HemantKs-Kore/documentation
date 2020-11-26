@@ -47,8 +47,8 @@ export class UserEngagementComponent implements OnInit {
   recordEnd = 5;
 
   /**slider */
-  durationRange1: number = 10;
-  durationRange2: number = 60;
+  durationRange1: number = 0;
+  durationRange2: number = 24;
   durationOptions: Options = {
     floor: 0,
     ceil: 24
@@ -106,6 +106,8 @@ export class UserEngagementComponent implements OnInit {
   newUserProgress = 0;
   repeatUser= 0;
   repeatUserProgress = 0;
+  highValue = 24;
+  lowValue = 0;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -127,7 +129,7 @@ export class UserEngagementComponent implements OnInit {
   }
   //SLider
   onUserChangeEnd(rangeType: string, $event, parentClass) {
-
+    //console.log(rangeType,$event,parentClass)
     //this.removeTooltip(parentClass);
 
     // const endRange = rangeType === 'duration' ? this.ranges.duration[this.ranges.duration.length -1] : rangeType === 'taskCount' ? 30 : 20;
@@ -159,34 +161,38 @@ export class UserEngagementComponent implements OnInit {
   }
   onUserChange(event, parentClass, multiple?) {
    // this.appendToolTip(event, parentClass, multiple);
+   //console.log(multiple,event,parentClass)
+   this.highValue = event.highValue;
+   this.lowValue = event.value;
+   this.busyHours();
   }
 
   appendToolTip(event, parentClass, multiple?) {
-    let value;
-    if (event.pointerType == 1) {
-      this.refElement = 'ng5-slider-pointer-max';
-      value = event.highValue;
-    }
-    else {
-      this.refElement = 'ng5-slider-pointer-min';
-      value = event.value;
-    }
-    let elementCollection = document.getElementsByClassName(this.refElement);
-    for (let i = 0; i <= elementCollection.length; i++) {
-      if (elementCollection[i]) {
-        if (elementCollection[i] && elementCollection[i].parentElement.className.includes(parentClass)) {
-          // console.log("message true",  elementCollection[i],  elementCollection[i].parentElement.className);
-          var node = document.createElement("SPAN");                 // Create a <span> node
-          let element: any = document.getElementsByClassName(this.refElement)[i];
-          while (element.firstChild) {
-            element.removeChild(element.firstChild);
-          }
-          var testnode = document.createTextNode(value);
-          node.appendChild(testnode);
-          element.appendChild(node);
-        }
-      }
-    }
+    // let value;
+    // if (event.pointerType == 1) {
+    //   this.refElement = 'ng5-slider-pointer-max';
+    //   value = event.highValue;
+    // }
+    // else {
+    //   this.refElement = 'ng5-slider-pointer-min';
+    //   value = event.value;
+    // }
+    // let elementCollection = document.getElementsByClassName(this.refElement);
+    // for (let i = 0; i <= elementCollection.length; i++) {
+    //   if (elementCollection[i]) {
+    //     if (elementCollection[i] && elementCollection[i].parentElement.className.includes(parentClass)) {
+    //       // console.log("message true",  elementCollection[i],  elementCollection[i].parentElement.className);
+    //       var node = document.createElement("SPAN");                 // Create a <span> node
+    //       let element: any = document.getElementsByClassName(this.refElement)[i];
+    //       while (element.firstChild) {
+    //         element.removeChild(element.firstChild);
+    //       }
+    //       var testnode = document.createTextNode(value);
+    //       node.appendChild(testnode);
+    //       element.appendChild(node);
+    //     }
+    //   }
+    // }
   }
   //SLider
   tab(index){
@@ -765,8 +771,8 @@ var valueList2 = totaldata.map(function (item) {
       let xAxisData = [];
       let heatData = [[]];
       let totalMaxValueArr = [];
-      let start = 0; // 3
-      let end= 24; // 17
+      let start = this.lowValue; // 3
+      let end= this.highValue; // 17
       let secondIndex = 0;
       let checkData = [];
       if(this.group == 'hour' || this.group == 'date' || this.group == 'week'){
@@ -782,7 +788,7 @@ var valueList2 = totaldata.map(function (item) {
           for(let i = 0; i< busyChartArrayData.length ; i++){
             for(let j =0 ; j< busyChartArrayData[i].length;j++){
               if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
-                if(this.group == 'hour' ) xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
+                if(this.group == 'hour') xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
                 if((this.group == 'date' || this.group == 'week' )&&  i == 0) xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
                 heatData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 if(i != checkIndex){

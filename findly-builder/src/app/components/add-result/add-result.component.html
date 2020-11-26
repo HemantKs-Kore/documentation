@@ -70,8 +70,8 @@
                                     <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="title-desc-sec" *ngIf="searchType == 'faq'">
-                                    <div class="title">{{ result._source.question}}</div>
-                                    <div class="desc" *ngFor="let answer of result._source.defaultAnswers;">{{ answer.payload}}</div>
+                                    <div class="title">{{ result.title}}</div>
+                                    <div class="desc" *ngFor="let answer of result._source.defaultAnswers;">{{ answer.searchResultPreview}}</div>
                                 </div>
                             </div>
                             
@@ -85,8 +85,8 @@
                                     <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="title-desc-sec">
-                                    <div class="title">{{ result.lname}}</div>
-                                    <div class="desc">{{ result.name}}</div>
+                                    <div class="title">{{ result.title}}</div>
+                                    <div class="desc">{{ result.searchResultPreview}}</div>
                                 </div>
                             </div>
                             
@@ -100,34 +100,35 @@
                                     <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="title-desc-sec">
-                                    <div class="title">{{ result._source.pageTitle}}</div>
-                                    <div class="desc" >{{ result._source.pageSearchResultPreview ||  result._source.pageBody}}</div>
+                                    <div class="title">{{ result.title}}</div>
+                                    <div class="desc" >{{ result.searchResultPreview}}</div>
                                 </div>
                             </div>
                             
                         </div>
                     </div>
                     <div *ngIf="searchType == 'content'">
-                        <div *ngFor="let data of result.data ;let j = index">
+                        <!-- <div *ngFor="let data of result.data ;let j = index"> -->
                             <div class="card-content" >
                                 <div class="card_link collapsed">      
                                     <div class="d-flex align-items-center">
                                         <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();" >
-                                            <input  [attr.id]="j"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(data,j)">
-                                            <label [attr.for]="j" class="checkbox-custom-label"></label>
+                                            <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                                            <label [attr.for]="i" class="checkbox-custom-label"></label>
                                         </div>
                                         <div class="title-desc-sec">
-                                            <div class="title">{{ data._source.pageTitle}}</div>
-                                            <div class="desc" *ngIf="data._source.pageSearchResultPreview;else body">{{ data._source.pageSearchResultPreview}}</div>
+                                            <!-- <div class="title">{{ data._source.pageTitle}}</div> -->
+                                            <div class="title">{{ result.title }}</div>
+                                            <div class="desc" *ngIf="result.searchResultPreview;else body">{{ result.searchResultPreview}}</div>
                                             <ng-template #body>
-                                                <div class="desc">{{ data._source.pageBody}}</div>
+                                                <div class="desc">{{result.searchResultPreview}}</div>
                                             </ng-template>
                                         </div>
                                     </div>
                                     
                                 </div>
                             </div>
-                        </div>
+                        <!-- </div> -->
                     </div>
                     
                 </div>

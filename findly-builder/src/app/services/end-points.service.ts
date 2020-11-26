@@ -16,6 +16,7 @@ export class EndPointsService {
     if (environment.production) {
       this.SERVER_URL = window.location.protocol + '//' + window.location.host;
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
     }
@@ -58,6 +59,7 @@ export class EndPointsService {
     };
     this.serviceList['get.source.list'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources?extractionType=:type',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:type',
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?limit=:limit&skip=:skip',
       method: 'get'
     };
