@@ -3229,6 +3229,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "answerType": resultType,
         "event": eventType,
         "streamId": _self.API.streamId,
+        "isDev": _self.isDev,
       }
 
       if (resultType == "page" || resultType == "faq") {
