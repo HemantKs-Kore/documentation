@@ -15,6 +15,7 @@ declare const $: any;
 })
 export class SummaryComponent implements OnInit {
   serachIndexId;
+  channelExist = false;
   totalUsersStats : any = {};
   totalSearchesStats: any = {};
   selectedApp: any;
@@ -141,6 +142,26 @@ export class SummaryComponent implements OnInit {
          this.notificationService.notify('Failed ', 'error');
        }
      });
+  }
+  getChannel(){
+    const queryParams = {
+      userId:this.authService.getUserId(),
+      streamId:this.selectedApp._id
+    }
+    this.service.invoke('get.credential',queryParams).subscribe(
+      res => {
+        if(res.apps.length){
+          this.channelExist = true;
+        }
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
   }
   viewAll(route){
     this.router.navigateByUrl(route, { skipLocationChange: true });
