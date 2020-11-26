@@ -1,9 +1,13 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError ,ActivatedRoute} from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { SideBarService } from './services/header.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { EndPointsService } from '@kore.services/end-points.service';
+import { environment } from '@kore.environment';
+
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
 // declare const KoreWidgetSDK: any;
@@ -11,15 +15,16 @@ declare const FindlySDK: any;
 // declare const koreBotChat: any;
 // declare const KoreSDK: any;
 declare let window:any;
+declare let self:any;
 import * as _ from 'underscore';
-import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit , OnDestroy {
   loading = true;
+  userInfo:any = {};
   showMainMenu = true;
   previousState;
   appsData: any;
@@ -41,6 +46,8 @@ export class AppComponent implements OnInit {
               public workflowService: WorkflowService,
               private activatedRoute: ActivatedRoute,
               private headerService: SideBarService,
+              private service: ServiceInvokerService,
+              private endpointservice: EndPointsService
               // private translate: TranslateService
   ) {
 
@@ -51,16 +58,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    self = this;
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
+    this.userInfo = this.authService.getUserInfo() || {};
   }
   showMenu(event){
     this.showMainMenu = event
   }
    restorepreviousState(){
     let route = '/apps';
-    if(this.previousState && this.previousState.selectedApp){
+    const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
+    if(this.previousState && this.previousState.selectedApp && this.previousState.selectedAccountId && (this.previousState.selectedAccountId === selectedAccount.accountId) ){
       const apps = this.appsData;
       if(apps && apps.length){
         const selectedApp = _.filter(apps,(app) => {
@@ -75,7 +85,9 @@ export class AppComponent implements OnInit {
           route = this.previousState.route
          }
          try {
-          this.router.navigate([route], { skipLocationChange: true });
+           if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
+            this.router.navigate([route], { skipLocationChange: true });
+           }
           $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
@@ -84,10 +96,12 @@ export class AppComponent implements OnInit {
           }
          } catch (e) {
          }
-         
+
         }
       }
-    }
+    } else {
+      this.router.navigate(['/apps'], { skipLocationChange: true });
+     }
    }
    setPreviousState(route?){
      const path: any = {
@@ -95,9 +109,11 @@ export class AppComponent implements OnInit {
        route:''
      };
      if(route){
+       const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
        if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
          this.resetFindlySearchSDK(this.workflowService.selectedApp());
          path.selectedApp = this.workflowService.selectedApp()._id;
+         path.selectedAccountId = selectedAccount.accountId || null;
          path.route = route
          window.localStorage.setItem('krPreviousState',JSON.stringify(path));
        }
@@ -119,18 +135,38 @@ export class AppComponent implements OnInit {
      }
      return previOusState;
    }
-  resetFindlySearchSDK(appData){
-    //debugger;
+    assertion(options, callback) {
+      self.service.invoke('bt.post.sts', {}).subscribe( (res) => {
+                const data = res;
+                options.assertion = data.jwt;
+                callback(null, options);
+            });
+  }
+    getJWT(options, callback?) {
+    const jsonData = {
+        identity: options.userIdentity,
+        aud: '',
+        isAnonymous: false
+    };
+    return $.ajax({
+        url: 'https://dev.kore.com/api/oAuth/token/jwtgrant',
+        type: 'post',
+        data: jsonData,
+        dataType: 'json',
+        success (data) {
+        },
+        error (err) {
+        }
+    });
+}
+  resetFindlySearchSDK(appData) {
     if(this.searchInstance && this.searchInstance.setAPIDetails) {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
           _id:appData.searchIndexes[0]._id,
           pipelineId:appData.searchIndexes[0].queryPipelineId
         }
-        // debugger;
         window.selectedFindlyApp = searchData;
-        console.log(searchData, window.selectedFindlyApp)
-        //debugger;
         this.searchInstance.setAPIDetails();
       }
     }
@@ -138,6 +174,7 @@ export class AppComponent implements OnInit {
   navigationInterceptor(event: RouterEvent): void {
     const self = this;
     if (event instanceof NavigationStart) {
+      this.showHideSearch(false);
       this.authService.findlyApps.subscribe( (res) => {
         self.loading = true;
         this.appsData = res;
@@ -187,33 +224,62 @@ export class AppComponent implements OnInit {
   ngOnDestroy(){
     this.authService.findlyApps.unsubscribe();
   }
-  showHideSearch(show){
+  distroySearch(){
+    if(this.searchInstance && this.searchInstance.destroy) {
+      this.searchInstance.destroy();
+    }
+  }
+  initSearch(){
+    const botOptionsFindly: any = {};
+    botOptionsFindly.logLevel = 'debug';
+    botOptionsFindly.userIdentity = this.userInfo.emailId;// Provide users email id here
+    botOptionsFindly.client = 'botbuilder';
+    botOptionsFindly.botInfo = { chatBot: this.workflowService.selectedApp().name, taskBotId: this.workflowService.selectedApp()._id };  // bot name is case sensitive
+    botOptionsFindly.assertionFn = this.assertion;
+    botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
+    // To modify the web socket url use the following option
+    botOptionsFindly.reWriteSocketURL = {
+        protocol: 'wss',
+        hostname:  window.appConfig.API_SERVER_URL.replace('https://','')
+    };
+    const findlyConfig:any = {
+      botOptionsFindly,
+        viaSocket: true
+    };
+    this.findlyBusinessConfig = this;
+    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    this.distroySearch();
+    this.searchInstance = new FindlySDK(findlyConfig);
+  this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
+  this.resetFindlySearchSDK(this.workflowService.selectedApp());
+  }
+  showHideSearch(show,disabelInstanceDistroy?){
     const _self = this;
     if(show){
+      $('app-body').append('<div class="search-background-div"></div>');
+      $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');
-      $('.advancemode-checkbox').css({"display":"block"});
+      $('.advancemode-checkbox').css({display:'block'});
       $('.search-container').addClass('search-container-adv')
       $('.search-container').addClass('add-new-result')
-    }else{
-      $('.search-background-div').hide();
+      this.initSearch();
+    }else {
+      $('.search-background-div').remove();
+      $('.advancemode-checkbox').remove();
       $('.start-search-icon-div').removeClass('active');
-      $('.advancemode-checkbox').css({"display":"none"});
-      $('.search-container').removeClass('search-container-adv')
-      $('.search-container').removeClass('add-new-result');
-
-      $('.ksa-resultsContainer').removeClass('search-body-full');
       _self.bridgeDataInsights = true;
       _self.addNewResult = true;
       _self.showInsightFull = false;
+      this.distroySearch();
     }
   }
   sdkBridge(parms){  // can be converted as service for common Use
     const _self = this;
     console.log(parms);
-    //this.bridgeDataInsights = !parms.data;
+    // this.bridgeDataInsights = !parms.data;
     let call = false;
-    if(parms.type == "show" && parms.data == true && _self.bridgeDataInsights){
+    if(parms.type === 'show' && parms.data === true && _self.bridgeDataInsights){
       _self.bridgeDataInsights = false;
       call = true;
     }else{
@@ -221,17 +287,17 @@ export class AppComponent implements OnInit {
       call = false;
     }
     if( !call ){
-      if(parms.type == "showInsightFull" && parms.data == true && _self.bridgeDataInsights){
+      if(parms.type === 'showInsightFull' && parms.data === true && _self.bridgeDataInsights){
         _self.bridgeDataInsights = false;
         _self.showInsightFull = true;
-        $('.ksa-resultsContainer').css({"width":"50%"});
+        $('.ksa-resultsContainer').css({width:'50%'});
       }else{
         _self.bridgeDataInsights = true;
         _self.showInsightFull = false;
-        $('.ksa-resultsContainer').css({"width":"100%"});
+        $('.ksa-resultsContainer').css({width:'100%'});
       }
     }
-    if(parms.type == "addNew" && parms.data == true){
+    if(parms.type === 'addNew' && parms.data === true){
       _self.addNewResult = false;
     }else{
       _self.addNewResult = true;
@@ -241,61 +307,30 @@ export class AppComponent implements OnInit {
     }
   }
   closeResultBody(event){
-    var bridgeObj = { type : "addNew" , data : false , query : null}
-    this.sdkBridge(bridgeObj)
+    const bridgeObj = { type : 'addNew' , data : false , query : null}
+    this.sdkBridge(bridgeObj);
+    if(this.searchInstance && this.searchInstance.applicationToSDK && event){
+      this.searchInstance.applicationToSDK(event);
+    }
   }
   initSearchSDK(){
     const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
-    $('app-body').append('<div class="search-background-div"></div>');
-    $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
-    $('.start-search-icon-div').click(function(){
-      if(!$('.search-background-div:visible').length){
-        _self.showHideSearch(true);
-      }else{
-        _self.showHideSearch(false);
-
-      }
+    setTimeout(() => {
+      $('.start-search-icon-div').click(()=>{
+        if(!$('.search-background-div:visible').length){
+          _self.showHideSearch(true);
+        }else{
+          _self.showHideSearch(false);
+        }
+      });
+    },200);
+      $('#advanceModeSdk').change(function(){
+        if($(this).is(':checked')) {
+          $('.search-container').removeClass('advanced-mode');
+        } else {
+          $('.search-container').addClass('advanced-mode');
+        }
     });
-    $('#advanceModeSdk').change(function(){
-      if($(this).is(":checked")) {
-        $('.search-container').removeClass('advanced-mode');          
-      } else {
-        $('.search-container').addClass('advanced-mode');
-      }
-  });
-    const findlyConfig :any =window.KoreSDK.findlyConfig;
-    this.findlyBusinessConfig = this;
-    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
-    var fSdk = new FindlySDK(findlyConfig);
-    fSdk.showSearch();
-    console.log(this.findlyBusinessConfig);
-    const e = {'data' : 1}
-    //fSdk.applicationDataTransfer(e);
-    this.searchInstance = fSdk;
-
-    // this.queryText =window.koreWidgetSDKInstance.vars.searchObject.searchText
-  //    var chatConfig = KoreSDK.chatConfig;
-  //   //chatConfig.botOptions.assertionFn = assertion;
-  //   // chatConfig.widgetSDKInstace=fSdk;//passing widget sdk instance to chatwindow 
-
-  //    var koreBot = koreBotChat();
-  //    koreBot.show(chatConfig);
-
-
-  //    var widgetsConfig=KoreSDK.widgetsConfig;
-
-  //   var wizSelector = {
-  //       menu: ".kr-wiz-menu-chat",
-  //       content: ".kr-wiz-content-chat"
-  //   }
-  //    var wSdk = new KoreWidgetSDK(widgetsConfig);
-  //    this.searchInstance = wSdk;
-  //  // this.searchInstance = fSdk;
-  //   fSdk.setJWT('dummyJWT');
-  //           fSdk.show(widgetsConfig, wizSelector);
-  //            fSdk.showSearch();
-    
-    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
 }

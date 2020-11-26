@@ -36,7 +36,7 @@
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">                                        
-                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngIf="source.recentStatus==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -47,7 +47,7 @@
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                   <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">Extract FAQs</li>
                                   <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">Import FAQs</li>
-                                  <li (click)="selectSourceDrop.close();addFaqSource('manual')">Add FAQs Manually</li>
+                                  <li (click)="selectSourceDrop.close();addFaqSource('manual')">Add Manually</li>
                                 </ul>
                             </div>
                         </div>
@@ -140,11 +140,11 @@
                                                 <div class="row m-0 col-12 p-0">
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Source</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.contentSource | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{selectedFaq.contentSource | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.contentSource] | titlecase}}</div>
                                                     </div>
                                                     <div class="col-4 inner-data-column">
                                                         <div class="heading">Edited by</div>
@@ -391,7 +391,7 @@
                                 <div class="added-questions-list" *ngFor="let followQues of selectedFaq._meta.followupQuestions">
                                     <div class="question-name text-truncate">{{followQues._source.question}}</div>
                                     <div class="added-tags text-truncate">
-                                        <span class="tags-data" *ngFor="let keyword of followQues._source?.keywords">#{{keyword.keyword}}&nbsp;</span>
+                                        <span class="tags-data" *ngFor="let keyword of followQues._source?.keywords">#{{keyword}}&nbsp;</span>
                                     </div>
                                     <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
@@ -459,7 +459,7 @@
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
                         <div class="col" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="col">{{source.source | titlecase}}</div>
+                        <div class="col">{{contentTypes[source.contentSource] | titlecase}}</div>
                         <div class="col">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
@@ -496,7 +496,7 @@
                         (click)="openStatusSlider(source)">
                         <div class="box">
                           <div class="title">{{source.title || source.name}}</div>
-                          <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.source] | titlecase}}</div>
+                          <div class="type" [ngClass]="{'doc': (source.type==='document')}">{{contentTypes[source.contentSource] | titlecase}}</div>
                           <div class="status-data">
                             <div class="count-pages" *ngIf="statusObj[source.recentStatus].name == 'Success'"><span class="pagelength">{{source.extractedFaqsCount}}</span> FAQs</div>
                             <div class="status-info" *ngIf="source.recentStatus && statusObj[source.recentStatus] && (source.recentStatus !== 'success') " [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
