@@ -11,12 +11,12 @@
       <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
         <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">
           <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
-          <div class="webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+          <div class="col-4 webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
             <div class="box-block-flat">
               <div class="row">
                 <div class="col-3" class="imageDiv"> <img src="{{source.icon}}"></div>
                 <div class="col-9 text-div">
-                  <img src="assets/icons/gray_info.svg" class="pl-1">
+                  <img src="assets/icons/gray_info.svg" class="icon-gray">
                   <div class="title label_text m-0">{{source.name}}</div>
                   <div >{{source.description}}</div>
                 </div>

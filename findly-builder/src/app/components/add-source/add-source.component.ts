@@ -813,6 +813,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.crwalObject.advanceOpts.blockedOpt = true;
         this.crwalObject.advanceOpts.allowedOpt = false;
       }
+    }else{
+      this.crwalObject.advanceOpts.crawlEverything = true;
     }
   }
   ngOnDestroy() {

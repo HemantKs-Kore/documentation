@@ -238,6 +238,11 @@
                     }
                     .text-div{
                         padding-top: 20px;
+                        .icon-gray{
+                            position: absolute;
+                            right: 12px;
+                            top: 5px;
+                        }
                     }
                     .imageDiv{
                         padding: 20px 0px 20px 30px;
@@ -831,7 +836,7 @@
 }
 .advance-setttings{
     .inner-content{
-        box-shadow: inset 0px -1px 0px #E4E5E7;
+        //box-shadow: inset 0px -1px 0px #E4E5E7;
         &:last-child{
             box-shadow: none;
         }
