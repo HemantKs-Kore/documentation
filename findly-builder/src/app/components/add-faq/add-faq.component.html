@@ -144,7 +144,7 @@
             </div>
             <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)"><img src="assets/images/delete_response.svg">Delete</div>
           </div>
-          <div class="condition-view-mode">
+          <div class="condition-view-mode" *ngIf="(faqObj && faqObj.answerType === 'condition') && (currentEditIndex !== index)">
             <div class="label_text">Conditions</div>
             <ng-container *ngFor="let item of faqObj.conditions;  let index = index">
               <div class="condition-view-mode-data">
