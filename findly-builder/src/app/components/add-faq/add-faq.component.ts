@@ -265,8 +265,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       faqObj.conditions.splice(index,1);
     }
   }
-  changeResponseType(faqObj){
+  changeResponseType(faqObj,index){
     faqObj.answerType = (faqObj.answerType ==='condition')?'default':'condition';
+    if(faqObj.answerType === 'condition' && !(faqObj.conditions && faqObj.conditions.length)){
+      this.addNewRule(index,faqObj)
+    }
   }
   add(event: MatChipInputEvent): void {
     const input = event.input;
