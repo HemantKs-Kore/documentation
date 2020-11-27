@@ -93,6 +93,9 @@ $excludeColor: var(--excludeColor);
 			.pdf-perfect-scroll {						
 				height: calc(100vh - 200px);
 			}
+			ngx-simplebar {
+				height: calc(100vh - 200px);
+			}
 			.thumb-nails {
 				height: 100vh;
 				overflow: auto;
@@ -746,7 +749,7 @@ $excludeColor: var(--excludeColor);
 					}
 				}				
 				&__cta {
-					top: -130px;
+					top: -155px;
 					left: 3%;
 					position: absolute;
 					width: 700px;
@@ -877,7 +880,7 @@ $excludeColor: var(--excludeColor);
 			.hide {
 				display: none;
 			}
-			.kr-sg-button-secondary.btn_md:disabled {
+			.kr-sg-button-secondary:disabled {
 				pointer-events: none;
 				cursor: not-allowed;
 				-webkit-box-shadow: none;

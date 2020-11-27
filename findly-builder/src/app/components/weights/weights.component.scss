@@ -162,10 +162,10 @@
         padding: 25px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        .add_btn_sec{
+        justify-content: flex-end;
+        // .add_btn_sec{
 
-        }
+        // }
         .cancel_save_sec{
             button{
                 margin-left: 20px;

@@ -329,7 +329,7 @@
   <div class="add-alternative-questions row" *ngIf="!isFollowUp && faqData">
     <div class="col-10 pl-0 pr-2">
         <div class="question-name text-truncate">Alternate Questions
-            <span *ngIf="faqData">{{faqData.alternateQuestions?.length>0?'('+faqData.alternateQuestions?.length+')':''}}</span>
+            <span *ngIf="faqData">{{faqData._source.alternateQuestions?.length>0?'('+faqData._source.alternateQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
         <div class="added-tags text-truncate">Add alternate forms of the question, key terms.</div>
@@ -346,13 +346,13 @@
       <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherAlternate()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >Another Question</button>
     </div>
   </div>
-  <ng-container *ngIf="faqData && faqData.alternateQuestions?.length">
-  <div class="added-questions-list mt-2" *ngFor="let alternateQuestion of faqData?.alternateQuestions">
+  <ng-container *ngIf="faqData && faqData._source && faqData._source.alternateQuestions?.length">
+  <div class="added-questions-list mt-2" *ngFor="let alternateQuestion of faqData._source?.alternateQuestions; let alterIndex = index">
       <div class="question-name text-truncate">{{alternateQuestion.question}}</div>
       <div class="added-tags text-truncate">
           <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
       </div>
-      <img src="assets/icons/delete-table.svg"  (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
+      <img src="assets/icons/delete-table.svg"  (click)="delAltQues(alternateQuestion,alterIndex)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}">
   </div>
   </ng-container>
 </div>
@@ -364,11 +364,11 @@
       <div class="modal-body textAlignLeft">
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">URL</div>
-          <input maxlength="5128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="imgInfo.url" name="appName">
+          <input maxlength="5128" type="text" autocomplete="off" placeholder="Enter Url" class="input-text" [(ngModel)]="imgInfo.url" name="appName">
         </div>
         <div class="kr-sg-input-text mb-3">
-          <div class="label-text">ALT</div>
-          <input maxlength="128" type="text" autocomplete="off" placeholder="App name" class="input-text" [(ngModel)]="imgInfo.alt" name="appName">
+          <div class="label-text">Name</div>
+          <input maxlength="128" type="text" autocomplete="off" placeholder="Enter Name" class="input-text" [(ngModel)]="imgInfo.alt" name="appName">
         </div>
       </div>
       <div class="modal-footer">
