@@ -82,7 +82,7 @@ export class AddResultComponent implements OnInit {
       var obj :any = {};
       obj.contentType = contentTaskFlag ? contentType : element.contentType ;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
-      obj.contentId = element._id;
+      obj.contentId = element.contentId;
       // obj.config = {
       //   pinIndex : -1,
       //   //boost: 1.0,

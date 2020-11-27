@@ -70,8 +70,8 @@
                                     <label [attr.for]="i" class="checkbox-custom-label"></label>
                                 </div>
                                 <div class="title-desc-sec" *ngIf="searchType == 'faq'">
-                                    <div class="title">{{ result.title}}</div>
-                                    <div class="desc" *ngFor="let answer of result._source.defaultAnswers;">{{ answer.searchResultPreview}}</div>
+                                    <div class="title">{{ result.question}}</div>
+                                    <div class="desc" >{{ result.answer}}</div>
                                 </div>
                             </div>
                             
