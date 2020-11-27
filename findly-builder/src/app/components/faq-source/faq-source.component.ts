@@ -68,7 +68,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   };
   contentTypes= {
     webdomain:'WEB',
-    document:'DOC'
+    document:'DOC',
+    manual:'Manual'
   }
   faqsObj = {
     faqs: []
