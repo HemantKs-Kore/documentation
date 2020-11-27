@@ -1094,6 +1094,20 @@ keyPress(event){
       }
     }
   }
+  crawlOption(opt){
+    if(opt != 'any'){
+      this.selectedSource.advanceSettings.crawlEverything = false;
+      if(opt == 'allow'){
+        this.selectedSource.advanceSettings.allowedOpt = true;
+        this.selectedSource.advanceSettings.blockedOpt = false;
+      }else if(opt == 'block'){
+        this.selectedSource.advanceSettings.blockedOpt = true;
+        this.selectedSource.advanceSettings.allowedOpt = false;
+      }
+    }else{
+      this.selectedSource.advanceSettings.crawlEverything = true;
+    }
+  }
   ngOnDestroy() {
     const timerObjects = Object.keys(this.polingObj);
     if (timerObjects && timerObjects.length) {

@@ -451,7 +451,7 @@
                     </div>
                     
                   <!-- </div> -->
-                  <div class="row m-0 row_data">
+                  <!-- <div class="row m-0 row_data">
                     <div class="col-10 title pl-pr-10">Crawl Everything</div>
                     <div class="toggle-label col-2 pl-pr-10 text-right">
                       <label *ngIf="selectedSource.advanceSettings" class="kr-sg-toggle">
@@ -465,9 +465,161 @@
                         <div class="slider"></div>
                       </label>
                     </div>
+                  </div> -->
+                </div>
+
+                <!-- New Crwal everey thing-->
+              <div class="inner-content row m-0">
+                <div class="col-12 p-0 input-paddings ">
+                  <div class="kr-sg-dropdowns">      
+                    <div class="label-text">Crwal Option</div>                                  
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <ul class="dropdown-menu content-menu">
+                          <li (click)="crawlOption('any')"><a>Crawl Everything</a></li>                                              
+                          <li (click)="crawlOption('block')"><a>Crawl Everything Except Specific URls</a></li>
+                          <li (click)="crawlOption('allow')"><a >Crawl Only Specific URLs</a></li>
+                        </ul>
+                      </div>
                   </div>
                 </div>
-                <div class="col-12 p-0"
+              </div>
+
+              <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+               
+                <div class="allow-urls-sec row allow-urlBox"
+                  *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
+                  <div class="col-2 p-0 title">Allow URLS</div>
+                  <div class="col-10 p-0 d-flex align-items-center">
+                    <div class="kr-sg-dropdowns">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input"
+                          data-toggle="dropdown">{{allowUrl.condition}}</button>
+                        <ul class="dropdown-menu content-menu">
+                          <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
+                          <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
+                          <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
+                          <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
+                          <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
+                          <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="kr-sg-input-text">
+                      <input type="text" id="enterPathInput" #inputVal placeholder="Enter/Path"
+                        [(ngModel)]="allowUrl.url" class="input-text" autocomplete="off">
+                    </div>
+                    <div class="add-urls" (click)="allowUrls(urlConditionAllow,inputVal,allowUrl)"><img
+                        src="assets/icons/add-urls.svg"></div>
+                  </div>
+                </div>
+                <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.allowedOpt">
+                  <div *ngFor="let allow of selectedSource.advanceSettings.allowedURLs;let i = index"
+                    class="allow-urls-sec row allow-urlBox m1010">
+                    <div class="col-2 p-0 title"></div>
+                        <div class="col-10 p-0 d-flex align-items-center">
+                          <div class="kr-sg-dropdowns">
+                            <div class="dropdown dropdown-open">
+                              <button class="dropdown-toggle dropdown-input"
+                                data-toggle="dropdown" disabled>{{allow.condition}}</button>
+                              
+                            </div>
+                          </div>
+                          <div class="kr-sg-input-text">
+                            <input type="text" autocomplete="off" value= "{{allow.url}}" name="allowVal"
+                              placeholder="Enter/Path" class="input-text" disabled>
+                          </div>
+                          <div class="add-urls" (click)="updateRecord(i,allow,'delete','allow')"><img src="assets/images/close-cross.svg"></div>
+                        </div>
+                    <!-- <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
+                    <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','allow')"><img
+                        src="assets/images/close-cross.svg"></div> -->
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+                
+                <div class="allow-urls-sec row allow-urlBox"
+                  *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
+                  <div class="col-2 p-0 title">Block URLS</div>
+                  <div class="col-10 p-0 d-flex align-items-center">
+                    <div class="kr-sg-dropdowns">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input"
+                          data-toggle="dropdown">{{blockUrl.condition}}</button>
+                        <ul class="dropdown-menu content-menu">
+                          <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
+                          <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
+                          <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
+                          <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
+                          <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
+                          <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="kr-sg-input-text">
+                      <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
+                        placeholder="Enter/Path" class="input-text">
+                    </div>
+                    <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
+                  </div>
+                </div>
+                <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
+                  <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
+                    class="allow-urls-sec row allow-urlBox m1010 ">
+                    <div class="col-2 p-0 title"></div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input"
+                            data-toggle="dropdown" disabled>{{allow.condition}}</button>
+                          
+                        </div>
+                      </div>
+                      <div class="kr-sg-input-text">
+                        <input type="text" autocomplete="off" value= "{{allow.url}}" name="allowVal"
+                          placeholder="Enter/Path" class="input-text" disabled>
+                      </div>
+                      <div class="add-urls" (click)="updateRecord(i,allow,'delete','block')"><img src="assets/images/close-cross.svg"></div>
+                    </div>
+                    <!-- <div class="col-11 p-0 title ">{{(i+1)}} : {{allow.condition}} - {{allow.url}}</div>
+                    <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
+                        src="assets/images/close-cross.svg"></div> -->
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Cookies -->
+                <div class=" group-checkbox">
+                  <div class="col-3 kr-sg-checkbox">
+                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
+                </div>
+              </div> 
+            
+              <!-- Cookies -->
+               <!-- New Crwal everey thing-->
+                <!-- Old  Crwal Design-->
+                
+                <!-- <div class="col-12 p-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
@@ -483,8 +635,8 @@
                       <div class="slider"></div>
                     </label>
                   </div>
-                </div>
-                <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
+                </div> 
+                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
                   <div class="allow-list-data-label label_text">Allow List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
                     <label class="kr-sg-toggle full-input list">
@@ -529,10 +681,10 @@
                           src="assets/images/close-cross.svg"></div>
                     </div>
                   </div>
-                </div>
+                </div> 
 
                 <div *ngIf="selectedSource.advanceSettings && !selectedSource.advanceSettings.crawlEverything">
-                  <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
+                   <div class="allow-list-data-label label_text mt-16">Block List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="blockListId" name="blockList"
@@ -540,7 +692,7 @@
                         (click)="restrictUrl(selectedSource.advanceSettings.blockedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div>
+                  </div> 
                   <div class="allow-urls-sec row allow-urlBox"
                     *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
@@ -565,8 +717,8 @@
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
-                  </div>
-                  <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
+                  </div> 
+                   <div *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.blockedOpt">
                     <div *ngFor="let allow of selectedSource.advanceSettings.blockedURLs;let i = index"
                       class="path-data row m1010 alw-list-bor"
                       [ngClass]="{'last-record' : (i + 1) == selectedSource.advanceSettings.blockedURLs.length }">
@@ -574,29 +726,12 @@
                       <div class="close-path col-1 p-0 text-right" (click)="updateRecord(i,allow,'delete','block')"><img
                           src="assets/images/close-cross.svg"></div>
                     </div>
-                  </div>
+                  </div> 
                   
-                </div>
-                <!-- Cookies -->
-                <div class="">
-                  <div class="heading-title" style="margin-top: 1rem; margin-left: 8px;font-weight: 500;font-size: 12px;">Crawl Settings</div>
-                </div>
-                <div class="group-checkbox" style="margin-top: -1rem; float: right">
-                  <!-- <div class="heading-title">Label</div> -->
-                  <div class="kr-sg-checkbox">
-                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
-                      <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">JavaScript-rendered</label>
-                  </div>
-                  <div class="kr-sg-checkbox">
-                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
-                      <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
-                  </div>
-                  <div class="kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
-                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt</label>
-                  </div>
-              </div>
+                </div> -->
+               
           <!-- Cookies -->
+           <!-- Old  Crwal Design-->
               </div>
             </perfect-scrollbar>
             <!-- Conf Configuration-->
