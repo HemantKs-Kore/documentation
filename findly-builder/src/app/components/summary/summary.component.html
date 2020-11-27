@@ -267,14 +267,24 @@
               <div class="col-6 create_link">+ Create New Experiment</div>
             </div>
           </div>
-          <div class="config-channels">
+          <div class="config-channels" *ngIf="channelExist; else elseBlock">
             <div class="main-title">Configured Channels</div>
             <div class="config-card">
               <div class="img-block"><img src="assets/icons/web-mobile.svg"></div>
               <div class="title">Web / Mobile Client</div>
             </div>
+           
             <div class="show-all-channels-link">Show All Channels</div>
           </div>
+          <ng-template #elseBlock>
+            <div class="experment_data">
+              <div class="main-title">Configured Channels</div>
+              <div class="row m-0 columns-data">
+                <div class="col-6 title">No Configured Channels</div>
+                <div class="col-6 create_link">+ Click to Configure Channels</div>
+              </div>
+            </div>
+          </ng-template>
       </div>
     </div>
   </perfect-scrollbar>  
