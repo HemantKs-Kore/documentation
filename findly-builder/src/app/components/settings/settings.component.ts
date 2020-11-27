@@ -22,7 +22,7 @@ export class SettingsComponent implements OnInit {
   listData: any;
   firstlistData;
   showSearch;
-  searchchannel:any='';
+  searchchannel: any = '';
   isAlertsEnabled: boolean;
   channelEnabled: true;
   existingCredential: boolean = false;
@@ -46,10 +46,10 @@ export class SettingsComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
 
-    this.getCredential();
+    // this.getCredential();
     this.getdialog();
     this.getLinkedBot();
-    // this.newCredential();
+   
   }
   copy(val, elementID) {
     const selBox = document.createElement('textarea');
@@ -121,6 +121,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('create.createCredential', queryParams, payload).subscribe(
       res => {
         console.log(res);
+        // this.listData={};
         this.listData = res;
         this.botID = res.bots[0];
         // this.slider = this.slider + 1;
@@ -130,7 +131,7 @@ export class SettingsComponent implements OnInit {
 
         this.notificationService.notify('Credential Created', 'success');
         this.closeModalPopup();
-        this. getCredential();
+        this.getCredential();
 
       },
       errRes => {
@@ -150,10 +151,18 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
         this.channnelConguired = res;
-        if (this.channnelConguired.apps.length > 0) {
+        if (this.channnelConguired.apps.length > 0 && !this.existingCredential) {
           this.existingCredential = true;
-          this.firstlistData=res.apps[0];
+          this.firstlistData = res.apps[0];
+          this.slider = 3
+          this.listData = this.firstlistData
+          this.configFlag = true;
         }
+        else if (this.channnelConguired.apps.length == 0){
+          this.existingCredential = false;
+          this.slider=1
+        }
+       
         console.log(res)
       },
       errRes => {
@@ -166,23 +175,29 @@ export class SettingsComponent implements OnInit {
     );
   }
   continue() {
-    if (this.existingCredential && this.slider == 0) {
-      this.slider = 3
-       this.listData=this.firstlistData  
-      this.configFlag=true;
-
+    if(this.slider==0){
+      this.getCredential()
     }
+    // if (this.existingCredential && this.slider == 0) {
+    //   this.slider = 3
+    //   this.listData = this.firstlistData
+    //   this.configFlag = true;
+
+    // }
+    // if(this.configFlag=true && this.slider == 0) {
+    //   this.slider=3
+    // }
     if (this.slider == 2) {
       this.createCredential()
-      this.configFlag=true;
+      this.configFlag = true;
 
     }
-    if (this.slider < 3) {
+    if (this.slider < 3 && this.slider !=0) {
       this.slider = this.slider + 1;
     }
-//     if(this.slider!==0 && !this.existingCredential){
-// this.slider=i1;
-//     }
+    //     if(this.slider!==0 && !this.existingCredential){
+    // this.slider=i1;
+    //     }
   }
   radio(bool) {
     this.isAlertsEnabled = bool;
@@ -336,12 +351,12 @@ export class SettingsComponent implements OnInit {
   closeModalPopup() {
     this.addCredentialRef.close();
   }
-  toggleSearch(){
+  toggleSearch() {
     if (this.showSearch && this.searchchannel) {
       this.searchchannel = '';
     }
     this.showSearch = !this.showSearch
   };
-  
-  
+
+
 }

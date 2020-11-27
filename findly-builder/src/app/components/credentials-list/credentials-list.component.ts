@@ -5,7 +5,10 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+
 declare const $: any;
 @Component({
   selector: 'app-credentials-list',
@@ -24,8 +27,10 @@ export class CredentialsListComponent implements OnInit {
   botID = '';
   data;
   isAlertsEnabled: boolean;
+  editTitleFlag:boolean=false;
   AppUsage:true;
   channelEnabled: true;
+  editCreden:any={};
   channnelConguired: any = [];
   // existingCredential: boolean = false;
   credentials:any;
@@ -41,6 +46,7 @@ export class CredentialsListComponent implements OnInit {
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
+    public dialog: MatDialog,
     private notificationService: NotificationService,
     public authService: AuthService) { }
 
@@ -80,11 +86,10 @@ newCredential() {
 closeModalPopup() {
   this.addCredentialRef.close();
 }
-editnewCredential($event){
-  // this.editTitleFlag = true;
-
-  if(this.editCredentialRef=this.editCredential.open())
-  this.credntial.name=this.data.appName;
+editnewCredential(event){
+  this.editCredentialRef=this.editCredential.open()
+  this.editTitleFlag = true;
+  // this.editCreden.name=this.data.appName;
 }
 closeEditModalPopup(){
   this.editCredentialRef.close();
@@ -201,6 +206,43 @@ configureCredential() {
     }
   );
 }
+deleteCredential(){
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    width: '446px',
+    height: '306px',
+    panelClass: 'delete-popup',
+    data: {
+      title: 'Delete Credential',
+      text: 'Are you sure you want to delete Credential?',
+      buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
+    }
+  });
+  dialogRef.componentInstance.onSelect
+    .subscribe(result => {
+      if (result === 'yes') {
+        const quaryparms: any = {
+          userId: this.authService.getUserId(),
+          streamId: this.selectedApp._id,
+          
+        }
+        this.service.invoke('delete.credential', quaryparms).subscribe(res => {
+          // dialogRef.close();
+          this.notificationService.notify(' credential deleted successfully', 'success');
+        }, (err) => {
+          if (err && err.data && err.data.errors && err.data.errors[0]) {
+            this.notificationService.notify(err.data.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed to delete credential', 'error');
+          }
+        });
+        
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    })
+};
+
+}
 // getLinkedBot() {
 //   const queryParams = {
 //     userId: this.authService.getUserId(),
@@ -222,4 +264,4 @@ configureCredential() {
 //   );
 // }
 
-}
+
