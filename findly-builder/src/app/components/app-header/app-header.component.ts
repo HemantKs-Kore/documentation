@@ -129,13 +129,15 @@ export class AppHeaderComponent implements OnInit {
 
     this.showSwichAccountOption = this.localStoreService.getAssociatedAccounts().length > 1;
     this.search = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        map(term => term === '' ? []
-          : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-      )
-    this.formatter = (x: { displayName: string }) => (x.displayName || '');
-    this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.availableRouts.filter(v => (v.displayName || '').toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+    this.formatter = (x: {displayName: string}) => (x.displayName || '');
+    if(localStorage.krPreviousState){
+      this.analyticsClick(JSON.parse(localStorage.krPreviousState).route);
+    }
   }
 
   removeCallFlowExpand() {

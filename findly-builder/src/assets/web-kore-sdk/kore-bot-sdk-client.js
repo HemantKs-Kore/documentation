@@ -1314,8 +1314,6 @@ KoreRTMClient.prototype.handleWsOpen = function handleWsOpen() {
 KoreRTMClient.prototype.handleWsMessage = function handleWsMessage(wsMsg) {
   var message;
   this.emit("message", wsMsg);
-  console.log('-----------handleWsMessage----------');
-  console.log(wsMsg);
   try {
     message = JSON.parse(wsMsg);
   } catch (err) {
@@ -6959,10 +6957,7 @@ if (typeof Object.create === 'function') {
 
       function wrapper() {
         var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-        console.log('---------event-----------');
-        console.log(arguments);
         return fn.apply(thisArg, arguments);
-       
       }
       return wrapper;
     }

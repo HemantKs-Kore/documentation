@@ -125,6 +125,7 @@ export class SettingsComponent implements OnInit {
         this.listData = res;
         this.botID = res.bots[0];
         // this.slider = this.slider + 1;
+        this.listData != this.credntial.name;
         if (this.slider == 3 && this.existingCredential) {
           this.slider = 3
         }
@@ -175,18 +176,9 @@ export class SettingsComponent implements OnInit {
     );
   }
   continue() {
-    if(this.slider==0){
+    if(this.slider==0 ){
       this.getCredential()
     }
-    // if (this.existingCredential && this.slider == 0) {
-    //   this.slider = 3
-    //   this.listData = this.firstlistData
-    //   this.configFlag = true;
-
-    // }
-    // if(this.configFlag=true && this.slider == 0) {
-    //   this.slider=3
-    // }
     if (this.slider == 2) {
       this.createCredential()
       this.configFlag = true;
@@ -194,10 +186,9 @@ export class SettingsComponent implements OnInit {
     }
     if (this.slider < 3 && this.slider !=0) {
       this.slider = this.slider + 1;
+      // this.existingCredential;
+
     }
-    //     if(this.slider!==0 && !this.existingCredential){
-    // this.slider=i1;
-    //     }
   }
   radio(bool) {
     this.isAlertsEnabled = bool;
@@ -331,7 +322,6 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
         this.slider = 0;
-
         this.notificationService.notify('Credential Configuered', 'success');
         this.standardPublish();
         console.log(res);

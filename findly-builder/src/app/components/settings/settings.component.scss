@@ -84,6 +84,18 @@
                     top: 1px;
                     text-decoration-line: none;
                 }
+                &.active-name1{
+                    color: #000000;
+                    font-weight: 500;
+                    font-size: 15px;
+                    line-height: 22px;
+                    position: relative;
+                    top: 1px;
+                    text-decoration-line: none;
+                    left:750px;
+                    
+                }
+
             }
             img{
                 margin: 0 10px;
@@ -510,5 +522,14 @@
                 }
             }
         }
+    }
+}
+::ng-deep .view-query-modal{
+    .switch-toggle{
+        .kr-sg-toggle{
+            span{
+                width: 600px !important;
+            }
+        }       
     }
 }
