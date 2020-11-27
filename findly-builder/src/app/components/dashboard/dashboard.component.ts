@@ -100,6 +100,8 @@ export class DashboardComponent implements OnInit {
   }
   dateLimt(type){
     this.dateType = type;
+    this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
