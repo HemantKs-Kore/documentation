@@ -343,7 +343,7 @@
               </div>
               <div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
+                  <div class="allow-urls-sec row allow-urlBox padd" *ngIf="crwalObject.advanceOpts.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -394,7 +394,7 @@
                   </div>
 
                   <!--Block-->
-                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
+                  <div class="allow-urls-sec row allow-urlBox padd" *ngIf="crwalObject.advanceOpts.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -453,6 +453,31 @@
                   </div>
                   <!-- Block-->
                 </div>
+                <!-- Cookies -->
+                <div class=" group-checkbox">
+                  <div class="col-3 kr-sg-checkbox">
+                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
+                  </div>
+                  <div class="col-3 kr-sg-checkbox">
+                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
+                </div>
+              </div>
+            
+              <!-- Cookies -->
               </div>
                <!-- New Crwal everey thing-->
 
@@ -484,9 +509,9 @@
                   </label>
                 </div>
               </div> -->
-              <div class="inner-content row m-0">
+              <!--<div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                  <!-- <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg"
+                   <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="allowUrlId" name="allowUrl"
@@ -494,8 +519,8 @@
                         (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div> -->
-                  <!-- <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
+                  </div> 
+                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -519,8 +544,8 @@
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
 
-                  </div> -->
-                  <!-- <div
+                  </div>
+                   <div
                     *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
                     class="w-100">
                     <div class="alw-data w-100" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
@@ -531,9 +556,9 @@
                             src="assets/images/close-cross.svg"></span>
                       </div>
                     </div>
-                  </div> -->
-                  <!-- Block List -->
-                  <!-- <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg"
+                  </div> 
+                 
+                   <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
 
                     <label class="kr-sg-toggle full-input list">
@@ -542,8 +567,8 @@
                         (click)="restrictUrl(crwalObject.advanceOpts.blockedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div> -->
-                  <!-- <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
+                  </div> 
+                   <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -567,8 +592,8 @@
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
 
-                  </div> -->
-                  <!-- <div
+                  </div>
+                   <div
                     *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length && crwalObject.advanceOpts.blockedOpt"
                     class="w-100">
                     <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
@@ -579,29 +604,10 @@
                             src="assets/images/close-cross.svg"></span>
                       </div>
                     </span>
-                  </div> -->
+                  </div> 
                 </div>
-              </div>
-              <!-- Cookies -->
-              <div class="">
-                <div class="heading-title" style="margin-top: 1rem; margin-left: 8px;font-weight: 500;font-size: 12px;">Crawl Settings</div>
-              </div>
-            <div class="group-checkbox" style="margin-top: -1rem; float: right">
-              <!-- <div class="heading-title">Label</div> -->
-              <div class="kr-sg-checkbox">
-                  <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">JavaScript-rendered</label>
-              </div>
-              <div class="kr-sg-checkbox">
-                  <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
-              </div>
-              <div class="kr-sg-checkbox">
-                  <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt</label>
-              </div>
-          </div>
-              <!-- Cookies -->
+              </div>-->
+              
             </div>
 
             <div class="kr-sg-input-text-area mb-4 radio-pad"

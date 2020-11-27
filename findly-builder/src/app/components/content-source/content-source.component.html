@@ -69,7 +69,7 @@
               src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
             SOURCE TITLE
           </div>
-          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')"><span
+          <div class="col_ col-1 d-flex align-items-center" (click)="sortBy('type')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
             <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg"
               class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('type', 'up')"
@@ -123,6 +123,12 @@
               </div>
             </div>
           </div>
+          <div class="col_ col-2" (click)="sortBy('numPages')">
+            <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg"
+              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('numPages', 'up')"
+              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              NO OF PAGES
+          </div>
           <div class="col_ col-2" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
@@ -137,7 +143,7 @@
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
               <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
-              <div class="col_ col-2">
+              <div class="col_ col-1">
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
@@ -150,17 +156,20 @@
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                 <span class="sch-createdOn ml-2">({{ source.schedule_createdOn }})</span>
-                <!-- <span class ="ml-2" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                <span class ="ml-2" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
-                  {{source.schedule_duration}}</span> -->
+                  {{source.schedule_duration}}</span>
+              </div>
+              <div class="col_ col-2">
+                <span  >{{source.numPages}}</span>
               </div>
               <div class="col_ col-2" *ngIf="source.advanceSettings">
                 <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.userDetails.fullName}}</span>
                 <span *ngIf="source.advanceSettings.scheduleOpt" >Scheduled</span>
               </div>
               <div class="col_ col-2" *ngIf="!source.advanceSettings">
-                <span  >{{source.userDetails.fullName}}</span>
+                <span  >{{source.jobInfo.createdBy || source.userDetails.fullName}}</span>
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
@@ -175,7 +184,7 @@
       </section>
       <ng-container *ngIf="currentView === 'grid'">
         <perfect-scrollbar class="table-scroll-perfect list">
-          <div class="list-view-data">
+          <!-- <div class="list-view-data">
             <div class="row row_list">
               <div class="box-content" *ngFor="let source of resources | filter: [ searchSources , 'name']"
                 (click)="openStatusSlider(source)">
@@ -212,81 +221,43 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <!-- <div class="row col-12 p-0 grid-data-sec">
-            <div class="col-4 grid-card">
+          </div> -->
+<!-- New Design -->
+          <div class="row col-12 p-0 grid-data-sec">
+            <div class="col-4 grid-card" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+            (click)="openStatusSlider(source)">
               <div class="card_sec">
                 <div class="titles-sec">
-                  <span class="name">Citi Bank</span><span class="type-data">WEB</span>
+                  <span class="name">{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}">
+                    {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
                 </div>
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
-                  <div class="timestamp">Started - 3 minutes back</div>
-                  <div class="status text-right">
+                  <div class="timestamp" *ngIf="statusObj[source.recentStatus].name == ('In Progress' || 'Queued'); else executed">Started - {{source.schedule_createdOn}}</div>
+                  <ng-template #executed>
+                    <div class="timestamp" >Last Updated on {{source.lMod | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                  </ng-template>
+                  <div class="status text-right" *ngIf="statusObj[source.recentStatus].name == 'In Progress'">
+                    <span class="img-block"><img src="assets/icons/content/in-progress.svg"></span>
+                    <span class="status-title">In-progress</span>
+                  </div>
+                  <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus].name == 'Success'">
+                      <span class="count">12</span>Pages
+                  </div>
+                  <div class="status text-right" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
                     <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
                     <span class="status-title failed">Failed</span>
                   </div>
                 </div>
                 <div class="delete-refresh">
-                  <img src="assets/icons/content/return.svg">
-                  <img src="assets/icons/content/delete.svg">
+                  <img src="assets/icons/content/return.svg"  *ngIf="source.extractionType == 'webdomain'"  (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl'>
+                  <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)" ngbTooltip='Delete'>
                 </div>
               </div>
             </div>
-            <div class="col-4 grid-card">
-              <div class="card_sec">
-                <div class="titles-sec">
-                  <span class="name">Finshots</span><span class="type-data doc">DOC</span>
-                </div>
-                <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
-                  <div class="timestamp">Last Updated on 28 Jul 2020</div>
-                  <div class="pages-count text-right">
-                    <span class="count">18</span>Pages
-                  </div>
-                </div>
-                <div class="delete-refresh">
-                  <img src="assets/icons/content/return.svg">
-                  <img src="assets/icons/content/delete.svg">
-                </div>
-              </div>
-            </div>
-            <div class="col-4 grid-card">
-              <div class="card_sec">
-                <div class="titles-sec">
-                  <span class="name">Kore</span><span class="type-data">Web</span>
-                </div>
-                <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
-                  <div class="timestamp">Last Updated on 28 Jul 2020</div>
-                  <div class="pages-count text-right">
-                    <span class="count">12</span>Pages
-                  </div>
-                </div>
-                <div class="delete-refresh">
-                  <img src="assets/icons/content/return.svg">
-                  <img src="assets/icons/content/delete.svg">
-                </div>
-              </div>
-            </div>
-            <div class="col-4 grid-card">
-              <div class="card_sec">
-                <div class="titles-sec">
-                  <span class="name">Kore</span><span class="type-data">DOC</span>
-                </div>
-                <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
-                  <div class="timestamp">Started - 3 minutes back</div>
-                  <div class="status text-right">
-                    <span class="img-block"><img src="assets/icons/content/in-progress.svg"></span>
-                    <span class="status-title">In-progress</span>
-                  </div>
-                </div>
-                <div class="delete-refresh">
-                  <img src="assets/icons/content/return.svg">
-                  <img src="assets/icons/content/delete.svg">
-                </div>
-              </div>
-            </div>                                            
-          </div> -->
-
+            
+                                                      
+          </div>
+<!-- New Design -->
         </perfect-scrollbar>
       </ng-container>
     </div>
@@ -470,13 +441,16 @@
                         <div class="slider"></div>
                       </label>
                     </div>
-
+                    
                   </div>
-                  <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt">
+                  <!-- <div class="schedule-comp" *ngIf="selectedSource.advanceSettings.scheduleOpt"> -->
                     <!-- *ngIf="selectedSource.advanceSettings.scheduleOpt"  -->
-                    <app-scheduler [crwalObject]="selectedSource" [schedule]="'get'"
+                    <div class="schedule-box">
+                      <app-scheduler [scheduleFlag] = "selectedSource.advanceSettings.scheduleOpt" [crwalObject]="selectedSource" [schedule]="'get'"
                       (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)"></app-scheduler>
-                  </div>
+                    </div>
+                    
+                  <!-- </div> -->
                   <div class="row m-0 row_data">
                     <div class="col-10 title pl-pr-10">Crawl Everything</div>
                     <div class="toggle-label col-2 pl-pr-10 text-right">
@@ -631,7 +605,7 @@
           <div class="accordion-content-info text-left" *ngIf="page">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
-              <div class="col-4 label_text m-0">Crawled <img src="assets/icons/caretDown.svg" class="ml-1"></div>
+              <div class="col-4 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
             </div>
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
@@ -642,7 +616,7 @@
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.url || selectedSource.url}}">
                           {{page._source.url || selectedSource.url}}</div>
-                        <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A'}}</div>
+                        <div class="col-3 date p-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
                         <div class="col-1 actions p-0">
                           <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"

@@ -332,6 +332,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   swapSlider(tabName) {
+    if($('.tabname')){
     if( tabName == 'execution'){
       this.execution = true;
       this.isConfig = false;
@@ -354,7 +355,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.isConfig = false;
       this.page = true;
     }
-    
+  }
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
@@ -1093,7 +1094,6 @@ keyPress(event){
       }
     }
   }
-
   ngOnDestroy() {
     const timerObjects = Object.keys(this.polingObj);
     if (timerObjects && timerObjects.length) {
