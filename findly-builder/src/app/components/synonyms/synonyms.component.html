@@ -71,13 +71,13 @@
             <header class="table-header" >
                 <div class="col-8 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.terms'| translate}}</div>
                 <div class="col-4 title-header"><img src="assets/icons/sort_up_down.svg">{{'synonyms.type'| translate}}
-                  <span class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-center'">                                        
+                  <span class="kr-sg-dropdowns" #t='ngbDropdown' ngbDropdown [placement]="'bottom-center'">                                        
                     <div class="dropdown dropdown-open">
                       <img src="assets/icons/synonyms_sort_dropdown.svg" ngbDropdownToggle>                                            
                       <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
-                        <li (click)="selectFilter(null)">{{'synonyms.all'| translate}}<img *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
-                       <li (click)="selectFilter('oneWaySynonym')">{{'synonyms.one_way_synonym' | translate}}<img class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
-                       <li (click)="selectFilter('synonym')">{{'synonyms.synonym'| translate}}<img class="pl-2" *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>		
+                        <li (click)="selectFilter(null);t.close();">{{'synonyms.All' | translate}}<img *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
+                       <li (click)="selectFilter('oneWaySynonym');t.close();">{{'synonyms.one_way_synonym' | translate}}<img class="pl-2" *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
+                       <li (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2" *ngIf="(selectedFilter === 'synonym')" src="assets/icons/check-blue.svg"></li>		
                       </ul>
                     </div>
                   </span>
@@ -144,7 +144,7 @@
                   </span>
                 </div>
                 <div class="col-4 data_content">
-                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">{{'synonyms.one_way_synonym'| translate}</span>
+                  <span *ngIf="synonym.type === 'oneWaySynonym'" class="title_data">{{'synonyms.one_way_synonym'| translate}}</span>
                   <span *ngIf="!(synonym.type === 'oneWaySynonym')" class="title_data">{{'synonyms.synonym'| translate}}</span>
                   <span class="float-right action-links">
                     <span class="actions-links mr-3" (click) = "editSynRecord(synonym,$event,i)" ngbTooltip='Edit' [container]='"body"'><img class="action_icon"  src="assets/images/edit-pencil.svg"></span>

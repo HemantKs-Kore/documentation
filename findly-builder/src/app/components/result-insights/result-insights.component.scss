@@ -202,8 +202,13 @@
                 cursor: pointer;
             } 
             .img-sec{
-                margin-right: 25px;
+                margin-right: 10px//25px;
             }
+        }
+        .data-overview{
+            white-space: normal;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }                    
     }
     .footer-simulate{

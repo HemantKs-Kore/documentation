@@ -86,6 +86,7 @@ import { UserEngagementComponent } from './components/user-engagement/user-engag
 import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { Ng5SliderModule } from 'ng5-slider';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -168,6 +169,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatDatepickerModule,
     MatNativeDateModule,
     AnnotoolModule,
+    Ng5SliderModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),

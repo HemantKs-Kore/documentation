@@ -18,7 +18,7 @@ export class InsightsComponent implements OnInit {
   show = false;
   actionLog_id = 0;
   icontoggle : boolean = false;
-  graphMode : boolean = false;
+  graphMode : boolean = true;
   iconIndex;
   ctrVal;
   slider : any = 1;
@@ -28,6 +28,7 @@ export class InsightsComponent implements OnInit {
   selectedApp: any = {};
   serachIndexId;
   analystic : any = {};
+  chartOption: EChartOption;
   staticChartOption : EChartOption = {
         xAxis: {
           type: 'category',
@@ -44,46 +45,7 @@ export class InsightsComponent implements OnInit {
         },
         splitArea : {show : false}
       },
-    //   series: [{
-    //     data: [400, 400, 450, 450, 450, 400, 400],
-    //     type: 'line',
-    //     smooth: true
-    // },
-    // {
-    //     data: [350, 390, 450, 400, 350, 380, 350],
-    //     type: 'line',
-    //     smooth: true
-    // },
-    //  {
-    //     data: [600, 400, 380, 370, 360, 350, 200],
-    //     type: 'line',
-    //     smooth: true
-    // }]
-//     series: [{
-//       data: [14, 10, 14, 14, 10, 14, 10],
-//       type: 'line',
-//       smooth: true,
-//       lineStyle: {
-//         color: '#202124',
-//       }
-//   },
-//   {
-//       data: [14, 11, 21, 17, 13, 5, 5],
-//       type: 'line',
-//       smooth: true,
-//       lineStyle: {
-//         color: '#3368BB',
-//       }
-//   },
-//   {
-//     data: [13, 11, 16, 15, 12, 11, 13],
-//     type: 'line',
-//     smooth: true,
-//     lineStyle: {
-//       color: '#009DAB',
-//     }
-// }]
-
+   
 series: [{
   data: [7, 10, 14, 18, 15, 10, 6],
   type: 'line',
@@ -110,59 +72,7 @@ lineStyle: {
 }
 ]
   }
-  chartOption: EChartOption = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      scale: true,
-		//  show:false,
-		//  splitLine:{//remove grid lines
-		// 	show:false
-		// },
-      //splitArea : {show : false}// remove the grid area
-  },
-  yAxis: {
-      type: 'value',
-      scale: true,
-		 show:false,
-		 splitLine:{
-			show:false
-		},
-     splitArea : {show : false}
-  },
-  tooltip: {
-      axisPointer: {
-          label: {
-              //backgroundColor: '#6a7985'
-          }
-      }
-  },
-  series: [{
-      data: [7, 10, 14, 18, 15, 10, 6],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#202124',
-      }
-  },
-  {
-      data: [8, 11, 21, 15, 10, 5, 5],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#3368BB',
-      }
-  },
-  {
-    data: [8, 11, 16, 15, 10, 5, 5],
-    type: 'line',
-    smooth: true,
-    lineStyle: {
-      color: '#009DAB',
-    }
-}
-]
-  };
+  
   
   constructor(public workflowService: WorkflowService,private service: ServiceInvokerService,private notificationService: NotificationService) { }
   getQueryLevelAnalytics(){
@@ -170,8 +80,14 @@ lineStyle: {
     //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
     // } 
     //this.query = "Open bank account"
+    let date = new Date();
+    let _month_old_date =new Date(Date.now() - (30 * 864e5));
+    let startDate = date.getFullYear()+ "-" +(date.getMonth()+1)+ "-"+ date.getDate();
+    let endDate = _month_old_date.getFullYear()+ "-" +(_month_old_date.getMonth()+1)+ "-"+ _month_old_date.getDate();
     const quaryparms: any={
       searchIndexId: this.serachIndexId,
+      startDate : startDate, //"2020-10-10",
+      endDate : endDate, //"2020-11-10"//endDate,
     }
     var payload = {
       "searchQuery": this.query
@@ -184,7 +100,7 @@ lineStyle: {
     
       this.service.invoke('get.QueryLevelAnalytics',quaryparms,payload).subscribe(res => {
         console.log(res)
-        
+        this.analyticGraph(res)
         this.analystic =  res;
         if(this.analystic['searches'] == 0 || this.analystic['clicks'] == 0){
           this.ctrVal = 0;
@@ -207,6 +123,85 @@ lineStyle: {
     //},5000)
     this.getcustomizeList();
 
+  }
+  analyticGraph(responseData){
+    let search_x_axis_data = [];
+    let click_x_axis_data = [];
+    let ctr_x_axis_data = [];
+    let _y_axis_data = [];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    if(responseData.searchesData){
+      responseData.searchesData.forEach(element => {
+        let date = new Date(element.date);
+        _y_axis_data.push(date.getDate() + " " +monthNames[date.getMonth()])
+        search_x_axis_data.push(element.searches);
+        _y_axis_data.push(element.date);
+      });
+    }
+    if(responseData.clicksData){
+      responseData.clicksData.forEach(element => {
+        click_x_axis_data.push(element.clicks);
+        //_y_axis_data.push(element.date);
+      });
+    }
+    if(responseData.ctrData){
+      responseData.ctrData.forEach(element => {
+        ctr_x_axis_data.push(element.ctr);
+      });
+    }
+   this.chartOption = {
+      xAxis: {
+        type: 'category',
+        data: _y_axis_data,//['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        scale: true,
+      //  show:false,
+      //  splitLine:{//remove grid lines
+      // 	show:false
+      // },
+        //splitArea : {show : false}// remove the grid area
+    },
+    yAxis: {
+        type: 'value',
+        scale: true,
+       show:false,
+       splitLine:{
+        show:true
+      },
+       splitArea : {show : false}
+    },
+    tooltip: {
+        axisPointer: {
+            label: {
+                //backgroundColor: '#6a7985'
+            }
+        }
+    },
+        series: [{
+            data: search_x_axis_data,//[7, 10, 14, 18, 15, 10, 6],
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              color: '#202124',
+            }
+        },
+        {
+            data: click_x_axis_data, //[8, 11, 21, 15, 10, 5, 5],
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              color: '#3368BB',
+            }
+        },
+        {
+          data: ctr_x_axis_data, //[8, 11, 17, 15, 35, 5, 5],
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            color: '#009DAB',
+          }
+      }]
+    };
   }
   customInit(){
    // $("#advanceContainer").delay(800).fadeIn();
@@ -301,7 +296,7 @@ lineStyle: {
     this.filterArray.push(element.status)
   });
   this.filterArray = new Set(this.filterArray);
-  console.log(this.data)
+  //console.log(this.data)
   }
   filterRecord(type){
     this.actionLogData = [...this.actionLogDatBack];

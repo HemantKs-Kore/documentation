@@ -1314,7 +1314,6 @@ KoreRTMClient.prototype.handleWsOpen = function handleWsOpen() {
 KoreRTMClient.prototype.handleWsMessage = function handleWsMessage(wsMsg) {
   var message;
   this.emit("message", wsMsg);
-
   try {
     message = JSON.parse(wsMsg);
   } catch (err) {

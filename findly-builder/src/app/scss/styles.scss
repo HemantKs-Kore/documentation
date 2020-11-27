@@ -1612,3 +1612,11 @@ div.divBlockEmptylastChild:first-child {
         }
     }
 }
+// simple bar scroll styles
+ngx-simplebar {
+    .simplebar-scrollbar {
+        &::before {
+            background-color: #aaa;
+        } 
+    }
+}

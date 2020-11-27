@@ -161,11 +161,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         this.responseType = this.faqData.templateSettings.responseType
       }
       this.form = this.fb.group({
-        question: [this.faqData.question, Validators.required],
-        botResponse: [this.faqData.answer, Validators.required],
+        question: [this.faqData._source.question, Validators.required],
+        botResponse: [this.faqData._source.answer, Validators.required],
       });
-      this.tags = this.faqData.keywords;
-      this.text = this.faqData.answer;
+      this.tags = this.faqData._source.keywords;
+      this.text = this.faqData._source.answer;
     } else {
       this.form = this.fb.group({
         question: ['', Validators.required],
@@ -305,8 +305,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
   setDataforEditDelete(faqdata){
     if(faqdata){
-      if(faqdata && faqdata.defaultAnswers && faqdata.defaultAnswers.length){
-        $.each(faqdata.defaultAnswers,(i,answer)=>{
+      if(faqdata && faqdata._source && faqdata._source.defaultAnswers && faqdata._source.defaultAnswers.length){
+        $.each(faqdata._source.defaultAnswers,(i,answer)=>{
             const answerObj:any = {
               type: answer.type,
               payload:answer.payload,
@@ -332,9 +332,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           this.faqResponse.defaultAnswers.push(answerObj);
         })
       }
-      if(faqdata && faqdata.conditionalAnswers && faqdata.conditionalAnswers && faqdata.conditionalAnswers.length){
-
-        $.each(faqdata.conditionalAnswers,(i,answer)=>{
+      if(faqdata && faqdata._source && faqdata._source.conditionalAnswers && faqdata._source.conditionalAnswers && faqdata._source.conditionalAnswers.length){
+        $.each(faqdata._source.conditionalAnswers,(i,answer)=>{
             const answerObj:any = {
               type: 'string',
               payload:'',
@@ -456,18 +455,21 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     }
     const emmiter = this.faqData ? this.editFaq : this.addFaq;
     this.loading = true;
-    emmiter.emit({
-      question: this.form.get('question').value,
-      tags: this.tags,
-      defaultAnswers:this.anwerPayloadObj.defaultAnswers,
-      conditionalAnswers:this.anwerPayloadObj.conditionalAnswers,
-      alternateQuestions: this.faqData ? this.faqData.alternateQuestions : [],
-      followupQuestions: this.faqData ? this.faqData.followupQuestions : [],
+    const payload = {
+      _source:{
+        question: this.form.get('question').value,
+        tags: this.tags,
+        defaultAnswers:this.anwerPayloadObj.defaultAnswers,
+        conditionalAnswers:this.anwerPayloadObj.conditionalAnswers,
+        alternateQuestions: (this.faqData && this.faqData._source && this.faqData._source.alternateQuestions)? this.faqData._source.alternateQuestions : [],
+      },
+      followupQuestions: (this.faqData && this.faqData.followupQuestions)? this.faqData.followupQuestions : [],
       response: this.form.get('botResponse').value,
       _id: this.faqData ? this.faqData._id : null,
       quesList: this.quesList,
       cb: (res => { this.loading = false })
-    })
+    }
+    emmiter.emit(payload);
   }
 
   cancel() {
@@ -787,8 +789,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       }
     });
   }
-  delAltQues(ques) {
-    this.faqData.alternateQuestions = _.without(this.faqData.alternateQuestions, _.findWhere(this.faqData.alternateQuestions, { _id: ques._id }));
+  delAltQues(ques,index) {
+    this.faqData._source.alternateQuestions.splice(index,1);
+    // this.faqData._source.alternateQuestions = _.without(this.faqData._source.alternateQuestions, _.findWhere(this.faqData._source.alternateQuestions, { _id: ques._id }));
   }
   ngOnDestroy() {
     this.eventsSubscription? this.eventsSubscription.unsubscribe(): false;

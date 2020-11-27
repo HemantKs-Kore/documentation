@@ -1,0 +1,17 @@
+<div class="confirm-dialog" >
+  <div class="modal-header">
+    <div class="modal-title">{{dialogInfo?.title || 'No title found'}}</div>
+  </div>
+  <div class="modal-body">
+    <div>{{dialogInfo?.confirmationMsg || 'No msg found'}}</div>
+  </div>
+  <div class="modal-footer">
+    <button (click)="tryAgain()" type="button" class="kr-sg-button-primary btn_md">
+      {{dialogInfo?.yes || 'Confirm'}}
+    </button>
+    <button (click)="close()" type="button" class="kr-sg-button-secondary btn_md">
+      {{dialogInfo?.no || 'Cancel'}}
+    </button>
+  </div>
+
+</div>
