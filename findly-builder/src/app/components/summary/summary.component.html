@@ -159,11 +159,11 @@
                   <div class="title-info">Total Users<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                   <div class="bottom-sec">
                       <div class="left-sec">
-                          <div class="count">{{ totalUsersStats.totalUsers || 80}}</div>
+                          <div class="count">{{ totalUsersStats.totalUsers}}</div>
                           <div class="data-percentage" [ngClass] ="{'failed' : totalUsersStats.percentageIncrease < 0}">
                               <img src="assets/icons/arrow-increase.svg" *ngIf="totalUsersStats.percentageIncrease >= 0">
                               <img src="assets/icons/arrow-decrease.svg" *ngIf="totalUsersStats.percentageIncrease < 0">
-                              <span class="percentage">{{ totalUsersStats.percentageIncrease || 12}}%</span>
+                              <span class="percentage">{{ totalUsersStats.percentageIncrease }}%</span>
                           </div>
                       </div>
                       <div class="right-sec">
@@ -178,11 +178,11 @@
                 <div class="title-info">Total Searches<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                 <div class="bottom-sec">
                     <div class="left-sec">
-                        <div class="count">{{ totalSearchesStats.totalSearches || 2945}}</div> <!-- {{totalSearchSum}} -->
+                        <div class="count">{{ totalSearchesStats.totalSearches}}</div> <!-- {{totalSearchSum}} -->
                         <div class="data-percentage" [ngClass] ="{'failed' : totalSearchesStats.searchRate < 0}">
                             <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.searchRate >= 0">
                             <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.searchRate < 0">
-                            <span class="percentage">{{ totalSearchesStats.searchRate || 8}}%</span>
+                            <span class="percentage">{{ totalSearchesStats.searchRate }}%</span>
                         </div>
                     </div>
                     <div class="right-sec">
@@ -197,11 +197,11 @@
               <div class="title-info">Result Rate<img src="assets/icons/gray_info.svg" class="pl-1"></div>
               <div class="bottom-sec">
                   <div class="left-sec">
-                      <div class="count">{{totalSearchesStats.resultRate || 7}}%</div>
+                      <div class="count">{{totalSearchesStats.resultRate }}%</div>
                       <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.increasedResultRate < 0}">
                           <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
                           <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.increasedResultRate < 0">
-                          <span class="percentage">{{totalSearchesStats.increasedResultRate || 3}}%</span>
+                          <span class="percentage">{{totalSearchesStats.increasedResultRate}}%</span>
                       </div>
                   </div>
                   <div class="right-sec">
