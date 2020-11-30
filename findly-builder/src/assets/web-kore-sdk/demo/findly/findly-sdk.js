@@ -63,15 +63,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
     FindlySDK.prototype.applicationToSDK = function (event) {
-     var _self = this;
-      if(event){
-      $('#loaderDIV').show()
-      facetActive = $('.facetActive').attr('id');
-      _self.searchByFacetFilters(_self.vars.filterObject);
-      //_self.searchByFacetFilters(facetActive)
-      //_self.prepAllSearchData(facetActive);
-      //$('#loaderDIV').hide()
-     }
+      var _self = this;
+      if (event) {
+        $('#loaderDIV').show()
+        facetActive = $('.facetActive').attr('id');
+        _self.searchByFacetFilters(_self.vars.filterObject);
+        //_self.searchByFacetFilters(facetActive)
+        //_self.prepAllSearchData(facetActive);
+        //$('#loaderDIV').hide()
+      }
       //console.log(event)
     }
     /*FindlySDK.prototype.assignCallbacksToParent = function () {
@@ -243,7 +243,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.locationObject = {};
 
       var IPBasedLocationURL = "http://ip-api.com/json";
-      $.ajax({
+      /*$.ajax({
         url: IPBasedLocationURL,
         type: 'GET',
         success: function (res) {
@@ -253,7 +253,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         error: function (error) {
           console.log("Unable to fetch user's location.", error)
         }
-      }) 
+      })*/
     }; //********************original widget.js start */
 
 
@@ -339,18 +339,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
       // debugger;
       // var baseAPIServer = 'https://app.findly.ai';
-      var baseAPIServer = 'https://dev.findly.ai';
+      // var baseAPIServer = 'https://dev.findly.ai';
+      var baseAPIServer = ''
       if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
       }
       var baseUrl = baseAPIServer + "/searchAssistant";
+      var searchAPIURL = baseAPIServer + "/api/1.1/findly/";
       console.log(baseUrl);
       var businessTooBaseURL = baseAPIServer + "/api/1.1/findly/";
       console.log(businessTooBaseURL);
       _self.API = {
         baseUrl: baseUrl,
         livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
-        searchUrl: baseUrl + "/search/" + SearchIndexID,
+        // searchUrl: baseUrl + "/search/" + SearchIndexID,
+        searchUrl: searchAPIURL + SearchIndexID + "/search",
         metricsUrl: baseAPIServer + "/api/1.1/findlymetrics/logs",
         // popularSearchesUrl: "https://app.findly.ai/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         popularSearchesUrl: baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
@@ -1572,13 +1575,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.facetType == "value"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name="${bucket.key}" value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
                   {{if searchFacet.facetType == "range"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name="${bucket.key}" value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
@@ -2469,7 +2472,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         /*var data = $(e.currentTarget).closest('.finalResults').data() || {};
         _self.vars.searchObject.liveData = data
         console.log(data);*/
-        var url = _self.API.searchUrl;
+
+        /*var url = _self.API.searchUrl;
         var payload = {
           "query": _self.vars.searchObject.searchText,
           // "maxNumOfResults": 9,
@@ -2477,7 +2481,54 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           "userId": _self.API.uuid,
           "streamId": _self.API.streamId,
           "lang": "en",
+        }*/
+        var url = _self.API.searchUrl;
+        var currentDate = new Date();
+
+        var dateTime = currentDate.getDate() + "/"
+          + (currentDate.getMonth() + 1) + "/"
+          + currentDate.getFullYear() + ", "
+          + currentDate.getHours() + ":"
+          + currentDate.getMinutes() + ":"
+          + currentDate.getSeconds();
+
+        var payload = {
+          "query": _self.vars.searchObject.searchText,
+          // "maxNumOfResults": 9,
+          "maxNumOfResults": 16,
+          "userId": _self.API.uuid,
+          "streamId": _self.API.streamId,
+          "lang": "en",
+          // "isDev": true,
+          "isDev": _self.isDev,
+          "messagePayload": {
+            "clientMessageId": new Date().getTime(),
+            "message": {
+              "body": _self.vars.searchObject.searchText,
+            }
+          },
+          "resourceId": '/bot.message',
+          "timeDateDay": dateTime,
+          "currentPage": window.location.href,
+          "meta": {
+            "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
+            "locale": window.navigator.userLanguage || window.navigator.language,
+          },
         }
+
+        if (_self.bot.options) {
+          payload["client"] = _self.bot.options.client || "sdk";
+          payload["botInfo"] = {};
+          payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
+          payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
+        }
+
+        if (_self.vars.filterObject.length > 0) {
+          payload.filters = filterObject;
+        }
+
+        console.log(payload);
+
         if (_self.vars.showingMatchedResults == true) {
           _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
             if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
@@ -2487,10 +2538,33 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
 
             $(".custom-insights-control-container").hide();
+            var faqs = [], pages = [], tasks = [], documents = [], facets = {};
 
-            _self.prepAllSearchData();
-            _self.bindAllResultsView();
-            _self.bindSearchActionEvents();
+            console.log(response.template);
+
+            if (response.template) {
+              faqs = response.template.results.faq;
+              pages = response.template.results.page;
+              tasks = response.template.results.task;
+              documents = response.template.results.document;
+              facets = response.template.facets;
+
+              _self.vars.searchObject.liveData = {
+                faqs: faqs,
+                pages: pages,
+                tasks: tasks,
+                facets: facets,
+                documents: documents,
+                originalQuery: response.template.originalQuery || '',
+                // searchFacets: searchFacets,
+              }
+              console.log(_self.vars.searchObject.liveData);
+
+
+              _self.prepAllSearchData();
+              _self.bindAllResultsView();
+              _self.bindSearchActionEvents();
+            }
           })
         }
         else {
@@ -3171,6 +3245,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var activeFacet = '';
       var facetActive = '';
       var url = _self.API.searchUrl;
+
+      var currentDate = new Date();
+      var dateTime = currentDate.getDate() + "/"
+        + (currentDate.getMonth() + 1) + "/"
+        + currentDate.getFullYear() + ", "
+        + currentDate.getHours() + ":"
+        + currentDate.getMinutes() + ":"
+        + currentDate.getSeconds();
+
       var payload = {
         "query": _self.vars.searchObject.searchText,
         // "maxNumOfResults": 9,
@@ -3179,7 +3262,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "streamId": _self.API.streamId,
         "lang": "en",
         // "isDev": true,
+        "isDev": _self.isDev,
+        "messagePayload": {
+          "clientMessageId": new Date().getTime(),
+          "message": {
+            "body": _self.vars.searchObject.searchText,
+          }
+        },
+        "resourceId": '/bot.message',
+        "timeDateDay": dateTime,
+        "currentPage": window.location.href,
+        "meta": {
+          "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
+          "locale": window.navigator.userLanguage || window.navigator.language,
+        },
       }
+
+      if (_self.bot.options) {
+        payload["client"] = _self.bot.options.client || "sdk";
+        payload["botInfo"] = {};
+        payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
+        payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
+      }
+
       if (filterObject.length > 0) {
         payload.filters = filterObject;
       }
@@ -3192,7 +3297,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       payload.isDev = _self.isDev;
 
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
-        faqs = [], pages = [], tasks = [], documents = [], facets = {};
+        var faqs = [], pages = [], tasks = [], documents = [], facets = {};
 
         console.log(response.template);
 
@@ -3889,8 +3994,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
       _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-          console.log('frequently searched results message event observed');
-          console.log(res);
+        console.log('frequently searched results message event observed');
+        console.log(res);
         _self.handleSearchRes(res);
       });
     }
@@ -3907,6 +4012,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
       } else {
         console.log('Previous requestId or orinigal query is mising');
+      }
+      if (res.templateType == undefined) {
+        var botResponse;
+        if (res.payload.template_type != undefined) {
+          botResponse = res;
+          console.log("Bot Response", res);
+          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
+        }
+        else {
+          botResponse = res.text;
+          console.log("Bot Response", botResponse);
+          _self.sendMessageToSearch('bot', botResponse);
+        }
       }
       if (res.templateType === 'search') {
         res = res.template;
@@ -4395,7 +4513,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('#searchChatContainer').addClass('bgfocus');
     };
     FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
-      var bearer = this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
       return $.ajax({
         url: url,
         type: type,
