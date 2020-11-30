@@ -4020,15 +4020,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (res.templateType == undefined) {
         var botResponse;
-        if (res.payload.template_type != undefined) {
-          botResponse = res;
-          console.log("Bot Response", res);
-          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
-        }
-        else {
+        if (res.payload == undefined) {
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
+        }
+        else {
+          botResponse = res;
+          console.log("Bot Response", res);
+          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
         }
       }
       if (res.templateType === 'search') {
