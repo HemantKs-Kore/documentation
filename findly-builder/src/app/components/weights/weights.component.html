@@ -6,7 +6,6 @@
     <ng-container *ngIf="!loadingContent">
     <div class="header-sec-stopwords">
         <div class="title">{{'weights.Weights'| translate}}</div>
-        >
         <div class="restore_text" *ngIf="weights.length">
             <span class="lable_text"  (click)="openAddNewWeight()"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{'weights.add_rankable_field'| translate}}</span>
             <span class="lable_text" (click)="restoreWeights();"><img src="assets/icons/return_black.svg">{{'weights.reset_to_default' | translate}}</span>
