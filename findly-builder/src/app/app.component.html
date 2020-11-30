@@ -3,7 +3,7 @@
     <div *ngIf="!loading">
         <app-header (showMenu) = "showMenu($event)"></app-header>
         <app-mainmenu [show] = "showMainMenu" class="toShowAppHeader"></app-mainmenu>
-        <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody) = "closeResultBody(event)" [query] = "queryText" [bridgeData] = "bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult" class="container-fluid appContent"  [ngClass]= "{'pl-0': !showMainMenu}"></app-body>
+        <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody) = "closeResultBody($event)" [query] = "queryText" [bridgeData] = "bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult" class="container-fluid appContent"  [ngClass]= "{'pl-0': !showMainMenu}"></app-body>
     </div>
 </div>
 <div class="loaderContainer"  *ngIf="loading">

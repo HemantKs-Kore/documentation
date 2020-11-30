@@ -169,6 +169,7 @@ export class BusinessRulesComponent implements OnInit {
         outcomeType: outcome.outcomeType,
         scale: outcome.scale,
         fieldName: outcome.fieldName,
+        fieldDataType:outcome.fieldDataType,
         outcomeOperator: outcome.outcomeOperator,
         outcomeValue:outcome.outcomeValue
       }

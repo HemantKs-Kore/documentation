@@ -43,10 +43,15 @@ export class DashboardComponent implements OnInit {
   totalRecord = 100;
   limitpage = 5;
   recordEnd = 5;
+  totalUsersStats : any;
+  totalSearchesStats : any;
+  topSearchResults : any;
   topQuriesWithNoResults : any;
   mostSearchedQuries : any = {};
   queriesWithNoClicks : any;
   searchHistogram : any;
+  mostClickedPositions : any = [];
+  feedbackStats: any;
   heatMapChartOption : EChartOption;
   feedbackPieSearches : EChartOption;
   feedbackPieResult : EChartOption;
@@ -56,6 +61,8 @@ export class DashboardComponent implements OnInit {
   userEngagementChartData : EChartOption;
   isAsc = true;
   slider = 0;
+  dateType= "hour";
+  group = "hour";
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -64,14 +71,22 @@ export class DashboardComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     
-    this.userEngagementChart();
-    this.mostClick();
-    this.feedback();
-    this.busyHours();
+    //this.userEngagementChart();
+    
+    // this.feedback();
+    //this.busyHours();
+
+    this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
     this.getQueries("TopQuriesWithNoResults");
     this.getQueries("MostSearchedQuries");
     this.getQueries("QueriesWithNoClicks");
     this.getQueries("SearchHistogram");
+    this.getQueries("TopSearchResults");
+    this.getQueries("MostClickedPositions");
+    this.getQueries("FeedbackStats");
+    
+    
     
   }
   tab(index){
@@ -83,9 +98,34 @@ export class DashboardComponent implements OnInit {
   paginate(event){
     console.log(event)
   }
+  dateLimt(type){
+    this.dateType = type;
+    this.getQueries("TotalUsersStats");
+    this.getQueries("TotalSearchesStats");
+    this.getQueries("TopQuriesWithNoResults");
+    this.getQueries("MostSearchedQuries");
+    this.getQueries("QueriesWithNoClicks");
+    this.getQueries("SearchHistogram");
+    this.getQueries("TopSearchResults");
+    this.getQueries("MostClickedPositions");
+    this.getQueries("FeedbackStats");
+  }
   getQueries(type){
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
+    var week = new Date(Date.now() - (6 * 864e5));
+    var custom = new Date(Date.now() - (29 * 864e5));
+    let from = new Date();
+    if(this.dateType == 'hour'){
+      from = yesterday;
+      this.group = "hour";
+    }else if(this.dateType == 'week'){
+      from = week;
+      this.group = "date";
+    }else if(this.dateType == 'custom'){
+      from = custom;
+      this.group = "week";
+    }
     const header : any= {
       'x-timezone-offset': '-330'
     };
@@ -97,9 +137,15 @@ export class DashboardComponent implements OnInit {
     let payload : any = {
       type : type,
       filters: {
-        from: yesterday.toJSON(),
+        from: from.toJSON(),
         to: today.toJSON()
-      }
+      },
+     
+    }
+    if(type == "TotalUsersStats" || type == "TotalSearchesStats"){
+      //payload.group = this.group 
+    }else{
+      payload.group = this.group 
     }
     if(type == "QueriesWithNoClicks"){
       payload.sort = {
@@ -141,6 +187,18 @@ export class DashboardComponent implements OnInit {
       }else if(type == 'SearchHistogram'){
         this.searchHistogram = res.result;
         this.summaryChart();
+      }else if(type == 'TopSearchResults'){
+        this.topSearchResults = res.result;
+      }else if(type == "MostClickedPositions"){
+        this.mostClickedPositions = res.result;
+        this.mostClick();
+      }else if(type == "FeedbackStats"){
+        this.feedbackStats = res.result;
+        this.feedback();
+      }else if(type == "TotalUsersStats"){
+        this.totalUsersStats = res;
+      }else if(type == "TotalSearchesStats"){
+        this.totalSearchesStats = res;
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -202,124 +260,51 @@ export class DashboardComponent implements OnInit {
   //   this.resources = sortedData;
   // }
   summaryChart(){
-    /** TEST */
-    // let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    // let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
-
-    // let testdata = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
    
-    // var data = [
-      
-    //   ["1",227,166,136],
-    //   ["2",313,299,229],
-    //   ["3",315,311,227],
-    //   ["4",345,282,266],
-    //   ["5",346,293,267],
-    //   ["6",357,294,290],
-    //   ["7",367,311,300],
-    //   ["8",371,309,301],
-    //   ["9",389,321,299],
-    //   ["10",391,312,298],
-    //   ["11",387,345,297],
-    //   ["12",361,346,266],
-    //   ["13",367,347,255],
-    //   ["14",390,357,233],
-    //   ["15",301,366,221],
-    //   ["16",311,307,245],
-    //   ["17",325,307,306],
-    //   ["18",409,386,381],
-    //   ["19",401,365,321],
-    //   ["20",422,364,300],
-    //   ["21",421,373,363],
-    //   ["22",411,366,309],
-    //   ["23",312,311,308],
-    //  ["24",345,301,293]];
-      // ["25",290,288,285],
-      // ["26",291,283,273],
-      // ["27",276,269,259],
-      // ["28",341,298,282],
-      // ["29",340,289,287],
-      // ["30",344,277,245],
-      // ["31",346,261,232],
-      // ["32",345,260,235],
-      // ["33",348,255,243],
-      // ["34",354,345,311],
-      // ["35",334,334,298],
-      // ["36",332,311,287],
-      // ["37",367,301,267],
-      // ["38",311,300,277],
-      // ["39",310,307,273],
-      // ["40",308,306,296],
-      // ["41",301,305,299],
-      // ["42",309,304,297],
-      // ["43",289,260,242],
-      // ["44",299,288,231],
-      // ["45",252,247,245],
-      // ["46",241,183,158],
-      // ["47",212,167,161]];
-      
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var totaldata = [];
+  this.totalSearchSum = 0;
+  for(var i = 0 ; i< this.searchHistogram.length; i++){
+    if(this.dateType == 'hour'){
+      totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+    }else if(this.dateType == 'week' || this.dateType == 'custom'){
+      let date = new Date(this.searchHistogram[i].date);
+      // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
+      totaldata.push([date.getDate() + " " +monthNames[date.getMonth()],this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+    }
+    // else if(this.dateType == 'custom'){
+    //   let date = new Date(this.searchHistogram[i].date);
+    //   totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
+    // }
+    this.totalSearchSum = this.totalSearchSum + this.searchHistogram[i].totalSearches;
+    this.searchesWithResultsSum = this.searchesWithResultsSum + this.searchHistogram[i].searchesWithResults;
+    this.searchesWithClicksSum = this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks
+  }
 
-//       // var dateList = data.map(function (item) {
-//       //   return item[0];
-//       // });
-//       // var valueList = data.map(function (item) {
-//       //   return item[1];
-//       // });
-//       // var valueList1 = data.map(function (item) {
-//       //   return item[2];
-//       // });
+  var searchWithResultdata = []
+  var searchWithClickdata = []
 
-//       // var valueList2 = data.map(function (item) {
-//       //   return item[3];
-//       // });
+  var dateList = totaldata.map(function (item) {
+      return item[0];
+  });
 
-// var dateList = data.map(function (item) {
-//   return item[0];
-// });
+  var valueList = totaldata.map(function (item) {
+      return item[1];
+  });
+  var valueList1 = totaldata.map(function (item) {
+      return item[2];
+  });
 
-// var valueList = data.map(function (item) {
-//   return item[1];
-// });
-// var valueList1 = data.map(function (item) {
-//   return item[2];
-// });
-
-// var valueList2 = data.map(function (item) {
-//   return item[3];
-// });
-var totaldata = [];
-this.totalSearchSum = 0;
-for(var i = 0 ; i< this.searchHistogram.length; i++){
-  totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
-  this.totalSearchSum = this.totalSearchSum + this.searchHistogram[i].totalSearches;
-  this.searchesWithResultsSum = this.searchesWithResultsSum + this.searchHistogram[i].searchesWithResults;
-  this.searchesWithClicksSum = this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks
-}
-
-var searchWithResultdata = []
-var searchWithClickdata = []
-
-var dateList = totaldata.map(function (item) {
-    return item[0];
-});
-
-var valueList = totaldata.map(function (item) {
-    return item[1];
-});
-var valueList1 = totaldata.map(function (item) {
-    return item[2];
-});
-
-var valueList2 = totaldata.map(function (item) {
-    return item[3];
-});
-this.chartOption  = {
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-},
+  var valueList2 = totaldata.map(function (item) {
+      return item[3];
+  });
+    this.chartOption  = {
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
     // 4th August, 2020
     tooltip: {
       trigger: 'axis',  
@@ -337,21 +322,7 @@ this.chartOption  = {
       position: 'top',
       padding: 0
     },
-  //   dataZoom: [{
-  //     show: true,
-  //     type: 'inside',
-  //     filterMode: 'none',
-  //     xAxisIndex: [0],
-  //     startValue: 0,
-  //     endValue: 24
-  // }, {
-  //     show: true,
-  //     type: 'inside',
-  //     filterMode: 'none',
-  //     yAxisIndex: [0],
-  //     startValue: 0,
-  //     endValue: 2000
-  // }],
+  
     xAxis: [{
         data: dateList,
        // type: 'time',
@@ -456,95 +427,110 @@ this.chartOption  = {
       }
     ]};
   }
-  userEngagementChart(){
-    this.userEngagementChartData = {
+  // userEngagementChart(){
+  //   this.userEngagementChartData = {
       
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {            
-          type: 'none'        
-      },
-        formatter:  (params) => `
-        <div class="metrics-tooltips-hover userengagment-tooltip">          
-        <div class="data-content">
-            <div class="main-title">Total Users</div>
-            <div class="title total">${params[0].value + params[1].value}</div>
-        </div>
-        <div class="data-content">
-            <div class="main-title">New Users</div>
-            <div class="title new">${params[1].value}</div>
-        </div>
-        <div class="data-content border-0">
-            <div class="main-title">Repeat Users</div>
-            <div class="title return">${params[0].value}</div>
-        </div>
-    </div> 
-        `,
-        position: 'top',
-        padding: 0
+  //     tooltip: {
+  //       trigger: 'axis',
+  //       axisPointer: {            
+  //         type: 'none'        
+  //     },
+  //       formatter:  (params) => `
+  //       <div class="metrics-tooltips-hover userengagment-tooltip">          
+  //       <div class="data-content">
+  //           <div class="main-title">Total Users</div>
+  //           <div class="title total">${params[0].value + params[1].value}</div>
+  //       </div>
+  //       <div class="data-content">
+  //           <div class="main-title">New Users</div>
+  //           <div class="title new">${params[1].value}</div>
+  //       </div>
+  //       <div class="data-content border-0">
+  //           <div class="main-title">Repeat Users</div>
+  //           <div class="title return">${params[0].value}</div>
+  //       </div>
+  //   </div> 
+  //       `,
+  //       position: 'top',
+  //       padding: 0
        
-      },
+  //     },
      
-      grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-      },
-      xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  //     grid: {
+  //         left: '3%',
+  //         right: '4%',
+  //         bottom: '3%',
+  //         containLabel: true
+  //     },
+  //     xAxis: {
+  //         type: 'category',
+  //         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
          
-      },
-      yAxis: {
-           type: 'value'
-      },
-      series: [
-        //barMinWidth = 10;
-          {
-              name: 'bottom',
-              type: 'bar',
-              stack: '总量',
-              // label: {
-              //     show: true,
-              //     position: 'insideRight'
-              // },
-              barWidth: 10,
-              itemStyle: {
+  //     },
+  //     yAxis: {
+  //          type: 'value'
+  //     },
+  //     series: [
+  //       //barMinWidth = 10;
+  //         {
+  //             name: 'bottom',
+  //             type: 'bar',
+  //             stack: '总量',
+  //             // label: {
+  //             //     show: true,
+  //             //     position: 'insideRight'
+  //             // },
+  //             barWidth: 10,
+  //             itemStyle: {
                 
-                normal: {
-                  color: '#FF784B',
-                    barBorderRadius: [0, 0, 50 ,50 ]
-                },
+  //               normal: {
+  //                 color: '#FF784B',
+  //                   barBorderRadius: [0, 0, 50 ,50 ]
+  //               },
                 
-              },
-              data: [7, 6, 8, 6, 9, 5, 13]
-          },
-          {
-              name: 'top',
-              type: 'bar',
-              stack: '总量',
-              // label: {
-              //     show: true,
-              //     position: 'insideRight'
-              // },
-              barWidth: 10,
-              itemStyle: {
-                normal: {
-                  color: '#0D6EFD',
-                    barBorderRadius: [50, 50, 0 ,0 ]
-                }
-              },
-              lineStyle: {
-                color: '#0D6EFD',
-              },
-              data: [3, 4, 2, 4, 1, 5, 7]
-          }
-      ]
-  };
-  }
+  //             },
+  //             data: [7, 6, 8, 6, 9, 5, 13]
+  //         },
+  //         {
+  //             name: 'top',
+  //             type: 'bar',
+  //             stack: '总量',
+  //             // label: {
+  //             //     show: true,
+  //             //     position: 'insideRight'
+  //             // },
+  //             barWidth: 10,
+  //             itemStyle: {
+  //               normal: {
+  //                 color: '#0D6EFD',
+  //                   barBorderRadius: [50, 50, 0 ,0 ]
+  //               }
+  //             },
+  //             lineStyle: {
+  //               color: '#0D6EFD',
+  //             },
+  //             data: [3, 4, 2, 4, 1, 5, 7]
+  //         }
+  //     ]
+  // };
+  // }
     mostClick(){
-        this.mostClickBar  = {
+      let xAxisData = [];
+      let yAxisData = [];
+      if(this.mostClickedPositions){
+        this.mostClickedPositions.forEach(element => {
+          if(element.position == 1 ) yAxisData.push(element.position + " st")
+          if(element.position == 2 ) yAxisData.push(element.position + " nd")
+          if(element.position == 3 ) yAxisData.push(element.position + " rd")
+          if(element.position > 3 )yAxisData.push(element.position + " th");
+          xAxisData.push(element.clicks)
+        });
+      }else{
+        xAxisData = [120, 200, 150];
+        yAxisData= ['1st','2nd','3rd']
+      }
+      
+        this.mostClickBar  = { 
           xAxis: {
               type: 'value',
               axisLabel: {
@@ -554,7 +540,7 @@ this.chartOption  = {
           },
           yAxis: {
             type: 'category',
-              data: ['1st ', ' 2nd', '3rd']
+              data: yAxisData
               
           },
           barWidth: 40,
@@ -573,13 +559,14 @@ this.chartOption  = {
                 color: '#B893F2',
               },
             },
-              data: [120, 200, 150],
+              data: xAxisData,//[120, 200, 150],
               type: 'bar'
           }]
       };
     
     }
     feedback(){
+     // this.feedbackStats
       var colorPaletteSearch = ['#28A745','#EAF6EC'];
       var colorPaletteResult = ['#FF784B','#FFF1ED'];
       this.feedbackPieSearches = {
@@ -623,107 +610,107 @@ this.chartOption  = {
         };
       
     }
-    busyHours(){
-      let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
+    // busyHours(){
+    //   let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
+    // let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
 
-    let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
-      this.heatMapChartOption = {
-        tooltip: {
-          position: 'top'
-        },
-        animation: false,
-        grid: {
-          height: '70%',
-          top: '10%',
-          left: '5%',
-          right: 0,
-        },
-        xAxis: {
-          type: 'category',
-          data: hours,
-          axisLine: {
-            show: false
-          },
-          axisLabel:{
-            margin: 20,
-            color: "#8a959f",
-            fontWeight: "bold",
-            fontSize: 12,
-            fontFamily: "Lato"
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#FFF",
-              width: 5
-            }
-          },
-          splitArea: {
-            show: true
-          },
-          boundaryGap: true,
-          position: 'top'
-        },
-        yAxis: {
-          type: 'category',
-          data: days,
-          axisLine: {
-            show: false
-          },
-          axisLabel:{
-            margin: 20,
-            color: "#8a959f",
-            fontWeight: "bold",
-            fontSize: 12,
-            fontFamily: "Lato"
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#FFF",
-              width: 5
-            }
-          },
-          splitArea: {
-            show: true
-          },
-          boundaryGap: true
-        },
+    // let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
+      // this.heatMapChartOption = {
+      //   tooltip: {
+      //     position: 'top'
+      //   },
+      //   animation: false,
+      //   grid: {
+      //     height: '70%',
+      //     top: '10%',
+      //     left: '5%',
+      //     right: 0,
+      //   },
+      //   xAxis: {
+      //     type: 'category',
+      //     data: hours,
+      //     axisLine: {
+      //       show: false
+      //     },
+      //     axisLabel:{
+      //       margin: 20,
+      //       color: "#8a959f",
+      //       fontWeight: "bold",
+      //       fontSize: 12,
+      //       fontFamily: "Lato"
+      //     },
+      //     axisTick: {
+      //       show: false
+      //     },
+      //     splitLine: {
+      //       show: true,
+      //       lineStyle: {
+      //         color: "#FFF",
+      //         width: 5
+      //       }
+      //     },
+      //     splitArea: {
+      //       show: true
+      //     },
+      //     boundaryGap: true,
+      //     position: 'top'
+      //   },
+      //   yAxis: {
+      //     type: 'category',
+      //     data: days,
+      //     axisLine: {
+      //       show: false
+      //     },
+      //     axisLabel:{
+      //       margin: 20,
+      //       color: "#8a959f",
+      //       fontWeight: "bold",
+      //       fontSize: 12,
+      //       fontFamily: "Lato"
+      //     },
+      //     axisTick: {
+      //       show: false
+      //     },
+      //     splitLine: {
+      //       show: true,
+      //       lineStyle: {
+      //         color: "#FFF",
+      //         width: 5
+      //       }
+      //     },
+      //     splitArea: {
+      //       show: true
+      //     },
+      //     boundaryGap: true
+      //   },
   
-        visualMap: [{
-          show: false,
-          min: 0,
-          max: 10,
-          calculable: true,
-          orient: 'horizontal',
-          left: 'center',
-          bottom: '0',
-          inRange : {   
-            color: ['rgba(0, 157, 171, 0.1)', '#009dab' ] //From smaller to bigger value ->
-          }
-        }],
-        series: [{
-          name: 'Users',
-          type: 'heatmap',
-          data: data,
-          emphasis: {
-            itemStyle: {
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          },
-          itemStyle: {
-            borderColor: "#fff",
-            borderWidth: 4
-          }
+      //   visualMap: [{
+      //     show: false,
+      //     min: 0,
+      //     max: 10,
+      //     calculable: true,
+      //     orient: 'horizontal',
+      //     left: 'center',
+      //     bottom: '0',
+      //     inRange : {   
+      //       color: ['rgba(0, 157, 171, 0.1)', '#009dab' ] //From smaller to bigger value ->
+      //     }
+      //   }],
+      //   series: [{
+      //     name: 'Users',
+      //     type: 'heatmap',
+      //     data: data,
+      //     emphasis: {
+      //       itemStyle: {
+      //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+      //       }
+      //     },
+      //     itemStyle: {
+      //       borderColor: "#fff",
+      //       borderWidth: 4
+      //     }
   
-        }]
-      };
-    }
+      //   }]
+      // };
+   // }
 }
