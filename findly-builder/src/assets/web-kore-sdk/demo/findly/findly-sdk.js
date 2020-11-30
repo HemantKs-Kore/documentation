@@ -1572,13 +1572,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.facetType == "value"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name=${bucket.key} value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
                   {{if searchFacet.facetType == "range"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name=${bucket.key} value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name=${bucket.key} value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
@@ -2208,7 +2208,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
       $('.search-container').addClass('full-page');
-      $('.start-search-icon-div').hide();
+      if($('.start-search-icon-div').hasClass('active')){
+        $('.start-search-icon-div').addClass('hide');
+      }
       console.log('---- fill search hides preview ball icon ----------')
       $('.search-body-full').removeClass('hide');
       $('.search-body-full').html(searchFullData);
@@ -2546,7 +2548,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
         $('.search-container').removeClass('full-page');
-        $('.start-search-icon-div').show();
+        $('.start-search-icon-div').removeClass('hide');
         console.log('---- .custom-chevron-right-icon click shows preview ball icon ----------')
         $('.search-body-full').html('');
         $('.search-body-full').addClass('hide');
@@ -2616,7 +2618,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })*/
 
       // $('.filter-checkbox').off('change').on('change', function (event) {
-      $('.checkbox-custom').off('change').on('change', function (event) {
+      $('.sdk-filter-checkbox').off('change').on('change', function (event) {
         $('#loaderDIV').show();
 
         if ($(this).is(':checked')) {
@@ -2638,7 +2640,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.filters-reset-anchor').on('click', function (event) {
         // $('.filter-checkbox').prop('checked', false);
-        $('.checkbox-custom').prop('checked', false);
+        $('.sdk-filter-checkbox').prop('checked', false);
         $('#loaderDIV').show();
         _self.vars.filterObject = [];
         _self.vars.selectedFiltersArr = [];
@@ -3595,7 +3597,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           if ($('.search-container').hasClass('full-page')) {
             $('.search-container').removeClass('full-page');
-            $('.start-search-icon-div').show();
+            $('.start-search-icon-div').removeClass('hide');
             console.log('---- #search Focus shows preview ball icon ----------')
             $('.search-body-full').html('');
             if (!$('.search-container').hasClass('active')) {
