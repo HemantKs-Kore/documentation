@@ -22,8 +22,9 @@ export class CredentialsListComponent implements OnInit {
   firstlistData:any;
   addCredentialRef:any;
   editCredentialRef:any;
+  editCredential:any= {};
   listData: any;
-  configuredBot_streamId = "";
+  configuredBot_streamId = '';
   botID = '';
   data;
   isAlertsEnabled: boolean;
@@ -35,14 +36,14 @@ export class CredentialsListComponent implements OnInit {
   // existingCredential: boolean = false;
   credentials:any;
   credntial: any = {
-    name: "",
+    name: '',
     anonymus: true,
     register: true,
     awt: 'Select Signing Algorithm',
     enabled: true
   };
   @ViewChild('addCredential') addCredential: KRModalComponent;
-  @ViewChild('editCredential') editCredential: KRModalComponent;
+  @ViewChild('editCredential') editCredentialPop: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -86,13 +87,47 @@ newCredential() {
 closeModalPopup() {
   this.addCredentialRef.close();
 }
-editnewCredential(event){
-  this.editCredentialRef=this.editCredential.open()
+editnewCredential(event,data){
+  this.editCredentialRef=this.editCredentialPop.open()
   this.editTitleFlag = true;
-  // this.editCreden.name=this.data.appName;
+  this.editCredential = data;
+  this.editCredential.anonymus = false;
+  this.editCredential.register = false;
+  if (data.scope && data.scope.length){
+    data.scope.forEach(scopeVal => {
+      if(scopeVal === 'anonymouschat'){
+        this.editCredential.anonymus = true;
+      }
+      if(scopeVal === 'registration'){
+        this.editCredential.register = true;
+      }
+    });
+  }
 }
 closeEditModalPopup(){
   this.editCredentialRef.close();
+}
+saveEditCredential(){
+  let scope = [];
+  if (this.editCredential.anonymus && this.editCredential.register) {
+    scope = ['anonymouschat', 'registration'];
+  } else if (this.editCredential.anonymus && !this.editCredential.register) {
+    scope = ['anonymouschat'];
+  } else if (!this.editCredential.anonymus && this.editCredential.register) {
+    scope = ['registration'];
+  } else {
+    scope = [];
+  }
+  const payload = {
+    appName: this.editCredential.name,
+    algorithm: this.editCredential.awt,
+    scope,
+    bots: [this.selectedApp._id],
+    pushNotifications: {
+      enable: this.editCredential.enabled,
+      webhookUrl: ''
+    }
+  }
 }
 createCredential() {
   const queryParams = {
@@ -101,22 +136,22 @@ createCredential() {
   }
   let scope = [];
   if (this.credntial.anonymus && this.credntial.register) {
-    scope = ["anonymouschat", "registration"];
+    scope = ['anonymouschat', 'registration'];
   } else if (this.credntial.anonymus && !this.credntial.register) {
-    scope = ["anonymouschat"];
+    scope = ['anonymouschat'];
   } else if (!this.credntial.anonymus && this.credntial.register) {
-    scope = ["registration"];
+    scope = ['registration'];
   } else {
     scope = [];
   }
-  let payload = {
+  const payload = {
     appName: this.credntial.name,
     algorithm: this.credntial.awt,
-    scope: scope,
+    scope,
     bots: [this.selectedApp._id],
     pushNotifications: {
       enable: this.credntial.enabled,
-      webhookUrl: ""
+      webhookUrl: ''
     }
   }
 
@@ -177,7 +212,7 @@ configureCredential() {
     streamId: this.selectedApp._id
   }
   let payload = {
-    type: "rtm",
+    type: 'rtm',
     name: 'Web / Mobile Client',
     app: {
       clientId: this.listData.clientId,
@@ -186,7 +221,7 @@ configureCredential() {
     isAlertsEnabled: this.isAlertsEnabled,
     enable: this.channelEnabled,
     sttEnabled: false,
-    sttEngine: "kore"
+    sttEngine: 'kore'
   }
 
   this.service.invoke('configure.credential', queryParams, payload).subscribe(
@@ -206,7 +241,7 @@ configureCredential() {
     }
   );
 }
-deleteCredential(){
+deleteCredential(data){
   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
     width: '446px',
     height: '306px',
@@ -223,10 +258,10 @@ deleteCredential(){
         const quaryparms: any = {
           userId: this.authService.getUserId(),
           streamId: this.selectedApp._id,
-          
+          appId:data.clientId,
         }
         this.service.invoke('delete.credential', quaryparms).subscribe(res => {
-          // dialogRef.close();
+          dialogRef.close();
           this.notificationService.notify(' credential deleted successfully', 'success');
         }, (err) => {
           if (err && err.data && err.data.errors && err.data.errors[0]) {
@@ -235,7 +270,6 @@ deleteCredential(){
             this.notificationService.notify('Failed to delete credential', 'error');
           }
         });
-        
       } else if (result === 'no') {
         dialogRef.close();
       }

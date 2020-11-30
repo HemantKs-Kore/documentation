@@ -153,6 +153,10 @@ export class TraitsComponent implements OnInit {
     }
   };
   saveTraits(traitsGroup?, byTraitId?) {
+    if(!this.traits.addEditTraits.groupName.trim()){
+      this.notificationService.notify('Please provide a valid trait group', 'error');
+      return;
+    }
     const traits: any = {};
     const self = this;
     let payload: any = {};

@@ -24,7 +24,7 @@
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name">Web/Mobile Client</div>
             <!-- <img src="assets/icons/viewinstruction.svg">
-         <div class="bread-name active-name1"  *ngIf="existingCredential">View Instructions</div>  -->
+         <div class="bread-name active-name1"  *ngIf="existingCredential">View Instructions</div> -->
         </div>
     </div>
 
@@ -37,7 +37,7 @@
         </div>
         <div class="card_data row m-0">
             <div class="card-content active">
-                <div class="dropdown kr-sg-overflow-menu">
+                <div class="dropdown kr-sg-overflow-menu d-none">
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
@@ -149,7 +149,7 @@
                     <div class="kr-sg-dropdowns credentials-dropdown">
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span
-                                    class="select-placeholder"> Select or Add Credential</span> </button>
+                                    class="select-placeholder">{{listData?listData.appName:'Select or Add Credential'}}</span></button>
                             <ul class="dropdown-menu content-menu">
                                 <li *ngFor="let channel of channnelConguired.apps" (click)="selctedChannel(channel)">
                                     <a>{{channel.appName}}</a></li>
