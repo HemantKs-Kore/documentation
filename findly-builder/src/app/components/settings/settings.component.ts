@@ -178,17 +178,34 @@ export class SettingsComponent implements OnInit {
   continue() {
     if(this.slider==0 ){
       this.getCredential()
+      // this.configFlag = true;
+
     }
     if (this.slider == 2) {
       this.createCredential()
       this.configFlag = true;
+      this.slider=this.slider+1;
 
     }
-    if (this.slider < 3 && this.slider !=0) {
+    if (this.slider < 3  && this.slider !=0 ) {    
+      // this.configFlag = true;
       this.slider = this.slider + 1;
-      // this.existingCredential;
-
     }
+      // else if(this.slider < 3  && this.slider !=0) {
+      //   this.existingCredential=true;
+      // this.slider = this.slider + 1;
+
+      // }
+     
+    
+    //  if (this.slider < 3  && this.slider == 0 ) {    
+    //     // this.configFlag = true;
+        
+      
+
+
+    // }
+   
   }
   radio(bool) {
     this.isAlertsEnabled = bool;

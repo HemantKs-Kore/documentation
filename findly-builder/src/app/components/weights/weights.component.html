@@ -34,7 +34,7 @@
                     <div class="col-6 desc text-truncate">
                         <span *ngIf="currentEditIndex !== i">{{weightModal.desc}}</span>
                         <div class="kr-sg-input-text-area" *ngIf="currentEditIndex === i">
-                            <textarea [(ngModel)]="weightModal.desc" (keyup)="disableCancle = false" placeholder="Short description" class="input-text weighDesc"></textarea>
+                            <textarea [(ngModel)]="weightModal.desc" (keyup)="disableCancle = false" placeholder="Short Description" class="input-text weighDesc"></textarea>
                         </div>
                     </div>
                     <div class="col-4 sliderContainer">
@@ -78,7 +78,7 @@
                 <div class="kr-sg-dropdowns col-12 p-0" [ngClass]="{'disabled': addEditWeighObj._id}">
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
+                        <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
                         <img src="assets/images/search_gray.svg" class="search-icon">                                                         
                         <ul class="dropdown-menu content-menu">
                             <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition)"><a>{{suggesition.fieldName}}</a></li>
@@ -93,7 +93,7 @@
         </div>
         <div class="kr-sg-input-text-area mb-25">
             <div class="label-text">{{'weights.description'| translate}}</div>
-            <textarea [(ngModel)]="addEditWeighObj.desc" placeholder="Short description" class="input-text"></textarea>
+            <textarea [(ngModel)]="addEditWeighObj.desc" placeholder="Short Description" class="input-text"></textarea>
         </div>
         <div class="kr-sg-input-text">
             <div class="label-text">{{'weights.set_weight'| translate}}</div>
