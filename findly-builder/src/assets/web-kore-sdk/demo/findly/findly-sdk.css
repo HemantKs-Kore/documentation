@@ -10260,7 +10260,8 @@ input:checked + .custom-slider:before {
     box-sizing: border-box;
     border-radius: 0;
     width: 334px;
-    height: calc(100% - 8px);
+    /* height: calc(100% - 8px); */
+    height: fit-content;
     right: 0px;
     top: 0px;
     padding: 30px;
