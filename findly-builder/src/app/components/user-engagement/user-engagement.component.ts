@@ -831,10 +831,21 @@ var valueList2 = totaldata.map(function (item) {
      
     //   days.push(i + "Aug")
     // }  
+  //   <div class="metrics-tooltips-hover agent_drop_tolltip">
+  //   <div class="split-sec">
+  //     <div class="main-title">4th of Aug, 2020</div>
+  //     <div class="data-content"> 10am - 11am</div>
+  //   </div>    
+  //   <div class="indication_text">Number of total user is <b>2 </b></div>
+    
+  // </div>
+  // ${params[0].value}
+  // formatter: `
+  // formatter:  (params) => `
     this.heatMapChartOption = {
-        tooltip: {
-          position: 'top'
-        },
+      tooltip: {
+        position: 'top'
+      },
         animation: false,
         grid: {
           height: '70%',

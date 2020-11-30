@@ -160,6 +160,7 @@
             line-height: 14px;
             text-transform: capitalize;
             color: #9AA0A6;
+            word-break: break-word;
         }                    
     }
     .table_body{
@@ -204,6 +205,11 @@
             .img-sec{
                 margin-right: 10px//25px;
             }
+        }
+        .data-overview{
+            white-space: normal;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }                    
     }
     .footer-simulate{

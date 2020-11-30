@@ -36,7 +36,7 @@
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">                                        
-                                        <li *ngIf="source.status==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
+                                        <li *ngIf="source.recentStatus==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
@@ -144,7 +144,7 @@
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.contentSource | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.contentSource] | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
                                                     </div>
                                                     <div class="col-4 inner-data-column">
                                                         <div class="heading">Edited by</div>
@@ -195,7 +195,7 @@
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
                                                     </div>
                                                     <div class="col-4 inner-data-column">
                                                         <div class="heading">Created By</div>
@@ -245,11 +245,11 @@
                                             <div class="row m-0 col-12 p-0">
                                                 <div class="col-2 inner-data-column">
                                                     <div class="heading">Source</div>
-                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source] || 'Manual') | titlecase}}</div>
+                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || 'Manual') | titlecase}}</div>
                                                 </div>
                                                 <div class="col-2 inner-data-column">
                                                     <div class="heading">Type</div>
-                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{contentTypes[selectedFaq.source] | titlecase}}</div>
+                                                    <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || 'Manual') | titlecase}}</div>
                                                 </div>
                                                 <div class="col-4 inner-data-column">
                                                     <div class="heading">Created by</div>
@@ -257,7 +257,7 @@
                                                 </div>
                                                 <div class="col-4 inner-data-column">
                                                     <div class="heading">Reviewed by</div>
-                                                    <div class="title" ngbTooltip="{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}" placement="top-left">{{(selectedFaq.reviewerDetails?selectedFaq.reviewerDetails.fullName:'---')}}</div>
+                                                    <div class="title" ngbTooltip="{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}" placement="top-left">{{(selectedFaq._meta.reviewerDetails?selectedFaq._meta.reviewerDetails.fullName:'---')}}</div>
                                                 </div>
                                             </div>
                                         </ul>
