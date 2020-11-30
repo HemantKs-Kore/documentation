@@ -2211,7 +2211,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
       $('.search-container').addClass('full-page');
-      if($('.start-search-icon-div').hasClass('active')){
+      if ($('.start-search-icon-div').hasClass('active')) {
         $('.start-search-icon-div').addClass('hide');
       }
       console.log('---- fill search hides preview ball icon ----------')
@@ -3462,7 +3462,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             };
             _self.vars.searchObject.searchText = $('#search').val();
             // debugger;
-            var searchText = $('#search').val() || _self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "" || null;
+            var searchText = $('#search').val() || _self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : " " || null;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
             if (_self.config.viaSocket) {
@@ -4020,15 +4020,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (res.templateType == undefined) {
         var botResponse;
-        if (res.payload.template_type != undefined) {
-          botResponse = res;
-          console.log("Bot Response", res);
-          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
-        }
-        else {
+        if (res.template_type == undefined) {
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
+        }
+        else {
+          botResponse = res;
+          console.log("Bot Response", res);
+          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
+
         }
       }
       if (res.templateType === 'search') {
