@@ -19,9 +19,12 @@ export class FacetsComponent implements OnInit {
   fieldAutoSuggestion:any =[];
   selectedApp;
   serachIndexId;
+
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
+  showSearch;
+  // serachTraits: any = '';
   searchfacet:any = '';
   facetDefaultValueObj:any = {
     facet:{
@@ -29,6 +32,7 @@ export class FacetsComponent implements OnInit {
       facetName: '',
       facetType: 'value',
       isMultiSelect: false,
+      isFacetActive: true,
       facetValue: {},
     },
     range:{
@@ -255,6 +259,7 @@ export class FacetsComponent implements OnInit {
     } else {
       payload.fieldName = this.selectedField.fieldName;
     }
+      payload.isFacetActive = this.addEditFacetObj.isFacetActive || false;
     this.service.invoke('create.facet', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Facet created successfully','success');
       this.facets.push(res);
@@ -381,5 +386,11 @@ export class FacetsComponent implements OnInit {
     this.resetDefaults();
     this.addEditFacetObj = null;
   }
+  toggleSearch() {
+    if (this.showSearch && this.searchfacet) {
+      this.searchfacet = '';
+    }
+    this.showSearch = !this.showSearch
+  };
 
 }

@@ -26,6 +26,7 @@ export class AppComponent implements OnInit , OnDestroy {
   loading = true;
   userInfo:any = {};
   showMainMenu = true;
+  settingMainMenu=false;
   previousState;
   appsData: any;
   searchInstance:any;
@@ -67,6 +68,9 @@ export class AppComponent implements OnInit , OnDestroy {
   showMenu(event){
     this.showMainMenu = event
   }
+  settingMenu(event){
+    this.settingMainMenu = event
+  }
    restorepreviousState(){
     let route = '/apps';
     const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
@@ -88,7 +92,6 @@ export class AppComponent implements OnInit , OnDestroy {
            if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
             this.router.navigate([route], { skipLocationChange: true });
            }
-          $('.start-search-icon-div').removeClass('hide');
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
               this.preview(this.pathsObj[route]);
@@ -171,6 +174,15 @@ export class AppComponent implements OnInit , OnDestroy {
       }
     }
   }
+  selectApp(select){
+    if(select){
+      $('.start-search-icon-div').removeClass('hide');
+      $('.krFindlyAppComponent').addClass('appSelected');
+    } else {
+      $('.krFindlyAppComponent').removeClass('appSelected');
+      $('.start-search-icon-div').addClass('hide');
+    }
+  }
   navigationInterceptor(event: RouterEvent): void {
     const self = this;
     if (event instanceof NavigationStart) {
@@ -187,18 +199,18 @@ export class AppComponent implements OnInit , OnDestroy {
       if (event && event.url === '/apps') {
         this.setPreviousState();
         this.showHideSearch(false);
-        $('.krFindlyAppComponent').removeClass('appSelected');
-        $('.start-search-icon-div').addClass('hide');
+        this.selectApp(false);
+        console.log('navigated to apps throught navigator and closed preview ball');
       } else {
         const path = event.url.split('?')[0];
         if(path && (path !=='/')){
           this.setPreviousState(path);
-          $('.start-search-icon-div').removeClass('hide');
-          $('.krFindlyAppComponent').addClass('appSelected');
+          this.selectApp(true);
+          console.log('navigated to path throught navigator and shown preview ball');
         } else {
           this.showHideSearch(false);
-          $('.krFindlyAppComponent').removeClass('appSelected');
-          $('.start-search-icon-div').addClass('hide');
+          this.selectApp(false);
+          console.log('failed to detect path throught navigator and closed preview ball');
         }
       }
       this.authService.findlyApps.subscribe((res) => {
@@ -240,7 +252,7 @@ export class AppComponent implements OnInit , OnDestroy {
     // To modify the web socket url use the following option
     botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
-        hostname: environment.tag + '.findly.ai'
+        hostname:  window.appConfig.API_SERVER_URL.replace('https://','')
     };
     const findlyConfig:any = {
       botOptionsFindly,

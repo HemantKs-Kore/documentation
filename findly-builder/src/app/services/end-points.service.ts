@@ -16,6 +16,7 @@ export class EndPointsService {
     if (environment.production) {
       this.SERVER_URL = window.location.protocol + '//' + window.location.host;
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
     }
@@ -550,7 +551,7 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.credential'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps',
+      endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
       method: 'get'
     }
     this.serviceList['create.createCredential'] = {
@@ -579,6 +580,17 @@ export class EndPointsService {
     }
    
   /** APIs for Channels */
-     
+
+  this.serviceList['manage.credentials'] = {
+    endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps?getAppsUsage=:true',
+    method: 'get'
+  }
+  this.serviceList['delete.credential'] = {
+    endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
+    method: 'delete'
+  }
+
+
+  
   }
 }

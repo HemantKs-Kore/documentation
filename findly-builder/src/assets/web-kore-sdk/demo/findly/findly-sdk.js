@@ -2211,7 +2211,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
       $('.search-container').addClass('full-page');
-      $('.start-search-icon-div').hide();
+      if($('.start-search-icon-div').hasClass('active')){
+        $('.start-search-icon-div').addClass('hide');
+      }
+      console.log('---- fill search hides preview ball icon ----------')
       $('.search-body-full').removeClass('hide');
       $('.search-body-full').html(searchFullData);
       $('.search-container').removeClass('active');
@@ -2619,7 +2622,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
         $('.search-container').removeClass('full-page');
-        $('.start-search-icon-div').show();
+        $('.start-search-icon-div').removeClass('hide');
+        console.log('---- .custom-chevron-right-icon click shows preview ball icon ----------')
         $('.search-body-full').html('');
         $('.search-body-full').addClass('hide');
 
@@ -2688,7 +2692,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })*/
 
       // $('.filter-checkbox').off('change').on('change', function (event) {
-      $('.checkbox-custom').off('change').on('change', function (event) {
+      $('.sdk-filter-checkbox').off('change').on('change', function (event) {
         $('#loaderDIV').show();
 
         if ($(this).is(':checked')) {
@@ -2710,7 +2714,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       $('.filters-reset-anchor').on('click', function (event) {
         // $('.filter-checkbox').prop('checked', false);
-        $('.checkbox-custom').prop('checked', false);
+        $('.sdk-filter-checkbox').prop('checked', false);
         $('#loaderDIV').show();
         _self.vars.filterObject = [];
         _self.vars.selectedFiltersArr = [];
@@ -3698,7 +3702,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           if ($('.search-container').hasClass('full-page')) {
             $('.search-container').removeClass('full-page');
-            $('.start-search-icon-div').show();
+            $('.start-search-icon-div').removeClass('hide');
+            console.log('---- #search Focus shows preview ball icon ----------')
             $('.search-body-full').html('');
             if (!$('.search-container').hasClass('active')) {
               $('.search-container').addClass('active');
