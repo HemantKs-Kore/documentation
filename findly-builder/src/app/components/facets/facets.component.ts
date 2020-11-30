@@ -19,9 +19,12 @@ export class FacetsComponent implements OnInit {
   fieldAutoSuggestion:any =[];
   selectedApp;
   serachIndexId;
+
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
+  showSearch;
+  // serachTraits: any = '';
   searchfacet:any = '';
   facetDefaultValueObj:any = {
     facet:{
@@ -383,5 +386,11 @@ export class FacetsComponent implements OnInit {
     this.resetDefaults();
     this.addEditFacetObj = null;
   }
+  toggleSearch() {
+    if (this.showSearch && this.searchfacet) {
+      this.searchfacet = '';
+    }
+    this.showSearch = !this.showSearch
+  };
 
 }

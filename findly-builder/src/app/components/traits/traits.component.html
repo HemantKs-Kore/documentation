@@ -1,9 +1,9 @@
 <div class="traits-container row">
     <div class="mainLoadingSpinner" *ngIf="loadingTraits" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">Please Wait!</span>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
       </div>
-<ng-container *ngIf="!loadingTraits">\
+<ng-container *ngIf="!loadingTraits">
   <!-- NO DATA FOUND -->
   <div *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)" class="noTraits">
     <img src="assets/images/empty-illustration.png">

@@ -27,6 +27,7 @@ import { SearchInsightsComponent } from './components/search-insights/search-ins
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 const routes: Routes = [
   {
     path: '',
@@ -59,6 +60,8 @@ const routes: Routes = [
       { path: 'searchInsights', component: SearchInsightsComponent},
       { path: 'resultInsights', component: ResultInsightsComponent},
       { path: 'settings', component: SettingsComponent},
+      { path: 'credentials-list', component: CredentialsListComponent},
+
       { path: '**', component: AppsListingComponent},
     ]
   }
