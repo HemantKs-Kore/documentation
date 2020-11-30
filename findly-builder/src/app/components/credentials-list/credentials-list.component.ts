@@ -261,6 +261,7 @@ deleteCredential(data){
           appId:data.clientId,
         }
         this.service.invoke('delete.credential', quaryparms).subscribe(res => {
+          // this.getCredential();
           dialogRef.close();
           this.notificationService.notify(' credential deleted successfully', 'success');
         }, (err) => {

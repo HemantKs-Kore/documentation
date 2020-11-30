@@ -589,10 +589,10 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
     method: 'delete'
   }
-  this.serviceList['edit.credential'] = {
-    endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
-     method: 'put'
-  }
+  // this.serviceList['edit.credential'] = {
+  //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
+  //    method: 'put'
+  // }
 
   }
 }
