@@ -817,8 +817,15 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     } else {
       this.currentEditIndex = i;
       this.checkNewAddition();
-      if(stage && stage.type === 'custom_ccript' && stage.config && stage.config.mappings && stage.config.mappings.length){
-        this.newMappingObj.custom_ccript.defaultValue.script = stage.config.mappings.length[0].script || '';
+      if(stage && stage.type === 'custom_script' && stage.config && stage.config.mappings && stage.config.mappings.length){
+        if(!this.newMappingObj.custom_script){
+          this.newMappingObj.custom_script = {
+            defaultValue : {
+              script:''
+             }
+          }
+        }
+        this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
       }
       this.selectedStage = stage;
     }
