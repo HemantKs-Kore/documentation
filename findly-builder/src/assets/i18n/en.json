@@ -183,6 +183,7 @@
     "facets":{
         "facets":"Facets",
         "add_facet":"Add Facet",
+        "edit_facet":"Edit Facet",
         "deselect":"Deselect",
         "delete_facets":"Delete Facets",
         "facet_caps_Name":"FACET Name",

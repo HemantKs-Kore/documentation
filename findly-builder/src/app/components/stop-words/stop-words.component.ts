@@ -246,13 +246,13 @@ export class StopWordsComponent implements OnInit {
     const payload: any = {
       pipeline:{
         stopwords:this.stopwords
+      },
+      options:{
+        stopWordsRemovalEnabled : this.enabled
       }
     }
     if (enableOrDisable){
       msg = 'Stop words ' + (this.enabled?'enabled':'disabled') + ' successfully';
-      payload.options= {
-        stopWordsRemovalEnabled : this.enabled
-      }
     }
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
      this.newStopWord = '';
