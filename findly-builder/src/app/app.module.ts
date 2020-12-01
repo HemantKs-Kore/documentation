@@ -87,6 +87,7 @@ import { SearchInsightsComponent } from './components/search-insights/search-ins
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -146,7 +147,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     UserEngagementComponent,
     SearchInsightsComponent,
     ResultInsightsComponent,
-    SettingsComponent
+    SettingsComponent,
+    CredentialsListComponent
     ],
   imports: [
     BrowserModule,

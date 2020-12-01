@@ -14,6 +14,8 @@ export class AppMenuComponent implements OnInit {
   selected = '';
   trainingMenu = false;
   @Input() show;
+  @Input() settingMainMenu;
+
   constructor( private headerService: SideBarService, private workflowService: WorkflowService, private router: Router) { }
   goHome(){
     this.workflowService.selectedApp(null);

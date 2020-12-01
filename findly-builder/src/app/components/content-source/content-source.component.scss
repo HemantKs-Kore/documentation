@@ -129,15 +129,21 @@
                     background: #fff;
                     border-bottom: 1px solid #E4E5E7;
                     color: #9AA0A6;
-                    .col{
+                    .col_{
                         font-weight: 500;                       
                         color: #9AA0A6;
                         font-size: 12px;   
                         cursor: pointer;         
-                        .sortImg{
-                            // transform: rotate(270deg);
-                            top: -0.7px;
-                            position: relative;
+                        .sortImg{                                                       
+                            position: static;
+                            &.upArrow {
+                                transform: none !important;
+                            }
+                            &.downArrow {
+                                transform: rotate(180deg) !important;
+                                top: -1px !important;
+                                position: relative;
+                            }
                             &.assending{
                                 transform: rotate(180deg);
                             }

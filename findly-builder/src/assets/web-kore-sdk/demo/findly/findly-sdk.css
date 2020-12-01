@@ -10260,7 +10260,8 @@ input:checked + .custom-slider:before {
     box-sizing: border-box;
     border-radius: 0;
     width: 334px;
-    height: calc(100% - 8px);
+    /* height: calc(100% - 8px); */
+    height: fit-content;
     right: 0px;
     top: 0px;
     padding: 30px;
@@ -10294,7 +10295,8 @@ input:checked + .custom-slider:before {
 }
 .filters-body {
     position: relative;
-    height: 100%;
+    /* height: 100%; */
+    height: fit-content;
     width: 100%;
     background: #f8f9fa;
     padding: 0;

@@ -145,6 +145,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         case 'type': return this.compare(a.type, b.type, isAsc);
         case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);
         case 'name': return this.compare(a.name, b.name, isAsc);
+        case 'numPages': return this.compare(a.numPages, b.numPages, isAsc);
         case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
         default: return 0;
       }

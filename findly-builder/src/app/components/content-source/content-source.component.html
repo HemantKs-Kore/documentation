@@ -60,20 +60,22 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col_ col-3" (click)="sortBy('name')">
+          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"> -->
-            <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
-              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('name', 'up')"
-              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              <span class="d-flex align-items-center flex-column mr-1">
+                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              </span>
             SOURCE TITLE
           </div>
           <div class="col_ col-1 d-flex align-items-center" (click)="sortBy('type')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
-            <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg"
-              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('type', 'up')"
-              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              <span class="d-flex align-items-center flex-column mr-1">
+                <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img [ngClass]="getSortIconVisibility('type', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              </span>
             TYPE
             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
@@ -98,9 +100,10 @@
           <!-- <div class="col" (click)="sortBy('collection')">Collection <img src="assets/icons/caretDown.svg" class="ml-1"></div> -->
           <div class="col_ col-4 d-flex align-items-center" (click)="sortBy('recentStatus')"><span
               class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
-            <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg"
-              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('recentStatus', 'up')"
-              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              <span class="d-flex align-items-center flex-column mr-1">
+                <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              </span>
             STATUS
             <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
               [autoClose]="true" [placement]="'bottom-right'">
@@ -123,19 +126,21 @@
               </div>
             </div>
           </div>
-          <div class="col_ col-2" (click)="sortBy('numPages')">
-            <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg"
-              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('numPages', 'up')"
-              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-              NO OF PAGES
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('numPages')">
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img [ngClass]="getSortIconVisibility('numPages', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+              <img [ngClass]="getSortIconVisibility('numPages', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            </span>
+               NO OF PAGES
           </div>
-          <div class="col_ col-2" (click)="sortBy('createdOn')">
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='createdOn') && isAsc,'decending':((selectedSort==='createdOn') && !isAsc)}"
-              class="ml-1 sortImg"> -->
-            <img [ngClass]="getSortIconVisibility('createdOn', 'down')" src="assets/icons/caretDown.svg"
-              class="ml-1 sortImg downArrow"><img [ngClass]="getSortIconVisibility('createdOn', 'up')"
-              src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              class="ml-1 sortImg"> -->            
+              <span class="d-flex align-items-center flex-column mr-1">
+                <img [ngClass]="getSortIconVisibility('recentStatus', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                <img [ngClass]="getSortIconVisibility('recentStatus', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+              </span>
               TRIGGERED BY
           </div>
         </header>
