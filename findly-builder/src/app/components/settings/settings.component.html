@@ -48,8 +48,9 @@
                 <div class="main" (click)=" proceedChannel(channel)">
                     <div class="img-block"><img src="{{channel.icon}}"></div>
                     <div class="main-title">{{channel.name}}</div>
+                    <div class="configuration" *ngIf="channel.enable">CONFIGURED</div>
                 </div>
-                <div class="configuration" *ngIf="channel.enable">CONFIGURED</div>
+             
             </div>
             
         </div>

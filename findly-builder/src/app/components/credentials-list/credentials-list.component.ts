@@ -261,13 +261,16 @@ deleteCredential(data){
           appId:data.clientId,
         }
         this.service.invoke('delete.credential', quaryparms).subscribe(res => {
-          // this.getCredential();
+          this.getCredential();
           dialogRef.close();
-          this.notificationService.notify(' credential deleted successfully', 'success');
-        }, (err) => {
-          if (err && err.data && err.data.errors && err.data.errors[0]) {
-            this.notificationService.notify(err.data.errors[0].msg, 'error');
-          } else {
+            this.notificationService.notify('Succesful to delete credential', 'success');
+          
+        }, (errors) => {
+          if (errors && errors.error && errors.error.errors.length && errors.error.errors[0] && errors.error.errors[0].code && errors.error.errors[0].code == 409) {
+            this.notificationService.notify(errors.error.errors[0].msg, 'error');
+            dialogRef.close();
+          }
+          else {
             this.notificationService.notify('Failed to delete credential', 'error');
           }
         });

@@ -90,7 +90,9 @@ export class SettingsComponent implements OnInit {
 
       })
     })
-this.channels=channels
+    this.channels = channels
+    // this.getCredential();
+    console.log(this.channels);
   }
   copy(val, elementID) {
     const selBox = document.createElement('textarea');
