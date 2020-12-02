@@ -415,7 +415,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
                 if(!config.script) {
                   this.payloadValidationObj.invalidObjs[tempStageObj._id] = true;
                 }
-                tempConfig.push(config);
+                tempConfig[0] = config;
             });
             tempStageObj.config.mappings = tempConfig;
         }
@@ -941,7 +941,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.selectedStage.config.mappings = [];
     }
     this.selectedStage.config.mappings.push(map);
-    this.setResetNewMappingsObj(true);
+    this.setResetNewMappingsObj(true,true);
   }
   switchStage(systemStage,i){
     this.selectedStage.type = this.defaultStageTypes[i].type;
