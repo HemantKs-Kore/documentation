@@ -1,9 +1,9 @@
 <div class="main-metrics-container">
     <div class="header-sec row m-0 col-12">
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
-            <div class="bread-name">Analytics</div>
+            <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name">Dashboard</div>
+            <div class="bread-name active-name">{{'metrics.dash_board_view.dashboard'| translate}}</div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
@@ -20,7 +20,7 @@
             <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">Total Users<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="title-info">{{'metrics.dash_board_view.total_user'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{ totalUsersStats.totalUsers}}</div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">Total Searches<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="title-info">{{'metrics.dash_board_view.total_searches'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{ totalSearchesStats.totalSearches}}</div> <!-- {{totalSearchSum}} -->
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">Result Rate<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="title-info">{{'metrics.dash_board_view.result_rate'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.resultRate }}%</div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">CTR<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="title-info">{{'metrics.dash_board_view.ctr'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.ctr}}%</div>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">Avg. Click Position<img src="assets/icons/gray_info.svg" class="pl-1">
+                        <div class="title-info">{{'metrics.dash_board_view.avg_click_position'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1">
                         </div>
                         <div class="bottom-sec">
                             <div class="left-sec">
@@ -111,7 +111,7 @@
                     <div class="full-card pb-4">
                         <div class="legends-info">
                             <div class="content">
-                                <div class="title">Total Searches</div>
+                                <div class="title">{{'metrics.dash_board_view.total_searches'| translate}}</div>
                                 <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+8%</span>
@@ -137,21 +137,21 @@
                         <div echarts [options]="chartOption" class="demo-chart-graphMode"></div>
                         <div class="legends-info mt-2 mb-2">
                             <div class="content">
-                                <div class="title">Total Searches <span class="toatlsearches"></span></div>
+                                <div class="title">{{'metrics.dash_board_view.total_searches'| translate}} <span class="toatlsearches"></span></div>
                                 <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+8%</span>
                                 </div> -->
                             </div>
                             <div class="content">
-                                <div class="title">Searches with Results <span class="withresults"></span></div>
+                                <div class="title">{{'metrics.dash_board_view.searches_with_result'| translate}} <span class="withresults"></span></div>
                                 <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithResultsSum}}</span>
                                     <span class="percentage">2%</span>
                                 </div> -->
                             </div>
                             <div class="content">
-                                <div class="title">Searches with Clicks <span class="clicks"></span></div>
+                                <div class="title">{{'metrics.dash_board_view.searches_with_click'| translate}} <span class="clicks"></span></div>
                                 <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{searchesWithClicksSum}}</span>
                                     <span class="percentage">+1%</span>
@@ -164,12 +164,12 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">Top Search Queries</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Top_Search_Queries'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-10 header-title">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
                                 <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    Count</div>
+                                    {{'metrics.dash_board_view.Count'| translate}}</div>
                             </div>
                             <div *ngIf="mostSearchedQuries">
                                 <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries;let i = index">
@@ -184,12 +184,12 @@
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card">
-                        <div class="title-card">Top Search Queries with No Result</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Top_Search_Queries_with_No_Result'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-10 header-title">Searched Intent</div>
+                                <div class="col-10 header-title">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
                                 <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    Count</div>
+                                    {{'metrics.dash_board_view.Count'| translate}}</div>
                             </div>
                             <div *ngIf="topQuriesWithNoResults">
                                 <div class="table_body row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
@@ -209,15 +209,15 @@
                     <div class="full-card">
                         <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
                             [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
-                        <div class="title-card">Top Search Results</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-5 header-title"><img src="assets/icons/sort_up_down.svg">Searched Intent</div>
+                                <div class="col-5 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
                                 <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div>
-                                <div class="col-1 header-title text-center">Appearances</div>
-                                <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">Clicks</div>
-                                <div class="col-1 header-title text-center" ngbTooltip='Click-Through Rate'><img src="assets/icons/sort_up_down.svg">CTR</div>
-                                <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">Avg Position</div>
+                                <div class="col-1 header-title text-center">{{'metrics.dash_board_view.Appearances'| translate}}</div>
+                                <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
+                                <div class="col-1 header-title text-center" ngbTooltip='Click-Through Rate'><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div>
+                                <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div>
                                 <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
@@ -287,25 +287,25 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">Most Click Position</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Most_Click_Position'| translate}}</div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
-                        <div class="text-center">Number of Clicks</div>
+                        <div class="text-center">{{'metrics.dash_board_view.Number_of_Clicks'| translate}}</div>
                     </div>
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">Feedback</div>                        
+                        <div class="title-card">{{'metrics.dash_board_view.Feedback'| translate}}</div>                        
                         <div class="row col-12 m-0 p-0">
                             <div class="col-6 m-0 p-0 legends_sec_piechart">                                
                                 <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication total"></span>
-                                        <span class="title">Total Searches</span>
+                                        <span class="title">{{'metrics.dash_board_view.total_searches'| translate}}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication feedback"></span>
-                                        <span class="title">Feedback Recieved</span>
+                                        <span class="title">{{'metrics.dash_board_view.Feedback'| translate}}</span>
                                     </div>
                                 </div>
                             </div>                          
@@ -313,10 +313,10 @@
                                 <div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication usefull"></span><span class="title">Useful Result</span>                                   
+                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Feedback_Recieved'| translate}}</span>                                   
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication notusefull"></span><span class="title">Not Useful Result</span>
+                                        <span class="indication notusefull"></span><span class="title">{{'metrics.dash_board_view.Not_Useful_Result'| translate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -325,7 +325,7 @@
                 </div>
             </div>
         </div>        
-        <div *ngIf="slider === 2">
+        <!-- <div *ngIf="slider === 2">
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
                     <div class="full-card">
@@ -395,6 +395,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </perfect-scrollbar>        
 </div>

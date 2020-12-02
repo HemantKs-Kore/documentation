@@ -1,12 +1,12 @@
 <div class="main-metrics-container">
     <div class="header-sec row m-0 col-12">
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
-            <div class="bread-name">Analytics</div>
+            <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name">User Engagement</div>
+            <div class="bread-name active-name">{{'metrics.user_engagement.User_Engagement'| translate}}</div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
-            <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
+            <!-- <div class="date-info">All conversation sessions between <app-date-range-picker></app-date-range-picker> <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
                 <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
                 <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
@@ -26,7 +26,7 @@
                     <div class="full-card">
                         <div class="legends-info">
                             <div class="content no-bg">
-                                <div class="title">Total Users <span class="toatlsearches"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Total_User'| translate}} <span class="toatlsearches"></span></div>
                                 <div class="count-data">
                                     <span class="count">{{totalUser}}
                                         <img style=" background: #DD3646;" *ngIf ="totalUserProgress < 0" src="assets/icons/arrow-decrease.svg">
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <div class="title">New Users <span class="withresults"></span></div>
+                                <div class="title">{{'metrics.user_engagement.New_Users'| translate}}<span class="withresults"></span></div>
                                 <div class="count-data">
                                     <span class="count">{{newUser}}
                                         <img style=" background: #DD3646;" *ngIf ="newUserProgress < 0" src="assets/icons/arrow-decrease.svg">
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <div class="title">Repeat Users <span class="clicks"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Repeat_Users'| translate}}<span class="clicks"></span></div>
                                 <div class="count-data " >
                                     <span class="count">{{repeatUser}}
                                         <img style=" background: #DD3646;" *ngIf ="repeatUserProgress < 0" src="assets/icons/arrow-decrease.svg">
@@ -81,7 +81,7 @@
                     <div class="full-card">
                         <div class="legends-info">
                             <div class="content no-bg">
-                                <div class="title">Busy Hours<span class="toatlsearches"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Busy_Hours'| translate}}<span class="toatlsearches"></span></div>
                             </div>
                         </div>
                         <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
@@ -92,7 +92,7 @@
                                     <ng5-slider class = "col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider>
                                 </div>
                                 <div class="legend-sec col-6 p-0">
-                                    <div class="title">Volume Of Users</div>
+                                    <div class="title">{{'metrics.user_engagement.Volume_Of_Users'| translate}}</div>
                                     <div class="legends-info">
                                         <div class="one">
                                             <div class="bg-color"></div>
@@ -123,13 +123,13 @@
                 <div class="col-12 row m-0 p-0">
                     <div class="col-6 box-content">
                         <div class="full-card">
-                            <div class="title-card">Most Used Devices</div>
+                            <div class="title-card">{{'metrics.user_engagement.Most_Used_Devices'| translate}}</div>
                             <div echarts [options]="mostUsedDeviceBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
                         <div class="full-card">
-                            <div class="title-card">Most Used Browsers</div>
+                            <div class="title-card">{{'metrics.user_engagement.Most_Used_Browsers'| translate}}</div>
                             <div echarts [options]="mostUsedBrowserBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
@@ -137,13 +137,13 @@
                 <div class="col-12 row m-0 p-0">
                     <div class="col-6 box-content">
                         <div class="full-card">
-                            <div class="title-card">GEO</div>
+                            <div class="title-card">{{'metrics.user_engagement.GEO'| translate}}</div>
                             <div echarts [options]="geoBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
                     <div class="col-6 box-content">
                         <div class="full-card">
-                            <div class="title-card">Sentiments</div>
+                            <div class="title-card">{{'metrics.user_engagement.Sentiments'| translate}}</div>
                             <div echarts [options]="sentimentsBar" class="demo-chart-graphMode"></div>
                         </div>
                     </div>
