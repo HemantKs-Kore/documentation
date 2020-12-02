@@ -217,7 +217,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
       this.suggestedInput.nativeElement.value = '';
     }
   }
-  setResetNewMappingsObj(ignoreSimulate?){
+  setResetNewMappingsObj(ignoreSimulate?,saveConfig?){
     if(!ignoreSimulate){
       this.simulteObj = {
         sourceType: 'faq',
@@ -268,6 +268,16 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
         }
       }
     }
+    if(saveConfig && this.selectedStage && this.selectedStage.type === 'custom_script' && this.selectedStage.config && this.selectedStage.config.mappings && this.selectedStage.config.mappings.length){
+      if(!this.newMappingObj.custom_script){
+        this.newMappingObj.custom_script = {
+          defaultValue : {
+            script:''
+           }
+        }
+      }
+      this.newMappingObj.custom_script.defaultValue.script = this.selectedStage.config.mappings[0].script || '';
+    }
   }
   checkNewAddition() {
     if(this.selectedStage && this.selectedStage.type === 'field_mapping'){
@@ -307,7 +317,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   }
 if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   if(this.newMappingObj.custom_script && this.newMappingObj.custom_script.defaultValue) {
-     if( this.newMappingObj.custom_script.defaultValue.source_field && this.newMappingObj.custom_script.defaultValue.scritp){
+     if(this.newMappingObj.custom_script.defaultValue.script){
       this.addFiledmappings(this.newMappingObj.custom_script.defaultValue);
      }
   }
@@ -477,7 +487,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
        this.currentEditIndex = -1
       }
       this.clearDirtyObj();
-      this.setResetNewMappingsObj();
+      this.setResetNewMappingsObj(null,true);
     }, errRes => {
       this.savingConfig = false;
       this.errorToaster(errRes,'Failed to save configurations');
@@ -826,6 +836,15 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
           }
         }
         this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
+      } else {
+        if(!this.newMappingObj.custom_script){
+          this.newMappingObj.custom_script = {
+            defaultValue : {
+              script:''
+             }
+          }
+        }
+        this.newMappingObj.custom_script.defaultValue.script = '';
       }
       this.selectedStage = stage;
     }
@@ -929,6 +948,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.selectedStage.catagory = this.defaultStageTypes[i].category;
     this.selectedStage.name  =this.defaultStageTypesObj[systemStage.type].name;
     this.selectedStage.config = {}
+    if(systemStage && systemStage.type === 'custom_script'){
+      if(!this.newMappingObj.custom_script){
+        this.newMappingObj.custom_script = {
+          defaultValue : {
+            script:''
+           }
+        }
+      }
+      this.newMappingObj.custom_script.defaultValue.script = '';
+    }
   }
   createNewMap(){
     if(this.changesDetected && false){
