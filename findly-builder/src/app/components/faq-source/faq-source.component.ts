@@ -587,7 +587,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       });
       this.resources.forEach(source => {
         if (source && this.polingObj && this.polingObj[source.jobId]) {
-          source.status = this.polingObj[source.jobId];
+          source.recentStatus = this.polingObj[source.jobId];
         }
       });
     }
