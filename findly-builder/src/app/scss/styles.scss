@@ -469,6 +469,7 @@ div.divBlockEmptylastChild:first-child {
 .faq-filter-add{
     background: #FFFFFF;
     box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
+    // box-shadow: 0px 5px 10px rgba(32, 33, 36, 0.3);
     max-width: 250px;  
     min-width: 160px;
     padding: 10px 0px;
@@ -975,7 +976,8 @@ div.divBlockEmptylastChild:first-child {
     align-items: center;
     justify-content: flex-end;
     position: relative;
-    right: 10px;
+    // right: 10px;
+    padding: 0 10px;
     .previous{
         color: #9AA0A6;
         font-weight: normal;
