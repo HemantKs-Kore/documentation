@@ -121,9 +121,9 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
-    this.getQueries("MostUsedBrowsers");
-    this.getQueries("MostUsedGeoLocations");
-    this.getQueries("MostUsersSentiments");
+    this.getuserCharts("MostUsedBrowsers");
+    this.getuserCharts("MostUsedGeoLocations");
+    this.getuserCharts("MostUsersSentiments");
     // this.getQueries("SearchHistogram");
     
   }
