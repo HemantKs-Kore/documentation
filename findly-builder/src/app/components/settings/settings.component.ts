@@ -75,6 +75,7 @@ export class SettingsComponent implements OnInit {
 
   }
   prepareChannelData() {
+    // this.getCredential();
     const channels = JSON.parse(JSON.stringify(this.channels))
     channels.forEach((channel) => {
       this.selectedApp.channels.forEach((streamChannel) => {
@@ -85,13 +86,14 @@ export class SettingsComponent implements OnInit {
             tempChannel.hide = channel.hide,
             tempChannel.class = channel.class,
             tempChannel.icon = channel.icon
-          channel = tempChannel
-        }
+            if(channel.enable=true){
+              channel = tempChannel
+            }
+        } 
 
       })
     })
     this.channels = channels
-    // this.getCredential();
     console.log(this.channels);
   }
   copy(val, elementID) {
@@ -389,7 +391,10 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
         this.slider = 0;
+        this.selectedApp.channels=res.channels;
+        this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configuered', 'success');
+        this.prepareChannelData();
         this.standardPublish();
         this.configFlag = true;
         console.log(res);
