@@ -784,11 +784,17 @@ var valueList2 = totaldata.map(function (item) {
           //  if(this.group == 'week') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //console.log(`${property}: ${object[property]}`);
         }
+        if(this.group == 'hour'){
+          for(let a = start; a < end; a++){
+            xAxisData.push(hourConversion[a])
+          }
+        }
         let checkIndex = 0;
           for(let i = 0; i< busyChartArrayData.length ; i++){
             for(let j =0 ; j< busyChartArrayData[i].length;j++){
+             
               if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
-                if(this.group == 'hour') xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
+               // if(this.group == 'hour') xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
                 if((this.group == 'date' || this.group == 'week' )&&  i == 0) xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
                 heatData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 if(i != checkIndex){
