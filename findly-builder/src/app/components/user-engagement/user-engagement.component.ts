@@ -121,10 +121,10 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
-    this.getQueries("TopQuriesWithNoResults");
-    this.getQueries("MostSearchedQuries");
-    this.getQueries("QueriesWithNoClicks");
-    this.getQueries("SearchHistogram");
+    this.getQueries("MostUsedBrowsers");
+    this.getQueries("MostUsedGeoLocations");
+    this.getQueries("MostUsersSentiments");
+    // this.getQueries("SearchHistogram");
     
   }
   //SLider
@@ -209,6 +209,9 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
+    this.getuserCharts("MostUsedBrowsers");
+    this.getuserCharts("MostUsedGeoLocations");
+    this.getuserCharts("MostUsersSentiments");
   }
   getuserCharts(type){
     var today = new Date();
@@ -230,7 +233,7 @@ export class UserEngagementComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
+      searchIndexId:this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
       offset: 0,
       limit:this.pageLimit
     };
@@ -263,8 +266,15 @@ export class UserEngagementComponent implements OnInit {
       }else if(type == 'MostUsedDevices'){
         this.mostUsedDev_bro_geo_sen = res.results;
         this.mostUsedDevice();
+      }else if(type == 'MostUsedBrowsers'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.mostUsedBrowser();
+      }
+      else if(type == 'MostUsedGeoLocations'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.geo();
+      }else if(type == 'MostUsersSentiments'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.sentiments();
       }
       
