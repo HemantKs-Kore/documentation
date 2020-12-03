@@ -231,5 +231,71 @@
      "past_action_on_this_item_caps":"PAST ACTION ON THIS ITEM",
      "nothing_in_log_to_display":"Nothing in log to display",
      "go_ahead_and_make_some_changes.":"Go ahead and make some changes."
+ },
+ "metrics":{
+    "analytics":"Analytics",
+     "dash_board_view" : {
+        "dashboard":"Dashboard",
+        "total_user":"Total Users",
+        "total_searches":"Total Searches",
+        "result_rate":"Result Rate",
+        "ctr":"CTR",
+        "avg_click_position" : "Avg. Click Position",
+        "searches_with_result" : "Searches with Results",
+        "searches_with_click" : "Searches with Clicks",
+        "Top_Search_Queries" : "Top Search Queries",
+        "Top_Search_Queries_with_No_Result":"Top Search Queries with No Result",
+        "Top_Search_Results" : "Top Search Results",
+        "Searched_Intent" :"Searched Intent",
+        "Count" : "Count",
+        "Appearances" : "Appearances",
+        "Clicks" :"Clicks",
+        "Avg_Position" : "Avg Position",
+        "Most_Click_Position" : "Most Click Position",
+        "Feedback" : "Feedback",
+        "Number_of_Clicks" : "Number of Clicks",
+        "Feedback_Recieved" :"Feedback Recieved",
+        "Useful_Result" : "Useful Result",
+        "Not_Useful_Result" : "Not Useful Result"
+     },
+     "user_engagement" : {
+        "User_Engagement":"User Engagement",
+        "Total_User":"Total Users",
+        "New_Users":"New Users",
+        "Repeat_Users":"Repeat Users",
+        "Busy_Hours" : "Busy Hours",
+        "Volume_Of_Users" : "Volume_Of_Users",
+        "Most_Used_Devices" : "Most Used Devices",
+        "Most_Used_Browsers"  : "Most Used Browsers",
+        "GEO" : "GEO",
+        "Sentiments": "Sentiments"
+     },
+     "search_insights" : {
+        "Search_Insights" : "Search Insights",
+        "Top_Search_Results" : "Top Search Results",
+        "Queries_with_results" : "Queries with results",
+        "Queries_without_results" : "Queries without results",
+        "Search_Results" : "Search Results",
+        "Count" : "Count",
+        "No_of_Clicks" : "No of Clicks",
+        "Search_Queries_for" : "Search Queries for",
+        "Appearances" : "Appearances",
+        "Click-Through_Rate" :"Click-Through Rate",
+        "Avg_Position" : "Avg Position",
+        "Positive_Feedback" : "Positive Feedback",
+        "Negative_Feedback" : "Negative Feedback"
+     }, 
+     "result_insights" : {
+        "Results_Insights" : "Results Insights",
+        "Top_Search_Results" : "Top Search Results",
+        "Search_Queries_for" : "Search Queries for",
+        "Search_Results" : "Search Results",
+        "Appearances" : "Appearances",
+        "No_of_Clicks" : "No of Clicks",
+        "Click-Through_Rate" :"Click-Through Rate",
+        "Avg_Position" : "Avg Position",
+        "Positive_Feedback" : "Positive Feedback",
+        "Negative_Feedback" : "Negative Feedback"
+     }
  }
 }
