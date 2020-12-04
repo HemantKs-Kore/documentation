@@ -121,10 +121,10 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
-    this.getQueries("TopQuriesWithNoResults");
-    this.getQueries("MostSearchedQuries");
-    this.getQueries("QueriesWithNoClicks");
-    this.getQueries("SearchHistogram");
+    this.getuserCharts("MostUsedBrowsers");
+    this.getuserCharts("MostUsedGeoLocations");
+    this.getuserCharts("MostUsersSentiments");
+    // this.getQueries("SearchHistogram");
     
   }
   //SLider
@@ -209,6 +209,9 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
+    this.getuserCharts("MostUsedBrowsers");
+    this.getuserCharts("MostUsedGeoLocations");
+    this.getuserCharts("MostUsersSentiments");
   }
   getuserCharts(type){
     var today = new Date();
@@ -230,7 +233,7 @@ export class UserEngagementComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
+      searchIndexId:this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
       offset: 0,
       limit:this.pageLimit
     };
@@ -263,8 +266,15 @@ export class UserEngagementComponent implements OnInit {
       }else if(type == 'MostUsedDevices'){
         this.mostUsedDev_bro_geo_sen = res.results;
         this.mostUsedDevice();
+      }else if(type == 'MostUsedBrowsers'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.mostUsedBrowser();
+      }
+      else if(type == 'MostUsedGeoLocations'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.geo();
+      }else if(type == 'MostUsersSentiments'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.sentiments();
       }
       
@@ -533,11 +543,48 @@ var valueList2 = totaldata.map(function (item) {
       ]
   };
   }
-  mostUsedDevice(){
-    let graphData = []
-    this.mostUsedDev_bro_geo_sen.forEach(element => {
-      graphData.push(element.percentOfUsers)
+  checkAxis(y_axis,data,graphData){
+    graphData = [];
+    data.forEach(element => {
+      if(!element.name) { element.name = "Null"}
+      y_axis.forEach((y , index )=> {
+        // if(element.name){  
+          if(y.charAt(0).toLowerCase() + y.slice(1) == element.name.charAt(0).toLowerCase() + y.slice(1)){
+            // y = element.name.charAt(0).toUpperCase() + element.name.slice(1)
+            if(graphData.length != y_axis.length){
+              graphData.push(element.percentOfUsers);
+            }
+           }else{
+            if(graphData.length != y_axis.length){
+              graphData.push('');
+            }
+           }
+        //}
+        // else{
+        //   graphData.push('')
+        // }
+       
+      });
+      
     });
+    return graphData
+  }
+  mostUsedDevice(){
+    let graphData = [];
+    let y_axis = ['Desktop','Tablet','Mobile'];
+    //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
+    //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
+    // this.mostUsedDev_bro_geo_sen.forEach(element => {
+    //   y_axis.forEach(y => {
+    //     if(y == element.name){
+    //       y = element.name;
+    //       graphData.push(element.percentOfUsers);
+    //     }else{
+    //       graphData.push('')
+    //     }
+    //   });
+      
+    // });
         this.mostUsedDeviceBar  = {
           xAxis: {
               type: 'value',
@@ -548,7 +595,7 @@ var valueList2 = totaldata.map(function (item) {
           },
           yAxis: {
             type: 'category',
-              data: ['Desktop_Image', 'Tablet_Image', 'Mobile_Image'],
+              data: y_axis,//['Desktop_Image', 'Tablet_Image', 'Mobile_Image'],
               inverse: true,
               axisLabel: {
                 formatter: function (value) {
@@ -559,7 +606,7 @@ var valueList2 = totaldata.map(function (item) {
                     lineHeight: 30,
                     align: 'center'
                 },
-                'Desktop_Image': {
+                'Desktop': {
                   height: 40,
                   align: 'center',
                   backgroundColor: {
@@ -567,14 +614,14 @@ var valueList2 = totaldata.map(function (item) {
                   }
               },
                
-                'Tablet_Image': {
+                'Tablet': {
                     height: 40,
                     align: 'center',
                     backgroundColor: {
                         image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAsCAMAAAAgsQpJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHUExURQAAACAgICEhISAgIGBgaCAgJSAgJCAgIyAgIyAgJV1gaF1iaGBiaCAgJCAiJF5kaCAgJCAgJCAgI15haF5jaGBjaCAgIyAiIyAiJV9jaCAgI15jaCAgJCAiJF9jZ15jZyAhJF9jaCAhJF9jZyAhIyAhJV9iaF9jaCAhJF9iZ19jZyAhJF9jaAjeyywAAAArdFJOUwAQHyAgMEBQYGBgYGBwf3+Aj5CQkJCfn5+foKCvr6+wv7/Pz9/f39/v7+/RD+HEAAABG0lEQVQ4y+2Tb1eDIBTGIdwVK5bRP3SxGJG6ze//+bpep2W2aefUm+p5AQ/w4164HBhDRdmuPqFdFjFSVNYTKlsyqyeVEfhM/okd0y2GJFO82/SZLn4peHe5mgU2JSzmgGtsylmps/P1Hyz4l8DNUfCqA2/mfoWomOKK7huutqew7SZi//o2gSOdHUYpddz266I3AF4DHEaJaSdfetDBW1AnsVlcG9mAiZGcQL6kiWDiASgqBV6ypNJx7ggMGvIHtvBKDCMKypt4tB4QjJtDVHycemlDMO0Zc4lgGvCKFYzAxAqK2ICPMYLKCNQ4osa63CNYCSb2AkEI6HCbi4egCM5bBG3wQdJlUu+CYkzt9YfKY5pB3znOf+alXwEB8Uul/UsUGwAAAABJRU5ErkJggg=='
                     }
                 },
-                'Mobile_Image': {
+                'Mobile': {
                   height: 40,
                   align: 'center',
                   backgroundColor: {
@@ -600,17 +647,28 @@ var valueList2 = totaldata.map(function (item) {
                 color: '#7027E5',
               },
             },
-              data: graphData,//[120, 200, 150],
+              data: [100, null, 50] ,//graphData,//[120, 200, 150],
               type: 'bar'
           }]
       };
     
     }
     mostUsedBrowser(){
-      let graphData = []
-      this.mostUsedDev_bro_geo_sen.forEach(element => {
-        graphData.push(element.percentOfUsers)
-      });
+      let graphData = [];
+      let y_axis = ['Chrome','IE','Safari'];
+      //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
+      //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
+      // this.mostUsedDev_bro_geo_sen.forEach(element => {
+      //   y_axis.forEach(y => {
+      //     if(y == element.name){
+      //       y = element.name;
+      //       graphData.push(element.percentOfUsers);
+      //     }else{
+      //       graphData.push('')
+      //     }
+      //   });
+        
+      // });
       this.mostUsedBrowserBar  = {
         xAxis: {
             type: 'value',
@@ -621,7 +679,7 @@ var valueList2 = totaldata.map(function (item) {
         },
         yAxis: {
           type: 'category',
-            data: ['Chrome', 'Safari', 'IE'],
+            data: y_axis,//['Chrome', 'Safari', 'IE'],
             inverse: true,
             axisLabel: {
               formatter: function (value) {
@@ -676,15 +734,25 @@ var valueList2 = totaldata.map(function (item) {
               color: '#FF784B',
             },
           },
-            data: graphData,//[120, 200, 150],
+            data: [100,35,null],//graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     geo(){
-      let graphData = []
+      let graphData = [];
+      let y_axis = ['US','India','UK','Japan'];
+      //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
       this.mostUsedDev_bro_geo_sen.forEach(element => {
-        graphData.push(element.percentOfUsers)
+        y_axis.forEach(y => {
+          if(y == element.name){
+            y = element.name;
+            graphData.push(element.percentOfUsers);
+          }else{
+            graphData.push('')
+          }
+        });
+        
       });
       this.geoBar  = {
         xAxis: {
@@ -697,7 +765,7 @@ var valueList2 = totaldata.map(function (item) {
         yAxis: {
           inverse: true,
           type: 'category',
-            data: ['US', 'India', 'UK'],
+            data: y_axis//['US', 'India', 'UK'],
             //inverse: true,
         },
         barWidth: 40,
@@ -716,15 +784,23 @@ var valueList2 = totaldata.map(function (item) {
               color: '#93D3A2',
             },
           },
-            data: graphData,//[120, 200, 150],
+            data: [55,85,null,15],//graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     sentiments(){
-      let graphData = []
+      let graphData = [];
+      let y_axis = [];
+      //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
       this.mostUsedDev_bro_geo_sen.forEach(element => {
-        graphData.push(element.percentOfUsers)
+        graphData.push(element.percentOfUsers);
+        if(element.name){
+          y_axis.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
+        }else{
+          y_axis.push('')
+        }
+        
       });
       this.sentimentsBar  = {
         xAxis: {
@@ -737,7 +813,7 @@ var valueList2 = totaldata.map(function (item) {
         yAxis: {
           inverse: true,
           type: 'category',
-            data: ['Angry', 'Disgust', 'Fear','Sad','Joy','Positive'],
+            data:['Angry', 'Disgust', 'Fear','Sad','Joy','Positive'] // y_axis, //['Angry', 'Disgust', 'Fear','Sad','Joy','Positive'],
             //inverse: true,
         },
         barWidth: 40,
