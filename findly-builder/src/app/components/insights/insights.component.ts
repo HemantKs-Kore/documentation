@@ -80,6 +80,7 @@ lineStyle: {
     //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
     // } 
     //this.query = "Open bank account"
+    this.getAppDetails();
     let date = new Date();
     let _month_old_date =new Date(Date.now() - (30 * 864e5));
     let startDate = date.getFullYear()+ "-" +(date.getMonth()+1)+ "-"+ date.getDate();
@@ -112,17 +113,20 @@ lineStyle: {
       });
   }
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.getAppDetails();
     this.customInit();
     //setTimeout(()=>{
-      this.selectedApp = this.workflowService.selectedApp();
-      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+      //this.selectedApp = this.workflowService.selectedApp();
+      //this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.getQueryLevelAnalytics();
     //},5000)
     this.getcustomizeList();
 
+  }
+  getAppDetails(){
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
   }
   analyticGraph(responseData){
     let search_x_axis_data = [];
@@ -340,7 +344,7 @@ lineStyle: {
   }
 
   getcustomizeList(){
-   
+    this.getAppDetails()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId

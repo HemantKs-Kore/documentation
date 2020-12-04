@@ -1577,13 +1577,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.facetType == "value"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name="${bucket.key}" value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
                   {{if searchFacet.facetType == "range"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name="${bucket.key}" value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
@@ -4031,7 +4031,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           botResponse = res;
           console.log("Bot Response", res);
           _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
-
         }
       }
       if (res.templateType === 'search') {
