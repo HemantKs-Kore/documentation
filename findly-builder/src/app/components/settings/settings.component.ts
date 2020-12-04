@@ -199,7 +199,7 @@ export class SettingsComponent implements OnInit {
         this.channnelConguired = res;
         if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
-          this.firstlistData = res.apps[0];
+          this.firstlistData = res.apps[res.apps.length-1];
           this.slider = 3
           this.listData = this.firstlistData
           this.configFlag = true;

@@ -198,7 +198,7 @@ export class WeightsComponent implements OnInit {
    } else {
     weights.push(this.addEditWeighObj);
    }
-   this.addOrUpddate(weights);
+   this.addOrUpddate(weights,null,'add');
  }
  getWeightsPayload(weights){
    const tempweights= [];
@@ -213,7 +213,7 @@ export class WeightsComponent implements OnInit {
    });
    return tempweights
  }
- addOrUpddate(weights,dialogRef?,deleteFlag?) {
+ addOrUpddate(weights,dialogRef?,type?) {
   weights = weights || this.weights;
   const quaryparms: any = {
     searchIndexID:this.serachIndexId,
@@ -227,8 +227,14 @@ export class WeightsComponent implements OnInit {
    this.currentEditIndex = -1;
    this.pipeline=  res.pipeline || {};
    this.prepereWeights();
-   if(!deleteFlag){
+   if(type == 'add'){
     this.notificationService.notify('Weight added successfully','success')
+   }
+   else if(type == 'edit'){
+    this.notificationService.notify('Weight updated successfully','success')
+   }
+   else if(type == 'delete'){
+   this.notificationService.notify('Weight deleted successfully', 'success')
    }
    if(dialogRef && dialogRef.close){
     dialogRef.close();
@@ -257,12 +263,9 @@ export class WeightsComponent implements OnInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.weights.splice(index,1);
-          if(this.deleteFlag=true){
-          this.addOrUpddate(this.weights,this.deleteFlag);
-            this.notificationService.notify('Weight deleted successfully','error')
-            dialogRef.close();
-          }
+          this.weights.splice(index, 1);
+          this.addOrUpddate(this.weights, dialogRef,'delete');
+          dialogRef.close();
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')

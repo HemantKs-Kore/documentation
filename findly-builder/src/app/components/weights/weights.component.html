@@ -57,7 +57,7 @@
                 </div> -->
                 <div class="cancel_save_sec mr-5">
                     <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg" [disabled]="disableCancle" (click)="setDataToActual()">{{'weights.cancel'| translate}}</button>
-                    <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg" (click)="addOrUpddate(weights)">{{'weights.save_weights' | translate}}</button>
+                    <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg" (click)="addOrUpddate(weights,null,'edit')">{{'weights.save_weights' | translate}}</button>
                 </div>               
             </div>
         </section>                               
