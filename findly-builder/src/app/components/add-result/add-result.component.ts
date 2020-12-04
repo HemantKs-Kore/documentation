@@ -28,10 +28,13 @@ export class AddResultComponent implements OnInit {
     private service: ServiceInvokerService) { }
 
   ngOnInit(): void {
+    this.appDetails();
+    this.searchType = this.searchRadioType;
+  }
+  appDetails(){
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.searchType = this.searchRadioType;
   }
   closeCross(){
     this.closeResult.emit(!this.addNew);
@@ -66,13 +69,14 @@ export class AddResultComponent implements OnInit {
   //   this.contentTypeAny = record._source.contentType;
   // }
   pushRecord(){
+    this.appDetails();
     let contentType = ""
     let contentTaskFlag = false;
     if(this.searchType == "task" || this.searchRadioType == "task"){
       contentType = this.searchType ||  this.searchRadioType;
       contentTaskFlag = true;
     }
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       queryPipelineId : this.queryPipelineId
@@ -132,9 +136,10 @@ export class AddResultComponent implements OnInit {
     }
   }
   searchResults(search){
+    this.appDetails();
     this.loadingContent = true;
     this.recordArray=[];
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       search : search,
