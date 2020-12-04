@@ -249,7 +249,7 @@
                         <span class="arr-txt col-10" *ngIf ="log.target.contentInfo._source.contentType == 'faq'"> {{log.target.contentInfo._source.pageTitle }} - {{ log.target.contentInfo._source.contentType}} </span>
                         <span class="arr-txt col-10" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname }} - {{ log.target.contentType}} </span> -->
                         <span class="arr-txt col-10" *ngIf="log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentInfo._source.contentType}} </span>
-                        <span class="arr-txt col-10" *ngIf="!log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentType}} </span>
+                        <span class="arr-txt col-10" *ngIf="log.target.contentType && log.target.contentType == 'task'"> {{log.displayMessage }} - {{ log.target.contentType}} </span>
                         <span class="arrow" [ngClass] = " log.selected ?  'up' : 'down'"></span>
                         
                      </div>
@@ -258,8 +258,11 @@
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentInfo._source.contentType == 'faq'"> {{faqDesc || log.target.contentInfo._source.searchResultPreview }}</div>
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div> -->
                          <!-- <div class="arr-txt-desc col-12"> {{log.target.contentInfo._source.searchResultPreview}}</div> -->
-                         <p class="action-desc" *ngIf ="log.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </p>
-                         <p class="action-desc" *ngIf ="log.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </p>
+                         <p class="log-header" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageTitle}} </p>
+                         <p class="log-header" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.lname}} </p>
+
+                         <p class="log-desc" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageSearchResultPreview}} </p>
+                         <p class="log-desc" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo._source.shortDesc}} </p>
                          <div class="info">{{log.userDetails.fullName}} {{log.createdOn}}</div>
                      </div>
                 </div>
