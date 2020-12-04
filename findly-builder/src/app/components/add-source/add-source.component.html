@@ -353,7 +353,7 @@
               </div>
               <div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                  <div class="allow-urls-sec row allow-urlBox padd" *ngIf="crwalObject.advanceOpts.allowedOpt">
+                  <div class="allow-urls-sec row allow-urlBox padd  pl-0 pr-0" *ngIf="crwalObject.advanceOpts.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -404,7 +404,7 @@
                   </div>
 
                   <!--Block-->
-                  <div class="allow-urls-sec row allow-urlBox padd" *ngIf="crwalObject.advanceOpts.blockedOpt">
+                  <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject.advanceOpts.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -465,23 +465,23 @@
                 </div>
                 <!-- Cookies -->
                 <div class=" group-checkbox">
-                  <div class="col-3 kr-sg-checkbox">
+                  <div class="col-3 pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
                   </div>
-                  <div class="col-3 kr-sg-checkbox">
+                  <div class="col-3 pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
-                  <div class="col-3 kr-sg-checkbox">
+                  <div class="col-3 pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
                   </div>
-                  <div class="col-3 kr-sg-checkbox">
+                  <div class="col-3 pl-0 kr-sg-checkbox">
                     <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
                     <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
-                  <div class="col-3 kr-sg-checkbox">
+                  <div class="col-3 pl-0 kr-sg-checkbox">
                     <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
                     <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
