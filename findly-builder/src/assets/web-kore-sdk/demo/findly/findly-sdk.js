@@ -346,12 +346,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       var baseUrl = baseAPIServer + "/searchAssistant";
       var searchAPIURL = baseAPIServer + "/api/1.1/findly/";
+      var liveSearchAPIURL = baseAPIServer + "/api/1.1/searchAssist/";
       console.log(baseUrl);
       var businessTooBaseURL = baseAPIServer + "/api/1.1/findly/";
       console.log(businessTooBaseURL);
       _self.API = {
         baseUrl: baseUrl,
-        livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
+        // livesearchUrl: baseUrl + "/liveSearch/" + SearchIndexID,
+        livesearchUrl: liveSearchAPIURL + SearchIndexID + "/liveSearch",
         // searchUrl: baseUrl + "/search/" + SearchIndexID,
         searchUrl: searchAPIURL + SearchIndexID + "/search",
         metricsUrl: baseAPIServer + "/api/1.1/findlymetrics/logs",
@@ -1575,13 +1577,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{each(j, bucket) searchFacet.buckets}}\
                   {{if searchFacet.facetType == "value"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name="${bucket.key}" value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
                   {{if searchFacet.facetType == "range"}}\
                     <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom" type="checkbox" name="${bucket.key}" value="true">\
+                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
                       <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
                     </div>\
                   {{/if}}\
@@ -2211,7 +2213,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
       $('.search-container').addClass('full-page');
-      if($('.start-search-icon-div').hasClass('active')){
+      if ($('.start-search-icon-div').hasClass('active')) {
         $('.start-search-icon-div').addClass('hide');
       }
       console.log('---- fill search hides preview ball icon ----------')
@@ -3462,7 +3464,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             };
             _self.vars.searchObject.searchText = $('#search').val();
             // debugger;
-            var searchText = $('#search').val() || _self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "" || null;
+            var searchText = $('#search').val() || _self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : " " || null;
             _self.closeGreetingMsg();
             _self.sendMessageToSearch('user');
             if (_self.config.viaSocket) {
@@ -3556,7 +3558,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 if (contextObj) {
                   payload.context = contextObj;
                 }
-
+               console.log("CONTEXT OBJECT", contextObj); 
               }
               var url = _self.API.livesearchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
               var searchData;
@@ -4020,15 +4022,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       if (res.templateType == undefined) {
         var botResponse;
-        if (res.payload.template_type != undefined) {
-          botResponse = res;
-          console.log("Bot Response", res);
-          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
-        }
-        else {
+        if (res.payload == undefined) {
           botResponse = res.text;
           console.log("Bot Response", botResponse);
           _self.sendMessageToSearch('bot', botResponse);
+        }
+        else {
+          botResponse = res;
+          console.log("Bot Response", res);
+          _self.sendMessageToSearch('bot', JSON.stringify(botResponse));
         }
       }
       if (res.templateType === 'search') {
@@ -4519,14 +4521,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     FindlySDK.prototype.getFrequentlySearched = function (url, type, payload) {
       var bearer = "bearer " + this.bot.options.accessToken || this.API.jstBarrer || "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM";
+      var headers = {};
+      
+      headers["Authorization"] = bearer;
+      headers["Content-Type"] = "application/json";
+      
+      if(url == this.API.livesearchUrl) {
+        if(this.isDev == true) {
+          headers["state"] = "Configured";
+        }
+        else {
+          headers["state"] = "Published";
+        }
+      }
+      
       return $.ajax({
         url: url,
         type: type,
         dataType: 'json',
-        headers: {
+        /*headers: {
           "Authorization": bearer,
           "Content-Type": "application/json"
-        },
+        },*/
+        headers: headers,
         data: payload,
         success: function (data) {
           // console.log(data);
