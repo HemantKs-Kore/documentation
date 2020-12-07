@@ -69,6 +69,14 @@
 				</span>
 				<span class="linkTitle">Workbench</span>
 			</div>
+			<div mat-button class="mat-button" [routerLink]="['/FieldManagementComponent']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/index.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/index.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Fields</span>
+			</div>
 			<div class="sub-title marginTop15">Search Configuration</div>
 			<div mat-button class="mat-button" [routerLink]="['/weights']" skipLocationChange routerLinkActive="active"
 				(click)="preview('weights')" mat-button>

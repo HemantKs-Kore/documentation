@@ -90,6 +90,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
+import { FieldManagementComponent } from './components/field-management/field-management.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -152,7 +153,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SettingsComponent,
     CredentialsListComponent,
     DateRangePickerComponent,
-    RecordPaginationComponent
+    RecordPaginationComponent,
+    FieldManagementComponent
     ],
   imports: [
     BrowserModule,

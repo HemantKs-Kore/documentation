@@ -36,7 +36,6 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     addNew: false,
   }
   filelds:any = [];
-  fieldStage:any ={};
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
@@ -159,7 +158,6 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     this.getIndexPipline();
     this.getFileds();
     this.setResetNewMappingsObj();
-    this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
     this.addcode({});
     this.getTraitGroups()
   }
@@ -225,7 +223,6 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
         showSimulation: false,
       }
     }
-    this.fieldStage = {type : 'fields'};
     this.newMappingObj = {
       field_mapping:{
         defaultValue : {
@@ -648,7 +645,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         if (result === 'yes') {
           this.pipeline.splice(i,1);
           dialogRef.close();
-          this.selectedStage = this.fieldStage;
+          if(this.pipeline && this.pipeline.length) {
+           this.selectStage(this.pipeline[0],0);
+          }else {
+            this.selectedStage = null
+          }
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -743,8 +744,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
-     this.pipeline=  res.stages || [];
+     this.pipeline =  res.stages || [];
      this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+     if(res.stages && res.stages.length){
+      this.selectStage(res.stages[0],0);
+     }
     }, errRes => {
       this.errorToaster(errRes,'Failed to get index  stages');
     });
@@ -759,8 +763,6 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       if(index < 9)
       this.defaultStageTypes.push(res.stages[index])
       }
-    //this.defaultStageTypes =  res.stages || [];
-     this.selectedStage = this.fieldStage;
      setTimeout(() => {
       $('#addToolTo').click();
     }, 700);
@@ -806,7 +808,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   clearDirtyObj(cancel?){
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     if( this.selectedStage && !this.selectedStage._id){
-      this.selectedStage = this.fieldStage;
+      if(this.pipeline && this.pipeline.length) {
+        this.selectStage(this.pipeline[0],0);
+       }else {
+         this.selectedStage = null
+       }
     } else {
       const index = _.findIndex(this.pipeline, (pg) => {
         return pg._id === this.selectedStage._id;
