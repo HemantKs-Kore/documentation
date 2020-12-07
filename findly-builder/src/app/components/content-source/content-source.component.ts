@@ -98,6 +98,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableSource = "all";
   execution = false;
   page = true;
+  executionHistoryData : any;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -152,6 +153,23 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
     this.resources = sortedData;
   }
+  duration(duration){
+    let hr = duration.split(":")[0];
+        let min = duration.split(":")[1];
+        let sec = duration.split(":")[2];
+        
+        
+        if(hr > 0 ){
+          if(min > 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min > 0 && sec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min <= 0 && sec <= 0) return duration = hr + "h ";
+        }else if(min > 0){
+          if(sec > 0) return duration =  min + "m " + sec + "s";
+          if(sec <= 0) return duration =  min + "m ";
+        }else if(sec > 0){
+          return duration = sec + "s";
+        }
+  }
   getSourceList() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -172,21 +190,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_createdOn'] = moment(element.createdOn).fromNow();
         }
         element['schedule_duration'] = "00:30:00";
-        let hr = element['schedule_duration'].split(":")[0];
-        let min = element['schedule_duration'].split(":")[1];
-        let sec = element['schedule_duration'].split(":")[2];
+        element['schedule_duration'] = this.duration(element['schedule_duration']);
+        // let hr = element['schedule_duration'].split(":")[0];
+        // let min = element['schedule_duration'].split(":")[1];
+        // let sec = element['schedule_duration'].split(":")[2];
         
         
-        if(hr > 0 ){
-          if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
-          if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
-          if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
-        }else if(min > 0){
-          if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
-          if(sec <= 0) element['schedule_duration'] =  min + "m ";
-        }else if(sec > 0){
-          element['schedule_duration'] = sec + "s";
-        }
+        // if(hr > 0 ){
+        //   if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+        //   if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+        //   if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
+        // }else if(min > 0){
+        //   if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
+        //   if(sec <= 0) element['schedule_duration'] =  min + "m ";
+        // }else if(sec > 0){
+        //   element['schedule_duration'] = sec + "s";
+        // }
         
       });
       this.filterResourcesBack = [...this.resources];
@@ -338,20 +357,20 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.execution = true;
       this.isConfig = false;
       this.page = false;
-      $('.tabname')[0].classList.remove('active')
-      $('.tabname')[1].classList.remove('active')
-      $('.tabname')[2].classList.add('active')
+      // $('.tabname')[0].classList.remove('active')
+      // $('.tabname')[1].classList.remove('active')
+      // $('.tabname')[2].classList.add('active')
     }else if( tabName == 'config'){
-      $('.tabname')[0].classList.remove('active')
-      $('.tabname')[1].classList.add('active')
-      $('.tabname')[2].classList.remove('active');
+      // $('.tabname')[0].classList.remove('active')
+      // $('.tabname')[1].classList.add('active')
+      // $('.tabname')[2].classList.remove('active');
       this.execution = false;
       this.isConfig = true;
       this.page = false;
     }else if( tabName == 'page'){
-      $('.tabname')[0].classList.add('active');
-      $('.tabname')[1].classList.remove('active');
-      $('.tabname')[2].classList.remove('active');
+      // $('.tabname')[0].classList.add('active');
+      // $('.tabname')[1].classList.remove('active');
+      // $('.tabname')[2].classList.remove('active');
       this.execution = false;
       this.isConfig = false;
       this.page = true;
@@ -364,6 +383,34 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   this.isConfig = true;
     // }
   }
+  executionHistory(){
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      webDomainId: this.selectedSource._id,
+      limit : 100,
+      skip : 0,
+      sourceType: this.selectedSource.type
+    };
+    this.service.invoke('get.executionHistory', quaryparms).subscribe(res => {
+      if(res.contentExecutions) {
+        this.executionHistoryData = res.contentExecutions;
+        this.executionHistoryData.forEach(element => {
+          element.executionStats.duration = this.duration(element.executionStats.duration);
+          element.createdOn = moment(element.createdOn).fromNow();
+        });
+      } 
+      
+    }, errRes => {
+      this.loadingSliderContent = false;
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed', 'error');
+      }
+    });
+    
+  }
   openStatusSlider(source) {
     if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
       this.notificationService.notify('Source extraction is still in progress', 'error');
@@ -373,13 +420,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.contentModaltype=source.extractionType;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      this.pageination(source.numPages, 10)
+      //this.pageination(source.numPages, 10)
       if(source.extractionType === 'webdomain'){
         this.openStatusModal();
         this.loadingSliderContent = true;
         this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-        this.pageination(source.numPages, 10)
+        //this.pageination(source.numPages, 10);
+        this.totalRecord = source.numPages;
         this.getCrawledPages(this.limitpage, 0);
+        this.executionHistory();
       }
       else if(source.extractionType ==='document'){
         this. openDocumentModal();
@@ -405,6 +454,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   this.btnCount = 5
     // }
     /** new Paging Logic */
+    this.totalRecord = 0;
     this.totalRecord = pages;
     this.recordStr = 1
     if (this.totalRecord > this.limitpage) {
@@ -438,7 +488,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   paginate(event){
-    this.getCrawledPages(event.limitpage, event.skip);
+    this.getCrawledPages(event.limit, event.skip);
     this.perfectScroll.directiveRef.update();
     this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }

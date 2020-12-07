@@ -153,15 +153,16 @@
               <div class="col_ col-3">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}} <img
-                    src="assets/icons/failed-status.svg" class="ml-2" placement="top"
+                    src="assets/icons/failed-status.svg" class="" placement="top"
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}"
                     container="body" *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img
                     src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                     *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                <span class="sch-createdOn ml-2">({{ source.schedule_createdOn }})</span>
-                <span class ="ml-2" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
+                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'" class="run-percentageDone">38</span> <!-- {{source.jobInfo.executionStats.percentageDone}} -->
+                <span class="sch-createdOn ml-2">({{ source.schedule_createdOn }})</span> 
+                <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
                   {{source.schedule_duration}}</span>
@@ -323,9 +324,9 @@
 
           <div class="search-header">
             <div class="tabs-sec">
-              <span class="tabname active" (click)="swapSlider('page')">Pages</span>
-              <span class="tabname" (click)="swapSlider('config')">Configuration</span>
-              <span class="tabname" (click)="swapSlider('execution')">Execution</span>
+              <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">Pages</span>
+              <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">Configuration</span>
+              <span class="tabname" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Execution</span>
             </div>
             <div class="right-side">
               <div class="kr-sg-input-search" *ngIf="page">
@@ -811,7 +812,7 @@
                   </div> -->
               <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
                 [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
-                <app-record-pagination></app-record-pagination>
+                <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>
@@ -838,12 +839,12 @@
                       <div class="col_ col-3">EXECUTED ON</div>
                     </header>
                     <ng-container>
-                      <div class="content-body">
+                      <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
                         <div class="col_ col-3" ><span class="execute-success"></span>
-                           Execution Successful</div>
-                        <div class="col_ col-3" >28s</div>
-                        <div class="col_ col-3" >Scheduled</div>
-                        <div class="col_ col-3">Yesterday</div>
+                          {{history.executionStats.executionStatusMessage}}</div>
+                        <div class="col_ col-3" >{{history.executionStats.duration}}</div>
+                        <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
+                        <div class="col_ col-3">{{history.createdOn}}</div>
                       </div>
                       <div class="content-body">
                         <div class="col_ col-3" ><span class="execute-failed"></span> 
