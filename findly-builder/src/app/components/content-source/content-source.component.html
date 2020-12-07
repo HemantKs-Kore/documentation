@@ -170,11 +170,11 @@
                 <span  >{{source.numPages}}</span>
               </div>
               <div class="col_ col-2" *ngIf="source.advanceSettings">
-                <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.userDetails.fullName}}</span>
-                <span *ngIf="source.advanceSettings.scheduleOpt" >Scheduled</span>
+                <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName || source.userDetails.fullName}}</span>
+                <span *ngIf="source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName}}</span>
               </div>
               <div class="col_ col-2" *ngIf="!source.advanceSettings">
-                <span  >{{source.jobInfo.userDetails.fullName || source.userDetails.fullName}}</span>
+                <span  >{{ source.userDetails.fullName}}</span>
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
@@ -809,8 +809,9 @@
                     <div class="next" *ngIf="btnAllCount > 5"> ... </div>
                     <div class="next">Next</div>
                   </div> -->
-              <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
-                [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+              <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
+                <app-record-pagination></app-record-pagination>
               <!-- <div class="paginations-custon">
                 <div class="previous pre-arrow dis-arow"
                   (click)="onClickArrow(recordStr-limitpage,recordEnd-limitpage,2,1000)"> </div>

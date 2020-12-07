@@ -44,6 +44,20 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   externalResponsePopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
+  ruleOptions = {
+    searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    userContext:['userType', 'userProfile', 'age', 'sex'],
+    contextTypes:['searchContext','pageContext','userContext'],
+    actions:['boost','lower','hide','filter']
+  }
+  defaultValuesObj: any = {
+    contextType:'searchContext',
+    operator:'contains',
+    contextCategory:'recentSearches',
+    value:[]
+  }
+  conditions =['contains','doesNotContain','equals','notEquals']
   codeMirrorOptions: any = {
     theme: 'neo',
     mode: 'javascript',
@@ -167,6 +181,48 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     }
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
+  ruleSelection(ruleObj,value,key){
+    if( key === 'contextCategory' ){
+      ruleObj.contextCategory = value;
+    }
+    if( key === 'contextType' ){
+      ruleObj.contextType = value;
+      ruleObj.contextCategory = this.ruleOptions[value][0];
+    }
+    if( key === 'operator' ){
+      ruleObj.operator = value;
+    }
+  }
+  addNewRule(index,faq){
+    const ruleObj:any = JSON.parse(JSON.stringify(this.defaultValuesObj));
+    ruleObj.value = []
+    if(!faq.conditions){
+      faq.conditions  = [];
+    }
+    faq.conditions.push(ruleObj)
+  }
+  removeRule(index,rules){
+    rules.splice(index,1);
+  }
+  addRules(event: MatChipInputEvent,ruleObj,i) {
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateTags1((value || '').trim(),ruleObj.value)) {
+        this.notify.notify('Duplicate tags are not allowed', 'warning');
+        return ;
+      } else {
+        ruleObj.value.push(value);
+      }
+    }
+    if (input) {
+      input.value = '';
+    }
+    this.suggestedInput.nativeElement.value = '';
+  }
+  checkDuplicateTags1(suggestion: string,alltTags): boolean {
+    return  alltTags.every((f) => f !== suggestion);
+  }
   setResponseType(type,responseObj){
     responseObj.responseType = type;
   }
@@ -209,8 +265,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       faqObj.conditions.splice(index,1);
     }
   }
-  changeResponseType(faqObj){
+  changeResponseType(faqObj,index){
     faqObj.answerType = (faqObj.answerType ==='condition')?'default':'condition';
+    if(faqObj.answerType === 'condition' && !(faqObj.conditions && faqObj.conditions.length)){
+      this.addNewRule(index,faqObj)
+    }
   }
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -284,16 +343,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             }
             const _conditions = [];
             answer.conditions.forEach(element => {
-              const tempobj = {
-                key:'',
-                op:'exist',
-                value:element.value,
-              }
-              if(element && element.op === 'eq'){
-                tempobj.value = element.key+'='+element.value;
-                tempobj.op = 'eq';
-              }
-              _conditions.push(tempobj);
+              _conditions.push(element);
             });
             answerObj.conditions = _conditions || []
             if(answer && answer.answers && answer.answers.length){
@@ -363,17 +413,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
           const _conditions = [];
           if(answer.conditions){
             answer.conditions.forEach(element => {
-              const tempobj = {
-                key:'',
-                op:'exist',
-                value:element.value,
-              }
-              if(element.value && element.value.includes('=')){
-                tempobj.value = element.value.split('=')[1];
-                tempobj.key = element.value.split('=')[0];
-                tempobj.op = 'eq';
-              }
-              _conditions.push(tempobj);
+              _conditions.push(element);
             });
           }
           const conditionAnswerObj:any = {
@@ -454,7 +494,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   removeSynonym(tag, index) {
     tag.synonyms.splice(index, 1);
   }
-
+  removeTag(tags, index) {
+    tags.splice(index, 1);
+  }
   checkDuplicateTags(suggestion: string = ''): boolean {
     return this.tags.every(f => f.toLowerCase() !== suggestion.toLowerCase())
   }
