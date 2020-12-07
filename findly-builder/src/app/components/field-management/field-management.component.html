@@ -1,0 +1,124 @@
+<div class="fieldManagementComponent">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div class="table_sec" *ngIf="!loadingContent" >
+        <div class="seach_add_feild">
+                <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
+                  </div> 
+                  <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>
+            </div> 
+            <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <div class="desc">No fields available</div>
+                </ng-container>
+            </div>     
+            <div>
+                <div class="table_data_content" *ngIf="filelds && filelds.length">
+                    <div class="table_header row m-0">
+                        <div class="col-2 title">Field Name</div>
+                        <div class="col-2 title">Type</div>
+                        <div class="col-2 title">Multi-Value</div>
+                        <div class="col-2 title">Required</div>
+                        <div class="col-2 title">Stored</div>
+                        <div class="col-1 title">Indexed</div>
+                        <div class="col-1 title"></div>
+                    </div>
+                    <perfect-scrollbar class="table_body_content">
+                        <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName']">
+                            <div class="col-2 title">{{field.fieldName}}</div>
+                            <div class="col-2 title">{{field.fieldDataType | translate}}</div>
+                            <div class="col-2 title">{{field.isMultiValued?'Yes':'No'}}</div>
+                            <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
+                            <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
+                            <div class="col-1 title">{{field.isIndexed?'Yes':'No'}}</div>
+                            <div class="col-1 action_links text-right">
+                                <img src="assets/images/edit-pencil.svg" (click)="addEditFiled(field)">
+                                <img src="assets/icons/delete-table.svg" class="ml-3" (click)="deleteFieldPop(field)">
+                            </div>
+                        </div>
+                        <div class="divBlockEmptylastChild text-center">         
+                            <div class="desc">No search results found</div>
+                        </div> 
+                    </perfect-scrollbar>  
+                </div>
+               
+            </div>      
+            
+     </div>
+</div>
+
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop"  #addFieldModalPop>   
+    <div class="modal-header">
+        <div class="title">{{(newFieldObj && newFieldObj._id)?'Edit Field':'Add Field'}}</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <ng-container *ngIf="newFieldObj">
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body textAlignLeft">
+        <div class="top_sec" >
+            <div class="row m-0 mb-20">
+                <div class="kr-sg-input-text col-10 p-0">
+                    <div class="label-text">Field Name</div>
+                    <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text"  *ngIf="newFieldObj.fieldDataType !== 'number'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                </div>
+            </div>
+            <div class="label-text col-12 p-0">Field Type</div>
+            <div class="row m-0 align-items-center">                         
+                <div class="kr-sg-dropdowns col-10 p-0">                    
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
+                        <ul class="dropdown-menu content-menu">                                                                    
+                          <li  (click)="selectFieldType('string')"><a>String</a></li>
+                          <li  (click)="selectFieldType('number')"><a>Number</a></li>
+                          <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
+                          <li  (click)="selectFieldType('dense_vector')"><a>Dense Vector</a></li>
+                          <li  (click)="selectFieldType('entity')"><a>Entity</a></li>
+                          <li  (click)="selectFieldType('keyword')"><a>Keyword</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0 d-none">
+                    <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isDynamic">
+                    <label for="checkbox-1" class="checkbox-custom-label">Dynamic</label>
+                </div>  
+            </div>
+        </div>
+        <div class="bottom_sec">
+            <div class="group-checkbox mb-3">
+                <div class="label-text mb-2">Select ones that apply</div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpd" [disabled]="newFieldObj.isIndexed" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored">
+                    <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpe" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isIndexed" (change)="newFieldObj.isIndexed?(newFieldObj.isStored=true):return">
+                    <label for="checkbox_grpe" class="checkbox-custom-label">Indexed</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpf" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isRequired">
+                    <label for="checkbox_grpf" class="checkbox-custom-label">Required</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isMultiValued">
+                    <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label>
+                </div>
+            </div>
+            <div class="kr-sg-input-text col-10 p-0  d-none">
+                <div class="label-text">Default Value (Optional)</div>
+                <input type="text" placeholder="Add value here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
+            </div>
+        </div>
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer text-left">
+        <button type="button" [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" class="kr-sg-button-primary btn_lg float-right" (click)="addField()">{{newFieldObj._id?'Save':'Add'}}</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+    </div>    
+</ng-container>
+</kr-modal>
