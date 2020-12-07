@@ -128,7 +128,10 @@ export class SettingsComponent implements OnInit {
   cancel() {
     if (this.slider > 0)
       this.slider = this.slider - 1;
+      if(this.existingCredential = true)
+      this.slider=0;
   }
+  // if(slider)
   back() {
     if (this.slider != 0)
       this.slider = this.slider - 1;

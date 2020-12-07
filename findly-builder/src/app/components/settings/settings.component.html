@@ -234,7 +234,7 @@
                 <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
             </div>
             <div>
-                <button class="kr-sg-button-secondary btn_lg mr-3" (click)="back()">Back</button>
+                <button class="kr-sg-button-secondary btn_lg mr-3" *ngIf=!existingCredential (click)="back()">Back</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3"> Continue</button>
                 <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3"
                     (click)="configureCredential()">Save</button>
