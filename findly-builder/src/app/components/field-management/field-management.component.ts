@@ -61,10 +61,12 @@ export class FieldManagementComponent implements OnInit {
   addEditFiled(field?){
     if(field){
       this.newFieldObj = field;
+      this.newFieldObj.previousFieldDataType = field.fieldDataType;
     } else{
       this.newFieldObj = {
         fieldName: '',
         fieldDataType: 'string',
+        previousFieldDataType:'string',
         isMultiValued: true,
         isRequired: false,
         isStored: true,

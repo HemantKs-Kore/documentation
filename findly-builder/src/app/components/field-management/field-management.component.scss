@@ -23,14 +23,24 @@
         height: 100%;
         margin: auto;
         text-align: center;
+       
         .seach_add_feild{
             display: flex;
             align-items: center;
             justify-content: flex-end;
             padding: 17px 18px;
-            margin: 22px 24px 12px 24px;
+            margin: 0px 0px 10px 0px;
             background: #F5F8FA;
             border-radius: 4px;
+            .title{
+                left: 277px;
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 22px;
+                color: #000000;
+                position: absolute;
+                display: block;     
+            }  
             .kr-sg-input-search{
                 display: inline-block;
                 width: 0px;
@@ -154,3 +164,11 @@
         padding-top: 10px;
     }
 } 
+.kr-sg-inline-notification {
+    padding-bottom: 10px;
+}
+.kr-sg-inline-notification .bulb-icon {
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
