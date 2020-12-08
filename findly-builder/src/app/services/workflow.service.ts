@@ -11,6 +11,8 @@ export class WorkflowService {
   completedPercentage = 0;
   _seedData: any;
   selectedAppForEdit: any;
+  selectedSearchIndexId: any;
+  selectedQueryPipelineIds: any = [];
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
   constructor(
@@ -35,6 +37,20 @@ export class WorkflowService {
       return;
     }
     return this.selectedAppForEdit;
+  }
+  selectedSearchIndex(data?) {
+    if (data) {
+      this.selectedSearchIndexId = data;
+      return;
+    }
+    return this.selectedSearchIndexId;
+  }
+  selectedQueryPipelines(data?) {
+    if (data) {
+      this.selectedQueryPipelineIds = data;
+      return;
+    }
+    return this.selectedQueryPipelineIds;
   }
   seedData(data?) {
     if (data) {

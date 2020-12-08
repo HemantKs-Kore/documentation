@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { SideBarService } from '@kore.services/header.service';
+import { AppSelectionService } from '@kore.services/app-selection-service'
 declare const $: any;
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'apps-home',
@@ -34,7 +36,8 @@ export class AppsListingComponent implements OnInit {
     public workflowService: WorkflowService,
     private router: Router,
     private notificationService: NotificationService,
-    private headerService: SideBarService
+    private headerService: SideBarService,
+    private appSelectionService : AppSelectionService
   ) {
     this.authInfo = localstore.getAuthInfo();
    }
@@ -47,7 +50,7 @@ export class AppsListingComponent implements OnInit {
     }, 100);
   }
   openApp(app) {
-   this.workflowService.selectedApp(app);
+  this.appSelectionService.setAppWorkFlowData(app);
    this.router.navigate(['/source'], { skipLocationChange: true });
    const toogleObj = {
     title: '',
@@ -100,7 +103,6 @@ export class AppsListingComponent implements OnInit {
     this.service.invoke('create.app', {}, payload).subscribe(
       res => {
         this.notificationService.notify('App created successfully', 'success');
-        self.workflowService.selectedApp(res);
         self.apps.push(res);
         self.workflowService.showAppCreationHeader(true);
         self.router.navigate(['/source'], { skipLocationChange: true });

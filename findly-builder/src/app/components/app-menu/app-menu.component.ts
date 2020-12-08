@@ -16,28 +16,43 @@ export class AppMenuComponent implements OnInit {
   @Input() show;
   @Input() settingMainMenu;
 
-  constructor( private headerService: SideBarService, private workflowService: WorkflowService, private router: Router) { }
+  constructor( private headerService: SideBarService, private workflowService: WorkflowService, private router: Router, private activetedRoute:ActivatedRoute) { }
   goHome(){
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
   };
-  preview(selection): void {
+  preview(selection) {
     const toogleObj = {
       title: selection,
     };
-    // this.showHideSearch(false);
     this.headerService.toggle(toogleObj);
   }
-  showHideSearch(show){
-    if(show){
-      $('.search-background-div').show();
-      $('.start-search-icon-div').addClass('active');
-      $('.advancemode-checkbox').css({display:'block'});
-    }else{
-      $('.search-background-div').hide();
-      $('.start-search-icon-div').removeClass('active');
-      $('.advancemode-checkbox').css({display:'none'});
+  getPreviousState(){
+    let previOusState :any = null;
+    try {
+      previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
+    } catch (e) {
     }
+    return previOusState;
+  }
+  reloadCurrentRoute() {
+    let route = '/source';
+    const previousState = this.getPreviousState();
+    if(previousState.route){
+      route = previousState.route
+     }
+     try {
+       if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+          this.router.navigate([route],{ skipLocationChange: true });
+      });
+       }
+     } catch (e) {
+     }
+  }
+  selectQueryPipelineId(){
+    const activetedRoute:any = this.activetedRoute;
+    this.reloadCurrentRoute()
   }
   ngOnInit() {
     // this.selected = "accounts";

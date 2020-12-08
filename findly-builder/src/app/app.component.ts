@@ -7,6 +7,7 @@ import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
+import { AppSelectionService } from '@kore.services/app-selection-service'
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -48,7 +49,8 @@ export class AppComponent implements OnInit , OnDestroy {
               private activatedRoute: ActivatedRoute,
               private headerService: SideBarService,
               private service: ServiceInvokerService,
-              private endpointservice: EndPointsService
+              private endpointservice: EndPointsService,
+              private appSelectionService : AppSelectionService
               // private translate: TranslateService
   ) {
 
@@ -81,7 +83,7 @@ export class AppComponent implements OnInit , OnDestroy {
           return (app._id === this.previousState.selectedApp)
         })
         if(selectedApp && selectedApp.length){
-          this.workflowService.selectedApp(selectedApp[0]);
+          this.appSelectionService.setAppWorkFlowData(selectedApp[0]);
           // debugger;
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
           route = '/source';

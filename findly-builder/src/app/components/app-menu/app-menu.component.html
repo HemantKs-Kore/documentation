@@ -78,6 +78,15 @@
 				<span class="linkTitle">Fields</span>
 			</div>
 			<div class="sub-title marginTop15">Search Configuration</div>
+			<div class="kr-sg-dropdowns queryPipelineConfig" #selectResourceDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Default</button>
+					<ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+						<li><span class="list-name" (click)="selectQueryPipelineId()">Default</span></li>
+						<li class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li>
+					</ul>
+				</div>
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/weights']" skipLocationChange routerLinkActive="active"
 				(click)="preview('weights')" mat-button>
 				<span class="inlineIconBox leftAdjust">

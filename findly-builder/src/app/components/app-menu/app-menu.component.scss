@@ -161,5 +161,23 @@ app-mainmenu{
 		.sub-menu {
 			padding-left: 10px;
 		}
+		.queryPipelineConfig{
+			.dropdown-open{
+				margin-bottom: 0px !important;
+				.dropdown-input{
+					border: none !important;
+					box-sizing: none;
+					border-radius: none !important;
+					padding: 0 15px;
+					font-size: 14px;
+					color: #0D6EFD !important;
+					background: none !important;
+					font-weight: 700;
+				}
+			}
+			.dropdown-input::before{
+				background-image: url('^assets/icons/caretDown.svg');
+			}
+		}
 	}
 }

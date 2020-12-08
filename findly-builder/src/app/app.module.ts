@@ -14,7 +14,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
-
+import { AppSelectionService } from '@kore.services/app-selection-service'
 import {HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthGuard} from '@kore.services/auth.guard';
 import {AuthInterceptor } from '@kore.services/inteceptors/auth-interceptor';
@@ -200,7 +200,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       multi: true,
     },
     SortPipe,
-    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML, MatDatepickerModule
+    AuthGuard,
+    AppDataResolver,
+    AccountsDataService,
+    SideBarService,
+    NgbActiveModal ,
+    MatSnackBar ,
+    ConvertMDtoHTML,
+    MatDatepickerModule ,
+    AppSelectionService
   ],
   bootstrap: [AppComponent]
 })
