@@ -35,6 +35,28 @@ export class SettingsComponent implements OnInit {
     awt: 'Select Signing Algorithm',
     enabled: true
   };
+  channels = [
+    {
+      id: 'rtm',
+      name: 'Web/Mobile Client',
+      enable: false,
+      status: 'Not Setup',
+      hide: false,
+      class: 'websdk',
+      catagory: 'others',
+      icon: "assets/icons/web-mobile-client.png"
+    },
+    {
+      id: 'ivrLocal',
+      name: 'Webhook',
+      enable: false,
+      status: 'Not Setup',
+      hide: false,
+      class: 'ivr',
+      catagory: 'other',
+      icon: "assets/icons/webhook.svg"
+    }
+  ]
   @ViewChild('addCredential') addCredential: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
@@ -49,7 +71,30 @@ export class SettingsComponent implements OnInit {
     // this.getCredential();
     this.getdialog();
     this.getLinkedBot();
-   
+    this.prepareChannelData();
+
+  }
+  prepareChannelData() {
+    // this.getCredential();
+    const channels = JSON.parse(JSON.stringify(this.channels))
+    channels.forEach((channel) => {
+      this.selectedApp.channels.forEach((streamChannel) => {
+        if (channel.id === streamChannel.type) {
+          const tempChannel: any = streamChannel
+          tempChannel.id = channel.id,
+            tempChannel.status = channel.status,
+            tempChannel.hide = channel.hide,
+            tempChannel.class = channel.class,
+            tempChannel.icon = channel.icon
+            if(channel.enable=true){
+              channel = tempChannel
+            }
+        } 
+
+      })
+    })
+    this.channels = channels
+    console.log(this.channels);
   }
   copy(val, elementID) {
     const selBox = document.createElement('textarea');
@@ -83,7 +128,10 @@ export class SettingsComponent implements OnInit {
   cancel() {
     if (this.slider > 0)
       this.slider = this.slider - 1;
+      if(this.existingCredential = true)
+      this.slider=0;
   }
+  // if(slider)
   back() {
     if (this.slider != 0)
       this.slider = this.slider - 1;
@@ -152,18 +200,18 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
         this.channnelConguired = res;
-        if (this.channnelConguired.apps.length > 0 && !this.existingCredential) {
+        if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
-          this.firstlistData = res.apps[0];
+          this.firstlistData = res.apps[res.apps.length-1];
           this.slider = 3
           this.listData = this.firstlistData
           this.configFlag = true;
         }
-        else if (this.channnelConguired.apps.length == 0){
+        else if (this.channnelConguired.apps.length == 0) {
           this.existingCredential = false;
-          this.slider=1
+          this.slider = 1
         }
-       
+
         console.log(res)
       },
       errRes => {
@@ -175,20 +223,44 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  continue() {
-    if(this.slider==0 ){
+  proceedChannel(channel) {
+    if (channel && channel.id === 'rtm') {
       this.getCredential()
+    }
+    else (this.notificationService.notify('Channel not available ', 'error'))
+
+  }
+  continue(channel) {
+    if (this.slider == 0) {
+      this.getCredential()
+      // this.configFlag = true;
+
     }
     if (this.slider == 2) {
       this.createCredential()
       this.configFlag = true;
-
-    }
-    if (this.slider < 3 && this.slider !=0) {
       this.slider = this.slider + 1;
-      // this.existingCredential;
 
     }
+    if (this.slider < 3 && this.slider != 0) {
+      // this.configFlag = true;
+      this.slider = this.slider + 1;
+    }
+    // else if(this.slider < 3  && this.slider !=0) {
+    //   this.existingCredential=true;
+    // this.slider = this.slider + 1;
+
+    // }
+
+
+    //  if (this.slider < 3  && this.slider == 0 ) {    
+    //     // this.configFlag = true;
+
+
+
+
+    // }
+
   }
   radio(bool) {
     this.isAlertsEnabled = bool;
@@ -322,8 +394,12 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
         this.slider = 0;
+        this.selectedApp.channels=res.channels;
+        this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configuered', 'success');
+        this.prepareChannelData();
         this.standardPublish();
+        this.configFlag = true;
         console.log(res);
       },
       errRes => {
