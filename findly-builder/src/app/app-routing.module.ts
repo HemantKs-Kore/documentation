@@ -27,6 +27,7 @@ import { BusinessRulesComponent } from './components/business-rules/business-rul
 import { SettingsComponent } from './components/settings/settings.component';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
+import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 const routes: Routes = [
   {
     path: '',
@@ -49,6 +50,7 @@ const routes: Routes = [
       { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent},
+      { path: 'experiments', component: AppExperimentsComponent},
       { path: 'query', component: QueryComponent},
       { path: 'stopWords', component: StopWordsComponent},
       { path: 'weights', component: WeightsComponent},

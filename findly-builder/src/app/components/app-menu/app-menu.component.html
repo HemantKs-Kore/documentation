@@ -82,8 +82,8 @@
 				<div class="dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Default</button>
 					<ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-						<li><span class="list-name" (click)="selectQueryPipelineId()">Default</span></li>
-						<li class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li>
+						<li (click)="selectQueryPipelineId()"><span class="list-name">Default</span></li>
+						<li (click)="openModalPopup()" class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li>
 					</ul>
 				</div>
 			</div>
@@ -212,3 +212,19 @@
 </div>
 
 <!-- Sidebar -->
+
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #addFieldModalPop>   
+    <div class="modal-header">
+        <div class="title">New Search Configuration</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body textAlignLeft">
+     
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer text-left">
+        <button type="button"  class="kr-sg-button-primary btn_lg float-right" (click)="switchToTerminal()">Proceed</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+    </div>    
+</kr-modal>

@@ -1,7 +1,8 @@
-import { Component, OnInit,ViewEncapsulation, HostListener, Input } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation, HostListener, Input, ViewChild } from '@angular/core';
 import { SideBarService } from '../../services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ActivatedRoute, Routes, Router } from '@angular/router';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -13,9 +14,10 @@ export class AppMenuComponent implements OnInit {
 
   selected = '';
   trainingMenu = false;
+  addFieldModalPopRef:any;
   @Input() show;
   @Input() settingMainMenu;
-
+  @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   constructor( private headerService: SideBarService, private workflowService: WorkflowService, private router: Router, private activetedRoute:ActivatedRoute) { }
   goHome(){
     this.workflowService.selectedApp(null);
@@ -58,8 +60,17 @@ export class AppMenuComponent implements OnInit {
     // this.selected = "accounts";
   }
   // toggle sub-menu
+  switchToTerminal(){
+    $('#experimentsTab').click();
+    this.closeModalPopup();
+  }
   toggleTranningMenu() {
     this.trainingMenu === false ? this.trainingMenu = true: this.trainingMenu = false;
   }
-
+  closeModalPopup(){
+    this.addFieldModalPopRef.close();
+  }
+  openModalPopup(){
+    this.addFieldModalPopRef = this.addFieldModalPop.open();
+  }
 }

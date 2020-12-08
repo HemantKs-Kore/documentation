@@ -33,7 +33,7 @@
                           </div>
                     </div>
                     <!-- <div class="headerMenuTab" [routerLink]="['/dashboard']" skipLocationChange routerLinkActive="active" (click)="analyticsClick('metrics')">Analytics</div> -->
-                    <div class="headerMenuTab" >Experiments</div>
+                    <div class="headerMenuTab" id='experimentsTab' [ngClass] ="{'active' : mainMenu == '/experiments'}" (click)="analyticsClick('/experiments')">Experiments</div>
                     <div class="headerMenuTab" [ngClass] ="{'active' : mainMenu == '/settings'}" (click)="analyticsClick('/settings')">Settings </div>
                 </div>
             </div>

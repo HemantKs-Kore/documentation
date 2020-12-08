@@ -65,6 +65,7 @@ export class AppHeaderComponent implements OnInit {
       menu == '/dashboard' || 
       menu == '/userEngagement' || 
       menu == '/searchInsights'  || 
+      menu == '/experiments'  || 
       menu == '/resultInsights' ||
       menu == '/summary') {
       this.showMainMenu = false;
