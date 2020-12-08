@@ -28,6 +28,18 @@
     --sdk-checkmark-icon:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iOXB4IiBoZWlnaHQ9IjdweCIgdmlld0JveD0iMCAwIDkgNyIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggNTMuMiAoNzI2NDMpIC0gaHR0cHM6Ly9za2V0Y2hhcHAuY29tIC0tPgogICAgPHRpdGxlPmNoZWNrVGlja0ljb248L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIj4KICAgICAgICA8ZyBpZD0iY2hlY2tUaWNrSWNvbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMS4wMDAwMDAsIDEuMDAwMDAwKSIgc3Ryb2tlPSIjMDA5REFCIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICAgICAgICAgIDxwb2x5bGluZSBpZD0iUGF0aCIgcG9pbnRzPSIwIDIuMjE4IDIgNC4yMTggNi42NzkgMCI+PC9wb2x5bGluZT4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
     --sdk-sorting-icon:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMwIDMwIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTUiIGN5PSIxNSIgcj0iMTUiIGZpbGw9IiMwMDlEQUIiIG9wYWNpdHk9Ii4xIi8+CiAgICAgICAgPGcgc3Ryb2tlPSIjMDA5REFCIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMy4xNDUgMTkuODZsLS4wNTYtOS41TDEwIDEzLjQ0OU0xNi41MzEgOS40MThsLjA1NiA5LjUgMy4wODktMy4wOSIvPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+Cg==');
     --sdk-filters-icon:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMwIDMwIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTUiIGN5PSIxNSIgcj0iMTUiIGZpbGw9IiMwMDlEQUIiIG9wYWNpdHk9Ii4xIi8+CiAgICAgICAgPGcgc3Ryb2tlPSIjMDA5REFCIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNS4yOTcgMjAuNjg4di01LjU1Nk0xOS43NDIgMTAuNjg4aC04Ljg5bDQuNDQ1IDQuNDQ0eiIvPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+Cg==');
+    
+    --sdk-chat-window-list-view-color:#333;
+    --sdk-chat-window-checkbox-border:#F2F2F2;
+    --sdk-chat-widow-primary-box-shadow: 0 1px 5px 0 rgba(179, 186, 200, 0.58);
+    --sdk-chat-widow-default-white: #ffffff;
+    --sdk-chat-window-list-template-sub-title-color:#77869e;
+    --sdk-chat-window-viewmore-btn-color:#0079FF;
+    --sdk-chat-window-pie-chart-background:#fff;
+    --sdk-chat-window-list-template-heading-background-color:#f4f4f4;
+    --sdk-chat-widow-primary-font-color: #26344a;
+    --sdk-chat-window-list-template-title-color:#222222;
+    --sdk-chat-widow-primary-blue-color: #009dab;
 }
 
 .darkTheme-kore {
@@ -10657,3 +10669,176 @@ input:checked + .custom-slider:before {
     border-radius: 4px;
 }
 
+.kore-list-template-div{
+    list-style: none;
+ }
+.kore-list-template-div .listViewTmplContent .listViewTmplContentBox{
+    list-style: none;
+    float:left;
+    /* color:var(--sdk-chat-window-list-view-color); */
+    color: #333;
+    border-radius: 12px;
+   padding: 0;
+    font-size: 14px;
+    -webkit-animation: message-left ease-in-out 2s forwards;
+   -moz-animation: message-left ease-in-out 2s forwards;
+   animation: message-left ease-in-out 2s forwards;
+    margin: 0;
+    width:85%;
+}
+.kore-list-template-div .listViewTmplContent .listViewLeftContent{
+   /* width: 77%;    */ 
+   vertical-align: middle;
+   display: table-cell;
+   padding: 0 10px;
+   width: 100%;
+}
+.kore-list-template-div .listViewTmplContent .listViewRightContent{
+   cursor: pointer;
+   display: table-cell;
+   width: 60px;
+   vertical-align: middle;
+   padding-left: 10px;
+
+ }
+.kore-list-template-div .listViewRightContent img{
+    height: 36px;
+    width: 36px;
+   border-radius: 50%;
+
+ }
+.kore-list-template-div .listViewTmplContent .listViewTmplContentChild{
+   /* border-top: 1px solid var(--sdk-chat-window-checkbox-border); */
+   border-top: 1px solid #F2F2F2;
+   margin-bottom:10px;
+   width: 100%;
+   border-radius: 10px;
+   /* box-shadow: var(--sdk-chat-widow-primary-box-shadow); */
+   box-shadow: 0 1px 5px 0 rgba(179, 186, 200, 0.58);
+   /* background-color: var(--sdk-chat-widow-default-white); */
+   background-color: #ffffff;
+   height: 56px;   
+   cursor: pointer;
+   display: table;
+   vertical-align: middle;
+
+ }
+.kore-list-template-div .listViewTmplContent .listViewItemSubtitle{
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   /* width: 102px;
+   height: 18px; */
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: normal;
+   letter-spacing: 0.27px;
+   /* color: var(--sdk-chat-window-list-template-sub-title-color); */
+   color: #77869e;
+
+ }
+.kore-list-template-div .listViewTmplContent .listViewItemValue{
+
+    display: inline-block;
+    /* margin-left: 15px;  */
+   color: #5158cd;
+   /* width: 66px;
+   height: 22px; */
+   font-size: 14px;
+   font-weight: 500;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: normal;
+   letter-spacing: 0.4px;
+   text-align: right;
+   overflow: hidden;
+   text-overflow: ellipsis; 
+   white-space: nowrap;
+   width: 33%;
+}
+.kore-list-template-div .listViewTmplContent .listItemPath{
+    font-size:12px;
+    /* color: var(--sdk-chat-window-viewmore-btn-color); */
+    color: #0079FF;
+   cursor: pointer;
+}
+.kore-list-template-div .listViewTmplContent .buyBtn{
+   /* background: var(--sdk-chat-window-pie-chart-background); */
+   background: #fff;
+   border: 0;
+   /* color: var(--sdk-chat-window-viewmore-btn-color)!important; */
+   color: #0079FF !important;
+   cursor: pointer;
+   float: right;
+   font-weight: bold;
+   letter-spacing: -0.3px;
+   font-size: 12px;
+   text-align: right;
+}
+.kore-list-template-div .listViewTmplContentBox li:first-child{
+    margin-top:0!important;
+    border-top:0;
+}
+.kore-list-template-div .listViewTmplContent .listViewTmplContentHeading{
+   display: none;
+   padding:10px;
+   /* background: var(--sdk-chat-window-list-template-heading-background-color); */
+   background: #f4f4f4;
+   margin-bottom: 10px;
+   border-radius: 12px 12px 0 0;
+   font-size: 15px;
+   width: 100%;
+   font-size: 15px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.33;
+   letter-spacing: -0.11px;
+   /* color: var(--sdk-chat-widow-primary-font-color); */
+   color: #26344a;
+}
+.kore-list-template-div .listViewTmplContent .listViewLeftContent .titleDesc{
+   display: inline-block;
+   width:65%;
+}
+
+ .kore-list-template-div .listViewItemTitle {	
+   font-size: 13px;	
+   font-weight: 600;	
+   line-height: 1.54;	
+   letter-spacing: -0.1px;	
+   /* color: var(--sdk-chat-window-list-template-title-color);	 */
+   color: #222222;
+   overflow: hidden;	
+   text-overflow: ellipsis;	
+   white-space: nowrap;	
+}
+.kore-list-template-div .listViewTmplContent .seeMoreList{
+    text-align: center;
+   /* border-top: 1px solid var(--sdk-chat-window-checkbox-border); */
+   border-top: 1px solid #F2F2F2;
+   padding: 10px;
+   margin: 0;
+}
+.kore-list-template-div .listViewTmplContent .seeMoreList{
+   display: none !important;
+   border: 0;
+   background: none;
+   /* color: var(--sdk-chat-widow-primary-blue-color)!important; */
+   color: #009dab;
+   cursor: pointer;
+   float: right;
+   font-size: 14px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 5px;
+   letter-spacing: normal;
+   display: inline-block;	
+   /* border-bottom: 1px solid var(--sdk-chat-widow-primary-blue-color);	 */
+   border-bottom: 1px solid #009dab;
+   padding: 10px 0;	
+   text-align: center;
+}
