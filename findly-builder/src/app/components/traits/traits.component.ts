@@ -286,8 +286,10 @@ export class TraitsComponent implements OnInit {
       data: {
         title: 'Delete Trait group',
         text: 'Are you sure you want to delete Trait group?',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true,
       }
+
     });
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
@@ -541,23 +543,24 @@ export class TraitsComponent implements OnInit {
       this.traits.addEditTraits.traits[key].utterance = '';
     }
   }
-  removeUtterances(index, parentIndex) {
-    this.traitsObj[parentIndex].utterances.splice(index, 1);
+  removeUtterances(index, parentIndex) {  
+    this.traitsObj[parentIndex].utterances.splice(index, 1);   
   }
-  deleteTraitInGroup = function (key, traitsGroup, event, traitIndex) {
-    if (event) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+  deleteTraitInGroup = function (key, traitsGroup, event, traitIndex) {  
+    if (event) { 
+      event.preventDefault(); 
+      event.stopImmediatePropagation(); 
     }
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
       height: '306px',
       panelClass: 'delete-popup',
-      data: {
+      data: {    
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true,
       }
 
     });
