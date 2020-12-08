@@ -677,6 +677,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     });
   }
   getFileds(offset?){
+    this.loadingFields = true;
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
