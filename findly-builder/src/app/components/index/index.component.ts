@@ -14,6 +14,7 @@ import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { JsonPipe } from '@angular/common';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -36,7 +37,8 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     addNew: false,
   }
   filelds:any = [];
-  fieldStage:any ={};
+  fileldsData:any = [];
+  loadingFields = true;
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
@@ -159,7 +161,6 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     this.getIndexPipline();
     this.getFileds();
     this.setResetNewMappingsObj();
-    this.selectedStage = JSON.parse(JSON.stringify(this.fieldStage));
     this.addcode({});
     this.getTraitGroups()
   }
@@ -225,7 +226,6 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
         showSimulation: false,
       }
     }
-    this.fieldStage = {type : 'fields'};
     this.newMappingObj = {
       field_mapping:{
         defaultValue : {
@@ -494,22 +494,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     });
   }
   openModalPopup(){
+    this.loadingFields = true;
     this.addFieldModalPopRef = this.addFieldModalPop.open();
-  }
-  addEditFiled(field?){
-    if(field){
-      this.newFieldObj = field;
-    } else{
-      this.newFieldObj = {
-        fieldName: '',
-        fieldDataType: 'string',
-        isMultiValued: true,
-        isRequired: false,
-        isStored: true,
-        isIndexed: true
-      }
-    }
-    this.openModalPopup();
+    this.getFileds();
   }
   closeModalPopup(){
     this.addFieldModalPopRef.close();
@@ -648,7 +635,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         if (result === 'yes') {
           this.pipeline.splice(i,1);
           dialogRef.close();
-          this.selectedStage = this.fieldStage;
+          if(this.pipeline && this.pipeline.length) {
+           this.selectStage(this.pipeline[0],0);
+          }else {
+            this.selectedStage = null
+          }
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -657,29 +648,29 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   addField(){
     const payload:any = {
-      fieldName: this.newFieldObj.fieldName,
-      fieldDataType: this.newFieldObj.fieldDataType,
-      isMultiValued: this.newFieldObj.isMultiValued,
-      isRequired: this.newFieldObj.isRequired,
-      isStored: this.newFieldObj.isStored,
-      isIndexed: this.newFieldObj.isIndexed,
+      fields:[]
     }
+    this.filelds.forEach(field => {
+      const tempPayload:any = {
+        fieldName: field.fieldName,
+        fieldDataType: field.fieldDataType,
+        isMultiValued: field.isMultiValued,
+        isRequired: field.isRequired,
+        isStored: field.isStored,
+        isIndexed: field.isIndexed,
+      }
+      payload.fields.push(tempPayload);
+    });
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
-      fieldId:this.newFieldObj._id
     };
     let api  = 'post.createField';
     if(this.newFieldObj && this.newFieldObj._id){
       api = 'put.updateField'
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
-      if(this.newFieldObj && this.newFieldObj._id){
-        this.notificationService.notify('Field updated successfully','success');
-      } else {
-        this.notificationService.notify('Field added successfully','success');
-      }
-      this.getFileds();
+      this.notificationService.notify('Fields added successfully','success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to create field');
@@ -690,13 +681,13 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
       offset: offset || 0,
-      limit:100
+      limit:200
     };
     this.service.invoke('get.allField', quaryparms).subscribe(res => {
       this.filelds=  res.fields || [];
-      this.loadingContent = false;
+      this.loadingFields = false;
     }, errRes => {
-      this.loadingContent = false;
+      this.loadingFields = false;
       this.errorToaster(errRes,'Failed to get index  stages');
     });
   }
@@ -743,9 +734,14 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
-     this.pipeline=  res.stages || [];
+     this.pipeline =  res.stages || [];
      this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+     if(res.stages && res.stages.length){
+      this.selectStage(res.stages[0],0);
+     }
+     this.loadingContent = false;
     }, errRes => {
+      this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get index  stages');
     });
   }
@@ -759,8 +755,6 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       if(index < 9)
       this.defaultStageTypes.push(res.stages[index])
       }
-    //this.defaultStageTypes =  res.stages || [];
-     this.selectedStage = this.fieldStage;
      setTimeout(() => {
       $('#addToolTo').click();
     }, 700);
@@ -806,7 +800,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   clearDirtyObj(cancel?){
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     if( this.selectedStage && !this.selectedStage._id){
-      this.selectedStage = this.fieldStage;
+      if(this.pipeline && this.pipeline.length) {
+        this.selectStage(this.pipeline[0],0);
+       }else {
+         this.selectedStage = null
+       }
     } else {
       const index = _.findIndex(this.pipeline, (pg) => {
         return pg._id === this.selectedStage._id;

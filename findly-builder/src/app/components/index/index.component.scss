@@ -325,108 +325,7 @@
             }            
         }
         .table_sec{
-            height: 100%;
-            width: calc(100% - 261px);
-            .seach_add_feild{
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                padding: 17px 18px;
-                margin: 22px 24px 12px 24px;
-                background: #F5F8FA;
-                border-radius: 4px;
-                .kr-sg-input-search{
-                    display: inline-block;
-                    width: 0px;
-                    display: none;  
-                    width: 300px;
-                    height: 20px;
-                    position: relative;
-                    bottom: 6px;
-                    right: 10px;               
-                    &.active{
-                        display: block;
-                        width: 300px;
-                    }
-                } 
-                .seach-block{
-                    color: #202124;
-                    font-style: normal;
-                    font-weight: 500;
-                    font-size: 12px;
-                    // line-height: 14px;
-                    margin-right: 30px;
-                    img{
-                        margin-right: 7px;
-                        cursor: pointer;
-                    }
-                }
-                .add_feild{
-                    color: #202124;
-                    font-style: normal;
-                    font-weight: 500;
-                    font-size: 12px;
-                    line-height: 14px;
-                    cursor: pointer;
-                    img{
-                        margin-right: 7px;
-                    }
-                }
-            }
-            .table_data_content{
-                padding: 0 24px;
-                .table_header{
-                    padding: 18px 15px;
-                    border-bottom: 1px solid #E4E5E7;
-                    .title{
-                        padding: 0 5px;
-                        font-style: normal;
-                        font-weight: 500;
-                        font-size: 12px;
-                        line-height: 14px;
-                        text-transform: uppercase;
-                        color: #9AA0A6;
-                    }
-                }
-                .table_body_content{
-                    height: calc(100vh - 341px);
-                    .table_body{
-                        padding: 18px 15px;
-                        box-shadow: inset 0px -1px 0px #E4E5E7;                        
-                        transition: 0.3s all ease-in;
-                        // cursor: pointer;
-                        &:hover{
-                            background: #F8F9FA;
-                            .action_links{
-                                visibility: visible;
-                                img{
-                                    cursor: pointer;
-                                }
-                            }
-                        }
-                        .title{
-                            padding: 0 5px;
-                            font-style: normal;
-                            font-size: 14px;
-                            line-height: 14px;
-                            color: #202124;   
-                            cursor: default;
-                            word-break: break-word;
-                            img{
-                                cursor: pointer;
-                            } 
-                        }
-                        .action_links{
-                            padding: 0 5px;
-                            visibility: hidden;
-                        }
-                    }
-                }
-                .footer-simulate{
-                    text-align: right;
-                    margin: 30px 0;                    
-                }
-            }
+          margin: auto;
         }
         .form_sec{
             height: 100%;
@@ -675,5 +574,12 @@
     .desc{
         color: $secondaryColor;
         font-size: 14px;
+        padding-top: 10px;
     }
 } 
+::ng-deep.addFieldModalPop {
+    .modal-dialog{
+        max-width: 70% !important;
+        height: 80% !important;
+    }
+}
