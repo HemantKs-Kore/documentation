@@ -60,7 +60,7 @@ export class FieldManagementComponent implements OnInit {
   }
   addEditFiled(field?){
     if(field){
-      this.newFieldObj = field;
+      this.newFieldObj = JSON.parse(JSON.stringify(field));
       this.newFieldObj.previousFieldDataType = field.fieldDataType;
     } else{
       this.newFieldObj = {
