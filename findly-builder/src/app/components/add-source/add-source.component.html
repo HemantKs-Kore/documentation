@@ -138,19 +138,19 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter domain URL"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter name"
+              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Name"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
             <div class="kr-sg-input-text-area mb-3">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
-                placeholder="Enter description" class="input-text"></textarea>
+                placeholder="Enter Description" class="input-text"></textarea>
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
 
@@ -224,7 +224,7 @@
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
                           <input type="text"  placeholder="https://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter domain URL"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->

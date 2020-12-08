@@ -35,8 +35,8 @@
                 selection below. Each channel may have a unique process to enable it but the instructions are provided.
             </div>
         </div>
-        <div class="card_data row m-0">
-            <div class="card-content active">
+        <div class="card_data row m-0" >
+            <div class="card-content active" *ngFor=" let channel of channels">
                 <div class="dropdown kr-sg-overflow-menu d-none">
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
@@ -45,16 +45,14 @@
                         <li><a>Delete Configuration</a></li>
                     </ul>
                 </div>
-                <div class="main" (click)="continue()">
-                    <div class="img-block"><img src="assets/icons/web-mobile-client.png"></div>
-                    <div class="main-title">Web / Mobile Client</div>
+                <div class="main" (click)=" proceedChannel(channel)">
+                    <div class="img-block"><img src="{{channel.icon}}"></div>
+                    <div class="main-title">{{channel.name}}</div>
+                    <div class="configuration" *ngIf="channel.enable">CONFIGURED</div>
                 </div>
-                <div class="configuration" *ngIf="configFlag">CONFIGURED</div>
+             
             </div>
-            <div class="card-content">
-                <div class="img-block"><img src="assets/icons/webhook.svg"></div>
-                <div class="main-title">Webhook</div>
-            </div>
+            
         </div>
     </div>
 
@@ -236,7 +234,7 @@
                 <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">Cancel</button>
             </div>
             <div>
-                <button class="kr-sg-button-secondary btn_lg mr-3" (click)="back()">Back</button>
+                <button class="kr-sg-button-secondary btn_lg mr-3" *ngIf=!existingCredential (click)="back()">Back</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3"> Continue</button>
                 <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3"
                     (click)="configureCredential()">Save</button>
