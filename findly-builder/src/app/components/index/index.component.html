@@ -5,6 +5,7 @@
     </div>
     <div class="header_sec">
         <div class="title">Index Configuration</div>
+        <!-- <div class="title" (click)="openModalPopup()">Index Configuration</div> -->
         <div class="btn_sec">            
             <button class="kr-sg-button-secondary btn_lg" [disabled]='savingConfig'  (click)="saveConfig()">{{(savingConfig)?'Saving...':'Save Configuration'}}</button>
             <!-- <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button> -->
@@ -369,3 +370,74 @@
         </perfect-scrollbar>
     </div>
 </div>
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop"  #addFieldModalPop>   
+    <div class="modal-header">
+        <div class="title">Choose the fields you would like to add and define properties</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <ng-container>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="mainLoadingSpinner" *ngIf="loadingFields" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div class="table_sec" *ngIf="!filelds.length && !loadingFields">
+            <div class="empty-list">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <!-- <div class="heading">No Stages</div> -->
+                    <div class="desc">No Stages available</div>
+                </ng-container>
+            </div> 
+    </div>
+    <div class="modal-body textAlignLeft" *ngIf="!loadingFields && filelds.length">
+            <!-- DATA TABLE START HERE -->
+                            <div class="kr-sg-data-table">
+                                <section class="table-content">
+                                    <header class="table-header">
+                                        <div class="col">Field Name</div>
+                                        <div class="col">Type</div>
+                                        <div class="col">Multi-Value</div>
+                                        <div class="col">Required</div>
+                                        <div class="col">Stored</div>
+                                        <div class="col">Indexed</div>
+                                    </header>
+                                    <div class="content-body" *ngFor="let field of filelds ;let i = index;">
+                                        <div class="col">{{field.fieldName}}</div>
+                                        <div class="col">{{field.fieldDataType | translate}}</div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="fieldMultiValue{{i}}" class="checkbox-custom" [(ngModel)]="field.isMultiValued" type="checkbox">
+                                                <label for="fieldMultiValue{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="field.isRequired{{i}}" class="checkbox-custom"  [(ngModel)]="field.isRequired"  type="checkbox">
+                                                <label for="field.isRequired{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="field.isStored{{i}}" class="checkbox-custom"  [(ngModel)]="field.isStored"  type="checkbox">
+                                                <label for="field.isStored{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="field.isIndexed{{i}}" class="checkbox-custom"  [(ngModel)]="field.isIndexed"  type="checkbox">
+                                                <label for="field.isIndexed{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </section>                               
+                            </div>   
+            <!-- DATA TABLE ENDS HERE -->
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer text-left">
+        <button type="button" [disabled]='loadingFields' class="kr-sg-button-primary btn_lg float-right" (click)="addField()">{{'Add'}}</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+    </div>    
+   </ng-container>
+</kr-modal>
