@@ -469,6 +469,28 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     });
     return stagesArray;
   }
+  checkForNewFields(){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Stage configuration is successfully saved',
+        text: 'You have added four new fields in your configuration. Do you wish to define properties for them?',
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          dialogRef.close();
+          this.openModalPopup();
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
   saveConfig(index?,dialogRef?){
     this.savingConfig = true;
     const quaryparms: any = {
@@ -486,6 +508,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       if(index !== 'null' && index !== undefined && (index>-1)){
        this.currentEditIndex = -1
       }
+      this.checkForNewFields();
       this.clearDirtyObj();
       this.setResetNewMappingsObj(null,true);
     }, errRes => {

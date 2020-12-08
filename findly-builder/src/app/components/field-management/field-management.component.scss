@@ -95,7 +95,7 @@
                 }
             }
             .table_body_content{
-                height: calc(100vh - 341px);
+                height: calc(100vh - 183px);
                 .table_body{
                     padding: 18px 15px;
                     box-shadow: inset 0px -1px 0px #E4E5E7;                        
@@ -171,4 +171,7 @@
     margin-right: 5px;
     position: relative;
     top: -1px;
+}
+::ng-deep perfect-scrollbar .ps--active-y{
+    padding-bottom: 85px;
 }
