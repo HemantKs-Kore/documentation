@@ -49,7 +49,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { SynonymFilterPipe } from './components/synonyms/synonym-filter';
-import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
@@ -121,7 +120,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BotActionComponent,
     TraitsComponent,
     MlThresholdComponent,
-    ResultsRulesComponent,
     BotActionComponent,
     AddAlternateQuestionComponent,
     GroupInputComponent,

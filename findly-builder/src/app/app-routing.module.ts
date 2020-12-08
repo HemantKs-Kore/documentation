@@ -7,7 +7,7 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
-import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
+// import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
@@ -40,7 +40,7 @@ const routes: Routes = [
       { path: 'summary', component: SummaryComponent },
       { path: 'source', component: AddSourceComponent },
       { path: 'content', component: ContentSourceComponent },
-      { path: 'faqsManual', component: ManageIntentComponent },
+      // { path: 'faqsManual', component: ManageIntentComponent },
       { path: 'faqs', component: FaqSourceComponent },
       { path: 'botActions', component: BotActionComponent },
       { path: 'synonyms', component: SynonymsComponent },
