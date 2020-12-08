@@ -4,7 +4,8 @@
         <span class="please-wait-message">Please Wait!</span>
     </div>
     <div class="table_sec" *ngIf="!loadingContent" >
-        <div class="seach_add_feild">
+            <div class="seach_add_feild">
+                <div class="title">Fields</div>
                 <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
                     <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
                   </div> 
@@ -52,7 +53,7 @@
      </div>
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop"  #addFieldModalPop>   
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #addFieldModalPop>   
     <div class="modal-header">
         <div class="title">{{(newFieldObj && newFieldObj._id)?'Edit Field':'Add Field'}}</div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
@@ -62,7 +63,7 @@
     <div class="modal-body textAlignLeft">
         <div class="top_sec" >
             <div class="row m-0 mb-20">
-                <div class="kr-sg-input-text col-10 p-0">
+                <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
                     <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                     <input type="text"  *ngIf="newFieldObj.fieldDataType !== 'number'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
@@ -70,9 +71,9 @@
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
             <div class="row m-0 align-items-center">                         
-                <div class="kr-sg-dropdowns col-10 p-0">                    
+                <div class="kr-sg-dropdowns col-12 p-0">                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
                         <ul class="dropdown-menu content-menu">                                                                    
                           <li  (click)="selectFieldType('string')"><a>String</a></li>
                           <li  (click)="selectFieldType('number')"><a>Number</a></li>
@@ -93,6 +94,14 @@
             <div class="group-checkbox mb-3">
                 <div class="label-text mb-2">Select ones that apply</div>
                 <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isMultiValued">
+                    <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label>
+                </div>
+                <div class="kr-sg-checkbox">
+                    <input id="checkbox_grpf" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isRequired">
+                    <label for="checkbox_grpf" class="checkbox-custom-label">Required</label>
+                </div>
+                <div class="kr-sg-checkbox">
                     <input id="checkbox_grpd" [disabled]="newFieldObj.isIndexed" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored">
                     <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label>
                 </div>
@@ -100,18 +109,18 @@
                     <input id="checkbox_grpe" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isIndexed" (change)="newFieldObj.isIndexed?(newFieldObj.isStored=true):return">
                     <label for="checkbox_grpe" class="checkbox-custom-label">Indexed</label>
                 </div>
-                <div class="kr-sg-checkbox">
-                    <input id="checkbox_grpf" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isRequired">
-                    <label for="checkbox_grpf" class="checkbox-custom-label">Required</label>
-                </div>
-                <div class="kr-sg-checkbox">
-                    <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isMultiValued">
-                    <label for="checkbox_grpfd" class="checkbox-custom-label">Multi-Valued</label>
-                </div>
             </div>
             <div class="kr-sg-input-text col-10 p-0  d-none">
                 <div class="label-text">Default Value (Optional)</div>
                 <input type="text" placeholder="Add value here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
+            </div>
+            <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
+                <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                <div class="tost-text">Indexed Property has been set to False. This will impact facet and Business Rules.</div>                                   
+            </div>
+            <div class="kr-sg-inline-notification" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
+                <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
+                <div class="tost-text">The field type has been changed from {{newFieldObj.previousFieldDataType | translate}} to {{newFieldObj.fieldDataType | translate}}. This will impact the facet configuration.</div>                                   
             </div>
         </div>
     </div>
