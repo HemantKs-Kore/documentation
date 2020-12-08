@@ -28,6 +28,7 @@ import { ResultInsightsComponent } from './components/result-insights/result-ins
 import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
+import { FieldManagementComponent } from './components/field-management/field-management.component';
 const routes: Routes = [
   {
     path: '',
@@ -61,7 +62,7 @@ const routes: Routes = [
       { path: 'resultInsights', component: ResultInsightsComponent},
       { path: 'settings', component: SettingsComponent},
       { path: 'credentials-list', component: CredentialsListComponent},
-
+      { path: 'FieldManagementComponent', component: FieldManagementComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }
