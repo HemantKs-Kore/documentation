@@ -9,11 +9,9 @@ import { ContentSourceComponent } from './components/content-source/content-sour
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
 import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
-import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { TraitsComponent } from './components/traits/traits.component';
-import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
 import { StopWordsComponent }  from './components/stop-words/stop-words.component';
