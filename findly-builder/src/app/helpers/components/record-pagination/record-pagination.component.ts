@@ -26,9 +26,9 @@ export class RecordPaginationComponent implements OnInit {
     //this.endPage = Number(this.totalRecord/this.limitpage);
     this.remainder =  Number((this.totalRecord % this.limitpage));
     
-    if(this.remainder > 0){
-      this.endPage = this.endPage - 1;
-    }
+    // if(this.remainder > 0){
+    //   this.endPage = this.endPage - 1;
+    // }
     if(this.endPage < 0){
       this.inputPage = 1;
       this.endPage = 1;
