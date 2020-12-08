@@ -160,7 +160,7 @@
                     *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'" class="run-percentageDone">38</span> <!-- {{source.jobInfo.executionStats.percentageDone}} -->
+                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress' && source.jobInfo.executionStats" class="run-percentageDone" >{{source.jobInfo.executionStats.percentageDone}}</span> <!-- {{source.jobInfo.executionStats.percentageDone}} -->
                 <span class="sch-createdOn ml-2">({{ source.schedule_createdOn }})</span> 
                 <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">

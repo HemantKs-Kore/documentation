@@ -189,8 +189,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(element.createdOn){
           element['schedule_createdOn'] = moment(element.createdOn).fromNow();
         }
-        element['schedule_duration'] = "00:30:00";
-        element['schedule_duration'] = this.duration(element['schedule_duration']);
+        if(element.executionStats){
+          element['schedule_duration'] = element.executionStats.duration //"00:30:00";
+          element['schedule_duration'] = this.duration(element['schedule_duration']);
+        }
+        
         // let hr = element['schedule_duration'].split(":")[0];
         // let min = element['schedule_duration'].split(":")[1];
         // let sec = element['schedule_duration'].split(":")[2];

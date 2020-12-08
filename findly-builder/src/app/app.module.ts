@@ -91,6 +91,7 @@ import { CredentialsListComponent } from './components/credentials-list/credenti
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
+import { ExperimentsComponent } from './components/experiments/experiments.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -154,7 +155,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CredentialsListComponent,
     DateRangePickerComponent,
     RecordPaginationComponent,
-    FieldManagementComponent
+    FieldManagementComponent,
+    ExperimentsComponent
     ],
   imports: [
     BrowserModule,
