@@ -161,7 +161,7 @@
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                 <span *ngIf="statusObj[source.recentStatus].name == 'In Progress' && source.jobInfo.executionStats" class="run-percentageDone" >{{source.jobInfo.executionStats.percentageDone}}</span> <!-- {{source.jobInfo.executionStats.percentageDone}} -->
-                <span class="sch-createdOn ml-2">({{ source.schedule_createdOn }})</span> 
+                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'">({{ source.schedule_createdOn }})</span> 
                 <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
@@ -326,7 +326,7 @@
             <div class="tabs-sec">
               <span class="tabname active" [ngClass] = "{'active' : page}" (click)="swapSlider('page')">Pages</span>
               <span class="tabname" [ngClass] = "{'active' : isConfig}"(click)="swapSlider('config')">Configuration</span>
-              <span class="tabname" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Execution</span>
+              <span class="tabname" *ngIf="executionHistoryData" [ngClass] = "{'active' : execution}" (click)="swapSlider('execution')">Execution</span>
             </div>
             <div class="right-side">
               <div class="kr-sg-input-search" *ngIf="page">
@@ -846,13 +846,13 @@
                         <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
                         <div class="col_ col-3">{{history.createdOn}}</div>
                       </div>
-                      <div class="content-body">
+                      <!-- <div class="content-body">
                         <div class="col_ col-3" ><span class="execute-failed"></span> 
                           Execution Failed</div>
                         <div class="col_ col-3" >1m 35s</div>
                         <div class="col_ col-3" >Sunil Singh</div>
                         <div class="col_ col-3">28 Jul 2020</div>
-                      </div>
+                      </div> -->
                     </ng-container>
                   </section>
                 </div>

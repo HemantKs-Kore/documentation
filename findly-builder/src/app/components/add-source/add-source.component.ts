@@ -232,7 +232,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  poling(jobId) {
+  poling(jobId, schedule?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -253,7 +253,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
-          this.statusObject.status = 'failed';
+          if(schedule)this.statusObject.status = 'failed';
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
@@ -484,9 +484,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload = {...crawler};
         delete payload.resourceType;
         if(!payload.advanceOpts.scheduleOpt){
-          payload.advanceOpts = {
-            scheduleOpt : false
-          }
+          delete payload.advanceOpts.scheduleOpts;
         }
         quaryparms.resourceType = resourceType;
       }
@@ -499,7 +497,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
         this.openStatusModal();
-        this.poling(res._id);
+        this.poling(res._id,'scheduler');
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
