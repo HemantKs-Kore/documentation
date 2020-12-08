@@ -38,7 +38,7 @@ import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
-import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
+// import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { AddFaqComponent } from './components/add-faq/add-faq.component';
 import { AddAltFaqComponent } from './components/add-alt-faq/add-alt-faq.component';
 import { CustomMarkdownEditorComponent } from './helpers/lib/md-editor.component';
@@ -59,7 +59,7 @@ import { GroupInputComponent } from './components/faqs/group-input/group-input.c
 import { TagsInpComponent } from './components/faqs/tags-inp/tags-inp.component';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { RangeSliderComponent } from './helpers/components/range-slider/range-slider.component';
-import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
+// import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
 import { IndexComponent } from './components/index/index.component';
 import { FieldsFilterPipe } from './components/index/fileds-filter.pipe';
@@ -112,7 +112,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AddSourceComponent,
     ContentSourceComponent,
     FaqSourceComponent,
-    ManageIntentComponent,
+    // ManageIntentComponent,
     AddFaqComponent,
     AddAltFaqComponent,
     CustomMarkdownEditorComponent,
@@ -129,7 +129,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GroupInputComponent,
     TagsInpComponent,
     RangeSliderComponent,
-    AttributesListComponent,
+    // AttributesListComponent,
     AutocompleteMultiChipComponent,
     IndexComponent,
     QueryComponent,
