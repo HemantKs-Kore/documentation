@@ -253,7 +253,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
-          if(schedule)this.statusObject.status = 'failed';
+          if(!schedule) this.statusObject.status = 'failed';
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
