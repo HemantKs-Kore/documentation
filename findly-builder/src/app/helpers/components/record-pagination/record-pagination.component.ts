@@ -6,7 +6,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./record-pagination.component.scss']
 })
 export class RecordPaginationComponent implements OnInit {
-  testRecord = [];
+  //testRecord = [];
   //limitpage = 10;
   remainder = 0;
   totalpages = 0;
@@ -19,9 +19,9 @@ export class RecordPaginationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    for(let i = 1 ; i < 569 ; i++){
-      this.testRecord.push({i});
-    }
+    // for(let i = 1 ; i < 569 ; i++){
+    //   this.testRecord.push({i});
+    // }
     this.endPage = Number((this.totalRecord/this.limitpage).toFixed());
     //this.endPage = Number(this.totalRecord/this.limitpage);
     this.remainder =  Number((this.totalRecord % this.limitpage));
@@ -37,10 +37,10 @@ export class RecordPaginationComponent implements OnInit {
     let skip = 0 ;
     let limit = this.limitpage;
     if(this.remainder > 0 && inputPage == this.endPage){
-      skip = inputPage  * this.limitpage;
+      skip = (inputPage - 1)  * this.limitpage;
       limit = this.limitpage + this.remainder;
     }else{
-      skip = inputPage * this.limitpage 
+      skip = (inputPage-1) * this.limitpage 
     }
     const eventObj = {
       limit:limit,
