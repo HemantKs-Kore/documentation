@@ -258,6 +258,8 @@
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentInfo._source.contentType == 'faq'"> {{faqDesc || log.target.contentInfo._source.searchResultPreview }}</div>
                          <div class="arr-txt-desc col-12" *ngIf ="log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div> -->
                          <!-- <div class="arr-txt-desc col-12"> {{log.target.contentInfo._source.searchResultPreview}}</div> -->
+                         <p class="action-desc" *ngIf ="log.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </p>
+                         <p class="action-desc" *ngIf ="log.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </p>
                          <div class="info">{{log.userDetails.fullName}} {{log.createdOn}}</div>
                      </div>
                 </div>

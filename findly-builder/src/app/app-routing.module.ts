@@ -7,13 +7,11 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
-import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
+// import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
-import { ResultsRulesComponent } from './components/results-rules/results-rules.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { TraitsComponent } from './components/traits/traits.component';
-import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { IndexComponent } from './components/index/index.component';
 import { QueryComponent } from './components/query/query.component';
 import { StopWordsComponent }  from './components/stop-words/stop-words.component';
@@ -27,6 +25,8 @@ import { SearchInsightsComponent } from './components/search-insights/search-ins
 import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
 import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
+import { FieldManagementComponent } from './components/field-management/field-management.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,7 +40,7 @@ const routes: Routes = [
       { path: 'summary', component: SummaryComponent },
       { path: 'source', component: AddSourceComponent },
       { path: 'content', component: ContentSourceComponent },
-      { path: 'faqsManual', component: ManageIntentComponent },
+      // { path: 'faqsManual', component: ManageIntentComponent },
       { path: 'faqs', component: FaqSourceComponent },
       { path: 'botActions', component: BotActionComponent },
       { path: 'synonyms', component: SynonymsComponent },
@@ -59,6 +59,8 @@ const routes: Routes = [
       { path: 'searchInsights', component: SearchInsightsComponent},
       { path: 'resultInsights', component: ResultInsightsComponent},
       { path: 'settings', component: SettingsComponent},
+      { path: 'credentials-list', component: CredentialsListComponent},
+      { path: 'FieldManagementComponent', component: FieldManagementComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

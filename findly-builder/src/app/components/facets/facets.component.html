@@ -4,7 +4,7 @@
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <div *ngIf="!loadingContent">
-    <div class="header">{{'facets.facets'| translate}}</div>
+    <div class="header-sec">{{'facets.facets'| translate}}</div>
     <div class="search-input-block">
         <div class="kr-sg-input-search">                               
             <input type="text" placeholder="Search" class="input-search pl-4" [(ngModel)]="searchfacet">
@@ -84,7 +84,7 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ facetModalPouup"  #facetModalPouup>   
     <div class="modal-header">
-        <div class="title">{{((addEditFacetObj && addEditFacetObj._id)?'facets.edit_facet':'facets.add_facet') | translate}}</div>
+        <div class="title">{{((addEditFacetObj && addEditFacetObj._id)? 'facets.edit_facet':'facets.add_facet') | translate}}</div>
         <!-- <div class="title">{{'facets.add_facet'| translate}}</div> -->
         <div class="close_icon"><img (click)="closeModal()" src="assets/icons/modal-close.svg"></div>
         <div class="toggle_switch">
@@ -208,7 +208,7 @@
     <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldName === selectedField.fieldName)'>          
         <button type="button" class="kr-sg-button-primary btn_lg float-right"  [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldName !== selectedField.fieldName))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'facets.cancel'| translate}}</button>
-        <button type="button" *ngIf="addEditFacetObj && addEditFacetObj._id" class="kr-sg-button-danger btn_lg float-left" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button>
+        <button type="button"  class="kr-sg-button-danger btn_lg float-left" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button>
       
     </div>    
 </kr-modal>

@@ -26,6 +26,7 @@ export class AppComponent implements OnInit , OnDestroy {
   loading = true;
   userInfo:any = {};
   showMainMenu = true;
+  settingMainMenu=false;
   previousState;
   appsData: any;
   searchInstance:any;
@@ -66,6 +67,9 @@ export class AppComponent implements OnInit , OnDestroy {
   }
   showMenu(event){
     this.showMainMenu = event
+  }
+  settingMenu(event){
+    this.settingMainMenu = event
   }
    restorepreviousState(){
     let route = '/apps';

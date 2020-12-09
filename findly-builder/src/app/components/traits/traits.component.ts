@@ -555,8 +555,8 @@ export class TraitsComponent implements OnInit {
       height: '306px',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Trait group',
-        text: 'Are you sure you want to delete Trait group?',
+        title: 'Delete Trait',
+        text: 'Are you sure you want to delete Trait ?',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
       }
 

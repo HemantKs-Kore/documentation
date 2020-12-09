@@ -20,11 +20,13 @@ declare const $: any;
 export class SynonymsComponent implements OnInit {
   selectedApp: any = {};
   synonymSearch;
+  showSearch;
   serachIndexId
   loadingContent = true;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
+  showFlag;
   synonymData : any[] = [];
   synonymDataBack : any[] = [];
   visible = true;
@@ -115,7 +117,7 @@ export class SynonymsComponent implements OnInit {
     this.synonymObj = new SynonymClass();
     this.prepareSynonyms();
   }
-  addOrUpddate(synonymData,dialogRef?) {
+  addOrUpddate(synonymData,dialogRef?,showFlag?) {
     synonymData = synonymData || this.synonymData;
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -135,9 +137,15 @@ export class SynonymsComponent implements OnInit {
     }
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
      this.pipeline=  res.pipeline || {};
+     if(this.newSynonymObj.addNew && !showFlag){
+      this.notificationService.notify('Synonyms added successfully','success');
+     }
+     else  if (!showFlag){
+      this.notificationService.notify('Synonyms updated successfully','success');
+     }
      this.prepareSynonyms();
      this.cancleAddEdit();
-     this.notificationService.notify('Synonyms added successfully','success');
+     
      if(dialogRef && dialogRef.close){
       dialogRef.close();
      }
@@ -196,7 +204,10 @@ export class SynonymsComponent implements OnInit {
         if (result === 'yes') {
           const synonyms = JSON.parse(JSON.stringify(this.synonymData));
           synonyms.splice(index,1);
-          this.addOrUpddate(synonyms,dialogRef);
+          if(this.showFlag=true){
+            this.addOrUpddate(synonyms,dialogRef,this.showFlag);
+            this.notificationService.notify('Synonyms deleted successfully','error')
+          } 
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -264,6 +275,12 @@ export class SynonymsComponent implements OnInit {
       this.newSynonymObj.values.splice(index, 1);
     }
   }
+  toggleSearch() {
+    if (this.showSearch && this.synonymSearch) {
+      this.synonymSearch = '';
+    }
+    this.showSearch = !this.showSearch
+  };
 }
 class SynonymClass {
   name: String
