@@ -168,25 +168,27 @@
                                     </div> 
                                     
                                     
-                                    <div id="accordion" class="accordion-sec">
+                                    <div id="accordion" class="accordion-sec" *ngFor="let actLog of actionLogData;let i = index">
                                         <div class="acc-card">
                                           <div class="acc-card-header">
-                                            <div class="collapsed acc-card-link" data-toggle="collapse" href="#collapseOne">
+                                            <a class="collapsed acc-card-link" data-toggle="collapse" href="#{{i}}">
                                                 <div class="row m-0 row_data">
-                                                    <div class="col-8 title">Can I make Credit Card payments via a savings account instantly?</div>
+                                                    <div class="col-8 title" *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
+                                                    <div class="col-8 title" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
                                                     <div class="col-1"><img src="assets/icons/resultranking/copy.svg" class="cursor-pointer"></div>
                                                     <div class="col-1"><img src="assets/icons/resultranking/pin.svg" class="cursor-pointer"></div>
-                                                    <div class="col-2 text-right time-stamp">2h ago</div>
+                                                    <div class="col-2 text-right time-stamp">{{actLog.target.contentInfo.createdOn}}</div>
                                                 </div>
-                                            </div>
+                                            </a>
                                           </div>
-                                          <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                          <div id="{{i}}" class="collapse" data-parent="#accordion">
                                             <div class="card-body">
-                                                <div class="info-card">You can set up a Standing Instruction to debit your Credit Card Payments easily via phone or laptop as per your acount.</div>
+                                                <div class="info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </div>
+                                                <div class="info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
                                                 <div class="text-right mt-3">
                                                   <button class="kr-sg-button-secondary btn_lg">Remove</button>
                                                 </div>
-                                                <div id="accordion" class="inside-acc">
+                                                <!-- <div id="accordion" class="inside-acc">
                                                     <div class="inside-acc-card">
                                                     <div class="inside-acc-card-header">
                                                         <div class="collapsed inside-acc-card-link" data-toggle="collapse" href="#collapse1">
@@ -214,7 +216,7 @@
                                                     </div>
                                                     </div>                                            
                                                 
-                                                </div>
+                                                </div> -->
                                             </div>
                                           </div>
                                         </div>
@@ -336,30 +338,34 @@
             <!-- dummy logs -->
         </div>
     </div>
-    <div class="log_section_data">
+    <div class="log_section_data" [ngClass] ="{'d-none' : !resultLogs}">
         <div class="header-sec">
-            <div class="h-title">LOG (26)</div>
-            <div class="close_icon"><img src="assets/icons/resultranking/close-log.svg"></div>
+            <div class="h-title">LOG ({{customizeLog.length || 0}})</div>
+            <div class="close_icon" (click) = "closeLogs()"><img src="assets/icons/resultranking/close-log.svg"></div>
         </div>
         <perfect-scrollbar>
-            <div class="body_content">
+            <div class="body_content" *ngFor="let log of customizeLog;let i = index">
                 <div class="accordion_sec">
                     <div id="accordion">
                         <div class="card-acc">
                           <div class="card-header-acc">
-                            <div class="card-link-acc" data-toggle="collapse" href="#collapseOne1">Pinned Result - FAQ</div>
+                            <a class="card-link-acc" data-toggle="collapse" href="#collapse_log_{{i}}" *ngIf="log.target.contentInfo._source"> {{log.displayMessage }} - {{ log.target.contentInfo._source.contentType}}</a>
+                            <a class="card-link-acc" data-toggle="collapse" href="#collapse_log_{{i}}" *ngIf="log.target.contentType && log.target.contentType == 'task'"> {{log.displayMessage }} - {{ log.target.contentType}}</a>
                           </div>
-                          <div id="collapseOne1" class="collapse" data-parent="#accordion">
+                          <div id="collapse_log_{{i}}" class="collapse" data-parent="#accordion">
                             <div class="card-body-acc">
-                              <div class="question-text">Can I make Credit Card payments via a savings account?</div>
-                              <div class="ans-info">You can set up a Standing Instruction to debit your Credit Card Payments easily via phone or laptop as per your ...</div>
+                              <div class="question-text" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageTitle}}</div>
+                              <div class="question-text" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.lname}}</div>
+
+                              <div class="ans-info" *ngIf ="log.target.contentInfo._source"> {{log.target.contentInfo._source.pageSearchResultPreview}}</div>
+                              <div class="ans-info" *ngIf ="log.target.contentType && log.target.contentType == 'task'"> {{log.target.contentInfo.shortDesc}}</div>
                             </div>
                           </div>
                         </div>                       
                     </div>
                     <div class="row align-items-center justify-content-end ml-0 mr-0 mt-3">
-                        <div class="user-name">Riley Cooper</div>
-                        <div class="time-stamp">2h ago</div>
+                        <div class="user-name">{{log.userDetails.fullName}}</div>
+                        <div class="time-stamp">{{log.createdOn}}</div>
                     </div>
                 </div>
                 <div class="accordion_sec">

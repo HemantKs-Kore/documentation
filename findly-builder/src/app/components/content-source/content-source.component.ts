@@ -393,7 +393,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       webDomainId: this.selectedSource._id,
       limit : 100,
       skip : 0,
-      sourceType: this.selectedSource.type
+      sourceType: 'content'
     };
     this.service.invoke('get.executionHistory', quaryparms).subscribe(res => {
       if(res.contentExecutions) {
