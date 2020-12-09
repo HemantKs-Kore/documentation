@@ -4,6 +4,14 @@
     .cursor-pointer {
         cursor: pointer;
     }
+    .boost-font{
+        color: #ec998b;
+        font-size: 10px;
+        font-weight: 600;
+    }
+    .boost-trans{
+        transform: rotate(180deg);
+    }
     .faqsListContainer{
         .faq-header-sec{
             background: #F8F9FA;
@@ -1026,6 +1034,10 @@
                     }
                 }                
             }
+            .link-block{
+                text-decoration: none;
+                display: block;
+            }
         }
         .card-body{
             padding: 8px 0px 8px 22px;
@@ -1158,6 +1170,10 @@
                         font-weight: 600;
                         font-size: 12px;
                         line-height: 14px;
+                    }
+                    .link-block{
+                        text-decoration: none;
+                        display: block;
                     }
                 }
             }

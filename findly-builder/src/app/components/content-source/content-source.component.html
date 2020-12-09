@@ -150,7 +150,7 @@
               <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
               <div class="col_ col-1 pr-0">
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
-              <div class="col_ col-3">
+              <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
                   [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}} <img
                     src="assets/icons/failed-status.svg" class="" placement="top"
@@ -160,14 +160,14 @@
                     *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress' && source.jobInfo.executionStats" class="run-percentageDone" >{{ (resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].executionStats) ? resourcesStatusObj[source._id].executionStats.percentageDone : source.jobInfo.executionStats.percentageDone }} </span>  <!-- {{source.jobInfo.executionStats.percentageDone}} -->
+                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'" class="run-percentageDone" >{{ (resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].executionStats) ? resourcesStatusObj[source._id].executionStats.percentageDone : source.jobInfo.executionStats.percentageDone }} </span>  <!-- {{source.jobInfo.executionStats.percentageDone}} -->
                 <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'">({{ source.schedule_createdOn }})</span> 
                 <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
                   {{source.schedule_duration}}</span>
               </div>
-              <div class="col_ col-2">
+              <div class="col_ col-1">
                 <span  >{{source.numPages}}</span>
               </div>
               <div class="col_ col-2" *ngIf="source.advanceSettings">
