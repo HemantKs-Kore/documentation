@@ -276,6 +276,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
+        // if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
+        //   this.getSourceList();
+        // }
         this.resourcesStatusObj[source._id] = source;
         return ((source.status === 'running') || (source.status === 'queued'));
       });
