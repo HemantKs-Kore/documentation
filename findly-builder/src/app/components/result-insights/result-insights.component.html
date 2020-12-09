@@ -85,6 +85,7 @@
                     </div>    
                     
                 </div>
+                <span *ngIf='resultsData'><app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitPage' (pageChanged)="paginate($event,'Results')"></app-record-pagination></span>
             </div>
         </div>
     </perfect-scrollbar>  
@@ -123,9 +124,9 @@
                 <div class="col-2 title data-overview">{{result.avgPosition}}</div>
                 <div class="col-1 title">{{result.positiveFeedback}}</div>                       
                 <div class="col-1 title">{{result.negativeFeedback}}</div>
-            </div>       
-            
+            </div>                   
         </div>
+        <span *ngIf='resultsSearchData'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='Q_limitPage' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>
     </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer">
