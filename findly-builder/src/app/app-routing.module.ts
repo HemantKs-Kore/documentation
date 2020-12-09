@@ -7,13 +7,10 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
-// import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
-import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { IndexComponent } from './components/index/index.component';
-import { QueryComponent } from './components/query/query.component';
 import { StopWordsComponent }  from './components/stop-words/stop-words.component';
 import { WeightsComponent }  from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
@@ -28,6 +25,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
+import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 const routes: Routes = [
   {
     path: '',
@@ -41,17 +39,14 @@ const routes: Routes = [
       { path: 'summary', component: SummaryComponent },
       { path: 'source', component: AddSourceComponent },
       { path: 'content', component: ContentSourceComponent },
-      // { path: 'faqsManual', component: ManageIntentComponent },
       { path: 'faqs', component: FaqSourceComponent },
       { path: 'botActions', component: BotActionComponent },
-      { path: 'synonyms', component: SynonymsComponent },
-      { path: 'ml-threshold', component: MlThresholdComponent },
+      { path: 'synonyms', component: SynonymsComponent},
       { path: 'traits', component: TraitsComponent },
-      { path: 'rules', component: BusinessRulesComponent },
-      { path: 'facets', component: FacetsComponent },
+      { path: 'rules', component: BusinessRulesComponent},
+      { path: 'facets', component: FacetsComponent},
       { path: 'index', component: IndexComponent},
       { path: 'experiments', component: AppExperimentsComponent},
-      { path: 'query', component: QueryComponent},
       { path: 'stopWords', component: StopWordsComponent},
       { path: 'weights', component: WeightsComponent},
       { path: 'resultranking', component: ResultRankingComponent},

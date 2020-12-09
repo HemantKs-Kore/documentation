@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
 declare const $: any;
 @Component({
@@ -11,7 +12,7 @@ declare const $: any;
   templateUrl: './stop-words.component.html',
   styleUrls: ['./stop-words.component.scss']
 })
-export class StopWordsComponent implements OnInit {
+export class StopWordsComponent implements OnInit, OnDestroy {
   loadingContent:any = true;
   stopwords:any = [];
   searchStopwords: any = '';
@@ -33,13 +34,22 @@ export class StopWordsComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private appSelectionService:AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.getStopWords();
+    this.loadStopwords();
+    this.appSelectionService.queryConfigs.subscribe(res=>{
+      this.loadStopwords();
+    })
+  }
+  loadStopwords(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getStopWords();
+    }
   }
   toggleSearch(){
     if(this.showSearch && this.searchStopwords){
@@ -285,5 +295,8 @@ export class StopWordsComponent implements OnInit {
            return stopword !== '';
     })
     this.updateStopWords();
+  }
+  ngOnDestroy(){
+    this.appSelectionService.queryConfigs.unsubscribe();
   }
 }
