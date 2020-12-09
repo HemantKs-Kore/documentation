@@ -64,9 +64,9 @@
                                             <span>View Queries</span>                           
                                         </div>
                                     </div>
-                                </div>   
-                               
+                                </div>                                  
                             </div>
+                            <span *ngIf='getQueriesWithResults'><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></span>
                         </div>
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content">
                             <div class="table_data_content">
@@ -88,6 +88,8 @@
                                 </div>    
                                
                             </div>
+                            <!-- <span *ngIf='topQuriesWithNoResults.length===0'>No results found</span> -->
+                            <span *ngIf='topQuriesWithNoResults'><app-record-pagination [totalRecord]='QWNR_totalRecord' [limitpage]='QWNR_limitPage' (pageChanged)="paginate($event,'QWNR')"></app-record-pagination></span>
                         </div>                                 
                     </div>   
                 </div>                              
@@ -129,9 +131,9 @@
                 <div class="col-2 title">{{result.avgPosition}}</div>
                 <div class="col-1 title">{{result.positiveFeedback}}</div>                       
                 <div class="col-1 title">{{result.negativeFeedback}}</div>
-            </div>       
-           
+            </div>                  
         </div>
+        <span *ngIf='getSearchQueriesResults'><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></span>
     </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer">
