@@ -1,0 +1,35 @@
+.experiment-container{
+    margin: 15px;
+    .header-sec{
+        background: #F8F9FA;
+        border-radius: 4px;
+        .add{
+            padding: 10px 0px 10px 50px;
+            img{
+                margin: 0px 10px;
+            }
+        }
+    }
+    .no-experiments{
+        .title{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .dec{
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            color: #9AA0A6;
+        }
+    }
+    .centered {
+        width: 400px;
+        margin: 0 auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: calc(100vh - 225px);
+      }
+}
