@@ -8,6 +8,11 @@ export class CrwalObj{
 export class AdvanceOpts{
     scheduleOpt:boolean = false;
     scheduleOpts:scheduleOpts = new scheduleOpts();
+    useCookies = false;
+    isRobotTxtDirectives = false;
+    isCrawlingRestrictToSitemaps= false;
+    isJavaScriptRendered = false;
+    isBlockHttpsMsgs = false;
     //schedulePeriod: String ="";
     repeatInterval: String ="";
     crawlEverything: boolean = true;

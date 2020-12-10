@@ -99,6 +99,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   execution = false;
   page = true;
   executionHistoryData : any;
+
+  useCookies = false;
+  isRobotTxtDirectives = false;
+  isCrawlingRestrictToSitemaps= false;
+  isJavaScriptRendered = false;
+  isBlockHttpsMsgs = false;
+  
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -193,7 +200,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
           element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
-        
+        if(element.advanceSettings){
+          this.useCookies = element.advanceSettings.useCookies;
+          this.isRobotTxtDirectives = element.advanceSettings.isRobotTxtDirectives;
+          this.isCrawlingRestrictToSitemaps = element.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.isJavaScriptRendered = element.advanceSettings.isJavaScriptRendered;
+          this.isBlockHttpsMsgs = element.advanceSettings.isBlockHttpsMsgs;
+        }
         // let hr = element['schedule_duration'].split(":")[0];
         // let min = element['schedule_duration'].split(":")[1];
         // let sec = element['schedule_duration'].split(":")[2];
@@ -261,11 +274,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       if (res && res.length) {
        res.forEach(element => {
-        this.resourcesStatusObj[element.resourceId] = element;
+        this.resourcesStatusObj[element._id] = element;
        });
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
+    });
+  }
+  
+  getJobDetails(sourceId) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId : sourceId
+    };
+    this.service.invoke('get.page_detail', quaryparms).subscribe(res => {
+      console.log(res)
+    }, errRes => {
     });
   }
   getJobStatus(type) {
@@ -276,10 +300,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
-        // if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
-        //   this.getSourceList();
-        // }
+        
+        if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
+          if(this.resourcesStatusObj[source._id].status == 'running'){
+            this.getJobDetails(source._id)
+            this.getSourceList();
+          } 
+        }
         this.resourcesStatusObj[source._id] = source;
+
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -965,6 +994,11 @@ keyPress(event){
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
+    crawler.advanceOpts.useCookies = this.useCookies;
+    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
     if(option == 'add'){
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
@@ -1081,6 +1115,12 @@ keyPress(event){
       }
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
+    crawler.advanceOpts.useCookies = this.useCookies;
+    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;

@@ -44,6 +44,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   doesntContains = 'Doesn\'t Contains';
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
+
+  useCookies = false;
+  isRobotTxtDirectives = false;
+  isCrawlingRestrictToSitemaps= false;
+  isJavaScriptRendered = false;
+  isBlockHttpsMsgs = false;
+
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -478,6 +485,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
+        crawler.advanceOpts.useCookies = this.useCookies;
+        crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+        crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+        crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+        crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;

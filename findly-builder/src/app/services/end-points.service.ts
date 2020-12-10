@@ -481,6 +481,11 @@ export class EndPointsService {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
       method: 'post'
     }
+    this.serviceList['get.page_detail'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
+      method: 'get'
+    }
     this.serviceList['train.traits'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/sentences/ml/train?streamId=:streamId',
       method: 'post'
