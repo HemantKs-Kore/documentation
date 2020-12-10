@@ -23,16 +23,47 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #addExperiments>   
     <div class="modal-header">
-        <div class="title">New experiments</div>
+        <div class="title">New Experiment</div>
         <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
-     
+        <div class="row m-0 mb-20">
+            <div class="kr-sg-input-text col-6 p-0">
+                <div class="label-text">Name of Experiment</div>
+                <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text" [(ngModel)]='experiment.fieldName'>
+            </div>
+        </div>
+        <div class="row m-0 mb-20" *ngFor='let varient of varientArray'>
+            <div class="kr-sg-input-text col-6 p-0">
+                <div class="label-text">Variant Name</div>
+                <div class="input-icons"> 
+                <span [style.background-color]="varient.color" class="varient">{{varient.code}}</span>
+                <input type="text"  placeholder="Enter Variant Name" class="input-text">
+                </div>
+            </div>
+            <div class="kr-sg-input-text col-6 p-0">
+                <div class="label-text">Search Configuration</div>
+                <div class="kr-sg-dropdowns">                                        
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <ul class="dropdown-menu content-menu">
+                          <li>Option 1</li>
+                          <li>Option 2</li>
+                          <li>Option 3</li>
+                        </ul>
+                      </div>
+                </div>
+             </div>
+             <div class="close_icon" (click)=closeVariant(varient)><img src="assets/icons/modal-close.svg"></div>
+        </div><br/>
+        <div class="row m-0 mb-20">
+            <span (click)="addVarient()" style="color:#4da6ff;cursor:pointer;"><img src="assets/icons/add_plus.svg" />&nbsp;&nbsp;Add Variant</span>
+        </div>
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button"  class="kr-sg-button-primary btn_lg float-right" (click)="switchToTerminal()">Proceed</button>                   
+        <button type="button"  class="kr-sg-button-primary btn_lg float-right" [disabled]="!experiment.fieldName" (click)="createExperiment()">Add</button>                   
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </kr-modal>
