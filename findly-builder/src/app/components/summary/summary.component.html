@@ -67,11 +67,11 @@
             <div class="title-info">Clicks<img src="assets/icons/gray_info.svg" class="pl-1"></div>
             <div class="bottom-sec">
                 <div class="left-sec col-12 p-0">
-                    <div class="count">{{totalSearchesStats.resultRate }}%<span class="ctr">CTR: <span class="ctr-count">70%</span></span></div>
+                    <div class="count">{{totalSearchesStats.clicks }}%<span class="ctr">CTR: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span></div>
                     <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.increasedResultRate < 0}">
                         <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
                         <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.increasedResultRate < 0">
-                        <span class="percentage">{{totalSearchesStats.increasedResultRate}}%</span>
+                        <span class="percentage">{{totalSearchesStats.clickRate}}%</span>
                     </div>
                 </div>                 
             </div>
@@ -127,14 +127,25 @@
           </div>       
       </div>
     </div>
-    <div class="row col-12 row table-data m-0">
-      <div class="table-data-content col-6">
+    <div class="row col-12 row table-data m-0" >
+      <div class="table-data-content col-6 " *ngIf="!channelExist">
         <div class="content-sec config_channels">
          <div class="title-sec"><div class="title">Configured Channels</div> </div>
-         <div class="cards_sec_main row m-0">
+          <div *ngIf="!channelExist">
+            <div class="img-block center-image"><img src="assets/icons/overview/no-channel-conf.svg"></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-data-content col-6 " *ngIf="channelExist">
+        <div class="content-sec config_channels">
+         <div class="title-sec"><div class="title">Configured Channels</div> </div>
+          <div *ngIf="!channelExist">
+            <div class="img-block"><img src="assets/icons/overview/no-channel-conf.svg"></div>
+          </div>
+         <div class="cards_sec_main row m-0"  *ngIf="channelExist">
           <div class="pad-div">
               <div class="card_data">
-                <div class="img-block"><img src="assets/icons/overview/slack.svg"></div>
+                <div class="img-block center"><img src="assets/icons/overview/slack.svg"></div>
                 <div class="c-title text-truncate">Slack </div>
               </div>
           </div>
@@ -196,7 +207,8 @@
          <div class="create_new_link">View all</div>
         </div>       
       </div>
-      <div class="table-data-content col-6">
+      
+      <div class="table-data-content col-6" *ngIf="!channelExist">
         <div class="content-sec active_experments">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Active Experiments</div> 

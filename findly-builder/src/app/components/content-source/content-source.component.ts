@@ -69,6 +69,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     queued: {name : 'Queued', color: '#0D6EFD'},
     running: {name : 'In Progress', color: '#0D6EFD'},
     inprogress: {name :'In Progress', color: '#0D6EFD'},
+    scheduled :{name :'In Progress', color: '#0D6EFD'}
   };
   sliderStep = 0;
   selectedPage: any = {};
@@ -423,7 +424,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      webDomainId: this.selectedSource._id,
+      extractionSourceId: this.selectedSource._id,
       limit : 100,
       skip : 0,
       sourceType: 'content'
