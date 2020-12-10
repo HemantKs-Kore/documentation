@@ -69,6 +69,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     queued: {name : 'Queued', color: '#0D6EFD'},
     running: {name : 'In Progress', color: '#0D6EFD'},
     inprogress: {name :'In Progress', color: '#0D6EFD'},
+    scheduled :{name :'In Progress', color: '#0D6EFD'}
   };
   sliderStep = 0;
   selectedPage: any = {};
@@ -98,6 +99,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   filterTableSource = "all";
   execution = false;
   page = true;
+  executionHistoryData : any;
+
+  useCookies = false;
+  isRobotTxtDirectives = false;
+  isCrawlingRestrictToSitemaps= false;
+  isJavaScriptRendered = false;
+  isBlockHttpsMsgs = false;
+  
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -145,11 +154,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         case 'type': return this.compare(a.type, b.type, isAsc);
         case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);
         case 'name': return this.compare(a.name, b.name, isAsc);
+        case 'numPages': return this.compare(a.numPages, b.numPages, isAsc);
         case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
         default: return 0;
       }
     });
     this.resources = sortedData;
+  }
+  duration(duration){
+    let hr = duration.split(":")[0];
+        let min = duration.split(":")[1];
+        let sec = duration.split(":")[2];
+        
+        
+        if(hr > 0 ){
+          if(min > 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min > 0 && sec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min <= 0 && sec <= 0) return duration = hr + "h ";
+        }else if(min > 0){
+          if(sec > 0) return duration =  min + "m " + sec + "s";
+          if(sec <= 0) return duration =  min + "m ";
+        }else if(sec > 0){
+          return duration = sec + "s";
+        }
   }
   getSourceList() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -170,22 +197,26 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(element.createdOn){
           element['schedule_createdOn'] = moment(element.createdOn).fromNow();
         }
-        element['schedule_duration'] = "00:30:00";
-        let hr = element['schedule_duration'].split(":")[0];
-        let min = element['schedule_duration'].split(":")[1];
-        let sec = element['schedule_duration'].split(":")[2];
-        
-        
-        if(hr > 0 ){
-          if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
-          if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
-          if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
-        }else if(min > 0){
-          if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
-          if(sec <= 0) element['schedule_duration'] =  min + "m ";
-        }else if(sec > 0){
-          element['schedule_duration'] = sec + "s";
+        if(element.jobInfo.executionStats){
+          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
+          element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
+        
+        // let hr = element['schedule_duration'].split(":")[0];
+        // let min = element['schedule_duration'].split(":")[1];
+        // let sec = element['schedule_duration'].split(":")[2];
+        
+        
+        // if(hr > 0 ){
+        //   if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+        //   if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+        //   if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
+        // }else if(min > 0){
+        //   if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
+        //   if(sec <= 0) element['schedule_duration'] =  min + "m ";
+        // }else if(sec > 0){
+        //   element['schedule_duration'] = sec + "s";
+        // }
         
       });
       this.filterResourcesBack = [...this.resources];
@@ -238,11 +269,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       if (res && res.length) {
        res.forEach(element => {
-        this.resourcesStatusObj[element.resourceId] = element;
+        this.resourcesStatusObj[element._id] = element;
        });
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
+    });
+  }
+  
+  getJobDetails(sourceId) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId : sourceId
+    };
+    this.service.invoke('get.page_detail', quaryparms).subscribe(res => {
+      console.log(res)
+    }, errRes => {
     });
   }
   getJobStatus(type) {
@@ -253,7 +295,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
+        
+        
+          if(this.resourcesStatusObj[source._id].status == 'running'){
+            if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
+            this.getJobDetails(source._id)
+            this.getSourceList();
+          } 
+        }
         this.resourcesStatusObj[source._id] = source;
+
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -332,35 +383,64 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   swapSlider(tabName) {
+    if($('.tabname')){
     if( tabName == 'execution'){
       this.execution = true;
       this.isConfig = false;
       this.page = false;
-      $('.tabname')[0].classList.remove('active')
-      $('.tabname')[1].classList.remove('active')
-      $('.tabname')[2].classList.add('active')
+      // $('.tabname')[0].classList.remove('active')
+      // $('.tabname')[1].classList.remove('active')
+      // $('.tabname')[2].classList.add('active')
     }else if( tabName == 'config'){
-      $('.tabname')[0].classList.remove('active')
-      $('.tabname')[1].classList.add('active')
-      $('.tabname')[2].classList.remove('active');
+      // $('.tabname')[0].classList.remove('active')
+      // $('.tabname')[1].classList.add('active')
+      // $('.tabname')[2].classList.remove('active');
       this.execution = false;
       this.isConfig = true;
       this.page = false;
     }else if( tabName == 'page'){
-      $('.tabname')[0].classList.add('active');
-      $('.tabname')[1].classList.remove('active');
-      $('.tabname')[2].classList.remove('active');
+      // $('.tabname')[0].classList.add('active');
+      // $('.tabname')[1].classList.remove('active');
+      // $('.tabname')[2].classList.remove('active');
       this.execution = false;
       this.isConfig = false;
       this.page = true;
     }
-    
+  }
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
     // } else {
     //   this.isConfig = true;
     // }
+  }
+  executionHistory(){
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      extractionSourceId: this.selectedSource._id,
+      limit : 100,
+      skip : 0,
+      sourceType: 'content'
+    };
+    this.service.invoke('get.executionHistory', quaryparms).subscribe(res => {
+      if(res.contentExecutions) {
+        this.executionHistoryData = res.contentExecutions;
+        this.executionHistoryData.forEach(element => {
+          element.executionStats.duration = this.duration(element.executionStats.duration);
+          element.createdOn = moment(element.createdOn).fromNow();
+        });
+      } 
+      
+    }, errRes => {
+      this.loadingSliderContent = false;
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed', 'error');
+      }
+    });
+    
   }
   openStatusSlider(source) {
     if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
@@ -371,13 +451,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.contentModaltype=source.extractionType;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      this.pageination(source.numPages, 10)
+      //this.pageination(source.numPages, 10)
       if(source.extractionType === 'webdomain'){
+        if(source.advanceSettings){
+          this.useCookies = source.advanceSettings.useCookies;
+          this.isRobotTxtDirectives = source.advanceSettings.isRobotTxtDirectives;
+          this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
+          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+        }
         this.openStatusModal();
         this.loadingSliderContent = true;
         this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-        this.pageination(source.numPages, 10)
+        //this.pageination(source.numPages, 10);
+        this.totalRecord = source.numPages;
         this.getCrawledPages(this.limitpage, 0);
+        this.executionHistory();
       }
       else if(source.extractionType ==='document'){
         this. openDocumentModal();
@@ -403,6 +492,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   this.btnCount = 5
     // }
     /** new Paging Logic */
+    this.totalRecord = 0;
     this.totalRecord = pages;
     this.recordStr = 1
     if (this.totalRecord > this.limitpage) {
@@ -436,7 +526,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   paginate(event){
-    this.getCrawledPages(event.limitpage, event.skip);
+    this.getCrawledPages(event.limit, event.skip);
     this.perfectScroll.directiveRef.update();
     this.perfectScroll.directiveRef.scrollToTop(2, 1000);
   }
@@ -907,6 +997,11 @@ keyPress(event){
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
+    crawler.advanceOpts.useCookies = this.useCookies;
+    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
     if(option == 'add'){
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
@@ -1023,10 +1118,17 @@ keyPress(event){
       }
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
+    crawler.advanceOpts.useCookies = this.useCookies;
+    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
+    crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false :crawler.advanceOpts.crawlEverything = true;
     crawler.resourceType = resourceType;
     payload = crawler;
     //console.log(payload);
@@ -1093,7 +1195,20 @@ keyPress(event){
       }
     }
   }
-
+  crawlOption(opt){
+    if(opt != 'any'){
+      this.selectedSource.advanceSettings.crawlEverything = false;
+      if(opt == 'allow'){
+        this.selectedSource.advanceSettings.allowedOpt = true;
+        this.selectedSource.advanceSettings.blockedOpt = false;
+      }else if(opt == 'block'){
+        this.selectedSource.advanceSettings.blockedOpt = true;
+        this.selectedSource.advanceSettings.allowedOpt = false;
+      }
+    }else if(opt == 'any'){
+      this.selectedSource.advanceSettings.crawlEverything = true;
+    }
+  }
   ngOnDestroy() {
     const timerObjects = Object.keys(this.polingObj);
     if (timerObjects && timerObjects.length) {

@@ -35,6 +35,7 @@ export class SchedulerComponent implements OnInit {
   endsOnSelected = '';
   minDate;
   //scheduleData : scheduleOpts = new scheduleOpts();
+  @Input() scheduleFlag: any;
   @Input() crwalObject : any;
   @Input() schedule : any;
   @Output() scheduleData = new EventEmitter();
@@ -133,13 +134,16 @@ export class SchedulerComponent implements OnInit {
     this.calculateCronExpression()
   }
   changeMeridiem(meridiem){
-    if(Number(this.timeHH) >= 12 ){
-      meridiem = 'PM' ;
-    }else if(Number(this.timeHH) == 0){
-      meridiem = 'AM' ;
+    if(this.scheduleFlag){
+      if(Number(this.timeHH) >= 12 ){
+        meridiem = 'PM' ;
+      }else if(Number(this.timeHH) == 0){
+        meridiem = 'AM' ;
+      }
+      this.meridiem = meridiem;
+      this.calculateCronExpression()
     }
-    this.meridiem = meridiem;
-    this.calculateCronExpression()
+    
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date> , rstz : string) {
     console.log(`${type}: ${event.value}`);

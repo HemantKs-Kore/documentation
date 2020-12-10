@@ -27,6 +27,7 @@ import { BusinessRulesComponent } from './components/business-rules/business-rul
 import { SettingsComponent } from './components/settings/settings.component';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
+import { ExperimentsComponent } from './components/experiments/experiments.component';
 const routes: Routes = [
   {
     path: '',
@@ -61,6 +62,7 @@ const routes: Routes = [
       { path: 'settings', component: SettingsComponent},
       { path: 'credentials-list', component: CredentialsListComponent},
       { path: 'FieldManagementComponent', component: FieldManagementComponent},
+      { path: 'experiments', component: ExperimentsComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

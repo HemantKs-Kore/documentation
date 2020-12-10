@@ -65,6 +65,14 @@ export class ResultInsightsComponent implements OnInit {
   resultQueryAnswer = '';
   searchSources : any = '';
   dateType = "hour"
+
+  totalRecord:number;
+  limitPage : number = 10;
+  skipPage:number = 0;
+
+  Q_totalRecord:number;
+  Q_limitPage : number = 10;
+  Q_skipPage:number = 0;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -90,9 +98,6 @@ export class ResultInsightsComponent implements OnInit {
     this.dateType = type;
     this.getQueries('Results');
   }
-  paginate(event){
-    console.log(event)
-  }
   getQueries(type){
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
@@ -111,8 +116,8 @@ export class ResultInsightsComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit:100
+      offset: this.skipPage,
+      limit:this.limitPage
     };
     let payload : any = {
       type : type,
@@ -127,9 +132,12 @@ export class ResultInsightsComponent implements OnInit {
     this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
       if(type == 'Results'){
         this.resultsData = res.results;
+        this.totalRecord = res.totalCount;
       }
       else if(type == 'SearchQueriesForResult'){
         this.resultsSearchData = res.results;
+        this.Q_totalRecord = res.totalCount;
+        console.log("Q_totalRecord",this.Q_totalRecord)
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -140,7 +148,19 @@ export class ResultInsightsComponent implements OnInit {
      });
   }
   
-  
+  //pagination method
+  paginate(event,type){
+    if(type==='Results'){
+      this.limitPage = event.limit;
+      this.skipPage = event.skip;
+      this.getQueries('Results');
+    }
+      else if(type==='QRESULT'){
+        this.Q_limitPage = event.limit;
+        this.Q_skipPage = event.skip;
+        this.getQueries('SearchQueriesForResult');
+      }
+  }
   // pagination(data,type){
   //   if(type == 'MostSearchedQuries'){
   //     if(data.length <= this.tsqlimitpage){ this.tsqlimitpage = data.length }

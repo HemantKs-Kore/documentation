@@ -1,0 +1,12 @@
+<div class="custom-pagination">
+    <div class="first" placement="bottom-center" tooltipClass="tooltip_custom_acc" ngbTooltip="First" (click)="arrowFirst()"><img src="assets/icons/pagination/first-arrow.svg"></div>
+    <div class="p-left" placement="top-center" tooltipClass="tooltip_custom_acc" ngbTooltip="Previous" (click)="arrowPrevious()"><img src="assets/icons/pagination/previous-left.svg"></div>
+    <div class="page-title">Page</div>
+    <div class="kr-sg-input-text">       
+        <input type="text" class="input-text" value="{{inputPage}}" (keyup)="inputPageChange($event)">      
+    </div>
+    <div class="divider">of</div>
+    <div class="last-page-number">{{endPage}}</div>
+    <div class="last" placement="top-center" tooltipClass="tooltip_custom_acc" ngbTooltip="Next" (click)="arrowNext()"><img src="assets/icons/pagination/right-single.svg"></div>
+    <div class="p-right" placement="bottom-center" tooltipClass="tooltip_custom_acc" ngbTooltip="Last" (click)="arrowLast()"><img src="assets/icons/pagination/right-double.svg"></div>
+</div>

@@ -19,6 +19,19 @@ export class SearchInsightsComponent implements OnInit {
   getSearchQueriesResults : any;
   selectedQuery = '';
   dateType = "hour";
+
+  QWR_totalRecord:number;
+  QWR_limitPage : number = 10;
+  QWR_skipPage:number = 0;
+
+  QWNR_totalRecord : number;
+  QWNR_limitPage : number = 10;
+  QWNR_skipPage:number = 0;
+
+  SQR_totalRecord : number;
+  SQR_limitPage : number = 10;
+  SQR_skipPage:number = 0;
+
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -53,11 +66,29 @@ export class SearchInsightsComponent implements OnInit {
     const header : any= {
       'x-timezone-offset': '-330'
     };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343'
-      offset: 0,
-      limit:50
-    };
+    let queryparams:any={searchIndexId: this.serachIndexId};
+    if(type == 'TopQuriesWithNoResults'){
+      queryparams = {
+        ...queryparams,
+        offset: this.QWNR_skipPage,
+        limit:this.QWNR_limitPage
+      };
+    }
+    else if(type == 'QueriesWithResults'){
+      queryparams = {
+        ...queryparams,
+        offset: this.QWR_skipPage,
+        limit:this.QWR_limitPage
+      };
+    }
+    else if(type == 'SearchQueryResults'){
+      queryparams = {
+        ...queryparams,
+        offset: this.SQR_skipPage,
+        limit:this.SQR_limitPage
+      };
+    }
+
     let payload : any = {
       type : type,
       filters: {
@@ -68,15 +99,18 @@ export class SearchInsightsComponent implements OnInit {
     if(type == 'SearchQueryResults'){
       payload.query = this.selectedQuery;
     }
-    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
+    this.service.invoke('get.queries', queryparams,payload,header).subscribe(res => {
       if(type == 'TopQuriesWithNoResults'){
-       this.topQuriesWithNoResults = res.response;
+       this.topQuriesWithNoResults = res.result;
+       this.QWNR_totalRecord = res.totalCount;
       }
-      if(type == 'QueriesWithResults'){
+      else if(type == 'QueriesWithResults'){
         this.getQueriesWithResults = res.result;
+        this.QWR_totalRecord = res.totalCount;
        }
-       if(type == 'SearchQueryResults'){
+       else if(type == 'SearchQueryResults'){
         this.getSearchQueriesResults = res.result;
+        this.SQR_totalRecord = res.totalCount;
        }
        
      }, errRes => {
@@ -87,6 +121,25 @@ export class SearchInsightsComponent implements OnInit {
        }
      });
   }
+
+  paginate(event,type){
+    if(type==='QWR'){
+      this.QWR_limitPage = event.limit;
+      this.QWR_skipPage = event.skip;
+      this.getQueries('QueriesWithResults');
+    }
+    else if(type === 'QWNR'){
+      this.QWNR_limitPage = event.limit;
+      this.QWNR_skipPage = event.skip;
+      this.getQueries('TopQuriesWithNoResults');
+    }
+    else if(type === 'SQR'){
+      this.SQR_limitPage = event.limit;
+      this.SQR_skipPage = event.skip;
+      this.getQueries('SearchQueryResults');
+    }
+  }
+
   openModalPopup(result){
     this.selectedQuery = result.query;
     this.getQueries('SearchQueryResults')

@@ -1,0 +1,76 @@
+.custom-pagination{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 0;
+    .first{
+        margin-right: 8px;
+        cursor: pointer;
+    }
+    .p-left{
+        margin-right: 22px;
+        cursor: pointer;
+    }
+    .page-title{
+        color: #9AA0A6;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+        margin-right: 14px;
+    }
+    .kr-sg-input-text{
+        min-width: 30px;
+        max-width: 50px;
+        text-align: center;
+        .input-text{
+            text-align: center;
+            padding: 0;
+        }
+    }
+    .divider{
+        color: #9AA0A6;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+        margin: 0 13px;
+    }
+    .last-page-number{
+        color: #202124;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        margin-right: 23px;
+    }
+    .last{
+        margin-right: 9px;
+        cursor: pointer;
+    }
+    .p-right{
+        cursor: pointer;
+    }
+}
+
+
+::ng-deep .tooltip_custom_acc{  
+    .arrow{
+        display: block;
+        &::before{
+            border-top-color:#202124;
+        }
+    }
+    .tooltip-inner{
+        background: #202124;
+        box-shadow: 0px -4px 4px rgba(32, 33, 36, 0.2);
+        border-radius: 4px;
+        max-width: 351px;
+        // width: 351px;               
+        padding: 10px 15px;
+        line-height: 14px;
+        font-size: 10px;
+        color: #fff;
+        text-align: left;
+        border: 0;
+    }
+}

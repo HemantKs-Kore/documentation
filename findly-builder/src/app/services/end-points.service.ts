@@ -481,6 +481,11 @@ export class EndPointsService {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
       method: 'post'
     }
+    this.serviceList['get.page_detail'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceId/recrawl?resourceType=:sourceType',
+      method: 'get'
+    }
     this.serviceList['train.traits'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/sentences/ml/train?streamId=:streamId',
       method: 'post'
@@ -589,6 +594,12 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
     method: 'delete'
   }
+  this.serviceList['get.executionHistory'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:sourceType&offset=:skip&limit=:limit',
+    method: 'get'
+  }
+
+  
   // this.serviceList['edit.credential'] = {
   //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
   //    method: 'put'

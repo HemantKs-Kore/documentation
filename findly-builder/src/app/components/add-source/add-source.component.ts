@@ -44,6 +44,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   doesntContains = 'Doesn\'t Contains';
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
+
+  useCookies = false;
+  isRobotTxtDirectives = false;
+  isCrawlingRestrictToSitemaps= false;
+  isJavaScriptRendered = false;
+  isBlockHttpsMsgs = false;
+
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -232,7 +239,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  poling(jobId) {
+  poling(jobId, schedule?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -253,7 +260,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
-          this.statusObject.status = 'failed';
+          if(!schedule) this.statusObject.status = 'failed';
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
@@ -478,15 +485,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
+        crawler.advanceOpts.useCookies = this.useCookies;
+        crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+        crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+        crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+        crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = {...crawler};
         delete payload.resourceType;
         if(!payload.advanceOpts.scheduleOpt){
-          payload.advanceOpts = {
-            scheduleOpt : false
-          }
+          delete payload.advanceOpts.scheduleOpts;
         }
         quaryparms.resourceType = resourceType;
       }
@@ -499,7 +509,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
         this.openStatusModal();
-        this.poling(res._id);
+        this.poling(res._id,'scheduler');
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -803,7 +813,20 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-
+  crawlOption(opt){
+    if(opt != 'any'){
+      this.crwalObject.advanceOpts.crawlEverything = false;
+      if(opt == 'allow'){
+        this.crwalObject.advanceOpts.allowedOpt = true;
+        this.crwalObject.advanceOpts.blockedOpt = false;
+      }else if(opt == 'block'){
+        this.crwalObject.advanceOpts.blockedOpt = true;
+        this.crwalObject.advanceOpts.allowedOpt = false;
+      }
+    }else{
+      this.crwalObject.advanceOpts.crawlEverything = true;
+    }
+  }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
