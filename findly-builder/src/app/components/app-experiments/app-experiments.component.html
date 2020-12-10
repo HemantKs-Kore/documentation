@@ -1,19 +1,20 @@
 <div class="experiment-container">
-    <div class="header-sec col-12 row m-0">
-        <div class="col-10 p-0 title-header"></div>
-         <div class="col-2 right-sec p-0"> 
-                <!-- <div class="kr-sg-input-text m-0">
-                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" placeholder="Search">
-                </div>
-                <div class="seach-block"><img src="assets/icons/search.svg"><img src="assets/images/close.svg" class="d-none">Search
-                </div>  -->
-                <div class="add" (click)="addExperiment()">
-                    <img src="assets/icons/add_plus.svg" >Add Experiment
-                </div>
-         </div>
+    <div class="header-sec row">
+        <div class="col-8 left-sec p-0">
+            <div class="tab-sec d-flex">
+                <div class="tab_title active">All<span>(4)</span></div>
+                <div class="tab_title">Configured<span>(1)</span></div>
+                <div class="tab_title">Active<span>(1)</span></div>
+                <div class="tab_title">Paused<span>(2)</span></div>
+                <div class="tab_title">Completed<span>(2)</span></div>
+            </div>
+        </div>
+        <div class="col-4 p-0 right-sec">
+            <div (click)="addExperiment()" class="title"><img src="assets/icons/add_plus.svg">Add Experiment</div>
+        </div>
     </div>
     <perfect-scrollbar class="scroll-table">
-        <div class="no-experiments centered">
+        <div class="no-experiments">
             <img src="assets/icons/experiment/empty_experiments.svg" >
             <div class ="title">You haven't added any Experiment yet</div>
             <div class ="dec">Fortunately , it is very easy  to add one by clicking on the Add experiments</div>
@@ -28,13 +29,70 @@
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
-        <div class="row m-0 mb-20">
+
+        <div class="row ml-0 mr-0 mb-3 col-12 p-0">
+            <div class="kr-sg-input-text col-6 pl-pr-5">
+                <div class="label-text">Name of Experiment</div>
+                <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text">
+            </div>
+        </div>
+
+        <div class="row ml-0 mr-0 mb-3 col-12 p-0">
+            <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
+                <div class="label-text">Variant Name</div>
+                <input type="text" autocomplete="off"  placeholder="Enter Variant Name" class="input-text">
+                <span class="v-name">A</span>
+            </div>
+            <div class="kr-sg-dropdowns col-6 pl-pr-5">
+                <div class="label-text">Search Configuration</div>
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select Configuration</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                                
+                      <li><a>Option 1</a></li>
+                      <li><a>Option 2</a></li>
+                      <li><a>Option 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row ml-0 mr-0 mb-3 col-12 p-0">
+            <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
+                <div class="label-text">Variant Name</div>
+                <input type="text" autocomplete="off"  placeholder="Enter Variant Name" class="input-text">
+                <span class="v-name">A</span>
+            </div>
+            <div class="kr-sg-dropdowns col-6 pl-pr-5">
+                <div class="label-text">Search Configuration</div>
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select Configuration</button>                                            
+                    <ul class="dropdown-menu content-menu">                                                                
+                      <li><a>Option 1</a></li>
+                      <li><a>Option 2</a></li>
+                      <li><a>Option 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 variant-add" (click)="addVarient()"><img src="assets/icons/add_blue.svg" />Add Variant</div>    
+        
+        <div class="duration-sec">
+            <div class="kr-sg-input-text">
+                <div class="label-text">Duration</div>
+                <input type="text" autocomplete="off" class="input-text">
+                <img src="assets/icons/minus.svg" class="minus">
+                <img src="assets/icons/plus_gray.svg" class="plus">
+            </div>
+        </div>
+        
+        <!-- <div class="row m-0 mb-3">
             <div class="kr-sg-input-text col-6 p-0">
                 <div class="label-text">Name of Experiment</div>
                 <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text" [(ngModel)]='experiment.fieldName'>
             </div>
         </div>
-        <div class="row m-0 mb-20" *ngFor='let varient of varientArray'>
+    
+        <div class="row m-0 mb-3 d-none" *ngFor='let varient of varientArray'>
             <div class="kr-sg-input-text col-6 p-0">
                 <div class="label-text">Variant Name</div>
                 <div class="input-icons"> 
@@ -56,10 +114,10 @@
                 </div>
              </div>
              <div class="close_icon" (click)=closeVariant(varient)><img src="assets/icons/modal-close.svg"></div>
-        </div><br/>
-        <div class="row m-0 mb-20">
-            <span (click)="addVarient()" style="color:#4da6ff;cursor:pointer;"><img src="assets/icons/add_plus.svg" />&nbsp;&nbsp;Add Variant</span>
         </div>
+        <div class="row m-0 mb-3 d-none">
+            <span (click)="addVarient()"><img src="assets/icons/add_plus.svg" />Add Variant</span>
+        </div> -->
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
