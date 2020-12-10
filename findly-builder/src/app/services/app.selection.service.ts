@@ -16,7 +16,7 @@ export class AppSelectionService {
     private router: Router,
     private headerService: SideBarService,
   ){}
-    public getQureryPipelineIds(): ReplaySubject<any> {
+    public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
       const payload = {
         searchIndexId:this.workflowService.selectedSearchIndex()
       };
@@ -30,6 +30,9 @@ export class AppSelectionService {
             this.selectQueryConfig(res[0]);
           }else{
             this.selectQueryConfig({});
+          }
+          if(setPipline && setPipline._id){
+            this.selectQueryConfig(setPipline);
           }
           this.queryConfigs.next(res);
          }

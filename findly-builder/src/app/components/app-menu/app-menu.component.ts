@@ -77,13 +77,16 @@ export class AppMenuComponent implements OnInit , OnDestroy{
      } catch (e) {
      }
   }
+  selectDefault(){
+    this.newConfigObj._id = this.selectedConfig;
+  }
   createConfig(){
     const payload:any = {
      method: this.newConfigObj.method,
      name:this.newConfigObj.name,
     }
     if(this.newConfigObj.method === 'clone'){
-      payload.sourceQueryPipelineId = this.newConfigObj.sourceQueryPipelineId
+      payload.sourceQueryPipelineId = this.newConfigObj._id
     }
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId
@@ -91,6 +94,9 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
        this.appSelectionService.getQureryPipelineIds();
+       if(res && res._id){
+         this.selectQueryPipelineId(res);
+       }
        this.closeModalPopup();
       },
       errRes => {

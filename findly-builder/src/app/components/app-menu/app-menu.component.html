@@ -222,18 +222,25 @@
     <div class="modal-body textAlignLeft">
 		<div class="group-radiobutton">
 			<div class="kr-sg-radiobutton">
-				<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="radio" value='default' class="radio-custom" type="radio">
+				<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
 				<label for="createQueryConfig" class="radio-custom-label">Create New</label>
 			</div>
 			<div class="kr-sg-radiobutton">
-				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" name="radio" value='clone' class="radio-custom" type="radio">
+				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
 				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
 			</div>
+			<div class="kr-sg-input-text pt-4">
+				<div class="label-text" >Name of Configuration</div>
+				<input type="text" placeholder="Placeholder text" [(ngModel)]="newConfigObj.name" class="input-text">
+			</div>
+			<div class="pt-4" *ngIf="newConfigObj.method === 'clone'">
+				<div class="kr-sg-radiobutton d-block" *ngFor="let config of queryConfigs; let i = index">
+					<input id="{{config._id}}" [(ngModel)]="newConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
+					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
+				</div> 
+			</div>
 	    </div> 
-		<div class="kr-sg-input-text">
-			<div class="label-text" >Name</div>
-			<input type="text" placeholder="Placeholder text" [(ngModel)]="newConfigObj.name" class="input-text">
-		</div>
+		
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
