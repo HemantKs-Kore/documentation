@@ -1351,7 +1351,7 @@ div.divBlockEmptylastChild:first-child {
         height: calc(100% - 100px);        
         .modal-content{
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            border-radius: 8px !important;
             .modal-body{
                 .top_sec{
                     padding-bottom: 30px;
