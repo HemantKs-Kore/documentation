@@ -301,8 +301,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
         
-        if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
+        
           if(this.resourcesStatusObj[source._id].status == 'running'){
+            if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
             this.getJobDetails(source._id)
             this.getSourceList();
           } 

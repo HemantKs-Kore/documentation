@@ -152,9 +152,9 @@
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
-                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
-                  <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'"> {{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].status) ? statusObj[resourcesStatusObj[source.jobId].status].name : 'In Progress'}}</span>
-                  <span *ngIf="statusObj[source.recentStatus].name != 'In Progress'">{{statusObj[source.recentStatus].name}}</span>
+                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}"> {{statusObj[source.recentStatus].name}}
+                  <!-- <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'"> {{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].status) ? statusObj[resourcesStatusObj[source.jobId].status].name : 'In Progress'}}</span>
+                  <span *ngIf="statusObj[source.recentStatus].name != 'In Progress'">{{statusObj[source.recentStatus].name}}</span> -->
                   <img
                     src="assets/icons/failed-status.svg" class="" placement="top"
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:''}}"
@@ -603,23 +603,23 @@
               <!-- Cookies -->
                 <div class=" group-checkbox">
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [checked]="isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
                   </div>
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [checked]="isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [checked]="isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
                   </div>
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [checked]="isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
+                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "useCookies" [checked]="useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
               </div> 
