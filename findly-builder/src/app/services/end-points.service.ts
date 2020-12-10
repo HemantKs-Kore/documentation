@@ -45,6 +45,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
       method: 'post'
     };
+    this.serviceList['get.appData'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    };
     this.serviceList['jwt.grunt.generate'] = {
       endpoint: this.API_SERVER_URL,
       method: 'post'
@@ -343,6 +347,10 @@ export class EndPointsService {
     this.serviceList['get.queryPipelines'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
       method: 'get'
+    }
+    this.serviceList['create.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+      method: 'post'
     }
     this.serviceList['put.queryPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',

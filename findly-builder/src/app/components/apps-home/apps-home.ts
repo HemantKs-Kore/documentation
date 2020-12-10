@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { SideBarService } from '@kore.services/header.service';
-import { AppSelectionService } from '@kore.services/app-selection-service'
+import { AppSelectionService } from '@kore.services/app.selection.service'
 declare const $: any;
 
 @Component({
@@ -50,12 +50,7 @@ export class AppsListingComponent implements OnInit {
     }, 100);
   }
   openApp(app) {
-  this.appSelectionService.setAppWorkFlowData(app);
-   this.router.navigate(['/source'], { skipLocationChange: true });
-   const toogleObj = {
-    title: '',
-  };
-   this.headerService.toggle(toogleObj);
+  this.appSelectionService.openApp(app);
   }
   openCreateApp() {
     this.createAppPopRef  = this.createAppPop.open();

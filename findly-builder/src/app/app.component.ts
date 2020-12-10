@@ -7,7 +7,7 @@ import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
-import { AppSelectionService } from '@kore.services/app-selection-service'
+import { AppSelectionService } from '@kore.services/app.selection.service'
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -186,7 +186,6 @@ export class AppComponent implements OnInit , OnDestroy {
     }
   }
   navigationInterceptor(event: RouterEvent): void {
-    const self = this;
     if (event instanceof NavigationStart) {
       this.showHideSearch(false);
       this.authService.findlyApps.subscribe( (res) => {
