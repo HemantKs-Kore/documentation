@@ -27,7 +27,7 @@ app-mainmenu{
 			
 					.faq-filter-add{
 						max-height: 200px;
-						overflow: hidden;;
+						overflow: hidden;
 						width: 100%;
 						padding: 0;
 					}
@@ -177,6 +177,12 @@ app-mainmenu{
 			}
 			.dropdown-input::before{
 				background-image: url('^assets/icons/caretDown.svg');
+			}
+			.dropdown-menu{
+				max-height: 200px;
+				overflow: auto;
+				width: 100%;
+				padding: 0;
 			}
 		}
 	}

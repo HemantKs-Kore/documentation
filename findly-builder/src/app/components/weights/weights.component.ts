@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 @Component({
@@ -48,11 +48,12 @@ export class WeightsComponent implements OnInit, OnDestroy {
   searchFailed;
   weightsObj:any = {};
   currentEditDesc = '';
+  subscription: Subscription;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadWeights();
-    this.appSelectionService.queryConfigs.subscribe(res=>{
+    this. subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.loadWeights();
     })
   }
@@ -282,6 +283,6 @@ export class WeightsComponent implements OnInit, OnDestroy {
       })
   }
   ngOnDestroy(){
-    this.appSelectionService.queryConfigs.unsubscribe();
+    this.subscription?this.subscription.unsubscribe(): false;
   }
 }

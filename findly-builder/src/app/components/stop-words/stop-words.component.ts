@@ -6,6 +6,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
+import { Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-stop-words',
@@ -30,6 +31,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   pipeline;
   stopWordsIntiType = 'default'
   createFromScratch;
+  subscription: Subscription;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -41,7 +43,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadStopwords();
-    this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
       this.loadStopwords();
     })
   }
@@ -297,6 +299,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.updateStopWords();
   }
   ngOnDestroy(){
-    this.appSelectionService.queryConfigs.unsubscribe();
+    this.subscription?this.subscription.unsubscribe(): false;
   }
 }

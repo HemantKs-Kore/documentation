@@ -5,6 +5,7 @@ import { ActivatedRoute, Routes, Router } from '@angular/router';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -32,6 +33,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   configObj:any = {};
   selectedConfig:any ={};
+  subscription:Subscription
   @Input() show;
   @Input() settingMainMenu;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -101,7 +103,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.reloadCurrentRoute()
   }
   ngOnInit() {
-    this.appSelectionService.queryConfigs.subscribe(res =>{
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
       this.queryConfigs = res;
       res.forEach(element => {
         this.configObj[element._id] = element;
@@ -131,6 +133,6 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.addFieldModalPopRef = this.addFieldModalPop.open();
   }
   ngOnDestroy(){
-    this.appSelectionService.queryConfigs.unsubscribe();
+    this.subscription?this.subscription.unsubscribe(): false;
   }
 }

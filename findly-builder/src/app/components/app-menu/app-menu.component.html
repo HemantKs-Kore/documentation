@@ -78,12 +78,12 @@
 				<span class="linkTitle">Fields</span>
 			</div>
 			<div class="sub-title marginTop15">Search Configuration</div>
-			<div class="kr-sg-dropdowns queryPipelineConfig" #selectResourceDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
+			<div class="kr-sg-dropdowns queryPipelineConfig" #selectConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
 				<div class="dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}}</button>
-					<ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-						<li (click)="selectQueryPipelineId(config)" *ngFor="let config of queryConfigs"><span class="list-name">{{config.name}}</span></li>
-						<li (click)="openModalPopup()" class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li>
+					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
+						<li (click)="selectQueryPipelineId(config);selectConfigDrop.close();" *ngFor="let config of queryConfigs"><span class="list-name">{{config.name}}</span></li>
+						<li (click)="openModalPopup();selectConfigDrop.close();" class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li>
 					</ul>
 				</div>
 			</div>

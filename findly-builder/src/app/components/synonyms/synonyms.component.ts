@@ -11,6 +11,7 @@ import { SynonymFilterPipe } from './synonym-filter'
 import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
+import { Subscriber, Subscription } from 'rxjs';
 declare const $: any;
 
 @Component({
@@ -46,6 +47,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr : any[] = [];
   synArrTemp: any[] = [];
+  subscription: Subscription;
   constructor( public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -61,7 +63,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadSynonyms();
-    this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.loadSynonyms();
     })
   }
@@ -292,7 +294,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.showSearch = !this.showSearch
   };
   ngOnDestroy(){
-    this.appSelectionService.queryConfigs.unsubscribe();
+    this.subscription?this.subscription.unsubscribe(): false;
   }
 }
 class SynonymClass {
