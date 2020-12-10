@@ -348,9 +348,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = 'https://pilot.findly.ai'; // For XHR calls in PILOT
 
 
-      /*if (_self.isDev) {
+      if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
-      }*/
+      }
       var baseUrl = baseAPIServer + "/searchAssistant";
       var searchAPIURL = baseAPIServer + "/api/1.1/findly/";
       var liveSearchAPIURL = baseAPIServer + "/api/1.1/searchAssist/";
