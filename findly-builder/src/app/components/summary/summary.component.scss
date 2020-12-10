@@ -285,12 +285,7 @@
 
                                 }
                             }
-                            .center-image{
-                                position: absolute;
-                                left: 50%;
-                                top: 50%;
-                                transform: translate(-50%, -50%);
-                            }   
+                            
                             .c-title{
                                 color: #5F6368;
                                 font-weight: 500;
@@ -426,7 +421,13 @@
                     cursor: pointer;   
                     padding: 12px 0px 0 0px;                 
                 }            
-            }                                
+            }
+            .center-image{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }                                   
         } 
     }
     

@@ -3,6 +3,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
   group = "hour";
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
+    private router: Router,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
@@ -88,6 +90,9 @@ export class DashboardComponent implements OnInit {
     
     
     
+  }
+  viewAll(route){
+    this.router.navigate([route], { skipLocationChange: true });
   }
   tab(index){
     this.slider = index

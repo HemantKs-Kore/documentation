@@ -178,8 +178,9 @@
                                 </div>
                             </div>
                         </div>
-                        <app-pagination  [totalRecord]='tsqtotalRecord' [limitpage]='tsqlimitpage' [recordEnd]="tsqrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <div class="create_new_link" (click)="viewAll('/searchInsights')">View all</div>
+                        <!-- <app-pagination  [totalRecord]='tsqtotalRecord' [limitpage]='tsqlimitpage' [recordEnd]="tsqrecordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
                 <div class="col-6 box-content">
@@ -199,8 +200,9 @@
                             </div>
                             
                         </div>
-                        <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <div class="create_new_link" (click)="viewAll('/searchInsights')">View all</div>
+                        <!-- <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
             </div>
@@ -279,8 +281,9 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div> -->
                         </div>
-                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <div class="create_new_link" (click)="viewAll('/resultInsights')">View all</div>
+                        <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
             </div>

@@ -182,9 +182,11 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && (statusObj[source.recentStatus].name != 'In Progress' || statusObj[source.recentStatus].name != 'Queued') "  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' "  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="statusObj[source.recentStatus].name != 'In Progress' " (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
+                  <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="deletePages('source',source,$event)"><img class="action_icon"
+                      src="assets/icons/content/red-cross.svg" ngbTooltip='Delete' container="body"></span>
               </div>
             </div>
           </ng-container>
@@ -861,6 +863,7 @@
                 </div>
               </div>
             </div>
+            <app-record-pagination [totalRecord]='25' [limitpage]='25' (pageChanged)="paginate($event)"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>

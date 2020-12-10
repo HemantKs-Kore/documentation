@@ -201,13 +201,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
           element['schedule_duration'] = this.duration(element['schedule_duration']);
         }
-        if(element.advanceSettings){
-          this.useCookies = element.advanceSettings.useCookies;
-          this.isRobotTxtDirectives = element.advanceSettings.isRobotTxtDirectives;
-          this.isCrawlingRestrictToSitemaps = element.advanceSettings.isCrawlingRestrictToSitemaps;
-          this.isJavaScriptRendered = element.advanceSettings.isJavaScriptRendered;
-          this.isBlockHttpsMsgs = element.advanceSettings.isBlockHttpsMsgs;
-        }
+        
         // let hr = element['schedule_duration'].split(":")[0];
         // let min = element['schedule_duration'].split(":")[1];
         // let sec = element['schedule_duration'].split(":")[2];
@@ -459,6 +453,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
       //this.pageination(source.numPages, 10)
       if(source.extractionType === 'webdomain'){
+        if(source.advanceSettings){
+          this.useCookies = source.advanceSettings.useCookies;
+          this.isRobotTxtDirectives = source.advanceSettings.isRobotTxtDirectives;
+          this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
+          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+        }
         this.openStatusModal();
         this.loadingSliderContent = true;
         this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
