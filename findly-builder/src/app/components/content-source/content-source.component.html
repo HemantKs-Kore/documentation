@@ -391,7 +391,7 @@
                         <div class="content-body">
                           <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.name}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
-                          <div class="col_ col-3" >{{selectedSource.url}}</div>
+                          <div class="col_ col-3" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
                           <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
@@ -412,8 +412,8 @@
                           </div>
                           <div class="col_ col-1 p-0 text-right actions-images">
                             <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
-                            <img src="assets/icons/edit-rule.svg" (click)="editTitle($event)" title="Edit">
-                            <img src="assets/icons/delete-table.svg" (click)="deletePages('source',page ,$event)" title="Delete">
+                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit">
+                            <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete">
                           </div>
                         </div>
                       </ng-container>
