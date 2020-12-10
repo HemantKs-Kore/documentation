@@ -24,9 +24,13 @@ export class AppSelectionService {
       const subject = new ReplaySubject(1);
       subject.subscribe(res => {
         this.queryList = res || [];
-        if(this.queryList && this.queryList.length){
+        if(this.queryList){
           this.workflowService.appQueryPipelines(res);
-          this.selectQueryConfig(res[0]);
+          if(this.queryList.length){
+            this.selectQueryConfig(res[0]);
+          }else{
+            this.selectQueryConfig({});
+          }
           this.queryConfigs.next(res);
          }
       }, errRes => {
@@ -51,6 +55,8 @@ export class AppSelectionService {
       });
     }
     openApp(app) {
+      this.workflowService.selectedQueryPipeline([]);
+      this.workflowService.appQueryPipelines({});
       this.setAppWorkFlowData(app);
        this.router.navigate(['/source'], { skipLocationChange: true });
        const toogleObj = {
