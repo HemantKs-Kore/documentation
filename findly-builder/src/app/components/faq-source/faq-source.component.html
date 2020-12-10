@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div (click)="openStatusModal()" class="title"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
-                <div class="clock"><img src="assets/icons/clock.svg"></div>
+                <!-- <div class="clock"><img src="assets/icons/clock.svg"></div> -->
             </div>
         </div>
         <div class="faq-content-boxes">
@@ -92,16 +92,17 @@
                                                     <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
                                                 </div>
                                             </div>
-                                            <div class="follow_up"><img src="assets/icons/add_plus.svg">Follow-up</div>
+                                            <div class="follow_up" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
                                         </div>
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
-                                                <ng-container *ngIf="faq._source.alternateQuestions && faq._source.alternateQuestions.length">
-                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq._source.alternateQuestions">
-                                                        <div class="title">{{altQuestion.question}}</div>
-                                                        <div class="desc" *ngIf="altQuestion && altQuestion.answer">{{altQuestion.answer}}</div>
-                                                        <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(altQuestion.defaultAnswers[0].payload)'></div>
-                                                       <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                <ng-container  *ngIf="faq._meta.followupQuestions && faq._meta.followupQuestions.length">
+                                                    <div class="acc-inner-que" (click)="selectedFaqToTrain(followUpQuestion, $event);$event.stopImmediatePropagation();"  [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===followUpQuestion._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let followUpQuestion of faq._meta.followupQuestions">
+                                                        <div class="title">{{followUpQuestion._source.question}}</div>
+                                                        <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
+                                                            <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
+                                                           <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                        </ng-container>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -228,7 +229,7 @@
                                         </div>
                                     </div> -->
                                     <div class="d-flex align-items-center justify-content-end">
-                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
+                                        <button class="kr-sg-button-secondary btn_lg" *ngIf="!(selectedFaq && selectedFaq._meta && selectedFaq._meta.isFollowupQuestion)" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
@@ -389,7 +390,7 @@
                                 <!-- <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
                             </div>
                            </ng-container>
-                            <div class="add-alternative-questions row followup_questions">
+                            <!-- <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 
                                         {{(selectedFaq._meta.followupQuestions?.length>0?'('+selectedFaq._meta.followupQuestions.length+')':'')}}
@@ -399,9 +400,9 @@
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addFollowUp()">Add</button>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <ng-container *ngIf="selectedFaq._meta.followupQuestions?.length">
+                            <!-- <ng-container *ngIf="selectedFaq._meta.followupQuestions?.length">
                                 <div class="added-questions-list" *ngFor="let followQues of selectedFaq._meta.followupQuestions">
                                     <div class="question-name text-truncate">{{followQues._source.question}}</div>
                                     <div class="added-tags text-truncate">
@@ -409,7 +410,7 @@
                                     </div>
                                     <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
-                            </ng-container>
+                            </ng-container> -->
                         </div>
                     </perfect-scrollbar>
                    </ng-container>

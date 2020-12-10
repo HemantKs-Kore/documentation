@@ -296,7 +296,22 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       conditionalAnswers: event._source.conditionalAnswers || [],
       keywords: event._source.tags
       };
-      const existingfollowups =  this.selectedFaq._meta.followupQuestions || [];
+      const existingfollowups =  [];
+      if(this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length){
+        this.selectedFaq._meta.followupQuestions.forEach(followup => {
+           if(followup && followup._source){
+            const tempObjPayload: any = {
+              question: followup._source.question,
+              defaultAnswers: followup._source.defaultAnswers || [],
+              conditionalAnswers: followup._source.conditionalAnswers || [],
+              keywords: followup._source.tags,
+              alternateQuestions: followup._source.alternateQuestions,
+              extractionType: 'faq',
+              };
+              existingfollowups.push(tempObjPayload);
+           }
+        });
+      }
       existingfollowups.push(followUPpayload);
     const _payload = {
        followupQuestions: existingfollowups || [],
@@ -501,7 +516,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       })
   }
   selectedFaqToTrain(faq, e) {
-    if(!faq.alternateQuestions || !faq.alternateQuestions.length) {
+    if(!faq._meta.followupQuestions || !faq._meta.followupQuestions.length) {
       e.stopImmediatePropagation();
     }
     if(this.editfaq){
@@ -569,16 +584,31 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
    this.closeEditFAQModal();
   }
   editFaq(event){
-    const _payload:any = {
-   question: event._source.question,
-   defaultAnswers: event._source.defaultAnswers || [],
-   conditionalAnswers: event._source.conditionalAnswers || [],
-   alternateQuestions: event._source.alternateQuestions || [],
-   followupQuestions: event.followupQuestions || [],
-   keywords: event._source.tags,
-   state: this.selectedFaq._meta.state
-    };
-    this.updateFaq(this.selectedFaq,'updateQA',_payload)
+    let faqData :any = {}
+    let isFollowUpUpdate = null;
+    if(this.selectedFaq && this.selectedFaq._meta.isFollowupQuestion && this.selectedFaq._meta.parentQuestionId){
+      isFollowUpUpdate = this.selectedFaq._id
+       faqData  = {
+              question: event._source.question,
+              defaultAnswers: event._source.defaultAnswers || [],
+              conditionalAnswers: event._source.conditionalAnswers || [],
+              keywords: event._source.tags,
+              alternateQuestions: event._source.alternateQuestions,
+              extractionType: 'faq',
+       };
+    } else {
+       faqData = {
+        question: event._source.question,
+        defaultAnswers: event._source.defaultAnswers || [],
+        conditionalAnswers: event._source.conditionalAnswers || [],
+        alternateQuestions: event._source.alternateQuestions || [],
+        followupQuestions: event._meta.followupQuestions || [],
+        keywords: event._source.tags,
+        state: this.selectedFaq._meta.state
+        };
+    }
+
+    this.updateFaq(this.selectedFaq,'updateQA',faqData,isFollowUpUpdate)
   }
   updateSourceStatus(statusItems) {
     if (statusItems && statusItems.length) {
@@ -592,7 +622,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       });
     }
   }
-  updateFaq(faq,action,params){
+  updateFaq(faq,action,params,isFollowUpUpdate?){
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
       faqId:faq._id,
@@ -610,15 +640,26 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.selectAll(true);
       this.selectedFaq = res;
       this.selectedtab = res._meta.state;
-      this.searchFaq = res._source.question;
-      this.searchFaqs();
-      const index = _.findIndex(this.faqs,(faqL)=>{
-        return faqL._id ===  this.selectedFaq._id;
-         })
-         if(index > -1){
-           this.faqs[index] = res;
-         }
-      // this.getfaqsBy();
+      if(isFollowUpUpdate){
+          const index = _.findIndex(this.faqs,(faqL)=>{
+            return faqL._id ===  res._meta.parentQuestionId;
+             })
+             if(index > -1){
+              const followUpItem =  _.findIndex(this.faqs[index]._meta.followupQuestions,(followUpfaq) => {
+                return followUpfaq._id === isFollowUpUpdate;
+                });
+                if(followUpItem > -1) {
+                  this.faqs[index]._meta.followupQuestions[followUpItem] = res;
+                }
+             }
+      }  else {
+        const index = _.findIndex(this.faqs,(faqL)=>{
+          return faqL._id ===  res._id;
+           })
+           if(index > -1){
+             this.faqs[index] = res;
+           }
+      }
       this.getStats();
       this.editfaq = false;
       this.closeEditFAQModal();
@@ -707,9 +748,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   deleteIndFAQ(faq,dialogRef){
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
-      faqId : faq._id
+      sourceId : faq._id
     }
-    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
+    this.service.invoke('delete.faq', quaryparms).subscribe(res => {
       dialogRef.close();
       this.faqCancle();
       this.notificationService.notify('Faq deleted succesfully','success')
@@ -831,17 +872,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
       })
   }
-  addFollowUp() {
+  addFollowUp(faq,event) {
+    this.editfaq = false;
+    this.selectedFaqToTrain(faq,event);
     this.faqServiceFollow.updateVariation('followUp');
     this.faqServiceFollow.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAddFollow = true;
     this.showSourceAddition = false;
     this.openAddSourceModal();
-    // setTimeout( () =>{
-    //   $('#questionList').closest('.ps.ps--active-y').animate({
-    //     scrollTop : Math.abs($('#questionList').position().top) + $('#followQue').position().top
-    //   });
-    // }, 100);
   }
   addAlternate() {
     this.faqServiceAlt.updateVariation('alternate');

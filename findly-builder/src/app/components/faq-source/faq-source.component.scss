@@ -284,12 +284,12 @@
                                         .kr-sg-checkbox{
                                             visibility: visible;
                                         }
-                                        .follow_up{
-                                            display: flex;
-                                        }
+                                        // .follow_up{
+                                        //     display: flex;
+                                        // }
                                     }
                                     &[aria-expanded="true"]{
-                                        background: #E7F1FF;
+                                        // background: #E7F1FF;
                                         box-shadow: none;
                                         .kr-sg-checkbox{
                                             visibility: visible;
@@ -307,6 +307,11 @@
                                         .follow_up{
                                             display: flex;
                                         }
+                                        // &.is-checked{
+                                        //     .follow_up{
+                                        //         display: flex;
+                                        //     }
+                                        // }
                                     }
                                     .title-desc-sec{
                                         width: 93%;
@@ -345,6 +350,12 @@
                                         border-left: 1px solid #E4E5E7;
                                         &.check-all{
                                             background: #E7F1FF;
+                                        }
+                                        &.is-checked{
+                                            background: #E7F1FF;
+                                            .kr-sg-checkbox{
+                                                visibility: visible;
+                                            }
                                         }
                                         .title{
                                             color: #202124;
