@@ -2,11 +2,11 @@
     <div class="header-sec row">
         <div class="col-8 left-sec p-0">
             <div class="tab-sec d-flex">
-                <div class="tab_title active">All<span>(4)</span></div>
-                <div class="tab_title">Configured<span>(1)</span></div>
-                <div class="tab_title">Active<span>(1)</span></div>
-                <div class="tab_title">Paused<span>(2)</span></div>
-                <div class="tab_title">Completed<span>(2)</span></div>
+                <div class="tab_title" [ngClass]="{'active':setTab==='all'}" (click)='selectedTab("all")'>All<span>({{allExp}})</span></div>
+                <div class="tab_title" [ngClass]="{'active':setTab==='configured'}" (click)='selectedTab("configured")'>Configured<span>({{confExp}})</span></div>
+                <div class="tab_title" [ngClass]="{'active':setTab==='active'}" (click)='selectedTab("active")'>Active<span>({{actExp}})</span></div>
+                <div class="tab_title" [ngClass]="{'active':setTab==='paused'}" (click)='selectedTab("paused")'>Paused<span>({{pauExp}})</span></div>
+                <div class="tab_title" [ngClass]="{'active':setTab==='completed'}" (click)='selectedTab("completed")'>Completed<span>({{compExp}})</span></div>
             </div>
         </div>
         <div class="col-4 p-0 right-sec">
@@ -14,7 +14,31 @@
         </div>
     </div>
     <perfect-scrollbar class="scroll-table">
-        <div class="no-experiments">
+        <div class="kr-sg-data-table accordion-table">
+            <section class="table-content">
+                <header class="table-header">
+                    <div class="col">EXPERIMENT NAME</div>
+                    <div class="col">VARIANTS</div>
+                    <div class="col">STATUS</div>
+                    <div class="col">DURATION</div>
+                </header>
+                <div *ngFor='let exp of listOfExperiments'>             
+                <div class="content-body collapsed-default collapsed" data-toggle="collapse" attr.data-target="#{{exp._id}}">    
+                    <div class="col">{{exp.name}}</div>
+                    <div class="col">{{exp.variants.length}}</div>
+                    <div class="col">{{exp.state}}</div>
+                    <div class="col">Start Date: 20 Dec 2020</div>
+                </div>
+                <div id={{exp._id}} class="collapse accordion-table">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            </section>                               
+        </div> 
+        <div class="no-experiments" *ngIf='listOfExperiments.length===0'>
+            <div class ="title">No results found</div>
+        </div>
+        <div class="no-experiments" *ngIf='filterExperiments.length===0'>
             <img src="assets/icons/experiment/empty_experiments.svg" >
             <div class ="title">You haven't added any Experiment yet</div>
             <div class ="dec">Fortunately , it is very easy  to add one by clicking on the Add experiments</div>
@@ -33,56 +57,39 @@
         <div class="row ml-0 mr-0 mb-3 col-12 p-0">
             <div class="kr-sg-input-text col-6 pl-pr-5">
                 <div class="label-text">Name of Experiment</div>
-                <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text">
+                <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text" [(ngModel)]='experiment.name'>
             </div>
         </div>
 
-        <div class="row ml-0 mr-0 mb-3 col-12 p-0">
+        <div class="row ml-0 mr-0 mb-3 col-12 p-0" *ngFor='let variant of varientArray'>
             <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
                 <div class="label-text">Variant Name</div>
-                <input type="text" autocomplete="off"  placeholder="Enter Variant Name" class="input-text">
-                <span class="v-name">A</span>
+                <input type="text" autocomplete="off" #varName  placeholder="Enter Variant Name" class="input-text" (blur)="fetchVariant(variant,varName.value,'name')">
+                <span class="v-name" [style.background-color]="variant.color">{{variant.code}}</span>
             </div>
             <div class="kr-sg-dropdowns col-6 pl-pr-5">
                 <div class="label-text">Search Configuration</div>
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select Configuration</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{variant.select_config?variant.select_config:'Select Configuration'}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                                                
-                      <li><a>Option 1</a></li>
-                      <li><a>Option 2</a></li>
-                      <li><a>Option 3</a></li>
+                      <li *ngFor="let query of queryPipeline" (click)="fetchVariant(variant,query._id,'queryid');variant.select_config=query.name">
+                       {{query.name}}
+                      </li>
                     </ul>
                 </div>
             </div>
         </div>
         
-        <div class="row ml-0 mr-0 mb-3 col-12 p-0">
-            <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
-                <div class="label-text">Variant Name</div>
-                <input type="text" autocomplete="off"  placeholder="Enter Variant Name" class="input-text">
-                <span class="v-name">A</span>
-            </div>
-            <div class="kr-sg-dropdowns col-6 pl-pr-5">
-                <div class="label-text">Search Configuration</div>
-                <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Select Configuration</button>                                            
-                    <ul class="dropdown-menu content-menu">                                                                
-                      <li><a>Option 1</a></li>
-                      <li><a>Option 2</a></li>
-                      <li><a>Option 3</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="mb-3 variant-add" (click)="addVarient()"><img src="assets/icons/add_blue.svg" />Add Variant</div>    
         
         <div class="duration-sec">
             <div class="kr-sg-input-text">
                 <div class="label-text">Duration</div>
-                <input type="text" autocomplete="off" class="input-text">
-                <img src="assets/icons/minus.svg" class="minus">
-                <img src="assets/icons/plus_gray.svg" class="plus">
+                <input type="number" autocomplete="off" class="input-text" [(ngModel)]='experiment.duration'>
+                <img src="assets/icons/minus.svg" class="minus" (click)='experiment.duration=experiment.duration-1'>
+                <img src="assets/icons/plus_gray.svg" class="plus" (click)='experiment.duration=experiment.duration+1'>
             </div>
+            Days
         </div>
         
         <!-- <div class="row m-0 mb-3">
@@ -121,7 +128,7 @@
     </div>
     </perfect-scrollbar> 
     <div class="modal-footer text-left">
-        <button type="button"  class="kr-sg-button-primary btn_lg float-right" [disabled]="!experiment.fieldName" (click)="createExperiment()">Add</button>                   
+        <button type="button"  class="kr-sg-button-primary btn_lg float-right" [disabled]="!experiment.name" (click)="createExperiment()">Add</button>                   
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </kr-modal>

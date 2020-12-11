@@ -601,6 +601,15 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/users/:userId/streams/:streamId/sdk/apps/:appId',
     method: 'delete'
   }
+  //APIs for experiments
+  this.serviceList['get.experiment'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state',
+    method: 'get'
+  }
+  this.serviceList['create.experiment'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments',
+    method: 'post'
+  }
   // this.serviceList['edit.credential'] = {
   //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
   //    method: 'put'
