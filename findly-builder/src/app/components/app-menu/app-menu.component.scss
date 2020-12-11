@@ -165,25 +165,182 @@ app-mainmenu{
 			.dropdown-open{
 				margin-bottom: 0px !important;
 				.dropdown-input{
-					border: none !important;
-					box-sizing: none;
-					border-radius: none !important;
-					padding: 0 15px;
-					font-size: 14px;
+					border: none !important;					
+					border-radius: 0 !important;
+					padding: 0 13px !important;
+					font-weight: bold;
+					font-size: 10px !important;
+					line-height: 14px;
 					color: #0D6EFD !important;
 					background: none !important;
 					font-weight: 700;
+					letter-spacing: 1px;
+					text-transform: uppercase;
+					&::before{
+						display: none;
+					}
 				}
-			}
-			.dropdown-input::before{
-				background-image: url('^assets/icons/caretDown.svg');
-			}
-			.dropdown-menu{
+			}		
+			.content-menu{
 				max-height: 200px;
 				overflow: auto;
 				width: 100%;
 				padding: 0;
-			}
+				background: #FFFFFF;
+				box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+				border-radius: 4px;
+				margin: 0 0 0 12px;
+				.list-name{					
+					padding: 10px 30px 10px 33px !important;
+					position: relative;
+					color: #202124;
+					font-weight: 500;
+					font-size: 14px;
+					line-height: 16px;
+					border-radius: 2px;
+					transition: 0.2s all ease;
+					&.nostars{
+						&:hover{
+							background: #EFF0F1;
+							img{
+								&.star{
+									display: none;
+								}
+								&.star-black{
+									display: block;
+								}
+								&.filter{
+									display: none;
+								}
+								&.edit-black{
+									display: block;
+								}
+							}
+						}
+					}
+					&:hover{
+						background: #EFF0F1;
+						// img{
+						// 	&.star{
+						// 		display: none;
+						// 	}
+						// 	&.star-black{
+						// 		display: block;
+						// 	}
+						// 	&.filter{
+						// 		display: none;
+						// 	}
+						// 	&.edit-black{
+						// 		display: block;
+						// 	}
+						// }
+					}
+					img{
+						cursor: pointer;
+						&.star{
+							position: absolute;
+							left: 12px;
+							top: 10px;
+						}
+						&.star-black{
+							position: absolute;
+							left: 12px;
+							top: 10px;
+							display: none;
+						}
+						&.filter{
+							position: absolute;
+							right: 10px;
+							top: 10px;
+						}
+						&.edit-black{
+							position: absolute;
+							right: 10px;
+							top: 10px;
+							display: none;
+						}
+					}
+				}
+				.create-new{
+					background: #FFFFFF;
+					border-radius: 2px;
+					margin-top: 2px;
+					padding: 10px;
+					color: #0D6EFD;
+					font-weight: normal;
+					font-size: 12px;
+					line-height: 16px;
+					cursor: pointer;
+					border-top: 1px solid #EFF0F1;
+				}
+			}				
 		}
 	}
+}
+.add-experment-popup{
+    .modal-dialog{
+		max-width: 46% !important;
+		width: 46% !important;
+		height: 78% !important;
+        .modal-content{
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 8px !important;
+            .modal-header{
+                .title{
+                    color: #202124;
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                }
+            }
+            .modal-body{
+                .group-radiobutton{
+					&.in-clone{
+						.kr-sg-radiobutton{
+							padding: 14px 0;
+							border-bottom: 1px solid #E4E5E7;
+						}
+					}
+				}
+				.kr-sg-dropdowns{
+					.label-text{
+						font-size: 14px !important;
+						font-weight: 500 !important;
+						line-height: 14px;
+						margin-bottom: 5px;
+					}
+					.dropdown-open {
+						.dropdown-input{
+							&::before{
+								display: none !important;
+							}
+						}
+					}
+					.kr-sg-input-inline-search{
+						.search-with-dropdown{
+							position: absolute;
+							border: 0;
+						}
+						input{
+							height: 34px;
+							padding-right: 10px;
+							padding-left: 30px;                        
+						}
+						.search-icon{
+							top: 10px;
+							width: auto;
+							height: auto;
+							left: 10px;
+							right: auto;
+						}
+					}                            
+					ul{             
+						li{
+							position: relative;                                                                                                      
+						}
+					}
+				}
+            }
+        }
+    }
 }
