@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit {
     name: "",
     anonymus: true,
     register: true,
-    awt: 'Select Signing Algorithm',
+    awt: 'HS256',
     enabled: true
   };
   channels = [
@@ -202,9 +202,16 @@ export class SettingsComponent implements OnInit {
         this.channnelConguired = res;
         if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
-          this.firstlistData = res.apps[res.apps.length-1];
+          if(this.selectedApp.appPreferences && this.selectedApp.appPreferences.rtmAppId){
+            res.apps.forEach(element => {
+              if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
+                this.listData=element;
+              }
+              
+            });
+          }
+        
           this.slider = 3
-          this.listData = this.firstlistData
           this.configFlag = true;
         }
         else if (this.channnelConguired.apps.length == 0) {
