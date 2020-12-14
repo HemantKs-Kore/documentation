@@ -45,6 +45,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams',
       method: 'post'
     };
+    this.serviceList['get.appData'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    };
     this.serviceList['jwt.grunt.generate'] = {
       endpoint: this.API_SERVER_URL,
       method: 'post'
@@ -340,6 +344,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
       method: 'put'
     }
+    this.serviceList['get.queryPipelines'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+      method: 'get'
+    }
+    this.serviceList['create.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+      method: 'post'
+    }
     this.serviceList['put.queryPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
       method: 'put'
@@ -600,6 +612,15 @@ export class EndPointsService {
   }
 
   
+  //APIs for experiments
+  this.serviceList['get.experiment'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state',
+    method: 'get'
+  }
+  this.serviceList['create.experiment'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments',
+    method: 'post'
+  }
   // this.serviceList['edit.credential'] = {
   //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
   //    method: 'put'

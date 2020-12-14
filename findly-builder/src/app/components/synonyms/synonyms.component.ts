@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SynonymFilterPipe } from './synonym-filter'
 import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { AppSelectionService } from '@kore.services/app.selection.service'
+import { Subscriber, Subscription } from 'rxjs';
 declare const $: any;
 
 @Component({
@@ -17,7 +19,7 @@ declare const $: any;
   templateUrl: './synonyms.component.html',
   styleUrls: ['./synonyms.component.scss']
 })
-export class SynonymsComponent implements OnInit {
+export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   synonymSearch;
   showSearch;
@@ -45,12 +47,14 @@ export class SynonymsComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr : any[] = [];
   synArrTemp: any[] = [];
+  subscription: Subscription;
   constructor( public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
-    public dialog: MatDialog,) {
+    public dialog: MatDialog,
+    private appSelectionService:AppSelectionService) {
     this.synonymObj = new SynonymClass();
   }
 
@@ -58,8 +62,16 @@ export class SynonymsComponent implements OnInit {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId =  this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.getSynonyms();
+    this.loadSynonyms();
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+      this.loadSynonyms();
+    })
+  }
+  loadSynonyms(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getSynonyms();
+    }
   }
   prepareSynonyms(){
     if(this.pipeline.stages && this.pipeline.stages.length){
@@ -281,6 +293,9 @@ export class SynonymsComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   };
+  ngOnDestroy(){
+    this.subscription?this.subscription.unsubscribe(): false;
+  }
 }
 class SynonymClass {
   name: String

@@ -78,6 +78,34 @@
 				<span class="linkTitle">Fields</span>
 			</div>
 			<div class="sub-title marginTop15">Search Configuration</div>
+			<div class="kr-sg-dropdowns queryPipelineConfig" #selectConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
+					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
+						<!-- <li (click)="selectQueryPipelineId(config);selectConfigDrop.close();" *ngFor="let config of queryConfigs"><span class="list-name">{{config.name}}</span></li>
+						<li (click)="openModalPopup();selectConfigDrop.close();" class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li> -->
+						<li class="list-name text-truncate">
+							<img src="assets/icons/star.svg" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
+							<img src="assets/icons/start-black.svg" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">Findly config
+							<img src="assets/icons/filter_cup.svg" class="filter">
+							<img src="assets/icons/edit-pencil.svg" class="edit-black">
+						</li>
+						<li class="list-name text-truncate nostars">
+							<img src="assets/icons/star.svg" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
+							<img src="assets/icons/start-black.svg" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">Configuration A
+							<img src="assets/icons/filter_cup.svg" class="filter">
+							<img src="assets/icons/edit-pencil.svg" class="edit-black">
+						</li>
+						<li class="list-name text-truncate">
+							<img src="assets/icons/star.svg" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
+							<img src="assets/icons/start-black.svg" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">Configuration B
+							<img src="assets/icons/filter_cup.svg" class="filter">
+							<img src="assets/icons/edit-pencil.svg" class="edit-black">
+						</li>
+						<div class="create-new" (click)="openModalPopup();selectConfigDrop.close();">+ Create New</div>
+					</ul>
+				</div>
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/weights']" skipLocationChange routerLinkActive="active"
 				(click)="preview('weights')" mat-button>
 				<span class="inlineIconBox leftAdjust">
@@ -203,3 +231,75 @@
 </div>
 
 <!-- Sidebar -->
+
+<kr-modal modalType="center" modalClass="modal_popups_ add-experment-popup smallModal"  #addFieldModalPop>   
+    <div class="modal-header">
+        <div class="title">New Search Configuration</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body textAlignLeft">
+		<div class="group-radiobutton">
+			<div class="kr-sg-radiobutton">
+				<input id="createQueryConfig" [(ngModel)]="newConfigObj.method" name="creationType" value='default' class="radio-custom" type="radio">
+				<label for="createQueryConfig" class="radio-custom-label">Create New</label>
+			</div>
+			<div class="kr-sg-radiobutton">
+				<input id="cloneQueryConfig" [(ngModel)]="newConfigObj.method" (change)='selectDefault()' name="creationType" value='clone' class="radio-custom" type="radio">
+				<label for="cloneQueryConfig" class="radio-custom-label">Clone Configuration</label>
+			</div>
+			<div class="kr-sg-input-text pt-4">
+				<div class="label-text" >Name of Configuration</div>
+				<input type="text" placeholder="Placeholder text" [(ngModel)]="newConfigObj.name" class="input-text">
+			</div>
+			<div class="pt-4" *ngIf="newConfigObj.method === 'clone'">
+				<div class="kr-sg-radiobutton d-block" *ngFor="let config of queryConfigs; let i = index">
+					<input id="{{config._id}}" [(ngModel)]="newConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
+					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
+				</div> 
+			</div>
+		</div>
+		<ng-container *ngIf="newConfigObj.method === 'clone'">
+			<div class="kr-sg-dropdowns mb-2 pb-1">
+				<div class="label-text">Select the configuration you would like to clone</div>                            
+				<div class="kr-sg-input-inline-search dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+					<input type="text" placeholder="Search" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+					<img src="assets/icons/search_gray.svg" class="search-icon">                                                           
+					<ul class="dropdown-menu content-menu">
+						<perfect-scrollbar class="state-code-perfect-scroll" [disabled]="workflowService.disablePerfectScroll">
+							<li><a>Option1</a></li>
+							<li><a>Option1</a></li>
+							<li><a>Option1</a></li>
+							<li><a>Option1</a></li>
+						</perfect-scrollbar>
+					</ul>
+				</div>                        
+			</div>
+	
+			<div class="group-radiobutton in-clone">			
+				<div class="kr-sg-radiobutton d-block m-0">
+					<input id="radio-32" name="radio" class="radio-custom" type="radio">
+					<label for="radio-32" class="radio-custom-label">Default</label>
+				</div> 
+				<div class="kr-sg-radiobutton d-block m-0">
+					<input id="radio-33" name="radio" class="radio-custom" type="radio">
+					<label for="radio-33" class="radio-custom-label">Search Configuration A</label>
+				</div> 
+				<div class="kr-sg-radiobutton d-block m-0">
+					<input id="radio-34" name="radio" class="radio-custom" type="radio">
+					<label for="radio-34" class="radio-custom-label">Search Configuration B</label>
+				</div> 
+				<div class="kr-sg-radiobutton d-block m-0">
+					<input id="radio-35" name="radio" class="radio-custom" type="radio">
+					<label for="radio-35" class="radio-custom-label">Search Configuration c</label>
+				</div> 
+			</div>
+		</ng-container> 	
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer text-left">
+        <button type="button" [disabled]="!newConfigObj.name" class="kr-sg-button-primary btn_lg float-right" (click)="createConfig()">Add</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+    </div>    
+</kr-modal>

@@ -14,12 +14,13 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
-
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import {HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthGuard} from '@kore.services/auth.guard';
 import {AuthInterceptor } from '@kore.services/inteceptors/auth-interceptor';
 import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
 import { AppDataResolver} from '@kore.services/resolvers/app.data.resolve';
+import { QueryPipelineResolver} from '@kore.services/resolvers/query.pipeline.resolve';
 import { SideBarService } from '@kore.services/header.service';
 import { ToastrModule } from 'ngx-toastr';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -91,6 +92,7 @@ import { DateRangePickerComponent } from './helpers/components/date-range-picker
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { ExperimentsComponent } from './components/experiments/experiments.component';
+import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -154,7 +156,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DateRangePickerComponent,
     RecordPaginationComponent,
     FieldManagementComponent,
-    ExperimentsComponent
+    ExperimentsComponent,
+    FieldManagementComponent,
+    AppExperimentsComponent
     ],
   imports: [
     BrowserModule,
@@ -204,7 +208,16 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       multi: true,
     },
     SortPipe,
-    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML, MatDatepickerModule
+    AuthGuard,
+    AppDataResolver,
+    QueryPipelineResolver,
+    AccountsDataService,
+    SideBarService,
+    NgbActiveModal ,
+    MatSnackBar ,
+    ConvertMDtoHTML,
+    MatDatepickerModule ,
+    AppSelectionService
   ],
   bootstrap: [AppComponent]
 })

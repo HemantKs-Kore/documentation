@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-result-ranking',
   templateUrl: './result-ranking.component.html',
   styleUrls: ['./result-ranking.component.scss']
 })
-export class ResultRankingComponent implements OnInit {
+export class ResultRankingComponent implements OnInit, OnDestroy {
   actionLogData : any;
   time;
- 
   iconIndex;
   actionIndex;
   selectedApp;
@@ -29,14 +30,13 @@ export class ResultRankingComponent implements OnInit {
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
-  
+  subscription: Subscription;
   timeLogData : any;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
-    private notificationService: NotificationService) { }
-   
-
+    private notificationService: NotificationService,
+    private appSelectionService:AppSelectionService) { }
   ngOnInit(): void {
 
 
@@ -152,9 +152,16 @@ export class ResultRankingComponent implements OnInit {
   //   }]
   this.selectedApp = this.workflowService.selectedApp();
   this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-  this.getcustomizeList();
-  
+  this.loadCustomRankingList();
+  this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.loadCustomRankingList();
+  })
+  }
+  loadCustomRankingList(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getcustomizeList();
+    }
   }
   showLogs(){
     this.resultLogs = true;
@@ -334,6 +341,8 @@ export class ResultRankingComponent implements OnInit {
   }
   closeLogs(){
     this.resultLogs = false;
-
+}
+ngOnDestroy(){
+  this.subscription?this.subscription.unsubscribe(): false;
 }
 }
