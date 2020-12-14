@@ -4,8 +4,8 @@
         <span class="please-wait-message">Please Wait!</span>
     </div>
     <div class="header_sec">
-        <div class="title">Index Configuration</div>
-        <!-- <div class="title" (click)="openModalPopup()">Index Configuration</div> -->
+        <!-- <div class="title">Index Configuration</div> -->
+        <div class="title" (click)="openModalPopup()">Index Configuration</div>
         <div class="btn_sec">            
             <button class="kr-sg-button-secondary btn_lg" [disabled]='savingConfig'  (click)="saveConfig()">{{(savingConfig)?'Saving...':'Save Configuration'}}</button>
             <!-- <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button> -->
