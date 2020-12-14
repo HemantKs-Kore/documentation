@@ -1,4 +1,3 @@
-
 <div class="manage-findlyion-popup" *ngIf="!data.confirmationPopUp">
   <div class="m-header text-center">{{data.title}}</div>
   <div class="m-body">
@@ -14,33 +13,12 @@
   </div>
 </div>
 
-<!-- <div class="manage-findlyion-popup d-none" *ngIf="data.confirmationPopUp">
-  <div class="m-header text-center">Do you really want to delete?</div>
-  <div class="m-body">
-    <div class="info-text">Deleting Question field will impact Facets, Weights and Rules and Personalization as it is being used in all the three Search Configuration.</div>
-    <div class="info-text">{{data.text1}} <span class="clickable-text" (click)="onClickLearnMore()" *ngIf="showLearnMore">Learn More</span></div>
-    <div class="info-text" *ngIf="data.text2">{{data.text2}}</div>
-  </div>
-  <div class="m-footer">
-    <button class="kr-sg-button-secondary btn_lg ml-2" (click)="onClickOption(item)" >Cancel</button>
-    <button class="kr-sg-button-primary btn_lg ml-2" (click)="deleteTraitsGroup(index,traitGroup,$event)">Proceed</button>
-
-    <button *ngFor="let item of data.buttons" [disabled]="isSelected" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{'kr-sg-button-secondary': (item.label==='Cancel') || (item.primaryBtn),'dangerBtn':item.label==='Proceed'}">
-      <span *ngIf="item.label=='Delete'; else cancel"> Proceed</span>
-      <ng-template #cancel>
-         {{item.label}} 
-      </ng-template>
-      <div class="loader-in-button ml-2"*ngIf="item.key === 'save' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>
-    </button>
-  </div>
-</div> -->
-
 <div class="new-delete-popup" *ngIf="data.confirmationPopUp">
   <div class="header-sec row m-0">
-    <div class="title col-10 pl-0 pr-3">Do you really want to delete?</div>
-    <div class="col-2 p-0 close-popup"><img src="assets/icons/close.svg"></div>
+    <div class="title col-10 pl-0 pr-3">{{data.newTitle}}</div>
+    <div class="col-2 p-0 close-popup"(click)="dialogRef.close()"><img src="assets/icons/close_field.svg"></div>
   </div>
-  <div class="body-info">Deleting Question field will impact Facets, Weights and Rules and Personalization as it is being used in all the three Search Configuration.</div>
+  <div class="body-info">{{data.body}}</div>
   <div class="btns-data">
     <!-- <button class="kr-sg-button-primary btn_lg mr-10">Confirm</button>
     <button class="kr-sg-button-secondary btn_lg mr-10">Cancel</button> -->
@@ -48,7 +26,7 @@
       <ng-template #cancel>
         {{item.label}} 
      </ng-template>
-     <span *ngIf="item.label=='Delete'; else cancel"> Proceed</span>      
+     <span *ngIf="item.label=='Delete'|| item.label=='OK'; else cancel"> Proceed</span>      
       <div class="loader-in-button ml-2"*ngIf="item.key === 'save' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>
     </button>
   </div>

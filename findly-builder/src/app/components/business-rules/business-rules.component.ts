@@ -435,13 +435,16 @@ export class BusinessRulesComponent implements OnInit , OnDestroy {
   }
   deleteRulePop(rule,i){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete rule',
         text: 'Are you sure you want to delete selected rule?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Delete rule',
+        body: 'Are you sure you want to delete selected rule?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -457,13 +460,16 @@ export class BusinessRulesComponent implements OnInit , OnDestroy {
   }
   deleteMultiePop(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete selected rules',
         text: 'Are you sure you want to delete selected rules?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected rules?',
+        body:'Selected rules will be deleted',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 

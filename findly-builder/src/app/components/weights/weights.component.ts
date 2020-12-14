@@ -121,12 +121,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
+        newTitle: 'Are you sure you want to restore weights?',
+        body:'Weights will be restored.',
         buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
       }
     });
@@ -264,13 +266,16 @@ export class WeightsComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected rankable field?',
+        body:'Selected rankable field will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect

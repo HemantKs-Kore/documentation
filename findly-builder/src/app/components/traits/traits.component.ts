@@ -286,8 +286,10 @@ export class TraitsComponent implements OnInit {
       data: {
         title: 'Delete Trait group',
         text: 'Are you sure you want to delete Trait group?',
+        newTitle:'Are you sure you want to delete Trait group?',
+        body:'The selected trait group will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        // confirmationPopUp: true,
+        confirmationPopUp:true
       }
 
     });
@@ -553,14 +555,16 @@ export class TraitsComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {    
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
+        newTitle:'Are you sure you want to delete Trait ?',
+        body:'The selected trait will be deleted. ',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        // confirmationPopUp: true,
+        confirmationPopUp:true
       }
 
     });

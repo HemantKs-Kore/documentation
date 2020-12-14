@@ -545,13 +545,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     }
     if(this.changesDetected){
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
-        height: '306px',
+        width: '530px',
+        height: 'auto',
         panelClass: 'delete-popup',
         data: {
           title: 'Are you sure',
           text: 'There are usaved changes, Are you sure you want to reindex without saving them?',
-          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+          newTitle:'There are usaved changes, Are you sure you want to reindex without saving them?',
+          body:'The changes are unsaved.',
+          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp:true
         }
       });
       dialogRef.componentInstance.onSelect
@@ -646,13 +649,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   removeStage(i){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stage',
         text: 'Are you sure you want to delete selected stage?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected stage?',
+        body:'Selected stage will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -737,13 +743,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   deleteFieldPop(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Field',
         text: 'Are you sure you want to delete selected field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected field?',
+        body:'Selected field will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -793,13 +802,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   confirmChangeDiscard(newstage?,i?){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Discard current changes',
         text: 'Are you sure you want to discard current?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to discard current?',
+        body:'Current changes will be discarded.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
