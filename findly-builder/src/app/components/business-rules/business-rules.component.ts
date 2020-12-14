@@ -438,7 +438,7 @@ export class BusinessRulesComponent implements OnInit {
   }
   deleteMultiePop(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
