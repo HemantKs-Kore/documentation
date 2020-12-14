@@ -141,12 +141,15 @@ export class FieldManagementComponent implements OnInit {
   deleteFieldPop(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Field',
         text: 'Are you sure you want to delete selected field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle:'Do you really want to delete?',
+        body:'Deleting question field will remove the associated Facets & Weights and will impact 5 Business Rules.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 

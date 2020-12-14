@@ -176,12 +176,15 @@ export class StopWordsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Restore Stop Words',
         text: 'Are you sure you want to restore Stop Words?',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
+        newTitle:'Are you sure you want to restore Stop Words?',
+        body:'Selected stop words will be restored.',
+        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -204,12 +207,15 @@ export class StopWordsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle:'Are you sure you want to delete selected Stop Word?',
+        body:'Selected stop word will be deleted',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 

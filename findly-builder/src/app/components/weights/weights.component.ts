@@ -252,12 +252,15 @@ export class WeightsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected rankable field?',
+        body:'Selected rankable field will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect

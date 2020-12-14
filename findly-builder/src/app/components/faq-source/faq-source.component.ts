@@ -479,13 +479,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   confirmFAQswitch(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Confirm',
       text: 'The changes made on this FAQ are not yet saved.',
       text1:'Do you want to switch to another FAQ?',
-        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }]
+        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }],
+        confirmationPopUp:true
       }
     });
 
@@ -740,12 +741,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   deleteInfividualQuestion(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete FAQ',
         text: 'Are you sure you want to delete selected question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -765,12 +767,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Resource',
         text: 'Are you sure you want to delete ?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -786,12 +789,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   deleteQuestion(type,record,event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete FAQ',
         text: 'Are you sure you want to delete selected question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -811,12 +815,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   deleteAltQuestion(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Alternate Question',
         text: 'Are you sure you want to delete selected alternate question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -857,12 +862,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   delAltQues(ques) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: '306',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Alternate Question',
         text: 'Are you sure you want to delete this alternate question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        // confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -881,12 +887,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   delFollowQues(ques) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Followup Question',
         text: 'Are you sure you want to delete this followup question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect

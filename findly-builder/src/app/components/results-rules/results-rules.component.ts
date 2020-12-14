@@ -394,12 +394,15 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '446px',
-        height: '306px',
+        height: 'auto',
         panelClass: 'delete-popup',
         data: {
           title: 'Delete Rule',
           text: 'Are you sure you want to delete this rule?',
-          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+          newTitle: 'Are you sure you want to delete this rule?',
+          body:'Selected rule will be deleted.',
+          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp:true
         }
       });
       dialogRef.componentInstance.onSelect
