@@ -36,8 +36,8 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   newStageObj:any = {
     addNew: false,
   }
-  filelds:any = [];
-  fileldsData:any = [];
+  fields:any = [];
+  newfieldsData:any = [];
   loadingFields = true;
   selectedStage;
   changesDetected;
@@ -476,7 +476,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       panelClass: 'delete-popup',
       data: {
         title: 'Stage configuration is successfully saved',
-        text: 'You have added four new fields in your configuration. Do you wish to define properties for them?',
+        text: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
         buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }]
       }
     });
@@ -508,7 +508,10 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       if(index !== 'null' && index !== undefined && (index>-1)){
        this.currentEditIndex = -1
       }
-      this.checkForNewFields();
+      if(res && res.targetFields && res.targetFields.length){
+        this.newfieldsData =  res.targetFields || [];
+        this.checkForNewFields();
+      }
       this.clearDirtyObj();
       this.setResetNewMappingsObj(null,true);
     }, errRes => {
@@ -673,7 +676,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     const payload:any = {
       fields:[]
     }
-    this.filelds.forEach(field => {
+    this.newfieldsData.forEach(field => {
       const tempPayload:any = {
         fieldName: field.fieldName,
         fieldDataType: field.fieldDataType,
@@ -682,7 +685,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         isStored: field.isStored,
         isIndexed: field.isIndexed,
       }
-      payload.fields.push(tempPayload);
+      if(field.isActive){
+        payload.fields.push(tempPayload);
+      }
     });
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -708,7 +713,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       limit:200
     };
     this.service.invoke('get.allField', quaryparms).subscribe(res => {
-      this.filelds=  res.fields || [];
+      this.fields=  res.fields || [];
       this.loadingFields = false;
     }, errRes => {
       this.loadingFields = false;
@@ -721,10 +726,10 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       fieldId:record._id,
     };
     this.service.invoke('delete.deleteField', quaryparms).subscribe(res => {
-      const deleteIndex = _.findIndex(this.filelds, (pg) => {
+      const deleteIndex = _.findIndex(this.fields, (pg) => {
         return pg._id === record._id;
       })
-      this.filelds.splice(deleteIndex,1);
+      this.fields.splice(deleteIndex,1);
       dialogRef.close();
     }, errRes => {
       this.errorToaster(errRes,'Failed to delete field');

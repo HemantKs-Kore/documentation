@@ -381,7 +381,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">Please Wait!</span>
     </div>
-    <div class="table_sec" *ngIf="!filelds.length && !loadingFields">
+    <div class="table_sec" *ngIf="!newfieldsData.length && !loadingFields">
             <div class="empty-list">
                 <ng-container>
                     <img src="assets/images/icons/empty_ill.svg">
@@ -390,7 +390,7 @@
                 </ng-container>
             </div> 
     </div>
-    <div class="modal-body textAlignLeft" *ngIf="!loadingFields && filelds.length">
+    <div class="modal-body textAlignLeft" *ngIf="!loadingFields && newfieldsData.length">
             <!-- DATA TABLE START HERE -->
                             <div class="kr-sg-data-table">
                                 <section class="table-content">
@@ -402,8 +402,13 @@
                                         <div class="col">Stored</div>
                                         <div class="col">Indexed</div>
                                     </header>
-                                    <div class="content-body" *ngFor="let field of filelds ;let i = index;">
-                                        <div class="col">{{field.fieldName}}</div>
+                                    <div class="content-body" *ngFor="let field of newfieldsData ;let i = index;">
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="fieldMultiValue{{i}}" class="checkbox-custom" [(ngModel)]="field.isActive" type="checkbox">
+                                                <label for="fieldMultiValue{{i}}" class="checkbox-custom-label">{{field.fieldName}}</label>
+                                            </div> 
+                                        </div>
                                         <div class="col">{{field.fieldDataType | translate}}</div>
                                         <div class="col">
                                             <div class="kr-sg-checkbox">
