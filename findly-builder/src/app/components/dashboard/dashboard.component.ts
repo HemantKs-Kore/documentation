@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { Router } from '@angular/router';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,6 +67,13 @@ export class DashboardComponent implements OnInit {
   slider = 0;
   dateType= "hour";
   group = "hour";
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  defaultSelectedDay = 7;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private router: Router,
@@ -93,6 +103,22 @@ export class DashboardComponent implements OnInit {
   }
   viewAll(route){
     this.router.navigate([route], { skipLocationChange: true });
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+    }
   }
   tab(index){
     this.slider = index

@@ -106,7 +106,7 @@
                 <div class="desc-text">Create a credential to associate it with the channel</div>
                 <div class="kr-sg-input-text">
                     <div class="label-text">Credential Name</div>
-                    <input type="text" placeholder="Type Name" class="input-text" [(ngModel)]="credntial.name">
+                    <input type="text" placeholder="Type Name" class="input-text" [(ngModel)]="credntial.name" required> 
 
 
                 </div>
@@ -125,8 +125,8 @@
                 <div class="kr-sg-dropdowns">
                     <div class="label-text">JWT Signing Algorithm Used For Client App Authentication</div>
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
-                            {{credntial.awt}}</button>
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" required>
+                            {{ credntial.awt ? credntial.awt: 'Select Signing Algorithm'}}</button>
                         <ul class="dropdown-menu content-menu">
                             <li (click)="jwtAuth('RS256')"><a>RS256</a></li>
                             <li (click)="jwtAuth('HS256')"><a>HS256</a></li>
@@ -162,19 +162,19 @@
                         <div class="label-text">App Name</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
-                                <input type="text" placeholder="My Findly" class="input-text" [value]="listData.appName"
+                                <input type="text"  class="input-text" [value]="selectedApp.name"
                                     readonly>
                             </div>
                             <div class="copy-btn"><img src="assets/images/icons/copy.svg"
-                                    (click)="copy(listData.appName,clipAppName)">Copy</div>
+                                    (click)="copy(selectedApp.name,clipAppName)">Copy</div>
                         </div>
                     </div>
                     <div class="input-data">
                         <div class="label-text">App ID</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
-                                <input type="text" placeholder="st-94546b80-7683-52a9-b3ec-99ec1b338ead"
-                                    class="input-text" [value]="listData.accountId" readonly>
+                                <input type="text"
+                                    class="input-text" [value]="selectedApp._id" readonly>
                             </div>
                             <div class="copy-btn"><img src="assets/images/icons/copy.svg"
                                     (click)="copy(listData.accountId,clipAppID)">Copy</div>
@@ -184,7 +184,7 @@
                         <div class="label-text">Client ID</div>
                         <div class="input-box mb-4">
                             <div class="kr-sg-input-text">
-                                <input type="text" placeholder="cs-506d9889-749f-5a68-a100-5b3c5e42da35"
+                                <input type="text"
                                     class="input-text" [value]="listData.clientId" readonly>
                             </div>
                             <div class="copy-btn"><img src="assets/images/icons/copy.svg"
@@ -235,7 +235,7 @@
             </div>
             <div>
                 <button class="kr-sg-button-secondary btn_lg mr-3" *ngIf=!existingCredential (click)="back()">Back</button>
-                <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3"> Continue</button>
+                <button class="kr-sg-button-primary btn_lg" (click)="continue()"  *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)" > Continue</button>
                 <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3"
                     (click)="configureCredential()">Save</button>
 

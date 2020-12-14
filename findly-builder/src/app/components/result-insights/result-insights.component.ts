@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 @Component({
   selector: 'app-result-insights',
@@ -73,6 +76,13 @@ export class ResultInsightsComponent implements OnInit {
   Q_totalRecord:number;
   Q_limitPage : number = 10;
   Q_skipPage:number = 0;
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  defaultSelectedDay = 7;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -93,6 +103,23 @@ export class ResultInsightsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     
     this.getQueries("Results");
+  }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+    }
   }
   dateLimt(type){
     this.dateType = type;

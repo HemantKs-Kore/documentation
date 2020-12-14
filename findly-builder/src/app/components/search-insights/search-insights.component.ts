@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+
 
 @Component({
   selector: 'app-search-insights',
@@ -32,6 +36,13 @@ export class SearchInsightsComponent implements OnInit {
   SQR_limitPage : number = 10;
   SQR_skipPage:number = 0;
 
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  defaultSelectedDay = 7;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -44,6 +55,23 @@ export class SearchInsightsComponent implements OnInit {
     this.getQueries("QueriesWithResults");
     //this.getQueries("GetSearchQueriesResults");
     
+  }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+    }
   }
   dateLimt(type){
     this.dateType = type;

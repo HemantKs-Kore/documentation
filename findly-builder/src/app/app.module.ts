@@ -90,6 +90,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
@@ -197,7 +198,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       timeOut: 5000,
       autoDismiss	: false,
       closeButton : true
-    })
+    }),
+    NgxDaterangepickerMd.forRoot()
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],
@@ -219,6 +221,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatDatepickerModule ,
     AppSelectionService
   ],
+  // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
