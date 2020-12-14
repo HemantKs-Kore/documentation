@@ -48,7 +48,7 @@
                             <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                             <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                         </div>
-                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')"   src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{facet.showFieldWarning}}'></div>
+                        <div class="title"><img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{facet.showFieldWarning}}'>{{facet.facetName}}</div>
                     </div>
                     <div class="col-2 content">{{facet.facetType | translate}}</div>
                     <div class="col-2 content">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
