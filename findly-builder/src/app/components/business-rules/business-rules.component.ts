@@ -413,7 +413,7 @@ export class BusinessRulesComponent implements OnInit {
   }
   deleteRulePop(rule,i){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
@@ -444,6 +444,8 @@ export class BusinessRulesComponent implements OnInit {
       data: {
         title: 'Delete selected rules',
         text: 'Are you sure you want to delete selected rules?',
+        newTitle: 'Are you sure you want to delete selected rules?',
+        body:'Selected rules will be deleted',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }

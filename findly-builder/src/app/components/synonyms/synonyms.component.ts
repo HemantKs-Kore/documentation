@@ -189,8 +189,8 @@ export class SynonymsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: 'auto',
+      width: '530px',
+      height: '236px',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Synonym',

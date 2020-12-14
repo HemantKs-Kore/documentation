@@ -175,7 +175,7 @@ export class StopWordsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
@@ -206,7 +206,7 @@ export class StopWordsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {

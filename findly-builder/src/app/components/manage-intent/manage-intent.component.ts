@@ -317,7 +317,7 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
   deleteAltQuestion(index) {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
@@ -400,7 +400,7 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
 
   onClickDeleteFaq(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {

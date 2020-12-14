@@ -393,7 +393,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
     });
     this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res=>{
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
+        width: '530px',
         height: 'auto',
         panelClass: 'delete-popup',
         data: {

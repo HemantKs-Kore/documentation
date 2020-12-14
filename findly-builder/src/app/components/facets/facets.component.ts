@@ -287,12 +287,14 @@ export class FacetsComponent implements OnInit {
   }
   deleteFacets(facet?,bulk?){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete facet',
         text: 'Are you sure you want to delete selected facet?',
+        newTitle: 'Are you sure you want to delete selected facet?',
+        body:'Selected facet will be deleted',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }

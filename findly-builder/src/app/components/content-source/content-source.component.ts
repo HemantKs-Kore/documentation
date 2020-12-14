@@ -533,12 +533,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title:'Delete Document ',
         text: 'Are you sure you want to delete selected document?',
+        newTitle: 'Are you sure you want to delete selected document?',
+        body:'The selected document will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -559,12 +561,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete selected record?',
+       newTitle: 'Are you sure you want to delete selected record?',
+       body:'The selected record will be deleted',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }

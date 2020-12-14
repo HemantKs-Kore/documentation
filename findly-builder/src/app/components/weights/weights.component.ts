@@ -109,12 +109,14 @@ export class WeightsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
+        newTitle: 'Are you sure you want to restore weights?',
+        body:'Weights will be restored.',
         buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
       }
     });
@@ -251,7 +253,7 @@ export class WeightsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
