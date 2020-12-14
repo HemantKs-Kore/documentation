@@ -103,6 +103,7 @@ export class DashboardComponent implements OnInit {
   }
   viewAll(route){
     this.router.navigate([route], { skipLocationChange: true });
+  }
   openDateTimePicker(e) {
     setTimeout(() => {
       this.pickerDirective.open(e);

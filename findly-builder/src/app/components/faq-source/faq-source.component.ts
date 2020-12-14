@@ -602,7 +602,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         defaultAnswers: event._source.defaultAnswers || [],
         conditionalAnswers: event._source.conditionalAnswers || [],
         alternateQuestions: event._source.alternateQuestions || [],
-        followupQuestions: event._meta.followupQuestions || [],
+        followupQuestions: event.followupQuestions || [],
         keywords: event._source.tags,
         state: this.selectedFaq._meta.state
         };
