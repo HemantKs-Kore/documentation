@@ -89,6 +89,7 @@ export class SummaryComponent implements OnInit {
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
+    this.getChannel();
   }
   getSummary() {
     this.loading = false;

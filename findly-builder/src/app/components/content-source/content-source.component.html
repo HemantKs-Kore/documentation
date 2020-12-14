@@ -617,12 +617,12 @@
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
                   </div>
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [checked]="isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
-                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [checked]="isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
                   <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "useCookies" [checked]="useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
-                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
+                    <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name = "useCookies" [checked]="useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
+                    <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
               </div> 
             
@@ -863,7 +863,7 @@
                 </div>
               </div>
             </div>
-            <app-record-pagination [totalRecord]='25' [limitpage]='25' (pageChanged)="paginate($event)"></app-record-pagination>
+            <app-record-pagination [totalRecord]='executionHistoryData.length' [limitpage]='25' (pageChanged)="paginate($event,'history')"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>
