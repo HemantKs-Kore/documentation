@@ -53,7 +53,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadWeights();
-    this. subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.loadWeights();
     })
   }
@@ -65,6 +65,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   }
   selectedField(event){
       this.addEditWeighObj.fieldName = event.fieldName;
+      this.addEditWeighObj.fieldId = event._id;
       this.addEditWeighObj.name = event.fieldName;
   }
    getFieldAutoComplete(query){
@@ -91,6 +92,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
           name : element.name,
           desc : element.desc,
           isField:element.isField,
+          fieldId:  element.fieldId,
           sliderObj :new RangeSlider(0, 10, 1, element.value,name + i)
          }
          this.weights.push(obj);
@@ -217,7 +219,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
       name: weight.name,
       value:weight.sliderObj.default,
       desc:weight.desc,
-      isField: weight.isField
+      isField: weight.isField,
+      fieldId: weight.fieldId
      }
      tempweights.push(obj);
    });

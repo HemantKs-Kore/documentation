@@ -46,9 +46,9 @@
                         <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
                         <div class="kr-sg-checkbox p-0 m-0">
                             <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
-                            <label for="{{facet._id}}" class="checkbox-custom-label"></label>
+                            <label for="{{facet._id}}" class="checkbox-custom-label"></label><img *ngIf="facets.showFieldWarning && (facets.showFieldWarning === 'false')" container="body"  ngbTooltip='{{facets.showFieldWarning || "what every is working lets give it to qa what every is working lets give it to qa"}}' ngb src="assets/icons/info-blue.svg">
                         </div>
-                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facet.isFieldNameExists === false"  src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='Associated Field is deleted or renamed.'></div>
+                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facets.showFieldWarning && (facets.showFieldWarning === 'false')"   src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{facets.showFieldWarning || "what every is working lets give it to qa what every is working lets give it to qa"}}'></div>
                     </div>
                     <div class="col-2 content">{{facet.facetType | translate}}</div>
                     <div class="col-2 content">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
@@ -205,8 +205,8 @@
         </ng-container>  
      </div>
     </perfect-scrollbar> 
-    <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldName === selectedField.fieldName)'>          
-        <button type="button" class="kr-sg-button-primary btn_lg float-right"  [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldName !== selectedField.fieldName))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
+    <div class="modal-footer" *ngIf="addEditFacetObj" [placement]="'top-right'" ngbTooltip="Please search and select a valid field" [disableTooltip]='(selectedField && addEditFacetObj.fieldId === selectedField.fieldId)'>          
+        <button type="button" class="kr-sg-button-primary btn_lg float-right"  [disabled]='(!addEditFacetObj._id && !selectedField) || !addEditFacetObj.facetName || (selectedField && (addEditFacetObj.fieldId !== selectedField.fieldId))' (click)="addOrUpdate()">{{addEditFacetObj._id?'Save':'Add'}}</button>        
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModal()">{{'facets.cancel'| translate}}</button>
         <button type="button"  class="kr-sg-button-danger btn_lg float-left" (click)="deleteFacets(addEditFacetObj)">{{'facets.delete'| translate}}</button>
       

@@ -449,31 +449,31 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.allFacets'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
       method: 'get'
     }
     this.serviceList['create.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/',
       method: 'post'
     }
     this.serviceList['reorder.facets'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/facetOrder',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/facetOrder',
       method: 'put'
     }
     this.serviceList['update.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'put'
     }
     this.serviceList['update.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'put'
     }
     this.serviceList['delete.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'delete'
     }
     this.serviceList['delete.bulkFacet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/facets/bulk',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/bulk',
       method: 'delete'
     }
     this.serviceList['get.extractedResult_RR'] = {
@@ -533,27 +533,27 @@ export class EndPointsService {
 
      /** APIs for Business rules */
      this.serviceList['get.businessRules'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
       method: 'get'
     },
     this.serviceList['create.businessRules'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp',
       method: 'post'
     },
     this.serviceList['get.businessRuleById'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'get'
     }
     this.serviceList['update.businessRule'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'put'
     }
     this.serviceList['delete.businessRule'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'delete'
     }
     this.serviceList['delete.businessRulesBulk'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/bulk',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/bulk',
       method: 'delete'
     }
     this.serviceList['get.businessRulesLog'] = {

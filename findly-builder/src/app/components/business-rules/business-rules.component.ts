@@ -1,4 +1,4 @@
-import { ElementRef, ViewChild } from '@angular/core';
+import { ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -14,13 +14,15 @@ import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map } from 'rxjs/operators';
 import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
   templateUrl: './business-rules.component.html',
   styleUrls: ['./business-rules.component.scss']
 })
-export class BusinessRulesComponent implements OnInit {
+export class BusinessRulesComponent implements OnInit , OnDestroy {
   addBusinessRulesRef:any;
   selectedApp;
   serachIndexId;
@@ -57,6 +59,7 @@ export class BusinessRulesComponent implements OnInit {
   defaultOutcomeObj: any = {
     fieldDataType: 'string',
     fieldName: '',
+    fieldId:'',
     outcomeOperator: 'contains',
     outcomeType: 'boost',
     outcomeValue: [],
@@ -71,6 +74,8 @@ export class BusinessRulesComponent implements OnInit {
   rulesArrayforAddEdit:any = [];
   outcomeArrayforAddEdit:any = [];
   fieldAutoSuggestion: any = [];
+  subscription: Subscription;
+  queryPipelineId
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('addBusinessRules') addBusinessRules: KRModalComponent;
@@ -79,14 +84,24 @@ export class BusinessRulesComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    private sortPipe: SortPipe
+    private sortPipe: SortPipe,
+    private appSelectionService:AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.loadRules();
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+      this.loadRules();
+    })
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
-    this.getRules();
     this.getFieldAutoComplete(null,null);
+  }
+  loadRules(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getRules();
+    }
   }
   createNewRule(){
     this.addEditRuleObj = {
@@ -169,7 +184,8 @@ export class BusinessRulesComponent implements OnInit {
         outcomeType: outcome.outcomeType,
         scale: outcome.scale,
         fieldName: outcome.fieldName,
-        fieldDataType:outcome.fieldDataType,
+        fieldId: outcome.fieldId,
+        // fieldDataType:outcome.fieldDataType,
         outcomeOperator: outcome.outcomeOperator,
         outcomeValue:outcome.outcomeValue
       }
@@ -227,12 +243,14 @@ export class BusinessRulesComponent implements OnInit {
       console.log(data.option.value);
       outcomeObj.fieldDataType = data.option.value.fieldDataType
       outcomeObj.fieldName= data.option.value.fieldName
+      outcomeObj.fieldId= data.option.value._id
       this.suggestedInput.nativeElement.value = '';
       this.fieldAutoSuggestion = [];
   }
   selectField(data, outcomeObj) {
     outcomeObj.fieldDataType = data.fieldDataType
     outcomeObj.fieldName= data.fieldName
+    outcomeObj.fieldId=  data._id;
     this.fieldAutoSuggestion = [];
 }
   checkDuplicateTags(suggestion: string,alltTags): boolean {
@@ -312,6 +330,7 @@ export class BusinessRulesComponent implements OnInit {
   createRule(){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId
     };
     const payload:any ={
       ruleName: this.addEditRuleObj.ruleName,
@@ -357,6 +376,7 @@ export class BusinessRulesComponent implements OnInit {
   getRules(offset?){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
       offset: offset || 0,
       limit:100
     };
@@ -373,6 +393,7 @@ export class BusinessRulesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       ruleId:rule._id,
+      queryPipelineId:this.queryPipelineId,
       limit:100
     };
     this.service.invoke('get.businessRuleById', quaryparms).subscribe(res => {
@@ -384,6 +405,7 @@ export class BusinessRulesComponent implements OnInit {
   updateRule(rule){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
       ruleId:rule._id,
     };
     const payload:any ={
@@ -458,6 +480,7 @@ export class BusinessRulesComponent implements OnInit {
   deleteSelectedRules(dialogRef) {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
       limit:100
     };
     const payload: any = {
@@ -487,6 +510,7 @@ export class BusinessRulesComponent implements OnInit {
   deleteRule(rule,i,dilogRef) {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      queryPipelineId:this.queryPipelineId,
       ruleId:rule._id,
       limit:100
     };
@@ -542,4 +566,7 @@ export class BusinessRulesComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
+ ngOnDestroy(){
+  this.subscription?this.subscription.unsubscribe(): false;
+}
 }
