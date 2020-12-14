@@ -287,7 +287,7 @@ export class TraitsComponent implements OnInit {
         title: 'Delete Trait group',
         text: 'Are you sure you want to delete Trait group?',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true,
+        // confirmationPopUp: true,
       }
 
     });
@@ -560,7 +560,7 @@ export class TraitsComponent implements OnInit {
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true,
+        // confirmationPopUp: true,
       }
 
     });
