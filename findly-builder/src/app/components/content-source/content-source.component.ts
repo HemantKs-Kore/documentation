@@ -414,13 +414,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   this.isConfig = true;
     // }
   }
-  executionHistory(){
+  executionHistory(limit?,skip?){
+    if(!limit) limit = 100;
+    if(!skip) skip = 0;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       extractionSourceId: this.selectedSource._id,
-      limit : 100,
-      skip : 0,
+      limit : limit,
+      skip : skip,
       sourceType: 'content'
     };
     this.service.invoke('get.executionHistory', quaryparms).subscribe(res => {
@@ -525,10 +527,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  paginate(event){
-    this.getCrawledPages(event.limit, event.skip);
-    this.perfectScroll.directiveRef.update();
-    this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+  paginate(event,type?){
+    if(type == 'history'){
+      this.executionHistory()
+    }else{
+      this.getCrawledPages(event.limit, event.skip);
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+    }
+    
   }
   onClickArrow(newStart, newEnd, offset, time) {
     let preStart = this.recordStr;

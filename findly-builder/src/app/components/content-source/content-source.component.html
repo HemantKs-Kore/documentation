@@ -863,7 +863,7 @@
                 </div>
               </div>
             </div>
-            <app-record-pagination [totalRecord]='25' [limitpage]='25' (pageChanged)="paginate($event)"></app-record-pagination>
+            <app-record-pagination [totalRecord]='executionHistoryData.length' [limitpage]='25' (pageChanged)="paginate($event,'history')"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>
