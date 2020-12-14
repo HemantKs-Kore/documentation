@@ -46,9 +46,9 @@
                         <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
                         <div class="kr-sg-checkbox p-0 m-0">
                             <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
-                            <label for="{{facet._id}}" class="checkbox-custom-label"></label><img *ngIf="facets.showFieldWarning && (facets.showFieldWarning === 'false')" container="body"  ngbTooltip='{{facets.showFieldWarning || "what every is working lets give it to qa what every is working lets give it to qa"}}' ngb src="assets/icons/info-blue.svg">
+                            <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                         </div>
-                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facets.showFieldWarning && (facets.showFieldWarning === 'false')"   src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{facets.showFieldWarning || "what every is working lets give it to qa what every is working lets give it to qa"}}'></div>
+                        <div class="title">{{facet.facetName}}<img class="pl-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')"   src="assets/icons/warning_escalation.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{facet.showFieldWarning}}'></div>
                     </div>
                     <div class="col-2 content">{{facet.facetType | translate}}</div>
                     <div class="col-2 content">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>

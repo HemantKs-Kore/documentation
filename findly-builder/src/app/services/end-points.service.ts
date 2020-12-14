@@ -161,6 +161,14 @@ export class EndPointsService {
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId',
       method:'put'
     };
+    this.serviceList['add.comment']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:faqId/comments',
+      method:'post'
+    };
+    this.serviceList['get.comments']={
+      endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:faqId/comments',
+      method:'get'
+    };
     this.serviceList['delete.faq']={
       endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/faq/:faqId',
       method:'delete'

@@ -168,9 +168,35 @@
                                     </div>                             
                                     <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="c-section-data">
+                                                    <perfect-scrollbar>
+                                                        <div class="body_data">
+                                                            <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
+                                                            <div class="c-data"  *ngFor="let comment of faqComments">
+                                                                <div class="user-data">
+                                                                    <div class="pro-pic">S</div>
+                                                                    <div class="user-name-data">
+                                                                        <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
+                                                                        <div class="u-time">{{comment.createdOn}}</div>
+                                                                        <div class="info-text-user">{{comment.text}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="kr-sg-input-text-area">                                                           
+                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                            </div>
+                                                        </div>
+                                                    </perfect-scrollbar>                                                   
+                                                    <div class="footer-data">
+                                                        <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
+                                                        <div class="btn_sec">
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>  
                                             </ul>
                                         </div>
                                     </div>
@@ -228,28 +254,27 @@
                                                 <div class="c-section-data">
                                                     <perfect-scrollbar>
                                                         <div class="body_data">
-                                                            <div class="intial-state d-none">This looks good! <a>Simone</a></div>
-                                                            <div class="c-data">
+                                                            <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
+                                                            <div class="c-data"  *ngFor="let comment of faqComments">
                                                                 <div class="user-data">
                                                                     <div class="pro-pic">S</div>
                                                                     <div class="user-name-data">
-                                                                        <div class="u-name">Glennys Coupe</div>
-                                                                        <div class="u-time">2 hrs ago</div>
-                                                                        <div class="info-text-user">This looks good! Simone</div>
+                                                                        <div class="u-name">{{comment.userDetails.fullName}}</div>
+                                                                        <div class="u-time">{{comment.createdOn}}</div>
+                                                                        <div class="info-text-user">{{comment.text}}</div>
                                                                     </div>
                                                                 </div>
-                                                                
                                                             </div>
                                                             <div class="kr-sg-input-text-area">                                                           
-                                                                <textarea placeholder="reply" class="input-text"></textarea>                                
+                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
                                                             </div>
                                                         </div>
                                                     </perfect-scrollbar>                                                   
                                                     <div class="footer-data">
-                                                        <div class="left_sec"><img src="assets/icons/emoji-black.svg"></div>
+                                                        <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-secondary btn_lg">Cancel</button>
-                                                            <button class="kr-sg-button-primary btn_lg">Post</button>                                                            
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
                                                         </div>
                                                     </div>
                                                 </div>  
@@ -302,14 +327,40 @@
                                         </ul>
                                     </div>
                                 </div>                             
-                                <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
-                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
-                                        <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                            
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                        <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
+                                            <div class="c-section-data">
+                                                <perfect-scrollbar>
+                                                    <div class="body_data">
+                                                        <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
+                                                        <div class="c-data"  *ngFor="let comment of faqComments">
+                                                            <div class="user-data">
+                                                                <div class="pro-pic">S</div>
+                                                                <div class="user-name-data">
+                                                                    <div class="u-name">{{comment.userDetails.fullName}}</div>
+                                                                    <div class="u-time">{{comment.createdOn}}</div>
+                                                                    <div class="info-text-user">{{comment.text}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kr-sg-input-text-area">                                                           
+                                                            <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                        </div>
+                                                    </div>
+                                                </perfect-scrollbar>                                                   
+                                                <div class="footer-data">
+                                                    <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
+                                                    <div class="btn_sec">
+                                                        <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                    </div>
+                                                </div>
+                                            </div>  
                                         </ul>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="d-flex align-items-center justify-content-end">
                                     <!-- <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button> -->
                                     <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        

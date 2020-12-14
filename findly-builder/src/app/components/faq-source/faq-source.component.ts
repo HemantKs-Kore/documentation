@@ -47,6 +47,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     selectedCount:0,
     stats:{}
   }
+  newCommentObj = {
+    comment:''
+  }
+  faqComments:any = [];
   pollingSubscriber;
   faqs:any = [];
   faqsAvailable = false;
@@ -344,6 +348,35 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
        }
      });
   }
+  clearContent(){
+    this.newCommentObj.comment = '';
+  }
+  saveComment(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      faqId:this.selectedFaq._id,
+      sourceId:this.selectedFaq.extractionSourceId || 'faq'
+    };
+    const payload:any = {
+      text:this.newCommentObj.comment
+    }
+    this.service.invoke('add.comment', quaryparms).subscribe(res => {
+      this.faqComments.push(res);
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to  comment');
+    });
+  }
+  getFaqComment(faq) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      faqId:faq._id,
+      sourceId:faq.extractionSourceId || 'faq'
+    };
+    this.service.invoke('get.comments', quaryparms).subscribe(res => {
+      this.faqComments = res;
+    }, errRes => {
+    });
+  }
   getStats(resourceId?) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -406,7 +439,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.faqsObj.faqs = this.faqs;
       if(this.faqs.length){
          this.moreLoading.loadingText = 'Loading...';
-         this.selectedFaq = this.faqs[0];
+         this.selectFaq(this.faqs[0]);
       } else {
         this.moreLoading.loadingText = 'No more results available';
         const self = this;
@@ -507,7 +540,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.selectedFaq = faq;
+          this.selectFaq(faq);
           this.editfaq = null;
           dialogRef.close();
         } else if (result === 'no') {
@@ -515,14 +548,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
       })
   }
+  selectFaq(faq){
+    this.getFaqComment(faq);
+    this.selectedFaq = faq;
+  }
   selectedFaqToTrain(faq, e) {
+    
     if(!faq._meta.followupQuestions || !faq._meta.followupQuestions.length) {
       e.stopImmediatePropagation();
     }
     if(this.editfaq){
       this.confirmFAQswitch(faq);
     } else {
-      this.selectedFaq = faq;
+     this.selectFaq(faq);
     }
   }
   addfaqs(type) {
@@ -766,9 +804,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       } else {
         if(this.faqs && this.faqs.length){
           if(this.faqs && this.faqs[deleteIndex]) { // best next possible selection
-                this.selectedFaq = this.faqs[deleteIndex];
+                this.selectFaq(this.faqs[deleteIndex]);
           } else if (this.faqs[deleteIndex -1]){
-            this.selectedFaq = this.faqs[deleteIndex -1];
+            this.selectFaq(this.faqs[deleteIndex -1]);
           } else {
             this.selectedFaq = null;
           }
