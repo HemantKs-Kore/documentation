@@ -195,7 +195,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element.advanceSettings.scheduleOpts.time.timeOpt +' '+ element.advanceSettings.scheduleOpts.time.timezone;
         }
         if(element.createdOn){
-          element['schedule_createdOn'] = moment(element.createdOn).fromNow();
+          element['schedule_createdOn'] = moment(element.lMod).fromNow();
         }
         if(element.jobInfo.executionStats){
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
