@@ -13,7 +13,7 @@
             <div (click)="addExperiment()" class="title"><img src="assets/icons/add_plus.svg">Add Experiment</div>
         </div>
     </div>
-    <perfect-scrollbar class="scroll-table">
+    <perfect-scrollbar class="scroll-table d-none">
         <div class="kr-sg-data-table accordion-table">
             <section class="table-content">
                 <header class="table-header">
@@ -44,6 +44,352 @@
             <div class ="dec">Fortunately , it is very easy  to add one by clicking on the Add experiments</div>
         </div>
     </perfect-scrollbar>
+    <perfect-scrollbar class="p-scroll-data">
+        <div class="table-data-content">
+            <div class="row m-0 header-data col-12">
+                <div class="col-3 h-title">Experiment Name</div>
+                <div class="col-3 h-title">Variants</div>
+                <div class="col-2 h-title">Status</div>
+                <div class="col-4 h-title">DURATION</div>
+            </div>
+            <div id="accordion">
+                <div class="acc-card">
+                  <div class="acc-card-header">
+                    <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne">
+                        <div class="row m-0 col-12 row_data">
+                            <div class="col-3 ex-title">Boost for FAQs of Dispute Tracking</div>
+                            <div class="col-3 variants">
+                                <div class="variants-block left">
+                                  <span class="v-name">A</span>
+                                  <span class="v-name">B</span>                
+                                </div>
+                                <div class="variants-block right">
+                                  <span class="v-name">B</span>      
+                                  <span class="winner">Winner</span>                                  
+                                </div>
+                            </div> 
+                            <div class="col-2 status">
+                            <span class="a-status">Active</span>                           
+                            </div>  
+                            <div class="col-4 d-flex align-items-center duration-data">
+                                <div class="left-sec">
+                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>
+                                    <div class="date-stamp">End Date:   28 Jul 2020</div>
+                                </div>
+                                <div class="right-sec">
+                                    <div class="hours">22 hrs more to go</div>                                
+                                </div>
+                            </div>
+                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
+                        </div>
+                    </div>
+                  </div>
+                  <div id="collapseOne" class="collapse" data-parent="#accordion">
+                    <div class="acc-card-body">
+                      <div class="bg-sec">
+                        <div class="row m-0 col-12 acc-row-header">
+                            <div class="col-3 title">Variant</div>
+                            <div class="col-2 title">SEARCH CONFIG</div>
+                            <div class="col-2 title">Traffic</div>
+                            <div class="col-1 title">users</div>
+                            <div class="col-2 title">SearchES</div>
+                            <div class="col-2 title">CTR (goal)</div>
+                        </div>
+                        <div class="row m-0 col-12 acc-row-body align-items-center">
+                            <div class="col-3 d-flex varient-data align-items-center">
+                                <div class="name-letter">A</div>
+                                <div class="name">All FAQs</div>
+                            </div>
+                            <div class="col-2 title">FAQs</div>
+                            <div class="col-2 title">60%</div>
+                            <div class="col-1 title">3200</div>
+                            <div class="col-2 title">3450</div>
+                            <div class="col-2 title">45%</div>
+                        </div>
+                        <div class="row m-0 col-12 acc-row-body align-items-center">
+                            <div class="col-3 d-flex varient-data align-items-center">
+                                <div class="name-letter">B</div>
+                                <div class="name">FAQs for Disputes</div>
+                            </div>
+                            <div class="col-2 title">FAQs for Disputes</div>
+                            <div class="col-2 title">60%</div>
+                            <div class="col-1 title">3200</div>
+                            <div class="col-2 title">3450</div>
+                            <div class="col-2 title">45%</div>
+                        </div>
+                        <div class="v-search-config"><span>View search configuration</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="acc-card">
+                    <div class="acc-card-header">
+                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne2">
+                          <div class="row m-0 col-12 row_data">
+                              <div class="col-3 ex-title">Boost for Card Offers</div>
+                              <div class="col-3 variants">
+                                  <div class="variants-block left">
+                                    <span class="v-name">A</span>
+                                    <span class="v-name">B</span>                
+                                  </div>
+                                  <div class="variants-block right">
+                                    <span class="v-name">B</span>      
+                                    <img src="assets/icons/sortupblue.svg" class="ml-1">                               
+                                  </div>
+                              </div> 
+                              <div class="col-2 status">
+                              <span class="a-status completed">Completed</span>                           
+                              </div>  
+                              <div class="col-4 d-flex align-items-center duration-data">
+                                <div class="left-sec">
+                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>
+                                    <div class="date-stamp">End Date:   28 Jul 2020</div>
+                                </div>
+                                <div class="right-sec">
+                                    <div class="hours">22 hrs more to go</div>                                
+                                </div>
+                            </div>
+                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
+                          </div>
+                      </div>
+                    </div>
+                    <div id="collapseOne2" class="collapse" data-parent="#accordion">
+                        <div class="acc-card-body">
+                            <div class="bg-sec">
+                              <div class="row m-0 col-12 acc-row-header">
+                                  <div class="col-3 title">Variant</div>
+                                  <div class="col-2 title">SEARCH CONFIG</div>
+                                  <div class="col-2 title">Traffic</div>
+                                  <div class="col-1 title">users</div>
+                                  <div class="col-2 title">SearchES</div>
+                                  <div class="col-2 title">CTR (goal)</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">A</div>
+                                      <div class="name">All FAQs</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">B</div>
+                                      <div class="name">FAQs for Disputes</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs for Disputes</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="v-search-config"><span>View search configuration</span></div>
+                            </div>
+                          </div>
+                    </div>
+                </div>    
+    
+                <div class="acc-card">
+                    <div class="acc-card-header">
+                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne3">
+                          <div class="row m-0 col-12 row_data">
+                              <div class="col-3 ex-title">n-gram (2) with skip-gram (2,1)</div>
+                              <div class="col-3 variants">
+                                  <div class="variants-block left">
+                                    <span class="v-name">A</span>
+                                    <span class="v-name">B</span>                
+                                  </div>
+                                  <div class="variants-block right">
+                                    <span class="v-name">B</span>      
+                                    <img src="assets/icons/sortupblue.svg" class="ml-1">                               
+                                  </div>
+                              </div> 
+                              <div class="col-2 status">
+                              <span class="a-status completed">Completed</span>                           
+                              </div>  
+                              <div class="col-4 d-flex align-items-center duration-data">
+                                <div class="left-sec">
+                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>                                
+                                </div>
+                                <div class="right-sec">
+                                    <div class="hours">22 hrs more to go</div>                                
+                                </div>
+                            </div>
+                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
+                          </div>
+                      </div>
+                    </div>
+                    <div id="collapseOne3" class="collapse" data-parent="#accordion">
+                        <div class="acc-card-body">
+                            <div class="bg-sec">
+                              <div class="row m-0 col-12 acc-row-header">
+                                  <div class="col-3 title">Variant</div>
+                                  <div class="col-2 title">SEARCH CONFIG</div>
+                                  <div class="col-2 title">Traffic</div>
+                                  <div class="col-1 title">users</div>
+                                  <div class="col-2 title">SearchES</div>
+                                  <div class="col-2 title">CTR (goal)</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">A</div>
+                                      <div class="name">All FAQs</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">B</div>
+                                      <div class="name">FAQs for Disputes</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs for Disputes</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="v-search-config"><span>View search configuration</span></div>
+                            </div>
+                          </div>
+                    </div>
+                </div>  
+                <div class="acc-card">
+                    <div class="acc-card-header">
+                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne4">
+                          <div class="row m-0 col-12 row_data">
+                              <div class="col-3 ex-title">LSTM Impact</div>
+                              <div class="col-3 variants">
+                                  <div class="variants-block left">
+                                    <span class="v-name">A</span>
+                                    <span class="v-name">B</span>                
+                                  </div>
+                                  <div class="variants-block right">
+                                    <span class="v-name">B</span>      
+                                    <img src="assets/icons/sortupblue.svg" class="ml-1">                               
+                                  </div>
+                              </div> 
+                              <div class="col-2 status">
+                              <span class="a-status paused">Paused</span>                           
+                              </div>  
+                              <div class="col-4 d-flex align-items-center duration-data">
+                                <div class="left-sec">
+                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>                                
+                                </div>
+                                <div class="right-sec">
+                                    <div class="hours">22 hrs more to go</div>                                
+                                </div>
+                            </div>
+                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
+                          </div>
+                      </div>
+                    </div>
+                    <div id="collapseOne4" class="collapse" data-parent="#accordion">
+                        <div class="acc-card-body">
+                            <div class="bg-sec">
+                              <div class="row m-0 col-12 acc-row-header">
+                                  <div class="col-3 title">Variant</div>
+                                  <div class="col-2 title">SEARCH CONFIG</div>
+                                  <div class="col-2 title">Traffic</div>
+                                  <div class="col-1 title">users</div>
+                                  <div class="col-2 title">SearchES</div>
+                                  <div class="col-2 title">CTR (goal)</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">A</div>
+                                      <div class="name">All FAQs</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">B</div>
+                                      <div class="name">FAQs for Disputes</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs for Disputes</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="v-search-config"><span>View search configuration</span></div>
+                            </div>
+                          </div>
+                    </div>
+                </div>  
+                <div class="acc-card">
+                    <div class="acc-card-header">
+                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne5">
+                        <div class="row m-0 col-12 row_data">
+                            <div class="col-3 ex-title">New Experiment</div>
+                            <div class="col-3 variants">
+                                <div class="variants-block left">
+                                <span class="v-name">A</span>
+                                <span class="v-name">B</span>                
+                                </div>                             
+                            </div> 
+                            <div class="col-2 status">
+                            <span class="a-status configured">Configured</span>                           
+                            </div>  
+                            <div class="col-4 d-flex align-items-center duration-data">
+                                <div class="d-flex align-items-center info-text"><img src="assets/icons/info-blue.svg">You cannot run multiple experiements</div>
+                            </div>
+                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="collapseOne5" class="collapse" data-parent="#accordion">
+                        <div class="acc-card-body">
+                            <div class="bg-sec">
+                              <div class="row m-0 col-12 acc-row-header">
+                                  <div class="col-3 title">Variant</div>
+                                  <div class="col-2 title">SEARCH CONFIG</div>
+                                  <div class="col-2 title">Traffic</div>
+                                  <div class="col-1 title">users</div>
+                                  <div class="col-2 title">SearchES</div>
+                                  <div class="col-2 title">CTR (goal)</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">A</div>
+                                      <div class="name">All FAQs</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="row m-0 col-12 acc-row-body align-items-center">
+                                  <div class="col-3 d-flex varient-data align-items-center">
+                                      <div class="name-letter">B</div>
+                                      <div class="name">FAQs for Disputes</div>
+                                  </div>
+                                  <div class="col-2 title">FAQs for Disputes</div>
+                                  <div class="col-2 title">60%</div>
+                                  <div class="col-1 title">3200</div>
+                                  <div class="col-2 title">3450</div>
+                                  <div class="col-2 title">45%</div>
+                              </div>
+                              <div class="v-search-config"><span>View search configuration</span></div>
+                            </div>
+                          </div>
+                    </div>
+                </div>      
+            </div>
+        </div>
+    </perfect-scrollbar>    
 </div>
 
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #addExperiments>   
