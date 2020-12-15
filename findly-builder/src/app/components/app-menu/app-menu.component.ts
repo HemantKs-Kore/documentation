@@ -6,6 +6,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -24,6 +25,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     method:'default',
     name:''
   };
+  searchPipeline:any = '';
   queryConfigsRouts:any = {
     '/synonyms':true,
     '/stopWords':true,
@@ -41,6 +43,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       private headerService: SideBarService,
       private workflowService: WorkflowService,
       private router: Router, private activetedRoute:ActivatedRoute,
+      private notify: NotificationService,
       private appSelectionService:AppSelectionService) { }
   goHome(){
     this.workflowService.selectedApp(null);
@@ -80,6 +83,36 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   selectDefault(){
     this.newConfigObj._id = this.selectedConfig;
   }
+  markAsDefault(config){
+    const queryParms ={
+      queryPipelineId:config._id,
+      searchIndexID:this.workflowService.selectedSearchIndexId
+    }
+    const payload = {
+          default:true,
+    }
+    this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
+      res => {
+        this.notify.notify('Set to default successfully','success');
+       this.appSelectionService.getQureryPipelineIds();
+       if(config && config._id){
+         this.selectQueryPipelineId(config);
+       }
+      },
+      errRes => {
+        this.errorToaster(errRes,'Failed to set successfully');
+      }
+    );
+  }
+  errorToaster(errRes,message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notify.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notify.notify(message, 'error');
+    } else {
+      this.notify.notify('Somthing went worng', 'error');
+  }
+ }
   createConfig(){
     const payload:any = {
      method: this.newConfigObj.method,

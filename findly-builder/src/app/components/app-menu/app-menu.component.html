@@ -82,25 +82,11 @@
 				<div class="dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
 					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
-						<!-- <li (click)="selectQueryPipelineId(config);selectConfigDrop.close();" *ngFor="let config of queryConfigs"><span class="list-name">{{config.name}}</span></li>
-						<li (click)="openModalPopup();selectConfigDrop.close();" class="create"><span class="list-name ">Create new</span><span class="plus">+</span></li> -->
-						<li class="list-name text-truncate">
-							<img src="assets/icons/star.svg" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">Findly config
-							<img src="assets/icons/filter_cup.svg" class="filter">
-							<img src="assets/icons/edit-pencil.svg" class="edit-black">
-						</li>
-						<li class="list-name text-truncate nostars">
-							<img src="assets/icons/star.svg" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">Configuration A
-							<img src="assets/icons/filter_cup.svg" class="filter">
-							<img src="assets/icons/edit-pencil.svg" class="edit-black">
-						</li>
-						<li class="list-name text-truncate">
-							<img src="assets/icons/star.svg" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">Configuration B
-							<img src="assets/icons/filter_cup.svg" class="filter">
-							<img src="assets/icons/edit-pencil.svg" class="edit-black">
+						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config);selectConfigDrop.close();" *ngFor="let config of queryConfigs">
+							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
+							<img src="assets/icons/start-black.svg" (click)="markAsDefault(config)" *ngIf="!config.default" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">{{config.name}}
+							<!-- <img src="assets/icons/filter_cup.svg" class="filter"> -->
+							<img src="assets/icons/edit-pencil.svg" *ngIf="config.filter" class="edit-black">
 						</li>
 						<div class="create-new" (click)="openModalPopup();selectConfigDrop.close();">+ Create New</div>
 					</ul>
@@ -252,48 +238,31 @@
 				<div class="label-text" >Name of Configuration</div>
 				<input type="text" placeholder="Placeholder text" [(ngModel)]="newConfigObj.name" class="input-text">
 			</div>
-			<div class="pt-4" *ngIf="newConfigObj.method === 'clone'">
-				<div class="kr-sg-radiobutton d-block" *ngFor="let config of queryConfigs; let i = index">
-					<input id="{{config._id}}" [(ngModel)]="newConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
-					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
-				</div> 
-			</div>
 		</div>
 		<ng-container *ngIf="newConfigObj.method === 'clone'">
-			<div class="kr-sg-dropdowns mb-2 pb-1">
+			<div class="kr-sg-dropdowns mb-2 pb-1 pt-4">
 				<div class="label-text">Select the configuration you would like to clone</div>                            
 				<div class="kr-sg-input-inline-search dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-					<input type="text" placeholder="Search" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown">
+					<input type="text" placeholder="Search" class="input-search dropdown-toggle dropdown-input" [(ngModel)]="searchPipeline" data-toggle="dropdown">
 					<img src="assets/icons/search_gray.svg" class="search-icon">                                                           
-					<ul class="dropdown-menu content-menu">
+					<!-- <ul class="dropdown-menu content-menu">
 						<perfect-scrollbar class="state-code-perfect-scroll" [disabled]="workflowService.disablePerfectScroll">
 							<li><a>Option1</a></li>
 							<li><a>Option1</a></li>
 							<li><a>Option1</a></li>
 							<li><a>Option1</a></li>
 						</perfect-scrollbar>
-					</ul>
+					</ul> -->
 				</div>                        
 			</div>
 	
 			<div class="group-radiobutton in-clone">			
-				<div class="kr-sg-radiobutton d-block m-0">
-					<input id="radio-32" name="radio" class="radio-custom" type="radio">
-					<label for="radio-32" class="radio-custom-label">Default</label>
+				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of queryConfigs | filter: [ searchPipeline, 'name']; let i = index">
+					<input id="{{config._id}}" [(ngModel)]="newConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
+					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
 				</div> 
-				<div class="kr-sg-radiobutton d-block m-0">
-					<input id="radio-33" name="radio" class="radio-custom" type="radio">
-					<label for="radio-33" class="radio-custom-label">Search Configuration A</label>
-				</div> 
-				<div class="kr-sg-radiobutton d-block m-0">
-					<input id="radio-34" name="radio" class="radio-custom" type="radio">
-					<label for="radio-34" class="radio-custom-label">Search Configuration B</label>
-				</div> 
-				<div class="kr-sg-radiobutton d-block m-0">
-					<input id="radio-35" name="radio" class="radio-custom" type="radio">
-					<label for="radio-35" class="radio-custom-label">Search Configuration c</label>
-				</div> 
+				<div class="divBlockEmptylastChild">{{!(queryConfigs && queryConfigs.length)?'No Data Found': 'No search results'}}</div>
 			</div>
 		</ng-container> 	
     </div>
