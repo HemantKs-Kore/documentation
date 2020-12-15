@@ -205,12 +205,13 @@ export class ResultRankingComponent implements OnInit {
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = actLog.target.contentId;
       if(actLog.customization.action == 'pinned' ) obj.config['pinIndex'] = -1;
-      if(actLog.customization.action == 'pinned' ) obj.config['boost'] = 1;  
-      if(actLog.customization.action == 'pinned' ) obj.config['visible'] = true;
+      if(actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;  
+      if(actLog.customization.action == 'hidden' ) obj.config['hidden'] = true;
       // obj.config = {
       //    pinIndex : -1,
       //   //boost: 1.0,
       //   //visible: true,
+      //burried
       // }
       result.push(obj);
     
