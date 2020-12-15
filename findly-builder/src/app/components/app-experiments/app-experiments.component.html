@@ -1,444 +1,316 @@
 <div class="experiment-container">
+  <div class="mainLoadingSpinner" *ngIf="loadingContent">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">Please Wait!</span>
+  </div>
+  <div *ngIf="!loadingContent">
     <div class="header-sec row">
-        <div class="col-8 left-sec p-0">
-            <div class="tab-sec d-flex">
-                <div class="tab_title" [ngClass]="{'active':setTab==='all'}" (click)='selectedTab("all")'>All<span>({{allExp}})</span></div>
-                <div class="tab_title" [ngClass]="{'active':setTab==='configured'}" (click)='selectedTab("configured")'>Configured<span>({{confExp}})</span></div>
-                <div class="tab_title" [ngClass]="{'active':setTab==='active'}" (click)='selectedTab("active")'>Active<span>({{actExp}})</span></div>
-                <div class="tab_title" [ngClass]="{'active':setTab==='paused'}" (click)='selectedTab("paused")'>Paused<span>({{pauExp}})</span></div>
-                <div class="tab_title" [ngClass]="{'active':setTab==='completed'}" (click)='selectedTab("completed")'>Completed<span>({{compExp}})</span></div>
-            </div>
+      <div class="col-8 left-sec p-0">
+        <div class="tab-sec d-flex">
+          <div
+            class="tab_title"
+            [ngClass]="{ active: setTab === 'all' }"
+            (click)="selectedTab('all')"
+          >
+            All<span>({{ allExp }})</span>
+          </div>
+          <div
+            class="tab_title"
+            [ngClass]="{ active: setTab === 'configured' }"
+            (click)="selectedTab('configured')"
+          >
+            Configured<span>({{ confExp }})</span>
+          </div>
+          <div
+            class="tab_title"
+            [ngClass]="{ active: setTab === 'active' }"
+            (click)="selectedTab('active')"
+          >
+            Active<span>({{ actExp }})</span>
+          </div>
+          <div
+            class="tab_title"
+            [ngClass]="{ active: setTab === 'paused' }"
+            (click)="selectedTab('paused')"
+          >
+            Paused<span>({{ pauExp }})</span>
+          </div>
+          <div
+            class="tab_title"
+            [ngClass]="{ active: setTab === 'completed' }"
+            (click)="selectedTab('completed')"
+          >
+            Completed<span>({{ compExp }})</span>
+          </div>
         </div>
-        <div class="col-4 p-0 right-sec">
-            <div (click)="addExperiment()" class="title"><img src="assets/icons/add_plus.svg">Add Experiment</div>
+      </div>
+      <div class="col-4 p-0 right-sec">
+        <div
+          class="kr-sg-input-search m-0"
+          [ngClass]="{ active: showSearch }"
+          style="float: left"
+        >
+          <input
+            type="text"
+            placeholder="Search"
+            autocomplete="off"
+            class="input-search"
+            name="searchSources"
+            placeholder="Search"
+            id="fieldSearchId"
+            [(ngModel)]="searchFields"
+          />
         </div>
+        <div class="seach-block" (click)="toggleSearch()">
+          <img *ngIf="!showSearch" src="assets/icons/search.svg" /><img
+            *ngIf="showSearch"
+            src="assets/images/close.svg"
+          />Search
+        </div>
+        <div (click)="addExperiment()" class="title">
+          <img src="assets/icons/add_plus.svg" />Add Experiment
+        </div>
+      </div>
     </div>
-    <perfect-scrollbar class="scroll-table d-none">
-        <div class="kr-sg-data-table accordion-table">
-            <section class="table-content">
-                <header class="table-header">
-                    <div class="col">EXPERIMENT NAME</div>
-                    <div class="col">VARIANTS</div>
-                    <div class="col">STATUS</div>
-                    <div class="col">DURATION</div>
-                </header>
-                <div *ngFor='let exp of listOfExperiments'>             
-                <div class="content-body collapsed-default collapsed" data-toggle="collapse" attr.data-target="#{{exp._id}}">    
-                    <div class="col">{{exp.name}}</div>
-                    <div class="col">{{exp.variants.length}}</div>
-                    <div class="col">{{exp.state}}</div>
-                    <div class="col">Start Date: 20 Dec 2020</div>
-                </div>
-                <div id={{exp._id}} class="collapse accordion-table">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-            </div>
-            </section>                               
-        </div> 
-        <div class="no-experiments" *ngIf='listOfExperiments.length===0'>
-            <div class ="title">No results found</div>
-        </div>
-        <div class="no-experiments" *ngIf='filterExperiments.length===0'>
-            <img src="assets/icons/experiment/empty_experiments.svg" >
-            <div class ="title">You haven't added any Experiment yet</div>
-            <div class ="dec">Fortunately , it is very easy  to add one by clicking on the Add experiments</div>
-        </div>
-    </perfect-scrollbar>
     <perfect-scrollbar class="p-scroll-data">
-        <div class="table-data-content">
-            <div class="row m-0 header-data col-12">
-                <div class="col-3 h-title">Experiment Name</div>
-                <div class="col-3 h-title">Variants</div>
-                <div class="col-2 h-title">Status</div>
-                <div class="col-4 h-title">DURATION</div>
-            </div>
-            <div id="accordion">
-                <div class="acc-card">
-                  <div class="acc-card-header">
-                    <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne">
-                        <div class="row m-0 col-12 row_data">
-                            <div class="col-3 ex-title">Boost for FAQs of Dispute Tracking</div>
-                            <div class="col-3 variants">
-                                <div class="variants-block left">
-                                  <span class="v-name">A</span>
-                                  <span class="v-name">B</span>                
-                                </div>
-                                <div class="variants-block right">
-                                  <span class="v-name">B</span>      
-                                  <span class="winner">Winner</span>                                  
-                                </div>
-                            </div> 
-                            <div class="col-2 status">
-                            <span class="a-status">Active</span>                           
-                            </div>  
-                            <div class="col-4 d-flex align-items-center duration-data">
-                                <div class="left-sec">
-                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>
-                                    <div class="date-stamp">End Date:   28 Jul 2020</div>
-                                </div>
-                                <div class="right-sec">
-                                    <div class="hours">22 hrs more to go</div>                                
-                                </div>
-                            </div>
-                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
-                        </div>
+      <div
+        class="table-data-content"
+        *ngIf="listOfExperiments && listOfExperiments.length"
+      >
+        <div class="row m-0 header-data col-12">
+          <div class="col-3 h-title">Experiment Name</div>
+          <div class="col-3 h-title">Variants</div>
+          <div class="col-2 h-title">Status</div>
+          <div class="col-4 h-title">DURATION</div>
+        </div>
+        <div id="accordion">
+          <div
+            class="acc-card"
+            *ngFor="
+              let exp of listOfExperiments | filter: [searchFields, 'name']
+            "
+          >
+            <div class="acc-card-header">
+              <div
+                class="acc-card-link collapsed"
+                data-toggle="collapse"
+                attr.data-target="#{{ exp._id }}"
+              >
+                <div class="row m-0 col-12 row_data">
+                  <div class="col-3 ex-title">{{ exp.name }}</div>
+                  <div class="col-3 variants">
+                    <div class="variants-block left">
+                      <span class="v-name">A</span>
+                      <span class="v-name">B</span>
+                    </div>
+                    <div class="variants-block right">
+                      <span class="v-name">B</span>
+                      <span class="winner">Winner</span>
                     </div>
                   </div>
-                  <div id="collapseOne" class="collapse" data-parent="#accordion">
-                    <div class="acc-card-body">
-                      <div class="bg-sec">
-                        <div class="row m-0 col-12 acc-row-header">
-                            <div class="col-3 title">Variant</div>
-                            <div class="col-2 title">SEARCH CONFIG</div>
-                            <div class="col-2 title">Traffic</div>
-                            <div class="col-1 title">users</div>
-                            <div class="col-2 title">SearchES</div>
-                            <div class="col-2 title">CTR (goal)</div>
-                        </div>
-                        <div class="row m-0 col-12 acc-row-body align-items-center">
-                            <div class="col-3 d-flex varient-data align-items-center">
-                                <div class="name-letter">A</div>
-                                <div class="name">All FAQs</div>
-                            </div>
-                            <div class="col-2 title">FAQs</div>
-                            <div class="col-2 title">60%</div>
-                            <div class="col-1 title">3200</div>
-                            <div class="col-2 title">3450</div>
-                            <div class="col-2 title">45%</div>
-                        </div>
-                        <div class="row m-0 col-12 acc-row-body align-items-center">
-                            <div class="col-3 d-flex varient-data align-items-center">
-                                <div class="name-letter">B</div>
-                                <div class="name">FAQs for Disputes</div>
-                            </div>
-                            <div class="col-2 title">FAQs for Disputes</div>
-                            <div class="col-2 title">60%</div>
-                            <div class="col-1 title">3200</div>
-                            <div class="col-2 title">3450</div>
-                            <div class="col-2 title">45%</div>
-                        </div>
-                        <div class="v-search-config"><span>View search configuration</span></div>
-                      </div>
+                  <div class="col-2 status">
+                    <span class="a-status" *ngIf="exp.state === 'active'">{{
+                      exp.state
+                    }}</span>
+                    <span
+                      class="a-status configured"
+                      *ngIf="exp.state === 'configured'"
+                      >{{ exp.state }}</span
+                    >
+                    <span
+                      class="a-status paused"
+                      *ngIf="exp.state === 'paused'"
+                      >{{ exp.state }}</span
+                    >
+                    <span
+                      class="a-status completed"
+                      *ngIf="exp.state === 'completed'"
+                      >{{ exp.state }}</span
+                    >
+                  </div>
+                  <div
+                    class="col-4 d-flex align-items-center duration-data"
+                    *ngIf="exp.state !== 'configured'"
+                  >
+                    <div class="left-sec">
+                      <div class="date-stamp">Start Date: 24 Jul 2020</div>
+                      <div class="date-stamp">End Date: 28 Jul 2020</div>
                     </div>
+                    <div class="right-sec">
+                      <div class="hours">22 hrs more to go</div>
+                    </div>
+                  </div>
+                  <div class="delete-table" *ngIf="exp.state === 'completed'">
+                    <img src="assets/icons/delete-table.svg" />
                   </div>
                 </div>
-                <div class="acc-card">
-                    <div class="acc-card-header">
-                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne2">
-                          <div class="row m-0 col-12 row_data">
-                              <div class="col-3 ex-title">Boost for Card Offers</div>
-                              <div class="col-3 variants">
-                                  <div class="variants-block left">
-                                    <span class="v-name">A</span>
-                                    <span class="v-name">B</span>                
-                                  </div>
-                                  <div class="variants-block right">
-                                    <span class="v-name">B</span>      
-                                    <img src="assets/icons/sortupblue.svg" class="ml-1">                               
-                                  </div>
-                              </div> 
-                              <div class="col-2 status">
-                              <span class="a-status completed">Completed</span>                           
-                              </div>  
-                              <div class="col-4 d-flex align-items-center duration-data">
-                                <div class="left-sec">
-                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>
-                                    <div class="date-stamp">End Date:   28 Jul 2020</div>
-                                </div>
-                                <div class="right-sec">
-                                    <div class="hours">22 hrs more to go</div>                                
-                                </div>
-                            </div>
-                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
-                          </div>
-                      </div>
-                    </div>
-                    <div id="collapseOne2" class="collapse" data-parent="#accordion">
-                        <div class="acc-card-body">
-                            <div class="bg-sec">
-                              <div class="row m-0 col-12 acc-row-header">
-                                  <div class="col-3 title">Variant</div>
-                                  <div class="col-2 title">SEARCH CONFIG</div>
-                                  <div class="col-2 title">Traffic</div>
-                                  <div class="col-1 title">users</div>
-                                  <div class="col-2 title">SearchES</div>
-                                  <div class="col-2 title">CTR (goal)</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">A</div>
-                                      <div class="name">All FAQs</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">B</div>
-                                      <div class="name">FAQs for Disputes</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs for Disputes</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="v-search-config"><span>View search configuration</span></div>
-                            </div>
-                          </div>
-                    </div>
-                </div>    
-    
-                <div class="acc-card">
-                    <div class="acc-card-header">
-                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne3">
-                          <div class="row m-0 col-12 row_data">
-                              <div class="col-3 ex-title">n-gram (2) with skip-gram (2,1)</div>
-                              <div class="col-3 variants">
-                                  <div class="variants-block left">
-                                    <span class="v-name">A</span>
-                                    <span class="v-name">B</span>                
-                                  </div>
-                                  <div class="variants-block right">
-                                    <span class="v-name">B</span>      
-                                    <img src="assets/icons/sortupblue.svg" class="ml-1">                               
-                                  </div>
-                              </div> 
-                              <div class="col-2 status">
-                              <span class="a-status completed">Completed</span>                           
-                              </div>  
-                              <div class="col-4 d-flex align-items-center duration-data">
-                                <div class="left-sec">
-                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>                                
-                                </div>
-                                <div class="right-sec">
-                                    <div class="hours">22 hrs more to go</div>                                
-                                </div>
-                            </div>
-                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
-                          </div>
-                      </div>
-                    </div>
-                    <div id="collapseOne3" class="collapse" data-parent="#accordion">
-                        <div class="acc-card-body">
-                            <div class="bg-sec">
-                              <div class="row m-0 col-12 acc-row-header">
-                                  <div class="col-3 title">Variant</div>
-                                  <div class="col-2 title">SEARCH CONFIG</div>
-                                  <div class="col-2 title">Traffic</div>
-                                  <div class="col-1 title">users</div>
-                                  <div class="col-2 title">SearchES</div>
-                                  <div class="col-2 title">CTR (goal)</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">A</div>
-                                      <div class="name">All FAQs</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">B</div>
-                                      <div class="name">FAQs for Disputes</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs for Disputes</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="v-search-config"><span>View search configuration</span></div>
-                            </div>
-                          </div>
-                    </div>
-                </div>  
-                <div class="acc-card">
-                    <div class="acc-card-header">
-                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne4">
-                          <div class="row m-0 col-12 row_data">
-                              <div class="col-3 ex-title">LSTM Impact</div>
-                              <div class="col-3 variants">
-                                  <div class="variants-block left">
-                                    <span class="v-name">A</span>
-                                    <span class="v-name">B</span>                
-                                  </div>
-                                  <div class="variants-block right">
-                                    <span class="v-name">B</span>      
-                                    <img src="assets/icons/sortupblue.svg" class="ml-1">                               
-                                  </div>
-                              </div> 
-                              <div class="col-2 status">
-                              <span class="a-status paused">Paused</span>                           
-                              </div>  
-                              <div class="col-4 d-flex align-items-center duration-data">
-                                <div class="left-sec">
-                                    <div class="date-stamp">Start Date: 24 Jul 2020</div>                                
-                                </div>
-                                <div class="right-sec">
-                                    <div class="hours">22 hrs more to go</div>                                
-                                </div>
-                            </div>
-                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
-                          </div>
-                      </div>
-                    </div>
-                    <div id="collapseOne4" class="collapse" data-parent="#accordion">
-                        <div class="acc-card-body">
-                            <div class="bg-sec">
-                              <div class="row m-0 col-12 acc-row-header">
-                                  <div class="col-3 title">Variant</div>
-                                  <div class="col-2 title">SEARCH CONFIG</div>
-                                  <div class="col-2 title">Traffic</div>
-                                  <div class="col-1 title">users</div>
-                                  <div class="col-2 title">SearchES</div>
-                                  <div class="col-2 title">CTR (goal)</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">A</div>
-                                      <div class="name">All FAQs</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">B</div>
-                                      <div class="name">FAQs for Disputes</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs for Disputes</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="v-search-config"><span>View search configuration</span></div>
-                            </div>
-                          </div>
-                    </div>
-                </div>  
-                <div class="acc-card">
-                    <div class="acc-card-header">
-                      <div class="acc-card-link collapsed" data-toggle="collapse" href="#collapseOne5">
-                        <div class="row m-0 col-12 row_data">
-                            <div class="col-3 ex-title">New Experiment</div>
-                            <div class="col-3 variants">
-                                <div class="variants-block left">
-                                <span class="v-name">A</span>
-                                <span class="v-name">B</span>                
-                                </div>                             
-                            </div> 
-                            <div class="col-2 status">
-                            <span class="a-status configured">Configured</span>                           
-                            </div>  
-                            <div class="col-4 d-flex align-items-center duration-data">
-                                <div class="d-flex align-items-center info-text"><img src="assets/icons/info-blue.svg">You cannot run multiple experiements</div>
-                            </div>
-                            <div class="delete-table"><img src="assets/icons/delete-table.svg"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="collapseOne5" class="collapse" data-parent="#accordion">
-                        <div class="acc-card-body">
-                            <div class="bg-sec">
-                              <div class="row m-0 col-12 acc-row-header">
-                                  <div class="col-3 title">Variant</div>
-                                  <div class="col-2 title">SEARCH CONFIG</div>
-                                  <div class="col-2 title">Traffic</div>
-                                  <div class="col-1 title">users</div>
-                                  <div class="col-2 title">SearchES</div>
-                                  <div class="col-2 title">CTR (goal)</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">A</div>
-                                      <div class="name">All FAQs</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="row m-0 col-12 acc-row-body align-items-center">
-                                  <div class="col-3 d-flex varient-data align-items-center">
-                                      <div class="name-letter">B</div>
-                                      <div class="name">FAQs for Disputes</div>
-                                  </div>
-                                  <div class="col-2 title">FAQs for Disputes</div>
-                                  <div class="col-2 title">60%</div>
-                                  <div class="col-1 title">3200</div>
-                                  <div class="col-2 title">3450</div>
-                                  <div class="col-2 title">45%</div>
-                              </div>
-                              <div class="v-search-config"><span>View search configuration</span></div>
-                            </div>
-                          </div>
-                    </div>
-                </div>      
+              </div>
             </div>
+            <div id="{{ exp._id }}" class="collapse" data-parent="#accordion">
+              <div class="acc-card-body">
+                <div class="bg-sec">
+                  <div class="row m-0 col-12 acc-row-header">
+                    <div class="col-3 title">Variant</div>
+                    <div class="col-2 title">SEARCH CONFIG</div>
+                    <div class="col-2 title">Traffic</div>
+                    <div class="col-1 title">users</div>
+                    <div class="col-2 title">SearchES</div>
+                    <div class="col-2 title">CTR (goal)</div>
+                  </div>
+                  <div
+                    class="row m-0 col-12 acc-row-body align-items-center"
+                    *ngFor="let variant of exp.variants"
+                  >
+                    <div class="col-3 d-flex varient-data align-items-center">
+                      <div class="name-letter">A</div>
+                      <div class="name">{{ variant.name }}</div>
+                    </div>
+                    <div class="col-2 title">Default</div>
+                    <div class="col-2 title">{{ variant.trafficPct }}%</div>
+                    <div class="col-1 title">3200</div>
+                    <div class="col-2 title">3450</div>
+                    <div class="col-2 title">45%</div>
+                  </div>
+                  <div class="v-search-config">
+                    <span>View search configuration</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </perfect-scrollbar>    
+      </div>
+      <!-- <div class="no-experiments">
+        <div class="desc">No search results found</div>
+      </div> -->
+      <div
+        class="no-experiments"
+        *ngIf="!(listOfExperiments && listOfExperiments.length)"
+      >
+        <div>No results found</div>
+      </div>
+      <div
+        class="no-experiments"
+        *ngIf="!(filterExperiments && filterExperiments.length)"
+      >
+        <img src="assets/icons/experiment/empty_experiments.svg" />
+        <div class="title">You haven't added any Experiment yet</div>
+        <div class="dec">
+          Fortunately , it is very easy to add one by clicking on the Add
+          experiments
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
 </div>
-
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #addExperiments>   
-    <div class="modal-header">
-        <div class="title">New Experiment</div>
-        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+<kr-modal
+  modalType="center"
+  modalClass="modal_popups_ addFieldModalPop smallModal"
+  #addExperiments
+>
+  <div class="modal-header">
+    <div class="title">New Experiment</div>
+    <div class="close_icon" (click)="closeModalPopup()">
+      <img src="assets/icons/modal-close.svg" />
     </div>
-    <perfect-scrollbar class="perfect-scroll-modal-body">
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
+      <div class="row ml-0 mr-0 mb-3 col-12 p-0">
+        <div class="kr-sg-input-text col-6 pl-pr-5">
+          <div class="label-text">Name of Experiment</div>
+          <input
+            type="text"
+            autocomplete="off"
+            placeholder="Enter Experiment Name"
+            class="input-text"
+            [(ngModel)]="experiment.name"
+          />
+        </div>
+      </div>
 
-        <div class="row ml-0 mr-0 mb-3 col-12 p-0">
-            <div class="kr-sg-input-text col-6 pl-pr-5">
-                <div class="label-text">Name of Experiment</div>
-                <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text" [(ngModel)]='experiment.name'>
-            </div>
+      <div
+        class="row ml-0 mr-0 mb-3 col-12 p-0"
+        *ngFor="let variant of varientArray"
+      >
+        <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
+          <div class="label-text">Variant Name</div>
+          <input
+            type="text"
+            autocomplete="off"
+            #varName
+            placeholder="Enter Variant Name"
+            class="input-text"
+            (blur)="fetchVariant(variant, varName.value, 'name')"
+          />
+          <span class="v-name" [style.background-color]="variant.color">{{
+            variant.code
+          }}</span>
         </div>
+        <div class="kr-sg-dropdowns col-6 pl-pr-5">
+          <div class="label-text">Search Configuration</div>
+          <div class="dropdown dropdown-open">
+            <button
+              class="dropdown-toggle dropdown-input"
+              data-toggle="dropdown"
+            >
+              {{
+                variant.select_config
+                  ? variant.select_config
+                  : "Select Configuration"
+              }}
+            </button>
+            <ul class="dropdown-menu content-menu">
+              <li
+                *ngFor="let query of queryPipeline"
+                (click)="
+                  fetchVariant(variant, query._id, 'queryid');
+                  variant.select_config = query.name
+                "
+              >
+                {{ query.name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-        <div class="row ml-0 mr-0 mb-3 col-12 p-0" *ngFor='let variant of varientArray'>
-            <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
-                <div class="label-text">Variant Name</div>
-                <input type="text" autocomplete="off" #varName  placeholder="Enter Variant Name" class="input-text" (blur)="fetchVariant(variant,varName.value,'name')">
-                <span class="v-name" [style.background-color]="variant.color">{{variant.code}}</span>
-            </div>
-            <div class="kr-sg-dropdowns col-6 pl-pr-5">
-                <div class="label-text">Search Configuration</div>
-                <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{variant.select_config?variant.select_config:'Select Configuration'}}</button>                                            
-                    <ul class="dropdown-menu content-menu">                                                                
-                      <li *ngFor="let query of queryPipeline" (click)="fetchVariant(variant,query._id,'queryid');variant.select_config=query.name">
-                       {{query.name}}
-                      </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="mb-3 variant-add" (click)="addVarient()">
+        <img src="assets/icons/add_blue.svg" />Add Variant
+      </div>
+
+      <div class="duration-sec">
+        <div class="kr-sg-input-text">
+          <div class="label-text">Duration</div>
+          <input
+            type="number"
+            autocomplete="off"
+            class="input-text"
+            min="0"
+            max="90"
+            [(ngModel)]="experiment.duration"
+          />
+          <img
+            src="assets/icons/minus.svg"
+            class="minus"
+            (click)="
+              experiment.duration =
+                experiment.duration >= 1 ? experiment.duration - 1 : 0
+            "
+          />
+          <img
+            src="assets/icons/plus_gray.svg"
+            class="plus"
+            (click)="
+              experiment.duration =
+                experiment.duration <= 89 ? experiment.duration + 1 : 90
+            "
+          />
         </div>
-        
-        <div class="mb-3 variant-add" (click)="addVarient()"><img src="assets/icons/add_blue.svg" />Add Variant</div>    
-        
-        <div class="duration-sec">
-            <div class="kr-sg-input-text">
-                <div class="label-text">Duration</div>
-                <input type="number" autocomplete="off" class="input-text" [(ngModel)]='experiment.duration'>
-                <img src="assets/icons/minus.svg" class="minus" (click)='experiment.duration=experiment.duration-1'>
-                <img src="assets/icons/plus_gray.svg" class="plus" (click)='experiment.duration=experiment.duration+1'>
-            </div>
-            Days
-        </div>
-        
-        <!-- <div class="row m-0 mb-3">
+        Days
+      </div>
+
+      <!-- <div class="row m-0 mb-3">
             <div class="kr-sg-input-text col-6 p-0">
                 <div class="label-text">Name of Experiment</div>
                 <input type="text" autocomplete="off"  placeholder="Enter Experiment Name" class="input-text" [(ngModel)]='experiment.fieldName'>
@@ -472,9 +344,22 @@
             <span (click)="addVarient()"><img src="assets/icons/add_plus.svg" />Add Variant</span>
         </div> -->
     </div>
-    </perfect-scrollbar> 
-    <div class="modal-footer text-left">
-        <button type="button"  class="kr-sg-button-primary btn_lg float-right" [disabled]="!experiment.name" (click)="createExperiment()">Add</button>                   
-        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
-    </div>    
+  </perfect-scrollbar>
+  <div class="modal-footer text-left">
+    <button
+      type="button"
+      class="kr-sg-button-primary btn_lg float-right"
+      [disabled]="!experiment.name"
+      (click)="createExperiment()"
+    >
+      Add
+    </button>
+    <button
+      type="button"
+      class="kr-sg-button-secondary btn_lg float-right"
+      (click)="closeModalPopup()"
+    >
+      Cancel
+    </button>
+  </div>
 </kr-modal>
