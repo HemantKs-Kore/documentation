@@ -26,6 +26,8 @@ export class FieldManagementComponent implements OnInit {
   addFieldModalPopRef:any;
   filelds: any = [];
   loadingContent = true;
+  currentfieldUsage:any
+  fetchingFieldUsage = false
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,
@@ -78,14 +80,85 @@ export class FieldManagementComponent implements OnInit {
   closeModalPopup(){
     this.addFieldModalPopRef.close();
   }
+  getFieldUsage(record) {
+    if(this.fetchingFieldUsage){
+      return;
+    }
+    this.fetchingFieldUsage = true
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      queryPipelineId:this.workflowService.selectedQueryPipelineId,
+      fieldId:record._id,
+    };
+    this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
+     this.currentfieldUsage = res
+     this.fetchingFieldUsage = false;
+     let usageText = record.fieldName+' will be deleted'
+     const deps:any = {
+       facets:false,
+       rules:false,
+       weights:false
+     }
+     if(res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)){
+      usageText = 'Deleting ' + record.fieldName + 'field will remove the associated '
+      if(res && res.facets && res.facets.used){
+        deps.facets = true;
+        usageText = usageText + 'Facets '
+       }
+       if(res && res.weights && res.weights.used){
+        deps.weights = true;
+        if(deps.facets){
+          usageText = usageText + '& ' + 'Weights '
+        } else {
+          usageText = usageText  + 'Weights '
+        }
+       }
+       if(res && res.rules && res.rules.used){
+        if(deps.facets ||deps.weights ){
+          usageText = usageText + 'and will impact ' + res.records.length +' Business Rules.'
+        } else {
+          usageText = usageText  + 'will impact ' + res.records.length +' Business Rules.'
+        }
+       }
+     }
+     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Field',
+        text: 'Are you sure you want to delete selected field?',
+        newTitle:'Do you really want to delete?',
+        body:usageText,
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteIndField(record,dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+    }, errRes => {
+      this.fetchingFieldUsage = false;
+    });
+  }
   addField(){
-    const payload:any = {
+    const temppayload:any = {
       fieldName: this.newFieldObj.fieldName,
       fieldDataType: this.newFieldObj.fieldDataType,
       isMultiValued: this.newFieldObj.isMultiValued,
       isRequired: this.newFieldObj.isRequired,
       isStored: this.newFieldObj.isStored,
       isIndexed: this.newFieldObj.isIndexed,
+    }
+    let payload:any = {
+      fields:[]
     }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -95,6 +168,9 @@ export class FieldManagementComponent implements OnInit {
     let api  = 'post.createField';
     if(this.newFieldObj && this.newFieldObj._id){
       api = 'put.updateField'
+      payload = temppayload;
+    } else {
+      payload.fields.push(temppayload);
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
       if(this.newFieldObj && this.newFieldObj._id){
@@ -139,29 +215,7 @@ export class FieldManagementComponent implements OnInit {
     });
   }
   deleteFieldPop(record) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Delete Field',
-        text: 'Are you sure you want to delete selected field?',
-        newTitle:'Do you really want to delete?',
-        body:'Deleting question field will remove the associated Facets & Weights and will impact 5 Business Rules.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
-      }
-    });
-
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.deleteIndField(record,dialogRef);
-        } else if (result === 'no') {
-          dialogRef.close();
-          console.log('deleted')
-        }
-      })
+    this.getFieldUsage(record);
   }
   errorToaster(errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {

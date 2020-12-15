@@ -444,6 +444,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
       method: 'get'
     }
+    this.serviceList['get.getFieldUsage'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId/usage?queryPipelineId=:queryPipelineId',
+      method: 'get'
+    }
     this.serviceList['put.updateField'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
       method: 'put'
