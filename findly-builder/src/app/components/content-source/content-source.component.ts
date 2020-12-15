@@ -92,8 +92,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   limitpage : number = 25;
   limitAllpage : number = 25;
   allInOne : boolean = false;
-  urlConditionAllow = "Is";
-  urlConditionBlock = "Is";
+  urlConditionAllow = "is";
+  urlConditionBlock = "is";
   doesntContains = "Doesn't Contains";
   filterTableheaderOption = "";
   filterTableSource = "all";
@@ -684,6 +684,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openImageLink(url) {
     window.open(url, '_blank');
+  }
+  stopCrwaling(source,$event){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      jobId : source.jobId
+    }
+    this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
+      this.notificationService.notify('Stoped Crwaling', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Stop Cwraling');
+    });
   }
   deleteSource(record, dialogRef) {
     const quaryparms: any = {
