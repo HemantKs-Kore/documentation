@@ -17,7 +17,7 @@ import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 declare const $: any;
-declare const koreBotChat : any
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-faq-source',
@@ -360,12 +360,29 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     const payload:any = {
       text:this.newCommentObj.comment
     }
-    this.service.invoke('add.comment', quaryparms).subscribe(res => {
+    this.service.invoke('add.comment', quaryparms,payload).subscribe(res => {
+      res.createdOn = moment(res.createdOn).fromNow();
+      if(res.userDetails && res.userDetails.fullName){
+        res.initial = res.userDetails.fullName.slice(0, 1);
+      }
+      // res.color = this.getRandomRolor();
       this.faqComments.push(res);
+      this.clearContent();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to  comment');
+      // this.clearContent();
     });
   }
+   getRandomRolor() {
+    let letters = '012345'.split('');
+    let color = '#';
+    color += letters[Math.round(Math.random() * 5)];
+    letters = '0123456789ABCDEF'.split('');
+    for (let i = 0; i < 5; i++) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+   return color;
+  };
   getFaqComment(faq) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -373,7 +390,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       sourceId:faq.extractionSourceId || 'faq'
     };
     this.service.invoke('get.comments', quaryparms).subscribe(res => {
-      this.faqComments = res;
+      if(res && res.length){
+        res.forEach(element => {
+          if(element.userDetails && element.userDetails.fullName){
+            element.initial = element.userDetails.fullName.slice(0, 1);
+          }
+          // element.color = this.getRandomRolor();
+          element.createdOn = moment(element.createdOn).fromNow()
+        });
+      }
+      this.faqComments = res || [];
     }, errRes => {
     });
   }

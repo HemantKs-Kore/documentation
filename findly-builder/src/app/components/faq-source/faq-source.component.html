@@ -176,7 +176,7 @@
                                                             <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
                                                             <div class="c-data"  *ngFor="let comment of faqComments">
                                                                 <div class="user-data">
-                                                                    <div class="pro-pic">S</div>
+                                                                    <div class="pro-pic">{{comment.initial}}</div>
                                                                     <div class="user-name-data">
                                                                         <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
                                                                         <div class="u-time">{{comment.createdOn}}</div>
@@ -257,9 +257,9 @@
                                                             <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
                                                             <div class="c-data"  *ngFor="let comment of faqComments">
                                                                 <div class="user-data">
-                                                                    <div class="pro-pic">S</div>
+                                                                    <div class="pro-pic">{{comment.initial}}</div>
                                                                     <div class="user-name-data">
-                                                                        <div class="u-name">{{comment.userDetails.fullName}}</div>
+                                                                        <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
                                                                         <div class="u-time">{{comment.createdOn}}</div>
                                                                         <div class="info-text-user">{{comment.text}}</div>
                                                                     </div>
@@ -337,9 +337,9 @@
                                                         <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
                                                         <div class="c-data"  *ngFor="let comment of faqComments">
                                                             <div class="user-data">
-                                                                <div class="pro-pic">S</div>
+                                                                <div class="pro-pic">{{comment.initial}}</div>
                                                                 <div class="user-name-data">
-                                                                    <div class="u-name">{{comment.userDetails.fullName}}</div>
+                                                                    <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
                                                                     <div class="u-time">{{comment.createdOn}}</div>
                                                                     <div class="info-text-user">{{comment.text}}</div>
                                                                 </div>
