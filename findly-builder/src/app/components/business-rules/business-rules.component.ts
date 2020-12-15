@@ -76,6 +76,10 @@ export class BusinessRulesComponent implements OnInit , OnDestroy {
   fieldAutoSuggestion: any = [];
   subscription: Subscription;
   queryPipelineId
+  fieldWarnings:any = {
+    NOT_INDEXED:'Associated field is not indexed',
+    NOT_EXISTS:'Associated field has been deleted'
+  }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('addBusinessRules') addBusinessRules: KRModalComponent;
@@ -359,9 +363,9 @@ export class BusinessRulesComponent implements OnInit , OnDestroy {
     if(event){
       query  = $(event.currentTarget).val();
     }
-    if (/^\d+$/.test(query)) {
-      query = query.parseInt();
-    }
+    // if (/^\d+$/.test(query)) {
+    //   query = query.parseInt();
+    // }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,

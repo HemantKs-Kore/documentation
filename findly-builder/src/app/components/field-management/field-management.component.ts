@@ -53,12 +53,12 @@ export class FieldManagementComponent implements OnInit {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
   }
   selectFieldType(type){
-    if(type === 'number'){
-      this.newFieldObj.fieldName = '';
+    // if(type === 'number'){
+    //   this.newFieldObj.fieldName = '';
+    //   this.newFieldObj.fieldDataType = type
+    // } else {
       this.newFieldObj.fieldDataType = type
-    } else {
-      this.newFieldObj.fieldDataType = type
-    }
+    // }
   }
   addEditFiled(field?){
     if(field){

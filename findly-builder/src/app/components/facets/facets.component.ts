@@ -52,6 +52,10 @@ export class FacetsComponent implements OnInit , OnDestroy{
     selectAll: false,
     selectedItems:[],
   };
+  fieldWarnings:any = {
+    NOT_INDEXED:'Associated field is not indexed',
+    NOT_EXISTS:'Associated field has been deleted'
+  }
   dummyCount =0;
   selectedField;
   queryPipelineId;
@@ -188,9 +192,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
   }
   getFieldAutoComplete(query){
-    if (/^\d+$/.test(query)) {
-      query = query.parseInt();
-    }
+    // if (/^\d+$/.test(query)) {
+    //   query = query.parseInt();
+    // }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,

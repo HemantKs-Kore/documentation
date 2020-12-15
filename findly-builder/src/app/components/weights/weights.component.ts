@@ -30,6 +30,10 @@ export class WeightsComponent implements OnInit, OnDestroy {
   indexPipelineId;
   searching;
   searchField
+  fieldWarnings:any = {
+    NOT_INDEXED:'Associated field is not indexed',
+    NOT_EXISTS:'Associated field has been deleted'
+  }
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
   constructor(
@@ -93,6 +97,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
           desc : element.desc,
           isField:element.isField,
           fieldId:  element.fieldId,
+          showFieldWarning: element.showFieldWarning,
           sliderObj :new RangeSlider(0, 10, 1, element.value,name + i)
          }
          this.weights.push(obj);
