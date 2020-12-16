@@ -99,8 +99,9 @@ export class AppsListingComponent implements OnInit {
       res => {
         this.notificationService.notify('App created successfully', 'success');
         self.apps.push(res);
+        this.openApp(res)
         self.workflowService.showAppCreationHeader(true);
-        self.router.navigate(['/source'], { skipLocationChange: true });
+        // self.router.navigate(['/source'], { skipLocationChange: true });
         this.closeCreateApp();
         const toogleObj = {
           title: '',
