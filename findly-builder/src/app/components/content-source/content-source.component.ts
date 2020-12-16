@@ -69,7 +69,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     queued: {name : 'Queued', color: '#0D6EFD'},
     running: {name : 'In Progress', color: '#0D6EFD'},
     inprogress: {name :'In Progress', color: '#0D6EFD'},
-    scheduled :{name :'In Progress', color: '#0D6EFD'}
+    scheduled :{name :'In Progress', color: '#0D6EFD'},
+    halted : {name : 'Stopped', color: '#DD3646'}
   };
   sliderStep = 0;
   selectedPage: any = {};
@@ -100,7 +101,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   execution = false;
   page = true;
   executionHistoryData : any;
-
+  sourceStatus = 'success';
   useCookies = false;
   isRobotTxtDirectives = false;
   isCrawlingRestrictToSitemaps= false;
@@ -162,7 +163,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.resources = sortedData;
   }
   duration(duration){
-    let hr = duration.split(":")[0];
+    if(duration){
+      let hr = duration.split(":")[0];
         let min = duration.split(":")[1];
         let sec = duration.split(":")[2];
         
@@ -177,6 +179,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         }else if(sec > 0){
           return duration = sec + "s";
         }
+    }
   }
   getSourceList() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -404,9 +407,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       // $('.tabname')[0].classList.add('active');
       // $('.tabname')[1].classList.remove('active');
       // $('.tabname')[2].classList.remove('active');
-      this.execution = false;
-      this.isConfig = false;
-      this.page = true;
+      if(this.selectedSource.recentStatus == 'success'){
+        this.execution = false;
+        this.isConfig = false;
+        this.page = true;
+      }else{
+        this.execution = false;
+        this.isConfig = true;
+        this.page = false;
+      }
+      
     }
   }
     // $('.tabname').toggleClass("active");
@@ -447,11 +457,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     
   }
   openStatusSlider(source) {
-    if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
-      this.notificationService.notify('Source extraction is still in progress', 'error');
-      return;
-    }
-    if (source.recentStatus === 'success') {
+    // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
+    //   this.notificationService.notify('Source extraction is still in progress', 'error');
+    //   return;
+    // }
+   
+   // if (source.recentStatus === 'success') {
       this.contentModaltype=source.extractionType;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
@@ -471,13 +482,23 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.totalRecord = source.numPages;
         this.getCrawledPages(this.limitpage, 0);
         this.executionHistory();
+        this.sourceStatus = source.recentStatus;
+        // if(this.sourceStatus === 'success'){
+        //    this.execution = false;
+        //    this.isConfig = false;
+        //    this.page = true;
+        // }else{
+        //   this.execution = false;
+        //   this.isConfig = true;
+        //   this.page = false;
+        // }
       }
       else if(source.extractionType ==='document'){
         this. openDocumentModal();
         this.getCrawledPages(this.limitpage, 0);
       }
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-    }
+    //}
     this.isEditDoc = false;
   }
   pageination(pages, action) {
@@ -687,6 +708,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openImageLink(url) {
     window.open(url, '_blank');
   }
+  reCrwalingWeb(from,page,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      extractionSourceId : this.selectedSource._id,
+      contentId : page._id,
+      jobId : page.jobId
+    }
+    const payload: any ={
+      url: page._source.url
+    }
+    this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Re-Crawling', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Re-Cwral');
+    });
+  }
+  
   stopCrwaling(source,event){
     if (event) {
       event.stopImmediatePropagation();

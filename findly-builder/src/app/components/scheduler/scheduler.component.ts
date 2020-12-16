@@ -89,10 +89,12 @@ export class SchedulerComponent implements OnInit {
     // }
     if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
-      this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
-      this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
-      this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
-      this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
+      if(this.crwalObject.advanceSettings.scheduleOpts.time){
+        this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
+        this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
+        this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
+        this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
+      }
       this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
       if(this.crwalObject.advanceSettings.scheduleOpts.intervalValue){
         this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.every;

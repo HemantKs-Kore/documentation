@@ -749,7 +749,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page">
+          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -763,8 +763,9 @@
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.url || selectedSource.url}}">
                           {{page._source.url || selectedSource.url}}</div>
-                        <div class="col-3 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
-                        <div class="col-1 actions p-0">
+                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                        <div class="col-2 actions p-0">
+                          <img src="assets/icons/refresh-table.svg" ngbTooltip='recrwal' (click)="reCrwalingWeb('pages',page ,$event)">
                           <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
@@ -897,17 +898,19 @@
     </div>
 
   </div>
-  <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
+  <div class="modal-footer moadal-footer-config footer-btns" *ngIf="isConfig">
+   
     <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
     (click)="proceedWithConfigUpdate()">Save</button>
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
       (click)="closeStatusModal()">Cancel</button>
-     
+      <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"
+      (click)="deletePages('source',selectedSource,null)">Delete</button>
   </div>
   <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
     <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
     <button class="kr-sg-button-primary btn_lg">Check for Update</button>
-    <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
+    <button class="kr-sg-button-secondary btn_lg" (click) = "reCrwalingWeb('pages',selectedPage ,null)">Recrawl</button>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
