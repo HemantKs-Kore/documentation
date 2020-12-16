@@ -692,6 +692,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
       this.notificationService.notify('Stoped Crwaling', 'success');
+      this.getSourceList();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
     });
