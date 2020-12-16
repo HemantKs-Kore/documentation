@@ -194,8 +194,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
           element.advanceSettings.scheduleOpts.time.timeOpt +' '+ element.advanceSettings.scheduleOpts.time.timezone;
         }
-        if(element.createdOn){
-          element['schedule_createdOn'] = moment(element.lMod).fromNow();
+        if(element.jobInfo.createdOn){
+          element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
         }
         if(element.jobInfo.executionStats){
           element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
@@ -296,13 +296,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
         
-        
+        if(this.resourcesStatusObj[source._id]){
           if(this.resourcesStatusObj[source._id].status == 'running'){
             if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
             this.getJobDetails(source._id)
             this.getSourceList();
           } 
         }
+        }
+          
         this.resourcesStatusObj[source._id] = source;
 
         return ((source.status === 'running') || (source.status === 'queued'));
@@ -685,7 +687,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openImageLink(url) {
     window.open(url, '_blank');
   }
-  stopCrwaling(source,$event){
+  stopCrwaling(source,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       jobId : source.jobId
