@@ -340,6 +340,9 @@
                   autocomplete="off" >
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
+              <div class="" *ngIf="!page && !execution">
+                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Recrawl</button>
+              </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
           </div>

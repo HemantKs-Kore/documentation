@@ -765,6 +765,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (deleteIndex > -1) {
         this.resources.splice(deleteIndex, 1);
       }
+      this.closeStatusModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
