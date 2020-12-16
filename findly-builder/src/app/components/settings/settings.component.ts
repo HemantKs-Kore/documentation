@@ -108,7 +108,10 @@ export class SettingsComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    this.notificationService.notify('Copied to clipboard', 'success')
+    
   }
+  
   jwtAuth(awt) {
     this.credntial.awt = awt;
   }
