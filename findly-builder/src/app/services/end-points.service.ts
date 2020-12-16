@@ -622,7 +622,15 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:sourceType&offset=:skip&limit=:limit',
     method: 'get'
   }
-
+  this.serviceList['get.overview'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/appOverview',
+    method: 'get'
+  }
+  this.serviceList['stop.crwaling'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/stopCrawl/:jobId',
+    method: 'put'
+  }
+  
   
   //APIs for experiments
   this.serviceList['get.experiment'] = {
