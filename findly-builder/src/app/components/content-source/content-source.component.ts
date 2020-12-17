@@ -107,7 +107,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isCrawlingRestrictToSitemaps= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
-  
+  crwalOptionLabel= '';
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -361,6 +361,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
+      if(this.selectedSource.advanceSettings.allowedURLs.length > 0){
+        this.crwalOptionLabel = 'Crawl Only Specific URLs'
+      }else if(this.selectedSource.advanceSettings.blockedURLs.length > 0){
+        this.crwalOptionLabel = 'Crawl Everything Except Specific URls'
+      }else{
+        this.crwalOptionLabel = 'Crawl Everything'
+      }
       this.swapSlider('page')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
@@ -1263,7 +1270,8 @@ keyPress(event){
       }
     }
   }
-  crawlOption(opt){
+  crawlOption(opt,label){
+    this.crwalOptionLabel=  label;
     if(opt != 'any'){
       this.selectedSource.advanceSettings.crawlEverything = false;
       if(opt == 'allow'){

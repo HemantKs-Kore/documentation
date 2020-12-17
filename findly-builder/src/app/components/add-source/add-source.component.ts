@@ -50,7 +50,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   isCrawlingRestrictToSitemaps= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
-
+  crwalOptionLabel = "Crawl Everything";
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -813,7 +813,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-  crawlOption(opt){
+  crawlOption(opt,label){
+    this.crwalOptionLabel =  label;
     if(opt != 'any'){
       this.crwalObject.advanceOpts.crawlEverything = false;
       if(opt == 'allow'){
