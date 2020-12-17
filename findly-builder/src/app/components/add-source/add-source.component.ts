@@ -51,6 +51,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
+  crawlDepth :number;
+  maxUrlLimit: number;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -72,6 +74,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     _id: 'job-2745cd21-98f0-580e-926c-6f6bf41593fa',
   };
   currentStatusFailed: any = false;
+  crwal_jobId : any;
   userInfo: any = {};
   csvContent: any = '';
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
@@ -310,6 +313,32 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.redirectTo();
     this.cancleSourceAddition();
   }
+  stopCrwaling(source,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      jobId :   this.crwal_jobId
+
+    }
+    this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
+      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.closeStatusModal();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Stop Cwraling');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
+  }
   cancleSourceAddition() {
     if (this.resourceIDToOpen) {
       const event: any = {}
@@ -490,6 +519,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+        crawler.advanceOpts.crawlDepth = this.crawlDepth;
+        crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit;
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
@@ -510,6 +541,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
         this.openStatusModal();
         this.poling(res._id,'scheduler');
+        this.crwal_jobId = res._id
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');

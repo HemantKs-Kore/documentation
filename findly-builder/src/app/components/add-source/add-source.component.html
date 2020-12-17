@@ -108,7 +108,7 @@
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="!statusObject.validation.urlValidation"
           (click)="closeStatusModal()">Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="closeStatusModal()">Cancel Crawling</button>
+          (click)="stopCrwaling()">Cancel Crawling</button>
          </div>
     </div>
   </div>
@@ -488,6 +488,25 @@
               </div>
             
               <!-- Cookies -->
+              </div>
+
+              <div class="inner-content row">
+                <div class="col-4"> 
+                  
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Crwal Depth <img src="assets/icons/info.svg">
+                    </div>
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                      [(ngModel)]="crawlDepth" class="input-text" >
+                  </div>
+                </div>
+                <div class="col-4"> 
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Max URL Limit <img src="assets/icons/info.svg"></div>
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                      [(ngModel)]="maxUrlLimit" class="input-text">
+                  </div>
+                </div>
               </div>
                <!-- New Crwal everey thing-->
 

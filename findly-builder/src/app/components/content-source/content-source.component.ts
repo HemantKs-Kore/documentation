@@ -107,6 +107,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isCrawlingRestrictToSitemaps= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
+  crawlDepth : number;
+  maxUrlLimit: number;
   crwalOptionLabel= '';
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -481,6 +483,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
           this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.crawlDepth = source.advanceSettings.crawlDepth;
+          this.maxUrlLimit = source.advanceSettings.maxUrlLimit
         }
         this.openStatusModal();
         this.loadingSliderContent = true;
@@ -1077,6 +1081,8 @@ keyPress(event){
     crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.crawlDepth = this.crawlDepth;
+    crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
@@ -1198,7 +1204,8 @@ keyPress(event){
     crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
-
+    crawler.advanceOpts.crawlDepth =  this.crawlDepth;
+    crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
