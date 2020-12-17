@@ -213,8 +213,24 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
                     <div class="full-card">
-                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
-                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
+                        <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
+                                        src="assets/icons/filter.svg"></button>
+                                <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
+                                    <div class="kr-sg-checkbox d-block p-0">
+                                        <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
+                                    </div>
+                                    <div class="kr-sg-checkbox d-block p-0 m-0">
+                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
+                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div> -->
                         <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">

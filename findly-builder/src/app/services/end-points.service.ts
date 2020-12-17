@@ -630,7 +630,10 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/stopCrawl/:jobId',
     method: 'put'
   }
-  
+  this.serviceList['reCrwal.website'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/reCrawlPage/source/:extractionSourceId/content/:contentId/job/:jobId',
+    method: 'post'
+  }
   
   //APIs for experiments
   this.serviceList['get.experiment'] = {
