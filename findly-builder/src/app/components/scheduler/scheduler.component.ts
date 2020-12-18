@@ -170,7 +170,7 @@ export class SchedulerComponent implements OnInit {
   calculateCronExpression(){
     let timeHH = this.timeHH;
     // Check for AM -PM conversion 12-24;
-    if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 12) && Number(timeHH) <= 24){
+    if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 0) && Number(timeHH) <= 24){
         timeHH = this.timeHH + 12;
         if(Number(timeHH) == 24) {
           timeHH = (Number(this.timeHH) - 12).toLocaleString();

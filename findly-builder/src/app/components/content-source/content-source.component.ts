@@ -1204,8 +1204,17 @@ keyPress(event){
     crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
-    crawler.advanceOpts.crawlDepth =  this.crawlDepth;
-    crawler.advanceOpts.maxUrlLimit = this.maxUrlLimit
+    if(Number(this.crawlDepth)){
+      crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
+    }else{
+      delete crawler.advanceOpts.crawlDepth;
+    }
+    if(Number(this.maxUrlLimit)){
+      crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+    }else{
+      delete crawler.advanceOpts.maxUrlLimit;
+    }
+    
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
