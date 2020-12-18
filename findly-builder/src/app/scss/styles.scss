@@ -1620,3 +1620,19 @@ ngx-simplebar {
         } 
     }
 }
+
+.krFindlyAppComponent{
+    &.appSelected{
+        .appContent{
+            &.pl-0{
+                .search-background-div{
+                    .search-container{
+                        &.conversation{
+                            right: 10px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
