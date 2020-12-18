@@ -338,19 +338,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
-      
+
       // debugger;
-      
+
       // var baseAPIServer = ''
       // var baseAPIServer = 'https://app.findly.ai';
-    
+
       var baseAPIServer = 'https://dev.findly.ai'; // For XHR calls in DEV
       // var baseAPIServer = 'https://pilot.findly.ai'; // For XHR calls in PILOT
-      
-      
-      /*if (_self.isDev) {
+
+
+      if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
-      }*/
+      }
       var baseUrl = baseAPIServer + "/searchAssistant";
       var searchAPIURL = baseAPIServer + "/api/1.1/findly/";
       var liveSearchAPIURL = baseAPIServer + "/api/1.1/searchAssist/";
@@ -4061,46 +4061,46 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var topMatchFAQ;
         var topMatchTask;
 
-         /* res.searchFacets = [
-          {
-            "fieldName": "String",
-            "facetName": "String",
-            "facetType": "range",
-            "buckets": [
-              {
-                "key": "djikstra",
-                "from": 10.0,
-                "to": 20.0,
-                "doc_count": 1
-              },
-              {
-                "key": "prims",
-                "from": 20.0,
-                "to": 40.0,
-                "doc_count": 0
-              }
-            ]
-          },
-          {
-            "fieldName": "benefits_field",
-            "facetName": "benefits",
-            "facetType": "value",
-            "buckets": [
-              {
-                "key": "accelerating rewards",
-                "doc_count": 55
-              },
-              {
-                "key": "page",
-                "doc_count": 3
-              },
-              {
-                "key": "task",
-                "doc_count": 1
-              }
-            ]
-          }
-        ]*/
+        /* res.searchFacets = [
+         {
+           "fieldName": "String",
+           "facetName": "String",
+           "facetType": "range",
+           "buckets": [
+             {
+               "key": "djikstra",
+               "from": 10.0,
+               "to": 20.0,
+               "doc_count": 1
+             },
+             {
+               "key": "prims",
+               "from": 20.0,
+               "to": 40.0,
+               "doc_count": 0
+             }
+           ]
+         },
+         {
+           "fieldName": "benefits_field",
+           "facetName": "benefits",
+           "facetType": "value",
+           "buckets": [
+             {
+               "key": "accelerating rewards",
+               "doc_count": 55
+             },
+             {
+               "key": "page",
+               "doc_count": 3
+             },
+             {
+               "key": "task",
+               "doc_count": 1
+             }
+           ]
+         }
+       ]*/
         // liveResult.forEach(function (result) {
         //   if (result.contentType === "faq") {
         //     faqs.push(result);
@@ -4546,7 +4546,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var headers = {};
 
       payload = JSON.parse(payload);
-      
+
       headers["Authorization"] = bearer;
       headers["Content-Type"] = "application/json";
 
@@ -4559,25 +4559,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         + currentDate.getHours() + ":"
         + currentDate.getMinutes() + ":"
         + currentDate.getSeconds();
-      
+
       payload.userId = this.bot.userInfo.userInfo.userId;
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
 
       payload["messagePayload"] = {
         "clientMessageId": new Date().getTime(),
-          "message": {
+        "message": {
           "body": payload.query,
         },
         "resourceId": '/bot.message',
-          "timeDateDay": dateTime,
-            "currentPage": window.location.href,
-              "meta": {
+        "timeDateDay": dateTime,
+        "currentPage": window.location.href,
+        "meta": {
           "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-            "locale": window.navigator.userLanguage || window.navigator.language,
+          "locale": window.navigator.userLanguage || window.navigator.language,
         },
         "location": this.vars.locationObject.location,
-          "country": this.vars.locationObject.country
+        "country": this.vars.locationObject.country
       }
 
       console.log("Message Payload", payload.messagePayload);
@@ -4609,13 +4609,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           // if (contextObj) {
-            this.bot.options.botInfo.customData = { 'userContext': contextObj }
-            payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
+          this.bot.options.botInfo.customData = { 'userContext': contextObj }
+          payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
           // }
         }
       }
       console.log("Search Payload (live-search/full-search", payload);
-      
+
       payload = JSON.stringify(payload);
 
       return $.ajax({
@@ -5065,8 +5065,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
     // FindlySDK.prototype.initKoreSDK = function () {
     FindlySDK.prototype.initKoreSDK = function (config) {
-      config = config || _self.config.botOptions
       var _self = this;
+      config = config || _self.config.botOptions
       _self.bot = requireKr('/KoreBot.js').instance();
       _self.bot.init(config, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
@@ -5259,9 +5259,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          if (contextObj) {
-            _self.bot.options.botInfo.customData = { 'userContext': contextObj }
-          }
+          _self.bot.options.botInfo.customData = { 'userContext': contextObj }
         }
       }
 
