@@ -33,12 +33,24 @@ export class AppExperimentsComponent implements OnInit {
   closeModalPopup() {
     this.varientArray = [];
     this.selectedVariant = [];
-    this.experiment = { name: '', variantData: [], duration: 0 };
+    this.experiment = { name: '', variants: [], duration: 0 };
     this.addExperimentsRef.close();
   }
   //open experiment model 
-  addExperiment() {
+  form_type: string;
+  exp_id: string;
+  addExperiment(type, data) {
+    console.log("type based", type, data)
+    this.form_type = type;
     this.addExperimentsRef = this.addExperiments.open();
+    if (type === 'edit') {
+      if (data !== undefined) {
+        this.exp_id = data._id;
+        this.experiment.name = data.name;
+        this.varientArray = data.variants;
+        this.experiment.duration = data.duration.days;
+      }
+    }
   }
   //add new varient method
   varientArray: any = [];
@@ -62,10 +74,11 @@ export class AppExperimentsComponent implements OnInit {
   selectedVariant: any = [];
   select_config;
   fetchVariant(type, name, key) {
+    console.log(type, name, key)
     for (let dat of this.varients) {
       if (dat.code === type.code) {
-        if (key === 'name' && name !== '') { this.selectedVariant.push({ ...dat, 'name': name, 'trafficPct': 50 }) }
-        else {
+        if (key === 'name' && name !== '') { this.selectedVariant.push({ 'code': dat.code, 'name': name, 'trafficPct': 50 }) }
+        else if (key === 'queryid') {
           for (let i in this.selectedVariant) {
             if (this.selectedVariant[i].code === type.code) {
               this.selectedVariant[i].queryPipelineId = name;
@@ -136,24 +149,51 @@ export class AppExperimentsComponent implements OnInit {
   }
   //add new experiment method
   createExperiment() {
-    this.experiment.variants = this.selectedVariant;
-    this.experiment.duration = { "days": this.experiment.duration };
-    console.log("experiment", this.experiment);
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId
-    };
-    this.service.invoke('create.experiment', quaryparms, this.experiment).subscribe(res => {
-      console.log("add res", res);
-      this.closeModalPopup();
-      this.getExperiments();
-      this.notificationService.notify('Experiment added successfully', 'success');
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+    console.log("form_type", this.form_type)
+    if (this.form_type === 'add') {
+      this.experiment.variants = this.selectedVariant;
+      this.experiment.duration = { "days": this.experiment.duration };
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId
+      };
+      this.service.invoke('create.experiment', quaryparms, this.experiment).subscribe(res => {
+        console.log("add res", res);
+        this.closeModalPopup();
+        this.getExperiments();
+        this.notificationService.notify('Experiment added successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+    }
+    else {
+      this.experiment.variants = [...this.varientArray, ...this.selectedVariant].filter(dat => dat.select_config === undefined)
+      this.experiment.duration = { "days": this.experiment.duration };
+      console.log("experiment", this.experiment, this.exp_id);
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        experimentId: this.exp_id
+      };
+      this.service.invoke('edit.experiment', quaryparms, this.experiment).subscribe(res => {
+        console.log("add res", res);
+        this.closeModalPopup();
+        this.getExperiments();
+        this.notificationService.notify('Experiment Updated successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+    }
+  }
+  //update experiment
+  updateExperiment() {
+    console.log("this.experiment")
   }
   //filter list using tabs
   setTab: string = 'all';
