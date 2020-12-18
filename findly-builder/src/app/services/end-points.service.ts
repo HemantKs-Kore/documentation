@@ -598,7 +598,18 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:extractionSourceId/executionHistory?extractionType=:sourceType&offset=:skip&limit=:limit',
     method: 'get'
   }
-
+  this.serviceList['get.overview'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/appOverview',
+    method: 'get'
+  }
+  this.serviceList['stop.crwaling'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/stopCrawl/:jobId',
+    method: 'put'
+  }
+  this.serviceList['reCrwal.website'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/reCrawlPage/source/:extractionSourceId/content/:contentId/job/:jobId',
+    method: 'post'
+  }
   
   // this.serviceList['edit.credential'] = {
   //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',

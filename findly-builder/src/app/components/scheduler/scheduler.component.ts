@@ -13,7 +13,7 @@ export class SchedulerComponent implements OnInit {
   //allowUrl : AllowUrl = new AllowUrl();
  // blockUrl : BlockUrl = new BlockUrl();
   customRecurrenceRef : any = [];
-  startDate = '';
+  startDate ='';
   endDate = '';
   occurence = '';
   endsNever = true;
@@ -89,10 +89,12 @@ export class SchedulerComponent implements OnInit {
     // }
     if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
-      this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
-      this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
-      this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
-      this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
+      if(this.crwalObject.advanceSettings.scheduleOpts.time){
+        this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
+        this.timeMM = this.crwalObject.advanceSettings.scheduleOpts.time.minute;
+        this.meridiem = this.crwalObject.advanceSettings.scheduleOpts.time.timeOpt;
+        this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
+      }
       this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
       if(this.crwalObject.advanceSettings.scheduleOpts.intervalValue){
         this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.every;
@@ -127,6 +129,17 @@ export class SchedulerComponent implements OnInit {
   }
   timeZone(stz){
     this.stz = stz;
+    if(this.startDate){
+      if(this.stz == 'IST'){
+        this.startDate = this.startDate;
+      }else if(this.stz == 'UTC'){
+        this.startDate = new Date(this.startDate).toISOString();
+      }else{
+        var dt = new Date();
+        var estDate = new Date(dt.getTime() + -300*60*1000);
+        this.startDate = estDate.toString();
+      } 
+    }
     this.calculateCronExpression()
   }
   repeatTimeZone(rstz){

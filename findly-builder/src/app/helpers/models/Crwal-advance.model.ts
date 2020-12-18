@@ -13,6 +13,8 @@ export class AdvanceOpts{
     isCrawlingRestrictToSitemaps= false;
     isJavaScriptRendered = false;
     isBlockHttpsMsgs = false;
+    crawlDepth : number;
+    maxUrlLimit  : number;
     //schedulePeriod: String ="";
     repeatInterval: String ="";
     crawlEverything: boolean = true;

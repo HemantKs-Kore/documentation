@@ -224,7 +224,7 @@
  },
  "resultRanking":{
      "no_search_results":"No search results",
-     "no._of_customizations_caps":"NO. OF CUSTOMISATIONS",
+     "no._of_customizations_caps":"NO. OF CUSTOMIZATIONS",
      "last_changes_caps":"LAST CHANGES",
      "restore":"Restore",
      "pinned":"pinned",
@@ -246,7 +246,7 @@
         "Top_Search_Queries" : "Top Search Queries",
         "Top_Search_Queries_with_No_Result":"Top Search Queries with No Result",
         "Top_Search_Results" : "Top Search Results",
-        "Searched_Intent" :"Searched Intent",
+        "Searched_Intent" :"Search Results",
         "Count" : "Count",
         "Appearances" : "Appearances",
         "Clicks" :"Clicks",

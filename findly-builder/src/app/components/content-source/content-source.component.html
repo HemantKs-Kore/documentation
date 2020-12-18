@@ -182,11 +182,12 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' "  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                <span class="actions-links" *ngIf="statusObj[source.recentStatus].name != 'In Progress' " (click)="deletePages('source',source,$event)"><img class="action_icon"
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="stopCrwaling(source,$event)"><img class="action_icon"
+                  src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
+                <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
-                  <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="deletePages('source',source,$event)"><img class="action_icon"
-                      src="assets/icons/content/red-cross.svg" ngbTooltip='Delete' container="body"></span>
+                  
               </div>
             </div>
           </ng-container>
@@ -339,6 +340,9 @@
                   autocomplete="off" >
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
+              <div class="" *ngIf="!page && !execution">
+                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Recrawl</button>
+              </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
           </div>
@@ -485,11 +489,11 @@
                   <div class="kr-sg-dropdowns">      
                     <div class="label-text">Crwal Option</div>                                  
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any')"><a>Crawl Everything</a></li>                                              
-                          <li (click)="crawlOption('block')"><a>Crawl Everything Except Specific URls</a></li>
-                          <li (click)="crawlOption('allow')"><a >Crawl Only Specific URLs</a></li>
+                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URls')"><a>Crawl Everything Except Specific URls</a></li>
+                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
                         </ul>
                       </div>
                   </div>
@@ -507,12 +511,12 @@
                         <button class="dropdown-toggle dropdown-input"
                           data-toggle="dropdown">{{allowUrl.condition}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
-                          <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
-                          <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
-                          <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
-                          <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                          <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
+                          <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
+                          <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                          <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
+                          <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
+                          <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
+                          <li (click)="urlCondition('doesNotContains', 'allow')"><a>Doesn't contain</a></li>
                         </ul>
                       </div>
                     </div>
@@ -560,12 +564,12 @@
                         <button class="dropdown-toggle dropdown-input"
                           data-toggle="dropdown">{{blockUrl.condition}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
-                          <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
-                          <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
-                          <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
-                          <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                          <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
+                          <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
+                          <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                          <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
+                          <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
+                          <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
+                          <li (click)="urlCondition('doesNotContains', 'block')"><a>Doesn't contain</a></li>
                         </ul>
                       </div>
                     </div>
@@ -626,6 +630,24 @@
                 </div>
               </div> 
             
+              <div class="inner-content row">
+                <div class="col-4"> 
+                  
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Crwal Depth <img src="assets/icons/info.svg">
+                    </div>
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                      [(ngModel)]="crawlDepth" class="input-text" >
+                  </div>
+                </div>
+                <div class="col-4"> 
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Max URL Limit <img src="assets/icons/info.svg"></div>
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                      [(ngModel)]="maxUrlLimit" class="input-text">
+                  </div>
+                </div>
+              </div>
               <!-- Cookies -->
                <!-- New Crwal everey thing-->
                 <!-- Old  Crwal Design-->
@@ -748,7 +770,7 @@
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page">
+          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -762,8 +784,9 @@
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.url || selectedSource.url}}">
                           {{page._source.url || selectedSource.url}}</div>
-                        <div class="col-3 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
-                        <div class="col-1 actions p-0">
+                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                        <div class="col-2 actions p-0">
+                          <img src="assets/icons/refresh-table.svg" ngbTooltip='recrwal' (click)="reCrwalingWeb('pages',page ,$event)">
                           <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
@@ -843,27 +866,30 @@
                       <div class="col_ col-3">TRIGGERED BY</div>
                       <div class="col_ col-3">EXECUTED ON</div>
                     </header>
-                    <ng-container>
-                      <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
-                        <div class="col_ col-3" ><span class="execute-success"></span>
-                          {{history.executionStats.executionStatusMessage}}</div>
-                        <div class="col_ col-3" >{{history.executionStats.duration}}</div>
-                        <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
-                        <div class="col_ col-3">{{history.createdOn}}</div>
-                      </div>
-                      <!-- <div class="content-body">
-                        <div class="col_ col-3" ><span class="execute-failed"></span> 
-                          Execution Failed</div>
-                        <div class="col_ col-3" >1m 35s</div>
-                        <div class="col_ col-3" >Sunil Singh</div>
-                        <div class="col_ col-3">28 Jul 2020</div>
-                      </div> -->
-                    </ng-container>
+                    <perfect-scrollbar class="scroll-table" #perfectScroll>
+                      <ng-container>
+                        <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
+                          <div class="col_ col-3" ><span class="execute-success"></span>
+                            {{history.executionStats.executionStatusMessage}}</div>
+                          <div class="col_ col-3" >{{history.executionStats.duration}}</div>
+                          <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-3">{{history.createdOn}}</div>
+                        </div>
+                        <!-- <div class="content-body">
+                          <div class="col_ col-3" ><span class="execute-failed"></span> 
+                            Execution Failed</div>
+                          <div class="col_ col-3" >1m 35s</div>
+                          <div class="col_ col-3" >Sunil Singh</div>
+                          <div class="col_ col-3">28 Jul 2020</div>
+                        </div> -->
+                      </ng-container>
+                    </perfect-scrollbar>
+                    
                   </section>
                 </div>
               </div>
             </div>
-            <app-record-pagination [totalRecord]='25' [limitpage]='25' (pageChanged)="paginate($event)"></app-record-pagination>
+            <app-record-pagination [totalRecord]='executionHistoryData.length' [limitpage]='25' (pageChanged)="paginate($event,'history')"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>
@@ -896,17 +922,19 @@
     </div>
 
   </div>
-  <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
+  <div class="modal-footer moadal-footer-config footer-btns" *ngIf="isConfig">
+   
     <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
     (click)="proceedWithConfigUpdate()">Save</button>
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
       (click)="closeStatusModal()">Cancel</button>
-     
+      <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"
+      (click)="deletePages('source',selectedSource,null)">Delete</button>
   </div>
   <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
     <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
     <button class="kr-sg-button-primary btn_lg">Check for Update</button>
-    <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
+    <button class="kr-sg-button-secondary btn_lg" (click) = "reCrwalingWeb('pages',selectedPage ,null)">Recrawl</button>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">

@@ -83,7 +83,7 @@
         <div class="content-sec">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Indices</div> 
-            <div class="create_new_link">+ Create New</div>
+            <!-- <div class="create_new_link">+ Create New</div> -->
           </div>
           <div class="header-data row m-0">
             <div class="col-4 title">Index name</div>
@@ -93,17 +93,17 @@
           </div>
           <div class="body-data row m-0">
             <div class="col-4 title">Default Index</div>
-            <div class="col-2 title">200</div>
-            <div class="col-3 title">120 Pages</div>
-            <div class="col-3 title">5</div>
+            <div class="col-2 title">{{indices.approvedfaqs}}</div>
+            <div class="col-3 title">{{indices.contentPages}} Pages</div>
+            <div class="col-3 title">{{indices.botActions}}</div>
           </div>
-          <div class="body-data row m-0">
+          <!-- <div class="body-data row m-0">
             <div class="col-4 title">My Test Index</div>
             <div class="col-2 title">200</div>
             <div class="col-3 title">120 Pages</div>
             <div class="col-3 title">5</div>
-          </div>       
-          <div class="create_new_link">View all</div>
+          </div>        -->
+          <div class="create_new_link" (click) = "viewAll('/source')">View all</div>
           </div>       
       </div>
       <div class="table-data-content col-6">
@@ -207,8 +207,14 @@
          <div class="create_new_link">View all</div>
         </div>       
       </div>
-      
-      <div class="table-data-content col-6" *ngIf="!channelExist">
+      <div class="table-data-content col-6" *ngIf="!experiments.length">
+          <div class="content-sec active_experments">
+           <div class="title-sec d-flex justify-content-between">
+             <div class="title">Active Experiments</div> </div>
+              <div class="img-block center-image"><img src="assets/icons/overview/no-experiments.svg"></div>
+          </div>
+      </div>
+      <div class="table-data-content col-6" *ngIf="experiments.length">
         <div class="content-sec active_experments">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Active Experiments</div> 
