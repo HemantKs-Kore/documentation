@@ -82,11 +82,15 @@
 				<div class="dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
 					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
-						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config);selectConfigDrop.close();" *ngFor="let config of queryConfigs">
+						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectConfigDrop)" *ngFor="let config of queryConfigs">
 							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
 							<img src="assets/icons/start-black.svg" (click)="markAsDefault(config)" *ngIf="!config.default" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
-							<span *ngIf="!editName">{{config.name}}</span>
-							<span *ngIf="editName"></span>
+							<span *ngIf="selectedConfig == config._id && editName; else name">
+								<input type ="text" name="editName" [(ngModel)]="editNameVal">
+							</span>
+							<ng-template #name>
+								<span >{{config.name}}</span>
+							</ng-template>
 							<!-- <img src="assets/icons/filter_cup.svg" class="filter"> -->
 							<img src="assets/icons/edit-pencil.svg" (click)="editConfig(config,'edit')" class="edit-black">
 						</li>

@@ -37,6 +37,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   selectedConfig:any ={};
   subscription:Subscription;
   editName : boolean = false;
+  editNameVal : String = "";
   @Input() show;
   @Input() settingMainMenu;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -86,9 +87,12 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   editConfig(config,action){
     this.editName = true;
+    this.editNameVal = config.name;
+    this.selectQueryPipelineId(config,null,'edit')
     //this.markAsDefault(config,action)
   }
   markAsDefault(config,action?){
+    this.editName = false;
     const queryParms ={
       queryPipelineId:config._id,
       searchIndexID:this.workflowService.selectedSearchIndexId
@@ -149,7 +153,10 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       }
     );
   }
-  selectQueryPipelineId(queryConfigs){
+  selectQueryPipelineId(queryConfigs,event?,type?){
+    if(event && !this.editName){
+      event.close();
+    }
     this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
