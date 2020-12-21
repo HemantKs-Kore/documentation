@@ -84,9 +84,9 @@
 					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
 						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectConfigDrop)" *ngFor="let config of queryConfigs">
 							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" (click)="markAsDefault(config)" *ngIf="!config.default" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
+							<img src="assets/icons/start-black.svg" (click)="markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
 							<span *ngIf="selectedConfig == config._id && editName; else name">
-								<input type ="text" name="editName" [(ngModel)]="editNameVal">
+								<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (keypress)="onKeypressEvent($event,config)">
 							</span>
 							<ng-template #name>
 								<span >{{config.name}}</span>

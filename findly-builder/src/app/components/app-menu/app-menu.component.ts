@@ -100,7 +100,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     let payload = {}
     if(action == 'edit'){
        payload = {
-        default:true,
+        name:this.editNameVal,
       }
     }else{
        payload = {
@@ -160,6 +160,12 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
+  }
+  onKeypressEvent(e,config){
+    if (e.keyCode == 13) {
+      this.markAsDefault(config,'edit')
+      return false;
+  }
   }
   ngOnInit() {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
