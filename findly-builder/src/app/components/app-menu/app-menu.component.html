@@ -84,9 +84,11 @@
 					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
 						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config);selectConfigDrop.close();" *ngFor="let config of queryConfigs">
 							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
-							<img src="assets/icons/start-black.svg" (click)="markAsDefault(config)" *ngIf="!config.default" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">{{config.name}}
+							<img src="assets/icons/start-black.svg" (click)="markAsDefault(config)" *ngIf="!config.default" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
+							<span *ngIf="!editName">{{config.name}}</span>
+							<span *ngIf="editName"></span>
 							<!-- <img src="assets/icons/filter_cup.svg" class="filter"> -->
-							<img src="assets/icons/edit-pencil.svg" *ngIf="config.filter" class="edit-black">
+							<img src="assets/icons/edit-pencil.svg" (click)="editConfig(config,'edit')" class="edit-black">
 						</li>
 						<div class="create-new" (click)="openModalPopup();selectConfigDrop.close();">+ Create New</div>
 					</ul>

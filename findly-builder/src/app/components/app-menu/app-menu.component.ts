@@ -35,7 +35,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   configObj:any = {};
   selectedConfig:any ={};
-  subscription:Subscription
+  subscription:Subscription;
+  editName : boolean = false;
   @Input() show;
   @Input() settingMainMenu;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -83,14 +84,26 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   selectDefault(){
     this.newConfigObj._id = this.selectedConfig;
   }
-  markAsDefault(config){
+  editConfig(config,action){
+    this.editName = true;
+    //this.markAsDefault(config,action)
+  }
+  markAsDefault(config,action?){
     const queryParms ={
       queryPipelineId:config._id,
       searchIndexID:this.workflowService.selectedSearchIndexId
     }
-    const payload = {
-          default:true,
+    let payload = {}
+    if(action == 'edit'){
+       payload = {
+        default:true,
+      }
+    }else{
+       payload = {
+        default:true,
+      }
     }
+    
     this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
       res => {
         this.notify.notify('Set to default successfully','success');
