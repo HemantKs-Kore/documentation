@@ -64,6 +64,7 @@ export class SearchInsightsComponent implements OnInit {
   onDatesUpdated($event){
     this.startDate = this.selected.startDate;
     this.endDate = this.selected.endDate;
+    this.dateLimt('custom');
     // this.callFlowJourneyData();
   }
   getDateRange(range, e?) {
@@ -71,6 +72,19 @@ export class SearchInsightsComponent implements OnInit {
     if (range === -1) {
       this.showDateRange = true;
       this.datetimeTrigger.nativeElement.click();
+    }
+    else if (range === 7) {
+      this.startDate = moment().subtract({ days: 6 });
+      this.endDate = moment();
+      this.dateLimt('week')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    } else if (range === 1) {
+      this.startDate = moment().subtract({ hours: 23 });
+      this.endDate = moment();
+      this.dateLimt('hour')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
     }
   }
   dateLimt(type){
@@ -120,9 +134,9 @@ export class SearchInsightsComponent implements OnInit {
     let payload : any = {
       type : type,
       filters: {
-        from: from.toJSON(),//yesterday.toJSON(),
-        to: today.toJSON()
-      }
+        from:  this.startDate.toJSON(),//from.toJSON(),
+        to: this.endDate.toJSON()
+      },
     }
     if(type == 'SearchQueryResults'){
       payload.query = this.selectedQuery;

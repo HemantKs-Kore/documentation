@@ -7,13 +7,13 @@
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
             <div class="custom_date_picker_sec">
-                <input type="text" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
                 <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
               </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
-                <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
+                <span class="day time "  (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
+                <span class="week time"  (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
                 <span class="custom time"  (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
