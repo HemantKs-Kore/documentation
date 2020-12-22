@@ -89,7 +89,6 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.editName = true;
     this.editNameVal = config.name;
     this.selectQueryPipelineId(config,null,'edit')
-    //this.markAsDefault(config,action)
   }
   markAsDefault(config,action?){
     this.editName = false;
@@ -107,12 +106,11 @@ export class AppMenuComponent implements OnInit , OnDestroy{
         default:true,
       }
     }
-    
     this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
       res => {
         this.notify.notify('Set to default successfully','success');
-       this.appSelectionService.getQureryPipelineIds();
-       if(config && config._id){
+       this.appSelectionService.getQureryPipelineIds(config);
+       if(config && config._id && action !== 'edit'){
          this.selectQueryPipelineId(config);
        }
       },

@@ -103,6 +103,10 @@ export class AppComponent implements OnInit , OnDestroy {
             setTimeout(()=>{
               this.preview(this.pathsObj[route]);
             },200);
+          } else {
+            setTimeout(()=>{
+              this.preview('');
+            },200);
           }
          } catch (e) {
          }
