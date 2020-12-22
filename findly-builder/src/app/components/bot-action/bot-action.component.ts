@@ -50,7 +50,16 @@ export class BotActionComponent implements OnInit {
     console.log(this.selectedApp);
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     // this.streamId = this.workflowService.selectedApp().findlyLinkedBotId;
-    this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    if (this.workflowService.selectedApp()?.configuredBots[0]) {
+      this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
+    }
+    else if (this.workflowService.selectedApp()?.publishedBots[0]) {
+      this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null;
+    }
+    else {
+      this.streamId = null;
+    }
+
     console.log("StreamID", this.streamId)
     console.log(this.workflowService.selectedApp())
     this.getBots();
@@ -194,20 +203,26 @@ export class BotActionComponent implements OnInit {
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         console.log("Associated Bots", res);
 
-        this.associatedBots = JSON.parse(JSON.stringify(res));
-        console.log(this.associatedBots);
-        this.associatedBotArr = [];
-        if (this.associatedBots.length > 0) {
-          this.associatedBots.forEach(element => {
-            if (this.streamId == element._id) {
-              this.linkedBotName = element.name;
+        // this.associatedBots = JSON.parse(JSON.stringify(res));
+        // console.log(this.associatedBots);
+        this.associatedBots = [];
+        // this.associatedBotArr = [];
+        // if (this.associatedBots.length > 0) {
+        if (res.length > 0) {
+          //this.associatedBots.forEach(element => {
+          res.forEach(element => {
+            if (element.type === "default") {
+              if (this.streamId == element._id) {
+                this.linkedBotName = element.name;
+              }
+
+              /*let botObject = {};
+              botObject['_id'] = element._id;
+              botObject['botName'] = element.botName;
+              this.associatedBotArr.push(botObject);*/
             }
-            let botObject = {};
-            botObject['_id'] = element._id;
-            botObject['botName'] = element.botName;
-            this.associatedBotArr.push(botObject);
           });
-          console.log(this.associatedBotArr);
+          // console.log(this.associatedBotArr);
           this.emptyAssociatedBots = false;
         }
         else {
@@ -245,12 +260,27 @@ export class BotActionComponent implements OnInit {
         console.log(res);
         selectedApp = this.workflowService.selectedApp();
         console.log(selectedApp);
-        selectedApp.configuredBots[0] = {};
-        selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
-        this.linkedBotName = res.configuredBots[0].botName;
+        /*selectedApp.configuredBots[0] = {};
+        selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;*/
+        if (res.configuredBots[0]) {
+          selectedApp.configuredBots[0] = {};
+          selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
+          this.linkedBotName = res.configuredBots[0].botName;
+        }
+        else {
+          selectedApp.publishedBots[0] = {};
+          selectedApp.publishedBots[0]._id = res.publishedBots[0]._id;
+          this.linkedBotName = res.publishedBots[0].botName;
+        }
+        // this.linkedBotName = res.configuredBots[0].botName;
         this.workflowService.selectedApp(selectedApp);
         console.log(res.status);
-        this.streamId = selectedApp.configuredBots[0]._id;
+        if (selectedApp.configuredBots[0]) {
+          this.streamId = selectedApp.configuredBots[0]._id;
+        }
+        else {
+          this.streamId = selectedApp.publishedBots[0]._id;
+        }
         this.getBots();
         this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
@@ -284,7 +314,12 @@ export class BotActionComponent implements OnInit {
         console.log(res);
 
         selectedApp = this.workflowService.selectedApp();
-        selectedApp.configuredBots[0]._id = null;
+        if (selectedApp.configuredBots[0]) {
+          selectedApp.configuredBots[0]._id = null;
+        }
+        else {
+          selectedApp.publishedBots[0]._id = null;
+        }
         this.linkedBotName = null;
         this.workflowService.selectedApp(selectedApp);
         this.streamId = null;
