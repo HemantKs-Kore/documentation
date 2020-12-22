@@ -3,6 +3,9 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { MatDialog } from '@angular/material/dialog';
+import * as _ from 'underscore';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
@@ -21,7 +24,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   varients = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }, { color: '#c44dff', code: 'E' }];
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService) { }
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -40,7 +43,6 @@ export class AppExperimentsComponent implements OnInit {
   form_type: string;
   exp_id: string;
   addExperiment(type, data) {
-    console.log("type based", type, data)
     this.form_type = type;
     this.addExperimentsRef = this.addExperiments.open();
     if (type === 'edit') {
@@ -48,6 +50,7 @@ export class AppExperimentsComponent implements OnInit {
         this.exp_id = data._id;
         this.experiment.name = data.name;
         this.varientArray = data.variants;
+        this.selectedVariant = data.variants;
         this.experiment.duration = data.duration.days;
       }
     }
@@ -55,8 +58,9 @@ export class AppExperimentsComponent implements OnInit {
   //add new varient method
   varientArray: any = [];
   addVarient() {
-    if (this.varientArray.length <= 4)
+    if (this.varientArray.length <= 4) {
       this.varientArray.push(this.varients[this.varientArray.length]);
+    }
   }
   //close varient method
   closeVariant(data) {
@@ -74,10 +78,21 @@ export class AppExperimentsComponent implements OnInit {
   selectedVariant: any = [];
   select_config;
   fetchVariant(type, name, key) {
-    console.log(type, name, key)
+    console.log("this.selectedVariant", this.selectedVariant)
     for (let dat of this.varients) {
       if (dat.code === type.code) {
-        if (key === 'name' && name !== '') { this.selectedVariant.push({ 'code': dat.code, 'name': name, 'trafficPct': 50 }) }
+        if (key === 'name' && name !== '') {
+          const exist = this.selectedVariant.some(dat => dat.code === type.code);
+          console.log("exist", exist)
+          if (exist)
+            for (let i in this.selectedVariant) {
+              if (this.selectedVariant[i].code === type.code) {
+                this.selectedVariant[i] = { ...this.selectedVariant[i], name: name };
+              }
+            }
+          else this.selectedVariant.push({ 'code': dat.code, 'color': dat.color, 'name': name, 'trafficPct': 50 })
+
+        }
         else if (key === 'queryid') {
           for (let i in this.selectedVariant) {
             if (this.selectedVariant[i].code === type.code) {
@@ -131,6 +146,7 @@ export class AppExperimentsComponent implements OnInit {
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
+      console.log("exp list", res)
       this.listOfExperiments = res;
       this.filterExperiments = res;
       this.allExp = this.listOfExperiments.length;
@@ -149,10 +165,10 @@ export class AppExperimentsComponent implements OnInit {
   }
   //add new experiment method
   createExperiment() {
-    console.log("form_type", this.form_type)
     if (this.form_type === 'add') {
       this.experiment.variants = this.selectedVariant;
       this.experiment.duration = { "days": this.experiment.duration };
+      console.log("this.experiment", this.experiment)
       const quaryparms: any = {
         searchIndexId: this.serachIndexId
       };
@@ -170,30 +186,71 @@ export class AppExperimentsComponent implements OnInit {
       });
     }
     else {
-      this.experiment.variants = [...this.varientArray, ...this.selectedVariant].filter(dat => dat.select_config === undefined)
+      this.experiment.variants = this.selectedVariant.filter(dat => dat.queryPipelineId !== undefined || dat.select_config === undefined);
       this.experiment.duration = { "days": this.experiment.duration };
-      console.log("experiment", this.experiment, this.exp_id);
-      const quaryparms: any = {
-        searchIndexId: this.serachIndexId,
-        experimentId: this.exp_id
-      };
-      this.service.invoke('edit.experiment', quaryparms, this.experiment).subscribe(res => {
-        console.log("add res", res);
-        this.closeModalPopup();
-        this.getExperiments();
-        this.notificationService.notify('Experiment Updated successfully', 'success');
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      });
+      console.log("this.experiment", this.experiment)
+      // const quaryparms: any = {
+      //   searchIndexId: this.serachIndexId,
+      //   experimentId: this.exp_id
+      // };
+      // this.service.invoke('edit.experiment', quaryparms, this.experiment).subscribe(res => {
+      //   console.log("add res", res);
+      //   this.closeModalPopup();
+      //   this.getExperiments();
+      //   this.notificationService.notify('Experiment Updated successfully', 'success');
+      // }, errRes => {
+      //   if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      //     this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      //   } else {
+      //     this.notificationService.notify('Failed ', 'error');
+      //   }
+      // });
     }
   }
-  //update experiment
-  updateExperiment() {
-    console.log("this.experiment")
+  //delete experiment popup
+  deleteExperimentPopup(record, event) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Experiment',
+        text: 'Are you sure you want to delete selected Experiment?',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteExperiment(record, dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
+  //delete experiment
+  deleteExperiment(id, dialogRef) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      experimentId: id
+    };
+    this.service.invoke('delete.experiment', quaryparms).subscribe(res => {
+      const deleteIndex = _.findIndex(this.listOfExperiments, (pg) => {
+        return pg._id === id;
+      })
+      this.listOfExperiments.splice(deleteIndex, 1);
+      dialogRef.close();
+      this.notificationService.notify('Experiment Deleted successfully', 'success');
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
   //filter list using tabs
   setTab: string = 'all';

@@ -102,8 +102,12 @@
                   <div class="col-3 ex-title">{{ exp.name }}</div>
                   <div class="col-3 variants">
                     <div class="variants-block left">
-                      <span class="v-name">A</span>
-                      <span class="v-name">B</span>
+                      <span
+                        class="v-name"
+                        *ngFor="let vari of exp.variants"
+                        [style.background-color]="vari.color"
+                        >{{ vari.code }}</span
+                      >
                     </div>
                     <div class="variants-block right">
                       <span class="v-name">B</span>
@@ -142,7 +146,11 @@
                       <div class="hours">22 hrs more to go</div>
                     </div>
                   </div>
-                  <div class="delete-table" *ngIf="exp.state === 'completed'">
+                  <div
+                    class="delete-table"
+                    (click)="deleteExperimentPopup(exp._id, $event)"
+                    *ngIf="exp.state === 'completed'"
+                  >
                     <img src="assets/icons/delete-table.svg" />
                   </div>
                 </div>
@@ -161,17 +169,30 @@
                   </div>
                   <div
                     class="row m-0 col-12 acc-row-body align-items-center"
-                    *ngFor="let variant of exp.variants"
+                    *ngFor="let expCol of exp.variants"
                   >
                     <div class="col-3 d-flex varient-data align-items-center">
-                      <div class="name-letter">A</div>
-                      <div class="name">{{ variant.name }}</div>
+                      <div
+                        class="name-letter"
+                        [style.background-color]="expCol.color"
+                      >
+                        {{ expCol.code }}
+                      </div>
+                      <div class="name">{{ expCol.name }}</div>
                     </div>
-                    <div class="col-2 title">Default</div>
-                    <div class="col-2 title">{{ variant.trafficPct }}%</div>
+                    <div class="col-2 title">
+                      {{ expCol.queryPipelineName | titlecase }}
+                    </div>
+                    <div class="col-2 title">{{ expCol.trafficPct }}%</div>
                     <div class="col-1 title">3200</div>
-                    <div class="col-2 title">3450</div>
-                    <div class="col-2 title">45%</div>
+                    <div class="col-2 title">{{ expCol.searches }}</div>
+                    <div class="col-2 title">
+                      {{
+                        expCol.searches > 0
+                          ? expCol.searches + "%"
+                          : expCol.searches
+                      }}
+                    </div>
                   </div>
                   <div class="v-search-config">
                     <span (click)="addExperiment('edit', exp)"
@@ -184,15 +205,15 @@
           </div>
         </div>
       </div>
-      <div class="no-experiments">
+      <!-- <div class="no-experiments">
         <div class="desc">No search results found</div>
-      </div>
-      <!-- <div
+      </div> -->
+      <div
         class="no-experiments"
         *ngIf="!(listOfExperiments && listOfExperiments.length)"
       >
         <div>No results found</div>
-      </div> -->
+      </div>
       <div
         class="no-experiments"
         *ngIf="!(filterExperiments && filterExperiments.length)"
@@ -236,7 +257,7 @@
 
       <div
         class="row ml-0 mr-0 mb-3 col-12 p-0"
-        *ngFor="let variant of varientArray"
+        *ngFor="let vari of varientArray"
       >
         <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
           <div class="label-text">Variant Name</div>
@@ -246,11 +267,11 @@
             #varName
             placeholder="Enter Variant Name"
             class="input-text"
-            [(ngModel)]="variant.name"
-            (blur)="fetchVariant(variant, varName.value, 'name')"
+            [(ngModel)]="vari.name"
+            (blur)="fetchVariant(vari, varName.value, 'name')"
           />
-          <span class="v-name" [style.background-color]="variant.color">{{
-            variant.code
+          <span class="v-name" [style.background-color]="vari.color">{{
+            vari.code
           }}</span>
         </div>
         <div class="kr-sg-dropdowns col-6 pl-pr-5">
@@ -261,17 +282,21 @@
               data-toggle="dropdown"
             >
               {{
-                variant.select_config
-                  ? variant.select_config
-                  : "Select Configuration"
+                form_type === "add"
+                  ? vari.select_config
+                    ? vari.select_config
+                    : "Select Configuration"
+                  : vari.select_config === undefined
+                  ? vari.queryPipelineName
+                  : vari.select_config
               }}
             </button>
             <ul class="dropdown-menu content-menu">
               <li
                 *ngFor="let query of queryPipeline"
                 (click)="
-                  fetchVariant(variant, query._id, 'queryid');
-                  variant.select_config = query.name
+                  fetchVariant(vari, query._id, 'queryid');
+                  vari.select_config = query.name
                 "
               >
                 {{ query.name }}
