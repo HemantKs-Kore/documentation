@@ -13,7 +13,8 @@ export class SchedulerComponent implements OnInit {
   //allowUrl : AllowUrl = new AllowUrl();
  // blockUrl : BlockUrl = new BlockUrl();
   customRecurrenceRef : any = [];
-  startDate ='';
+  istStratDate: any;
+  startDate :any;
   endDate = '';
   occurence = '';
   endsNever = true;
@@ -88,6 +89,7 @@ export class SchedulerComponent implements OnInit {
     // } 
     // }
     if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
+      this.istStratDate = this.crwalObject.advanceSettings.scheduleOpts.date;
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
       if(this.crwalObject.advanceSettings.scheduleOpts.time){
         this.timeHH = this.crwalObject.advanceSettings.scheduleOpts.time.hour;
@@ -131,7 +133,7 @@ export class SchedulerComponent implements OnInit {
     this.stz = stz;
     if(this.startDate){
       if(this.stz == 'IST'){
-        this.startDate = this.startDate;
+        this.startDate = this.istStratDate;
       }else if(this.stz == 'UTC'){
         this.startDate = new Date(this.startDate).toISOString();
       }else{
@@ -159,7 +161,9 @@ export class SchedulerComponent implements OnInit {
     
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date> , rstz : string) {
-    console.log(`${type}: ${event.value}`);
+    console.log(`${type}: ${event.value}`); 
+    this.istStratDate = event.value;
+    this.startDate = event.value;
     if(rstz == 'regular'){
       this.day = event.value.toString().split(" ")[0].toLocaleUpperCase();
       this.month =  event.value.toString().split(" ")[1].toLocaleUpperCase();
@@ -170,7 +174,7 @@ export class SchedulerComponent implements OnInit {
   calculateCronExpression(){
     let timeHH = this.timeHH;
     // Check for AM -PM conversion 12-24;
-    if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 12) && Number(timeHH) <= 24){
+    if(this.meridiem == 'PM' && timeHH != '' && (Number(timeHH) > 0) && Number(timeHH) <= 24){
         timeHH = this.timeHH + 12;
         if(Number(timeHH) == 24) {
           timeHH = (Number(this.timeHH) - 12).toLocaleString();

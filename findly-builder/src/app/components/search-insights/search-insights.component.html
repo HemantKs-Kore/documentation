@@ -23,7 +23,7 @@
         <div class="data-information-content col-12 m-0 row split-tables">
             <div class="col-12 box-content">
                 <div class="row m-0 col-12 p-0 align-items-center">                    
-                    <div class="title-card col-4 p-0">{{'metrics.search_insights.Top_Search_Results'| translate}}</div>
+                    <div class="title-card col-4 p-0">{{'metrics.search_insights.Top_Search_Queries'| translate}}</div>
                     <div class="col-8 d-flex justify-content-end p-0 search-filter-block">
                         <div class="kr-sg-input-search">                               
                             <input type="text" placeholder="Search" class="input-search" name="searchSources" [(ngModel)]="searchSources">
@@ -54,7 +54,7 @@
                         <div id="querieswithresults" class="tab-pane tab-data-content active show">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_Results'| translate}} <span class=" " placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Searched_Intent'| translate}} <span class=" " placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}} <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}} <span class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>                                    
                                 </div>
@@ -65,7 +65,7 @@
                                         <span class="count">{{result.clicks}}</span>
                                         <div class="view-query" (click)="openModalPopup(result)">
                                             <img src="assets/icons/view-query.svg">    
-                                            <span>View Queries</span>                           
+                                            <span>View Results</span>                           
                                         </div>
                                     </div>
                                 </div>                                  
@@ -75,9 +75,9 @@
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
-                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Search_Results'| translate}}  <span class="info-icon" placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
+                                    <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Searched_Intent'| translate}}  <span class="info-icon" placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
                                     <!-- <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances <span class="info-icon" placement="top-center" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div> -->
-                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.No_of_Clicks'| translate}}  <span class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>                                    
+                                    <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Count'| translate}}  <span class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>                                    
                                 </div>
                                 <div class="table_body row m-0" *ngFor="let result of topQuriesWithNoResults | filter: [ searchSources , 'query']">                                
                                     <div class="col-10 title">{{result.query}}</div>
