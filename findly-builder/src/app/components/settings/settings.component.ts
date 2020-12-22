@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     anonymus: true,
     register: true,
     awt: 'HS256',
-    enabled: true
+    enabled: false
   };
   channels = [
     {
