@@ -155,6 +155,12 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     if(event && !this.editName){
       event.close();
     }
+    if(this.editName && type){
+      this.editName = true
+    }else{
+      this.editName = false;
+      event.close();
+    }
     this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
