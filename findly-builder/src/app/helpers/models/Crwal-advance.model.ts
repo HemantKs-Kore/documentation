@@ -13,6 +13,8 @@ export class AdvanceOpts{
     isCrawlingRestrictToSitemaps= false;
     isJavaScriptRendered = false;
     isBlockHttpsMsgs = false;
+    crawlDepth : number;
+    maxUrlLimit  : number;
     //schedulePeriod: String ="";
     repeatInterval: String ="";
     crawlEverything: boolean = true;
@@ -50,11 +52,11 @@ export class EndsOn {
       
 }
 export class AllowUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 export class BlockUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 

@@ -489,11 +489,11 @@
                   <div class="kr-sg-dropdowns">      
                     <div class="label-text">Crwal Option</div>                                  
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any')"><a>Crawl Everything</a></li>                                              
-                          <li (click)="crawlOption('block')"><a>Crawl Everything Except Specific URls</a></li>
-                          <li (click)="crawlOption('allow')"><a >Crawl Only Specific URLs</a></li>
+                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URls')"><a>Crawl Everything Except Specific URls</a></li>
+                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
                         </ul>
                       </div>
                   </div>
@@ -630,6 +630,24 @@
                 </div>
               </div> 
             
+              <div class="inner-content row">
+                <div class="col-4"> 
+                  
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Crwal Depth <img src="assets/icons/info.svg">
+                    </div>
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                      [(ngModel)]="crawlDepth" class="input-text" >
+                  </div>
+                </div>
+                <div class="col-4"> 
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Max URL Limit <img src="assets/icons/info.svg"></div>
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                      [(ngModel)]="maxUrlLimit" class="input-text">
+                  </div>
+                </div>
+              </div>
               <!-- Cookies -->
                <!-- New Crwal everey thing-->
                 <!-- Old  Crwal Design-->
@@ -848,22 +866,25 @@
                       <div class="col_ col-3">TRIGGERED BY</div>
                       <div class="col_ col-3">EXECUTED ON</div>
                     </header>
-                    <ng-container>
-                      <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
-                        <div class="col_ col-3" ><span class="execute-success"></span>
-                          {{history.executionStats.executionStatusMessage}}</div>
-                        <div class="col_ col-3" >{{history.executionStats.duration}}</div>
-                        <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
-                        <div class="col_ col-3">{{history.createdOn}}</div>
-                      </div>
-                      <!-- <div class="content-body">
-                        <div class="col_ col-3" ><span class="execute-failed"></span> 
-                          Execution Failed</div>
-                        <div class="col_ col-3" >1m 35s</div>
-                        <div class="col_ col-3" >Sunil Singh</div>
-                        <div class="col_ col-3">28 Jul 2020</div>
-                      </div> -->
-                    </ng-container>
+                    <perfect-scrollbar class="scroll-table" #perfectScroll>
+                      <ng-container>
+                        <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
+                          <div class="col_ col-3" ><span class="execute-success"></span>
+                            {{history.executionStats.executionStatusMessage}}</div>
+                          <div class="col_ col-3" >{{history.executionStats.duration}}</div>
+                          <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-3">{{history.createdOn}}</div>
+                        </div>
+                        <!-- <div class="content-body">
+                          <div class="col_ col-3" ><span class="execute-failed"></span> 
+                            Execution Failed</div>
+                          <div class="col_ col-3" >1m 35s</div>
+                          <div class="col_ col-3" >Sunil Singh</div>
+                          <div class="col_ col-3">28 Jul 2020</div>
+                        </div> -->
+                      </ng-container>
+                    </perfect-scrollbar>
+                    
                   </section>
                 </div>
               </div>
