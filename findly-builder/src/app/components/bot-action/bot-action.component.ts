@@ -215,7 +215,7 @@ export class BotActionComponent implements OnInit {
               if (this.streamId == element._id) {
                 this.linkedBotName = element.name;
               }
-
+              this.associatedBots.push(element);
               /*let botObject = {};
               botObject['_id'] = element._id;
               botObject['botName'] = element.botName;
