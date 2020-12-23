@@ -163,12 +163,39 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
   createNewFacet() {
     this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
+    // if(this.selectedField && this.selectedField.fieldDataType){
+    //   this.selectedField.fieldDataType = null;
+    // }
     this.openModal();
   }
   editFacetModal(facet){
     // this.getFieldData(facet.fieldId);
-    this.addEditFacetObj = JSON.parse(JSON.stringify(facet));
-    this.openModal();
+    this.getRecordDetails(facet)
+    // this.addEditFacetObj = JSON.parse(JSON.stringify(facet));
+    // this.openModal();
+  }
+  getRecordDetails(data){
+    //data.fieldName
+    //data.fieldId
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      offset:0,
+      limit:100
+    };
+    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+      res.fields.forEach(element => {
+        if(element._id == data.fieldId){
+          console.log(element)
+          this.addEditFacetObj = JSON.parse(JSON.stringify(data));
+          this.selectField(element);
+          this.openModal();
+        }
+      });
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to get index  stages');
+    });
   }
   resetDefaults(){
     this.facetDefaultValueObj = {
@@ -274,7 +301,13 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
   selectField(suggesition){
     this.selectedField = suggesition;
-    this.addEditFacetObj.fieldId = suggesition.fieldId
+    if(suggesition.fieldId){
+      this.addEditFacetObj.fieldId = suggesition.fieldId;
+      this.selectedField.fieldId = suggesition.fieldId;
+    }else{
+      this.addEditFacetObj.fieldId =  suggesition._id;
+      this.selectedField.fieldId = suggesition._id;
+    }
     this.addEditFacetObj.fieldName = suggesition.fieldName
   }
   createFacet() {
