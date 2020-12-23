@@ -315,13 +315,11 @@
               *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
               data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
               
-            <div
-              *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
-              id="settings" class=" advance-setttings">
-              <hr>
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
-                  <div class="kr-sg-input-text ">
+            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class=" advance-setttings">
+              
+              <div class="inner-content row m-0 schedule-data">
+                <div class="col-12 p-0 input-paddings">
+                  <div class="kr-sg-input-text">
                     <input type="text" class="input-text pointer-none border-no" value="Schedule">
                   </div>
                   <label class="kr-sg-toggle">
@@ -334,10 +332,10 @@
                     (cronExpress)="cronExpress($event)"></app-scheduler>
                 </div>
               </div>
-              <hr>
+              
               <!-- New Crwal everey thing-->
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
+              <div class="inner-content row m-0 crawl-option">
+                <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
                     <div class="label-text">Crwal Option</div>                                  
                     <div class="dropdown dropdown-open">
@@ -464,24 +462,24 @@
                   <!-- Block-->
                 </div>
                 <!-- Cookies -->
-                <div class=" group-checkbox">
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                <div class="group-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                     <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                     <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name = "useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
@@ -490,19 +488,34 @@
               <!-- Cookies -->
               </div>
 
-              <div class="inner-content row">
-                <div class="col-4"> 
-                  
+              <div class="inner-content row m-0">
+                <div class="col-3 p-0">                   
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Crwal Depth <img src="assets/icons/info.svg">
+                    <div class="label-text">Crwal Depth 
+                      <div class="tooltip-custom">
+                      <img src="assets/icons/info.svg">
+                      <span class="tooltiptext">
+                        <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                        <div class="v-text">Value = 0 (No limit)</div>
+                      </span>
+                    </div> 
                     </div>
                     <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
-                <div class="col-4"> 
+                <div class="col-1 p-0"></div>
+                <div class="col-3 p-0"> 
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Max URL Limit <img src="assets/icons/info.svg"></div>
+                    <div class="label-text">Max URL Limit
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div>                    
+                    </div>
                     <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
@@ -652,6 +665,7 @@
               </div>
             </div>
           </div>
+          
         </div>
         </div>
       </perfect-scrollbar>

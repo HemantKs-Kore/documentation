@@ -484,8 +484,8 @@
                 </div>
 
                 <!-- New Crwal everey thing-->
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
+              <div class="inner-content row m-0 crawl-option">
+                <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
                     <div class="label-text">Crwal Option</div>                                  
                     <div class="dropdown dropdown-open">
@@ -608,41 +608,56 @@
 
               <!-- Cookies -->
                 <div class=" group-checkbox">
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [checked]="isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [checked]="isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [checked]="isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                     <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [checked]="isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                     <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name = "useCookies" [checked]="useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
               </div> 
             
-              <div class="inner-content row">
-                <div class="col-4"> 
-                  
+              <div class="inner-content row m-0">
+                <div class="col-3 p-0">                   
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Crwal Depth <img src="assets/icons/info.svg">
+                    <div class="label-text">Crwal Depth 
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div> 
                     </div>
                     <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
-                <div class="col-4"> 
+                <div class="col-1 p-0"></div>
+                <div class="col-3 p-0"> 
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Max URL Limit <img src="assets/icons/info.svg"></div>
+                    <div class="label-text">Max URL Limit 
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div> 
+                    </div>
                     <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
@@ -855,10 +870,10 @@
 
           </div>
           <!-- Execution -->
-          <div *ngIf = "execution">
-            <div class="accordion-content-info text-left ">
+          <div *ngIf="execution">
+            <div class="accordion-content-info text-left">
               <div class="table-list-content execution">
-                <div class="kr-sg-data-table with-checkbox"  >
+                <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content">
                     <header class="table-header">
                       <div class="col_ col-3">EXECUTION STATUS</div>
@@ -869,22 +884,14 @@
                     <perfect-scrollbar class="scroll-table" #perfectScroll>
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
-                          <div class="col_ col-3" ><span class="execute-success"></span>
-                            {{history.executionStats.executionStatusMessage}}</div>
-                          <div class="col_ col-3" >{{history.executionStats.duration}}</div>
-                          <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-3 pr-5"><span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class"><img src="assets/icons/content/success.svg"></span>{{history.executionStats.executionStatusMessage}} <div class="eye-img"><img src="assets/icons/content/eye.svg"></div>
+                          </div>
+                          <div class="col_ col-3">{{history.executionStats.duration}}</div>
+                          <div class="col_ col-3">{{history.executionStats.triggeredBy}}</div>
                           <div class="col_ col-3">{{history.createdOn}}</div>
-                        </div>
-                        <!-- <div class="content-body">
-                          <div class="col_ col-3" ><span class="execute-failed"></span> 
-                            Execution Failed</div>
-                          <div class="col_ col-3" >1m 35s</div>
-                          <div class="col_ col-3" >Sunil Singh</div>
-                          <div class="col_ col-3">28 Jul 2020</div>
-                        </div> -->
+                        </div>                      
                       </ng-container>
-                    </perfect-scrollbar>
-                    
+                    </perfect-scrollbar>                    
                   </section>
                 </div>
               </div>
