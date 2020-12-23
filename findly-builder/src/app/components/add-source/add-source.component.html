@@ -5,10 +5,9 @@
     <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
   </div>
   <!-- <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4> -->
-  <perfect-scrollbar
-    [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
+  <perfect-scrollbar [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
     <div class="h-100 position-relative addNewSource">
-      <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
+      <!-- <div class="sources-content-box-list h-100 d-none" *ngIf="!selectedSourceType">
         <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">
           <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
           <div class="col-4 webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
@@ -21,18 +20,22 @@
                   <div >{{source.description}}</div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="box-block">
-              <div class="title label_text m-0">{{source.name}}</div>
-              <div class="imageDiv">
-                <img src="{{source.icon}}">
-              </div>
-              <div class="info-text">{{source.description}}</div>
-            </div> -->
+            </div>           
           </div>
         </div>
-      </div>
-      <!-- FAQ Extract Doc-->
+      </div>     -->
+      <div class="source_content_boxes" *ngIf="!selectedSourceType">
+        <div class="crawlContent row" *ngFor="let sourceCatagory of availableSources">
+          <div class="main-title col-12 p-0">{{sourceCatagory.title}}</div>
+          <div class="card-data" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+            <div class="img-block"><img src="{{source.icon}}"></div>
+            <div class="titles-sec">
+              <div class="p-title text-truncate" title="{{source.name}}">{{source.name}}</div>
+              <div class="s-title text-truncate" title="{{source.description}}">{{source.description}}</div>
+            </div>
+          </div>
+        </div>
+      </div>        
     </div>
   </perfect-scrollbar>
 </div>
@@ -678,30 +681,30 @@
     </form>
   </ng-container>
 </kr-modal>
-<kr-modal modalType="center" modalClass="botsModal" #linkBotsModalPop>
+
+<kr-modal modalType="center" modalClass="botsModal modal_popups_" #linkBotsModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
-    <div class="bots-modal-modal-header">
-      <span class="bots-modal-header-title">Link Bots</span>
-      <button class="button-close" (click)="cancleSourceAddition()"><img class="ng-tns-c11-2"
-          src="assets/icons/modal-close.svg"></button>
+    <div class="modal-header">
+      <div class="title">Link Bots</div>
+      <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
     </div>
-    <div class="bots-modal-modal-body">
-      <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
-        <img src="assets/images/icons/empty_ill.svg">
-        <h2>No Bots</h2>
-        <h4>Please add bots</h4>
-      </div>
-      <ng-container *ngIf="!noAssociatedBots">
-        <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
-          only link bots
-          that you have the rights to access.</p>
-        <div class="bots-modal-search-input-container">
-          <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
-            name="searchAssociatedBots">
-          <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+      <div class="modal-body bots-modal-modal-body">
+        <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
+          <img src="assets/images/icons/empty_ill.svg">
+          <h2>No Bots</h2>
+          <h4>Please add bots</h4>
         </div>
-        <ng-container>
-          <perfect-scrollbar>
+        <ng-container *ngIf="!noAssociatedBots">
+          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
+            only link bots
+            that you have the rights to access.</p>
+          <div class="bots-modal-search-input-container">
+            <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
+              name="searchAssociatedBots">
+            <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+          </div>
+          <ng-container>
             <div class="bots-modal-list-container">
               <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
                 <ng-container
@@ -732,9 +735,9 @@
                 </ng-container>
               </ngb-accordion>
             </div>
-          </perfect-scrollbar>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
-  </ng-container>
-</kr-modal>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>  
+</kr-modal> 

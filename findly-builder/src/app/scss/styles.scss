@@ -1236,6 +1236,7 @@ div.divBlockEmptylastChild:first-child {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
         display: block !important;
+        margin-bottom: 4px;
         &.noShadow{
             box-shadow: none;
         }
