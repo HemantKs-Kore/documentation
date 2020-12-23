@@ -239,7 +239,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
       if(!this.addEditFacetObj.facetRange){
         this.addEditFacetObj.facetRange = [];
       }
-      this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
+      if(this.facetDefaultValueObj.range.rangeName){
+        this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
+      }
     // }
     this.resetDefaults();
   }
@@ -414,7 +416,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
  }
  addOrUpdate(){
-  //this.addFiled();
+  this.addFiled();
    if(this.addEditFacetObj && this.addEditFacetObj._id){
     this.editFacet();
    } else {
