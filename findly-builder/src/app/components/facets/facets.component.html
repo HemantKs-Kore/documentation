@@ -130,7 +130,7 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetType?addEditFacetObj.facetType:'Choose an option') | translate}}</button>                                          
                     <ul class="dropdown-menu content-menu">                                                                   
                       <li (click)="switchType('value')"><a>{{'facets.value'| translate}}</a></li>
-                      <li (click)="switchType('range')"><a>{{'facets.range'| translate}}</a></li>
+                      <li (click)="switchType('range')" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && selectedField.fieldDataType =='number'"><a>{{'facets.range'| translate}}</a></li>
                     </ul>
                 </div>
             </div>
