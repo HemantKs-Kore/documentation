@@ -101,7 +101,7 @@
         <div class="search_block">
             <div class="label-text">{{'facets.field_name'| translate}}</div>             
             <div class="row m-0 align-items-center">
-                <div class="kr-sg-dropdowns col-10 pl-0" [ngClass]="{'disabled': addEditFacetObj._id}"> <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
+                <div class="kr-sg-dropdowns col-10 pl-0"> <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
