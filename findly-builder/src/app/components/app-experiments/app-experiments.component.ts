@@ -22,9 +22,9 @@ export class AppExperimentsComponent implements OnInit {
     variants: [],
     duration: 0
   }
-  conn: any = [true, true, true];
-  tool: any = [true, true];
-  star: any = [50, 100];
+  conn: any = [true];
+  tool: any = [];
+  star: any = [100];
   flag: boolean = false;
   someRange;
   showSlider: boolean = false;
@@ -54,8 +54,8 @@ export class AppExperimentsComponent implements OnInit {
     this.varientArray = [];
     this.selectedVariant = [];
     this.showSlider = false;
-    this.conn = [true, true];
-    this.tool = [true];
+    this.conn = [true];
+    this.tool = [];
     this.star = [100];
     this.experiment = { name: '', variants: [], duration: 0 };
     this.addExperimentsRef.close();
@@ -80,37 +80,38 @@ export class AppExperimentsComponent implements OnInit {
   varientArray: any = [];
   addVarient() {
     this.star = [];
-    if (this.varientArray.length < 4) {
+    console.log("this.varientArray", this.varientArray)
+    if (this.varientArray.length < 2) {
       this.varientArray.push(this.varients[this.varientArray.length]);
       this.flag = false;
-      if (this.varientArray.length === 1) {
-        this.conn.push(true);
-        this.tool.push(true);
-        this.star = [100];
-      }
-      else if (this.varientArray.length === 2) {
-        this.conn.push(true);
-        this.tool.push(true);
-        this.star = [50, 50];
-        console.log(this.conn, this.tool)
-      }
-      else if (this.varientArray.length === 3) {
-        this.star = [33.33, 33.33, 33.33];
-        this.conn.push(true);
-        this.tool.push(true);
-      }
-      else if (this.varientArray.length === 4) {
-        this.star = [25, 25, 25, 25];
-        this.conn.push(true);
-        this.tool.push(true);
-      }
-      this.showSlider = true;
-      console.log("this.star", this.star);
-      this.sliderref.slider.destroy();
-      this.sliderref.slider.updateOptions(this.someRangeconfig, true);
-      setTimeout(() => {
-        this.showSlider = true;
-      }, 1000);
+      // if (this.varientArray.length === 1) {
+      //   this.conn.push(true);
+      //   this.tool.push(true);
+      //   this.star = [100];
+      // }
+      // else if (this.varientArray.length === 2) {
+      //   this.conn.push(true);
+      //   this.tool.push(true);
+      //   this.star = [50, 50];
+      //   console.log(this.conn, this.tool)
+      // }
+      // else if (this.varientArray.length === 3) {
+      //   this.star = [33.33, 33.33, 33.33];
+      //   this.conn.push(true);
+      //   this.tool.push(true);
+      // }
+      // else if (this.varientArray.length === 4) {
+      //   this.star = [25, 25, 25, 25];
+      //   this.conn.push(true);
+      //   this.tool.push(true);
+      // }
+      // this.showSlider = true;
+      // console.log("this.star", this.star);
+      // this.sliderref.slider.destroy();
+      // this.sliderref.slider.updateOptions(this.someRangeconfig, true);
+      // setTimeout(() => {
+      //   this.showSlider = true;
+      // }, 1000);
     }
   }
   //close varient method
@@ -240,23 +241,42 @@ export class AppExperimentsComponent implements OnInit {
       this.experiment.variants = this.selectedVariant.filter(dat => dat.queryPipelineId !== undefined || dat.select_config === undefined);
       this.experiment.duration = { "days": this.experiment.duration };
       console.log("this.experiment", this.experiment)
-      // const quaryparms: any = {
-      //   searchIndexId: this.serachIndexId,
-      //   experimentId: this.exp_id
-      // };
-      // this.service.invoke('edit.experiment', quaryparms, this.experiment).subscribe(res => {
-      //   console.log("add res", res);
-      //   this.closeModalPopup();
-      //   this.getExperiments();
-      //   this.notificationService.notify('Experiment Updated successfully', 'success');
-      // }, errRes => {
-      //   if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-      //     this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      //   } else {
-      //     this.notificationService.notify('Failed ', 'error');
-      //   }
-      // });
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        experimentId: this.exp_id
+      };
+      this.service.invoke('edit.experiment', quaryparms, this.experiment).subscribe(res => {
+        console.log("add res", res);
+        this.closeModalPopup();
+        this.getExperiments();
+        this.notificationService.notify('Experiment Updated successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
     }
+  }
+  //run an experiment
+  runExperiment(id) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      experimentId: id
+    };
+    const Obj = { "state": "active" }
+    this.service.invoke('edit.experiment', quaryparms, Obj).subscribe(res => {
+      console.log("run res", res);
+      this.notificationService.notify('Experiment Running successfully', 'success');
+      this.getExperiments();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
   //delete experiment popup
   deleteExperimentPopup(record, event) {

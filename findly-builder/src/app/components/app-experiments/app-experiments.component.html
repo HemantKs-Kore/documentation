@@ -146,6 +146,11 @@
                       <div class="hours">22 hrs more to go</div>
                     </div>
                   </div>
+                  <div class="right-sec" *ngIf="exp.state === 'configured'">
+                    <button class="hours" (click)="runExperiment(exp._id)">
+                      Run
+                    </button>
+                  </div>
                   <div
                     class="delete-table"
                     (click)="deleteExperimentPopup(exp._id, $event)"
@@ -311,14 +316,14 @@
       </div>
       <br />
 
-      <div class="col-6 pl-pr-5">
+      <!-- <div class="col-6 pl-pr-5" *ngIf="showSlider">
         <div class="label-text">Traffic</div>
         <nouislider
           #sliderref
           [config]="someRangeconfig"
           [(ngModel)]="someRange"
         ></nouislider>
-      </div>
+      </div> -->
 
       <div class="duration-sec">
         <div class="kr-sg-input-text">
