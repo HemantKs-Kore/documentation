@@ -163,9 +163,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
   createNewFacet() {
     this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
-    // if(this.selectedField && this.selectedField.fieldDataType){
-    //   this.selectedField.fieldDataType = null;
-    // }
+    if(this.selectedField && this.selectedField.fieldDataType){
+      this.selectedField.fieldDataType = null;
+    }
     this.openModal();
   }
   editFacetModal(facet){
