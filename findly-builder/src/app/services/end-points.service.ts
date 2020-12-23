@@ -349,6 +349,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
       method: 'put'
     }
+    this.serviceList['put.syncLinkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails/sync',
+      method: 'put'
+    }
     this.serviceList['put.queryPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
       method: 'put'

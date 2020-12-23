@@ -431,30 +431,48 @@ export class BotActionComponent implements OnInit {
 
   enableTask(taskID, taskVisibility) {
     event.preventDefault();
-    let requestBody = [];
+    let requestBody = {};
+    requestBody['tasks'] = [];
     let taskObject = {};
 
-    if (taskID && taskVisibility != null && this.searchIndexId) {
+    if (taskID && this.searchIndexId) {
       const queryParams: any = {
         searchIndexID: this.searchIndexId
       };
 
       taskObject['_id'] = taskID;
       taskObject['streamId'] = this.streamId;
-      taskObject['isHidden'] = taskVisibility;
+      taskObject['isHidden'] = false;
 
-      requestBody.push(taskObject);
+      requestBody['tasks'].push(taskObject)
       console.log(requestBody)
 
       this.service.invoke('put.enableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
         console.log(res);
-        this.linkedBotTasks.map(element => {
+        /*this.linkedBotTasks.map(element => {
           if (res._id === element._id) {
             element = res;
             console.log(element);
             this.notificationService.notify("Task Enabled, Successfully", 'success');
           }
-        })
+        })*/
+        if (res.tasks.length > 0) {
+          this.linkedBotTasks = [];
+          res.tasks.forEach(element => {
+            if (element.state == "published") {
+              if (element.isHidden == false) {
+                element.taskStatus = "Enabled";
+              }
+              else {
+                element.taskStatus = "Disabled";
+              }
+              element.type = element.type ?? "Dialog";
+              this.linkedBotTasks.push(element);
+            }
+          });
+          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          this.notificationService.notify("Task Enabled, Successfully", 'success');
+        }
       },
         (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
     }
@@ -466,27 +484,44 @@ export class BotActionComponent implements OnInit {
     requestBody['tasks'] = [];
     let taskObject = {};
 
-    if (taskID && taskVisibility != null && this.searchIndexId) {
+    if (taskID && this.searchIndexId) {
       const queryParams: any = {
         searchIndexID: this.searchIndexId
       };
 
       taskObject['_id'] = taskID;
       taskObject['streamId'] = this.streamId;
-      taskObject['isHidden'] = taskVisibility;
+      taskObject['isHidden'] = true;
 
       requestBody['tasks'].push(taskObject)
       console.log(requestBody)
 
       this.service.invoke('put.disableTask', queryParams, requestBody, { "state": "published" }).subscribe(res => {
         console.log(res);
-        this.linkedBotTasks.map(element => {
+        /*this.linkedBotTasks.map(element => {
           if (res._id === element._id) {
             element = res;
             console.log(element);
             this.notificationService.notify("Task Disabled, Successfully", 'success');
           }
-        })
+        })*/
+        if (res.tasks.length > 0) {
+          this.linkedBotTasks = [];
+          res.tasks.forEach(element => {
+            if (element.state == "published") {
+              if (element.isHidden == false) {
+                element.taskStatus = "Enabled";
+              }
+              else {
+                element.taskStatus = "Disabled";
+              }
+              element.type = element.type ?? "Dialog";
+              this.linkedBotTasks.push(element);
+            }
+          });
+          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+          this.notificationService.notify("Task Disabled, Successfuly", 'success')
+        }
       }, (err) => { this.notificationService.notify("Task Disabling Failed", 'error') })
     }
   }
@@ -498,7 +533,22 @@ export class BotActionComponent implements OnInit {
       };
       this.service.invoke('put.syncLinkedBot', queryParams, null, { "state": "published" }).subscribe(res => {
         console.log(res);
-        this.linkedBotTasks = res.tasks;
+        if (res.tasks.length > 0) {
+          this.linkedBotTasks = [];
+          res.tasks.forEach(element => {
+            if (element.state == "published") {
+              if (element.isHidden == false) {
+                element.taskStatus = "Enabled";
+              }
+              else {
+                element.taskStatus = "Disabled";
+              }
+              element.type = element.type ?? "Dialog";
+              this.linkedBotTasks.push(element);
+            }
+          });
+          console.log("Linked Bot, Tasks", this.linkedBotTasks);
+        }
         this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
     }
