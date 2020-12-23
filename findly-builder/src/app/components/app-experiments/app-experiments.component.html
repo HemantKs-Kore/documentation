@@ -309,6 +309,16 @@
       <div class="mb-3 variant-add" (click)="addVarient()">
         <img src="assets/icons/add_blue.svg" />Add Variant
       </div>
+      <br />
+
+      <div class="col-6 pl-pr-5">
+        <div class="label-text">Traffic</div>
+        <nouislider
+          #sliderref
+          [config]="someRangeconfig"
+          [(ngModel)]="someRange"
+        ></nouislider>
+      </div>
 
       <div class="duration-sec">
         <div class="kr-sg-input-text">

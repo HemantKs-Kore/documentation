@@ -22,7 +22,24 @@ export class AppExperimentsComponent implements OnInit {
     variants: [],
     duration: 0
   }
+  conn: any = [true, true, true];
+  tool: any = [true, true];
+  star: any = [50, 100];
+  flag: boolean = false;
+  someRange;
+  showSlider: boolean = false;
+  public someRangeconfig: any = {
+    behaviour: "drag",
+    connect: this.conn,
+    tooltips: this.tool,
+    start: this.star,
+    range: {
+      min: 0,
+      max: 100
+    }
+  };
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
+  @ViewChild("sliderref") sliderref;
   varients = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }, { color: '#c44dff', code: 'E' }];
   constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog,) { }
 
@@ -36,10 +53,14 @@ export class AppExperimentsComponent implements OnInit {
   closeModalPopup() {
     this.varientArray = [];
     this.selectedVariant = [];
+    this.showSlider = false;
+    this.conn = [true, true];
+    this.tool = [true];
+    this.star = [100];
     this.experiment = { name: '', variants: [], duration: 0 };
     this.addExperimentsRef.close();
   }
-  //open experiment model 
+  //open experiment model
   form_type: string;
   exp_id: string;
   addExperiment(type, data) {
@@ -58,8 +79,38 @@ export class AppExperimentsComponent implements OnInit {
   //add new varient method
   varientArray: any = [];
   addVarient() {
-    if (this.varientArray.length <= 4) {
+    this.star = [];
+    if (this.varientArray.length < 4) {
       this.varientArray.push(this.varients[this.varientArray.length]);
+      this.flag = false;
+      if (this.varientArray.length === 1) {
+        this.conn.push(true);
+        this.tool.push(true);
+        this.star = [100];
+      }
+      else if (this.varientArray.length === 2) {
+        this.conn.push(true);
+        this.tool.push(true);
+        this.star = [50, 50];
+        console.log(this.conn, this.tool)
+      }
+      else if (this.varientArray.length === 3) {
+        this.star = [33.33, 33.33, 33.33];
+        this.conn.push(true);
+        this.tool.push(true);
+      }
+      else if (this.varientArray.length === 4) {
+        this.star = [25, 25, 25, 25];
+        this.conn.push(true);
+        this.tool.push(true);
+      }
+      this.showSlider = true;
+      console.log("this.star", this.star);
+      this.sliderref.slider.destroy();
+      this.sliderref.slider.updateOptions(this.someRangeconfig, true);
+      setTimeout(() => {
+        this.showSlider = true;
+      }, 1000);
     }
   }
   //close varient method
