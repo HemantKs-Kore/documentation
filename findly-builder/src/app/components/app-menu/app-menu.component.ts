@@ -159,13 +159,16 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       this.editName = true
     }else{
       this.editName = false;
-      event.close();
+      //event.close();
     }
     this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
   }
   onKeypressEvent(e,config){
+    if(e){
+      e.stopPropagation();
+    }
     if (e.keyCode == 13) {
       this.markAsDefault(config,'edit')
       return false;

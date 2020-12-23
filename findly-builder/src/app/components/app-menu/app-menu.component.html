@@ -86,13 +86,13 @@
 							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
 							<img src="assets/icons/start-black.svg" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
 							<span *ngIf="selectedConfig == config._id && editName; else name">
-								<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (keypress)="onKeypressEvent($event,config)">
+								<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
 							</span>
 							<ng-template #name>
 								<span >{{config.name}}</span>
 							</ng-template>
 							<!-- <img src="assets/icons/filter_cup.svg" class="filter"> -->
-							<img src="assets/icons/edit-pencil.svg" (click)="$event.stopPropagation();editConfig(config,'edit')" class="edit-black">
+							<img src="assets/icons/edit-pencil.svg" *ngIf="!editName" (click)="$event.stopPropagation();editConfig(config,'edit')" class="edit-black">
 						</li>
 						<div class="create-new" (click)="openModalPopup();selectConfigDrop.close();">+ Create New</div>
 					</ul>

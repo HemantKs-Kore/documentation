@@ -54,7 +54,7 @@
                                             <div   class="card_link collapsed">      
                                                 <div class="d-flex align-items-center">
                                                     <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off"  (click) ="clickCustomizeRecord(list)">
+                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="clickCustomizeRecord(list)">
                                                         <label [attr.for]="i" class="checkbox-custom-label" ></label>
                                                     </div>
                                                     <div class="title-desc-sec col-10">

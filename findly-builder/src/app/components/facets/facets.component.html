@@ -101,7 +101,7 @@
         <div class="search_block">
             <div class="label-text">{{'facets.field_name'| translate}}</div>             
             <div class="row m-0 align-items-center">
-                <div class="kr-sg-dropdowns col-10 pl-0" [ngClass]="{'disabled': addEditFacetObj._id}">
+                <div class="kr-sg-dropdowns col-10 pl-0" [ngClass]="{'disabled': addEditFacetObj._id}"> <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
@@ -130,7 +130,7 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetType?addEditFacetObj.facetType:'Choose an option') | translate}}</button>                                          
                     <ul class="dropdown-menu content-menu">                                                                   
                       <li (click)="switchType('value')"><a>{{'facets.value'| translate}}</a></li>
-                      <li (click)="switchType('range')"><a>{{'facets.range'| translate}}</a></li>
+                      <li (click)="switchType('range')" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && selectedField.fieldDataType !='string'"><a>{{'facets.range'| translate}}</a></li>
                     </ul>
                 </div>
             </div>
