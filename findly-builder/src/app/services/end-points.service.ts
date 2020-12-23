@@ -560,19 +560,6 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'get'
     }
-    /** APIs for Business rules */
-    this.serviceList['get.businessRules'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp?offset=:offset&limit=:limit',
-      method: 'get'
-    },
-      this.serviceList['create.businessRules'] = {
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp',
-        method: 'post'
-      },
-      this.serviceList['get.businessRuleById'] = {
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/rulesp/:ruleId',
-        method: 'get'
-      }
     this.serviceList['update.businessRule'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'put'
@@ -586,7 +573,7 @@ export class EndPointsService {
       method: 'delete'
     }
     this.serviceList['get.businessRulesLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/logs?subject=rules',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/logs?subject=rules',
       method: 'get'
     }
     /** APIs for Business rules */
