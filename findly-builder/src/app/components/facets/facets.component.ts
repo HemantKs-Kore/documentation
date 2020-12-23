@@ -414,7 +414,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
  }
  addOrUpdate(){
-  this.addFiled();
+  //this.addFiled();
    if(this.addEditFacetObj && this.addEditFacetObj._id){
     this.editFacet();
    } else {

@@ -33,6 +33,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   mocData : any;
   subscription: Subscription;
   timeLogData : any;
+  lastModifiedOn : any;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -179,11 +180,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
-      this.actionLogData = res;
+      this.lastModifiedOn = res.lMod;
+      this.actionLogData = res.customizations;
       for(let i =0; i<this.actionLogData.length; i++){
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
-        this.actionLogData[i].target.contentInfo.createdOn = moment(this.actionLogData[i].target.contentInfo.createdOn).fromNow()
+        this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
         //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         // if(this.actionLogData[i].target.contentType == 'faq'){
         //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
