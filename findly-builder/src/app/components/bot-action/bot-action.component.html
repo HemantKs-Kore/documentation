@@ -15,167 +15,170 @@
     </div>
   </div>
   <!-- <div class="bot-actions-content-container" *ngIf="(bots && bots.length) && !loadingContent"> -->
-  <div class="bot-actions-content-container"
-    *ngIf="( (linkedBotTasks && linkedBotTasks.length) || (linkedBotFAQs && linkedBotFAQs.length) ) && !loadingContent">
-    <div class="linked-bot-details-container">
-      <div class="linked-bot-info-container">
-        <div class="linked-bot-image-container">
-          <img src="assets/images/icons8-bot 3.png" class="linked-bot-image" />
+  <ng-container *ngIf="linkedBotID && !loadingContent">
+    <div class="bot-actions-content-container">
+      <div class="linked-bot-details-container">
+        <div class="linked-bot-info-container">
+          <div class="linked-bot-image-container">
+            <img src="assets/images/icons8-bot 3.png" class="linked-bot-image" />
+          </div>
+          <div class="linked-bot-info">
+            <p class="bold-text">Bot Name: <span class="linked-bot-name">{{linkedBotName}}</span></p>
+            <p class="normal-text">{{linkedBotDescription}}</p>
+          </div>
         </div>
-        <div class="linked-bot-info">
-          <p class="bold-text">Bot Name: <span class="linked-bot-name">{{linkedBotName}}</span></p>
-          <p class="normal-text">{{linkedBotDescription}}</p>
+        <div class="linked-bot-controls-container">
+          <button class="button-sync-bot-content" (click)="syncLinkedBot()"><img
+              src="assets/icons/iconRefresh.svg" />&nbsp;Sync</button>
+          <button class="button-unlink-bot" (click)="unlinkBot(linkedBotID)"><img
+              src="assets/icons/iconUnlink.svg" />&nbsp;Unlink</button>
         </div>
       </div>
-      <div class="linked-bot-controls-container">
-        <button class="button-sync-bot-content" (click)="syncLinkedBot()"><img src="assets/icons/iconRefresh.svg" />&nbsp;Sync</button>
-        <button class="button-unlink-bot" (click)="unlinkBot(linkedBotID)"><img
-            src="assets/icons/iconUnlink.svg" />&nbsp;Unlink</button>
-      </div>
-    </div>
-    <div class="linked-bot-content-container">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#linkedBotTasks">Tasks ({{linkedBotTasks.length}})</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#linkedBotFAQs">FAQs ({{linkedBotFAQs.length}})</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#linkedBotSmallTalk">Small Talk</a>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div id="linkedBotTasks" class="tab-pane active">
-          <div class="linked-bot-tasks-content-container">
-            <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length )">
-              <perfect-scrollbar class="linked-bot-tasks-content-container-scroll">
-                <div class="linked-bot-tasks-list">
-                  <ng-container *ngFor="let task of linkedBotTasks; let i = index">
-                    <div class="card linked-bot-task-card">
-                      <div class="card-body">
-                        <!-- <div class="linked-bot-task-checkbox-container">
+      <div class="linked-bot-content-container">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#linkedBotTasks">Tasks ({{linkedBotTasks.length}})</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#linkedBotFAQs">FAQs ({{linkedBotFAQs.length}})</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#linkedBotSmallTalk">Small Talk</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="linkedBotTasks" class="tab-pane active">
+            <div class="linked-bot-tasks-content-container">
+              <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length )">
+                <perfect-scrollbar class="linked-bot-tasks-content-container-scroll">
+                  <div class="linked-bot-tasks-list">
+                    <ng-container *ngFor="let task of linkedBotTasks; let i = index">
+                      <div class="card linked-bot-task-card">
+                        <div class="card-body">
+                          <!-- <div class="linked-bot-task-checkbox-container">
                       </div> -->
-                        <div class="col-6 linked-bot-task-details-container">
-                          <p class="bold-text">{{task.name}}</p>
-                          <p class="normal-text">Bot-related Task</p>
-                        </div>
-                        <div class="col-6 linked-bot-task-views-clicks-container">
-                          <span class="linked-bot-task-type">{{task.type}}</span>
-                          <span class="linked-bot-task-status">{{task.taskStatus}}</span>
-                          <span class="linked-bot-task-views"><img class="linked-bot-task-view-icon"
-                              src="assets/icons/iconViews.svg" />&nbsp; {{task.noOfAppearences}}&nbsp;VIEWS</span>
-                          <span class="linked-bot-task-clicks"><img class="linked-bot-task-click-icon"
-                              src="assets/icons/iconClicks.svg" />&nbsp; {{task.noOfClicks}}&nbsp;CLICKS</span>
-                          <div class="linked-task-status-control dropdown-control"><img class="ellipse-icon"
-                              src="assets/icons/elipse.svg">
-                            <div class="dropdown-content">
-                              <ul class="dropdown-content-list">
-                                <li class="dropdown-content-list-item" *ngIf="task.taskStatus == 'Disabled'"
-                                  (click)="enableTask(task._id, task.isHidden)">Enable Task</li>
-                                <li class="dropdown-content-list-item" *ngIf="task.taskStatus == 'Enabled'"
-                                  (click)="disableTask(task._id, task.isHidden)">Disable Task</li>
-                              </ul>
+                          <div class="col-6 linked-bot-task-details-container">
+                            <p class="bold-text">{{task.name}}</p>
+                            <p class="normal-text">Bot-related Task</p>
+                          </div>
+                          <div class="col-6 linked-bot-task-views-clicks-container">
+                            <span class="linked-bot-task-type">{{task.type}}</span>
+                            <span class="linked-bot-task-status">{{task.taskStatus}}</span>
+                            <span class="linked-bot-task-views"><img class="linked-bot-task-view-icon"
+                                src="assets/icons/iconViews.svg" />&nbsp; {{task.noOfAppearences}}&nbsp;VIEWS</span>
+                            <span class="linked-bot-task-clicks"><img class="linked-bot-task-click-icon"
+                                src="assets/icons/iconClicks.svg" />&nbsp; {{task.noOfClicks}}&nbsp;CLICKS</span>
+                            <div class="linked-task-status-control dropdown-control"><img class="ellipse-icon"
+                                src="assets/icons/elipse.svg">
+                              <div class="dropdown-content">
+                                <ul class="dropdown-content-list">
+                                  <li class="dropdown-content-list-item" *ngIf="task.taskStatus == 'Disabled'"
+                                    (click)="enableTask(task._id)">Enable Task</li>
+                                  <li class="dropdown-content-list-item" *ngIf="task.taskStatus == 'Enabled'"
+                                    (click)="disableTask(task._id)">Disable Task</li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </ng-container>
+                    </ng-container>
+                  </div>
+                </perfect-scrollbar>
+              </ng-container>
+              <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length)">
+                <div class="linked-bot-tasks-empty-content">
+                  <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
+                  <div class="empty-content-container-content">
+                    <p class="bold-text">No linked tasks found!</p>
+                  </div>
                 </div>
-              </perfect-scrollbar>
-            </ng-container>
-            <ng-container *ngIf="!(linkedBotTasks && linkedBotTasks.length)">
-              <div class="linked-bot-tasks-empty-content">
-                <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
-                <div class="empty-content-container-content">
-                  <p class="bold-text">No linked tasks found!</p>
-                </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
-        </div>
-        <div id="linkedBotFAQs" class="tab-pane">
-          <div class="linked-bot-faqs-content-container">
-            <ng-container *ngIf="(linkedBotFAQs && linkedBotFAQs.length)">
-              <perfect-scrollbar class="linked-bot-faqs-content-container-scroll">
-                <div class="linked-bot-faqs-list">
-                  <ngb-accordion #accordionList="ngbAccordion" [closeOthers]="true" class="linked-bot-FAQs-accordion">
-                    <ng-container *ngFor="let faq of linkedBotFAQs; let i = index">
-                      <ngb-panel id="{{'linkedBotFAQ' + i}}">
-                        <ng-template ngbPanelHeader let-opened="opened">
-                          <div class="accordion-header-container" (click)="accordionList.toggle('linkedBotFAQ' + i)">
-                            <div class="chevron-icon-container">
-                              <img src="assets/icons/iconChevron.svg"
-                                [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}" />
-                            </div>
-                            <div class="accordion-header-FAQ-content-container">
-                              <p class="bold-text">{{faq.question}}</p>
-                              <p class="normal-text" [ngStyle]="{'display': opened === false ? 'block' : 'none'}">
-                                {{faq.faqAnswerDescription}}</p>
-                            </div>
-                            <div class="accordion-header-FAQ-views-click-container">
-                              <span class="linked-FAQ-status">Enabled</span>
-                              <span class="linked-FAQ-views"><img class="linked-FAQ-view-icon"
-                                  src="assets/icons/iconViews.svg" />&nbsp; {{faq.viewsCount}}&nbsp; VIEWS</span>
-                              <span class="linked-FAQ-clicks"><img class="linked-FAQ-click-icon"
-                                  src="assets/icons/iconClicks.svg" />&nbsp; {{faq.clicksCount}}&nbsp;CLICKS</span>
-                              <div class="linked-FAQ-status-control dropup" data-toggle="dropdown"
-                                [ngStyle]="{'visibility': opened === false ? 'hidden' : 'visible'}"><img
-                                  class="ellipse-icon" src="assets/icons/elipse.svg">
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item">Enable</a>
+          <div id="linkedBotFAQs" class="tab-pane">
+            <div class="linked-bot-faqs-content-container">
+              <ng-container *ngIf="(linkedBotFAQs && linkedBotFAQs.length)">
+                <perfect-scrollbar class="linked-bot-faqs-content-container-scroll">
+                  <div class="linked-bot-faqs-list">
+                    <ngb-accordion #accordionList="ngbAccordion" [closeOthers]="true" class="linked-bot-FAQs-accordion">
+                      <ng-container *ngFor="let faq of linkedBotFAQs; let i = index">
+                        <ngb-panel id="{{'linkedBotFAQ' + i}}">
+                          <ng-template ngbPanelHeader let-opened="opened">
+                            <div class="accordion-header-container" (click)="accordionList.toggle('linkedBotFAQ' + i)">
+                              <div class="chevron-icon-container">
+                                <img src="assets/icons/iconChevron.svg"
+                                  [ngStyle]="{'transform': opened === false ? 'rotate(0deg)' : 'rotate(90deg)'}" />
+                              </div>
+                              <div class="accordion-header-FAQ-content-container">
+                                <p class="bold-text">{{faq.question}}</p>
+                                <p class="normal-text" [ngStyle]="{'display': opened === false ? 'block' : 'none'}">
+                                  {{faq.faqAnswerDescription}}</p>
+                              </div>
+                              <div class="accordion-header-FAQ-views-click-container">
+                                <span class="linked-FAQ-status">Enabled</span>
+                                <span class="linked-FAQ-views"><img class="linked-FAQ-view-icon"
+                                    src="assets/icons/iconViews.svg" />&nbsp; {{faq.viewsCount}}&nbsp; VIEWS</span>
+                                <span class="linked-FAQ-clicks"><img class="linked-FAQ-click-icon"
+                                    src="assets/icons/iconClicks.svg" />&nbsp; {{faq.clicksCount}}&nbsp;CLICKS</span>
+                                <div class="linked-FAQ-status-control dropup" data-toggle="dropdown"
+                                  [ngStyle]="{'visibility': opened === false ? 'hidden' : 'visible'}"><img
+                                    class="ellipse-icon" src="assets/icons/elipse.svg">
+                                  <div class="dropdown-menu">
+                                    <a class="dropdown-item">Enable</a>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </ng-template>
-                        <ng-template ngbPanelContent>
-                          <div class="accordion-panel-content-container">
-                            {{faq.answer}}
-                          </div>
-                        </ng-template>
-                      </ngb-panel>
-                    </ng-container>
-                  </ngb-accordion>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <div class="accordion-panel-content-container">
+                              {{faq.answer}}
+                            </div>
+                          </ng-template>
+                        </ngb-panel>
+                      </ng-container>
+                    </ngb-accordion>
+                  </div>
+                </perfect-scrollbar>
+              </ng-container>
+              <ng-container *ngIf="!(linkedBotFAQs && linkedBotFAQs.length)">
+                <div class="linked-bot-faqs-empty-content">
+                  <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
+                  <div class="empty-content-container-content">
+                    <p class="bold-text">No linked FAQs found!</p>
+                  </div>
                 </div>
-              </perfect-scrollbar>
-            </ng-container>
-            <ng-container *ngIf="!(linkedBotFAQs && linkedBotFAQs.length)">
-              <div class="linked-bot-faqs-empty-content">
-                <img class="empty-content-indicator-image" src="assets/images/icons/empty_ill.svg" />
-                <div class="empty-content-container-content">
-                  <p class="bold-text">No linked FAQs found!</p>
-                </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
-        </div>
-        <div id="linkedBotSmallTalk" class="tab-pane">
-          <div class="linked-bot-small-talk-content-container">
-            <div class="small-talk-content-unlinked">
-              <img class="empty-content-indicator-image" src="assets/images/icons8-cloud_link 1.png" />
-              <div class="empty-content-container-content">
-                <p class="bold-text">You haven't linked Small Talk with this bot yet!</p>
-                <p class="normal-text">Fortunately, it is very easy to link one by clicking on the button below</p>
+          <div id="linkedBotSmallTalk" class="tab-pane">
+            <div class="linked-bot-small-talk-content-container">
+              <div class="small-talk-content-unlinked">
+                <img class="empty-content-indicator-image" src="assets/images/icons8-cloud_link 1.png" />
+                <div class="empty-content-container-content">
+                  <p class="bold-text">You haven't linked Small Talk with this bot yet!</p>
+                  <p class="normal-text">Fortunately, it is very easy to link one by clicking on the button below</p>
+                </div>
+                <button class="kr-sg-button-primary">Link Small Talk</button>
               </div>
-              <button class="kr-sg-button-primary">Link Small Talk</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
   <!-- <div class="empty-content-container" *ngIf="!(bots && bots.length) && !loadingContent"> -->
-  <div class="empty-content-container"
-    *ngIf="!( (linkedBotTasks && linkedBotTasks.length) || (linkedBotFAQs && linkedBotFAQs.length) ) && !loadingContent">
-    <img class="empty-content-indicator-image" src="assets/images/icons8-add_to_inbox 1.png" />
-    <div class="empty-content-container-content">
-      <p class="bold-text">You haven't linked any bot yet!</p>
-      <p class="normal-text">Fortunately, it is very easy to link one by clicking on the button below</p>
+  <ng-container *ngIf="!linkedBotID && !loadingContent">
+    <div class="empty-content-container">
+      <img class="empty-content-indicator-image" src="assets/images/icons8-add_to_inbox 1.png" />
+      <div class="empty-content-container-content">
+        <p class="bold-text">You haven't linked any bot yet!</p>
+        <p class="normal-text">Fortunately, it is very easy to link one by clicking on the button below</p>
+      </div>
+      <button class="kr-sg-button-primary" (click)="openBotsModalElement()">Link a Bot</button>
     </div>
-    <button class="kr-sg-button-primary" (click)="openBotsModalElement()">Link a Bot</button>
-  </div>
+  </ng-container>
 </div>
 
 <kr-modal modalType="center" modalClass="linkExistingBotsModal" #botsModalElement>
@@ -224,9 +227,9 @@
                     FAQs</span><span class="col-content-tasks"><img src="assets/icons/iconTask.svg"
                       class="col-content-icon" />&nbsp;{{bot.publishedTasksCount}} Tasks</span></div>
                 <div class="col_ col-2"></div>
-                <div class="col_ col-2"><button class="button-bot-link" *ngIf="streamId != bot._id"
+                <div class="col_ col-2"><button *ngIf="streamId != bot._id" class="button-bot-link"
                     (click)="linkBot(bot._id)"><img src="assets/icons/iconLink.svg">&nbsp;Link</button><button
-                    class="button-bot-unlink" (click)="unlinkBot(bot._id)" *ngIf="streamId == bot._id"><img
+                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id)"><img
                       src="assets/icons/iconUnlink.svg">&nbsp;Unlink</button><img class="col-content-ellipse-icon"
                     src="assets/icons/elipse.svg"></div>
               </div>
@@ -237,7 +240,7 @@
     </ng-container>
   </div>
   <div class="modal-footer">
-    <button class="kr-sg-button-primary btn_lg">Save</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="closeBotsModalElement()">Save</button>
     <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsModalElement()">Cancel</button>
   </div>
 </kr-modal>

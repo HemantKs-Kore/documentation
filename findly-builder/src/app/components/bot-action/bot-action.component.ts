@@ -272,6 +272,9 @@ export class BotActionComponent implements OnInit {
     console.log(botID);
 
     if (this.searchIndexId) {
+
+      this.loadingContent = true;
+
       const queryParams: any = {
         searchIndexID: this.searchIndexId
       };
@@ -326,6 +329,9 @@ export class BotActionComponent implements OnInit {
     console.log(botID);
 
     if (this.searchIndexId) {
+      
+      this.loadingContent = true;
+
       const queryParams = {
         searchIndexID: this.searchIndexId
       }
@@ -367,7 +373,7 @@ export class BotActionComponent implements OnInit {
         };
         this.service.invoke('get.AssociatedBotTasks', queryParams, null, { "state": "published" }).subscribe(res => {
 
-          this.loadingContent = false;
+          
           console.log("getAllTasks API response payload", res);
 
           this.linkedBotTasks = [];
@@ -402,7 +408,7 @@ export class BotActionComponent implements OnInit {
             this.linkedBotFAQs = [];
           }
 
-
+          this.loadingContent = false;
         },
           (err) => { console.log(err) },
           () => { console.log("XHR Call Completed") }
@@ -429,7 +435,7 @@ export class BotActionComponent implements OnInit {
     }
   }
 
-  enableTask(taskID, taskVisibility) {
+  enableTask(taskID) {
     event.preventDefault();
     let requestBody = {};
     requestBody['tasks'] = [];
@@ -478,7 +484,7 @@ export class BotActionComponent implements OnInit {
     }
   }
 
-  disableTask(taskID, taskVisibility) {
+  disableTask(taskID) {
     event.preventDefault();
     let requestBody = {};
     requestBody['tasks'] = [];
@@ -548,6 +554,21 @@ export class BotActionComponent implements OnInit {
             }
           });
           console.log("Linked Bot, Tasks", this.linkedBotTasks);
+        }
+        else {
+          this.linkedBotTasks = [];
+        }
+        if (res.faqs.length > 0) {
+          this.linkedBotFAQs = []
+          res.faqs.forEach(element => {
+            if (element.faqs == "published") {
+              this.linkedBotFAQs.push(element);
+            }
+          });
+          console.log("Linked Bot, FAQs", this.linkedBotFAQs);
+        }
+        else {
+          this.linkedBotFAQs = [];
         }
         this.notificationService.notify("Linked Bot Synced, Successfully", 'success')
       })
