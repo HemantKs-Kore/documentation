@@ -553,6 +553,15 @@
                     color: #FFFFFF;
                     float: left !important;
                 }
+                .parentloader{
+                    position: relative;
+                    .mainLoadingSpinner{
+                        position: absolute;
+                        left:92%;
+                        // right: -12px;
+                        // bottom: -24px;
+                    }
+                }
             }
         }        
     }

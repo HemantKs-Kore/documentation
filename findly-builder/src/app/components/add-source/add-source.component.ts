@@ -45,8 +45,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
 
-  useCookies = false;
-  isRobotTxtDirectives = false;
+  useCookies = true;
+  isRobotTxtDirectives = true;
   isCrawlingRestrictToSitemaps= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;

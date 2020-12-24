@@ -487,7 +487,7 @@
               <div class="inner-content row m-0 crawl-option">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crwal Option</div>                                  
+                    <div class="label-text">Crawl Option</div>                                  
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
@@ -608,10 +608,10 @@
 
               <!-- Cookies -->
                 <div class=" group-checkbox">
-                  <div class="pl-0 kr-sg-checkbox">
+                  <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [checked]="isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
-                  </div>
+                  </div> -->
                   <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [checked]="isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
@@ -633,7 +633,7 @@
               <div class="inner-content row m-0">
                 <div class="col-3 p-0">                   
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Crwal Depth 
+                    <div class="label-text">Crawl Depth 
                       <div class="tooltip-custom">
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
@@ -664,8 +664,8 @@
                 </div>
               </div>
               <!-- Cookies -->
-               <!-- New Crwal everey thing-->
-                <!-- Old  Crwal Design-->
+               <!-- New Crawl everey thing-->
+                <!-- Old  Crawl Design-->
                 
                 <!-- <div class="col-12 p-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
@@ -779,7 +779,7 @@
                 </div> -->
                
           <!-- Cookies -->
-           <!-- Old  Crwal Design-->
+           <!-- Old  Crawl Design-->
               </div>
             </perfect-scrollbar>
             <!-- Conf Configuration-->
@@ -940,8 +940,13 @@
   </div>
   <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
     <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
-    <button class="kr-sg-button-primary btn_lg">Check for Update</button>
+    <button class="kr-sg-button-primary btn_lg" [disabled] = "loadingcheckForUpdate" (click) = "checkForUpdate(selectedPage)">Check for Update</button>
     <button class="kr-sg-button-secondary btn_lg" (click) = "reCrwalingWeb('pages',selectedPage ,null)">Recrawl</button>
+    <div class="parentloader">
+      <div class="mainLoadingSpinner" *ngIf="loadingcheckForUpdate" [@fadeInOutAnimation]>
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      </div>
+    </div>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
