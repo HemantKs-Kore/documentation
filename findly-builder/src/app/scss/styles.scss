@@ -1620,3 +1620,43 @@ ngx-simplebar {
         } 
     }
 }
+
+nouislider{
+    margin: 33px 0 !important;
+    .noUi-target{
+        height: 6px;
+        border-radius: 0;
+        border: none;
+        box-shadow: none; 
+        .noUi-connects{
+            border-radius: 0 !important;
+        }       
+    }
+    .noUi-horizontal {
+        .noUi-handle{
+            box-shadow: none !important;
+            border: 0;
+            background: transparent;
+            outline: 0 !important;
+            cursor: pointer;
+            border-radius: 0;
+            &::after{
+                left: 14px;
+                top: -5px;
+                background: #202124;
+                height: 26px;
+            }
+        }
+        .noUi-tooltip{
+            background: #202124;
+            box-shadow: 0px 5px 6px rgba(43, 44, 45, 0.11);
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 13px;
+            text-align: center;
+        }
+    }
+
+}

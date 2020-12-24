@@ -22,8 +22,8 @@ export class AppExperimentsComponent implements OnInit {
     variants: [],
     duration: 0
   }
-  conn: any = [true];
-  tool: any = [];
+  conn: any = [true, true];
+  tool: any = [true];
   star: any = [100];
   flag: boolean = false;
   someRange;
