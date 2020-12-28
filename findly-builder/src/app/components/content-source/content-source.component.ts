@@ -25,6 +25,7 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj : any = {};
   editConfObj : any = {};
@@ -724,6 +725,30 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   openImageLink(url) {
     window.open(url, '_blank');
+  }
+  checkForUpdate(page){
+    //this.notificationService.notify('Checking for Updates', 'success');
+    this.loadingcheckForUpdate = true;
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      extractionSourceId : this.selectedSource._id,
+      contentId : page._id
+    }
+    const payload: any ={
+      url: page._source.url
+    }
+    this.service.invoke('check.forUpdates', quaryparms,payload).subscribe(res => {
+      this.loadingcheckForUpdate = false;
+      if(res.updateAvailable){
+        this.notificationService.notify('A new version of this page is available', 'success');
+      }else{
+        this.notificationService.notify('The page is up to date', 'success');
+      }
+      
+    }, errRes => {
+      this.loadingcheckForUpdate = false;
+      this.errorToaster(errRes, 'Failed Update');
+    });
   }
   reCrwalingWeb(from,page,event){
     if (event) {

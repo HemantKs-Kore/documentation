@@ -1238,6 +1238,7 @@ div.divBlockEmptylastChild:first-child {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
         display: block !important;
+        margin-bottom: 4px;
         &.noShadow{
             box-shadow: none;
         }
@@ -1903,5 +1904,27 @@ ngx-simplebar {
                 }
             }
         }
+    }
+}
+
+.ngb_tooltip_custom_class{
+    opacity: 1 !important;
+    margin-left: -14px;    
+    .arrow{
+        &::before{
+            border-top-color: #fff !important;
+        }
+    }
+    .tooltip-inner{
+        color: #202124;
+        opacity: 1;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 6px 10px;
+        background: #FFFFFF;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        max-width: 100%;
     }
 }
