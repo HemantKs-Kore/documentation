@@ -1,0 +1,22 @@
+<div class="statusDockerBody">
+    <div class="header text-right">
+        <div class="clear_icon">{{'clear_all' | translate}}</div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body docker">
+		<div class="docker-list" *ngIf="!statusDockerLoading">
+			<div class="row mb-2" *ngFor="let task of dockersList; let index = index">
+                <div class="text col-10">
+                    <div class="heading">Basic Details</div>
+                    <div class="desc">Type description</div>
+                </div>
+                <div class="col-2">
+                    icons
+                </div>
+			</div>
+		</div>
+		<div class="statusDockerLoadingSpinner row" *ngIf="statusDockerLoading" >
+			<mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+			<span class="please-wait-message ml-3">{{'please_wait' | translate}}</span>
+		</div>
+    </perfect-scrollbar>
+</div>

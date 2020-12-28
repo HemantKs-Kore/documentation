@@ -205,6 +205,12 @@
 			</div>
 		</div>
 
+		<div class="status-docker">
+			<button class="kr-sg-button-secondary w-100" (click)="(showStatusDocker = !showStatusDocker); openStatusDocker()">
+				<img src="assets/images/status-docker/Ellipse 54.png" alt="status-docker">
+				<img src="assets/images/status-docker/Circle.png" alt="status-docker"> {{ 'status_docker' | translate}}
+			</button>
+		</div>
 		<!-- <div class="sidebar-fixed position-fixed activeMenu">
 
 		<div mat-button class="mat-button" [routerLink]="['/settings']"  skipLocationChange routerLinkActive="active" (click)="preview('weights')" mat-button>
@@ -278,3 +284,7 @@
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </kr-modal>
+
+<div class="statusDockerContent p-3" *ngIf="showStatusDocker">
+	<app-status-docker [dockersList]="dockersList" [statusDockerLoading]="statusDockerLoading"></app-status-docker>
+</div>

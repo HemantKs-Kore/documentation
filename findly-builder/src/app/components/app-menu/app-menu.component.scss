@@ -278,6 +278,18 @@ app-mainmenu{
 				width: 100%;
 			}				
 		}
+		.status-docker{
+			position: absolute;
+			bottom: 1px;
+			right: 0;
+			width: 100%;
+			height: 32px;
+			font-size: 14px;
+			.kr-sg-button-secondary{
+				border-radius: 0px;
+				border: unset;
+			}
+		}
 	}
 }
 .add-experment-popup{
@@ -346,4 +358,28 @@ app-mainmenu{
             }
         }
     }
+}
+
+.statusDockerContent{
+	position: absolute;
+    left: 20%;
+    bottom: 5%;
+    background: white;
+	z-index: 9999 !important;
+	overflow: hidden;
+	background: #FFFFFF;
+	border: 2px solid #E7F1FF;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.07);
+	border-radius: 4px;
+	width: 320px;
+	.statusDockerLoadingSpinner{
+		background: transparent;
+		width: 223px;
+		height: 40px;
+		padding-top: 10px;
+		border-radius: 4px;
+		opacity: 0.95;
+		padding-left: 7% !important;
+	}
 }
