@@ -22,7 +22,23 @@ export class AppExperimentsComponent implements OnInit {
     variants: [],
     duration: 0
   }
+  conn: any = [true, true];
+  tool: any = [true];
+  star: any = [100];
+  someRange;
+  showSlider: boolean = false;
+  public someRangeconfig: any = {
+    behaviour: "drag",
+    connect: this.conn,
+    tooltips: this.tool,
+    start: this.star,
+    range: {
+      min: 0,
+      max: 100
+    }
+  };
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
+  @ViewChild("sliderref") sliderref;
   varients = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }, { color: '#c44dff', code: 'E' }];
   constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog,) { }
 
@@ -36,12 +52,17 @@ export class AppExperimentsComponent implements OnInit {
   closeModalPopup() {
     this.varientArray = [];
     this.selectedVariant = [];
+    this.showSlider = false;
+    this.conn = [true, true];
+    this.tool = [true];
+    this.star = [100];
     this.experiment = { name: '', variants: [], duration: 0 };
     this.addExperimentsRef.close();
   }
-  //open experiment model 
+  //open experiment model
   form_type: string;
   exp_id: string;
+  status: string;
   addExperiment(type, data) {
     this.form_type = type;
     this.addExperimentsRef = this.addExperiments.open();
@@ -52,14 +73,71 @@ export class AppExperimentsComponent implements OnInit {
         this.varientArray = data.variants;
         this.selectedVariant = data.variants;
         this.experiment.duration = data.duration.days;
+        this.status = data.state;
+        console.log("data update", data);
+        if (data.variants.length === 1) {
+          this.showSlider = true;
+        }
+        else if (data.variants.length >= 2) {
+          this.star = [];
+          this.conn.push(true);
+          this.tool.push(true);
+          for (let i = 0; i < data.variants.length; i++) {
+            this.star.push(data.variants[i].trafficPct);
+          }
+
+        }
+        this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
+        if (data.variants.length > 1) {
+          setTimeout(() => {
+            this.showSlider = false;
+            this.sliderref.slider.destroy();
+            this.sliderref.slider.updateOptions(this.someRangeconfig, true);
+          }, 1000)
+          setTimeout(() => {
+            this.showSlider = true;
+          }, 2000);
+        }
       }
     }
   }
   //add new varient method
   varientArray: any = [];
   addVarient() {
-    if (this.varientArray.length <= 4) {
+    if (this.varientArray.length < 4) {
       this.varientArray.push(this.varients[this.varientArray.length]);
+      if (this.varientArray.length === 1) {
+        this.showSlider = true;
+      }
+      else if (this.varientArray.length === 2) {
+        this.star = [];
+        this.conn.push(true);
+        this.tool.push(true);
+        this.star.push(50, 100);
+      }
+      else if (this.varientArray.length === 3) {
+        this.star = [];
+        this.conn.push(true);
+        this.tool.push(true);
+        this.star.push(33.3, 66.3, 100);
+      }
+      else if (this.varientArray.length === 4) {
+        this.star = [];
+        this.conn.push(true);
+        this.tool.push(true);
+        this.star.push(25, 50, 75, 100);
+      }
+      this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
+      if (this.varientArray.length > 1) {
+        setTimeout(() => {
+          this.showSlider = false;
+          this.sliderref.slider.destroy();
+          this.sliderref.slider.updateOptions(this.someRangeconfig, true);
+        }, 1000)
+        setTimeout(() => {
+          this.showSlider = true;
+        }, 2000);
+      }
     }
   }
   //close varient method
@@ -90,8 +168,7 @@ export class AppExperimentsComponent implements OnInit {
                 this.selectedVariant[i] = { ...this.selectedVariant[i], name: name };
               }
             }
-          else this.selectedVariant.push({ 'code': dat.code, 'color': dat.color, 'name': name, 'trafficPct': 50 })
-
+          else this.selectedVariant.push({ 'code': dat.code, 'color': dat.color, 'name': name })
         }
         else if (key === 'queryid') {
           for (let i in this.selectedVariant) {
@@ -134,6 +211,7 @@ export class AppExperimentsComponent implements OnInit {
   compExp: number;
   loadingContent: boolean;
   res1 = [];
+  status_active: boolean;
   getExperiments() {
     this.loadingContent = true;
     const header: any = {
@@ -146,9 +224,10 @@ export class AppExperimentsComponent implements OnInit {
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
-      console.log("exp list", res)
       this.listOfExperiments = res;
       this.filterExperiments = res;
+      this.status_active = res.filter(item => item.state === 'configured').length > 1 ? true : false;
+      console.log("status_active", this.status_active)
       this.allExp = this.listOfExperiments.length;
       this.confExp = this.listOfExperiments.filter(item => item.state === "configured").length;
       this.actExp = this.listOfExperiments.filter(item => item.state === "active").length;
@@ -166,9 +245,78 @@ export class AppExperimentsComponent implements OnInit {
   //add new experiment method
   createExperiment() {
     if (this.form_type === 'add') {
+      if (this.varientArray.length === 1) {
+        for (let i in this.selectedVariant) {
+          this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 }
+        }
+      }
+      if (this.varientArray.length === 2) {
+        if (this.someRange === undefined) {
+          for (let i in this.selectedVariant) {
+            this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 50 }
+          }
+        }
+        else {
+          for (let i = 0; i < this.selectedVariant.length; i++) {
+            if (i == 0) {
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[0]) }
+            }
+            else {
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 - parseInt(this.someRange[0]) }
+            }
+          }
+        }
+      }
+      if (this.varientArray.length === 3) {
+        if (this.someRange === undefined) {
+          for (let i in this.selectedVariant) {
+            this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 33.34 }
+          }
+        }
+        else {
+          for (let i = 0; i < this.selectedVariant.length; i++) {
+            if (i == 0) {
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[0]) }
+            }
+            else if (i == 1) {
+              let sum = parseInt(this.someRange[1]) - parseInt(this.someRange[0]);
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: sum }
+            }
+            else if (i == 2) {
+              let sum = parseInt(this.someRange[0]) + (parseInt(this.someRange[1]) - parseInt(this.someRange[0]));
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 - Math.abs(sum) }
+            }
+          }
+        }
+      }
+      if (this.varientArray.length === 4) {
+        if (this.someRange === undefined) {
+          for (let i in this.selectedVariant) {
+            this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 25 }
+          }
+        }
+        else {
+          for (let i = 0; i < this.selectedVariant.length; i++) {
+            if (i == 0) {
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[0]) }
+            }
+            else if (i == 1) {
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[1]) - parseInt(this.someRange[0]) }
+            }
+            else if (i == 2) {
+              let sum =
+                this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[2]) - parseInt(this.someRange[1]) }
+            }
+            else if (i == 3) {
+              let sum = parseInt(this.someRange[0]) + (parseInt(this.someRange[1]) - parseInt(this.someRange[0])) + (parseInt(this.someRange[2]) - parseInt(this.someRange[1]));
+              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 - sum }
+            }
+          }
+        }
+      }
       this.experiment.variants = this.selectedVariant;
       this.experiment.duration = { "days": this.experiment.duration };
-      console.log("this.experiment", this.experiment)
+      console.log("this.experiment", this.experiment);
       const quaryparms: any = {
         searchIndexId: this.serachIndexId
       };
@@ -206,6 +354,26 @@ export class AppExperimentsComponent implements OnInit {
       //   }
       // });
     }
+  }
+  //run an experiment
+  runExperiment(id, event) {
+    event.stopPropagation();
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      experimentId: id
+    };
+    const Obj = { "state": "active" }
+    this.service.invoke('edit.experiment', quaryparms, Obj).subscribe(res => {
+      console.log("run res", res);
+      this.notificationService.notify('Experiment Running successfully', 'success');
+      this.getExperiments();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
   //delete experiment popup
   deleteExperimentPopup(record, event) {
