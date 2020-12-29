@@ -25,6 +25,7 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  executionPop = -1;
   loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj : any = {};
@@ -104,8 +105,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   executionHistoryData : any;
   sourceStatus = 'success';
   useCookies = false;
-  isRobotTxtDirectives = false;
-  isCrawlingRestrictToSitemaps= false;
+  respectRobotTxtDirectives = false;
+  isCrawlBeyondSitemap= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
   crawlDepth : number;
@@ -480,8 +481,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if(source.extractionType === 'webdomain'){
         if(source.advanceSettings){
           this.useCookies = source.advanceSettings.useCookies;
-          this.isRobotTxtDirectives = source.advanceSettings.isRobotTxtDirectives;
-          this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
+          this.isCrawlBeyondSitemap = source.advanceSettings.isCrawlBeyondSitemap;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
           this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
           this.crawlDepth = source.advanceSettings.crawlDepth;
@@ -733,7 +734,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('check.forUpdates', quaryparms,payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
-      if(res.updateAvailable){
+      if(res._meta.updateAvailable){
         this.notificationService.notify('A new version of this page is available', 'success');
       }else{
         this.notificationService.notify('The page is up to date', 'success');
@@ -1009,7 +1010,15 @@ editPages(){
   this. editConfigEnable=true;
 }
 
-
+executionHistoryPop(history , index){
+  this.executionPop = index;
+}
+onHistoryPop(index){
+  this.executionPop = index;
+}
+mouseleave(){
+  this.executionPop = -1;
+}
 keyPress(event){
   const code = (event.keyCode ? event.keyCode : event.which);
   if (code === 13) {
@@ -1102,8 +1111,8 @@ keyPress(event){
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
@@ -1225,8 +1234,8 @@ keyPress(event){
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
     crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
     crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
     if(Number(this.crawlDepth)){

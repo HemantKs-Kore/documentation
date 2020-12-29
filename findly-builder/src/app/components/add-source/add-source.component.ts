@@ -46,8 +46,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   loadFullComponent = true;
 
   useCookies = true;
-  isRobotTxtDirectives = true;
-  isCrawlingRestrictToSitemaps= false;
+  respectRobotTxtDirectives = true;
+  isCrawlBeyondSitemap= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
@@ -515,8 +515,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
         crawler.advanceOpts.useCookies = this.useCookies;
-        crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-        crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+        crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+        crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
         if(Number(this.crawlDepth)){
