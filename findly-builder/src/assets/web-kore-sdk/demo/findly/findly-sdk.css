@@ -10719,8 +10719,8 @@ input:checked + .custom-slider:before {
 
  }
 .kore-list-template-div .listViewRightContent img{
-    height: 36px;
-    width: 36px;
+   height: 36px;
+   width: 36px;
    border-radius: 50%;
 
  }
@@ -10739,7 +10739,7 @@ input:checked + .custom-slider:before {
    display: table;
    vertical-align: middle;
 
- }
+}
 .kore-list-template-div .listViewTmplContent .listViewItemSubtitle{
    white-space: nowrap;
    overflow: hidden;
