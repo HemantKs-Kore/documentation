@@ -108,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="!statusObject.validation.urlValidation"
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Cancel Crawling</button>
+          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>
@@ -157,7 +157,7 @@
             </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Name"
+              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
             <div class="kr-sg-input-text-area mb-3">

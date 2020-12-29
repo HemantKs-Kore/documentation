@@ -978,9 +978,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         const obj: string[] = requireddata;
         // tslint:disable-next-line:prefer-for-of
         for (let j = 0; j < obj.length; j++) {
+         if(obj[j]){
           if (obj[j].includes(valToSearch)) {
             tableData.push(this.resources[i]);
           }
+         }
         }
       }
       tableData = [...new Set(tableData)]
