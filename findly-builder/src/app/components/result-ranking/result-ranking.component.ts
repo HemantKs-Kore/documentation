@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+declare const $: any;
 
 @Component({
   selector: 'app-result-ranking',
   templateUrl: './result-ranking.component.html',
   styleUrls: ['./result-ranking.component.scss']
 })
-export class ResultRankingComponent implements OnInit {
+export class ResultRankingComponent implements OnInit, OnDestroy {
   actionLogData : any;
   time;
- 
   iconIndex;
   actionIndex;
   selectedApp;
@@ -27,112 +31,113 @@ export class ResultRankingComponent implements OnInit {
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
-  
+  subscription: Subscription;
   timeLogData : any;
+  lastModifiedOn : any;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
-   
-
+    public dialog: MatDialog,
+    private notificationService: NotificationService,
+    private appSelectionService:AppSelectionService) { }
   ngOnInit(): void {
 
 
     
-    this.actionLogData = [{
-      "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "New",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "help",
-      "status": "Boosted",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "bot",
-      "status": "Hidden",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    }
-  ]
+  //   this.actionLogData = [{
+  //     "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "New",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "help",
+  //     "status": "Boosted",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "bot",
+  //     "status": "Hidden",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   }
+  // ]
   // this.customizeLog = [{
   //     "header" : "Credit card payament",
   //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
@@ -149,9 +154,16 @@ export class ResultRankingComponent implements OnInit {
   //   }]
   this.selectedApp = this.workflowService.selectedApp();
   this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-  this.getcustomizeList();
-  
+  this.loadCustomRankingList();
+  this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.loadCustomRankingList();
+  })
+  }
+  loadCustomRankingList(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getcustomizeList();
+    }
   }
   showLogs(){
     this.resultLogs = true;
@@ -168,12 +180,13 @@ export class ResultRankingComponent implements OnInit {
   
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
-      this.actionLogData = res;
+      this.lastModifiedOn = res.lMod;
+      this.actionLogData = res.customizations;
       for(let i =0; i<this.actionLogData.length; i++){
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
-        this.actionLogData[i].target.contentInfo.createdOn = moment(this.actionLogData[i].target.contentInfo.createdOn).fromNow()
-        this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
+        this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
+        //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         // if(this.actionLogData[i].target.contentType == 'faq'){
         //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
         // }
@@ -187,6 +200,50 @@ export class ResultRankingComponent implements OnInit {
          this.notificationService.notify('Failed', 'error');
        }
      });
+  }
+  
+  removeRecord(actLog){
+    
+    const searchIndex = this.serachIndexId;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      queryPipelineId : this.queryPipelineId
+    };
+    let result :any = [];
+      var obj :any = {};
+      obj.contentType = actLog.target.contentType ;
+      //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
+      obj.contentId = actLog.target.contentId;
+      if(actLog.customization.action == 'pinned' ) obj.config['pinIndex'] = -1;
+      if(actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;  
+      if(actLog.customization.action == 'hidden' ) obj.config['hidden'] = true;
+      // obj.config = {
+      //    pinIndex : -1,
+      //   //boost: 1.0,
+      //   //visible: true,
+      //burried
+      // }
+      result.push(obj);
+    
+    let payload : any = {};
+    
+    payload.searchQuery = this.selectedRecord.searchQuery;//this.query;
+    payload.results = result;
+    this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
+      
+      this.notificationService.notify('Record Removed', 'success');
+      this.getcustomizeList();
+      this.actionLogData = [];
+      this.customizeList = [];
+      //console.log(res);
+    }, errRes =>  {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed remove record', 'error');
+      }
+    });
+  
   }
   timeLog(record){
     // this.selectedRecord = record;
@@ -220,15 +277,37 @@ export class ResultRankingComponent implements OnInit {
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : record._id
     };
-    this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
-      //this.customizeList = res;
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed', 'error');
-       }
-     });
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
+              //this.customizeList = res;
+              this.getcustomizeList();
+              this.actionLogData = [];
+              this.customizeList = [];
+             }, errRes => {
+               if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                 this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+               } else {
+                 this.notificationService.notify('Failed', 'error');
+               }
+             });
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
+    
+    
   }
   getcustomizeList(){
    
@@ -238,7 +317,16 @@ export class ResultRankingComponent implements OnInit {
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.customizeList = res;
+      this.customizeList.forEach((element,index) => {
+        
+      if(index == 0) {
+        element['check'] = true;
+        this.clickCustomizeRecord(element)
+      }else{
+        element['check'] = false;
+      }
       
+    });
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -266,6 +354,8 @@ export class ResultRankingComponent implements OnInit {
   }
   closeLogs(){
     this.resultLogs = false;
-
+}
+ngOnDestroy(){
+  this.subscription?this.subscription.unsubscribe(): false;
 }
 }

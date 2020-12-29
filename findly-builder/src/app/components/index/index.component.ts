@@ -14,6 +14,7 @@ import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { JsonPipe } from '@angular/common';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -35,7 +36,9 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   newStageObj:any = {
     addNew: false,
   }
-  filelds:any = [];
+  fields:any = [];
+  newfieldsData:any = [];
+  loadingFields = true;
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
@@ -466,6 +469,28 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     });
     return stagesArray;
   }
+  checkForNewFields(){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '446px',
+      height: '306px',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Stage configuration is successfully saved',
+        text: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }]
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          dialogRef.close();
+          this.openModalPopup();
+        } else if (result === 'no') {
+          dialogRef.close();
+          console.log('deleted')
+        }
+      })
+  }
   saveConfig(index?,dialogRef?){
     this.savingConfig = true;
     const quaryparms: any = {
@@ -483,6 +508,10 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       if(index !== 'null' && index !== undefined && (index>-1)){
        this.currentEditIndex = -1
       }
+      if(res && res.targetFields && res.targetFields.length){
+        this.newfieldsData =  res.targetFields || [];
+        this.checkForNewFields();
+      }
       this.clearDirtyObj();
       this.setResetNewMappingsObj(null,true);
     }, errRes => {
@@ -491,22 +520,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     });
   }
   openModalPopup(){
+    this.loadingFields = true;
     this.addFieldModalPopRef = this.addFieldModalPop.open();
-  }
-  addEditFiled(field?){
-    if(field){
-      this.newFieldObj = field;
-    } else{
-      this.newFieldObj = {
-        fieldName: '',
-        fieldDataType: 'string',
-        isMultiValued: true,
-        isRequired: false,
-        isStored: true,
-        isIndexed: true
-      }
-    }
-    this.openModalPopup();
+    this.getFileds();
   }
   closeModalPopup(){
     this.addFieldModalPopRef.close();
@@ -529,13 +545,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     }
     if(this.changesDetected){
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
-        height: '306px',
+        width: '530px',
+        height: 'auto',
         panelClass: 'delete-popup',
         data: {
           title: 'Are you sure',
           text: 'There are usaved changes, Are you sure you want to reindex without saving them?',
-          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+          newTitle:'There are usaved changes, Are you sure you want to reindex without saving them?',
+          body:'The changes are unsaved.',
+          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp:true
         }
       });
       dialogRef.componentInstance.onSelect
@@ -630,13 +649,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   removeStage(i){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stage',
         text: 'Are you sure you want to delete selected stage?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected stage?',
+        body:'Selected stage will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -658,46 +680,49 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   addField(){
     const payload:any = {
-      fieldName: this.newFieldObj.fieldName,
-      fieldDataType: this.newFieldObj.fieldDataType,
-      isMultiValued: this.newFieldObj.isMultiValued,
-      isRequired: this.newFieldObj.isRequired,
-      isStored: this.newFieldObj.isStored,
-      isIndexed: this.newFieldObj.isIndexed,
+      fields:[]
     }
+    this.newfieldsData.forEach(field => {
+      const tempPayload:any = {
+        fieldName: field.fieldName,
+        fieldDataType: field.fieldDataType,
+        isMultiValued: field.isMultiValued,
+        isRequired: field.isRequired,
+        isStored: field.isStored,
+        isIndexed: field.isIndexed,
+      }
+      if(field.isActive){
+        payload.fields.push(tempPayload);
+      }
+    });
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
-      fieldId:this.newFieldObj._id
     };
     let api  = 'post.createField';
     if(this.newFieldObj && this.newFieldObj._id){
       api = 'put.updateField'
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
-      if(this.newFieldObj && this.newFieldObj._id){
-        this.notificationService.notify('Field updated successfully','success');
-      } else {
-        this.notificationService.notify('Field added successfully','success');
-      }
-      this.getFileds();
+      this.notificationService.notify('Fields added successfully','success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to create field');
     });
   }
   getFileds(offset?){
+    this.loadingFields = true;
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
       offset: offset || 0,
-      limit:100
+      limit:200
     };
     this.service.invoke('get.allField', quaryparms).subscribe(res => {
-      this.filelds=  res.fields || [];
-      this.loadingContent = false;
+      this.fields=  res.fields || [];
+      this.loadingFields = false;
     }, errRes => {
-      this.loadingContent = false;
+      this.loadingFields = false;
       this.errorToaster(errRes,'Failed to get index  stages');
     });
   }
@@ -707,10 +732,10 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       fieldId:record._id,
     };
     this.service.invoke('delete.deleteField', quaryparms).subscribe(res => {
-      const deleteIndex = _.findIndex(this.filelds, (pg) => {
+      const deleteIndex = _.findIndex(this.fields, (pg) => {
         return pg._id === record._id;
       })
-      this.filelds.splice(deleteIndex,1);
+      this.fields.splice(deleteIndex,1);
       dialogRef.close();
     }, errRes => {
       this.errorToaster(errRes,'Failed to delete field');
@@ -718,13 +743,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   deleteFieldPop(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Field',
         text: 'Are you sure you want to delete selected field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected field?',
+        body:'Selected field will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -749,7 +777,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
      if(res.stages && res.stages.length){
       this.selectStage(res.stages[0],0);
      }
+     this.loadingContent = false;
     }, errRes => {
+      this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get index  stages');
     });
   }
@@ -772,13 +802,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   confirmChangeDiscard(newstage?,i?){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Discard current changes',
         text: 'Are you sure you want to discard current?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to discard current?',
+        body:'Current changes will be discarded.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 

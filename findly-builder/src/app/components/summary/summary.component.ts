@@ -15,6 +15,9 @@ declare const $: any;
 })
 export class SummaryComponent implements OnInit {
   serachIndexId;
+  indices: any;
+  experiments : any;
+  activities: any;
   channelExist = false;
   totalUsersStats : any = {};
   totalSearchesStats: any = {};
@@ -89,6 +92,9 @@ export class SummaryComponent implements OnInit {
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
+    this.getChannel();
+    this.getAllOverview();
+
   }
   getSummary() {
     this.loading = false;
@@ -143,6 +149,7 @@ export class SummaryComponent implements OnInit {
        }
      });
   }
+
   getChannel(){
     const queryParams = {
       userId:this.authService.getUserId(),
@@ -153,6 +160,26 @@ export class SummaryComponent implements OnInit {
         if(res.apps.length){
           this.channelExist = true;
         }
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+  getAllOverview(){
+    const queryParams = {
+      searchIndexId:this.serachIndexId,
+    }
+    this.service.invoke('get.overview',queryParams).subscribe(
+      res => {
+        console.log(res);
+        this.experiments = res.experiments;
+        this.activities =  res.activities;
+        this.indices = res.indices;
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

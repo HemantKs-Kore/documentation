@@ -25,6 +25,7 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj : any = {};
   editConfObj : any = {};
@@ -69,6 +70,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     queued: {name : 'Queued', color: '#0D6EFD'},
     running: {name : 'In Progress', color: '#0D6EFD'},
     inprogress: {name :'In Progress', color: '#0D6EFD'},
+    scheduled :{name :'In Progress', color: '#0D6EFD'},
+    halted : {name : 'Stopped', color: '#DD3646'}
   };
   sliderStep = 0;
   selectedPage: any = {};
@@ -91,13 +94,23 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   limitpage : number = 25;
   limitAllpage : number = 25;
   allInOne : boolean = false;
-  urlConditionAllow = "Is";
-  urlConditionBlock = "Is";
+  urlConditionAllow = "is";
+  urlConditionBlock = "is";
   doesntContains = "Doesn't Contains";
   filterTableheaderOption = "";
   filterTableSource = "all";
   execution = false;
   page = true;
+  executionHistoryData : any;
+  sourceStatus = 'success';
+  useCookies = false;
+  isRobotTxtDirectives = false;
+  isCrawlingRestrictToSitemaps= false;
+  isJavaScriptRendered = false;
+  isBlockHttpsMsgs = false;
+  crawlDepth : number;
+  maxUrlLimit: number;
+  crwalOptionLabel= '';
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -145,11 +158,31 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         case 'type': return this.compare(a.type, b.type, isAsc);
         case 'recentStatus': return this.compare(a.recentStatus, b.recentStatus, isAsc);
         case 'name': return this.compare(a.name, b.name, isAsc);
+        case 'numPages': return this.compare(a.numPages, b.numPages, isAsc);
         case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
         default: return 0;
       }
     });
     this.resources = sortedData;
+  }
+  duration(duration){
+    if(duration){
+      let hr = duration.split(":")[0];
+        let min = duration.split(":")[1];
+        let sec = duration.split(":")[2];
+        
+        
+        if(hr > 0 ){
+          if(min > 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min > 0 && sec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min <= 0 && sec <= 0) return duration = hr + "h ";
+        }else if(min > 0){
+          if(sec > 0) return duration =  min + "m " + sec + "s";
+          if(sec <= 0) return duration =  min + "m ";
+        }else if(sec > 0){
+          return duration = sec + "s";
+        }
+    }
   }
   getSourceList() {
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
@@ -167,25 +200,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
           element.advanceSettings.scheduleOpts.time.timeOpt +' '+ element.advanceSettings.scheduleOpts.time.timezone;
         }
-        if(element.createdOn){
-          element['schedule_createdOn'] = moment(element.createdOn).fromNow();
+        if(element.jobInfo.createdOn){
+          element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
         }
-        element['schedule_duration'] = "00:30:00";
-        let hr = element['schedule_duration'].split(":")[0];
-        let min = element['schedule_duration'].split(":")[1];
-        let sec = element['schedule_duration'].split(":")[2];
+        if(element.jobInfo.executionStats){
+          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
+          element['schedule_duration'] = this.duration(element['schedule_duration']);
+        }
+        
+        // let hr = element['schedule_duration'].split(":")[0];
+        // let min = element['schedule_duration'].split(":")[1];
+        // let sec = element['schedule_duration'].split(":")[2];
         
         
-        if(hr > 0 ){
-          if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
-          if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
-          if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
-        }else if(min > 0){
-          if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
-          if(sec <= 0) element['schedule_duration'] =  min + "m ";
-        }else if(sec > 0){
-          element['schedule_duration'] = sec + "s";
-        }
+        // if(hr > 0 ){
+        //   if(min > 0 && sec > 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+        //   if(min > 0 && sec <= 0)element['schedule_duration'] = hr + "h " + min + "m " + sec + "s";
+        //   if(min <= 0 && sec <= 0)element['schedule_duration'] = hr + "h ";
+        // }else if(min > 0){
+        //   if(sec > 0) element['schedule_duration'] =  min + "m " + sec + "s";
+        //   if(sec <= 0) element['schedule_duration'] =  min + "m ";
+        // }else if(sec > 0){
+        //   element['schedule_duration'] = sec + "s";
+        // }
         
       });
       this.filterResourcesBack = [...this.resources];
@@ -238,11 +275,22 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       if (res && res.length) {
        res.forEach(element => {
-        this.resourcesStatusObj[element.resourceId] = element;
+        this.resourcesStatusObj[element._id] = element;
        });
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch job status');
+    });
+  }
+  
+  getJobDetails(sourceId) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId : sourceId
+    };
+    this.service.invoke('get.page_detail', quaryparms).subscribe(res => {
+      console.log(res)
+    }, errRes => {
     });
   }
   getJobStatus(type) {
@@ -253,7 +301,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.job.status', quaryparms).subscribe(res => {
       const queuedJobs = _.filter(res, (source) => {
         //this.resourcesStatusObj[source.resourceId] = source;
+        
+        if(this.resourcesStatusObj[source._id]){
+          if(this.resourcesStatusObj[source._id].status == 'running'){
+            if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
+            this.getJobDetails(source._id)
+            this.getSourceList();
+          } 
+        }
+        }
+          
         this.resourcesStatusObj[source._id] = source;
+
         return ((source.status === 'running') || (source.status === 'queued'));
       });
       if (queuedJobs && queuedJobs.length) {
@@ -305,6 +364,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
+      if(this.selectedSource.advanceSettings.allowedURLs.length > 0){
+        this.crwalOptionLabel = 'Crawl Only Specific URLs'
+      }else if(this.selectedSource.advanceSettings.blockedURLs.length > 0){
+        this.crwalOptionLabel = 'Crawl Everything Except Specific URls'
+      }else{
+        this.crwalOptionLabel = 'Crawl Everything'
+      }
       this.swapSlider('page')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
@@ -332,29 +398,37 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   swapSlider(tabName) {
+    if($('.tabname')){
     if( tabName == 'execution'){
       this.execution = true;
       this.isConfig = false;
       this.page = false;
-      $('.tabname')[0].classList.remove('active')
-      $('.tabname')[1].classList.remove('active')
-      $('.tabname')[2].classList.add('active')
+      // $('.tabname')[0].classList.remove('active')
+      // $('.tabname')[1].classList.remove('active')
+      // $('.tabname')[2].classList.add('active')
     }else if( tabName == 'config'){
-      $('.tabname')[0].classList.remove('active')
-      $('.tabname')[1].classList.add('active')
-      $('.tabname')[2].classList.remove('active');
+      // $('.tabname')[0].classList.remove('active')
+      // $('.tabname')[1].classList.add('active')
+      // $('.tabname')[2].classList.remove('active');
       this.execution = false;
       this.isConfig = true;
       this.page = false;
     }else if( tabName == 'page'){
-      $('.tabname')[0].classList.add('active');
-      $('.tabname')[1].classList.remove('active');
-      $('.tabname')[2].classList.remove('active');
-      this.execution = false;
-      this.isConfig = false;
-      this.page = true;
+      // $('.tabname')[0].classList.add('active');
+      // $('.tabname')[1].classList.remove('active');
+      // $('.tabname')[2].classList.remove('active');
+      if(this.selectedSource.recentStatus == 'success'){
+        this.execution = false;
+        this.isConfig = false;
+        this.page = true;
+      }else{
+        this.execution = false;
+        this.isConfig = true;
+        this.page = false;
+      }
+      
     }
-    
+  }
     // $('.tabname').toggleClass("active");
     // if (this.isConfig) {
     //   this.isConfig = false;
@@ -362,29 +436,81 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   this.isConfig = true;
     // }
   }
+  executionHistory(limit?,skip?){
+    if(!limit) limit = 100;
+    if(!skip) skip = 0;
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      extractionSourceId: this.selectedSource._id,
+      limit : limit,
+      skip : skip,
+      sourceType: 'content'
+    };
+    this.service.invoke('get.executionHistory', quaryparms).subscribe(res => {
+      if(res.contentExecutions) {
+        this.executionHistoryData = res.contentExecutions;
+        this.executionHistoryData.forEach(element => {
+          element.executionStats.duration = this.duration(element.executionStats.duration);
+          element.createdOn = moment(element.createdOn).fromNow();
+        });
+      } 
+      
+    }, errRes => {
+      this.loadingSliderContent = false;
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed', 'error');
+      }
+    });
+    
+  }
   openStatusSlider(source) {
-    if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
-      this.notificationService.notify('Source extraction is still in progress', 'error');
-      return;
-    }
-    if (source.recentStatus === 'success') {
+    // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
+    //   this.notificationService.notify('Source extraction is still in progress', 'error');
+    //   return;
+    // }
+   
+   // if (source.recentStatus === 'success') {
       this.contentModaltype=source.extractionType;
       this.selectedSource = source;
       this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-      this.pageination(source.numPages, 10)
+      //this.pageination(source.numPages, 10)
       if(source.extractionType === 'webdomain'){
+        if(source.advanceSettings){
+          this.useCookies = source.advanceSettings.useCookies;
+          this.isRobotTxtDirectives = source.advanceSettings.isRobotTxtDirectives;
+          this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
+          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.crawlDepth = source.advanceSettings.crawlDepth;
+          this.maxUrlLimit = source.advanceSettings.maxUrlLimit
+        }
         this.openStatusModal();
         this.loadingSliderContent = true;
         this.selectedSource.advanceSettings = source.advanceSettings || new AdvanceOpts();
-        this.pageination(source.numPages, 10)
+        //this.pageination(source.numPages, 10);
+        this.totalRecord = source.numPages;
         this.getCrawledPages(this.limitpage, 0);
+        this.executionHistory();
+        this.sourceStatus = source.recentStatus;
+        // if(this.sourceStatus === 'success'){
+        //    this.execution = false;
+        //    this.isConfig = false;
+        //    this.page = true;
+        // }else{
+        //   this.execution = false;
+        //   this.isConfig = true;
+        //   this.page = false;
+        // }
       }
       else if(source.extractionType ==='document'){
         this. openDocumentModal();
         this.getCrawledPages(this.limitpage, 0);
       }
       // this.sliderComponent.openSlider('#sourceSlider', 'right500');
-    }
+    //}
     this.isEditDoc = false;
   }
   pageination(pages, action) {
@@ -403,6 +529,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //   this.btnCount = 5
     // }
     /** new Paging Logic */
+    this.totalRecord = 0;
     this.totalRecord = pages;
     this.recordStr = 1
     if (this.totalRecord > this.limitpage) {
@@ -435,10 +562,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  paginate(event){
-    this.getCrawledPages(event.limitpage, event.skip);
-    this.perfectScroll.directiveRef.update();
-    this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+  paginate(event,type?){
+    if(type == 'history'){
+      this.executionHistory()
+    }else{
+      this.getCrawledPages(event.limit, event.skip);
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop(2, 1000);
+    }
+    
   }
   onClickArrow(newStart, newEnd, offset, time) {
     let preStart = this.recordStr;
@@ -533,13 +665,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title:'Delete Document ',
         text: 'Are you sure you want to delete selected document?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected document?',
+        body:'The selected document will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -558,13 +693,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete selected record?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+       newTitle: 'Are you sure you want to delete selected record?',
+       body:'The selected record will be deleted',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -588,6 +726,67 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openImageLink(url) {
     window.open(url, '_blank');
   }
+  checkForUpdate(page){
+    //this.notificationService.notify('Checking for Updates', 'success');
+    this.loadingcheckForUpdate = true;
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      extractionSourceId : this.selectedSource._id,
+      contentId : page._id
+    }
+    const payload: any ={
+      url: page._source.url
+    }
+    this.service.invoke('check.forUpdates', quaryparms,payload).subscribe(res => {
+      this.loadingcheckForUpdate = false;
+      if(res.updateAvailable){
+        this.notificationService.notify('A new version of this page is available', 'success');
+      }else{
+        this.notificationService.notify('The page is up to date', 'success');
+      }
+      
+    }, errRes => {
+      this.loadingcheckForUpdate = false;
+      this.errorToaster(errRes, 'Failed Update');
+    });
+  }
+  reCrwalingWeb(from,page,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      extractionSourceId : this.selectedSource._id,
+      contentId : page._id,
+      jobId : page.jobId
+    }
+    const payload: any ={
+      url: page._source.url
+    }
+    this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Re-Crawling', 'success');
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Re-Cwral');
+    });
+  }
+  
+  stopCrwaling(source,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      jobId : source.jobId
+    }
+    this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
+      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.getSourceList();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Stop Cwraling');
+    });
+  }
   deleteSource(record, dialogRef) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -608,6 +807,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (deleteIndex > -1) {
         this.resources.splice(deleteIndex, 1);
       }
+      this.closeStatusModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to delete source');
     });
@@ -907,6 +1107,13 @@ keyPress(event){
     crawler.desc = this.selectedSource.desc || '';
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
+    crawler.advanceOpts.useCookies = this.useCookies;
+    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.crawlDepth = this.crawlDepth;
+    crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
@@ -1023,10 +1230,27 @@ keyPress(event){
       }
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
+    crawler.advanceOpts.useCookies = this.useCookies;
+    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    if(Number(this.crawlDepth)){
+      crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
+    }else{
+      delete crawler.advanceOpts.crawlDepth;
+    }
+    if(Number(this.maxUrlLimit)){
+      crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+    }else{
+      delete crawler.advanceOpts.maxUrlLimit;
+    }
+    
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
     crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
+    crawler.advanceOpts.allowedURLs.length > 0 || crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.crawlEverything = false :crawler.advanceOpts.crawlEverything = true;
     crawler.resourceType = resourceType;
     payload = crawler;
     //console.log(payload);
@@ -1093,7 +1317,21 @@ keyPress(event){
       }
     }
   }
-
+  crawlOption(opt,label){
+    this.crwalOptionLabel=  label;
+    if(opt != 'any'){
+      this.selectedSource.advanceSettings.crawlEverything = false;
+      if(opt == 'allow'){
+        this.selectedSource.advanceSettings.allowedOpt = true;
+        this.selectedSource.advanceSettings.blockedOpt = false;
+      }else if(opt == 'block'){
+        this.selectedSource.advanceSettings.blockedOpt = true;
+        this.selectedSource.advanceSettings.allowedOpt = false;
+      }
+    }else if(opt == 'any'){
+      this.selectedSource.advanceSettings.crawlEverything = true;
+    }
+  }
   ngOnDestroy() {
     const timerObjects = Object.keys(this.polingObj);
     if (timerObjects && timerObjects.length) {

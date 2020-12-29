@@ -17,7 +17,7 @@ import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
 declare const $: any;
-declare const koreBotChat : any
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-faq-source',
@@ -47,6 +47,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     selectedCount:0,
     stats:{}
   }
+  newCommentObj = {
+    comment:''
+  }
+  faqComments:any = [];
   pollingSubscriber;
   faqs:any = [];
   faqsAvailable = false;
@@ -296,7 +300,22 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       conditionalAnswers: event._source.conditionalAnswers || [],
       keywords: event._source.tags
       };
-      const existingfollowups =  this.selectedFaq._meta.followupQuestions || [];
+      const existingfollowups =  [];
+      if(this.selectedFaq._meta.followupQuestions && this.selectedFaq._meta.followupQuestions.length){
+        this.selectedFaq._meta.followupQuestions.forEach(followup => {
+           if(followup && followup._source){
+            const tempObjPayload: any = {
+              question: followup._source.question,
+              defaultAnswers: followup._source.defaultAnswers || [],
+              conditionalAnswers: followup._source.conditionalAnswers || [],
+              keywords: followup._source.tags,
+              alternateQuestions: followup._source.alternateQuestions,
+              extractionType: 'faq',
+              };
+              existingfollowups.push(tempObjPayload);
+           }
+        });
+      }
       existingfollowups.push(followUPpayload);
     const _payload = {
        followupQuestions: existingfollowups || [],
@@ -328,6 +347,61 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
          this.notificationService.notify('Failed to add sources ', 'error');
        }
      });
+  }
+  clearContent(){
+    this.newCommentObj.comment = '';
+  }
+  saveComment(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      faqId:this.selectedFaq._id,
+      sourceId:this.selectedFaq.extractionSourceId || 'faq'
+    };
+    const payload:any = {
+      text:this.newCommentObj.comment
+    }
+    this.service.invoke('add.comment', quaryparms,payload).subscribe(res => {
+      res.createdOn = moment(res.createdOn).fromNow();
+      if(res.userDetails && res.userDetails.fullName){
+        res.initial = res.userDetails.fullName.slice(0, 1);
+      }
+      // res.color = this.getRandomRolor();
+      this.faqComments.push(res);
+      this.clearContent();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to  comment');
+      // this.clearContent();
+    });
+  }
+   getRandomRolor() {
+    let letters = '012345'.split('');
+    let color = '#';
+    color += letters[Math.round(Math.random() * 5)];
+    letters = '0123456789ABCDEF'.split('');
+    for (let i = 0; i < 5; i++) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+   return color;
+  };
+  getFaqComment(faq) {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      faqId:faq._id,
+      sourceId:faq.extractionSourceId || 'faq'
+    };
+    this.service.invoke('get.comments', quaryparms).subscribe(res => {
+      if(res && res.length){
+        res.forEach(element => {
+          if(element.userDetails && element.userDetails.fullName){
+            element.initial = element.userDetails.fullName.slice(0, 1);
+          }
+          // element.color = this.getRandomRolor();
+          element.createdOn = moment(element.createdOn).fromNow()
+        });
+      }
+      this.faqComments = res || [];
+    }, errRes => {
+    });
   }
   getStats(resourceId?) {
     const quaryparms: any = {
@@ -391,7 +465,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.faqsObj.faqs = this.faqs;
       if(this.faqs.length){
          this.moreLoading.loadingText = 'Loading...';
-         this.selectedFaq = this.faqs[0];
+         this.selectFaq(this.faqs[0]);
       } else {
         this.moreLoading.loadingText = 'No more results available';
         const self = this;
@@ -479,20 +553,21 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   confirmFAQswitch(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '446px',
-      height: '306px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Confirm',
+      title: 'Confirm',
       text: 'The changes made on this FAQ are not yet saved.',
       text1:'Do you want to switch to another FAQ?',
-        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }]
+        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }],
+        confirmationPopUp:true
       }
     });
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
-          this.selectedFaq = faq;
+          this.selectFaq(faq);
           this.editfaq = null;
           dialogRef.close();
         } else if (result === 'no') {
@@ -500,14 +575,19 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
       })
   }
+  selectFaq(faq){
+    this.getFaqComment(faq);
+    this.selectedFaq = faq;
+  }
   selectedFaqToTrain(faq, e) {
-    if(!faq.alternateQuestions || !faq.alternateQuestions.length) {
+    
+    if(!faq._meta.followupQuestions || !faq._meta.followupQuestions.length) {
       e.stopImmediatePropagation();
     }
     if(this.editfaq){
       this.confirmFAQswitch(faq);
     } else {
-      this.selectedFaq = faq;
+     this.selectFaq(faq);
     }
   }
   addfaqs(type) {
@@ -569,16 +649,31 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
    this.closeEditFAQModal();
   }
   editFaq(event){
-    const _payload:any = {
-   question: event._source.question,
-   defaultAnswers: event._source.defaultAnswers || [],
-   conditionalAnswers: event._source.conditionalAnswers || [],
-   alternateQuestions: event._source.alternateQuestions || [],
-   followupQuestions: event.followupQuestions || [],
-   keywords: event._source.tags,
-   state: this.selectedFaq._meta.state
-    };
-    this.updateFaq(this.selectedFaq,'updateQA',_payload)
+    let faqData :any = {}
+    let isFollowUpUpdate = null;
+    if(this.selectedFaq && this.selectedFaq._meta.isFollowupQuestion && this.selectedFaq._meta.parentQuestionId){
+      isFollowUpUpdate = this.selectedFaq._id
+       faqData  = {
+              question: event._source.question,
+              defaultAnswers: event._source.defaultAnswers || [],
+              conditionalAnswers: event._source.conditionalAnswers || [],
+              keywords: event._source.tags,
+              alternateQuestions: event._source.alternateQuestions,
+              extractionType: 'faq',
+       };
+    } else {
+       faqData = {
+        question: event._source.question,
+        defaultAnswers: event._source.defaultAnswers || [],
+        conditionalAnswers: event._source.conditionalAnswers || [],
+        alternateQuestions: event._source.alternateQuestions || [],
+        followupQuestions: event.followupQuestions || [],
+        keywords: event._source.tags,
+        state: this.selectedFaq._meta.state
+        };
+    }
+
+    this.updateFaq(this.selectedFaq,'updateQA',faqData,isFollowUpUpdate)
   }
   updateSourceStatus(statusItems) {
     if (statusItems && statusItems.length) {
@@ -592,7 +687,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       });
     }
   }
-  updateFaq(faq,action,params){
+  updateFaq(faq,action,params,isFollowUpUpdate?){
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
       faqId:faq._id,
@@ -610,15 +705,26 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.selectAll(true);
       this.selectedFaq = res;
       this.selectedtab = res._meta.state;
-      this.searchFaq = res._source.question;
-      this.searchFaqs();
-      const index = _.findIndex(this.faqs,(faqL)=>{
-        return faqL._id ===  this.selectedFaq._id;
-         })
-         if(index > -1){
-           this.faqs[index] = res;
-         }
-      // this.getfaqsBy();
+      if(isFollowUpUpdate){
+          const index = _.findIndex(this.faqs,(faqL)=>{
+            return faqL._id ===  res._meta.parentQuestionId;
+             })
+             if(index > -1){
+              const followUpItem =  _.findIndex(this.faqs[index]._meta.followupQuestions,(followUpfaq) => {
+                return followUpfaq._id === isFollowUpUpdate;
+                });
+                if(followUpItem > -1) {
+                  this.faqs[index]._meta.followupQuestions[followUpItem] = res;
+                }
+             }
+      }  else {
+        const index = _.findIndex(this.faqs,(faqL)=>{
+          return faqL._id ===  res._id;
+           })
+           if(index > -1){
+             this.faqs[index] = res;
+           }
+      }
       this.getStats();
       this.editfaq = false;
       this.closeEditFAQModal();
@@ -707,9 +813,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   deleteIndFAQ(faq,dialogRef){
     const quaryparms:any = {
       searchIndexId: this.serachIndexId,
-      faqId : faq._id
+      sourceId : faq._id
     }
-    this.service.invoke('delete.content.source', quaryparms).subscribe(res => {
+    this.service.invoke('delete.faq', quaryparms).subscribe(res => {
       dialogRef.close();
       this.faqCancle();
       this.notificationService.notify('Faq deleted succesfully','success')
@@ -725,9 +831,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       } else {
         if(this.faqs && this.faqs.length){
           if(this.faqs && this.faqs[deleteIndex]) { // best next possible selection
-                this.selectedFaq = this.faqs[deleteIndex];
+                this.selectFaq(this.faqs[deleteIndex]);
           } else if (this.faqs[deleteIndex -1]){
-            this.selectedFaq = this.faqs[deleteIndex -1];
+            this.selectFaq(this.faqs[deleteIndex -1]);
           } else {
             this.selectedFaq = null;
           }
@@ -739,13 +845,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   deleteInfividualQuestion(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete FAQ',
         text: 'Are you sure you want to delete selected question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected question?',
+        body:'The selected question will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -764,13 +873,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       event.stopImmediatePropagation();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Resource',
         text: 'Are you sure you want to delete ?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Resource will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -785,13 +897,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   deleteQuestion(type,record,event) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete FAQ',
         text: 'Are you sure you want to delete selected question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected question?',
+        body:'The selected question will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -810,13 +925,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   deleteAltQuestion(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Alternate Question',
         text: 'Are you sure you want to delete selected alternate question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected  alternate question?',
+        body:'The selected alternate question will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -831,17 +949,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
       })
   }
-  addFollowUp() {
+  addFollowUp(faq,event) {
+    this.editfaq = false;
+    this.selectedFaqToTrain(faq,event);
     this.faqServiceFollow.updateVariation('followUp');
     this.faqServiceFollow.updateFaqData(this.selectedFaq);
     this.selectedFaq.isAddFollow = true;
     this.showSourceAddition = false;
     this.openAddSourceModal();
-    // setTimeout( () =>{
-    //   $('#questionList').closest('.ps.ps--active-y').animate({
-    //     scrollTop : Math.abs($('#questionList').position().top) + $('#followQue').position().top
-    //   });
-    // }, 100);
   }
   addAlternate() {
     this.faqServiceAlt.updateVariation('alternate');
@@ -856,13 +971,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
 
   delAltQues(ques) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Alternate Question',
         text: 'Are you sure you want to delete this alternate question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected  alternate question?',
+        body:'The selected alternate question will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        // confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -880,13 +998,16 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
 
   delFollowQues(ques) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Followup Question',
         text: 'Are you sure you want to delete this followup question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete this followup question?',
+        body:'The selected followup question will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect

@@ -16,7 +16,7 @@
       <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
         <div class="label_text col-12 p-0">{{'stopWords.add_stop_word'| translate}}</div>
         <div class="kr-sg-input-text">
-            <input type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add multiple words with comma seperation" class="input-text" [(ngModel)]="newStopWord">
+            <input type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add Multiple Words With Comma Seperation" class="input-text" [(ngModel)]="newStopWord">
             <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords.stop_word_already_added'| translate}}</div>
             <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords.stop_word_should_not_have_space_in_between'| translate}}</div>
         </div>

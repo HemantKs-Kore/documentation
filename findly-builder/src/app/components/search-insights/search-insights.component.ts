@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+
 
 @Component({
   selector: 'app-search-insights',
@@ -19,6 +23,26 @@ export class SearchInsightsComponent implements OnInit {
   getSearchQueriesResults : any;
   selectedQuery = '';
   dateType = "hour";
+
+  QWR_totalRecord:number;
+  QWR_limitPage : number = 10;
+  QWR_skipPage:number = 0;
+
+  QWNR_totalRecord : number;
+  QWNR_limitPage : number = 10;
+  QWNR_skipPage:number = 0;
+
+  SQR_totalRecord : number;
+  SQR_limitPage : number = 10;
+  SQR_skipPage:number = 0;
+
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  defaultSelectedDay = 7;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -31,6 +55,37 @@ export class SearchInsightsComponent implements OnInit {
     this.getQueries("QueriesWithResults");
     //this.getQueries("GetSearchQueriesResults");
     
+  }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    this.dateLimt('custom');
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+    }
+    else if (range === 7) {
+      this.startDate = moment().subtract({ days: 6 });
+      this.endDate = moment();
+      this.dateLimt('week')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    } else if (range === 1) {
+      this.startDate = moment().subtract({ hours: 23 });
+      this.endDate = moment();
+      this.dateLimt('hour')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    }
   }
   dateLimt(type){
     this.dateType = type;
@@ -53,30 +108,51 @@ export class SearchInsightsComponent implements OnInit {
     const header : any= {
       'x-timezone-offset': '-330'
     };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343'
-      offset: 0,
-      limit:50
-    };
+    let queryparams:any={searchIndexId: this.serachIndexId};
+    if(type == 'TopQuriesWithNoResults'){
+      queryparams = {
+        ...queryparams,
+        offset: this.QWNR_skipPage,
+        limit:this.QWNR_limitPage
+      };
+    }
+    else if(type == 'QueriesWithResults'){
+      queryparams = {
+        ...queryparams,
+        offset: this.QWR_skipPage,
+        limit:this.QWR_limitPage
+      };
+    }
+    else if(type == 'SearchQueryResults'){
+      queryparams = {
+        ...queryparams,
+        offset: this.SQR_skipPage,
+        limit:this.SQR_limitPage
+      };
+    }
+
     let payload : any = {
       type : type,
       filters: {
-        from: from.toJSON(),//yesterday.toJSON(),
-        to: today.toJSON()
-      }
+        from:  this.startDate.toJSON(),//from.toJSON(),
+        to: this.endDate.toJSON()
+      },
     }
     if(type == 'SearchQueryResults'){
       payload.query = this.selectedQuery;
     }
-    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
+    this.service.invoke('get.queries', queryparams,payload,header).subscribe(res => {
       if(type == 'TopQuriesWithNoResults'){
-       this.topQuriesWithNoResults = res.response;
+       this.topQuriesWithNoResults = res.result;
+       this.QWNR_totalRecord = res.totalCount;
       }
-      if(type == 'QueriesWithResults'){
+      else if(type == 'QueriesWithResults'){
         this.getQueriesWithResults = res.result;
+        this.QWR_totalRecord = res.totalCount;
        }
-       if(type == 'SearchQueryResults'){
+       else if(type == 'SearchQueryResults'){
         this.getSearchQueriesResults = res.result;
+        this.SQR_totalRecord = res.totalCount;
        }
        
      }, errRes => {
@@ -87,6 +163,25 @@ export class SearchInsightsComponent implements OnInit {
        }
      });
   }
+
+  paginate(event,type){
+    if(type==='QWR'){
+      this.QWR_limitPage = event.limit;
+      this.QWR_skipPage = event.skip;
+      this.getQueries('QueriesWithResults');
+    }
+    else if(type === 'QWNR'){
+      this.QWNR_limitPage = event.limit;
+      this.QWNR_skipPage = event.skip;
+      this.getQueries('TopQuriesWithNoResults');
+    }
+    else if(type === 'SQR'){
+      this.SQR_limitPage = event.limit;
+      this.SQR_skipPage = event.skip;
+      this.getQueries('SearchQueryResults');
+    }
+  }
+
   openModalPopup(result){
     this.selectedQuery = result.query;
     this.getQueries('SearchQueryResults')

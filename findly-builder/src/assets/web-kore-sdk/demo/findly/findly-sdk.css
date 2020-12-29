@@ -10668,6 +10668,23 @@ input:checked + .custom-slider:before {
     height: auto;
     border-radius: 4px;
 }
+.image-content-space-vertical {
+    padding: 0 !important;
+    margin: 0 !important;
+    /* height: 200px; */
+    width: 50%;
+    float: left;
+}
+.multimedia-image-vertical {
+    width: 90%;
+    /* height: 95%; */
+    border-radius: 4px;
+}
+.vertical-split-content-inner{
+    float: right;
+    width: 50%;
+    margin: 0px 0 0 0 !important;
+}
 
 .kore-list-template-div{
     list-style: none;
@@ -10702,8 +10719,8 @@ input:checked + .custom-slider:before {
 
  }
 .kore-list-template-div .listViewRightContent img{
-    height: 36px;
-    width: 36px;
+   height: 36px;
+   width: 36px;
    border-radius: 50%;
 
  }
@@ -10722,7 +10739,7 @@ input:checked + .custom-slider:before {
    display: table;
    vertical-align: middle;
 
- }
+}
 .kore-list-template-div .listViewTmplContent .listViewItemSubtitle{
    white-space: nowrap;
    overflow: hidden;

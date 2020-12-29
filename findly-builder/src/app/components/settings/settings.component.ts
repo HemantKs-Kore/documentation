@@ -32,9 +32,32 @@ export class SettingsComponent implements OnInit {
     name: "",
     anonymus: true,
     register: true,
-    awt: 'Select Signing Algorithm',
-    enabled: true
+    awt: 'HS256',
+    enabled: false
   };
+  channels = [
+    {
+      id: 'rtm',
+      name: 'Web/Mobile Client',
+      enable: false,
+      status: 'Not Setup',
+      hide: false,
+      class: 'websdk',
+      catagory: 'others',
+      icon: "assets/icons/web-mobile-client.png"
+    },
+    {
+      id: 'ivrLocal',
+      name: 'Webhook',
+      enable: false,
+      status: 'Not Setup',
+      hide: false,
+      class: 'ivr',
+      catagory: 'other',
+      icon: "assets/icons/webhook.svg"
+    }
+  ]
+  allBotArray = [];
   @ViewChild('addCredential') addCredential: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
@@ -49,7 +72,30 @@ export class SettingsComponent implements OnInit {
     // this.getCredential();
     this.getdialog();
     this.getLinkedBot();
-   
+    this.prepareChannelData();
+
+  }
+  prepareChannelData() {
+    // this.getCredential();
+    const channels = JSON.parse(JSON.stringify(this.channels))
+    channels.forEach((channel) => {
+      this.selectedApp.channels.forEach((streamChannel) => {
+        if (channel.id === streamChannel.type) {
+          const tempChannel: any = streamChannel
+          tempChannel.id = channel.id,
+            tempChannel.status = channel.status,
+            tempChannel.hide = channel.hide,
+            tempChannel.class = channel.class,
+            tempChannel.icon = channel.icon
+            if(channel.enable=true){
+              channel = tempChannel
+            }
+        } 
+
+      })
+    })
+    this.channels = channels
+    console.log(this.channels);
   }
   copy(val, elementID) {
     const selBox = document.createElement('textarea');
@@ -63,7 +109,10 @@ export class SettingsComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    this.notificationService.notify('Copied to clipboard', 'success')
+    
   }
+  
   jwtAuth(awt) {
     this.credntial.awt = awt;
   }
@@ -83,7 +132,10 @@ export class SettingsComponent implements OnInit {
   cancel() {
     if (this.slider > 0)
       this.slider = this.slider - 1;
+      if(this.existingCredential = true)
+      this.slider=0;
   }
+  // if(slider)
   back() {
     if (this.slider != 0)
       this.slider = this.slider - 1;
@@ -152,18 +204,25 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
         this.channnelConguired = res;
-        if (this.channnelConguired.apps.length > 0 && !this.existingCredential) {
+        if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
-          this.firstlistData = res.apps[0];
+          if(this.selectedApp.appPreferences && this.selectedApp.appPreferences.rtmAppId){
+            res.apps.forEach(element => {
+              if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
+                this.listData=element;
+              }
+              
+            });
+          }
+        
           this.slider = 3
-          this.listData = this.firstlistData
           this.configFlag = true;
         }
-        else if (this.channnelConguired.apps.length == 0){
+        else if (this.channnelConguired.apps.length == 0) {
           this.existingCredential = false;
-          this.slider=1
+          this.slider = 1
         }
-       
+
         console.log(res)
       },
       errRes => {
@@ -175,20 +234,44 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
-  continue() {
-    if(this.slider==0 ){
+  proceedChannel(channel) {
+    if (channel && channel.id === 'rtm') {
       this.getCredential()
+    }
+    else (this.notificationService.notify('Channel not available ', 'error'))
+
+  }
+  continue(channel) {
+    if (this.slider == 0) {
+      this.getCredential()
+      // this.configFlag = true;
+
     }
     if (this.slider == 2) {
       this.createCredential()
       this.configFlag = true;
-
-    }
-    if (this.slider < 3 && this.slider !=0) {
       this.slider = this.slider + 1;
-      // this.existingCredential;
 
     }
+    if (this.slider < 3 && this.slider != 0) {
+      // this.configFlag = true;
+      this.slider = this.slider + 1;
+    }
+    // else if(this.slider < 3  && this.slider !=0) {
+    //   this.existingCredential=true;
+    // this.slider = this.slider + 1;
+
+    // }
+
+
+    //  if (this.slider < 3  && this.slider == 0 ) {    
+    //     // this.configFlag = true;
+
+
+
+
+    // }
+
   }
   radio(bool) {
     this.isAlertsEnabled = bool;
@@ -201,8 +284,22 @@ export class SettingsComponent implements OnInit {
 
     this.service.invoke('get.linkedBot', queryParams).subscribe(
       res => {
-        if (res.configuredBots) this.configuredBot_streamId = res.configuredBots[0]._id
+        if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
         console.log(res);
+        res.configuredBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "new"
+          }
+          this.allBotArray.push(obj);
+        });
+        res.unpublishedBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "delete"
+          }
+          this.allBotArray.push(obj);
+        });
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -237,7 +334,9 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('standard.publish', queryParams, payload).subscribe(
       res => {
         this.notificationService.notify('Standard Published', 'success');
-        this.universalPublish();
+        if(this.allBotArray.length > 0){
+          this.universalPublish();
+        }
         console.log(res);
       },
       errRes => {
@@ -249,19 +348,20 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
+  
   universalPublish() {
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
     }
     let payload = {
-      "bots":
-        [
-          {
-            "_id": this.configuredBot_streamId,
-            "state": "new"
-          }
-        ],
+      "bots": this.allBotArray,
+        // [
+        //   {
+        //     "_id": this.configuredBot_streamId,
+        //     "state": "new"
+        //   }
+        // ],
       "publishAllComponents": true,
       "versionComment": "publishing",
       "linkedBotCount": 1
@@ -322,8 +422,12 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
       res => {
         this.slider = 0;
+        this.selectedApp.channels=res.channels;
+        this.workflowService.selectedApp(this.selectedApp);
         this.notificationService.notify('Credential Configuered', 'success');
+        this.prepareChannelData();
         this.standardPublish();
+        this.configFlag = true;
         console.log(res);
       },
       errRes => {

@@ -390,7 +390,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj.multimedia = {
               type:'image',
               url:answer.image.url,
-              position:'horizontalSplit'
+              // position:'horizontalSplit'
+              position: answer.responseType
             }
           }
           defaultAnswers.push(answerObj);
@@ -407,7 +408,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj1.multimedia = {
               type:'image',
               url:answer.image.url,
-              position:'horizontalSplit'
+              // position:'horizontalSplit'
+              position: answer.responseType
             }
           }
           const _conditions = [];

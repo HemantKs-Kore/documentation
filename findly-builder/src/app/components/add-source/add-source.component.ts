@@ -44,6 +44,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   doesntContains = 'Doesn\'t Contains';
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
+
+  useCookies = true;
+  isRobotTxtDirectives = true;
+  isCrawlingRestrictToSitemaps= false;
+  isJavaScriptRendered = false;
+  isBlockHttpsMsgs = false;
+  crwalOptionLabel = "Crawl Everything";
+  crawlDepth :number;
+  maxUrlLimit: number;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -65,6 +74,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     _id: 'job-2745cd21-98f0-580e-926c-6f6bf41593fa',
   };
   currentStatusFailed: any = false;
+  crwal_jobId : any;
   userInfo: any = {};
   csvContent: any = '';
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
@@ -75,7 +85,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Crawl Web Domain',
           description: 'Extract and index web pages',
-          icon: 'assets/images/source-icos/crawlwebdomain.svg',
+          icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
           resourceType: 'webdomain'
@@ -83,7 +93,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Upload File',
           description: 'Index file content',
-          icon: 'assets/images/source-icos/file_upload.svg',
+          icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
           resourceType: 'document'
@@ -91,7 +101,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Others',
           description: 'Extract content from other',
-          icon: 'assets/images/source-icos/others.svg',
+          icon: 'assets/icons/content/othersuccess.svg',
           id: 'contentothers',
           sourceType: 'content',
           resourceType: 'document'
@@ -104,7 +114,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Extract FAQs ',
           description: 'Extract FAQs from web pages and documents',
-          icon: 'assets/images/source-icos/globe.svg',
+          icon: 'assets/icons/content/extractfaq.svg',
           id: 'faqWeb',
           sourceType: 'faq',
           resourceType: ''
@@ -112,7 +122,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Import FAQs',
           description: 'Import FAQs from CSV, Json',
-          icon: 'assets/images/source-icos/importfaq.svg',
+          icon: 'assets/icons/content/importfaq.svg',
           id: 'faqDoc',
           sourceType: 'faq',
           resourceType: 'importfaq'
@@ -120,7 +130,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Add FAQs Manually',
           description: 'Manually Input FAQs',
-          icon: 'assets/images/source-icos/addfaqmanually.svg',
+          icon: 'assets/icons/content/addfaq.svg',
           id: 'manual',
           sourceType: 'faq',
           resourceType: 'manual'
@@ -133,7 +143,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Link Virtual Assistant',
           description: 'Add Bot Actions',
-          icon: 'assets/images/source-icos/addBotActions.svg',
+          icon: 'assets/icons/content/linkvirtual.svg',
           id: 'botActions',
           sourceType: 'action',
           resourceType: 'linkBot'
@@ -232,7 +242,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  poling(jobId) {
+  poling(jobId, schedule?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -253,7 +263,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
-          this.statusObject.status = 'failed';
+          if(!schedule) this.statusObject.status = 'failed';
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
@@ -302,6 +312,32 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.redirectTo();
     this.cancleSourceAddition();
+  }
+  stopCrwaling(source,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      jobId :   this.crwal_jobId
+
+    }
+    this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
+      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.closeStatusModal();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Stop Cwraling');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
   cancleSourceAddition() {
     if (this.resourceIDToOpen) {
@@ -478,15 +514,30 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
+        crawler.advanceOpts.useCookies = this.useCookies;
+        crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
+        crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+        crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+        crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+        if(Number(this.crawlDepth)){
+          crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
+        }else{
+          delete crawler.advanceOpts.crawlDepth;
+        }
+        if(Number(this.maxUrlLimit)){
+          crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+        }else{
+          delete crawler.advanceOpts.maxUrlLimit;
+        }
+        // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
+        // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = {...crawler};
         delete payload.resourceType;
         if(!payload.advanceOpts.scheduleOpt){
-          payload.advanceOpts = {
-            scheduleOpt : false
-          }
+          delete payload.advanceOpts.scheduleOpts;
         }
         quaryparms.resourceType = resourceType;
       }
@@ -499,7 +550,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
         this.openStatusModal();
-        this.poling(res._id);
+        this.poling(res._id,'scheduler');
+        this.crwal_jobId = res._id
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -803,7 +855,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-
+  crawlOption(opt,label){
+    this.crwalOptionLabel =  label;
+    if(opt != 'any'){
+      this.crwalObject.advanceOpts.crawlEverything = false;
+      if(opt == 'allow'){
+        this.crwalObject.advanceOpts.allowedOpt = true;
+        this.crwalObject.advanceOpts.blockedOpt = false;
+      }else if(opt == 'block'){
+        this.crwalObject.advanceOpts.blockedOpt = true;
+        this.crwalObject.advanceOpts.allowedOpt = false;
+      }
+    }else{
+      this.crwalObject.advanceOpts.crawlEverything = true;
+    }
+  }
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {

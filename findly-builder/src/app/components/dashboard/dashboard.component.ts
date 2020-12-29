@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
+import { Router } from '@angular/router';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 @Component({
   selector: 'app-dashboard',
@@ -63,8 +67,16 @@ export class DashboardComponent implements OnInit {
   slider = 0;
   dateType= "hour";
   group = "hour";
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  defaultSelectedDay = 7;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
+    private router: Router,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
@@ -88,6 +100,40 @@ export class DashboardComponent implements OnInit {
     
     
     
+  }
+  viewAll(route){
+    this.router.navigate([route], { skipLocationChange: true });
+  }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    this.dateLimt('custom');
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+    }
+    else if (range === 7) {
+      this.startDate = moment().subtract({ days: 6 });
+      this.endDate = moment();
+      this.dateLimt('week')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    } else if (range === 1) {
+      this.startDate = moment().subtract({ hours: 23 });
+      this.endDate = moment();
+      this.dateLimt('hour')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    }
   }
   tab(index){
     this.slider = index
@@ -137,8 +183,8 @@ export class DashboardComponent implements OnInit {
     let payload : any = {
       type : type,
       filters: {
-        from: from.toJSON(),
-        to: today.toJSON()
+        from:  this.startDate.toJSON(),//from.toJSON(),
+        to: this.endDate.toJSON()
       },
      
     }

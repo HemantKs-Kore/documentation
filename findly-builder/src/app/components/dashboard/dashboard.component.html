@@ -6,11 +6,15 @@
             <div class="bread-name active-name">{{'metrics.dash_board_view.dashboard'| translate}}</div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
+            <div class="custom_date_picker_sec">
+                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
+              </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
-                <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
-                <span class="custom time" [ngClass] = "{'active'  : dateType == 'custom'}" (click)="dateLimt('custom')">Custom</span>
+                <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
+                <span class="week time"(click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
+                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
         </div>
@@ -77,7 +81,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.ctr'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="title-info">{{'metrics.dash_board_view.clicks'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.ctr}}%</div>
@@ -111,7 +115,7 @@
                     <div class="full-card pb-4">
                         <div class="legends-info">
                             <div class="content">
-                                <div class="title">{{'metrics.dash_board_view.total_searches'| translate}}</div>
+                                <div class="title">{{'metrics.dash_board_view.search_trends'| translate}}</div>
                                 <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+8%</span>
@@ -178,8 +182,9 @@
                                 </div>
                             </div>
                         </div>
-                        <app-pagination  [totalRecord]='tsqtotalRecord' [limitpage]='tsqlimitpage' [recordEnd]="tsqrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <div class="create_new_link" (click)="viewAll('/searchInsights')">View all</div>
+                        <!-- <app-pagination  [totalRecord]='tsqtotalRecord' [limitpage]='tsqlimitpage' [recordEnd]="tsqrecordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
                 <div class="col-6 box-content">
@@ -199,16 +204,33 @@
                             </div>
                             
                         </div>
-                        <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <div class="create_new_link" (click)="viewAll('/searchInsights')">View all</div>
+                        <!-- <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
             </div>
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
                     <div class="full-card">
-                        <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
-                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div>
+                        <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img
+                                        src="assets/icons/filter.svg"></button>
+                                <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
+                                    <div class="kr-sg-checkbox d-block p-0">
+                                        <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
+                                    </div>
+                                    <div class="kr-sg-checkbox d-block p-0 m-0">
+                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <div class="info-icon" placement="top-right" ngbTooltip="Use key board shortcuts"
+                            [container]='"body"' tooltipClass="metrics_tooltips"><img src="assets/icons/info.svg"></div> -->
                         <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
@@ -279,15 +301,16 @@
                                 <div class="col-2 body-title text-right">2</div>
                             </div> -->
                         </div>
-                        <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
-                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <div class="create_new_link" (click)="viewAll('/resultInsights')">View all</div>
+                        <!-- <app-pagination  [totalRecord]='totalRecord' [limitpage]='limitpage' [recordEnd]="recordEnd"
+                        [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
                 </div>
             </div>
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">{{'metrics.dash_board_view.Most_Click_Position'| translate}}</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}</div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
                         <div class="text-center">{{'metrics.dash_board_view.Number_of_Clicks'| translate}}</div>
                     </div>
@@ -313,7 +336,7 @@
                                 <div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Feedback_Recieved'| translate}}</span>                                   
+                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Feedback_Received'| translate}}</span>                                   
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication notusefull"></span><span class="title">{{'metrics.dash_board_view.Not_Useful_Result'| translate}}</span>

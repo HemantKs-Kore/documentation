@@ -4,17 +4,32 @@
             <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
             <div class="bread-name active-name">{{'metrics.user_engagement.User_Engagement'| translate}}</div>
-        </div>
+        </div> 
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
-            <!-- <div class="date-info">All conversation sessions between <app-date-range-picker></app-date-range-picker> <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
+            <div class="custom_date_picker_sec">
+                <input type="text" class="d-none"readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true"   [min]="minDate" [max]="maxDate"showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
+              </div>
+              <div class="date-select">
+                <span class="day time" (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs
+                </span>
+                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days
+                </span>
+                <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom
+                </span>
+            </div>
+            <!-- <div class="date-info">All conversation sessions between <app-date-range-picker></app-date-range-picker> <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                
             <div class="date-select">
                 <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
                 <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
                 <span class="custom time" [ngClass] = "{'active'  : dateType == 'custom'}" (click)="dateLimt('custom')">Custom</span>
-            </div>
-            <div class="export"><img src="assets/icons/share.svg"></div>
-        </div>
-    </div>
+            </div> -->
+            <!-- <div class="export"><img src="assets/icons/share.svg"></div> -->
+        </div> 
+       
+       
+    </div> 
+
     <!-- <div class="data-percentage failed">
         <img src="assets/icons/arrow-decrease.svg">
         <span class="percentage">3%</span>

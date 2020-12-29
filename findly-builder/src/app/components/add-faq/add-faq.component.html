@@ -268,7 +268,7 @@
                     <img *ngIf="(faqObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
                     <img *ngIf="(faqObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
                   </div>
-                  <div class="img-block d-none" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
+                  <div class="img-block" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
                     <img *ngIf="(faqObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
                     <img *ngIf="(faqObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
                   </div>

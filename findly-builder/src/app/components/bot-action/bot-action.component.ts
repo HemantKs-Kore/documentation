@@ -307,7 +307,6 @@ export class BotActionComponent implements OnInit {
         else {
           this.streamId = selectedApp.publishedBots[0]._id;
         }
-
         this.getAssociatedTasks(this.streamId)
         this.getAssociatedBots();
         this.notificationService.notify("Bot linked, successfully", 'success')

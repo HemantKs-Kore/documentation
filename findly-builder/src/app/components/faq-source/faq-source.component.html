@@ -4,35 +4,41 @@
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
 <div class="faqmain-container" *ngIf="!loadingFaqs">
-    <div class="faqsListContainer">
-        <div class="faq-header-sec row">
-            <div class="col-8 left-sec p-0">
-                <div class="tab-sec d-flex">
-                    <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}">Drafts<span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
-                    <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">In-review<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
-                    <div class="tab_title" (click)="selectTab('approved')" [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
+    <div class="faqsListContainer">       
+        <div class="faq-header-sec row m-0">
+            <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
+            <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
+                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                            
+                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                          <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">Extract FAQs</li>
+                          <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">Import FAQs</li>
+                          <li (click)="selectSourceDrop.close();addFaqSource('manual')">Add Manually</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-4 p-0 right-sec">
                 <div (click)="openStatusModal()" class="title"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
+                <!-- <div class="clock"><img src="assets/icons/clock.svg"></div> -->
             </div>
         </div>
         <div class="faq-content-boxes">
             <div class="content left-content">
                 <div class="content-boxes faq_tasks_list">
-                    <div class="header-sec">
+                    <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">
+                        <div class="tab_title" (click)="selectTab('draft')" [ngClass]="{'active': (selectedtab === 'draft')}">Drafts<span class="">({{faqSelectionObj.stats.draft || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('in_review')" [ngClass]="{'active': (selectedtab === 'in_review')}">In-review<span class="">({{faqSelectionObj.stats.in_review || 0}})</span></div>
+                        <div class="tab_title" (click)="selectTab('approved')" [ngClass]="{'active': (selectedtab === 'approved')}">Approved<span class="">({{faqSelectionObj.stats.approved || 0}})</span></div>
+                    </div>
+                    <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
                         <div class="kr-sg-checkbox">
                             <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                             <label for="selectAllFaqs" class="checkbox-custom-label"></label>
-                        </div>
-                        <div class="kr-sg-input-search">                               
-                            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">
-                            <img src="assets/icons/search-gray.svg" class="search-icon">
-                        </div>
-                        <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                        </div>                        
+                        <div class="kr-sg-dropdowns" #selectResourceDrop='ngbDropdown' ngbDropdown [container]="'body'" [placement]="'bottom'">                                        
                             <div class="dropdown dropdown-open">
                                 <!-- <span class="filter-count"  placement="top" ngbTooltip="{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}">{{(selectedResource && selectedResource._id)?selectedResource.name:'All'}}</span> -->
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Filter<img src="assets/icons/filter.svg"></button>                                            
+                                <button class="dropdown-toggle dropdown-input pl-0 mr-2" ngbDropdownToggle><img src="assets/icons/filter.svg">Filter</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">                                        
@@ -40,16 +46,25 @@
                                     </ng-container>
                                 </ul>
                             </div>
+                        </div> 
+                        <div class="kr-sg-input-search">                               
+                            <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">
+                            <img src="assets/icons/search-gray.svg" class="search-icon">
+                        </div>                      
+                    </div>
+                    <div class="footer-sec-btns row m-0 col-12" *ngIf="faqSelectionObj.selectedCount">
+                        <div class="col-4 p-0 d-flex align-items-center">
+                            <div class="kr-sg-checkbox">
+                                <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
+                                <label for="selectAllFaqs" class="checkbox-custom-label"></label>
+                            </div>  
+                            <div class="title">{{faqSelectionObj.selectedCount}} Selected</div>
                         </div>
-                        <div class="kr-sg-dropdowns add"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>Add</button>                                            
-                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                                  <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">Extract FAQs</li>
-                                  <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">Import FAQs</li>
-                                  <li (click)="selectSourceDrop.close();addFaqSource('manual')">Add Manually</li>
-                                </ul>
-                            </div>
+                        <div class="col-8 p-0 d-flex align-items-center justify-content-end">
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                         </div>
                     </div>
                     <div class="body-content">
@@ -77,15 +92,17 @@
                                                     <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
                                                 </div>
                                             </div>
+                                            <div class="follow_up" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
                                         </div>
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
-                                                <ng-container *ngIf="faq._source.alternateQuestions && faq._source.alternateQuestions.length">
-                                                    <div class="acc-inner-que" [ngClass]="{'check-all': ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let altQuestion of faq._source.alternateQuestions">
-                                                        <div class="title">{{altQuestion.question}}</div>
-                                                        <div class="desc" *ngIf="altQuestion && altQuestion.answer">{{altQuestion.answer}}</div>
-                                                        <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(altQuestion.defaultAnswers[0].payload)'></div>
-                                                       <div class="desc" *ngIf="altQuestion && altQuestion.defaultAnswers && altQuestion.defaultAnswers.length && altQuestion.defaultAnswers[0] && altQuestion.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                <ng-container  *ngIf="faq._meta.followupQuestions && faq._meta.followupQuestions.length">
+                                                    <div class="acc-inner-que" (click)="selectedFaqToTrain(followUpQuestion, $event);$event.stopImmediatePropagation();"  [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===followUpQuestion._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" *ngFor="let followUpQuestion of faq._meta.followupQuestions">
+                                                        <div class="title">{{followUpQuestion._source.question}}</div>
+                                                        <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
+                                                            <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
+                                                           <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                        </ng-container>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -99,6 +116,7 @@
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
                            </ng-container>
                         </perfect-scrollbar>
+                        <!-- <app-record-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination> -->
                        <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
                             <ng-container *ngIf="!loadingTab">
@@ -106,13 +124,7 @@
                                 <div class="heading">No Questions</div>
                                 <div class="desc">Please add questions</div>
                             </ng-container>
-                        </div>
-                        <div class="footer-btns" *ngIf="faqSelectionObj.selectedCount">
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
-                        </div>
+                        </div>                       
                     </div>
                 </div>
             </div>            
@@ -154,14 +166,40 @@
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="c-section-data">
+                                                    <perfect-scrollbar>
+                                                        <div class="body_data">
+                                                            <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
+                                                            <div class="c-data"  *ngFor="let comment of faqComments">
+                                                                <div class="user-data">
+                                                                    <div class="pro-pic">{{comment.initial}}</div>
+                                                                    <div class="user-name-data">
+                                                                        <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
+                                                                        <div class="u-time">{{comment.createdOn}}</div>
+                                                                        <div class="info-text-user">{{comment.text}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="kr-sg-input-text-area">                                                           
+                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                            </div>
+                                                        </div>
+                                                    </perfect-scrollbar>                                                   
+                                                    <div class="footer-data">
+                                                        <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
+                                                        <div class="btn_sec">
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>  
                                             </ul>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="d-flex align-items-center justify-content-end">
                                         <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','approved')">Approve</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -209,16 +247,42 @@
                                             </ul>
                                         </div>
                                     </div>                             
-                                    <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                    <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                         <div class="dropdown dropdown-open">                                        
-                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
-                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                                
+                                            <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                            <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
+                                                <div class="c-section-data">
+                                                    <perfect-scrollbar>
+                                                        <div class="body_data">
+                                                            <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
+                                                            <div class="c-data"  *ngFor="let comment of faqComments">
+                                                                <div class="user-data">
+                                                                    <div class="pro-pic">{{comment.initial}}</div>
+                                                                    <div class="user-name-data">
+                                                                        <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
+                                                                        <div class="u-time">{{comment.createdOn}}</div>
+                                                                        <div class="info-text-user">{{comment.text}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="kr-sg-input-text-area">                                                           
+                                                                <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                            </div>
+                                                        </div>
+                                                    </perfect-scrollbar>                                                   
+                                                    <div class="footer-data">
+                                                        <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
+                                                        <div class="btn_sec">
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>  
                                             </ul>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="d-flex align-items-center justify-content-end">
-                                        <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
+                                        <button class="kr-sg-button-secondary btn_lg" *ngIf="!(selectedFaq && selectedFaq._meta && selectedFaq._meta.isFollowupQuestion)" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button>
                                         <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                             <div class="dropdown dropdown-open">
                                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle data-toggle="dropdown"><img src="assets/icons/dropdown-arrow.svg"></button>                                            
@@ -263,14 +327,40 @@
                                         </ul>
                                     </div>
                                 </div>                             
-                                <!-- <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                                <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                     <div class="dropdown dropdown-open">                                        
-                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                            
-                                        <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
-                                            
+                                        <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" src="assets/icons/comment.svg"></button>                                                                                      
+                                        <ul class="dropdown-menu content-menu comments_header_dropdown_content" ngbDropdownMenu>
+                                            <div class="c-section-data">
+                                                <perfect-scrollbar>
+                                                    <div class="body_data">
+                                                        <!-- <div class="intial-state d-none">This looks good! <a>Simone</a></div> -->
+                                                        <div class="c-data"  *ngFor="let comment of faqComments">
+                                                            <div class="user-data">
+                                                                <div class="pro-pic">{{comment.initial}}</div>
+                                                                <div class="user-name-data">
+                                                                    <div class="u-name" >{{comment.userDetails?comment.userDetails.fullName:'---'}}</div>
+                                                                    <div class="u-time">{{comment.createdOn}}</div>
+                                                                    <div class="info-text-user">{{comment.text}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kr-sg-input-text-area">                                                           
+                                                            <textarea placeholder="reply" [(ngModel)]="newCommentObj.comment" class="input-text"></textarea>                                
+                                                        </div>
+                                                    </div>
+                                                </perfect-scrollbar>                                                   
+                                                <div class="footer-data">
+                                                    <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
+                                                    <div class="btn_sec">
+                                                        <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
+                                                        <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                    </div>
+                                                </div>
+                                            </div>  
                                         </ul>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="d-flex align-items-center justify-content-end">
                                     <!-- <button class="kr-sg-button-primary btn_lg" (click)="updateFaq(selectedFaq,'stateUpdate','in_review')">Send for Review</button> -->
                                     <div class="kr-sg-dropdowns add" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
@@ -291,46 +381,50 @@
                             <!-- <app-add-faq (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()" *ngIf="editfaq && selectedFaq"></app-add-faq> -->
                             <div class="body-top-content" *ngIf="!editfaq">
                                 <div class="question-content">
-                                    <div class="title-que">
-                                        <span class="">{{selectedFaq._source.question}}</span>                                       
-                                        <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
-                                    </div>
-                                    <div class="keywords">
-                                        <span class="key-title">Key Terms :</span>
-                                        <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
-                                    </div>  
-                                    <div class="bot-response-view-mode">
-                                        <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
-                                            <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
-                                                <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
-                                                <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
-                                                    <img src="{{answer.multimedia.url}}">
-                                                </div>
-                                                <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
-                                                <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
-                                            </ng-container> 
-                                        </ng-container>
-                                    </div>
-                                    <div class="conditionalBlock bot-response-view-mode" >
-                                        <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
-                                        <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
-                                            <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
-                                            <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
-                                            <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
-                                                <div *ngFor="let ans of consitionalAnswer.answers">
-                                                    <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
-                                                        <img src="{{ans.multimedia.url}}">
+                                    <div class="shadow-div">
+                                        <div class="title-que">
+                                            <span class="">{{selectedFaq._source.question}}</span>                                       
+                                            <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
+                                        </div>
+                                        <div class="keywords">
+                                            <span class="key-title">Key Terms :</span>
+                                            <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
+                                        </div> 
+                                    </div> 
+                                    <div class="pad-div">
+                                        <div class="bot-response-view-mode">
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
+                                                <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
+                                                    <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                    <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
+                                                        <img src="{{answer.multimedia.url}}">
                                                     </div>
-                                                    <ng-container>
-                                                        <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>
-                                                         <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div>
-                                                    </ng-container> 
+                                                    <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
+                                                    <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                                </ng-container> 
+                                            </ng-container>
+                                        </div>
+                                        <div class="conditionalBlock bot-response-view-mode" >
+                                            <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
+                                            <ng-container *ngFor="let consitionalAnswer of selectedFaq._source.conditionalAnswers; let i = index;">
+                                                <div class="bot-response-title">Bot Response <span>{{ ' ' + (i + 1 + (selectedFaq._source.defaultAnswers?selectedFaq._source.defaultAnswers.length:0))}}</span></div> 
+                                                <div class="condition-tags">Conditions : <span *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.conditions.length"><span *ngFor="let item of consitionalAnswer.conditions;  let index = index"><span *ngIf="index">,</span>{{item.value}}</span></span></div>
+                                                <div *ngIf="consitionalAnswer && consitionalAnswer.answers && consitionalAnswer.answers.length">
+                                                    <div *ngFor="let ans of consitionalAnswer.answers">
+                                                        <div class="img-view-mode" *ngIf="ans.multimedia && ans.multimedia.url">
+                                                            <img src="{{ans.multimedia.url}}">
+                                                        </div>
+                                                        <ng-container>
+                                                            <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>
+                                                             <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div>
+                                                        </ng-container> 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </ng-container>
-                                            </ng-container> 
+                                            </ng-container>
+                                                </ng-container> 
+                                        </div>
+                                        <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                     </div>
-                                    <!-- <div class="added-answer" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(selectedFaq.answer)'></div> -->
                                 </div>
                                 <div class="appearences-info row" *ngIf="selectedFaq && selectedFaq.feedback">
                                     <div class="col-4 p-0">
@@ -375,7 +469,7 @@
                                 <!-- <img src="assets/icons/delete-table.svg" (click)="delAltQues(alternateQuestion)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': alternateQuestion?.keywords?.length == 0}"> -->
                             </div>
                            </ng-container>
-                            <div class="add-alternative-questions row followup_questions">
+                            <!-- <div class="add-alternative-questions row followup_questions">
                                 <div class="col-10 pl-0 pr-2">
                                     <div class="question-name text-truncate">Followup Questions 
                                         {{(selectedFaq._meta.followupQuestions?.length>0?'('+selectedFaq._meta.followupQuestions.length+')':'')}}
@@ -385,9 +479,9 @@
                                 <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addFollowUp()">Add</button>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <ng-container *ngIf="selectedFaq._meta.followupQuestions?.length">
+                            <!-- <ng-container *ngIf="selectedFaq._meta.followupQuestions?.length">
                                 <div class="added-questions-list" *ngFor="let followQues of selectedFaq._meta.followupQuestions">
                                     <div class="question-name text-truncate">{{followQues._source.question}}</div>
                                     <div class="added-tags text-truncate">
@@ -395,7 +489,7 @@
                                     </div>
                                     <img src="assets/icons/delete-table.svg" (click)="delFollowQues(followQues)" class="delete-icon cursor-pointer" [ngClass]="{'pos-trash': followQues?.keywords?.length == 0}">
                                 </div>
-                            </ng-container>
+                            </ng-container> -->
                         </div>
                     </perfect-scrollbar>
                    </ng-container>

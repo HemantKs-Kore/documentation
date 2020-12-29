@@ -4,7 +4,8 @@
         <span class="please-wait-message">Please Wait!</span>
     </div>
     <div class="header_sec">
-        <div class="title">Index Configuration</div>
+        <!-- <div class="title">Index Configuration</div> -->
+        <div class="title" (click)="openModalPopup()">Index Configuration</div>
         <div class="btn_sec">            
             <button class="kr-sg-button-secondary btn_lg" [disabled]='savingConfig'  (click)="saveConfig()">{{(savingConfig)?'Saving...':'Save Configuration'}}</button>
             <!-- <button class="kr-sg-button-primary btn_lg" [disabled]='reIndexing' (click)="reindex()">{{(reIndexing)?'Re-Indexing..':'Re-Index'}}</button> -->
@@ -64,7 +65,7 @@
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Stage Name <img container="body"  ngbTooltip="Give your own name for the stage" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg"></div>
-                        <input type="text" placeholder="Please enter stage name" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
+                        <input type="text" placeholder="Please Enter Stage Name" (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name">
                     </div>
                     <div class="kr-sg-input-text mb-20">
                         <div class="label-text">Condition <img container="body" ngbTooltip="Condition evaluates to false will skip the stage execution" tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg"></div>
@@ -92,13 +93,13 @@
                                 <div class="kr-sg-input-text col-4 input-box" *ngIf="(map.operation === 'copy') || (map.operation === 'rename')">
                                     <div class="label-text" *ngIf="map.operation === 'copy'">Source Field</div>
                                     <div class="label-text" *ngIf="map.operation === 'rename'">Field Name</div>
-                                    <input type="text" placeholder="Enter target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
+                                    <input type="text" placeholder="Enter Target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.source_field">
                                 </div>
                                 <div class="kr-sg-input-text col-4 input-box">
                                     <div class="label-text" *ngIf="map.operation === 'copy'">Target Filed</div>
                                     <div class="label-text" *ngIf="map.operation === 'rename'">New Name</div>
                                     <div class="label-text" *ngIf="(map.operation !== 'copy') && (map.operation !== 'rename')">Field Name</div>
-                                    <input type="text" placeholder="Enter target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
+                                    <input type="text" placeholder="Enter Target" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="map.target_field">
                                 </div>
                                 <div class="kr-sg-input-text col-4 input-box" (keyup)="changesDetected = true" *ngIf="(map.operation !== 'remove') && (map.operation !== 'copy') && (map.operation !== 'rename')">
                                     <div class="label-text">Value</div>
@@ -124,13 +125,13 @@
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation === 'copy') || (newMappingObj.field_mapping.defaultValue.operation === 'rename')">
                             <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'copy'">Source Field</div>
                                     <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">Field Name</div>
-                            <input type="text" placeholder="Enter source field" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.source_field">
+                            <input type="text" placeholder="Enter Source Field" (keyup)="changesDetected = true" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.source_field">
                         </div>
                         <div class="kr-sg-input-text col-4 input-box">
                             <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'copy'">Target Filed</div>
                             <div class="label-text" *ngIf="newMappingObj.field_mapping.defaultValue.operation === 'rename'">New Name</div>
                             <div class="label-text" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'copy') && (newMappingObj.field_mapping.defaultValue.operation !== 'rename')">Field Name</div>
-                            <input type="text" placeholder="Enter name" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
+                            <input type="text" placeholder="Enter Name" class="input-text" [(ngModel)]="newMappingObj.field_mapping.defaultValue.target_field">
                         </div>
                         <div class="kr-sg-input-text col-4 input-box" *ngIf="(newMappingObj.field_mapping.defaultValue.operation !== 'remove') && (newMappingObj.field_mapping.defaultValue.operation !== 'copy') && (newMappingObj.field_mapping.defaultValue.operation !== 'rename')">
                             <div class="label-text"  *ngIf="newMappingObj.field_mapping.defaultValue.operation !== 'rename'">Value</div>
@@ -321,7 +322,7 @@
                  <div class="customScript">
                     <div class="kr-sg-input-text-area" >
                         <div class="label-text">&lt;/&gt;Painless</div>
-                        <textarea placeholder="Please enter script" class="input-text" (keyup)='addCustomScript(newMappingObj.custom_script.defaultValue.script)' [(ngModel)]="newMappingObj.custom_script.defaultValue.script"></textarea>
+                        <textarea placeholder="Please Enter Script" class="input-text" (keyup)='addCustomScript(newMappingObj.custom_script.defaultValue.script)' [(ngModel)]="newMappingObj.custom_script.defaultValue.script"></textarea>
                     </div>
                  </div>
                  
@@ -369,3 +370,79 @@
         </perfect-scrollbar>
     </div>
 </div>
+<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop"  #addFieldModalPop>   
+    <div class="modal-header">
+        <div class="title">Choose the fields you would like to add and define properties</div>
+        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <ng-container>
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="mainLoadingSpinner" *ngIf="loadingFields" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">Please Wait!</span>
+    </div>
+    <div class="table_sec" *ngIf="!newfieldsData.length && !loadingFields">
+            <div class="empty-list">
+                <ng-container>
+                    <img src="assets/images/icons/empty_ill.svg">
+                    <!-- <div class="heading">No Stages</div> -->
+                    <div class="desc">No Stages available</div>
+                </ng-container>
+            </div> 
+    </div>
+    <div class="modal-body textAlignLeft" *ngIf="!loadingFields && newfieldsData.length">
+            <!-- DATA TABLE START HERE -->
+                            <div class="kr-sg-data-table">
+                                <section class="table-content">
+                                    <header class="table-header">
+                                        <div class="col">Field Name</div>
+                                        <div class="col">Type</div>
+                                        <div class="col">Multi-Value</div>
+                                        <div class="col">Required</div>
+                                        <div class="col">Stored</div>
+                                        <div class="col">Indexed</div>
+                                    </header>
+                                    <div class="content-body" *ngFor="let field of newfieldsData ;let i = index;">
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="fieldMultiValue{{i}}" class="checkbox-custom" [(ngModel)]="field.isActive" type="checkbox">
+                                                <label for="fieldMultiValue{{i}}" class="checkbox-custom-label">{{field.fieldName}}</label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">{{field.fieldDataType | translate}}</div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="fieldMultiValue{{i}}" class="checkbox-custom" [(ngModel)]="field.isMultiValued" type="checkbox">
+                                                <label for="fieldMultiValue{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="field.isRequired{{i}}" class="checkbox-custom"  [(ngModel)]="field.isRequired"  type="checkbox">
+                                                <label for="field.isRequired{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="field.isStored{{i}}" class="checkbox-custom"  [(ngModel)]="field.isStored"  type="checkbox">
+                                                <label for="field.isStored{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="kr-sg-checkbox">
+                                                <input id="field.isIndexed{{i}}" class="checkbox-custom"  [(ngModel)]="field.isIndexed"  type="checkbox">
+                                                <label for="field.isIndexed{{i}}" class="checkbox-custom-label"></label>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </section>                               
+                            </div>   
+            <!-- DATA TABLE ENDS HERE -->
+    </div>
+    </perfect-scrollbar> 
+    <div class="modal-footer text-left">
+        <button type="button" [disabled]='loadingFields' class="kr-sg-button-primary btn_lg float-right" (click)="addField()">{{'Add'}}</button>                   
+        <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
+    </div>    
+   </ng-container>
+</kr-modal>

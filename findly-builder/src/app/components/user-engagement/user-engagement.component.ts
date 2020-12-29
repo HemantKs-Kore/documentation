@@ -1,9 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter,ElementRef,ViewChild } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+
 import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
 
 @Component({
@@ -108,6 +112,15 @@ export class UserEngagementComponent implements OnInit {
   repeatUserProgress = 0;
   highValue = 24;
   lowValue = 0;
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  minDate: any= moment().subtract({days: 95});
+  maxDate: any= moment();
+  defaultSelectedDay = 1;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -165,6 +178,39 @@ export class UserEngagementComponent implements OnInit {
    this.highValue = event.highValue;
    this.lowValue = event.value;
    this.busyHours();
+  }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    this.dateLimt('custom');
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+      // this.dateLimt('custom')
+    } else if (range === 7) {
+      this.startDate = moment().subtract({ days: 6 });
+      this.endDate = moment();
+      this.dateLimt('week')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    } else if (range === 1) {
+      this.startDate = moment().subtract({ hours: 23 });
+      this.endDate = moment();
+      this.dateLimt('hour')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    }
+
+    this.selected = { startDate: this.startDate, endDate: this.endDate }
   }
 
   appendToolTip(event, parentClass, multiple?) {
@@ -240,8 +286,8 @@ export class UserEngagementComponent implements OnInit {
     let payload = {
       type: type,
       filters: {
-        from: from.toJSON(),
-        to: today.toJSON()
+        from:  this.startDate.toJSON(),//from.toJSON(),
+        to: this.endDate.toJSON()
       },
       group: this.group //this.group//"hour - 24 /date - 7 /week - coustom if time > 30 days"
     }

@@ -68,7 +68,7 @@
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
                 <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
               </mat-chip>
-              <input placeholder="Type Synonyms and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList"
+              <input placeholder="Type alternatives and press enter" [value]="typedQuery" [matChipInputFor]="chipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}" autocomplete="off">
@@ -186,10 +186,10 @@
                     </div>
                     <div class="saveCacleSynBlock row m-0">
                       <div class="float-right">
-                        <button class="kr-sg-button-primary btn_lg"
-                          (click)="updateSynonm(synonym,synonym._id,i)">{{'synonyms.save' | translate}}</button>
                         <button class="kr-sg-button-secondary btn_lg"
                           (click)="cancleAddEdit()">{{'synonyms.cancel_it' | translate}}</button>
+                        <button class="kr-sg-button-primary btn_lg"
+                          (click)="updateSynonm(synonym,synonym._id,i)">{{'synonyms.save' | translate}}</button>
                       </div>
                     </div>
                   </div>
