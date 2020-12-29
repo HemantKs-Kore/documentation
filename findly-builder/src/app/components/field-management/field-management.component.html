@@ -65,8 +65,8 @@
             <div class="row m-0 mb-20">
                 <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
-                    <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
-                    <input type="text"  *ngIf="newFieldObj.fieldDataType !== 'number'" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <!-- <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
+                    <input type="text" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>

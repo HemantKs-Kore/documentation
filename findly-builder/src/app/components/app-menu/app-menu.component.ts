@@ -1,7 +1,12 @@
-import { Component, OnInit,ViewEncapsulation, HostListener, Input } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation, HostListener, Input, ViewChild, OnDestroy } from '@angular/core';
 import { SideBarService } from '../../services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ActivatedRoute, Routes, Router } from '@angular/router';
+import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { AppSelectionService } from '@kore.services/app.selection.service'
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { Subscription } from 'rxjs';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -9,42 +14,197 @@ declare const $: any;
   styleUrls: ['./app-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppMenuComponent implements OnInit {
+export class AppMenuComponent implements OnInit , OnDestroy{
 
   selected = '';
   trainingMenu = false;
+  addFieldModalPopRef:any;
+  loadingQueryPipelines:any = true;
+  queryConfigs:any = [];
+  newConfigObj:any = {
+    method:'default',
+    name:''
+  };
+  searchPipeline:any = '';
+  queryConfigsRouts:any = {
+    '/synonyms':true,
+    '/stopWords':true,
+    '/weights':true,
+    '/facets':true,
+    '/resultranking':true,
+  }
+  configObj:any = {};
+  selectedConfig:any ={};
+  subscription:Subscription;
+  editName : boolean = false;
+  editNameVal : String = "";
   @Input() show;
   @Input() settingMainMenu;
-
-  constructor( private headerService: SideBarService, private workflowService: WorkflowService, private router: Router) { }
+  @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  constructor( private service:ServiceInvokerService,
+      private headerService: SideBarService,
+      private workflowService: WorkflowService,
+      private router: Router, private activetedRoute:ActivatedRoute,
+      private notify: NotificationService,
+      private appSelectionService:AppSelectionService) { }
   goHome(){
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
   };
-  preview(selection): void {
+  preview(selection) {
     const toogleObj = {
       title: selection,
     };
-    // this.showHideSearch(false);
     this.headerService.toggle(toogleObj);
   }
-  showHideSearch(show){
-    if(show){
-      $('.search-background-div').show();
-      $('.start-search-icon-div').addClass('active');
-      $('.advancemode-checkbox').css({display:'block'});
-    }else{
-      $('.search-background-div').hide();
-      $('.start-search-icon-div').removeClass('active');
-      $('.advancemode-checkbox').css({display:'none'});
+  getPreviousState(){
+    let previOusState :any = null;
+    try {
+      previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
+    } catch (e) {
     }
+    return previOusState;
+  }
+  reloadCurrentRoute() {
+    let route = '/source';
+    const previousState = this.getPreviousState();
+    if(previousState.route){
+      route = previousState.route
+     }
+     try {
+       if(route && this.queryConfigsRouts[route]){
+        if(this.workflowService.selectedApp() && this.workflowService.selectedApp().searchIndexes && this.workflowService.selectedApp().searchIndexes.length){
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate([route],{ skipLocationChange: true });
+        });
+         }
+       }
+     } catch (e) {
+     }
+  }
+  selectDefault(){
+    this.newConfigObj._id = this.selectedConfig;
+  }
+  editConfig(config,action){
+    this.editName = true;
+    this.editNameVal = config.name;
+    this.selectQueryPipelineId(config,null,'edit')
+  }
+  markAsDefault(config,action?){
+    this.editName = false;
+    const queryParms ={
+      queryPipelineId:config._id,
+      searchIndexID:this.workflowService.selectedSearchIndexId
+    }
+    let payload = {}
+    if(action == 'edit'){
+       payload = {
+        name:this.editNameVal,
+      }
+    }else{
+       payload = {
+        default:true,
+      }
+    }
+    this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
+      res => {
+        this.notify.notify('Set to default successfully','success');
+       this.appSelectionService.getQureryPipelineIds(config);
+       if(config && config._id && action !== 'edit'){
+         this.selectQueryPipelineId(config);
+       }
+      },
+      errRes => {
+        this.errorToaster(errRes,'Failed to set successfully');
+      }
+    );
+  }
+  errorToaster(errRes,message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
+      this.notify.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message){
+      this.notify.notify(message, 'error');
+    } else {
+      this.notify.notify('Somthing went worng', 'error');
+  }
+ }
+  createConfig(){
+    const payload:any = {
+     method: this.newConfigObj.method,
+     name:this.newConfigObj.name,
+    }
+    if(this.newConfigObj.method === 'clone'){
+      payload.sourceQueryPipelineId = this.newConfigObj._id
+    }
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
+      res => {
+       this.appSelectionService.getQureryPipelineIds();
+       if(res && res._id){
+         this.selectQueryPipelineId(res);
+       }
+       this.closeModalPopup();
+      },
+      errRes => {
+      }
+    );
+  }
+  selectQueryPipelineId(queryConfigs,event?,type?){
+    if(event && !this.editName){
+      event.close();
+    }
+    if(this.editName && type){
+      this.editName = true
+    }else{
+      this.editName = false;
+      //event.close();
+    }
+    this.appSelectionService.selectQueryConfig(queryConfigs);
+    this.selectedConfig = queryConfigs._id;
+    this.reloadCurrentRoute()
+  }
+  onKeypressEvent(e,config){
+    if(e){
+      e.stopPropagation();
+    }
+    if (e.keyCode == 13) {
+      this.markAsDefault(config,'edit')
+      return false;
+  }
   }
   ngOnInit() {
-    // this.selected = "accounts";
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
+      this.queryConfigs = res;
+      res.forEach(element => {
+        this.configObj[element._id] = element;
+      });
+      this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
+    })
   }
   // toggle sub-menu
+  switchToTerminal(){
+    this.closeModalPopup();
+  }
   toggleTranningMenu() {
     this.trainingMenu === false ? this.trainingMenu = true: this.trainingMenu = false;
   }
-
+  closeModalPopup(){
+    this.addFieldModalPopRef.close();
+    this.newConfigObj = {
+      method:'default',
+      name:''
+    };
+  }
+  openModalPopup(){
+    this.newConfigObj = {
+      method:'default',
+      name:''
+    };
+    this.addFieldModalPopRef = this.addFieldModalPop.open();
+  }
+  ngOnDestroy(){
+    this.subscription?this.subscription.unsubscribe(): false;
+  }
 }

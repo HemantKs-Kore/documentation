@@ -81,6 +81,7 @@
                         <span class="tags-input mr-1 mb-1">{{'businessRules.'+ outcome.outcomeType | translate}}: 
                             <span *ngFor="let value of outcome.outcomeValue; let valueIndex = index">{{value}} <span *ngIf="valueIndex < (outcome.outcomeValue.length-1)" class="divider mr-1 mb-1">{{'or_caps' | translate}}</span></span>
                         </span>
+                        <img class="pl-1" *ngIf="outcome.showFieldWarning && (outcome.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}'>
                     </ng-container>
                 </div>
                 <div class="col-3 content actions">
