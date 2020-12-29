@@ -42,28 +42,6 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   public showStatusDocker : boolean = false;
   public statusDockerLoading : boolean = false;
   public dockersList : Array<any> = [];
-  tempResponse = [
-    {
-      "_id": "job-fb7bea58-9820-5447-a803-de53654661a2",
-      "statusType": "jobQueue",
-      "streamId": "st-a382de83-887c-5f8a-8232-e590b9cbb3c1",
-      "message": "Crawling successful",
-      "jobType": "webdomain",
-      "status": "SUCCESS",
-      "percentageComplete": 20,
-      "extractionSourceId": "fs-24120dba-2f55-5553-983e-45541fd4a64a",
-      "createdOn": "2020-12-22T07:44:44.324Z"
-    },
-    {
-      "_id": "job-ea89bc8d-1593-5979-9d61-d28830b30dae",
-      "statusType": "jobQueue",
-      "streamId": "st-a382de83-887c-5f8a-8232-e590b9cbb3c1",
-      "jobType": "document",
-      "status": "QUEUED",
-      "extractionSourceId": "fs-4e6fbee5-5e76-506e-ba2b-39a22f4bfaf9",
-      "createdOn": "2020-12-16T17:32:53.285Z"
-    }
-  ];
   @Input() show;
   @Input() settingMainMenu;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -248,12 +226,10 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       res => {
         this.statusDockerLoading = false;
-        this.dockersList = res;
-       console.log("status docker", res);
+        this.dockersList = res.dockStatuses;
       },
       errRes => {
         this.statusDockerLoading = false;
-        this.dockersList = this.tempResponse;
         this.errorToaster(errRes,'Failed to get Status of Docker.');
       }
     );

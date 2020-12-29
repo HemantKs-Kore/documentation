@@ -6,4 +6,21 @@
     .perfect-scroll-modal-body.docker{
         height: 274px !important;
     }
+    .inProgress{
+        width: 20px;
+        height: 20px;
+        -webkit-animation:spin 4s linear infinite;
+        -moz-animation:spin 4s linear infinite;
+        animation:spin 4s linear infinite;
+    }
+    .run-percentageDone {
+        position: absolute;
+        left: 69px;
+        top: 2px;
+        font-size: 10px;
+        color: #a6bdda;
+    }
+    .anchor {
+        cursor: pointer;
+    }
 }
