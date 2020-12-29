@@ -82,6 +82,7 @@ export class SummaryComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
   ) { }
+  
 
   ngOnInit() {
     const toogleObj = {
@@ -193,6 +194,7 @@ export class SummaryComponent implements OnInit {
         });
        console.log(this.experiments)
        this.activities.createdOn = moment(this.activities.createdOn).fromNow();
+       this.getChannel();
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

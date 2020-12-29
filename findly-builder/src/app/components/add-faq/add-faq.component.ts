@@ -300,7 +300,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
  if(this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length >1){
   this.faqResponse.defaultAnswers.splice(index,1);
    } else {
-    this.notify.notify('Atlease one answer is required', 'error');
+    this.notify.notify('Atleast one answer is required', 'error');
    }
   }
   setDataforEditDelete(faqdata){
