@@ -215,7 +215,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   openStatusDocker(){
     if(this.showStatusDocker){
       this.statusDockerLoading = true;
-      this.getDockerData();
+      // this.getDockerData();
     }
   }
 
