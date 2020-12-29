@@ -23,4 +23,8 @@
     .anchor {
         cursor: pointer;
     }
+    .clear_icon.disabled{
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }

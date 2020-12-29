@@ -1,6 +1,6 @@
 <div class="statusDockerBody">
     <div class="header text-right">
-        <div class="clear_icon anchor" (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
+        <div class="clear_icon anchor" [class.disabled]="!dockersList.length" (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body docker">
 		<div class="docker-list" *ngIf="!statusDockerLoading">
@@ -18,9 +18,12 @@
                     <img src="assets/images/status-docker/Vector-redirect.png" class="ml-2 anchor" (click)="naviateToContent(task)" *ngIf="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain'))">
                     <img src="assets/icons/ringLoading.svg" class="ml-2 inProgress" *ngIf="task.status == 'IN_PROGRESS'" placement="top" container='body'>
                     <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
-                    <img src="assets/images/status-docker/cancel.png" class="ml-2 anchor" (click)="removeRecord(task)" *ngIf="(task.status !== 'IN_PROGRESS')">
+                    <img src="assets/images/status-docker/cancel.png" class="ml-2 anchor" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">
                 </div>
-			</div>
+            </div>
+            <div *ngIf="!dockersList.length" class="recordsEmpty">
+                You got no records in StatusDocker.
+            </div>
 		</div>
 		<div class="statusDockerLoadingSpinner row" *ngIf="statusDockerLoading" >
 			<mat-spinner diameter="18" strokeWidth="2"></mat-spinner>

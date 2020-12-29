@@ -89,7 +89,7 @@ export class StatusDockerComponent implements OnInit {
     console.log("task naviateToContent", task);
   }
 
-  removeRecord(task){
+  removeRecord(task, index){
     if(task._id){
       this.statusDockerLoading = true;
       const queryParms ={
@@ -100,7 +100,8 @@ export class StatusDockerComponent implements OnInit {
       this.service.invoke('delete.dockById', queryParms).subscribe(
         res => {
           this.statusDockerLoading = false;
-          this.dockersList = res;
+          this.dockersList.splice(index, 1);
+          this.notify.notify(res.msg, 'success');
         },
         errRes => {
           this.statusDockerLoading = false;
@@ -108,6 +109,9 @@ export class StatusDockerComponent implements OnInit {
         }
       );
     }    
+    else{
+      this.notify.notify('Removing is not supported for this Job.', 'error');
+    }
   }
 
   clearAllRecords(){
@@ -115,10 +119,11 @@ export class StatusDockerComponent implements OnInit {
     const queryParms ={
       searchIndexId:this.workflowService.selectedSearchIndexId,
     }
-    this.service.invoke('delete.dockById', queryParms).subscribe(
+    this.service.invoke('delete.clearAllDocs', queryParms).subscribe(
       res => {
         this.statusDockerLoading = false;
-        this.dockersList = res;
+        this.dockersList = [];
+        this.notify.notify(res.msg, 'success');
       },
       errRes => {
         this.statusDockerLoading = false;

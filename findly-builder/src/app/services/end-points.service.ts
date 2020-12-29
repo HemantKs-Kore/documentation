@@ -688,7 +688,7 @@ export class EndPointsService {
     }
 
     this.serviceList['delete.dockById'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id/statusType=:statusType',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
       method: 'delete'
     }
 
