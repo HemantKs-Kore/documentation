@@ -6,7 +6,7 @@
 		<div class="docker-list" *ngIf="!statusDockerLoading">
 			<div class="row mb-2 mr-0" *ngFor="let task of dockersList; let index = index">
                 <div class="text col-8">
-                    <div class="heading">{{task.message ? task.message : 'Task Name'}}</div>
+                    <div class="heading">{{task.message}}</div>
                     <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}}</div>
                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}}</div>
                 </div>

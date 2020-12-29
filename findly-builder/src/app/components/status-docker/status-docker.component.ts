@@ -23,11 +23,9 @@ export class StatusDockerComponent implements OnInit {
     private notify: NotificationService) { }
 
   ngOnInit(): void {
-    console.log("dockersList", this.dockersList);
   }
 
   ngOnChanges(changes){
-    console.log(changes);
     if(changes.statusDockerLoading.currentValue){
       this.statusDockerLoading = changes.statusDockerLoading.currentValue;
       this.poling();
@@ -92,7 +90,6 @@ export class StatusDockerComponent implements OnInit {
   }
 
   removeRecord(task){
-    console.log("task", task);
     if(task._id){
       this.statusDockerLoading = true;
       const queryParms ={
