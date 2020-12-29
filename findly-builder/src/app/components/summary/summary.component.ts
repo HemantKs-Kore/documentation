@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -6,6 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -16,8 +17,9 @@ declare const $: any;
 export class SummaryComponent implements OnInit {
   serachIndexId;
   indices: any;
-  experiments : any;
-  activities: any;
+  experiments : any = [];
+  variants : any = [];
+  activities: any = [];
   channelExist = false;
   totalUsersStats : any = {};
   totalSearchesStats: any = {};
@@ -180,6 +182,17 @@ export class SummaryComponent implements OnInit {
         this.experiments = res.experiments;
         this.activities =  res.activities;
         this.indices = res.indices;
+        this.experiments.forEach(element => {
+          if(element.variants){
+            element.variants.forEach(res => {
+              if(res.leader){
+                element['winner'] = true;
+              }
+            });  
+          }
+        });
+       console.log(this.experiments)
+       this.activities.createdOn = moment(this.activities.createdOn).fromNow();
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -190,6 +203,8 @@ export class SummaryComponent implements OnInit {
       }
     );
   }
+
+  
   viewAll(route){
     this.router.navigateByUrl(route, { skipLocationChange: true });
   }
