@@ -45,8 +45,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
 
-  useCookies = false;
-  isRobotTxtDirectives = false;
+  useCookies = true;
+  isRobotTxtDirectives = true;
   isCrawlingRestrictToSitemaps= false;
   isJavaScriptRendered = false;
   isBlockHttpsMsgs = false;
@@ -85,7 +85,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Crawl Web Domain',
           description: 'Extract and index web pages',
-          icon: 'assets/images/source-icos/crawlwebdomain.svg',
+          icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
           resourceType: 'webdomain'
@@ -93,7 +93,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Upload File',
           description: 'Index file content',
-          icon: 'assets/images/source-icos/file_upload.svg',
+          icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
           resourceType: 'document'
@@ -101,7 +101,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Others',
           description: 'Extract content from other',
-          icon: 'assets/images/source-icos/others.svg',
+          icon: 'assets/icons/content/othersuccess.svg',
           id: 'contentothers',
           sourceType: 'content',
           resourceType: 'document'
@@ -114,7 +114,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Extract FAQs ',
           description: 'Extract FAQs from web pages and documents',
-          icon: 'assets/images/source-icos/globe.svg',
+          icon: 'assets/icons/content/extractfaq.svg',
           id: 'faqWeb',
           sourceType: 'faq',
           resourceType: ''
@@ -122,7 +122,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Import FAQs',
           description: 'Import FAQs from CSV, Json',
-          icon: 'assets/images/source-icos/importfaq.svg',
+          icon: 'assets/icons/content/importfaq.svg',
           id: 'faqDoc',
           sourceType: 'faq',
           resourceType: 'importfaq'
@@ -130,7 +130,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Add FAQs Manually',
           description: 'Manually Input FAQs',
-          icon: 'assets/images/source-icos/addfaqmanually.svg',
+          icon: 'assets/icons/content/addfaq.svg',
           id: 'manual',
           sourceType: 'faq',
           resourceType: 'manual'
@@ -143,7 +143,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Link Virtual Assistant',
           description: 'Add Bot Actions',
-          icon: 'assets/images/source-icos/addBotActions.svg',
+          icon: 'assets/icons/content/linkvirtual.svg',
           id: 'botActions',
           sourceType: 'action',
           resourceType: 'linkBot'

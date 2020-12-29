@@ -52,11 +52,11 @@ export class EndsOn {
       
 }
 export class AllowUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 export class BlockUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 
