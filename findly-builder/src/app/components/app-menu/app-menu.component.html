@@ -205,11 +205,13 @@
 			</div>
 		</div>
 
-		<div class="status-docker">
-			<button class="kr-sg-button-secondary w-100" (click)="(showStatusDocker = !showStatusDocker); openStatusDocker()">
-				<img src="assets/images/status-docker/Ellipse 54.png" alt="status-docker">
-				<img src="assets/images/status-docker/Circle.png" alt="status-docker"> {{ 'status_docker' | translate}}
-			</button>
+		<div class="status-docker" (click)="(showStatusDocker = !showStatusDocker); openStatusDocker()">
+			<div class="circles">
+				<div class="inner-clrcle"></div>
+			</div>
+			<div class="docker-title">
+				 {{ 'status_docker' | translate}}
+			</div>
 		</div>
 		<!-- <div class="sidebar-fixed position-fixed activeMenu">
 
@@ -285,6 +287,6 @@
     </div>    
 </kr-modal>
 
-<div class="statusDockerContent p-3" *ngIf="showStatusDocker">
+<div class="statusDockerContent" *ngIf="showStatusDocker">
 	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
 </div>

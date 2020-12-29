@@ -1,31 +1,96 @@
 <div class="statusDockerBody">
-    <div class="header text-right">
-        <div class="clear_icon anchor" [class.disabled]="!dockersList.length" (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
-    </div>
+    <div class="clear_icon text-right" [class.disabled]="!dockersList.length" (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
     <perfect-scrollbar class="perfect-scroll-modal-body docker">
 		<div class="docker-list" *ngIf="!statusDockerLoading">
-			<div class="row mb-2 mr-0" *ngFor="let task of dockersList; let index = index">
-                <div class="text col-8">
+			<div class="row ml-0 mr-0 col-12 p-0 row-content" *ngFor="let task of dockersList; let index = index">
+                <div class="col-9 pl-0">
                     <div class="heading">{{task.message}}</div>
                     <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}}</div>
                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}}</div>
                 </div>
-                <div class="col-4 d-inline text-right">
-                    <img src="assets/images/status-docker/error.png" class="ml-2 anchor" *ngIf="task.status === 'FAILURE'">
-                    <img src="assets/images/status-docker/return.png" class="ml-2 anchor" *ngIf="task.status === 'HALTED'">
-                    <img src="assets/images/status-docker/download.png" class="ml-2 anchor" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')">
-                    <img src="assets/images/status-docker/Vector-success.png" class="ml-2" *ngIf="(task.status === 'SUCCESS') && (task.jobType !== 'faq')">
-                    <img src="assets/images/status-docker/Vector-redirect.png" class="ml-2 anchor" (click)="naviateToContent(task)" *ngIf="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain'))">
-                    <img src="assets/icons/ringLoading.svg" class="ml-2 inProgress" *ngIf="task.status == 'IN_PROGRESS'" placement="top" container='body'>
-                    <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
-                    <img src="assets/images/status-docker/cancel.png" class="ml-2 anchor" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">
+                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <div class="img-block">
+                        <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
+                        <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'">
+                        <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')">
+                        <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType !== 'faq')">
+                        <img src="assets/icons/docker/external-link.svg" (click)="naviateToContent(task)" *ngIf="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain'))">                        
+                    </div>
+                    <div class="status-blcok">                        
+                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status == 'IN_PROGRESS'" placement="top" container='body'>
+                        <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
+                        <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">
+                    </div>
                 </div>
-            </div>
+            </div>         
             <div *ngIf="!dockersList.length" class="recordsEmpty">
                 You got no records in StatusDocker.
             </div>
 		</div>
-		<div class="statusDockerLoadingSpinner row" *ngIf="statusDockerLoading" >
+		<div class="statusDockerLoadingSpinner row m-0" *ngIf="statusDockerLoading" >
+			<mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+			<span class="please-wait-message ml-3">{{'please_wait' | translate}}</span>
+		</div>
+    </perfect-scrollbar>
+</div>
+
+
+<div class="statusDockerBody d-none">
+    <div class="clear_icon text-right">{{'clear_all' | translate}}</div>
+    <perfect-scrollbar class="perfect-scroll-modal-body docker">
+		<div class="docker-list" *ngIf="!statusDockerLoading">
+			<div class="row ml-0 mr-0 col-12 p-0 row-content">
+                <div class="col-9 pl-0">
+                    <div class="heading">Crawling from web </div>
+                    <div class="desc">In Progress</div>
+                </div>
+                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <div class="img-block"><img src="assets/icons/docker/clock.svg"></div>
+                    <div class="status-blcok"><img src="assets/icons/docker/close.svg"></div>
+                </div>
+            </div>
+            <div class="row ml-0 mr-0 col-12 p-0 row-content">
+                <div class="col-9 pl-0">
+                    <div class="heading">FAQ Export is completed</div>
+                    <div class="desc">Report Generated <span class="tooltip-data" ngbTooltip='31 Dec 2020 12:30 PM' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
+                </div>
+                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <div class="img-block"><img src="assets/icons/docker/check.svg"></div>
+                    <div class="status-blcok"><img src="assets/icons/docker/close.svg"></div>
+                </div>
+            </div>
+            <div class="row ml-0 mr-0 col-12 p-0 row-content">
+                <div class="col-9 pl-0">
+                    <div class="heading">Recrawling of Citi bank doc</div>
+                    <div class="desc">Completed</div>
+                </div>
+                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <div class="img-block"><img src="assets/icons/docker/check.svg"></div>
+                    <div class="status-blcok"><img src="assets/icons/docker/close.svg"></div>
+                </div>
+            </div>
+            <div class="row ml-0 mr-0 col-12 p-0 row-content">
+                <div class="col-9 pl-0">
+                    <div class="heading">Crawling of Kore Web doc</div>
+                    <div class="desc">Failed</div>
+                </div>
+                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <div class="img-block"><img src="assets/icons/docker/info.svg"></div>
+                    <div class="status-blcok"><img src="assets/icons/docker/return.svg"></div>
+                </div>
+            </div>
+            <div class="row ml-0 mr-0 col-12 p-0 row-content">
+                <div class="col-9 pl-0">
+                    <div class="heading">Application training</div>
+                    <div class="desc">Completed</div>
+                </div>
+                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                    <div class="img-block"><img src="assets/icons/docker/check.svg"></div>
+                    <div class="status-blcok"><img src="assets/icons/docker/close.svg"></div>
+                </div>
+			</div>
+		</div>
+		<div class="statusDockerLoadingSpinner row m-0" *ngIf="statusDockerLoading" >
 			<mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
 			<span class="please-wait-message ml-3">{{'please_wait' | translate}}</span>
 		</div>

@@ -19,7 +19,7 @@ app-mainmenu{
 			z-index: 2;
 			.perfect-scroll{
 				.list-group{
-					padding: 15px;	
+					padding: 15px 15px 42px 15px;	
 				}
 				.kr-sg-dropdowns{
 					width: auto;
@@ -280,15 +280,39 @@ app-mainmenu{
 		}
 		.status-docker{
 			position: absolute;
-			bottom: 1px;
+			background: #F8F9FA;
+			bottom: 6px;
 			right: 0;
 			width: 100%;
-			height: 32px;
-			font-size: 14px;
-			.kr-sg-button-secondary{
-				border-radius: 0px;
-				border: unset;
-			}
+			padding: 8px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			// justify-content: center;
+			padding-left: 29px;
+			cursor: pointer;
+			.circles{
+				width: 14px;
+				height: 14px;
+				border: 1px solid #0D6EFD;
+				border-radius: 100%;
+				.inner-clrcle{
+					width: 10px;
+					height: 10px;
+					border: 0.5px solid #85B7FE;
+					border-radius: 100%;
+					margin: 0 auto;
+					top: 1px;
+					position: relative;
+				}
+			}	
+			.docker-title{
+				color: #202124;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 17px;
+				margin-left: 10px;
+			}					
 		}
 	}
 }
@@ -362,17 +386,16 @@ app-mainmenu{
 
 .statusDockerContent{
 	position: absolute;
-    left: 20%;
-    bottom: 5%;
-    background: white;
-	z-index: 9999 !important;
-	overflow: hidden;
-	background: #FFFFFF;
-	border: 2px solid #E7F1FF;
-	box-sizing: border-box;
-	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.07);
-	border-radius: 4px;
-	width: 320px;
+    left: 152px;
+    bottom: 37px;
+    z-index: 9999 !important;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 2px solid #E7F1FF;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.07);
+    border-radius: 4px;
+    width: 320px;
 	.statusDockerLoadingSpinner{
 		background: transparent;
 		width: 223px;
