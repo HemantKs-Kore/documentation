@@ -617,11 +617,11 @@
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [checked]="isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlBeyondSitemap" [checked]="isCrawlBeyondSitemap" [(ngModel)] = "isCrawlBeyondSitemap" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
-                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [checked]="isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "respectRobotTxtDirectives" [checked]="respectRobotTxtDirectives" [(ngModel)] = "respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
@@ -884,12 +884,25 @@
                     <perfect-scrollbar class="scroll-table" #perfectScroll>
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
-                          <div class="col_ col-3 pr-5"><span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class"><img src="assets/icons/content/success.svg"></span>{{history.executionStats.executionStatusMessage}} <div class="eye-img"><img src="assets/icons/content/eye.svg"></div>
+                          
+                          <div class="col_ col-3 pr-5">
+                            <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class">
+                              <img src="assets/icons/content/success.svg">
+                            </span>
+                            {{history.executionStats.executionStatusMessage}} 
+                            <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
+                            </div>
+                            <div *ngIf = "i == executionPop"> 
+                              HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                            </div>
                           </div>
                           <div class="col_ col-3">{{history.executionStats.duration}}</div>
                           <div class="col_ col-3">{{history.executionStats.triggeredBy}}</div>
                           <div class="col_ col-3">{{history.createdOn}}</div>
-                        </div>                      
+                        </div> 
+                        <!-- test   (mouseleave) = "mouseleave()" -->
+                        
+                        <!-- test -->                     
                       </ng-container>
                     </perfect-scrollbar>                    
                   </section>

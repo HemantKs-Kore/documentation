@@ -108,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="!statusObject.validation.urlValidation"
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Cancel Crawling</button>
+          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>
@@ -157,7 +157,7 @@
             </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Name"
+              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
             <div class="kr-sg-input-text-area mb-3">
@@ -475,11 +475,11 @@
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlBeyondSitemap" [(ngModel)] = "isCrawlBeyondSitemap" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
-                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "respectRobotTxtDirectives" [(ngModel)] = "respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
