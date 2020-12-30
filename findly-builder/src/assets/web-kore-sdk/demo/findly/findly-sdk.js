@@ -333,7 +333,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var _self = this;
       // var SearchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83'; // DEV SearchIndexID
-      var SearchIndexID = _self.config.botOptions.searchIndexID || 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e';
+      var SearchIndexID = _self.config.botOptions ? _self.config.botOptions.searchIndexID : 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e';
       // var SearchIndexID = 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e' // PILOT SearchIndexID
       var pipelineId = '';
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
@@ -353,9 +353,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = 'https://pilot.findly.ai'; // For XHR calls in PILOT
 
 
-      /*if (_self.isDev) {
+      if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
-      }*/
+      }
       var baseUrl = baseAPIServer + "/searchAssistant";
       var searchAPIURL = baseAPIServer + "/api/1.1/findly/";
       var liveSearchAPIURL = baseAPIServer + "/api/1.1/searchAssist/";
@@ -1049,12 +1049,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 <div class="faqs-bottom-actions background-white">\
                     <span class="appearences">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                    <span class="custom-appearences-content">${faq.feedback.appearance} VIEWS</span>&nbsp;\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                    <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
-                    <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                    <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                      <span class="custom-appearences-content">${faq.feedback.appearance} VIEWS</span>&nbsp;\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                      <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
+                      <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                      <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                      <div class="result-tuning-action-notification-container">\
+                        <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                        <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                        <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                        <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                      </div>\
                     </span>\
                     <span class="actions display-none">\
                     <span class="img-action  dont-show">\
@@ -1130,13 +1136,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
                  <div class="faqs-bottom-actions background-white">\
                  <span class="appearences">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                 <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                 <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
-                 <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                 <span class="appearences-count display-none">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
-                 </span>\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                    <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                    <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
+                    <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                    <span class="appearences-count display-none">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
+                    <div class="result-tuning-action-notification-container">\
+                      <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                      <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                      <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                      <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                    </div>\
+                  </span>\
                  <span class="actions display-none">\
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
@@ -1256,7 +1268,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <input id="viewTypeCheckboxControl" type="checkbox">\
               <div class="slider"><span class="enabled">Customize</span><span class="disabled">Preview</span></div>\
             </label>\
-            <div class="show_insights" data-displayInsights="true"><span class="show_insights_text">SHOW INSIGHTS </span><img class="show_insights_icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC"></div>\
+            <div class="show_insights" data-displayInsights="true">\
+              <span class="show_insights_text display-none">SHOW INSIGHTS </span><img class="show_insights_icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC">\
+              <span class="query-analytics-control-fullscreen-view"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">Query Analytics</span>\
+            </div>\
           </div>\
           {{if searchFacets.length}}\
             <button id="closeFacetFilterControl" class="display-none custom-button-filter-results custom-mt-3">\
@@ -1311,16 +1326,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           </div>\
                           <div class="desc-info">{{html page.searchResultPreview}}</div>\
                           <div class="custom-matched-results-container">\
-                            <div class="custom-matched-results-page-icon">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
-                            </div>\
-                            <div class="custom-matched-results-page-summary">\
-                              <span class="custom-matched-results-page-summary-content">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span>${page.feedback.appearance} VIEWS</span>\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>${page.feedback.click} CLICKS</span>\
-                              </span>\
+                            <div class="flex-data">\
+                              <div class="custom-matched-results-page-icon">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
+                              </div>\
+                              <div class="result-tuning-action-notification-container fullscreen-notification">\
+                                <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                                <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                                <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                                <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                              </div>\
+                              <div class="custom-matched-results-page-summary">\
+                                <span class="custom-matched-results-page-summary-content">\
+                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                                  <span class="pr_15">${page.feedback.appearance} Views</span>\
+                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                                  <span>${page.feedback.click} Clicks</span>\
+                                </span>\
+                              </div>\
                             </div>\
                           </div>\
                           <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
@@ -1414,16 +1437,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                       <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
                       <div class="custom-matched-results-container">\
-                        <div class="custom-matched-results-faq-icon">\
-                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
-                        </div>\
-                        <div class="custom-matched-results-faq-summary">\
-                          <span class="custom-matched-results-faq-summary-content">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                            <span>${faq.feedback.appearance} VIEWS</span>\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                            <span>${faq.feedback.click} CLICKS</span>\
-                          </span>\
+                        <div class="flex-data">\
+                          <div class="custom-matched-results-faq-icon">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
+                          </div>\
+                          <div class="result-tuning-action-notification-container fullscreen-notification">\
+                            <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                            <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                            <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                            <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                          </div>\
+                          <div class="custom-matched-results-faq-summary">\
+                            <span class="custom-matched-results-faq-summary-content">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                              <span class="pr_15">${faq.feedback.appearance} Views</span>\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                              <span>${faq.feedback.click} Clicks</span>\
+                            </span>\
+                          </div>\
                         </div>\
                       </div>\
                       <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
@@ -1512,9 +1543,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="custom-matched-results-page-summary">\
                               <span class="custom-matched-results-page-summary-content">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span>${document.feedback.appearance} VIEWS</span>\
+                                <span class="pr_15">${document.feedback.appearance} Views</span>\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>${document.feedback.click} CLICKS</span>\
+                                <span>${document.feedback.click} Clicks</span>\
                               </span>\
                             </div>\
                           </div>\
@@ -1869,7 +1900,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var messageBubbles = '<script>\
         <div class="messageBubble">\
           {{if msgData && msgData.from==="user"}}\
-            <div class="userMessage"><span>${msgData.text}</span></div>\
+            <div class="userMessage"><span>${msgData.text}</span>\
+            {{if devMode=="true"}}\
+              <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">\
+                Query Analytics\
+              </div>\
+            {{/if}}\
+            </div>\
           {{/if}}\
           {{if msgData && msgData.from==="bot"}}\
           <div class="messageBubble-content">\
@@ -2649,7 +2687,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (_self.vars.showingMatchedResults == true) {
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
             _self.vars.customizeView = true;
-            $(".custom-insights-control-container").show();
+            // $(".custom-insights-control-container").show();
+            $(".query-analytics-control-container").show();
             $(".tasks-wrp").sortable();
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
@@ -2665,7 +2704,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           else {
             _self.vars.customizeView = false;
 
-            $(".custom-insights-control-container").hide();
+            // $(".custom-insights-control-container").hide();
+            $(".query-analytics-control-container").hide();
             $(".faqs-shadow").removeClass('custom-faqs-shadow');
             $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
             $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
@@ -2947,16 +2987,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(this).attr('data-displayinsights') == "true") {
           responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', false);
-          $(this).find('.show_insights_text').text("HIDE INSIGHTS ");
-          $(this).find('.show_insights_icon').css('transform', 'rotate(180deg)')
+          /*$(this).find('.show_insights_text').text("HIDE INSIGHTS ");
+          $(this).find('.show_insights_icon').css('transform', 'rotate(180deg)')*/
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
         else {
           responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', true);
-          $(this).find('.show_insights_text').text("SHOW INSIGHTS ");
-          $(this).find('.show_insights_icon').css('transform', 'rotate(360deg)');
+          /*$(this).find('.show_insights_text').text("SHOW INSIGHTS ");
+          $(this).find('.show_insights_icon').css('transform', 'rotate(360deg)');*/
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -3276,8 +3316,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           indicatorMessage = "UNHIDING";
         }
         else {
-          // indicatorMessage = "HIDING";
-          indicatorMessage = "HIDDEN"
+          indicatorMessage = "HIDING";
+          // indicatorMessage = "HIDDEN"
         }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
@@ -3286,7 +3326,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });*/
           selectedElement.attr('visible', conf.visible);
           if (selectedElement.attr('visible') == "false") {
-            selectedElement.find('.notification-div').text(indicatorMessage).show();
+            // selectedElement.find('.notification-div').text(indicatorMessage).show();
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            })
+
+            if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').show();
+            }
             elementHidden.text("UNHIDE");
             selectedElement.addClass('hide-actions');
           }
@@ -3294,6 +3350,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
               $(this).hide();
             });
+            if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+              selectedElement.find('#hideAction').hide();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').hide();
+              selectedElement.find('#hideAction').hide();
+            }
             elementHidden.text("HIDE");
             selectedElement.removeClass('hide-actions');
           }
@@ -3304,8 +3368,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
         var indicatorMessage = ''
         if (elementPinned.text() == "PIN") {
-          // indicatorMessage = "PINNING";
-          indicatorMessage = "PINNED"
+          indicatorMessage = "PINNING";
+          // indicatorMessage = "PINNED"
         }
         else {
           indicatorMessage = "UNPINNING";
@@ -3320,12 +3384,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
               $(this).hide();
             });
+            if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+              selectedElement.find('#pinAction').hide();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').hide();
+              selectedElement.find('#pinAction').hide();
+            }
+
             elementPinned.text("PIN");
             selectedElement.removeClass('hide-visibility-control');
 
           }
           else {
-            selectedElement.find('.notification-div').text(indicatorMessage).show();
+            // selectedElement.find('.notification-div').text(indicatorMessage).show();
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
+            if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').show();
+            }
             elementPinned.text("UNPIN");
             selectedElement.addClass('hide-visibility-control');
           }
@@ -3336,10 +3424,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = "BOOSTED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });*/
-          selectedElement.find('.notification-div').text(indicatorMessage).show();
+          });
+          // selectedElement.find('.notification-div').text(indicatorMessage).show();
+          if ($(event.target).closest('.boosting').attr('data-viewmode') == "full") {
+            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+            selectedElement.find('#buryAction').hide();
+            selectedElement.find('#boostAction').show();
+          }
+          else {
+            selectedElement.find('.result-tuning-action-notification-container').show();
+            selectedElement.find('#buryAction').hide();
+            selectedElement.find('#boostAction').show();
+          }
+
           selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
@@ -3348,10 +3447,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = "LOWERED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });*/
-          selectedElement.find('.notification-div').text(indicatorMessage).show();
+          });
+          // selectedElement.find('.notification-div').text(indicatorMessage).show();
+          if (($(event.target).closest('.burying').attr('data-viewmode') == "full")) {
+            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+            selectedElement.find('#boostAction').hide();
+            selectedElement.find('#buryAction').show();
+          }
+          else {
+            selectedElement.find('.result-tuning-action-notification-container').show();
+            selectedElement.find('#boostAction').hide();
+            selectedElement.find('#buryAction').show();
+          }
           selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
@@ -3620,9 +3729,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-        if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+        $(".query-analytics-control-container").show();
+        /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
           $('.custom-insights-control-container').show();
-        }
+        }*/
       }
 
 
@@ -3636,7 +3746,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //_self.bindSearchActionEvents();
 
 
-      $('.custom-insights-control-container').off('click').on('click', function (event) {
+      // $('.custom-insights-control-container').off('click').on('click', function (event) {
+      $(dataHTML).off('click', '.query-analytics-control-container').on('click', '.query-analytics-control-container', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
@@ -3644,11 +3755,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
-        $('.custom-header-container-left').css('visibility', 'visible');
-        $('.custom-insights-control-container').hide();
+        /*$('.custom-header-container-left').css('visibility', 'visible');
+        $('.custom-insights-control-container').hide();*/
       })
 
-      $('.custom-header-container-left').off('click').on('click', function (event) {
+      /*$('.custom-header-container-left').off('click').on('click', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -3666,7 +3777,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         $('.custom-header-container-left').css('visibility', 'hidden');
-      })
+      })*/
 
       // $('.pay-button').off('click').on('click')
       if (templateType === "search-container") {
@@ -4502,21 +4613,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               /*$(searchData).find(".tasks-wrp").sortable();
               $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
               $(searchData).find(".tasks-wrp").disableSelection();*/
-              $(".custom-insights-control-container").show();
+              // $(".custom-insights-control-container").show();
+              $(".query-analytics-control-container").show();
               $(".faqs-shadow").addClass('custom-faqs-shadow');
               $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
               $(".image-url-sec").css('display', 'none');
               $(".faqs-bottom-actions").css('display', 'table');
 
-              if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+              /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
                 // debugger;
                 $('.custom-insights-control-container').show();
-              }
+              }*/
             }
             else {
               // $(searchData).find(".tasks-wrp").sortable("disable");
-              $(".custom-insights-control-container").hide();
+              // $(".custom-insights-control-container").hide();
+              $(".query-analytics-control-container").hide();
               $(".faqs-shadow").removeClass('custom-faqs-shadow');
               $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
@@ -4621,11 +4734,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         'text': '',
         'from': type,
       }
+      var devMode = _self.isDev ? 'true' : 'false';
+      var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+
       if (type === 'user' && ($('#search').val() !== null) && ($('#search').val() !== undefined)) {
         messageData.text = $('#search').val();
         if (messageData.text && messageData.text.trim()) {
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-            msgData: messageData
+            msgData: messageData,
+            devMode: devMode,
+            viewType: viewType
           });
           $('#searchChatContainer').append(template);
         }
@@ -4662,7 +4780,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               messageData.text = payData.postback_value;//"Pay nowwww";
               messageData.from = 'user';
               var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                msgData: messageData
+                msgData: messageData,
+                devMode: devMode,
+                viewType: viewType
               });
               $('#searchChatContainer').append(template);
               _self.bindLiveDataToChat();
@@ -4741,7 +4861,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 messageData.text = _innerText;
                 messageData.from = 'user';
                 var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
                 });
                 $('#searchChatContainer').append(templateMessageBubble);
                 _self.sendMessage(_innerText);
@@ -4844,7 +4966,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 messageData.text = _innerText;
                 messageData.from = 'user';
                 var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
                 });
                 $('#searchChatContainer').append(templateMessageBubble);
                 _self.sendMessage(_innerText);
@@ -4882,7 +5006,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 messageData.text = displayMessage;
                 messageData.from = 'user';
                 var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
                 });
                 $('#searchChatContainer').append(templateMessageBubble);
                 _self.sendMessage(_innerText);
@@ -4915,7 +5041,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 messageData.text = displayMessage;
                 messageData.from = 'user';
                 var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                  msgData: messageData
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
                 });
                 $('#searchChatContainer').append(templateMessageBubble);
                 _self.sendMessage(_innerText);
@@ -4942,7 +5070,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         messageData.text = _self.vars.searchObject.searchText;
         messageData.from = 'user';
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-          msgData: messageData
+          msgData: messageData,
+          devMode: devMode,
+          viewType: viewType
         });
         //$('#searchChatContainer').append(template);
         $('.search-body').hide();

@@ -313,7 +313,7 @@ export class AppComponent implements OnInit , OnDestroy {
       if(parms.type === 'showInsightFull' && parms.data === true && _self.bridgeDataInsights){
         _self.bridgeDataInsights = false;
         _self.showInsightFull = true;
-        $('.ksa-resultsContainer').css({width:'50%'});
+        // $('.ksa-resultsContainer').css({width:'50%'});
       }else{
         _self.bridgeDataInsights = true;
         _self.showInsightFull = false;
