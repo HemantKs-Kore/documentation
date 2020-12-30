@@ -9,7 +9,7 @@
                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}}</div>
                 </div>
                 <div class="col-3 d-flex p-0 align-items-center justify-content-end">
-                    <div class="img-block">
+                    <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain'))">
                         <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                         <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')">
