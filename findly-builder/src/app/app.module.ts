@@ -73,6 +73,7 @@ import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
 import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NouisliderModule } from 'ng2-nouislider';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
@@ -183,6 +184,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatNativeDateModule,
     AnnotoolModule,
     Ng5SliderModule,
+    NouisliderModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),

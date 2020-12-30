@@ -344,7 +344,8 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.AssociatedBotTasks'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
+      // endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/allTasks',
       method: 'get'
     }
     this.serviceList['put.LinkBot'] = {
@@ -354,6 +355,18 @@ export class EndPointsService {
     }
     this.serviceList['put.UnlinkBot'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
+      method: 'put'
+    }
+    this.serviceList['put.enableTask'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
+      method: 'put'
+    }
+    this.serviceList['put.disableTask'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
+      method: 'put'
+    }
+    this.serviceList['put.syncLinkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails/sync',
       method: 'put'
     }
     this.serviceList['get.queryPipelines'] = {
@@ -636,7 +649,6 @@ export class EndPointsService {
     endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/reCrawlPage/source/:extractionSourceId/content/:contentId/job/:jobId',
     method: 'post'
   }
-  
   //APIs for experiments
   this.serviceList['get.experiment'] = {
     endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state',
@@ -644,6 +656,10 @@ export class EndPointsService {
   }
   this.serviceList['create.experiment'] = {
     endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments',
+    method: 'post'
+  }
+  this.serviceList['check.forUpdates'] = {
+    endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/crawler/checkForUpdates/source/:extractionSourceId/content/:contentId',
     method: 'post'
   }
   // this.serviceList['edit.credential'] = {

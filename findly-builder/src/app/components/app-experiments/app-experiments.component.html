@@ -139,13 +139,38 @@
                     *ngIf="exp.state !== 'configured'"
                   >
                     <div class="left-sec">
-                      <div class="date-stamp">Start Date: 24 Jul 2020</div>
-                      <div class="date-stamp">End Date: 28 Jul 2020</div>
+                      <div class="date-stamp">
+                        Start Date: {{ exp.start | date: "mediumDate" }}
+                      </div>
+                      <div class="date-stamp">
+                        End Date: {{ exp.end | date: "mediumDate" }}
+                      </div>
                     </div>
                     <div class="right-sec">
                       <div class="hours">22 hrs more to go</div>
                     </div>
                   </div>
+                  <div
+                    class="col-4 d-flex align-items-center duration-data justify-content-between"
+                    *ngIf="exp.state === 'configured'"
+                  >
+                    <div class="left-sec border-0">
+                      <div class="info-data" *ngIf="status_active">
+                        <img src="assets/icons/experiment/Info.svg" />You cannot
+                        run multiple experiements
+                      </div>
+                    </div>
+                    <div class="right-sec">
+                      <button
+                        class="kr-sg-button-secondary btn_lg"
+                        [disabled]="status_active"
+                        (click)="runExperiment(exp._id, $event)"
+                      >
+                        Run
+                      </button>
+                    </div>
+                  </div>
+
                   <div
                     class="delete-table"
                     (click)="deleteExperimentPopup(exp._id, $event)"
@@ -241,6 +266,15 @@
     </div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div
+      class="kr-sg-multi-line-notification"
+      *ngIf="status !== 'configured' && form_type === 'edit'"
+    >
+      <div class="bulb-icon">
+        <img src="assets/icons/info-blue.svg" />
+      </div>
+      <div class="tost-text">{{ status }} Experiment cannot be edited.</div>
+    </div>
     <div class="modal-body textAlignLeft">
       <div class="row ml-0 mr-0 mb-3 col-12 p-0">
         <div class="kr-sg-input-text col-6 pl-pr-5">
@@ -251,6 +285,7 @@
             placeholder="Enter Experiment Name"
             class="input-text"
             [(ngModel)]="experiment.name"
+            [disabled]="status !== 'configured' && form_type === 'edit'"
           />
         </div>
       </div>
@@ -269,6 +304,7 @@
             class="input-text"
             [(ngModel)]="vari.name"
             (blur)="fetchVariant(vari, varName.value, 'name')"
+            [disabled]="status !== 'configured' && form_type === 'edit'"
           />
           <span class="v-name" [style.background-color]="vari.color">{{
             vari.code
@@ -280,6 +316,7 @@
             <button
               class="dropdown-toggle dropdown-input"
               data-toggle="dropdown"
+              [disabled]="status !== 'configured' && form_type === 'edit'"
             >
               {{
                 form_type === "add"
@@ -306,8 +343,32 @@
         </div>
       </div>
 
-      <div class="mb-3 variant-add" (click)="addVarient()">
+      <div
+        class="mb-3 variant-add"
+        (click)="addVarient()"
+        *ngIf="status !== 'configured' || form_type === 'edit'"
+      >
         <img src="assets/icons/add_blue.svg" />Add Variant
+      </div>
+
+      <div class="trafic-sec" *ngIf="showSlider">
+        <div class="pl-pr-5 slider-sec">
+          <div class="label-text">Traffic</div>
+          <nouislider
+            #sliderref
+            [config]="someRangeconfig"
+            [(ngModel)]="someRange"
+          ></nouislider>
+        </div>
+        <!-- <div class="percentage-sec">
+          <div class="names" *ngFor="let code of varientArray">
+            <span class="name">{{ code.code }}</span
+            ><span class="perentage" *ngFor="let per of star">{{ per }}</span>
+          </div>
+           <div class="names">
+            <span class="name">B</span><span class="perentage">50%</span>
+          </div>
+        </div> -->
       </div>
 
       <div class="duration-sec">
@@ -320,10 +381,12 @@
             min="0"
             max="90"
             [(ngModel)]="experiment.duration"
+            [disabled]="status !== 'configured' || form_type === 'edit'"
           />
           <img
             src="assets/icons/minus.svg"
             class="minus"
+            *ngIf="status !== 'configured' || form_type === 'edit'"
             (click)="
               experiment.duration =
                 experiment.duration >= 1 ? experiment.duration - 1 : 0
@@ -332,6 +395,7 @@
           <img
             src="assets/icons/plus_gray.svg"
             class="plus"
+            *ngIf="status !== 'configured' || form_type === 'edit'"
             (click)="
               experiment.duration =
                 experiment.duration <= 89 ? experiment.duration + 1 : 90
@@ -346,7 +410,9 @@
     <button
       type="button"
       class="kr-sg-button-primary btn_lg float-right"
-      [disabled]="!experiment.name"
+      [disabled]="
+        !experiment.name || (status !== 'configured' && form_type === 'edit')
+      "
       (click)="createExperiment()"
     >
       Add

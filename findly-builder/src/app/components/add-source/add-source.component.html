@@ -5,10 +5,9 @@
     <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
   </div>
   <!-- <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4> -->
-  <perfect-scrollbar
-    [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
+  <perfect-scrollbar [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
     <div class="h-100 position-relative addNewSource">
-      <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
+      <!-- <div class="sources-content-box-list h-100 d-none" *ngIf="!selectedSourceType">
         <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">
           <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
           <div class="col-4 webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
@@ -21,18 +20,22 @@
                   <div >{{source.description}}</div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="box-block">
-              <div class="title label_text m-0">{{source.name}}</div>
-              <div class="imageDiv">
-                <img src="{{source.icon}}">
-              </div>
-              <div class="info-text">{{source.description}}</div>
-            </div> -->
+            </div>           
           </div>
         </div>
-      </div>
-      <!-- FAQ Extract Doc-->
+      </div>     -->
+      <div class="source_content_boxes" *ngIf="!selectedSourceType">
+        <div class="crawlContent row" *ngFor="let sourceCatagory of availableSources">
+          <div class="main-title col-12 p-0">{{sourceCatagory.title}}</div>
+          <div class="card-data" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+            <div class="img-block"><img src="{{source.icon}}"></div>
+            <div class="titles-sec">
+              <div class="p-title text-truncate" title="{{source.name}}">{{source.name}}</div>
+              <div class="s-title text-truncate" title="{{source.description}}">{{source.description}}</div>
+            </div>
+          </div>
+        </div>
+      </div>        
     </div>
   </perfect-scrollbar>
 </div>
@@ -105,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="!statusObject.validation.urlValidation"
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Cancel Crawling</button>
+          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>
@@ -154,7 +157,7 @@
             </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Name"
+              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
             <div class="kr-sg-input-text-area mb-3">
@@ -315,13 +318,11 @@
               *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
               data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
               
-            <div
-              *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
-              id="settings" class=" advance-setttings">
-              <hr>
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
-                  <div class="kr-sg-input-text ">
+            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class=" advance-setttings">
+              
+              <div class="inner-content row m-0 schedule-data">
+                <div class="col-12 p-0 input-paddings">
+                  <div class="kr-sg-input-text">
                     <input type="text" class="input-text pointer-none border-no" value="Schedule">
                   </div>
                   <label class="kr-sg-toggle">
@@ -334,12 +335,12 @@
                     (cronExpress)="cronExpress($event)"></app-scheduler>
                 </div>
               </div>
-              <hr>
+              
               <!-- New Crwal everey thing-->
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
+              <div class="inner-content row m-0 crawl-option">
+                <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crwal Option</div>                                  
+                    <div class="label-text">Crawl Option</div>                                  
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
@@ -464,24 +465,24 @@
                   <!-- Block-->
                 </div>
                 <!-- Cookies -->
-                <div class=" group-checkbox">
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                <div class="group-checkbox">
+                  <!-- <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
-                  </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  </div> -->
+                  <div class="pl-0 kr-sg-checkbox">
                       <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
-                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
+                  <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "crawlBeyondSitemaps" [(ngModel)] = "crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
+                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                  <div class="pl-0 kr-sg-checkbox">
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "respectRobotTxtDirectives" [(ngModel)] = "respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
+                  <div class="pl-0 kr-sg-checkbox">
                     <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name = "useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
@@ -490,25 +491,40 @@
               <!-- Cookies -->
               </div>
 
-              <div class="inner-content row">
-                <div class="col-4"> 
-                  
+              <div class="inner-content row m-0">
+                <div class="col-3 p-0">                   
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Crwal Depth <img src="assets/icons/info.svg">
+                    <div class="label-text">Crawl Depth 
+                      <div class="tooltip-custom">
+                      <img src="assets/icons/info.svg">
+                      <span class="tooltiptext">
+                        <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                        <div class="v-text">Value = 0 (No limit)</div>
+                      </span>
+                    </div> 
                     </div>
                     <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
-                <div class="col-4"> 
+                <div class="col-1 p-0"></div>
+                <div class="col-3 p-0"> 
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Max URL Limit <img src="assets/icons/info.svg"></div>
+                    <div class="label-text">Max URL Limit
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div>                    
+                    </div>
                     <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
                       [(ngModel)]="maxUrlLimit" class="input-text">
                   </div>
                 </div>
               </div>
-               <!-- New Crwal everey thing-->
+               <!-- New Crawl everey thing-->
 
               <!-- <div class="inner-content row m-0">
                 <div class="col-12 p-0 input-paddings">
@@ -652,6 +668,7 @@
               </div>
             </div>
           </div>
+          
         </div>
         </div>
       </perfect-scrollbar>
@@ -664,30 +681,30 @@
     </form>
   </ng-container>
 </kr-modal>
-<kr-modal modalType="center" modalClass="botsModal" #linkBotsModalPop>
+
+<kr-modal modalType="center" modalClass="botsModal modal_popups_" #linkBotsModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
-    <div class="bots-modal-modal-header">
-      <span class="bots-modal-header-title">Link Bots</span>
-      <button class="button-close" (click)="cancleSourceAddition()"><img class="ng-tns-c11-2"
-          src="assets/icons/modal-close.svg"></button>
+    <div class="modal-header">
+      <div class="title">Link Bots</div>
+      <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
     </div>
-    <div class="bots-modal-modal-body">
-      <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
-        <img src="assets/images/icons/empty_ill.svg">
-        <h2>No Bots</h2>
-        <h4>Please add bots</h4>
-      </div>
-      <ng-container *ngIf="!noAssociatedBots">
-        <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
-          only link bots
-          that you have the rights to access.</p>
-        <div class="bots-modal-search-input-container">
-          <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
-            name="searchAssociatedBots">
-          <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+      <div class="modal-body bots-modal-modal-body">
+        <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
+          <img src="assets/images/icons/empty_ill.svg">
+          <h2>No Bots</h2>
+          <h4>Please add bots</h4>
         </div>
-        <ng-container>
-          <perfect-scrollbar>
+        <ng-container *ngIf="!noAssociatedBots">
+          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
+            only link bots
+            that you have the rights to access.</p>
+          <div class="bots-modal-search-input-container">
+            <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
+              name="searchAssociatedBots">
+            <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+          </div>
+          <ng-container>
             <div class="bots-modal-list-container">
               <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
                 <ng-container
@@ -718,9 +735,9 @@
                 </ng-container>
               </ngb-accordion>
             </div>
-          </perfect-scrollbar>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
-  </ng-container>
-</kr-modal>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>  
+</kr-modal> 
