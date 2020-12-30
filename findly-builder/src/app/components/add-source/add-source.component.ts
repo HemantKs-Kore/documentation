@@ -50,7 +50,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   respectRobotTxtDirectives = true;
   crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
+  blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth :number;
   maxUrlLimit: number;
@@ -525,7 +525,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
         crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-        crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+        crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
         if(Number(this.crawlDepth)){
           crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
         }else{

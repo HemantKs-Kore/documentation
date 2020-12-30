@@ -108,7 +108,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
+  blockHttpsMsgs = false;
   crawlDepth : number;
   maxUrlLimit: number;
   crwalOptionLabel= '';
@@ -484,7 +484,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
           this.crawlBeyondSitemaps = source.advanceSettings.crawlBeyondSitemaps;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
-          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.blockHttpsMsgs = source.advanceSettings.blockHttpsMsgs;
           this.crawlDepth = source.advanceSettings.crawlDepth;
           this.maxUrlLimit = source.advanceSettings.maxUrlLimit
         }
@@ -1122,7 +1122,7 @@ keyPress(event){
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
     crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
@@ -1245,7 +1245,7 @@ keyPress(event){
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
     crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     if(Number(this.crawlDepth)){
       crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
     }else{

@@ -12,7 +12,7 @@ export class AdvanceOpts{
     respectRobotTxtDirectives = false;
     crawlBeyondSitemaps= false;
     isJavaScriptRendered = false;
-    isBlockHttpsMsgs = false;
+    blockHttpsMsgs = false;
     crawlDepth : number;
     maxUrlLimit  : number;
     //schedulePeriod: String ="";
