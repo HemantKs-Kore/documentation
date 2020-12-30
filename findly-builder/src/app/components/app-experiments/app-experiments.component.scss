@@ -208,6 +208,10 @@
                   background: #e7f1ff;
                   color: #0d6efd;
                 }
+                &.stopped {
+                  background: #fceaed;
+                  color: #dd3646;
+                }
               }
               img {
                 cursor: pointer;
@@ -229,14 +233,14 @@
             }
             .duration-data {
               align-items: center;
-              .info-data{
-                color: #0D6EFD;
+              .info-data {
+                color: #0d6efd;
                 font-weight: normal;
                 font-size: 12px;
                 line-height: 14px;
                 display: flex;
                 align-items: center;
-                img{
+                img {
                   margin-right: 6px;
                 }
               }
@@ -277,11 +281,11 @@
       .acc-card-body {
         padding: 10px 0 20px 30px;
         position: relative;
-        &::before{
+        &::before {
           content: "";
           position: absolute;
           width: 1px;
-          background: #E4E5E7;
+          background: #e4e5e7;
           height: calc(100% - 10px);
           top: -11px;
           left: 12px;
@@ -419,33 +423,32 @@
             margin-right: 10px;
           }
         }
-        .trafic-sec{
+        .trafic-sec {
           display: flex;
-          .slider-sec{
+          .slider-sec {
             min-width: 300px;
             margin-right: 35px;
           }
-          .percentage-sec{
+          .percentage-sec {
             display: flex;
             align-items: center;
             margin-left: 30px;
             position: relative;
-            &::before{
+            &::before {
               content: "";
               position: absolute;
               left: -30px;
-              background: #E4E5E7;
+              background: #e4e5e7;
               height: 100%;
               width: 2px;
-              top: 0;           
+              top: 0;
             }
-            .names{
+            .names {
               display: flex;
               align-items: center;
               margin-right: 20px;
-              .name{
-                background: #7027E5;
-                border: 1px solid #FFFFFF;
+              .name {
+                border: 1px solid #ffffff;
                 width: 24px;
                 height: 24px;
                 border-radius: 100%;
@@ -455,8 +458,8 @@
                 font-size: 12px;
                 line-height: 21px;
               }
-              .perentage{
-                color: #9AA0A6;
+              .perentage {
+                color: #9aa0a6;
                 font-weight: 500;
                 font-size: 12px;
                 line-height: 15px;
