@@ -11,7 +11,7 @@
                 <div class="col-3 d-flex p-0 align-items-center justify-content-end">
                     <div class="img-block">
                         <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
-                        <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'">
+                        <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                         <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')">
                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType !== 'faq')">
                         <img src="assets/icons/docker/external-link.svg" (click)="naviateToContent(task)" *ngIf="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain'))">                        

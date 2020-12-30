@@ -110,7 +110,7 @@ export class StatusDockerComponent implements OnInit {
       );
     }    
     else{
-      this.notify.notify('Removing is not supported for this Job.', 'error');
+      this.notify.notify('Failed to remove this Job.', 'error');
     }
   }
 
@@ -131,6 +131,24 @@ export class StatusDockerComponent implements OnInit {
       }
     );
   }
+
+  recrawl(record){
+     const quaryparms : any = {
+      searchIndexId: this.workflowService.selectedSearchIndexId,
+      sourceId: record.extractionSourceId,
+      sourceType: record.statusType,
+    };
+    this.service.invoke('recrwal', quaryparms).subscribe(res => {
+      this.poling();
+      this.notify.notify('Recrwaled with status : '+ res.recentStatus, 'success');
+     }, errRes => {
+       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+         this.notify.notify(errRes.error.errors[0].msg, 'error');
+       } else {
+         this.notify.notify('Failed ', 'error');
+       }
+     });
+   }
 
   errorToaster(errRes,message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg ) {
