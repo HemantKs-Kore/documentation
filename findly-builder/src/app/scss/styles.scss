@@ -1660,3 +1660,34 @@ nouislider{
     }
 
 }
+
+.experiment-container{
+    .table-data-content {
+        .acc-card {
+            .acc-card-header {
+                .acc-card-link {
+                    .row_data {
+                        .duration-data {
+                            .right-sec{
+                                ngb-progressbar{
+                                    .progress{
+                                      height: 6px;
+                                      background: #E4E5E7;
+                                      border-radius: 6px;
+                                      margin-top: 6px;
+                                      .progress-bar{
+                                        &.bg-secondary{
+                                            border-radius: 6px;
+                                            background: #BDC1C6 !important;
+                                        }
+                                      }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
