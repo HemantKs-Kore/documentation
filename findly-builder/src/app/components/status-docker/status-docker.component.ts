@@ -5,6 +5,7 @@ import { WorkflowService } from '../../services/workflow.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-status-docker',
@@ -20,7 +21,8 @@ export class StatusDockerComponent implements OnInit {
 
   constructor(private service:ServiceInvokerService,
     private workflowService: WorkflowService,
-    private notify: NotificationService) { }
+    private notify: NotificationService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -69,10 +71,10 @@ export class StatusDockerComponent implements OnInit {
         return 'Stopped';
       }
       else if(status === 'QUEUED'){
-        return 'Queued';
+        return 'In-queue';
       }
       else if(status === 'IN_PROGRESS'){
-        return 'In Progress';
+        return 'In-progress';
       }
     }
     else{
@@ -85,8 +87,12 @@ export class StatusDockerComponent implements OnInit {
     }
   }
 
-  naviateToContent(task){
-    console.log("task naviateToContent", task);
+  navigateTo(task){
+    if (task.jobType === 'faq') {
+      this.router.navigate(['/faqs'], { skipLocationChange: true })
+    } else {
+      this.router.navigate(['/content'], { skipLocationChange: true });
+    }
   }
 
   removeRecord(task, index){
