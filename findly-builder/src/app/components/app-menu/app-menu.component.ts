@@ -19,6 +19,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   selected = '';
   trainingMenu = false;
   addFieldModalPopRef:any;
+  statusDockerModalPopRef : any;
   loadingQueryPipelines:any = true;
   queryConfigs:any = [];
   newConfigObj:any = {
@@ -38,9 +39,14 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   subscription:Subscription;
   editName : boolean = false;
   editNameVal : String = "";
+  public showStatusDocker : boolean = false;
+  public statusDockerLoading : boolean = false;
+  public dockersList : Array<any> = [];
   @Input() show;
   @Input() settingMainMenu;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  @ViewChild('statusDockerModalPop') statusDockerModalPop: KRModalComponent;
+  
   constructor( private service:ServiceInvokerService,
       private headerService: SideBarService,
       private workflowService: WorkflowService,
@@ -204,6 +210,31 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     };
     this.addFieldModalPopRef = this.addFieldModalPop.open();
   }
+
+  // Controlling the Status Docker Opening
+  openStatusDocker(){
+    if(this.showStatusDocker){
+      this.statusDockerLoading = true;
+      // this.getDockerData();
+    }
+  }
+
+  getDockerData(){
+    const queryParms ={
+      searchIndexId:this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(
+      res => {
+        this.statusDockerLoading = false;
+        this.dockersList = res.dockStatuses;
+      },
+      errRes => {
+        this.statusDockerLoading = false;
+        this.errorToaster(errRes,'Failed to get Status of Docker.');
+      }
+    );
+  }
+
   ngOnDestroy(){
     this.subscription?this.subscription.unsubscribe(): false;
   }
