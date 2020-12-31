@@ -25,10 +25,10 @@
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown" > Analytics</button>                                            
                             <ul class="dropdown-menu content-menu content-width">                                               
-                              <li (click)="analyticsClick('/dashboard')"><a>Dashboard</a></li>
-                              <li (click)="analyticsClick('/userEngagement')"><a>User Engagement</a></li>
-                              <li (click)="analyticsClick('/searchInsights')"><a>Search Insights</a></li>
-                              <li (click)="analyticsClick('/resultInsights')"><a>Results Insights</a></li>
+                              <li (click)="analyticsClick('/dashboard')" [ngClass] ="{'active' : mainMenu == '/dashboard'}" ><a>Dashboard</a></li>
+                              <li (click)="analyticsClick('/userEngagement')" [ngClass] ="{'active' : mainMenu == '/userEngagement'}"><a>User Engagement</a></li>
+                              <li (click)="analyticsClick('/searchInsights')" [ngClass] ="{'active' : mainMenu == '/searchInsights'}"><a>Search Insights</a></li>
+                              <li (click)="analyticsClick('/resultInsights')" [ngClass] ="{'active' : mainMenu == '/resultInsights'}"><a>Results Insights</a></li>
                             </ul>
                           </div>
                     </div>
