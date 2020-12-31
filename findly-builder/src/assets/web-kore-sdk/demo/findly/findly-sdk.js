@@ -1268,7 +1268,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <input id="viewTypeCheckboxControl" type="checkbox">\
               <div class="slider"><span class="enabled">Customize</span><span class="disabled">Preview</span></div>\
             </label>\
-            <div class="show_insights" data-displayInsights="true">\
+            <div class="show_insights display-none" data-displayInsights="true">\
               <span class="show_insights_text display-none">SHOW INSIGHTS </span><img class="show_insights_icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC">\
               <span class="query-analytics-control-fullscreen-view"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">Query Analytics</span>\
             </div>\
@@ -2688,7 +2688,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
             _self.vars.customizeView = true;
             // $(".custom-insights-control-container").show();
-            $(".query-analytics-control-container").show();
+            
+            // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+            
             $(".tasks-wrp").sortable();
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
@@ -2705,7 +2707,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.customizeView = false;
 
             // $(".custom-insights-control-container").hide();
-            $(".query-analytics-control-container").hide();
+
+            // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
+            
             $(".faqs-shadow").removeClass('custom-faqs-shadow');
             $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
             $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
@@ -3729,7 +3733,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-        $(".query-analytics-control-container").show();
+        // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+        
         /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
           $('.custom-insights-control-container').show();
         }*/
@@ -4614,7 +4619,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
               $(searchData).find(".tasks-wrp").disableSelection();*/
               // $(".custom-insights-control-container").show();
-              $(".query-analytics-control-container").show();
+
+              // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+              
               $(".faqs-shadow").addClass('custom-faqs-shadow');
               $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
@@ -4629,7 +4636,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             else {
               // $(searchData).find(".tasks-wrp").sortable("disable");
               // $(".custom-insights-control-container").hide();
-              $(".query-analytics-control-container").hide();
+
+              // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
+              
               $(".faqs-shadow").removeClass('custom-faqs-shadow');
               $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
