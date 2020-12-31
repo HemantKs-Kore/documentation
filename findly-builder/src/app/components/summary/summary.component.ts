@@ -20,6 +20,9 @@ export class SummaryComponent implements OnInit {
   experiments : any = [];
   variants : any = [];
   activities: any = [];
+  channels: any =[];
+  channelsName = '';
+  // searchIndexes: any = [];
   channelExist = false;
   totalUsersStats : any = {};
   totalSearchesStats: any = {};
@@ -95,7 +98,8 @@ export class SummaryComponent implements OnInit {
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
-    this.getChannel();
+    // this.getChannel();
+    this.getLinkedBot();
     this.getAllOverview();
 
   }
@@ -160,15 +164,40 @@ export class SummaryComponent implements OnInit {
     }
     this.service.invoke('get.credential',queryParams).subscribe(
       res => {
+       console.log(res.channels[0].app.name)
         if(res.apps.length){
           this.channelExist = true;
         }
+       
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+  getLinkedBot() {
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+
+    this.service.invoke('get.linkedBot', queryParams).subscribe(
+      res => {
+        // console.log(res.channels[0].name)
+        if(res.channels.length){
+          this.channelExist = true;
+          this.channelsName = res.channels[0].name;
+        }
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to get LInked BOT', 'error');
         }
       }
     );
@@ -193,9 +222,19 @@ export class SummaryComponent implements OnInit {
           }
         });
        console.log(this.experiments)
-       this.activities.createdOn = moment(this.activities.createdOn).fromNow();
-       this.getChannel();
-      },
+        this.activities.forEach(element => {
+          element.date = moment(element.date).fromNow();
+        });
+     
+      //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
+      //  this.getChannel();
+      //  this.channels.forEach(channel => {
+      //   if(res.apps.length > 0){
+      //     this.channelExist = true;
+      //   }
+        
+      // });
+    },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');

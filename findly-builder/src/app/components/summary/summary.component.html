@@ -113,8 +113,8 @@
             <div class="create_new_link">Show all activities</div>
           </div>        
           <div class="body-data row m-0" *ngFor="let activity of activities">
-            <div class="col-9 title">{{activities.faqInReviewCount}} Faq's Pending Approval</div>
-            <div class="col-3 title time-stamp">{{activities.createdOn}}</div>           
+            <div class="col-9 title">{{activities[0].faqInReviewCount}} Faq's Pending Approval</div>
+            <div class="col-3 title time-stamp">{{activities[0].date}}</div>           
           </div>
            <div class="body-data row m-0">
             <div class="col-9 title">XYZ replied to you comment</div>
@@ -143,10 +143,10 @@
             <div class="img-block"><img src="assets/icons/overview/no-channel-conf.svg"></div>
           </div>
          <div class="cards_sec_main row m-0"  *ngIf="channelExist">
-          <div class="pad-div">
+          <div class="pad-div" >
               <div class="card_data">
                 <div class="img-block center"><img src="assets/icons/web-mobile-client.png"></div>
-                <div class="c-title text-truncate">{{channel.name}} </div>
+                <div class="c-title text-truncate">{{channelsName}} </div>
               </div>
           </div>
           <!-- <div class="pad-div">
