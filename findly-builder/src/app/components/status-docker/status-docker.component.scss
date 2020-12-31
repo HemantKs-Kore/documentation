@@ -26,8 +26,21 @@
                 font-size: 10px;
                 line-height: 12px;
                 .tooltip-data{
+                    display: none;
                     cursor: pointer;
                     margin-left: 4px;
+                    img{
+                        height: 11px;
+                    }
+                }
+            }
+            .task_content{
+                &:hover{
+                    .desc{
+                        .tooltip-data{
+                            display: inline;
+                        }
+                    }
                 }
             }
             .img-block{
@@ -60,7 +73,7 @@
         // left: 69px;
         // top: 2px;
         left: 55px;
-        top: 14px;
+        top: 7px;
         font-size: 10px;
         color: #a6bdda;
     }

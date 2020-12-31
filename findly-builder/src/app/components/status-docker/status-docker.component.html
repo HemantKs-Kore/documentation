@@ -3,17 +3,17 @@
     <perfect-scrollbar class="perfect-scroll-modal-body docker">
 		<div class="docker-list" *ngIf="!statusDockerLoading">
 			<div class="row ml-0 mr-0 col-12 p-0 row-content" *ngFor="let task of dockersList; let index = index">
-                <div class="col-9 pl-0">
+                <div class="col-9 pl-0 task_content">
                     <div class="heading">{{task.message}}</div>
-                    <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}}</div>
-                    <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}}</div>
+                    <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
+                    <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                 </div>
                 <div class="col-3 d-flex p-0 align-items-center justify-content-end">
                     <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' ))">
                         <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
-                        <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')">
-                        <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType !== 'faq')">
+                        <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
+                        <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
                         <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
                     </div>
                     <div class="status-blcok">                        
