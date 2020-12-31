@@ -259,14 +259,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
-          // if(queuedJobs[0].validation.urlValidation){
-          //   this.crawlOkDisable = queuedJobs[0].validation.urlValidation
-          // }
-          this.crawlOkDisable = true;
+          if(queuedJobs[0].validation.urlValidation){
+            this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
+          }
+          
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
             this.pollingSubscriber.unsubscribe();
-            this.crawlOkDisable = false;
+            //this.crawlOkDisable = true;
           }
+          // if((queuedJobs[0].status == 'queued')){
+          //   this.crawlOkDisable = true;
+          // }else{
+          //   this.crawlOkDisable = false;
+          // }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
           if(!schedule) this.statusObject.status = 'failed';
