@@ -92,7 +92,7 @@
             <div class="col-3 title">Actions</div>
           </div>
           <div class="body-data row m-0">
-            <div class="col-4 title" (click) = "viewAll('/source')">Default Index</div>
+            <div class="col-4 title" (click) = "viewAll('/source')"><u>Default Index</u></div>
             <div class="col-2 title">{{indices && indices.approvedfaqs}}</div>
             <div class="col-3 title">{{indices && indices.contentPages}} Pages</div>
             <div class="col-3 title">{{indices && indices.botActions}}</div>
@@ -138,7 +138,7 @@
       </div>
       <div class="table-data-content col-6 " *ngIf="channelExist">
         <div class="content-sec config_channels">
-         <div class="title-sec"><div class="title">Configured Channels</div> </div>
+         <div class="title-sec"><div class="title" >Configured Channels</div> </div>
           <div *ngIf="!channelExist">
             <div class="img-block"><img src="assets/icons/overview/no-channel-conf.svg"></div>
           </div>
@@ -218,7 +218,7 @@
         <div class="content-sec active_experments">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Active Experiments</div> 
-            <div class="create_new_link">+ Create New</div>
+            <div class="create_new_link d-none">+ Create New</div>
           </div>    
           <div class="header-data row m-0">
             <div class="col-5 title">Experiment Name</div>
@@ -233,8 +233,7 @@
               </div>
               <div class="variants-block right">
                 <span class="v-name" *ngFor="let variant of experiment.variants">{{ variant.code }}</span>
-                
-                <span *ngIf="experiment.winner">WINNER</span>
+                <span class="success" *ngIf="experiment.winner">WINNER</span>
             
                 <!-- <img src="assets/icons/overview/prize.svg" class="prize">             -->
                </div>  
