@@ -60,9 +60,11 @@ export class AppExperimentsComponent implements OnInit {
   }
   //close model popup method
   closeModalPopup() {
-    this.showSlider = false;
-    this.star = [100];
-    if (this.conn.length > 1) {
+    this.exp_status = '';
+    this.form_type = '';
+    this.star = [];
+    this.star.push(100);
+    if (this.conn.length > 2) {
       for (let i = 0; i < this.conn.length; i++) {
         if (this.conn.length > 2) {
           this.conn.pop();
@@ -70,10 +72,11 @@ export class AppExperimentsComponent implements OnInit {
         }
       }
     }
-    this.someRangeconfig = { ...this.someRangeconfig, start: this.star, conn: this.conn, tool: this.tool };
+    this.sliderUpdate('close');
     this.variantsArray = [];
     this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
     this.addExperimentsRef.close();
+    console.log("logg", this.someRangeconfig)
   }
   //traffic slider config object
   sliderConfig() {
@@ -91,18 +94,18 @@ export class AppExperimentsComponent implements OnInit {
   //add Experiment
   form_type;
   exp_id;
+  exp_status: string;
   addExperiment(type, data) {
-    console.log("type", type, data);
     this.form_type = type;
     if (type === 'edit') {
       this.exp_id = data._id;
+      this.exp_status = data.state;
       this.experimentObj.name = data.name;
       this.variantsArray = data.variants;
       this.experimentObj.duration.days = data.duration.days;
-      this.showSlider = true;
+      this.showTraffic(this.variantsArray.length, 'add')
     }
     this.addExperimentsRef = this.addExperiments.open();
-    console.log("experimentObj", this.experimentObj)
   }
   //add variant dynamically
   trafficData: any = [];
@@ -116,7 +119,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   //based on variant show traffic 
   showTraffic(length, type) {
-    console.log("len", length);
     if (length > 1) {
       this.star = [];
       if (type === 'add') {
@@ -141,7 +143,7 @@ export class AppExperimentsComponent implements OnInit {
         this.conn.pop();
         this.tool.pop();
         this.star.push(100);
-        this.sliderUpdate();
+        this.sliderUpdate('open');
       }
     }
     else if (length === 2) {
@@ -154,20 +156,23 @@ export class AppExperimentsComponent implements OnInit {
       this.star.push(25, 50, 75, 100);
     }
     if (length > 1) {
-      this.sliderUpdate();
+      this.sliderUpdate('open');
     }
   }
   //slider destroy method
-  sliderUpdate() {
+  sliderUpdate(type) {
+    this.showSlider = false;
     this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
     setTimeout(() => {
       this.showSlider = false;
       this.sliderref.slider.destroy();
       this.sliderref.slider.updateOptions(this.someRangeconfig, true);
     }, 1000)
-    setTimeout(() => {
-      this.showSlider = true;
-    }, 2000);
+    if (type === 'open') {
+      setTimeout(() => {
+        this.showSlider = true;
+      }, 2000);
+    }
   }
   //fetch variant data
   fetchVariant(index, data, type) {
@@ -268,13 +273,7 @@ export class AppExperimentsComponent implements OnInit {
       })
       this.listOfExperiments = result;
       this.filterExperiments = result;
-      console.log("res new", this.listOfExperiments)
-      this.status_active = res.filter(item => item.state === 'active').length >= 1 ? true : false;
-      this.allExp = this.listOfExperiments.length;
-      this.confExp = this.listOfExperiments.filter(item => item.state === "configured").length;
-      this.actExp = this.listOfExperiments.filter(item => item.state === "active").length;
-      this.pauExp = this.listOfExperiments.filter(item => item.state === "paused").length;
-      this.compExp = this.listOfExperiments.filter(item => item.state === "completed").length;
+      this.countExperiment(result);
       this.loadingContent = false;
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -284,48 +283,66 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
+  //filter count of list of experiments
+  countExperiment(res) {
+    this.status_active = res.filter(item => item.state === 'active').length >= 1 ? true : false;
+    this.allExp = res.length;
+    this.confExp = res.filter(item => item.state === "configured").length;
+    this.actExp = res.filter(item => item.state === "active").length;
+    this.pauExp = res.filter(item => item.state === "paused").length;
+    this.compExp = res.filter(item => item.state === "completed").length;
+  }
   //add new experiment method
   async createExperiment() {
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
     }
     console.log("add experiment", this.experimentObj);
-    // this.experimentObj.variants = this.variantsArray;
-    // if (this.form_type === 'add') {
-    //   const quaryparms: any = {
-    //     searchIndexId: this.serachIndexId
-    //   };
-    //   this.service.invoke('create.experiment', quaryparms, this.experimentObj).subscribe(res => {
-    //     console.log("add res", res);
-    //     this.closeModalPopup();
-    //     this.getExperiments();
-    //     this.notificationService.notify('Experiment added successfully', 'success');
-    //   }, errRes => {
-    //     if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-    //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    //     } else {
-    //       this.notificationService.notify('Failed ', 'error');
-    //     }
-    //   });
-    // }
-    // else {
-    //   const quaryparms: any = {
-    //     searchIndexId: this.serachIndexId,
-    //     experimentId: this.exp_id
-    //   };
-    //   this.service.invoke('edit.experiment', quaryparms, this.experimentObj).subscribe(res => {
-    //     console.log("add res", res);
-    //     this.closeModalPopup();
-    //     this.getExperiments();
-    //     this.notificationService.notify('Experiment Updated successfully', 'success');
-    //   }, errRes => {
-    //     if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-    //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    //     } else {
-    //       this.notificationService.notify('Failed ', 'error');
-    //     }
-    //   });
-    // }
+    this.experimentObj.variants = this.variantsArray;
+    if (this.form_type === 'add') {
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId
+      };
+      this.service.invoke('create.experiment', quaryparms, this.experimentObj).subscribe(res => {
+        this.filterExperiments.push(res);
+        this.countExperiment(this.filterExperiments);
+        this.selectedTab(this.setTab);
+        this.closeModalPopup();
+        this.notificationService.notify('Experiment added successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+    }
+    else {
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        experimentId: this.exp_id
+      };
+      this.service.invoke('edit.experiment', quaryparms, this.experimentObj).subscribe(res => {
+        console.log("res", res)
+        this.closeModalPopup();
+        this.filterExperiments = this.filterExperiments.map(item => {
+          if (item._id === this.exp_id) {
+            return { ...res, date_days: item.date_days }
+          }
+          else {
+            return item
+          }
+        })
+        this.listOfExperiments = this.filterExperiments;
+        this.notificationService.notify('Experiment Updated successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
+    }
   }
   //change traffic percentage based on slider
   sliderPercentage() {
@@ -355,7 +372,7 @@ export class AppExperimentsComponent implements OnInit {
         }
         else if (i == 2) {
           let sum = this.someRange[0] + (this.someRange[1] - this.someRange[0]);
-          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: 100 - Math.abs(sum) }
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: 100 - sum }
         }
       }
     }
@@ -387,9 +404,35 @@ export class AppExperimentsComponent implements OnInit {
     };
     const Obj = { "state": status }
     this.service.invoke('edit.experiment', quaryparms, Obj).subscribe(res => {
-      console.log("run res", res);
-      this.notificationService.notify('Experiment Running successfully', 'success');
-      this.getExperiments();
+      this.filterExperiments = this.filterExperiments.map(item => {
+        if (item._id === id) {
+          if (status === 'active') {
+            return res
+          }
+          else {
+            return { ...item, state: status }
+          }
+        }
+        else {
+          return item
+        }
+      })
+      if (status === 'active') {
+        let date1: any = new Date();
+        this.filterExperiments = this.filterExperiments.map(data => {
+          let date2: any = new Date(data.end);
+          let sub = Math.abs(date1 - date2) / 1000;
+          let days = Math.floor(sub / 86400);
+          let obj = Object.assign({}, data);
+          obj.date_days = days;
+          return obj;
+        })
+      }
+      console.log("this.filterExperiments", this.filterExperiments)
+      this.listOfExperiments = this.filterExperiments;
+      this.countExperiment(this.listOfExperiments);
+      this.selectedTab(this.setTab);
+      this.notificationService.notify(`Experiment ${status} successfully`, 'success');
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
