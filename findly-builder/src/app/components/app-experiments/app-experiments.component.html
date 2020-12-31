@@ -109,30 +109,15 @@
                         >{{ vari.code }}</span
                       >
                     </div>
-                    <div class="variants-block right">
+                    <!-- <div class="variants-block right">
                       <span class="v-name">B</span>
                       <span class="winner">Winner</span>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="col-2 status">
-                    <span class="a-status" *ngIf="exp.state === 'active'">{{
-                      exp.state
+                    <span class="a-status" [ngClass]="exp.state">{{
+                      exp.state | titlecase
                     }}</span>
-                    <span
-                      class="a-status configured"
-                      *ngIf="exp.state === 'configured'"
-                      >{{ exp.state }}</span
-                    >
-                    <span
-                      class="a-status paused"
-                      *ngIf="exp.state === 'paused'"
-                      >{{ exp.state }}</span
-                    >
-                    <span
-                      class="a-status completed"
-                      *ngIf="exp.state === 'completed'"
-                      >{{ exp.state }}</span
-                    >
                   </div>
                   <div
                     class="col-4 d-flex align-items-center duration-data"
@@ -147,7 +132,32 @@
                       </div>
                     </div>
                     <div class="right-sec">
-                      <div class="hours">22 hrs more to go</div>
+                      <div class="hours">
+                        {{ 24 * exp.date_days }} hrs more to go
+                      </div>
+                      <div class="hours">
+                        <ngb-progressbar
+                          type="secondary"
+                          [value]="24 * exp.date_days"
+                          [max]="24 * exp.duration.days"
+                        >
+                        </ngb-progressbar>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-4 d-flex align-items-center duration-data"
+                    *ngIf="exp.state === 'completed'"
+                  >
+                    <div class="left-sec">
+                      <div class="date-stamp">
+                        Start Date: {{ exp.start | date: "mediumDate" }}
+                      </div>
+                    </div>
+                    <div class="right-sec">
+                      <div class="hours">
+                        End Date: {{ exp.end | date: "mediumDate" }}
+                      </div>
                     </div>
                   </div>
                   <div
@@ -164,20 +174,62 @@
                       <button
                         class="kr-sg-button-secondary btn_lg"
                         [disabled]="status_active"
-                        (click)="runExperiment(exp._id, $event)"
+                        (click)="runExperiment(exp._id, 'active', $event)"
                       >
                         Run
                       </button>
+                      <span
+                        (click)="addExperiment('edit', exp)"
+                        style="padding-left: 2px; font-size: 10px"
+                        *ngIf="!status_active"
+                        >View search configuration</span
+                      >
                     </div>
                   </div>
 
-                  <div
-                    class="delete-table"
-                    (click)="deleteExperimentPopup(exp._id, $event)"
-                    *ngIf="exp.state === 'completed'"
-                  >
-                    <img src="assets/icons/delete-table.svg" />
+                  <div class="delete-table">
+                    <img
+                      src="assets/icons/pause.svg"
+                      *ngIf="exp.state === 'active'"
+                      (click)="runExperiment(exp._id, 'paused', $event)"
+                    />
+                    <img
+                      src="assets/icons/End.svg"
+                      *ngIf="exp.state === 'active'"
+                      (click)="runExperiment(exp._id, 'stopped', $event)"
+                    />
+                    <img
+                      src="assets/icons/play_black.svg"
+                      *ngIf="exp.state === 'paused'"
+                      (click)="runExperiment(exp._id, 'active', $event)"
+                    />
+                    <img
+                      src="assets/icons/return_black.svg"
+                      *ngIf="exp.state === 'stopped'"
+                      (click)="runExperiment(exp._id, 'active', $event)"
+                    />
+                    <img
+                      src="assets/icons/delete-table.svg"
+                      *ngIf="
+                        exp.state === 'completed' ||
+                        exp.state === 'stopped' ||
+                        exp.state === 'paused'
+                      "
+                      (click)="deleteExperimentPopup(exp._id, $event)"
+                    />
                   </div>
+
+                  <!-- <div class="delete-table" *ngIf="exp.state === 'paused'">
+                    <img src="assets/icons/play_black.svg" (click)="runExperiment(exp._id, 'stopped', $event)" />
+                  </div>
+
+                  <div class="delete-table" *ngIf="exp.state === 'stopped'">
+                    <img src="assets/icons/return_black.svg" (click)="runExperiment(exp._id, 'active', $event)" />
+                  </div>
+
+                  <div class="delete-table" (click)="deleteExperimentPopup(exp._id, $event)" *ngIf="exp.state === 'completed' || exp.state === 'stopped' || exp.state === 'paused' || exp.state === 'active'">
+                    <img src="assets/icons/delete-table.svg" />
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -203,7 +255,7 @@
                       >
                         {{ expCol.code }}
                       </div>
-                      <div class="name">{{ expCol.name }}</div>
+                      <div class="name">{{ expCol.name | titlecase }}</div>
                     </div>
                     <div class="col-2 title">
                       {{ expCol.queryPipelineName | titlecase }}
@@ -235,12 +287,6 @@
       </div> -->
       <div
         class="no-experiments"
-        *ngIf="!(listOfExperiments && listOfExperiments.length)"
-      >
-        <div>No results found</div>
-      </div>
-      <div
-        class="no-experiments"
         *ngIf="!(filterExperiments && filterExperiments.length)"
       >
         <img src="assets/icons/experiment/empty_experiments.svg" />
@@ -249,6 +295,12 @@
           Fortunately , it is very easy to add one by clicking on the Add
           experiments
         </div>
+      </div>
+      <div
+        class="no-experiments"
+        *ngIf="!(listOfExperiments && listOfExperiments.length)"
+      >
+        <div>No results found</div>
       </div>
     </perfect-scrollbar>
   </div>
@@ -266,17 +318,25 @@
     </div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
-    <div
+    <!-- <div
       class="kr-sg-multi-line-notification"
-      *ngIf="status !== 'configured' && form_type === 'edit'"
     >
       <div class="bulb-icon">
         <img src="assets/icons/info-blue.svg" />
       </div>
       <div class="tost-text">{{ status }} Experiment cannot be edited.</div>
-    </div>
+    </div> -->
     <div class="modal-body textAlignLeft">
-      <div class="row ml-0 mr-0 mb-3 col-12 p-0">
+      <div
+        class="info-notifcation"
+        *ngIf="exp_status !== 'configured' && form_type === 'edit'"
+      >
+        <img src="assets/icons/info-blue.svg" />
+        <span class="title"
+          >{{ exp_status | titlecase }} Experiment cannot be edited</span
+        >
+      </div>
+      <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
         <div class="kr-sg-input-text col-6 pl-pr-5">
           <div class="label-text">Name of Experiment</div>
           <input
@@ -284,15 +344,18 @@
             autocomplete="off"
             placeholder="Enter Experiment Name"
             class="input-text"
-            [(ngModel)]="experiment.name"
-            [disabled]="status !== 'configured' && form_type === 'edit'"
+            [(ngModel)]="experimentObj.name"
+            [disabled]="exp_status !== 'configured' && form_type === 'edit'"
+            [ngClass]="{
+              disable_edit: exp_status !== 'configured' && form_type === 'edit'
+            }"
           />
         </div>
       </div>
 
       <div
-        class="row ml-0 mr-0 mb-3 col-12 p-0"
-        *ngFor="let vari of varientArray"
+        class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30"
+        *ngFor="let vari of variantsArray; let varIndex = index"
       >
         <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
           <div class="label-text">Variant Name</div>
@@ -303,8 +366,11 @@
             placeholder="Enter Variant Name"
             class="input-text"
             [(ngModel)]="vari.name"
-            (blur)="fetchVariant(vari, varName.value, 'name')"
-            [disabled]="status !== 'configured' && form_type === 'edit'"
+            (blur)="fetchVariant(varIndex, varName.value, 'name')"
+            [disabled]="exp_status !== 'configured' && form_type === 'edit'"
+            [ngClass]="{
+              disable_edit: exp_status !== 'configured' && form_type === 'edit'
+            }"
           />
           <span class="v-name" [style.background-color]="vari.color">{{
             vari.code
@@ -316,37 +382,41 @@
             <button
               class="dropdown-toggle dropdown-input"
               data-toggle="dropdown"
-              [disabled]="status !== 'configured' && form_type === 'edit'"
+              [disabled]="exp_status !== 'configured' && form_type === 'edit'"
+              [ngClass]="{
+                disable_edit:
+                  exp_status !== 'configured' || form_type === 'edit'
+              }"
             >
               {{
-                form_type === "add"
-                  ? vari.select_config
-                    ? vari.select_config
-                    : "Select Configuration"
-                  : vari.select_config === undefined
-                  ? vari.queryPipelineName
-                  : vari.select_config
+                vari.queryPipelineName === undefined
+                  ? "Select Configuration"
+                  : vari.queryPipelineName
               }}
             </button>
             <ul class="dropdown-menu content-menu">
               <li
                 *ngFor="let query of queryPipeline"
-                (click)="
-                  fetchVariant(vari, query._id, 'queryid');
-                  vari.select_config = query.name
-                "
+                (click)="fetchVariant(varIndex, query, 'queryid')"
               >
                 {{ query.name }}
               </li>
             </ul>
           </div>
         </div>
+        <div
+          class="delete-rule"
+          (click)="removeVariant(varIndex)"
+          [hidden]="exp_status !== 'configured' && form_type === 'edit'"
+        >
+          <img src="assets/icons/modal-close.svg" />
+        </div>
       </div>
 
       <div
         class="mb-3 variant-add"
         (click)="addVarient()"
-        *ngIf="status !== 'configured' || form_type === 'edit'"
+        [hidden]="exp_status !== 'configured' && form_type === 'edit'"
       >
         <img src="assets/icons/add_blue.svg" />Add Variant
       </div>
@@ -358,17 +428,21 @@
             #sliderref
             [config]="someRangeconfig"
             [(ngModel)]="someRange"
-          ></nouislider>
+            (change)="sliderChanged()"
+          >
+          </nouislider>
         </div>
-        <!-- <div class="percentage-sec">
-          <div class="names" *ngFor="let code of varientArray">
-            <span class="name">{{ code.code }}</span
-            ><span class="perentage" *ngFor="let per of star">{{ per }}</span>
+        <div class="percentage-sec">
+          <div class="names" *ngFor="let code of variantsArray">
+            <span class="name" [style.background-color]="code.color">{{
+              code.code
+            }}</span
+            ><span class="perentage">{{ code.trafficPct }}%</span>
           </div>
-           <div class="names">
+          <!-- <div class="names">
             <span class="name">B</span><span class="perentage">50%</span>
-          </div>
-        </div> -->
+          </div> -->
+        </div>
       </div>
 
       <div class="duration-sec">
@@ -377,28 +451,35 @@
           <input
             type="number"
             autocomplete="off"
-            class="input-text"
+            class="input-text text-center"
             min="0"
             max="90"
-            [(ngModel)]="experiment.duration"
-            [disabled]="status !== 'configured' || form_type === 'edit'"
+            [(ngModel)]="experimentObj?.duration.days"
+            [disabled]="exp_status !== 'configured' || form_type === 'edit'"
+            [ngClass]="{
+              disable_edit: exp_status !== 'configured' && form_type === 'edit'
+            }"
           />
           <img
             src="assets/icons/minus.svg"
             class="minus"
-            *ngIf="status !== 'configured' || form_type === 'edit'"
+            [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
-              experiment.duration =
-                experiment.duration >= 1 ? experiment.duration - 1 : 0
+              experimentObj?.duration.days =
+                experimentObj?.duration.days >= 1
+                  ? experimentObj?.duration.days - 1
+                  : 0
             "
           />
           <img
             src="assets/icons/plus_gray.svg"
             class="plus"
-            *ngIf="status !== 'configured' || form_type === 'edit'"
+            [hidden]="exp_status !== 'configured' && form_type === 'edit'"
             (click)="
-              experiment.duration =
-                experiment.duration <= 89 ? experiment.duration + 1 : 90
+              experimentObj?.duration.days =
+                experimentObj?.duration.days <= 89
+                  ? experimentObj?.duration.days + 1
+                  : 90
             "
           />
         </div>
@@ -410,10 +491,11 @@
     <button
       type="button"
       class="kr-sg-button-primary btn_lg float-right"
-      [disabled]="
-        !experiment.name || (status !== 'configured' && form_type === 'edit')
-      "
       (click)="createExperiment()"
+      [disabled]="
+        !experimentObj.name ||
+        (exp_status !== 'configured' && form_type === 'edit')
+      "
     >
       Add
     </button>
