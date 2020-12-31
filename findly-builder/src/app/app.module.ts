@@ -95,6 +95,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
+import { StatusDockerComponent } from './components/status-docker/status-docker.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -160,8 +161,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FieldManagementComponent,
     ExperimentsComponent,
     FieldManagementComponent,
-    AppExperimentsComponent
-  ],
+    AppExperimentsComponent,
+    StatusDockerComponent
+    ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -198,8 +200,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     ToastrModule.forRoot({
       timeOut: 5000,
-      autoDismiss	: false,
-      closeButton : true
+      autoDismiss: false,
+      closeButton: true
     }),
     NgxDaterangepickerMd.forRoot()
   ],

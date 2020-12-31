@@ -25,6 +25,7 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  executionPop = -1;
   loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj : any = {};
@@ -104,10 +105,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   executionHistoryData : any;
   sourceStatus = 'success';
   useCookies = false;
-  isRobotTxtDirectives = false;
-  isCrawlingRestrictToSitemaps= false;
+  respectRobotTxtDirectives = false;
+  crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
+  blockHttpsMsgs = false;
   crawlDepth : number;
   maxUrlLimit: number;
   crwalOptionLabel= '';
@@ -480,10 +481,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if(source.extractionType === 'webdomain'){
         if(source.advanceSettings){
           this.useCookies = source.advanceSettings.useCookies;
-          this.isRobotTxtDirectives = source.advanceSettings.isRobotTxtDirectives;
-          this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
+          this.crawlBeyondSitemaps = source.advanceSettings.crawlBeyondSitemaps;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
-          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.blockHttpsMsgs = source.advanceSettings.blockHttpsMsgs;
           this.crawlDepth = source.advanceSettings.crawlDepth;
           this.maxUrlLimit = source.advanceSettings.maxUrlLimit
         }
@@ -739,7 +740,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('check.forUpdates', quaryparms,payload).subscribe(res => {
       this.loadingcheckForUpdate = false;
-      if(res.updateAvailable){
+      if(res._meta.updateAvailable){
         this.notificationService.notify('A new version of this page is available', 'success');
       }else{
         this.notificationService.notify('The page is up to date', 'success');
@@ -767,7 +768,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Re-Crawling', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'Failed to Re-Cwral');
+      this.errorToaster(errRes, 'Failed to Re-Crawl');
     });
   }
   
@@ -983,9 +984,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         const obj: string[] = requireddata;
         // tslint:disable-next-line:prefer-for-of
         for (let j = 0; j < obj.length; j++) {
+         if(obj[j]){
           if (obj[j].includes(valToSearch)) {
             tableData.push(this.resources[i]);
           }
+         }
         }
       }
       tableData = [...new Set(tableData)]
@@ -1015,7 +1018,15 @@ editPages(){
   this. editConfigEnable=true;
 }
 
-
+executionHistoryPop(history , index){
+  this.executionPop = index;
+}
+onHistoryPop(index){
+  this.executionPop = index;
+}
+mouseleave(){
+  this.executionPop = -1;
+}
 keyPress(event){
   const code = (event.keyCode ? event.keyCode : event.which);
   if (code === 13) {
@@ -1108,10 +1119,10 @@ keyPress(event){
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
@@ -1231,10 +1242,10 @@ keyPress(event){
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
     crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     if(Number(this.crawlDepth)){
       crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
     }else{
@@ -1256,7 +1267,7 @@ keyPress(event){
     //console.log(payload);
 
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Crwaler Updated', 'success');
+      this.notificationService.notify('Crawler Updated', 'success');
       this.editTitleFlag = false;
       this.getSourceList();
       this.closeStatusModal();

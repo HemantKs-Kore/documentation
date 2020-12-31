@@ -344,7 +344,8 @@ export class EndPointsService {
       method: 'get'
     };
     this.serviceList['get.AssociatedBotTasks'] = {
-      endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
+      // endpoint: this.API_SERVER_URL + '/builder/streams/:botID/dialogs',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/allTasks',
       method: 'get'
     }
     this.serviceList['put.LinkBot'] = {
@@ -354,6 +355,18 @@ export class EndPointsService {
     }
     this.serviceList['put.UnlinkBot'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/searchbot/unlink',
+      method: 'put'
+    }
+    this.serviceList['put.enableTask'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
+      method: 'put'
+    }
+    this.serviceList['put.disableTask'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails',
+      method: 'put'
+    }
+    this.serviceList['put.syncLinkedBot'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/linkedbotdetails/sync',
       method: 'put'
     }
     this.serviceList['get.queryPipelines'] = {
@@ -684,6 +697,20 @@ export class EndPointsService {
     //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
     //    method: 'put'
     // }
+    // API for GET Docker Status
+    this.serviceList['get.dockStatus'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      method: 'get'
+    }
 
+    this.serviceList['delete.dockById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
+      method: 'delete'
+    }
+
+    this.serviceList['delete.clearAllDocs'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      method: 'delete'
+    }
   }
 }

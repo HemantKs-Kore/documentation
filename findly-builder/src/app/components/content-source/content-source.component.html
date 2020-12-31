@@ -609,7 +609,7 @@
               <!-- Cookies -->
                 <div class=" group-checkbox">
                   <!-- <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "isBlockHttpsMsgs" [checked]="isBlockHttpsMsgs" [(ngModel)] = "isBlockHttpsMsgs" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [checked]="blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
                   </div> -->
                   <div class="pl-0 kr-sg-checkbox">
@@ -617,11 +617,11 @@
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "isCrawlingRestrictToSitemaps" [checked]="isCrawlingRestrictToSitemaps" [(ngModel)] = "isCrawlingRestrictToSitemaps" [ngModelOptions]="{standalone: true}">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "crawlBeyondSitemaps" [checked]="crawlBeyondSitemaps" [(ngModel)] = "crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
-                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "isRobotTxtDirectives" [checked]="isRobotTxtDirectives" [(ngModel)] = "isRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "respectRobotTxtDirectives" [checked]="respectRobotTxtDirectives" [(ngModel)] = "respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
                     <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
                   <div class="pl-0 kr-sg-checkbox">
@@ -870,7 +870,7 @@
 
           </div>
           <!-- Execution -->
-          <div *ngIf="execution">
+          <div *ngIf="execution" class="execution-table-data">
             <div class="accordion-content-info text-left">
               <div class="table-list-content execution">
                 <div class="kr-sg-data-table with-checkbox">
@@ -884,12 +884,61 @@
                     <perfect-scrollbar class="scroll-table" #perfectScroll>
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
-                          <div class="col_ col-3 pr-5"><span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class"><img src="assets/icons/content/success.svg"></span>{{history.executionStats.executionStatusMessage}} <div class="eye-img"><img src="assets/icons/content/eye.svg"></div>
+                          <div class="eye-img">
+                            <img src="assets/icons/content/eye.svg">
+                            <div class="execute-log">
+                              <div class="header-title">
+                                <div class="title">EXECUTION LOG</div>
+                                <div class="close-log"><img src="assets/images/close.svg"></div>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">URL Validation <span class="time">(5s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">Network Validation <span class="time">(3s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">Indexing Restrictions <span class="time">(2s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/info-sitemap.svg">
+                                <span class="log-name">Content Verification <span class="time">(1m 9s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/failed-circle.svg">
+                                <span class="log-name">Sitemap Validation <span class="time">(1m)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">Process in Queue <span class="time">(4m)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/images/success-circle.svg">
+                                <span class="log-name">Successfull</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col_ col-3 d-flex">
+                            <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class">
+                              <img src="assets/icons/content/success.svg">
+                            </span>
+                            <div class="text-truncate w-100 pr-4">{{history.executionStats.executionStatusMessage}} </div>
+                            <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
+                            </div>
+                            <div *ngIf = "i == executionPop"> 
+                              HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                            </div> -->                            
                           </div>
                           <div class="col_ col-3">{{history.executionStats.duration}}</div>
                           <div class="col_ col-3">{{history.executionStats.triggeredBy}}</div>
                           <div class="col_ col-3">{{history.createdOn}}</div>
-                        </div>                      
+                        </div> 
+                        <!-- test   (mouseleave) = "mouseleave()" -->
+                        
+                        <!-- test -->                     
                       </ng-container>
                     </perfect-scrollbar>                    
                   </section>

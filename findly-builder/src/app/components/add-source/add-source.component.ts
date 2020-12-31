@@ -29,6 +29,7 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   fileObj: any = {};
   crwalEvery = false;
+  crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
   blockUrl: BlockUrl = new BlockUrl();
@@ -46,10 +47,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   loadFullComponent = true;
 
   useCookies = true;
-  isRobotTxtDirectives = true;
-  isCrawlingRestrictToSitemaps= false;
+  respectRobotTxtDirectives = true;
+  crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
+  blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
   crawlDepth :number;
   maxUrlLimit: number;
@@ -258,12 +259,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
+          if(queuedJobs[0].validation.urlValidation){
+            this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
+          }
+          
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
             this.pollingSubscriber.unsubscribe();
+            //this.crawlOkDisable = true;
           }
+          // if((queuedJobs[0].status == 'queued')){
+          //   this.crawlOkDisable = true;
+          // }else{
+          //   this.crawlOkDisable = false;
+          // }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
           if(!schedule) this.statusObject.status = 'failed';
+          this.crawlOkDisable = false;
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
@@ -515,10 +527,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
         crawler.advanceOpts.useCookies = this.useCookies;
-        crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-        crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+        crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+        crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-        crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+        crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
         if(Number(this.crawlDepth)){
           crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
         }else{
