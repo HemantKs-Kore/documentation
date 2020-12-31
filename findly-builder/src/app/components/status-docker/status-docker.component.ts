@@ -6,6 +6,7 @@ import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-status-docker',
@@ -45,6 +46,9 @@ export class StatusDockerComponent implements OnInit {
       this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
         this.statusDockerLoading = false;
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
+        this.dockersList.forEach((record : any) => {
+          record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+        })
         const queuedJobs = _.filter(res.dockStatuses, (source) => {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED'));
         });
@@ -128,7 +132,8 @@ export class StatusDockerComponent implements OnInit {
     this.service.invoke('delete.clearAllDocs', queryParms).subscribe(
       res => {
         this.statusDockerLoading = false;
-        this.dockersList = [];
+        // this.dockersList = [];
+        this.poling();
         this.notify.notify(res.msg, 'success');
       },
       errRes => {
