@@ -242,7 +242,7 @@
         "total_searches":"Total Searches",
         "search_trends":"Search Trends",
         "result_rate":"Result Rate",
-        "ctr":"CTR",
+        "ctr":"Click-Through Rate",
         "clicks":"Clicks",
         "avg_click_position" : "Avg. Click Position",
         "searches_with_result" : "Searches with Results",

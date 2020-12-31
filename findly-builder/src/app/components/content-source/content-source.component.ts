@@ -768,7 +768,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Re-Crawling', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'Failed to Re-Cwral');
+      this.errorToaster(errRes, 'Failed to Re-Crawl');
     });
   }
   
@@ -1267,7 +1267,7 @@ keyPress(event){
     //console.log(payload);
 
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Crwaler Updated', 'success');
+      this.notificationService.notify('Crawler Updated', 'success');
       this.editTitleFlag = false;
       this.getSourceList();
       this.closeStatusModal();
