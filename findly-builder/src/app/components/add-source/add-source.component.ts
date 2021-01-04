@@ -139,6 +139,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
+      title: 'Add Structured data by uploading a file or adding manually',
+      sources: [
+        {
+          name: 'Import Structured Data',
+          description: 'Import from JSON or CSV',
+          icon: 'assets/icons/content/database-Import.svg',
+          id: 'contentStucturedDataImport',
+          sourceType: 'content',
+          resourceType: 'structuredData'
+        },
+        {
+          name: 'Import Structured Data',
+          description: 'Add structured data manually',
+          icon: 'assets/icons/content/database-add.svg',
+          id: 'contentStucturedDataAdd',
+          sourceType: 'content',
+          resourceType: 'structuredDataManual'
+        }
+      ]
+    },
+    {
       title: 'Connect & add actions from virtual assistants',
       sources: [
         {
@@ -162,6 +183,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   associatedBots: any = [];
   streamID: any;
   searchAssociatedBots: any;
+  addStructuredDataModalPopRef : any;
+  codeMirrorOptions: any = {
+    theme: 'neo',
+    mode: {name: "javascript", json: true},
+    lineNumbers: true,
+    lineWrapping: true,
+    foldGutter: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: false
+  };
+  structuredData : any = {};
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -178,6 +212,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
+  @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
+  @ViewChild('codemirror') codemirror: any;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -358,6 +394,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     this.closeLinkBotsModal();
+    this.closeStructuredDataModal();
   }
   selectSource(selectedCrawlMethod) {
     console.log(selectedCrawlMethod);
@@ -368,6 +405,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && selectedCrawlMethod.id === 'botActions') {
       this.selectedSourceType = selectedCrawlMethod;
       this.openLinkBotsModal();
+    }
+    else if(selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')){
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddStructuredData();
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
@@ -877,6 +918,57 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.crwalObject.advanceOpts.crawlEverything = true;
     }
   }
+
+  // Code for Structured Data Starts
+
+  openAddStructuredData(){
+    this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+    if(this.selectedSourceType.resourceType === 'structuredDataManual'){
+      this.structuredData.payload = JSON.stringify({});
+    }
+  }
+
+  closeStructuredDataModal(){
+    if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
+      this.addStructuredDataModalPopRef.close();
+    }
+  }
+
+  fileChangeJsonListener(event) {
+    this.newSourceObj.url = '';
+    let fileName = '';
+    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
+      fileName = event.target.files[0].name;
+    } else {
+      return;
+    }
+    const _ext = fileName.substring(fileName.lastIndexOf('.'));
+    if (_ext !== '.json' && _ext !== '.csv') {
+      $('#sourceFileUploader').val(null);
+      this.notificationService.notify('Please select a valid csv or json file', 'error');
+      return;
+    } else {
+      this.fileObj.fileUploadInProgress = true;
+      this.fileObj.fileName = fileName;
+    }
+    this.onFileSelect(event.target, _ext);
+  }
+
+  setEditorContent(event) {
+    // console.log(event, typeof event);
+    console.log(this.structuredData);
+    console.log("parse", event);
+  }
+
+  indentObj(){
+    let count = this.codemirror.codeMirror.lineCount();
+    for(let i = 0; i <= count; i++){
+      this.codemirror.codeMirror.indentLine(i, "smart");
+    }
+  }
+
+  // Code for Structured Data Ends
+
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {

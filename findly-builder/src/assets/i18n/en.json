@@ -300,5 +300,19 @@
         "Positive_Feedback" : "Positive Feedback",
         "Negative_Feedback" : "Negative Feedback"
      }
+ },
+ "structuredData" : {
+    "upload_json" : "Upload JSON / CSV File",
+    "drag_drop" : "Drag and drop file anywhere on this screen",
+    "browse" : "Browse",
+    "or" : "- or -",
+    "error_fileUpload" : "Error in uploading file",
+    "annotate_extract" : "Annotate & Extract",
+    "proceed" : "Proceed",
+    "back" : "Back",
+    "sample_csv" : "Sample CSV",
+    "sample_json" : "Sample CSV",
+    "add_manually" : "Import Structured Data",
+    "structured_data" : "Structured Data"
  }
 }

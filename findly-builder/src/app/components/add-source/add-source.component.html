@@ -741,3 +741,94 @@
     </perfect-scrollbar>
   </ng-container>  
 </kr-modal> 
+
+<kr-modal modalType="center" modalClass="modal_popups_" #addStructuredDataModalPop>
+  <ng-container *ngIf="selectedSourceType">
+    <form #sourceCreation="ngForm">
+      <div class="modal-header">
+        <div class="title">{{selectedSourceType.name}}</div>
+        <div class="close_icon"><img class="ng-tns-c11-2" (click)="cancleSourceAddition()"
+            src="assets/icons/modal-close.svg"></div>
+      </div>
+      <perfect-scrollbar class="addSourceModalBody addNewSource structuredData">
+        <div class="modal-body">
+          <ng-container *ngIf="selectedSourceType.resourceType === 'structuredData'">
+            <div class="col-12 row d-inline mb-3">
+              <span class="float-left">{{'structuredData.upload_json' | translate}}</span>
+              <span class="float-right">
+                <span class="mr-2 download"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample csv">{{'structuredData.sample_csv' | translate}}</span>
+                <span class="mr-2 download"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample Json">{{'structuredData.sample_json' | translate}}</span>
+              </span>
+            </div>
+            <div class="kr-sg-input-text-area mb-4 mt-3">
+              <div class="kr-sg-file-drag-drop">
+                <div class="drag-drop-sec">
+                  <ng-container *ngIf="!fileObj.fileName">
+                    <div class="imageDiv">
+                      <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
+                    </div>
+                    <div class="info_text"></div>
+                    <div class="or-divider">{{'structuredData.or' | translate}}</div>
+                    <div class="custom-file">
+                      <input type="file" id="sourceFileUploader" class="custom-file-input "
+                        (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
+                    </div>
+                    <label for="sourceFileUploader" class="drag-label">
+                      <span class="btn btn-default">{{'structuredData.browse' | translate}}</span>                    
+                    </label>
+                  </ng-container>   
+
+                  <ng-container *ngIf="fileObj.fileName">
+                    <div class="kr-sg-file-drag-drop">
+                      <div class="uploaded-file-name" [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                        <div class="file-close-text">
+                          <div class="d-flex align-items-center">
+                            <img class="type_img" src="assets/icons/file_type_image.svg">
+                            <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                          </div>
+                          <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                        </div>
+                        <div class="progress-status">
+                          <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
+                          <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress" src="assets/icons/info.svg">
+                        </div>
+                      </div>
+                      <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">{{'structuredData.error_fileUpload' | translate}}</div>
+                    </div>
+                  </ng-container>
+                  
+                </div>                   
+              </div>
+              <!-- Annotation Start Here -->
+              <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
+                <div class="kr-sg-checkbox">
+                  <input id="checkbox-1" class="checkbox-custom" type="checkbox" (change)="annotateChange($event)">
+                  <label for="checkbox-1" class="checkbox-custom-label">{{'structuredData.annotate_extract' | translate}}</label>
+                </div>
+              </div>
+              <!-- Annotation End Here -->
+            </div>
+          </ng-container>
+          <ng-container *ngIf="selectedSourceType.resourceType === 'structuredDataManual'">
+            <div class="col-12 row d-inline mb-3">
+              <span class="float-left">{{'structuredData.add_manually' | translate}}</span>
+              <span class="float-right">
+                <!-- Indent -->
+                <button class="btn" (click)="indentObj()"> Indent</button>
+              </span>
+            </div>
+            <div class="editor">
+              <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="structuredData.payload" (ngModelChange)="setEditorContent($event)"> </ngx-codemirror>
+            </div>
+          </ng-container>
+        </div>
+      </perfect-scrollbar>
+      <div class="modal-footer">
+        <button class="kr-sg-button-primary btn_lg mr-3"
+          [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
+          (click)="proceedSource()">{{'structuredData.proceed' | translate}}</button>
+        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">{{'structuredData.back' | translate}}</button>
+      </div>
+    </form>
+  </ng-container>
+</kr-modal>
