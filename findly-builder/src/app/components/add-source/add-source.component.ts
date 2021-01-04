@@ -186,14 +186,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   addStructuredDataModalPopRef : any;
   codeMirrorOptions: any = {
     theme: 'neo',
-    mode: {name: "javascript", json: true},
+    mode: "json",
     lineNumbers: true,
     lineWrapping: true,
-    foldGutter: true,
+    foldGutter: false,
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
     autoCloseBrackets: true,
     matchBrackets: true,
-    lint: false
+    lint: false,
+    indentUnit: 0
   };
   structuredData : any = {};
 
