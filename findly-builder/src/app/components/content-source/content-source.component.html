@@ -891,7 +891,11 @@
                                 <div class="title">EXECUTION LOG</div>
                                 <div class="close-log"><img src="assets/images/close.svg"></div>
                               </div>
-                              <div class="log-details">
+                              <div class="log-details" *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
+                                <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
+                                <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                              </div>
+                              <!-- <div class="log-details">
                                 <img src="assets/icons/content/success.svg">
                                 <span class="log-name">URL Validation <span class="time">(5s)</span></span>
                               </div>
@@ -918,18 +922,25 @@
                               <div class="log-details">
                                 <img src="assets/images/success-circle.svg">
                                 <span class="log-name">Successfull</span>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col_ col-3 d-flex">
-                            <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class">
-                              <img src="assets/icons/content/success.svg">
+                            <span class="execute-success mr-2" ngbTooltip='{{executionObj[history.executionStats.executionStatusMessage].tooltip}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                              <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
                             </span>
+                            <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Failed'" src="assets/icons/content/failed.svg">
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
+                            </span> -->
                             <div class="text-truncate w-100 pr-4">{{history.executionStats.executionStatusMessage}} </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
                             <div *ngIf = "i == executionPop"> 
                               HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                              {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->                            
                           </div>
                           <div class="col_ col-3">{{history.executionStats.duration}}</div>

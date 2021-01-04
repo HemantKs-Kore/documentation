@@ -74,6 +74,46 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     scheduled :{name :'In Progress', color: '#0D6EFD'},
     halted : {name : 'Stopped', color: '#DD3646'}
   };
+  executionObj : any = {
+    'Execution Successful' : {
+      tooltip : "",
+      icon : "assets/icons/content/success.svg"
+    },
+    'Execution Failed' : {
+      tooltip : "",
+      icon : "assets/icons/content/failed.svg"
+    },
+    'Execution Stopped' : {
+      tooltip : "Sitemap Validation failed due to timeout",
+      icon : "assets/icons/content/stopped.svg"
+    },
+    'Execution In Progress' : {
+      tooltip : "",
+      icon : "assets/icons/content/success.svg"
+    },
+  };
+  stateExecutionstageStatusObj : any = {
+    'success' : { icon  : "assets/icons/content/success.svg" },
+    'failed'  : { icon  : "assets/icons/content/failed.svg" },
+    'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+  }
+  finalStateExecutionstageStatusObj: any = {
+    'success' : { icon  : "assets/icons/content/succes-circle.svg" },
+    'failed'  : { icon  : "assets/icons/content/failed-circle.svg" },
+    'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+  }
+  stateExecutionStageNameObj : any = {
+    'process_in_queue' : { label : "Process in Queue" , icon : this.stateExecutionstageStatusObj},
+    'url_validation' : { label : "URL Validation" , icon : this.stateExecutionstageStatusObj},
+    'network_validation' : { label : "Network Validation" , icon : this.stateExecutionstageStatusObj},
+    'indexing_restrictions' : { label : "Index Restriction" , icon : this.stateExecutionstageStatusObj},
+    'content_verification' : { label : "Content Verification" , icon : this.stateExecutionstageStatusObj},
+    'sitemap_identification' : { label : "Sitemap Identification" , icon : this.stateExecutionstageStatusObj},
+    'stopped' : { label : "Stopped" , icon : this.finalStateExecutionstageStatusObj},
+    'failed' : { label : "Failed" , icon : this.finalStateExecutionstageStatusObj},
+    'successful' : { label : "Successful" , icon : this.finalStateExecutionstageStatusObj},
+  };
+ 
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
@@ -454,6 +494,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.executionHistoryData.forEach(element => {
           element.executionStats.duration = this.duration(element.executionStats.duration);
           element.createdOn = moment(element.createdOn).fromNow();
+          if(element.executionStats.statusLogs){
+            element.executionStats.statusLogs.forEach(status_log => {
+              status_log.timeTaken = this.duration(status_log.timeTaken);
+            });
+          }
         });
       } 
       
