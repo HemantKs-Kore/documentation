@@ -4,6 +4,11 @@
   background-color: #F3F8FF !important;
   color: black;
 }
+::ng-deep.content-menu{
+  .active{
+    background-color: #F3F8FF !important;
+  }
+}
 .findlyHeader{
    box-shadow: 0px 1px 5px rgba(32, 33, 36, 0.2);;
    background: $whiteColor;

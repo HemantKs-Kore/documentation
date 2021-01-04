@@ -1966,5 +1966,52 @@ nouislider{
             text-align: center;
         }
     }
+}
+.date-tooltip{
+    .arrow{
+        &::before{
+            border-right-color: #fff;
+        }
+    }
+    .tooltip-inner{
+        background: #FFFFFF;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+        color: #202124;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 5px 10px;
+    }
 
+}
+
+.experiment-container{
+    .table-data-content {
+        .acc-card {
+            .acc-card-header {
+                .acc-card-link {
+                    .row_data {
+                        .duration-data {
+                            .right-sec{
+                                ngb-progressbar{
+                                    .progress{
+                                      height: 6px;
+                                      background: #E4E5E7;
+                                      border-radius: 6px;
+                                      margin-top: 6px;
+                                      .progress-bar{
+                                        &.bg-secondary{
+                                            border-radius: 6px;
+                                            background: #BDC1C6 !important;
+                                        }
+                                      }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

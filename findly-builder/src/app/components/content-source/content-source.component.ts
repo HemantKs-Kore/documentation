@@ -146,9 +146,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sourceStatus = 'success';
   useCookies = false;
   respectRobotTxtDirectives = false;
-  isCrawlBeyondSitemap= false;
+  crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
+  blockHttpsMsgs = false;
   crawlDepth : number;
   maxUrlLimit: number;
   crwalOptionLabel= '';
@@ -527,9 +527,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(source.advanceSettings){
           this.useCookies = source.advanceSettings.useCookies;
           this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
-          this.isCrawlBeyondSitemap = source.advanceSettings.isCrawlBeyondSitemap;
+          this.crawlBeyondSitemaps = source.advanceSettings.crawlBeyondSitemaps;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
-          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.blockHttpsMsgs = source.advanceSettings.blockHttpsMsgs;
           this.crawlDepth = source.advanceSettings.crawlDepth;
           this.maxUrlLimit = source.advanceSettings.maxUrlLimit
         }
@@ -813,7 +813,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Re-Crawling', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'Failed to Re-Cwral');
+      this.errorToaster(errRes, 'Failed to Re-Crawl');
     });
   }
   
@@ -1165,9 +1165,9 @@ keyPress(event){
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.useCookies = this.useCookies;
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
@@ -1288,9 +1288,9 @@ keyPress(event){
     }
     crawler.advanceOpts.useCookies = this.useCookies;
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     if(Number(this.crawlDepth)){
       crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
     }else{
@@ -1312,7 +1312,7 @@ keyPress(event){
     //console.log(payload);
 
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Crwaler Updated', 'success');
+      this.notificationService.notify('Crawler Updated', 'success');
       this.editTitleFlag = false;
       this.getSourceList();
       this.closeStatusModal();

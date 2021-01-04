@@ -203,18 +203,18 @@ export class SettingsComponent implements OnInit {
     }
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
-        this.channnelConguired = res;
+        this.channnelConguired.apps = [...res.apps];
         if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
-          if(this.selectedApp.appPreferences && this.selectedApp.appPreferences.rtmAppId){
-            res.apps.forEach(element => {
-              if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
-                this.listData=element;
-              }
+          // if(this.selectedApp.appPreferences && this.selectedApp.appPreferences.rtmAppId){
+          //   res.apps.forEach(element => {
+          //     if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
+          //       this.listData=element;
+          //     }
               
-            });
-          }
-        
+          //   });
+          // }
+          this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length-1];
           this.slider = 3
           this.configFlag = true;
         }
