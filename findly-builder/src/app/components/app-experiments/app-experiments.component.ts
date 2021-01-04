@@ -44,8 +44,18 @@ export class AppExperimentsComponent implements OnInit {
     },
     range: {
       min: 0,
+      '10%': 10,
+      '20%': 20,
+      '30%': 30,
+      '40%': 40,
+      '50%': 50,
+      '60%': 60,
+      '70%': 70,
+      '80%': 80,
+      '90%': 90,
       max: 100
-    }
+    },
+    snap: true,
   };
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild("sliderref") sliderref;
@@ -62,27 +72,11 @@ export class AppExperimentsComponent implements OnInit {
   closeModalPopup() {
     this.exp_status = '';
     this.form_type = '';
-    this.star = [];
-    this.star.push(100);
-    if (this.conn.length > 2) {
-      for (let i = 0; i < this.conn.length; i++) {
-        if (this.conn.length > 2) {
-          this.conn.pop();
-          this.tool.pop();
-        }
-      }
-    }
-    this.sliderUpdate('close');
     this.variantsArray = [];
     this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
+    this.showSlider = false;
     this.addExperimentsRef.close();
-    console.log("logg", this.someRangeconfig)
-  }
-  //traffic slider config object
-  sliderConfig() {
-    this.conn = [true, true];
-    this.tool = [true];
-    this.star = [100];
+    console.log("this.someRangeconfig", this.someRangeconfig)
   }
   //show or hide search input
   toggleSearch() {
@@ -103,7 +97,8 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.name = data.name;
       this.variantsArray = data.variants;
       this.experimentObj.duration.days = data.duration.days;
-      this.showTraffic(this.variantsArray.length, 'add')
+      this.showSlider = true;
+      this.showTraffic(this.variantsArray.length, 'add');
     }
     this.addExperimentsRef = this.addExperiments.open();
   }
@@ -119,8 +114,8 @@ export class AppExperimentsComponent implements OnInit {
   }
   //based on variant show traffic 
   showTraffic(length, type) {
+    this.star = [];
     if (length > 1) {
-      this.star = [];
       if (type === 'add') {
         this.conn.push(true);
         this.tool.push(true);
@@ -132,18 +127,15 @@ export class AppExperimentsComponent implements OnInit {
     }
     if (length === 0) {
       this.showSlider = false;
-      this.sliderConfig();
     }
     else if (length === 1) {
       if (type === 'add') {
-        this.showSlider = true;
+        this.star.push(100);
       }
-      else {
-        this.star = [];
+      else if (type === 'remove') {
         this.conn.pop();
         this.tool.pop();
         this.star.push(100);
-        this.sliderUpdate('open');
       }
     }
     else if (length === 2) {
@@ -155,24 +147,21 @@ export class AppExperimentsComponent implements OnInit {
     else if (length === 4) {
       this.star.push(25, 50, 75, 100);
     }
-    if (length > 1) {
-      this.sliderUpdate('open');
-    }
+    this.sliderUpdate();
   }
   //slider destroy method
-  sliderUpdate(type) {
-    this.showSlider = false;
+  sliderUpdate() {
+    console.log("this.start", this.star)
     this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
+    console.log("new data shown", this.someRangeconfig)
     setTimeout(() => {
       this.showSlider = false;
       this.sliderref.slider.destroy();
       this.sliderref.slider.updateOptions(this.someRangeconfig, true);
     }, 1000)
-    if (type === 'open') {
-      setTimeout(() => {
-        this.showSlider = true;
-      }, 2000);
-    }
+    setTimeout(() => {
+      this.showSlider = true;
+    }, 2000);
   }
   //fetch variant data
   fetchVariant(index, data, type) {
@@ -183,19 +172,16 @@ export class AppExperimentsComponent implements OnInit {
     else if (type === 'queryid') {
       this.variantsArray[index] = { ...this.variantsArray[index], queryPipelineId: data._id, queryPipelineName: data.name };
     }
-    console.log("this.variant", this.variantsArray);
   }
   //remove variant
   removeVariant(index) {
     this.variantsArray.splice(index, 1);
-    console.log("this.variantArray", this.variantsArray);
     this.trafficData.splice(index, 1);
     this.showTraffic(this.variantsArray.length, 'remove');
-    this.showSliderPercentage(this.variantsArray.length);
+    //this.showSliderPercentage(this.variantsArray.length);
   }
   //slider changed
   sliderChanged() {
-    console.log("slider changed", this.someRange);
     this.sliderPercentage();
   }
   //show slider percentage
