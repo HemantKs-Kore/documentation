@@ -1,4 +1,8 @@
 
+.imageVariables{
+  --caremark-background:  url('');
+  
+}
 .KoreSearchAssistant {
     font-size: 14px;
     font-weight: 400;
@@ -13,6 +17,50 @@
     display: flex;
     padding: 0 227px;
     justify-content: space-between;
+  }
+  .KoreSearchAssistant .ksa-header{
+    visibility: hidden;
+  }
+  .KoreSearchAssistant .ksa-menu{
+    visibility: hidden;
+  }
+  .KoreSearchAssistant .info-section{
+    visibility: hidden;
+  }
+  .KoreSearchAssistant .card-section{
+    visibility: hidden;
+  }
+  .futureBank .KoreSearchAssistant .ksa-header{
+   visibility: visible;
+  }
+  .futureBank .KoreSearchAssistant .ksa-menu{
+    visibility: visible;
+  }
+  .futureBank .KoreSearchAssistant .info-section{
+    visibility: visible;
+  }
+  .futureBank .KoreSearchAssistant .card-section{
+    visibility: visible;
+  }
+  .cvsCareMark .KoreSearchAssistant{
+    background-image: url('../libs/images/careMarkBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .pfizer .KoreSearchAssistant{
+    background-image: url('../libs/images/pfizerBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .pfizer .search-container .right-side-icons .help-icon {
+    display: none !important;
+  }
+  .pfizer .search-container .greetingMsg .search-greeting-box {
+    background: linear-gradient(45deg, #fdfdfd, #c1c1c1);
+    border: 1px solid #c1c1c1;
+  }
+  .pfizer .search-container .right-side-icons .telephone-icon {
+    display: block !important;
   }
   .KoreSearchAssistant .ksa-header .ksa-logo {
     width: 286px;
