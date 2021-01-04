@@ -16,7 +16,7 @@ declare const $: any;
 })
 export class SummaryComponent implements OnInit {
   serachIndexId;
-  indices: any;
+  indices: any = [];
   experiments : any = [];
   variants : any = [];
   activities: any = [];
@@ -212,6 +212,7 @@ export class SummaryComponent implements OnInit {
         this.experiments = res.experiments;
         this.activities =  res.activities;
         this.indices = res.indices;
+        console.log(this.indices)
         this.experiments.forEach(element => {
           if(element.variants){
             element.variants.forEach(res => {
@@ -224,6 +225,7 @@ export class SummaryComponent implements OnInit {
        console.log(this.experiments)
         this.activities.forEach(element => {
           element.date = moment(element.date).fromNow();
+          console.log(this.activities) 
         });
      
       //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
@@ -246,7 +248,19 @@ export class SummaryComponent implements OnInit {
   }
 
   
-  viewAll(route){
-    this.router.navigateByUrl(route, { skipLocationChange: true });
+  // viewAll(route){
+  //   this.router.navigateByUrl(route, { skipLocationChange: false });
+  // }
+  openExp(){
+   $('#experimentsTab').trigger('click')
+  }
+  openChannel(){
+    $('#channelsTab').trigger('click')
+  }
+  openDashboard(){
+    $('#dashboardTab').trigger('click')
+  }
+  openSource(){
+    $('#sourceTab').trigger('click')
   }
 }
