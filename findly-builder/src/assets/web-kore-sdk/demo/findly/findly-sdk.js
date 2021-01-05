@@ -1096,11 +1096,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
-                     <img src="${page.imageUrl}"></img>\
+                     <img src="${page.pageImageUrl}"></img>\
                  </div>\
                  <div class="pages-content">\
-                   <div class="title" title="${page.title}">${page.title}</div>\
-                   <div class="desc-info">{{html page.searchResultPreview}}</div>\
+                   <div class="title" title="${page.pageTitle}">${page.pageTitle}</div>\
+                   <div class="desc-info">{{html page.pageSearchResultPreview}}</div>\
                  </div>\
                  <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
@@ -1318,15 +1318,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                         <div class="image-url-sec">\
-                          <img src="${page.imageUrl}"></img>\
+                          <img src="${page.pageImageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${page.title}">${page.title}\
+                          <div class="title" title="${page.pageTitle}">${page.pageTitle}\
                           <span class="custom-external-link-show-container display-none">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">{{html page.searchResultPreview}}</div>\
+                          <div class="desc-info">{{html page.pageSearchResultPreview}}</div>\
                           <div class="custom-matched-results-container">\
                             <div class="flex-data">\
                               <div class="custom-matched-results-page-icon">\
@@ -1527,17 +1527,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
-                      <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
+                      <a class="faqs-wrp-content" href="${document.externalFileURL}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
                           <img src="${document.imageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${document.title}">${document.title}\
+                          <div class="title" title="${document.docTitle}">${document.docTitle}\
                           <span class="custom-external-link-show-container display-none">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">${document.searchResultPreview}</div>\
+                          <div class="desc-info">${document.docSearchResultPreview}</div>\
                           <div class="custom-matched-results-container">\
                             <div class="custom-matched-results-page-icon">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
