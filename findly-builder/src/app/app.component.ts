@@ -269,10 +269,12 @@ export class AppComponent implements OnInit , OnDestroy {
     this.searchInstance.addSearchContainer({container:"search-background-div"});
     this.searchInstance.addSearchText({
       container : "sa-search-container",
-      placeholder : "Search here",
+      classes : "search",
+      placeholder : "Ask anything",
       showGreeting : true,
-      microphone : false,
-      greetingMsg : "Hi"    
+      microphone : true,
+      greetingMsg : "Hello! How can I help you today?",
+      hideSearchIcon : false
     });
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
