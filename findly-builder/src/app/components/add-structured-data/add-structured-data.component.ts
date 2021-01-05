@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { Router } from '@angular/router';
 declare const $: any;
 
 @Component({
@@ -11,7 +13,7 @@ declare const $: any;
 })
 export class AddStructuredDataComponent implements OnInit {
 
-  public newSourceObj: any;
+  public newSourceObj: any = {};
   csvContent: any = '';
   fileObj: any = {};
   userInfo: any = {};
@@ -28,6 +30,7 @@ export class AddStructuredDataComponent implements OnInit {
     lint: false,
     indentUnit: 0
   };
+  selectedApp: any = {};
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input() selectedSourceType: any;
@@ -35,9 +38,10 @@ export class AddStructuredDataComponent implements OnInit {
 
   constructor(private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private authService: AuthService, ) { }
+    private authService: AuthService,public workflowService: WorkflowService,private router: Router ) { }
 
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
     this.userInfo = this.authService.getUserInfo() || {};
   }
 
@@ -139,14 +143,59 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   proceedSource(){
-
+    let payload: any = {};
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      type: this.selectedSourceType.sourceType,
+    };
+    let endPoint = 'add.structuredData';
+    if(this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredData'){
+      // File Upload
+      quaryparms.file = 'file';
+      payload.fileId = this.fileObj.fileId;
+      this.jsonInvoke(payload,endPoint,quaryparms);
+    }
+    else if(this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredDataManual'){
+      try{
+        let payload_temp = JSON.parse(this.structuredData.payload);
+        console.log("payload", payload);
+        quaryparms.file = 'manual';
+        this.jsonInvoke(payload_temp,endPoint,quaryparms);
+      }
+      catch (e){
+        console.log("error", e);
+      }
+    }
   }
 
+
+  jsonInvoke(payload,endPoint,quaryparms){
+    this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+      // this.openStatusModal();
+      console.log("res upload", res);
+      this.router.navigate(['/structuredData'], { skipLocationChange: true });
+      this.cancleSourceAddition();
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Duplicate name, try again!', 'error');
+      }
+    });
+  }
   
   setEditorContent(event) {
-    // console.log(event, typeof event);
-    console.log(this.structuredData);
     console.log("parse", event);
+    try{
+      let payload_temp = JSON.parse(this.structuredData.payload);
+      if(payload_temp){
+        this.selectedSourceType.resourceAdded = true;
+      }
+    }
+    catch (e){
+      this.selectedSourceType.resourceAdded = false;
+    }
   }
 
   indentObj(){

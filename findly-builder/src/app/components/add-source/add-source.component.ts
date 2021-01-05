@@ -146,7 +146,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Import from JSON or CSV',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',
-          sourceType: 'content',
+          sourceType: 'json',
           resourceType: 'structuredData'
         },
         {
@@ -154,7 +154,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Add structured data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
-          sourceType: 'content',
+          sourceType: 'json',
           resourceType: 'structuredDataManual'
         }
       ]

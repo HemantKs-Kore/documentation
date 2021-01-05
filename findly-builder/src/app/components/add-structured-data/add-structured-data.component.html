@@ -43,7 +43,7 @@
                                             [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                                             <div class="file-close-text">
                                                 <div class="d-flex align-items-center">
-                                                    <img class="type_img" src="assets/icons/file_type_image.svg">
+                                                    <!-- <img class="type_img" src="assets/icons/file_type_image.svg"> -->
                                                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                                 </div>
                                                 <img src="assets/images/close.svg" class="close-file"
@@ -94,7 +94,7 @@
         </perfect-scrollbar>
         <div class="modal-footer">
             <button class="kr-sg-button-primary btn_lg mr-3"
-                [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
+                [disabled]="!selectedSourceType.resourceAdded"
                 (click)="proceedSource()">{{'structuredData.proceed' | translate}}</button>
             <button class="kr-sg-button-secondary backbtn btn_md mr-2"
                 (click)="cancleSourceAddition()">{{'structuredData.back' | translate}}</button>

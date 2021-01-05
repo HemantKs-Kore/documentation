@@ -312,7 +312,7 @@
     "back" : "Back",
     "sample_csv" : "Sample CSV",
     "sample_json" : "Sample CSV",
-    "add_manually" : "Import Structured Data",
+    "add_manually" : "Add Manually",
     "structured_data" : "Structured Data"
  }
 }

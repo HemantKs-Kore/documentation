@@ -698,5 +698,11 @@ export class EndPointsService {
     //    method: 'put'
     // }
 
+    this.serviceList['add.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:file',
+      // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
+      method: 'post'
+    };
+
   }
 }
