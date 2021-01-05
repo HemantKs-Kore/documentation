@@ -1909,7 +1909,19 @@ ngx-simplebar {
 
 .ngb_tooltip_custom_class{
     opacity: 1 !important;
-    margin-left: -14px;    
+    margin-left: -14px; 
+    &.sampleJson{
+        margin: 0;
+        .arrow{
+            &::before{
+                border-top-color:#202124 !important;
+            }
+        }
+        .tooltip-inner{
+            color: #FFFFFF;
+            background: #202124;
+        }
+    }   
     .arrow{
         &::before{
             border-top-color: #fff !important;
@@ -1968,3 +1980,34 @@ nouislider{
     }
 
 }
+.imort-structure-data{
+    .modal-dialog{
+        width: 784px !important;
+        height: 550px !important;
+        background: #FFFFFF !important;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+        border-radius: 8px !important;
+        .modal-content{
+            background: #FFFFFF !important;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 8px !important;
+
+        }
+    }
+}
+
+.cm-s-neo {
+    .CodeMirror-linenumber{
+        width: 37px !important;
+        text-align: center;
+        background: #F8F9FA;
+        color: #393939;
+        font-size: 14px;
+    }
+}
+.CodeMirror-lines{
+    padding: 0;
+}
+// .CodeMirror-sizer{
+//     margin-left: 37px !important;
+// }

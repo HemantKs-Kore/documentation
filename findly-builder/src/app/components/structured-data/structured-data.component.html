@@ -1,1 +1,59 @@
-<p>structured-data works!</p>
+<div class="structured-data-container">
+    <div class="header-sec">
+        <div class="title">Structured Data</div>
+        <div class="d-flex align-items-center">
+            <div class="kr-sg-input-search m-0 d-none">                               
+                <input type="text" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
+            </div> 
+            <div class="seach-block">
+                <img src="assets/icons/search.svg">
+                <img class="d-none" src="assets/images/close.svg">Search
+            </div>   
+            <div class="adv-search"><img src="assets/icons/content/indent.svg">Advanced Search</div>
+            <div class="kr-sg-dropdowns w-auto add_data" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/add_plus.svg">Add Field</button>                                            
+                    <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                      <li>Import Data</li>
+                      <li>Add Manually</li>                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <perfect-scrollbar>
+        <div class="structured-data-table-sec">
+            <div class="filter-sec text-right mb-1">
+                <button class="kr-sg-button-danger btn_lg">Delete</button>
+            </div>
+            <div class="structured-data">
+                <div class="kr-sg-checkbox d-block">
+                    <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                </div>
+                <div class="data-content">
+                    To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
+                </div>
+                <div class="action-links">
+                    <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                </div>
+                <div class="info-link"><img src="assets/icons/info.svg"></div>
+            </div>
+            <div class="structured-data">
+                <div class="kr-sg-checkbox d-block">
+                    <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                </div>
+                <div class="data-content">
+                    To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
+                </div>
+                <div class="action-links">
+                    <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                </div>
+                <div class="info-link"><img src="assets/icons/info.svg"></div>
+            </div>
+        </div>
+    </perfect-scrollbar>    
+</div>

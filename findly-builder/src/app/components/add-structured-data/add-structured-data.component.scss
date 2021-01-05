@@ -1,8 +1,135 @@
 
 .structuredData{
-    .download{
-        cursor: pointer;
-    }
+    .modal-body{
+        .top-sec{
+            .title-data{
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 17px;
+            }
+            .actions-data{
+                .download{
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 20px;
+                    margin-left: 8px;
+                    color: #202124;
+                    img{
+                        margin-right: 6px;
+                    }
+                }
+            }
+        }
+        .kr-sg-file-drag-drop{
+            .drag-drop-sec{
+                background: #FFFFFF;
+                border: 1px dashed #BDC1C6;
+                box-sizing: border-box;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 27px 25px;
+                text-align: center;
+                height: 332px;
+                .info_text{
+                    color: #202124;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                .or-divider{
+                    color: #898989;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                .custom-file{
+                    display: none;
+                }
+                .kr-sg-file-drag-drop{
+                    width: 100%;
+                }
+            }
+        }
+        .manual-structure-data{
+            .title{
+                color: #202124;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+            }
+            .indent{
+                cursor: pointer;
+            }
+            .editor{
+                display: flex;
+                width: 100%;
+                height: 331px;
+                .left-sec{
+                    background: #FFFFFF;
+                    border: 1px dashed #BDC1C6;
+                    box-sizing: border-box;
+                    border-radius: 4px;         
+                    width: 100%;
+                    margin-right: 8px;           
+                }
+                .sample-json{
+                    .kr-sg-dropdowns {
+                        &.show{
+                            .dropdown-open {
+                                .dropdown-input{                                
+                                    background: #F3F8FF;
+                                    &::before{
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                        .dropdown-open {
+                            .dropdown-input{                                
+                                border: 1px solid #BDC1C6;
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                width: 34px;
+                                text-align: center;
+                                &::before{
+                                    display: none;
+                                }
+                            }
+                        }
+                        .samplejsoncontent {
+                            padding: 0;
+                            width: 361px;
+                            border-radius: 4px;
+                            background: #F3F8FF;                            
+                            border: 1px dashed #E7F1FF;
+                            box-sizing: border-box;
+                            border-radius: 4px;
+                            // height: 254px;
+                            .lft_sec{
+                                background: #E7F1FF;
+                                width: 37px;
+                                text-align: center;
+                                color: #393939;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 17px;
+                                margin-right: 20px;
+                                padding: 5px 0;
+                            }
+                            .rgt_sec{
+                                color: #393939;
+                                padding: 5px 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }  
     .drag-label{
         .browse{
             background: #F2F2F2;
