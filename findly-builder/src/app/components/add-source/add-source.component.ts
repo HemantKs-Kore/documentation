@@ -184,18 +184,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   streamID: any;
   searchAssociatedBots: any;
   addStructuredDataModalPopRef : any;
-  codeMirrorOptions: any = {
-    theme: 'neo',
-    mode: "json",
-    lineNumbers: true,
-    lineWrapping: true,
-    foldGutter: false,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    autoCloseBrackets: true,
-    matchBrackets: true,
-    lint: false,
-    indentUnit: 0
-  };
   structuredData : any = {};
 
   constructor(public workflowService: WorkflowService,
@@ -214,7 +202,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
-  @ViewChild('codemirror') codemirror: any;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -924,47 +911,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openAddStructuredData(){
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
-    if(this.selectedSourceType.resourceType === 'structuredDataManual'){
-      this.structuredData.payload = JSON.stringify({});
-    }
   }
 
   closeStructuredDataModal(){
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
-    }
-  }
-
-  fileChangeJsonListener(event) {
-    this.newSourceObj.url = '';
-    let fileName = '';
-    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
-      fileName = event.target.files[0].name;
-    } else {
-      return;
-    }
-    const _ext = fileName.substring(fileName.lastIndexOf('.'));
-    if (_ext !== '.json' && _ext !== '.csv') {
-      $('#sourceFileUploader').val(null);
-      this.notificationService.notify('Please select a valid csv or json file', 'error');
-      return;
-    } else {
-      this.fileObj.fileUploadInProgress = true;
-      this.fileObj.fileName = fileName;
-    }
-    this.onFileSelect(event.target, _ext);
-  }
-
-  setEditorContent(event) {
-    // console.log(event, typeof event);
-    console.log(this.structuredData);
-    console.log("parse", event);
-  }
-
-  indentObj(){
-    let count = this.codemirror.codeMirror.lineCount();
-    for(let i = 0; i <= count; i++){
-      this.codemirror.codeMirror.indentLine(i, "smart");
     }
   }
 
