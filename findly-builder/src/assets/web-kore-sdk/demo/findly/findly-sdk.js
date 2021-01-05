@@ -872,7 +872,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }; //********************original widget.js end */
     //********************original widgetTemplate.js start */
     FindlySDK.prototype.addSearchContainer = function(config) {
-      var searchContainer = '<script type="text/x-jqury-tmpl">\
+      if (config.templateId) {
+        $('#' + config.templateId).addClass("search-container conversation");
+      } else {
+        var searchContainer = '<script type="text/x-jqury-tmpl">\
         <div id="sa-search-container" class="search-container conversation">\
           <div class="custom-insights-control-container">\
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
@@ -929,6 +932,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var parentContainer = $('#' + config.container);
         var dataHTML = $(searchContainer).tmplProxy();
         parentContainer.append(dataHTML);
+      }
+
         //return searchContainer;
     }
     FindlySDK.prototype.getSearchControl = function() {
@@ -2899,13 +2904,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.vars.searchObject.recents.splice(recentIndex, 1);
         _self.vars.searchObject.popularSearches.splice(recentIndex, 1);
         window.localStorage.setItem('recents', JSON.stringify(_self.vars.searchObject.recents));
-        var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+        var tmplData = {
           searchResults: _self.vars.searchObject.recentAPIResponse,
           recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
           recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
           popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-        });
+        };
+        var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
         $('.search-body').html(freqData);
+        _self.pubSub.publish('sa-freq-data', tmplData)
         setTimeout(function () {
           $('.search-body').scrollTop(2);
         }, 100);
@@ -3632,21 +3639,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         function initPopularSearchList() {
           _self.vars.searchObject.popularSearches = [];
           var popSearchUrl = _self.API.popularSearchesUrl;
-          var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+          var tmplData = {
             searchResults: _self.vars.searchObject.recentAPIResponse,
             recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
             recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
             popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-          });
+          };
+          var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
           $('.search-body').html(freqData);
+          freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+          _self.pubSub.publish('sa-freq-data', tmplData);
           _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
             _self.vars.searchObject.popularSearches = response;
-            freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+            var tmplData = {
               searchResults: _self.vars.searchObject.recentAPIResponse,
               recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
               recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
               popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-            });
+            };
+            freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+            _self.pubSub.publish('sa-freq-data', tmplData);
             $('.search-body').html(freqData);
           })
         }
@@ -4460,12 +4472,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.bindFrequentData = function () {
       var _self = this;
       $('#suggestion').val('');
-      var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+      var tmplData = {
         // searchResults: _self.vars.searchObject.recentAPIResponse,
         recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
         recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
         popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-      });
+      };
+      _self.pubSub.publish('sa-freq-data', tmplData)
+      var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
       $('.search-body').html(freqData);
       setTimeout(function () {
         $('.search-body').scrollTop(2);
@@ -5136,6 +5150,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       window.koreWidgetSDKInstance = _self;
     }
+    FindlySDK.prototype.addFrequentlyUsedControl = function(config) {
+      var _self = this;
+      if (config.freqDataHandler || (config.freqDataTemplate && config.freqDataContainer)) {
+        _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
+          if (config.freqDataTemplate) {
+            var dataHTML = $('#' + config.freqDataTemplate).tmplProxy(data);
+            $('#' + config.freqDataContainer).empty().append(dataHTML);
+            _self.deleteRecents();
+            _self.recentClick();
+            _self.bindSearchActionEvents();
+          }
+          if (config.freqDataHandler) {
+            config.freqDataHandler(data);
+          }
+        })
+      }
+    }
     FindlySDK.prototype.addSearchText = function(config) {
       var _self = this;
       window.koreWidgetSDKInstance = _self;
@@ -5144,6 +5175,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           config.searchHandler(data);
         })
       }
+
       var dataHTML = $(_self.getSearchControl()).tmplProxy(config);
       if (config.microphone) {
         $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
