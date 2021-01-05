@@ -885,16 +885,19 @@
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
                           <div class="eye-img">
-                            <img src="assets/icons/content/eye.svg">
-                            <div class="execute-log">
+                            <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
+                            <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
                                 <div class="title">EXECUTION LOG</div>
-                                <div class="close-log"><img src="assets/images/close.svg"></div>
+                            <div class="close-log"><img src="assets/images/close.svg" (click)="executionLogStatus = false"></div>
                               </div>
-                              <div class="log-details" *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
-                                <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
-                                <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
-                              </div>
+                              <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
+                                <div class="log-details" *ngIf="statlog.stageName">
+                                  <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
+                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                                </div>
+                              </ng-container>
+                              
                               <!-- <div class="log-details">
                                 <img src="assets/icons/content/success.svg">
                                 <span class="log-name">URL Validation <span class="time">(5s)</span></span>

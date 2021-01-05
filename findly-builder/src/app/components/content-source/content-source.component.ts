@@ -60,6 +60,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   statusArr = [];
   docTypeArr = [];
   selectedFilter: any = ''
+  executionLogStatus  = false;
   contentTypes = {
     webdomain: 'WEB',
     document: 'DOC'
@@ -89,13 +90,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     },
     'Execution In Progress' : {
       tooltip : "",
-      icon : "assets/icons/content/success.svg"
+      icon : "assets/icons/content/ex-stat_inprogress.svg"
     },
   };
   stateExecutionstageStatusObj : any = {
     'success' : { icon  : "assets/icons/content/success.svg" },
     'failed'  : { icon  : "assets/icons/content/failed.svg" },
     'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+    'inProgress' : { icon  : "assets/icons/content/stopped.svg" }
   }
   finalStateExecutionstageStatusObj: any = {
     'success' : { icon  : "assets/icons/content/succes-circle.svg" },
@@ -109,6 +111,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'indexing_restrictions' : { label : "Index Restriction" , icon : this.stateExecutionstageStatusObj},
     'content_verification' : { label : "Content Verification" , icon : this.stateExecutionstageStatusObj},
     'sitemap_identification' : { label : "Sitemap Identification" , icon : this.stateExecutionstageStatusObj},
+    'crawling' : { label : "Crawling" , icon : this.stateExecutionstageStatusObj},
     'stopped' : { label : "Stopped" , icon : this.finalStateExecutionstageStatusObj},
     'failed' : { label : "Failed" , icon : this.finalStateExecutionstageStatusObj},
     'successful' : { label : "Successful" , icon : this.finalStateExecutionstageStatusObj},
@@ -177,6 +180,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  hoverExecutionLog(){
+    this.executionLogStatus = true;
+  }
   addNewContentSource(type) {
     this.showSourceAddition = type;
     // this.openAddSourceModal();
@@ -222,6 +228,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if(sec <= 0) return duration =  min + "m ";
         }else if(sec > 0){
           return duration = sec + "s";
+        }else{
+          return duration = '0' + "s";
         }
     }
   }
