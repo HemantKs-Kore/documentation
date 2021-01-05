@@ -11,7 +11,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   window.FindlySDK = factory(); //}
 })(function () {
   var koreJquery;
-
   if (window && window.KoreSDK && window.KoreSDK.dependencies && window.KoreSDK.dependencies.jQuery) {
     //load kore's jquery version
     koreJquery = window.KoreSDK.dependencies.jQuery;
@@ -40,6 +39,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     */
     function FindlySDK(config) {
       this.config = config;
+      this.pubSub = window["PubSub"];
       // this.config.container=this.config.container || "body";
       // if(typeof this.config.container==="string"){
       //     this.config.container=$(this.config.container);
@@ -871,7 +871,96 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }; //********************original widget.js end */
     //********************original widgetTemplate.js start */
+    FindlySDK.prototype.addSearchContainer = function(config) {
+      var searchContainer = '<script type="text/x-jqury-tmpl">\
+        <div id="sa-search-container" class="search-container conversation">\
+          <div class="custom-insights-control-container">\
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">\
+          </div>\
+          <div id="searchBox" >\
+            <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
+              <div class="logo-sec-title">\
+                <img class="show-in-findly logo-img" src="data:image/png;base64,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">\
+                <img class="search-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAARCAYAAABq+XSZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANmSURBVHgB3VddUuJAEO6J2XduYFzZZ/UExBOIJzCcADiBegL1BngC8QTGE8g+q+V4AtlnIr1fz0zCJEuALaG07CqG+e3p7vn6J0QrUhT92qdvRiqKmmf1y6y1fh5EP5sXxNTDRKpfng7pgxRFu21cLcYca/10GYGIwsSuZgNcqmmDFO0070jRKERzWruLVYp2QFNukFIY05jWQ23cewIDaPQvoXhUyMFhilbTJompQcwq9KZSTN5Xdmlp8fodIOQarzKib0BA24H8z5SH4pg8m7cZ/p5QQC2ahgJVwLQZU6BOzOJ00qcg7KKHNTXG+LwKW7jNqV2X/VmfllCVP9iNnRz7kKPr5s/r3KM4zyyIgkwKex9HJXmm/BrSSjSN4QIiTEoGpioC48SubYnhXJ+xFCYQ8iC/DBfdYLpdsFJhjHYJgjIN+CeOv6Bx4OToQo7ExiLdmXfSKMZ0BuWGGN47AzzAIId43NSJCeMEeqa84hMEglaJE6u+b7G5pBC4mI+NQRRdOCETND0T2HLFma+wRwSKF8YZElhqDVlSszcIWoXyCmPzH6S1h6f0B21fAmk+BV7bIg/ZxyvIe3kIj31lTgh0y4hVBxeN3CWCDoH/nluN3T+i+nPP9VNn5HgxX7o1yjKL8To2IxgZoSBf1x3zlTYyyTmBvgS5Cnk+LwzVoLy8PMAplb15w2o2aDhFynyYf+NgTAspG0A8QVLD1Rj7xq1s+k3rTrm02QWSJZ02jAw2S/2ji//yuvCJdZNSUWVie9kRCXIF9InFVY7MgiBi4V1bdySPwME50SQ1fQoFda3q1oA2SspZmyMTgSmHIa9WLeaKWsVjO/l+WbfdIkRF1hUfTbHkMsXevP0bVl6g61xB0Y2J/Cp8cHD8n/Oxmxj56U0MKdUaDOviycSuBXw027MrBVV7HveNKm+sztxxxVLDRH7xf+bblc/7vmoyhk8/xIgxfkez+6gvqQ5GeZOfyUCqGssshcTZjusvKF3feyZ3FjQZYpxK70Xr15lw2TFROaoiOEl6G1rYq7GkTrxXw+cnsUbecK4cedS3cqRl3obXjn/GfSsMTcls7nuy9/lyiZxSktAXJffx04KECVnUpFDkwx9VPq1Y4X0GoaIsfFXc5r1Da6YvrDxdIWrfOsVHeX2/TvoL5IWKplAqwt0AAAAASUVORK5CYII=">\
+                <span class="head">Kore Search Assistant</span>\
+              </div>\
+              <div class="right-side-icons">\
+                <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEYSURBVHgBlVLLUcMwEN1VKEBAA3I+Z1wClEAFuAQ6yFBBoIKYCmiBEsQZMt4KwLkTK7tSNI4tJTPZGVuzv/f2h5ARYxYlP2XQHBH9fI5jcJRQAXZLcKwotCHPBQAHL0SbOmWZzpemmDXGzO8zFVTexzF5BwucEPGFmFnVG0cGYTXTxZrf1TGYt3Os79GXhm5NzaaIyIBXzYDOwUMcEBOwTz0qyQWHX33U5DmpU+FTr8jQulJBKjqxdN02weLPAuLdEWKdJMLutXfLepAU0bdQQ1yD78X9F7y/NwasQ39EoT/ec4yJhkvXMZFf2/5arW+vmWGl9c22bf/sMEkmjx88xHe+Hl92/uS85/zJYb4s6RfNQbVhDkPZA7YFdnerG1SJAAAAAElFTkSuQmCC">\
+                <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBzVLBEYJADNxD/FtCdPg7doAlWIKVCJVYgiWoHeCf0etACwDOvRyMfphRfGBmCJlNdi+XCzC2Ge9kkezgkH1DJDOz1zLXWOaJE5HZp1xf6zk+jl+K8Z0gBlmnNoQT4UcbX0CHaG+l4WSFg9zDVRtgyrg5wNUrYvxXW0vr7SCQJ0fuwpl1D6AROHPRmJjPaU2fgJ4Mw/oya/GU30m7U8zYUNMnwBbpRDdSBc2SvtDuFHMSaoK9L10UTuH9XL1Gg7RNpkBVaEzM57oZ6Ptz6Xi1HH9hT/FGV798NRUBAAAAAElFTkSuQmCC">\
+                <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADgSURBVHgBzZJBEsFAEEX/jNhzg0bs3UCcgBvgJOImnMAROII9KX2E7IPRnYhKqVkkZRFvM9M183/1TH+gbUy5IRpPgIyFlCiM5WTjlziGRcxJsv8Y0DDcwCGW7RnuPpO1B3Qjv8EzgjFzvl37WgUVsTKBCY5qwnzZ+eTSqXaxLGsL51Zfd+QpnQg1CfiWDHLnQejEbM2c7NAAix9p3yCoe5FotJDxHWQCRa1/Jplo0MHjBM1JFWf21Q5SWDst5uwjO+Uh05zoqB22zNe4EuXRqoivIa/+LSAiTSlJ0M74C16gMU0xa7sy7wAAAABJRU5ErkJggg==">\
+                <img class="help-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
+                <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
+                <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
+              </div>\
+            </div>\
+            <div class="custom-header {{if koreWidgetSDKInstance.isDev==false}}display-none{{/if}}">\
+              <div class="custom-header-container-left">\
+                <img class="custom-chevron-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABgSURBVHgBvY5JDYBAEASLQwASkIAEUAIScABOwAkaUAAOsEBvwv525sFjO6nHpCuZroBNNOLESCceMeIkSkseqRVXlOqEcItBHOEo8VNg7AgvVpyR/8s5VfZfOWFk98oXwWkULEZAstIAAAAASUVORK5CYII=">\
+                &nbsp;<span class="custom-header-text">HIDE INSIGHTS</span>\
+              </div>\
+              <div class="custom-header-container-center">\
+                <ul class="custom-header-nav">\
+                  <li id="viewTypePreview" class="custom-header-nav-link-item nav-link-item-active"><a class="custom-header-nav-link">Preview</a></li>\
+                  <li id="viewTypeCustomize" class="custom-header-nav-link-item"><a class="custom-header-nav-link">Customize</a></li>\
+                </ul>\
+              </div>\
+              <div class="custom-header-container-right">\
+                <img class="custom-refresh-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBxZLBDYAgDEW/TsIobgabOIJxAnQC3ahWJbFok/YkL3kXKJ8GCjwENrNkuJXai14ETOzKdoYzO0KB4Ie0Dn4hoX6PJDcH+Eja4VgWoy+jviy+2vKGfGjzCzJgga/9s2bXNgLuMbVGOUOM8gGN7ylbkPg3iwAAAABJRU5ErkJggg==">\
+                <img class="custom-expand-icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABVSURBVHgBvZLLDQAhCEQfHdHZ2vGWwm6MGiVq1IOTcOAzZPgIYLQQ5/t8DLy/KWNoqrFM0AmpzhUCA5KPWa9bqPzAXOoFeEkPHUnbQx+tdflwwuZrfGu+IKjlYgIIAAAAAElFTkSuQmCC">\
+              </div>\
+            </div>\
+              <div class="contest_variables_dropdown hide">\
+              <div class="actions-link">Context</div>\
+              </div>\
+            <div id="searchChatContainer"></div>\
+              <div class="search-body">\
+            </div>\
+          </div>\
+          <div class="search-modal-body hide">\
+          </div>\
+          <div class="confirmationModal hide">\
+          </div>\
+          <div class="search-body-full hide">\
+          </div>\
+          <div class="greetingMsg">\
+          </div>\
+        </div>\
+        </script>';
+        var parentContainer = $('#' + config.container);
+        var dataHTML = $(searchContainer).tmplProxy();
+        parentContainer.append(dataHTML);
+        //return searchContainer;
+    }
+    FindlySDK.prototype.getSearchControl = function() {
+      var searchControl = '<script type="text/x-jqury-tmpl">\
+            <div class="search-bar">\
+            <div class="widget-icon"><img src="data:image/png;base64,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"> </div>\
+            <input id="suggestion"style="position: absolute; bottom: 0px;" name="search" class="search" disabled="disabled">\
+            <input autocomplete="off" style="position: absolute; bottom: 0px;" id="search" name="search" class="search"\
+            {{if placeholder}}\
+              placeholder="${placeholder}">\
+            {{else}}\
+              placeholder="Ask anything">\
+            {{/if}}\
+            {{if microphone}}\
+              <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
+              <div class="sdkFooterIcon microphoneBtn"> \
+                  <button class="notRecordingMicrophone" title="Microphone On"> \
+                      <i class="microphone"></i> \
+                  </button> \
+                  <button class="recordingMicrophone" title="Microphone Off" > \
+                      <i class="microphone"></i> \
+                      <span class="recordingGif"></span> \
+                  </button> \
+                  <div id="textFromServer"></div> \
+              </div> \
+            {{/if}}\
+            <button class="search-button">Go</button>\
+          </div>\
+        </script>';
 
+        return searchControl;
+    }
     FindlySDK.prototype.getSearchTemplate = function (type) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
         <div class="search-container conversation">\
@@ -2657,7 +2746,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         e.keyCode = 13;
-        _self.searchEventBinding(_self.vars.searchObject.liveData, "livesearch", e, true);
+        _self.searchEventBinding(_self.vars.searchObject.liveData, "livesearch", e, true, {});
       })
 
       $('.moreFaqs').off('click').on('click', function (e) {
@@ -3398,7 +3487,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
-    FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend) {
+    FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend, config) {
       var _self = this;
       _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
       var searchResults;
@@ -3599,7 +3688,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('#searchChatContainer').removeClass('bgfocus-override');
                     res = res.template;
                     var faqs = [], pages = [], tasks = [], documents = [], facets, viewType = "Preview";
-                    if (!$('.search-container').hasClass('active')) {
+                      if (!$('.search-container').hasClass('active')) {
                       $('.search-container').addClass('active');
                     }
                     if (res && res.results && res.results.length) {
@@ -3627,7 +3716,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         originalQuery: res.originalQuery,
                       }
                       //livesearch
-                      searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+                      var tmplData = {
                         faqs: faqs.slice(0, 2),
                         pages: pages.slice(0, 2),
                         tasks: tasks.slice(0, 2),
@@ -3636,7 +3725,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         noResults: false,
                         taskPrefix: 'SUGGESTED',
                         viewType: viewType
-                      });
+                      };
+                      
+                      searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                       $(searchData).data(dataObj);
                       $('.search-body').html(searchData);
                       setTimeout(function () {
@@ -3644,6 +3735,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       }, 100);
                       _self.bindAllResultsView();
                       _self.getSuggestion(res.autoComplete.keywords);
+                      tmplData['suggestions'] = res.autoComplete.keywords
+                      
                       //to sort rendering results based on score
                       var scoreArray = [
                         {
@@ -3664,6 +3757,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       scoreArray.forEach((obj, index) => {
                         $('.' + obj.name).css("order", index + 1);
                       })
+                      _self.pubSub.publish('sa-search-result', tmplData);
                     } else {
                       if ($('#search').val()) {
                         var dataObj = {
@@ -3673,7 +3767,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           documents: documents,
                           facets: facets
                         }
-                        searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
+                        var tmplData =  {
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
@@ -3682,13 +3776,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           noResults: true,
                           taskPrefix: 'MATCHED',
                           viewType: viewType
-                        });
+                        }
+                        
+                        searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
                         $(searchData).data(dataObj);
                         console.log("no results found");
                         $('.search-body').html(searchData);
                         setTimeout(function () {
                           $('.search-body').scrollTop(2);
                         }, 100);
+
+                        _self.pubSub.publish('sa-search-result', tmplData);
                       }
                     }
                     _self.vars.searchObject.liveData = {
@@ -3702,7 +3800,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     // if (res.searchResults.smallTalk && res.searchResults.smallTalk.isSmallTalk && res.searchResults.smallTalk.text) {
                     //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
                     // }
-                    _self.searchEventBinding(searchData, "livesearch", e);
+                    _self.searchEventBinding(searchData, "livesearch", e, config);
                   } else if (res.templateType === 'liveSearchEmpty') {
                     $('.search-body').hide();
                     $('#searchChatContainer').addClass('bgfocus-override');
@@ -4525,7 +4623,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.errorMsg').addClass('hide');
           //static pay bill removed
           if (false && action === 'pay bill') {
-            _self.searchEventBinding('pay bill', action, event);
+            _self.searchEventBinding('pay bill', action, event, {});
           } else {
             _self.vars.searchObject.searchText = action;
             _self.sendMessageToSearch('botAction');
@@ -4988,7 +5086,62 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return false;
       }
     }
+    FindlySDK.prototype.initialize = function (config) {
+      var _self = this;
+      _self.isDev = false;
+      if (!$('body').hasClass('demo')) {
+        _self.isDev = true;
+      }
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+      _self.initKoreSDK(config);
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
 
+      window.koreWidgetSDKInstance = _self;
+    }
+    FindlySDK.prototype.addSearchText = function(config) {
+      var _self = this;
+      window.koreWidgetSDKInstance = _self;
+      if (config.searchHandler) {
+        _self.pubSub.subscribe('sa-search-result', (msg, data) => {
+          config.searchHandler(data);
+        })
+      }
+      var dataHTML = $(_self.getSearchControl()).tmplProxy(config);
+      if (config.microphone) {
+        $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
+          getSIDToken();
+        });
+        $(dataHTML).off('click', '.recordingMicrophone').on('click', '.recordingMicrophone', function (event) {
+          stop();
+        });
+      }
+      _self.bindContextVariable();
+      _self.bindSearchAccordion();
+      _self.bindFeedbackEvent();
+      // debugger;
+      var container = $('#' + config.container);
+      $(container).append(dataHTML);
+      
+      _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');
+      _self.bindPerfectScroll(dataHTML, '#searchChatContainer', null, 'searchChatContainer');
+      if (config.showGreeting) {
+        _self.showGreetingMsg = true;
+        _self.vars.searchObject.clearGreetingTimeOut = setTimeout(function () {
+          var greetingMsg = $(_self.getGreetingMsgTemplate()).tmplProxy(config);
+          $('.greetingMsg').removeClass('hide');
+          $('.greetingMsg').html(greetingMsg);
+          if ($(".search-container").find(".greetingMsg").length) {
+            $('.greetingMsg').parent().css("box-shadow", "none");
+          }
+          _self.bindCloseGreeting();
+        }, 1000);
+      }
+      
+
+      _self.searchEventBinding(dataHTML, 'search-container',{}, config);
+    }
     // FindlySDK.prototype.showSearch = function () {
     FindlySDK.prototype.showSearch = function (config) {
       var _self = this;
@@ -5037,6 +5190,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         container = $('body')
       }
       $(container).append(dataHTML);
+      
       _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(dataHTML, '#searchChatContainer', null, 'searchChatContainer');
       $(window).off('resize').on('resize', function () {
@@ -5046,7 +5200,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       _self.showGreetingMsg = true;
       _self.vars.searchObject.clearGreetingTimeOut = setTimeout(function () {
-        var greetingMsg = $(_self.getSearchTemplate('greetingMsg')).tmplProxy({
+        var greetingMsg = $(_self.getGreetingMsgTemplate).tmplProxy({
         });
         $('.greetingMsg').removeClass('hide');
         $('.greetingMsg').html(greetingMsg);
@@ -5060,9 +5214,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // });
       // $('.search-modal-body').html(searchModal);
       // $('#search-modal').css('display', 'block');
-      _self.searchEventBinding(dataHTML, 'search-container');
+      _self.searchEventBinding(dataHTML, 'search-container', {}, {});
 
     };
+    FindlySDK.prototype.getGreetingMsgTemplate = function() {
+      var greetingMsg = '<script type="text/x-jqury-tmpl">\
+        <div class="search-greeting-box">\
+          <span class="greeting-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg=="></span>\
+          <span class="search-greeting-text">\
+          {{if greetingMsg}}\
+            ${greetingMsg}\
+          {{else}}\
+            Hello! How can I help you today?\
+          {{/if}}\
+          </span>\
+        </div>\
+        <div class="search-greeting-close-container pointer" >\
+          <span class="search-greeting-close-body">\
+          <img src="./libs/images/close.svg" class="search-greeting-close-icon ">\
+          </span>\
+        </div>\
+      </script> ';
+      return greetingMsg;
+    }
     // FindlySDK.prototype.initKoreSDK = function () {
     FindlySDK.prototype.initKoreSDK = function (config) {
       var _self = this;

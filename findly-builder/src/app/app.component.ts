@@ -7,7 +7,8 @@ import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
-import { AppSelectionService } from '@kore.services/app.selection.service'
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { PubSub } from 'pubsub-js';
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -62,6 +63,7 @@ export class AppComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     self = this;
+    window["PubSub"] = PubSub;
     this.onResize();
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
@@ -252,8 +254,8 @@ export class AppComponent implements OnInit , OnDestroy {
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
     // To modify the web socket url use the following option
     botOptionsFindly.reWriteSocketURL = {
-        protocol: 'wss',
-        hostname:  window.appConfig.API_SERVER_URL.replace('https://','')
+        protocol: 'ws',
+        hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
     };
     const findlyConfig:any = {
       botOptionsFindly,
@@ -263,13 +265,21 @@ export class AppComponent implements OnInit , OnDestroy {
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
-  this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
-  this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    this.searchInstance.initialize(findlyConfig.botOptionsFindly);
+    this.searchInstance.addSearchContainer({container:"search-background-div"});
+    this.searchInstance.addSearchText({
+      container : "sa-search-container",
+      placeholder : "Search here",
+      showGreeting : true,
+      microphone : false,
+      greetingMsg : "Hi"    
+    });
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
   showHideSearch(show,disabelInstanceDistroy?){
     const _self = this;
     if(show){
-      $('app-body').append('<div class="search-background-div"></div>');
+      $('app-body').append('<div id="search-background-div" class="search-background-div"></div>');
       $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');
