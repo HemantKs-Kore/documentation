@@ -5152,18 +5152,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addFrequentlyUsedControl = function(config) {
       var _self = this;
-      if (config.freqDataHandler || (config.freqDataTemplate && config.freqDataContainer)) {
+      if (config.dataHandler || config.container) {
         _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
-          if (config.freqDataTemplate) {
-            var dataHTML = $('#' + config.freqDataTemplate).tmplProxy(data);
-            $('#' + config.freqDataContainer).empty().append(dataHTML);
-            _self.deleteRecents();
-            _self.recentClick();
-            _self.bindSearchActionEvents();
+          if (config.template) {
+            var dataHTML = $('#' + config.template).tmplProxy(data);
+            $('#' + config.container).empty().append(dataHTML);
+          } else {
+            var dataHTML = $(_self.getSearchTemplate('freqData')).tmplProxy(data);
+            $('#' + config.container).empty().append(dataHTML);
           }
-          if (config.freqDataHandler) {
-            config.freqDataHandler(data);
+          if (config.dataHandler) {
+            config.dataHandler(data);
           }
+          _self.deleteRecents();
+          _self.recentClick();
+          _self.bindSearchActionEvents();
         })
       }
     }
