@@ -302,6 +302,7 @@
      }
  },
  "structuredData" : {
+    "structuredData" : "Structured Data",
     "upload_json" : "Upload JSON / CSV File",
     "drag_drop" : "Drag and drop file anywhere on this screen",
     "browse" : "Browse",
@@ -313,6 +314,17 @@
     "sample_csv" : "Sample CSV",
     "sample_json" : "Sample JSON",
     "add_manually" : "Add Manually",
-    "structured_data" : "Structured Data"
+    "structured_data" : "Structured Data",
+    "save" : "Save",
+    "searchFilter" : "Search Filter",
+    "advancedSearch" : "Advanced Search",
+    "addFiled" : "Add Field",
+    "import" : "Import Data",
+    "addManually" : "Add Manually",
+    "delete": "Delete",
+    "cancel" : "Cancel",
+    "apply" : "Apply",
+    "addField" : "Add Data",
+    "searchFilterDesc" : "Eg: field==lastName||(field==FirstName&&field==Age)"
  }
 }

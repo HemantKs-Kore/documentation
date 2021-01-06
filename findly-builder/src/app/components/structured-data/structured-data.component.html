@@ -1,21 +1,21 @@
 <div class="structured-data-container">
     <div class="header-sec">
-        <div class="title">Structured Data</div>
+        <div class="title">{{'structuredData.structuredData' | translate}}</div>
         <div class="d-flex align-items-center">
-            <div class="kr-sg-input-search m-0 d-none">                               
-                <input type="text" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
+            <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !searchActive}">                               
+                <input type="text" [(ngModel)]="searchText" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
             </div> 
             <div class="seach-block">
-                <img src="assets/icons/search.svg">
-                <img class="d-none" src="assets/images/close.svg">Search
+                <span [ngClass]="{'d-none': searchActive}" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
+                <img [ngClass]="{'d-none': !searchActive}" src="assets/images/close.svg" (click)="toggleSearch(false)">
             </div>   
-            <div class="adv-search"><img src="assets/icons/content/indent.svg">Advanced Search</div>
+            <div class="adv-search" (click)="openAdvancedSearch()"><img src="assets/icons/content/indent.svg">{{'structuredData.advancedSearch' | translate}}</div>
             <div class="kr-sg-dropdowns w-auto add_data" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/add_plus.svg">Add Field</button>                                            
+                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/add_plus.svg">{{'structuredData.addField' | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                      <li (click)="openAddStructuredData('structuredData')">Import Data</li>
-                      <li (click)="openAddStructuredData('structuredDataManual')">Add Manually</li>                  
+                      <li (click)="openAddStructuredData('structuredData')">{{'structuredData.import' | translate}}</li>
+                      <li (click)="openAddStructuredData('structuredDataManual')">{{'structuredData.addManually' | translate}}</li>                  
                     </ul>
                 </div>
             </div>
@@ -24,20 +24,20 @@
     <perfect-scrollbar>
         <div class="structured-data-table-sec">
             <div class="filter-sec text-right mb-1">
-                <button class="kr-sg-button-danger btn_lg">Delete</button>
+                <button class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
             </div>
-            <div class="structured-data" *ngFor="let data of structuredDataItemsList">
-                <div class="kr-sg-checkbox d-block">
-                    <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
-                    <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+            <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
+                <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
+                    <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
                 </div>
                 <div class="data-content">
                     <!-- <pre>{{data._source.parsedData}}</pre> -->
                     <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data._source.parsedData"></ngx-codemirror>
                 </div>
                 <div class="action-links">
-                    <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                 </div>
                 <div class="info-link"><img src="assets/icons/info.svg"></div>
             </div>
@@ -62,4 +62,22 @@
 
 <kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
     <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition()"></app-add-structured-data>
+</kr-modal>
+
+<kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #advancedSearchModalPop>
+    <div class="modal-header">
+        <div class="title">{{'structuredData.advancedSearch' | translate }}</div>
+        <div class="close_icon"><img (click)="cancleAdvansedSearch()" src="assets/icons/modal-close.svg"></div>
+      </div>
+        <div class="modal-body">
+            <div class="kr-sg-input-text text">
+                <div class="label-text">{{'structuredData.searchFilter' | translate}}</div>
+                <input type="text" [(ngModel)]="advancedSearchInput" placeholder="Placeholder text" class="input-text">
+                <div class="desc">{{'structuredData.searchFilterDesc' | translate}}</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleAdvansedSearch()">{{'structuredData.cancel' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!advancedSearchInput.length" (click)="applyAdvancedSearch()">{{ 'structuredData.apply' | translate}}</button>
+        </div>
 </kr-modal>

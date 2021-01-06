@@ -19,7 +19,6 @@
         .kr-sg-input-search{
             display: inline-block;
             width: 0px;
-            display: none;  
             width: 215px;
             height: 20px;
             position: relative;
@@ -135,6 +134,9 @@
                 .checkbox-custom{
                     height: auto;
                 }
+            }
+            .kr-sg-checkbox.isChecked{
+                visibility: visible;
             }
             .data-content{
                 color: #393939;

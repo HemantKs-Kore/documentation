@@ -4,6 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 declare const $: any;
 
 @Component({
@@ -31,14 +32,20 @@ export class AddStructuredDataComponent implements OnInit {
     indentUnit: 0
   };
   selectedApp: any = {};
+  selectedJsonForEdit: any;
+  sampleJsonPath = '/home/assets/sampleData/sample.json';
+  sampleCsvPath = '/home/assets/sampleData/sample.csv';
 
   @Output() closeStructuredDataModal = new EventEmitter();
-  @Input() selectedSourceType: any;
+  @Input('selectedSourceType') selectedSourceType: any;
   @ViewChild('codemirror') codemirror: any;
 
-  constructor(private notificationService: NotificationService,
+  constructor( private http: HttpClient,
+    private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private authService: AuthService,public workflowService: WorkflowService,private router: Router ) { }
+    private authService: AuthService,
+    public workflowService: WorkflowService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -48,7 +55,18 @@ export class AddStructuredDataComponent implements OnInit {
   ngOnChanges(changes){
     if(changes && changes.selectedSourceType){
       if(changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual'){
-        this.structuredData.payload = JSON.stringify({});
+        if(changes.selectedSourceType.currentValue.payload){
+          this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
+          console.log("source",changes.selectedSourceType.currentValue);
+          // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
+          this.structuredData.payload = this.selectedJsonForEdit._source.parsedData;
+          setTimeout( () => {
+            this.indentObj();
+          },100)
+        }
+        else{
+          this.structuredData.payload = JSON.stringify({});
+        }
       }
     }
   }
@@ -203,6 +221,30 @@ export class AddStructuredDataComponent implements OnInit {
     for(let i = 0; i <= count; i++){
       this.codemirror.codeMirror.indentLine(i, "smart");
     }
+  }
+
+  downloadSampleData(key){
+    let fileName;
+    let filePath;
+    if(key === 'json'){
+      fileName = 'sample.json';
+      filePath = this.sampleJsonPath;
+    }
+    else{
+      fileName = 'sample.csv';
+      filePath = this.sampleCsvPath;
+    }
+    fetch(filePath)
+        .then(res => res.blob()) // Gets the response and returns it as a blob
+        .then((blob : any) => {
+          const link : any = document.createElement('a');
+            let objectURL = URL.createObjectURL(blob);
+              link.href =  objectURL;
+              link.target = "_blank",
+              link.download = fileName,
+              link.click();
+              link.remove();
+        });
   }
 
 }

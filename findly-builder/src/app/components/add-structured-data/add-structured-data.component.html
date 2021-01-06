@@ -11,8 +11,8 @@
                     <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0">
                         <div class="title-data col-6 p-0">{{'structuredData.upload_json' | translate}}</div>
                         <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
-                            <div class="download"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample csv">{{'structuredData.sample_csv' | translate}}</div>
-                            <div class="download"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample Json">{{'structuredData.sample_json' | translate}}</div>
+                            <div class="download" (click)="downloadSampleData('csv')"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample csv">{{'structuredData.sample_csv' | translate}}</div>
+                            <div class="download" (click)="downloadSampleData('json')"><img src="assets/icons/content/arrow-download-blue.svg" alt="Download sample Json">{{'structuredData.sample_json' | translate}}</div>
                         </div>
                     </div>
                     <div class="kr-sg-input-text-area mb-0 mt-3">
@@ -115,12 +115,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                   
+                    </div>              
+                    <a id="downloadAnchorElem" style="display:none"></a>     
                 </ng-container>
             </div>
         </perfect-scrollbar>
         <div class="modal-footer">
-            <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()">{{'structuredData.proceed' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
             <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">{{'structuredData.back' | translate}}</button>
         </div>
     </form>

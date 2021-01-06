@@ -5,6 +5,8 @@ import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-structured-data',
@@ -48,14 +50,21 @@ export class StructuredDataComponent implements OnInit {
     indentUnit: 0,
     readOnly:'nocursor'
   };
+  searchActive: boolean = false;
+  searchText : any = '';
+  selectedStructuredData : any = [];
+  allSelected : boolean = false;
+  adwancedSearchModalPopRef: any;
+  advancedSearchInput = '';
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
+  @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -92,6 +101,13 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
+  editJson(payload){
+    console.log("payload", payload._source.parsedData);
+    this.selectedSourceType = this.availableSources[1];
+    this.selectedSourceType.payload = payload;
+    this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+  }
+
   openAddStructuredData(key){
     this.selectedSourceType = this.availableSources.find((s) =>{ if(s.resourceType === key){ return s}});
     console.log("this.selectedSourceType", this.selectedSourceType);
@@ -108,5 +124,74 @@ export class StructuredDataComponent implements OnInit {
       this.addStructuredDataModalPopRef.close();
     }
   }
+
+  openAdvancedSearch(){
+    this.adwancedSearchModalPopRef = this.advancedSearchModalPop.open();
+    this.advancedSearchInput = '';
+  }
+
+  cancleAdvansedSearch(){
+    if(this.adwancedSearchModalPopRef){
+      this.adwancedSearchModalPopRef.close();
+    }
+    this.advancedSearchInput = '';
+  }
+
+  applyAdvancedSearch(){
+    console.log("search Input", this.advancedSearchInput);
+  }
+
+  toggleSearch(activate) {
+    this.searchActive = activate;
+    if (!activate) {
+      this.searchText = '';
+    }
+  }
+
+  selectData(item, index){
+    if (!item.isChecked) {
+      this.selectedStructuredData.push(item);
+      item.isChecked = true;
+    }
+    else {
+      for (let i = 0; i < this.selectedStructuredData.length; i++) {
+        if (this.selectedStructuredData[i].id === item.id) {
+          item.isChecked = false;
+          this.selectedStructuredData.splice(i, 1);
+        }
+      }
+    }
+
+    if (this.selectedStructuredData.length === this.structuredDataItemsList.length) {
+      this.allSelected = true;
+    }
+    else {
+      this.allSelected = false;
+    }
+  }
+
+    //delete experiment popup
+    deleteStructuredDataPopup(record) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '446px',
+        height: '306px',
+        panelClass: 'delete-popup',
+        data: {
+          title: 'Do you really want to delete?',
+          text: 'Selected data will be permanently deleted.',
+          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        }
+      });
+  
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            // this.deleteStructuredData(record, dialogRef);
+          } else if (result === 'no') {
+            dialogRef.close();
+            console.log('deleted')
+          }
+        })
+    }
 
 }
