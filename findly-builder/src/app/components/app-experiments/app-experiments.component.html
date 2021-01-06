@@ -354,7 +354,7 @@
   <div class="modal-footer text-left">
     <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="createExperiment()" [disabled]="
         !experimentObj.name ||
-        (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2)
+        (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)
       ">
       Add
     </button>
