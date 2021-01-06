@@ -156,10 +156,12 @@ export class AppExperimentsComponent implements OnInit {
   addVarient(count?) {
     if (this.variantsArray.length <= 3) {
       if(count){
-       count.forEach(element => {
-        if (this.variantsArray.length <= 3) {
-          this.variantsArray.push(this.variantList[this.variantsArray.length]);
+        for (let i = 0; i < count; i++) {
+          if (this.variantsArray.length <= 3) {
+            this.variantsArray.push(this.variantList[this.variantsArray.length]);
+          }
         }
+        count.forEach(element => {
        });
       }else{
         this.variantsArray.push(this.variantList[this.variantsArray.length]);

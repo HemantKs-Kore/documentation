@@ -355,7 +355,7 @@
         !experimentObj.name ||
         (exp_status !== 'configured' && form_type === 'edit') || (variantsArray.length < 2) || (experimentObj?.duration.days < 1)
       ">
-      Add
+     {{(form_type === 'edit'?'Save':'Add')}}
     </button>
     <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">
       Cancel
