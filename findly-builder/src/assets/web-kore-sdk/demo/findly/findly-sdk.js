@@ -2685,6 +2685,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
 
         if (_self.config.viaSocket && _self.vars.resultRankingActionPerformed == true) {
+          
+          var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
+          $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
+
           _self.sendMessage(_self.vars.searchObject.searchText);
         }
         /*var url = _self.API.searchUrl;
@@ -2822,7 +2826,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         console.log(payload);
 
-        if(_self.vars.resultRankingActionPerformed == true) {
+        if (_self.vars.resultRankingActionPerformed == true) {
           _self.vars.resultRankingActionPerformed = false;
         }
 
@@ -3408,7 +3412,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.removeClass('hide-actions');
           }
 
-          if(_self.vars.resultRankingActionPerformed == false) {
+          if (_self.vars.resultRankingActionPerformed == false) {
             _self.vars.resultRankingActionPerformed = true;
           }
 
@@ -3469,7 +3473,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.addClass('hide-visibility-control');
           }
 
-          if(_self.vars.resultRankingActionPerformed == false) {
+          if (_self.vars.resultRankingActionPerformed == false) {
             _self.vars.resultRankingActionPerformed = true;
           }
 
@@ -3497,7 +3501,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           selectedElement.attr('boost', conf.boost);
 
-          if(_self.vars.resultRankingActionPerformed == false) {
+          if (_self.vars.resultRankingActionPerformed == false) {
             _self.vars.resultRankingActionPerformed = true;
           }
 
@@ -3524,7 +3528,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           selectedElement.attr('boost', conf.boost);
 
-          if(_self.vars.resultRankingActionPerformed == false) {
+          if (_self.vars.resultRankingActionPerformed == false) {
             _self.vars.resultRankingActionPerformed = true;
           }
 
@@ -3875,8 +3879,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#searchChatContainer').removeClass('bgfocus');
             };
 
-            if(_self.vars.resultRankingActionPerformed == true) {
+            if (_self.vars.resultRankingActionPerformed == true) {
               _self.vars.resultRankingActionPerformed = false;
+            }
+
+            if (_self.isDev) {
+              $('#searchChatContainer').animate({ scrollTop: $('#searchChatContainer').prop("scrollHeight") }, 0);
             }
 
             _self.vars.searchObject.searchText = $('#search').val();
@@ -4740,8 +4748,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }*/
           }
           setTimeout(function () {
-            var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-            $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+            if (_self.isDev == false) {
+              var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+            }
+            else {
+              var scrollBottom = $('#searchChatContainer').scrollTop() + 100;
+              $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+            }
 
             if (topMatchTask) {
               $(".resultsOfSearch .task-wrp[contentid='" + topMatchTask.contentId + "'] button:last").trigger('click');
@@ -5181,8 +5195,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       }
       setTimeout(function () {
-        var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
-        $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+        if (_self.isDev == false) {
+          var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+          $('#searchChatContainer').animate({ scrollTop: scrollBottom });
+        }
       }, 200);
     }
     FindlySDK.prototype.userLogin = function (clickedAction) {
