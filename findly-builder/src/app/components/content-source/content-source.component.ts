@@ -97,11 +97,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'success' : { icon  : "assets/icons/content/success.svg" },
     'failed'  : { icon  : "assets/icons/content/failed.svg" },
     'stopped' : { icon  : "assets/icons/content/stopped.svg" },
-    'inProgress' : { icon  : "assets/icons/content/stopped.svg" }
+    'running' : { icon  : "assets/icons/content/ex-stat_inprogress.svg" },
+    'inProgress' : { icon  : "assets/icons/content/ex-stat_inprogress.svg" }
   }
   finalStateExecutionstageStatusObj: any = {
     'success' : { icon  : "assets/icons/content/succes-circle.svg" },
     'failed'  : { icon  : "assets/icons/content/failed-circle.svg" },
+    'running' : { icon  : "assets/icons/content/ex-stat_inprogress.svg" },
     'stopped' : { icon  : "assets/icons/content/stopped.svg" },
   }
   stateExecutionStageNameObj : any = {

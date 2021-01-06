@@ -173,12 +173,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   showLogs(){
     this.resultLogs = true;
   }
+  paginate(event){
+    this.getcustomizeList();
+    //event.limit;
+    //event.skip;
+  }
   resetSelected(){
     this.customizeList.forEach((element,index) => {
       element['check'] = false;
     });
     this.collectedRecord = [];
     this.resultSelected = false;
+    this.getcustomizeList();
   }
   selectAll(){
     this.collectedRecord = [];
@@ -198,6 +204,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     }
   }
   multiSelect(record,opt){
+   
     let pushRecord = [];
     //this.collectedRecord  = [];
     if(opt){
@@ -224,9 +231,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     }
     console.log(this.collectedRecord)
   }
-  clickCustomizeRecord(record,opt){
+  clickCustomizeRecord(record,event?){
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
     //opt == 'default' ?  this.resultSelected = false : this.resultSelected = true;
-    this.multiSelect(record,opt)
+    //this.multiSelect(record,opt)
    
     this.selectedRecord = record;
     const quaryparms: any = {
@@ -398,7 +409,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         
       if(index == 0) {
         element['check'] = false;
-        this.clickCustomizeRecord(element,false)
+        this.clickCustomizeRecord(element)
       }else{
         element['check'] = false;
       }
