@@ -311,7 +311,7 @@
     "proceed" : "Proceed",
     "back" : "Back",
     "sample_csv" : "Sample CSV",
-    "sample_json" : "Sample CSV",
+    "sample_json" : "Sample JSON",
     "add_manually" : "Add Manually",
     "structured_data" : "Structured Data"
  }

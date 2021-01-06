@@ -14,8 +14,8 @@
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/add_plus.svg">Add Field</button>                                            
                     <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                      <li>Import Data</li>
-                      <li>Add Manually</li>                  
+                      <li (click)="openAddStructuredData('structuredData')">Import Data</li>
+                      <li (click)="openAddStructuredData('structuredDataManual')">Add Manually</li>                  
                     </ul>
                 </div>
             </div>
@@ -57,3 +57,7 @@
         </div>
     </perfect-scrollbar>    
 </div>
+
+<kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
+    <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition()"></app-add-structured-data>
+</kr-modal>
