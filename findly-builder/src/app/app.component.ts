@@ -65,7 +65,7 @@ export class AppComponent implements OnInit , OnDestroy {
   ngOnInit() {
     self = this;
     this.onResize();
-    this.previousState = this.getPreviousState();
+    this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res =>{
@@ -88,8 +88,7 @@ export class AppComponent implements OnInit , OnDestroy {
           return (app._id === this.previousState.selectedApp)
         })
         if(selectedApp && selectedApp.length){
-          this.appSelectionService.setAppWorkFlowData(selectedApp[0]);
-          // debugger;
+          this.appSelectionService.setAppWorkFlowData(selectedApp[0],this.previousState.selectedQueryPipeline);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
           route = '/source';
         if(this.previousState.route){
@@ -117,38 +116,13 @@ export class AppComponent implements OnInit , OnDestroy {
       this.router.navigate(['/apps'], { skipLocationChange: true });
      }
    }
-   setPreviousState(route?){
-     const path: any = {
-       selectedApp: '',
-       route:''
-     };
-     if(route){
-       const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
-       if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
-         this.resetFindlySearchSDK(this.workflowService.selectedApp());
-         path.selectedApp = this.workflowService.selectedApp()._id;
-         path.selectedAccountId = selectedAccount.accountId || null;
-         path.route = route
-         window.localStorage.setItem('krPreviousState',JSON.stringify(path));
-       }
-     } else {
-      window.localStorage.removeItem('krPreviousState');
-     }
-   }
+  
    preview(selection): void {
     const toogleObj = {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
   }
-   getPreviousState(){
-     let previOusState :any = null;
-     try {
-       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
-     } catch (e) {
-     }
-     return previOusState;
-   }
     assertion(options, callback) {
       self.service.invoke('bt.post.sts', {}).subscribe( (res) => {
                 const data = res;
@@ -207,14 +181,16 @@ export class AppComponent implements OnInit , OnDestroy {
         this.showHideSearch(false);
       }
       if (event && event.url === '/apps') {
-        this.setPreviousState();
+        this.appSelectionService.setPreviousState();
+        this.resetFindlySearchSDK(this.workflowService.selectedApp());
         this.showHideSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
         const path = event.url.split('?')[0];
         if(path && (path !=='/')){
-          this.setPreviousState(path);
+          this.appSelectionService.setPreviousState(path);
+          this.resetFindlySearchSDK(this.workflowService.selectedApp());
           this.selectApp(true);
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
