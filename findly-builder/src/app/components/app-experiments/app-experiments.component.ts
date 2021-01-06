@@ -5,6 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+import * as moment from 'moment';
 declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
@@ -87,6 +88,7 @@ export class AppExperimentsComponent implements OnInit {
     this.variantsArray = [];
     this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
     this.showSlider = false;
+    this.sliderref.slider.destroy();
     this.addExperimentsRef.close();
     console.log("this.someRangeconfig", this.someRangeconfig)
   }
@@ -306,7 +308,7 @@ export class AppExperimentsComponent implements OnInit {
         let obj = Object.assign({}, data);
         obj.date_days = days;
         return obj;
-      })
+      });
       this.listOfExperiments = result;
       this.filterExperiments = result;
       this.countExperiment(result);

@@ -81,9 +81,10 @@
       >
         <div class="row m-0 header-data col-12">
           <div class="col-3 h-title">Experiment Name</div>
-          <div class="col-3 h-title">Variants</div>
+          <div class="col-2 h-title">Variants</div>
+          <div class="col-2 h-title">Winner</div>
           <div class="col-2 h-title">Status</div>
-          <div class="col-4 h-title">DURATION</div>
+          <div class="col-2 h-title">DURATION</div>
         </div>
         <div id="accordion">
           <div
@@ -100,7 +101,7 @@
               >
                 <div class="row m-0 col-12 row_data">
                   <div class="col-3 ex-title">{{ exp.name }}</div>
-                  <div class="col-3 variants">
+                  <div class="col-2 variants">
                     <div class="variants-block left">
                       <span
                         class="v-name"
@@ -109,11 +110,20 @@
                         >{{ vari.code }}</span
                       >
                     </div>
-                    <div class="variants-block right">
+                    <!-- <div class="variants-block right">
                       <span *ngFor="let vari of exp.variants">
                         <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
                         <span class="winner" *ngIf="vari.leader"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
                         <span class="winner" *ngIf="vari.winner"><img src="assets/icons/experiment/winner.svg" alt="winner"></span>
+                      </span>
+                    </div> -->
+                  </div>
+                  <div class="col-2 winner-block">
+                    <div class="variants-block">
+                      <span *ngFor="let vari of exp.variants; let index = index" class="winner-content">
+                        <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
+                        <span class="winner" *ngIf="vari.leader && (index === exp.variants.length - 1)"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
+                      <span class="winner" *ngIf="vari.winner && (index === exp.variants.length - 1)"><img src="assets/icons/experiment/winner.svg" alt="winner"></span>
                       </span>
                     </div>
                   </div>
@@ -123,7 +133,7 @@
                     }}</span>
                   </div>
                   <div
-                    class="col-4 d-flex align-items-center duration-data"
+                    class="col-3 d-flex align-items-center duration-data"
                     *ngIf="exp.state !== 'configured'"
                   >
                     <div class="left-sec">
@@ -134,7 +144,7 @@
                         End Date: {{ exp.end | date: "mediumDate" }}
                       </div>
                     </div>
-                    <div class="right-sec" *ngIf="exp.duration.days > 0">
+                    <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
                         {{ 24 * exp.date_days }} hrs more to go
                       </div>
@@ -164,7 +174,7 @@
                     </div> -->
                   </div>
                   <div
-                    class="col-4 d-flex align-items-center duration-data justify-content-between"
+                    class="col-3 d-flex align-items-center duration-data justify-content-between"
                     *ngIf="exp.state === 'configured'"
                   >
                     <div class="left-sec border-0">
@@ -241,7 +251,7 @@
                 <div class="bg-sec">
                   <div class="row m-0 col-12 acc-row-header">
                     <div class="col-3 title">Variant</div>
-                    <div class="col-2 title">SEARCH CONFIG</div>
+                    <div class="col-2 title">SEARCH CONFIGURATION</div>
                     <div class="col-2 title">Traffic</div>
                     <div class="col-1 title">users</div>
                     <div class="col-2 title">SearchES</div>
