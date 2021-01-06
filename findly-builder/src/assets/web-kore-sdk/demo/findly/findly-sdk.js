@@ -260,6 +260,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
 
       vars.countOfSelectedFilters = 0;
+      vars.resultRankingActionPerformed = false;
     }; //********************original widget.js start */
 
 
@@ -1203,17 +1204,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="matched-faq-containers matched-pages-container">\
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
-              {{each(key, page) pages}}\
-              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&page.config.visible==false}}display-none{{/if}} {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}" id="${key}">\
+              {{each(key, pageInfo) pages}}\
+              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.contentType}" id="${key}">\
               <div class="notification-div"></div>\
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
-                <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
+                <a class="faqs-wrp-content" href="${pageInfo.url}" target="_blank">\
                  <div class="image-url-sec">\
-                     <img src="${page.pageImageUrl}"></img>\
+                     <img src="${pageInfo.pageImageUrl}"></img>\
                  </div>\
                  <div class="pages-content">\
-                   <div class="title" title="${page.pageTitle}">${page.pageTitle}</div>\
-                   <div class="desc-info">{{html page.pageSearchResultPreview}}</div>\
+                   <div class="title" title="${pageInfo.pageTitle}">${pageInfo.pageTitle}</div>\
+                   <div class="desc-info">{{html pageInfo.pageSearchResultPreview}}</div>\
                  </div>\
                  <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
@@ -1221,20 +1222,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="custom-actions">\
                       <span class="img-action  dont-show visibility" data-viewMode="chat">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">&nbsp;\
-                        {{if page.config.visible==true}}\
+                        {{if pageInfo.config.visible==true}}\
                           <span class="custom-actions-content">HIDE</span>\
                         {{/if}}\
-                        {{if page.config.visible==false}}\
+                        {{if pageInfo.config.visible==false}}\
                           <span class="custom-actions-content">UNHIDE</span>\
                         {{/if}}\
                       </span>\
                       <span class="img-action pin pinning" data-viewMode="chat">\
                         <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEUSURBVHgBhZDdTcNADIB9d21UqUTKBmSEMgFkgzIB8IaAljIBjFBEeaYblA2aDWCDhA0iAQJVORs7JeBG/fHT6ezP9meAHRFelf1oRJH+s9uA7sWiB9bMEGmuQbMJkCJP+AIE8bLQvFprkmJsio2TkOC2BiQIqFdPtLpz5/wrrt8E2G82EtCX/qiCwkF56hGzdhBk4dBnknDGJrxTrpicEJP3Seu5gpxzKRcUv8lY5D3CYQ3y1Htn7cHHpJ0u/f7Xi1l8rj1Y7Ni1XCryes0/J07kRDBdkbDmqQmsQOGQTnjsHZK/US5R55L210IC8C5TIDr7fAjG+gjfj+atCVUAX4zkgvpfHLuDxQjWxd51OWsCu+IHsnKAm7OWvF8AAAAASUVORK5CYII=">\
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                        {{if page.config.pinIndex==-1}}\
+                        {{if pageInfo.config.pinIndex==-1}}\
                           <span class="custom-actions-content">PIN</span>\
                         {{/if}}\
-                        {{if page.config.pinIndex>-1}}\
+                        {{if pageInfo.config.pinIndex>-1}}\
                           <span class="custom-actions-content">UNPIN</span>\
                         {{/if}}\
                       </span>\
@@ -1252,11 +1253,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                  <div class="faqs-bottom-actions background-white">\
                  <span class="appearences">\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                    <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>\
+                    <span class="custom-appearences-content">${pageInfo.feedback.appearance} VIEWS</span>\
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                    <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
+                    <span class="custom-appearences-content">${pageInfo.feedback.click} CLICKS</span>\
                     <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                    <span class="appearences-count display-none">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
+                    <span class="appearences-count display-none">${pageInfo.feedback.appearance} Appearances - ${pageInfo.feedback.click} Clicks</span>\
                     <div class="result-tuning-action-notification-container">\
                       <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
                       <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
@@ -1425,21 +1426,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
                   <div class="relatedPagesTitle">MATCHED PAGES</div>\
                   <div class="pages-wrp results-wrp">\
-                    {{each(key, page) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-                    <div class="faqs-shadow {{if viewType=="Preview"&&page.config.visible==false}}display-none{{/if}} {{if page.config.visible==false}}hide-actions{{/if}} {{if page.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${page.config.boost}" pinIndex="${page.config.pinIndex}" visible="${page.config.visible}" contentId="${page.contentId}" contentType="${page.contentType}" id="${key}">\
+                    {{each(key, pageInfo) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.contentType}" id="${key}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
-                      <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
+                      <a class="faqs-wrp-content" href="${pageInfo.url}" target="_blank">\
                         <div class="image-url-sec">\
-                          <img src="${page.pageImageUrl}"></img>\
+                          <img src="${pageInfo.pageImageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${page.pageTitle}">${page.pageTitle}\
+                          <div class="title" title="${pageInfo.pageTitle}">${pageInfo.pageTitle}\
                           <span class="custom-external-link-show-container display-none">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">{{html page.pageSearchResultPreview}}</div>\
+                          <div class="desc-info">{{html pageInfo.pageSearchResultPreview}}</div>\
                           <div class="custom-matched-results-container">\
                             <div class="flex-data">\
                               <div class="custom-matched-results-page-icon">\
@@ -1454,9 +1455,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="custom-matched-results-page-summary">\
                                 <span class="custom-matched-results-page-summary-content">\
                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                  <span class="pr_15">${page.feedback.appearance} Views</span>\
+                                  <span class="pr_15">${pageInfo.feedback.appearance} Views</span>\
                                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                  <span>${page.feedback.click} Clicks</span>\
+                                  <span>${pageInfo.feedback.click} Clicks</span>\
                                 </span>\
                               </div>\
                             </div>\
@@ -1465,19 +1466,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <span class="custom-actions">\
                               <span class="img-action dont-show visibility" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
-                                {{if page.config.visible==true}}\
+                                {{if pageInfo.config.visible==true}}\
                                   <span class="custom-actions-content">HIDE</span>\
                                 {{/if}}\
-                                {{if page.config.visible==false}}\
+                                {{if pageInfo.config.visible==false}}\
                                   <span class="custom-actions-content">UNHIDE</span>\
                                 {{/if}}\
                               </span>\
                               <span class="img-action pin pinning" data-viewMode="full">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB+SURBVHgBjU8BDYAwDFsIApBwHCABCUjAySWABBwg4RKQgIRLgC0pyfI9H02abX+3bkQ+NubDjFL0jngBR+bpaGli3oiCAKdf4q/eSXUnTBDminjWExPoOZF2kI9YvOeauNVkjuxUPiCuZJ0M9K4Budx0eWK9XkI0OKhxWIkXQpkdq3Ea0+4AAAAASUVORK5CYII=">\
-                                {{if page.config.pinIndex==-1}}\
+                                {{if pageInfo.config.pinIndex==-1}}\
                                   <span class="custom-actions-content">PIN</span>\
                                 {{/if}}\
-                                {{if page.config.pinIndex>-1}}\
+                                {{if pageInfo.config.pinIndex>-1}}\
                                   <span class="custom-actions-content">UNPIN</span>\
                                 {{/if}}\
                               </span>\
@@ -2796,6 +2797,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
 
+        if (_self.config.viaSocket && _self.vars.resultRankingActionPerformed == true) {
+          _self.sendMessage(_self.vars.searchObject.searchText);
+        }
         /*var url = _self.API.searchUrl;
         var payload = {
           "query": _self.vars.searchObject.searchText,
@@ -2930,6 +2934,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         console.log(payload);
+
+        if(_self.vars.resultRankingActionPerformed == true) {
+          _self.vars.resultRankingActionPerformed = false;
+        }
 
         if (_self.vars.showingMatchedResults == true) {
           _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
@@ -3514,6 +3522,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             elementHidden.text("HIDE");
             selectedElement.removeClass('hide-actions');
           }
+
+          if(_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
         }, function (eRes) {
           console.log(eRes);
         });
@@ -3570,6 +3583,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             elementPinned.text("UNPIN");
             selectedElement.addClass('hide-visibility-control');
           }
+
+          if(_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
         }, function (eRes) {
           console.log(eRes);
         });
@@ -3593,6 +3611,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
 
           selectedElement.attr('boost', conf.boost);
+
+          if(_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
         }, function (eRes) {
           console.log(eRes);
         });
@@ -3615,11 +3638,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.find('#buryAction').show();
           }
           selectedElement.attr('boost', conf.boost);
+
+          if(_self.vars.resultRankingActionPerformed == false) {
+            _self.vars.resultRankingActionPerformed = true;
+          }
+
         }, function (eRes) {
           console.log(eRes);
         });
       } else {
         console.log("Invalid Action");
+        _self.vars.resultRankingActionPerformed = false;
       }
 
     };
@@ -3960,6 +3989,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').addClass('hide');
               $('#searchChatContainer').removeClass('bgfocus');
             };
+
+            if(_self.vars.resultRankingActionPerformed == true) {
+              _self.vars.resultRankingActionPerformed = false;
+            }
+
             _self.vars.searchObject.searchText = $('#search').val();
             // debugger;
             var searchText = $('#search').val() || (_self.vars.searchObject.liveData ? _self.vars.searchObject.liveData.originalQuery : "") || null;
@@ -3976,7 +4010,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
             }
-            
             $('.custom-header-container-center').css('visibility', 'visible');
 
             _self.vars.filterObject = [];
