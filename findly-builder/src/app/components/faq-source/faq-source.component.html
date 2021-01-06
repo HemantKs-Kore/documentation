@@ -58,7 +58,7 @@
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                                 <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                             </div>  
-                            <div class="title">{{faqSelectionObj.selectedCount}} Selected</div>
+                            <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
