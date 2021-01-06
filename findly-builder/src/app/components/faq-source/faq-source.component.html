@@ -20,6 +20,15 @@
                 </div>
                 <div (click)="openStatusModal()" class="title"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
                 <!-- <div class="clock"><img src="assets/icons/clock.svg"></div> -->
+                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle><img src="assets/icons/Union.svg"></button>                                            
+                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                          <li (click)='exportFaq("json")'>Export to JSON</li>
+                          <li (click)='exportFaq("csv")'>Export to CSV</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="faq-content-boxes">
@@ -395,7 +404,7 @@
                                         <div class="bot-response-view-mode">
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
                                                 <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
-                                                    <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                    <div class="bot-response-title">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
                                                     <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>

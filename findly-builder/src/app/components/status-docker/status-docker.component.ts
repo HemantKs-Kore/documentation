@@ -7,7 +7,8 @@ import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-
+import {  DockStatusService} from '../../services/dock.status.service';
+declare let self: any;
 @Component({
   selector: 'app-status-docker',
   templateUrl: './status-docker.component.html',
@@ -19,13 +20,19 @@ export class StatusDockerComponent implements OnInit {
 
   public dockersList : Array<any> = [];
   public pollingSubscriber : any;
-
+  public dockServiceSubscriber: any;
+   
   constructor(private service:ServiceInvokerService,
     private workflowService: WorkflowService,
     private notify: NotificationService,
+    private dock : DockStatusService,
     private router: Router) { }
 
   ngOnInit(): void {
+    self = this;
+   this.dockServiceSubscriber = this.dock.change.subscribe(data=>{
+      this.poling();
+    })
   }
 
   ngOnChanges(changes){
@@ -34,7 +41,9 @@ export class StatusDockerComponent implements OnInit {
       this.poling();
     }
   }
-
+  initDockStatus(){
+    self.poling();
+  }
   poling() {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -48,10 +57,14 @@ export class StatusDockerComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+          if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
+            this.downloadDockFile(record.fileId, record.store.urlParams);
+          }
         })
         const queuedJobs = _.filter(res.dockStatuses, (source) => {
           return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED'));
         });
+       
         if (queuedJobs && queuedJobs.length) {
           console.log(queuedJobs);
         } else {
@@ -173,8 +186,18 @@ export class StatusDockerComponent implements OnInit {
 
   ngOnDestroy() {
     if(this.pollingSubscriber){
-      this.pollingSubscriber.unsubscribe();
+      this.pollingSubscriber.unsubscribe(); 
+    }
+    if(this.dockServiceSubscriber){
+      this.dockServiceSubscriber.unsubscribe();
     }
   }
+  downloadDockFile(fileId, fileName) {
+    const params = {fileId};
+    this.service.invoke('attachment.file', params).subscribe(res=>{
+        const hrefURL = res.fileUrl + fileName;
+        window.open(hrefURL);
+    }, err=>{ console.log(err) });
+}
 
 }
