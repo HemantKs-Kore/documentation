@@ -306,11 +306,10 @@
         <img src="assets/icons/add_blue.svg" />Add Variant
       </div>
 
-      <div class="trafic-sec" *ngIf="showSlider">
+      <div class="trafic-sec" *ngIf="showSlider && someRangeconfig">
         <div class="pl-pr-5 slider-sec">
           <div class="label-text">Traffic</div>
-          <nouislider #sliderref [config]="someRangeconfig" [(ngModel)]="someRange" (slide)="sliderChanged()">
-          </nouislider>
+          <nouislider #sliderref [config]="someRangeconfig" [(ngModel)]="someRange" (slide)="sliderChanged()"></nouislider>
         </div>
         <div class="percentage-sec">
           <div class="names" *ngFor="let code of variantsArray">
