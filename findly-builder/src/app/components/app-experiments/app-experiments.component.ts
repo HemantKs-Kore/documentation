@@ -70,7 +70,7 @@ export class AppExperimentsComponent implements OnInit {
     this.someRangeconfig = {
       behaviour: 'drag',
       connect: [...this.conn],
-      tooltips: this.tool,
+      tooltips: [...this.tool],
       start: starts,
       step: 5,
       format: {
@@ -138,13 +138,13 @@ export class AppExperimentsComponent implements OnInit {
   addExperiment(type, data) {
     this.form_type = type;
     if (type === 'edit') {
+      this.showSlider = false;
       this.exp_id = data._id;
       this.exp_status = data.state;
       this.experimentObj.name = data.name;
       this.variantsArray = JSON.parse(JSON.stringify(data.variants));
       this.experimentObj.duration.days = data.duration.days;
       this.setSliderDefaults();
-      this.showSlider = true;
       this.showTraffic(this.variantsArray.length, 'add');
     }
     else{
@@ -155,6 +155,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   addVarient(count?) {
     if (this.variantsArray.length <= 3) {
+      this.showSlider = false;
       if(count){
         for (let i = 0; i < count; i++) {
           if (this.variantsArray.length <= 3) {
