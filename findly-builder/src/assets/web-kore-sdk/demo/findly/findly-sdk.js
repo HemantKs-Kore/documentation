@@ -3895,7 +3895,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
             }
-
             $('.custom-header-container-center').css('visibility', 'visible');
 
             _self.vars.filterObject = [];

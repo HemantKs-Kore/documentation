@@ -21,7 +21,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
   fieldAutoSuggestion:any =[];
   selectedApp;
   serachIndexId;
-
+  fieldDataType ="number";
+  filedTypeShow = false;
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
@@ -232,6 +233,13 @@ export class FacetsComponent implements OnInit , OnDestroy{
      }, errRes => {
        this.errorToaster(errRes,'Failed to get fields');
      });
+     if(!query){
+      this.fieldDataType = "number";
+      this.filedTypeShow = false;
+     }else{
+      this.filedTypeShow = true;
+     }
+     
   }
   switchType(type){
     if(type=== 'value'){
@@ -301,6 +309,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
   selectField(suggesition){
     this.selectedField = suggesition;
+    this.fieldDataType = suggesition.fieldDataType;
+    this.filedTypeShow = true;
     if(suggesition.fieldId){
       this.addEditFacetObj.fieldId = suggesition.fieldId;
       this.selectedField.fieldId = suggesition.fieldId;

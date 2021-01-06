@@ -111,6 +111,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       queryPipelineId:this.queryPipelineId,
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
+      this.notificationService.notify('Weights restored successfully','success');
       this.pipeline=  res.pipeline || {};
       this.prepereWeights();
       if(dialogRef && dialogRef.close){
@@ -134,7 +135,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to restore weights?',
         newTitle: 'Are you sure you want to restore weights?',
         body:'Weights will be restored.',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
+        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 

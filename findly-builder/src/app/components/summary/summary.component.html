@@ -1,6 +1,6 @@
 <div class="overview-container">  
   <perfect-scrollbar class="scroll_content">
-    <div class="g-analytics"><span>Go to Analytics</span></div>
+    <div class="g-analytics" (click)="openDashboard()"><span>Go to Analytics</span></div>
     <div class="top-cards-section row m-0 col-12">
       <div class="col-3 cards-data">
         <div class="content">
@@ -91,11 +91,11 @@
             <div class="col-3 title">Content</div>
             <div class="col-3 title">Actions</div>
           </div>
-          <div class="body-data row m-0">
-            <div class="col-4 title" (click) = "viewAll('/source')"><u>Default Index</u></div>
-            <div class="col-2 title">{{indices && indices.approvedfaqs}}</div>
-            <div class="col-3 title">{{indices && indices.contentPages}} Pages</div>
-            <div class="col-3 title">{{indices && indices.botActions}}</div>
+          <div class="body-data row m-0" *ngFor="let indice of indices">
+            <div class="col-4 title" (click) = "openSource()"><u>Default Index</u></div>
+            <div class="col-2 title">{{indice.approvedfaqs}}</div>
+            <div class="col-3 title">{{indice.contentPages}} Pages</div>
+            <div class="col-3 title">{{indice.botActions}}</div>
           </div>
           <!-- <div class="body-data row m-0">
             <div class="col-4 title">My Test Index</div>
@@ -110,16 +110,16 @@
         <div class="content-sec">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Activities</div> 
-            <div class="create_new_link">Show all activities</div>
+            <div class="create_new_link d-none">Show all activities</div>
           </div>        
           <div class="body-data row m-0" *ngFor="let activity of activities">
-            <div class="col-9 title">{{activities[0].faqInReviewCount}} Faq's Pending Approval</div>
-            <div class="col-3 title time-stamp">{{activities[0].date}}</div>           
+            <div class="col-9 title">{{activity.faqInReviewCount}} Faq's Pending Approval</div>
+            <div class="col-3 title time-stamp" *ngIf="activity.faqInReviewCount!=0">{{activity.date}}</div>           
           </div>
-           <div class="body-data row m-0">
+           <!-- <div class="body-data row m-0">
             <div class="col-9 title">XYZ replied to you comment</div>
             <div class="col-3 title time-stamp">3 hrs ago</div>            
-          </div> 
+          </div>  -->
           <!-- <div class="body-data row m-0">
             <div class="col-9 title">XYZ replied to you comment</div>
             <div class="col-3 title time-stamp">3 hrs ago</div>           
@@ -132,7 +132,7 @@
         <div class="content-sec config_channels">
          <div class="title-sec"><div class="title">Configured Channels</div> </div>
           <div *ngIf="!channelExist">
-            <div class="img-block center-image"><img src="assets/icons/overview/no-channel-conf.svg"></div>
+            <div class="img-block center-image" (click)="openChannel()"><img src="assets/icons/overview/no-channel-conf.svg"></div>
           </div>
         </div>
       </div>
@@ -204,21 +204,21 @@
             </div>
           </div>                     -->
          </div>
-         <div class="create_new_link">View all</div>
+         <div class="create_new_link d-none">View all</div>
         </div>       
       </div>
       <div class="table-data-content col-6" *ngIf="!experiments.length">
           <div class="content-sec active_experments">
            <div class="title-sec d-flex justify-content-between">
              <div class="title">Active Experiments</div> </div>
-              <div class="img-block center-image"><img src="assets/icons/overview/no-experiments.svg"></div>
+              <div class="img-block center-image" (click) = "openExp()"><img src="assets/icons/overview/no-experiments.svg"></div>
           </div>
       </div>
       <div class="table-data-content col-6" *ngIf="experiments.length">
         <div class="content-sec active_experments">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Active Experiments</div> 
-            <div class="create_new_link d-none">+ Create New</div>
+            <div class="create_new_link" (click)="openExp()">+ Create New</div>
           </div>    
           <div class="header-data row m-0">
             <div class="col-5 title">Experiment Name</div>
@@ -243,7 +243,7 @@
               <span class=""><img src="assets/icons/overview/Info.svg"></span>
             </div>          
           </div>
-          <div class="body-data row m-0">
+          <!-- <div class="body-data row m-0">
             <div class="col-5 title">Boost for FAQs of Dispute Tracking</div>
             <div class="col-4 variants">
               <div class="variants-block left">
@@ -260,8 +260,8 @@
               <span class="a-status completed">Completed</span>
               <span class=""><img src="assets/icons/overview/Info.svg"></span>
             </div>          
-          </div>
-          <div class="body-data row m-0">
+          </div> -->
+          <!-- <div class="body-data row m-0">
             <div class="col-5 title">Boost for FAQs of Dispute Tracking</div>
             <div class="col-4 variants">
               <div class="variants-block left">
@@ -277,7 +277,7 @@
               <span class="a-status paused">Paused</span>
               <span class=""><img src="assets/icons/overview/Info.svg"></span>
             </div>          
-          </div>
+          </div> -->
           <div class="create_new_link">View all</div>
         </div>       
       </div>
