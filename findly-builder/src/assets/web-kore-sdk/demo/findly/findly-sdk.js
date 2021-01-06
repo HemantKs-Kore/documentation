@@ -947,8 +947,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getSearchControl = function() {
       var searchControl = '<script type="text/x-jqury-tmpl">\
             <div class="search-bar">\
-            {{if hideSearchIcon}}\
-            {{else}}\
+            {{if showSearchIcon}}\
               <div class="widget-icon"><img style="vertical-align:middle" src="data:image/png;base64,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"> </div>\
             {{/if}}\
             <input id="suggestion" name="search"  disabled="disabled" class="search \
@@ -988,7 +987,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div id="textFromServer"></div> \
               </div> \
             {{/if}}\
-            <button class="search-button">Go</button>\
+            <button class="search-button">\
+            {{if buttonText}}\
+              ${buttonText}\
+            {{else}}\
+              Go\
+            {{/if}}\
+            </button>\
           </div>\
         </script>';
 
@@ -3195,9 +3200,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
           popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
         };
-        var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-        $('.search-body').html(freqData);
-        _self.pubSub.publish('sa-freq-data', tmplData)
+        // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+        // $('.search-body').html(freqData);
+        _self.pubSub.publish('sa-freq-data', tmplData);
+        _self.pubSub.publish('sa-show-freq-data', tmplData);
         setTimeout(function () {
           $('.search-body').scrollTop(2);
         }, 100);
@@ -4049,10 +4055,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
             popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
           };
-          var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-          $('.search-body').html(freqData);
-          freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+          // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+          // $('.search-body').html(freqData);
+          // freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+          // _self.pubSub.publish('sa-freq-data', tmplData);
+
           _self.pubSub.publish('sa-freq-data', tmplData);
+          _self.pubSub.publish('sa-show-freq-data', tmplData);
+
           _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
             _self.vars.searchObject.popularSearches = response;
             var tmplData = {
@@ -4061,9 +4071,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
               popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
             };
-            freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-            _self.pubSub.publish('sa-freq-data', tmplData);
-            $('.search-body').html(freqData);
+          _self.pubSub.publish('sa-freq-data', tmplData);
+          _self.pubSub.publish('sa-show-freq-data', tmplData);
+
+
           })
         }
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
@@ -4280,13 +4291,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
-            var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+            var tmplData = {
               searchResults: searchResults,
               recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
               recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
               popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-            });
-            $('.search-body').html(freqData);
+            };
+            _self.pubSub.publish('sa-show-freq-data', tmplData);
             setTimeout(function () {
               $('.search-body').scrollTop(2);
             }, 100);
@@ -4919,9 +4930,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
         popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
       };
-      _self.pubSub.publish('sa-freq-data', tmplData)
-      var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-      $('.search-body').html(freqData);
+      _self.pubSub.publish('sa-freq-data', tmplData);
+      _self.pubSub.publish('sa-show-freq-data', tmplData);
+  
+      
       setTimeout(function () {
         $('.search-body').scrollTop(2);
       }, 100);
@@ -5844,6 +5856,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.setAPIDetails();
 
       window.koreWidgetSDKInstance = _self;
+      
+    }
+    FindlySDK.prototype.enableRecent = function() {
+      var _self = this;
+      _self.pubSub.subscribe('sa-show-freq-data', (msg, data) => {
+        var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(data);
+        $('.search-body').html(freqData);
+        _self.deleteRecents();
+      });
     }
     FindlySDK.prototype.addFrequentlyUsedControl = function(config) {
       var _self = this;
@@ -5877,6 +5898,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.subscribe('sa-auto-suggest', (msg, data) => {
           _self.getSuggestion(data);
         })
+      }
+
+      if (config && config.showRecentSearches === true) {
+        _self.enableRecent();
       }
 
       var dataHTML = $(_self.getSearchControl()).tmplProxy(config);

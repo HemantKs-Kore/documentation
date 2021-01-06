@@ -284,8 +284,10 @@ export class AppComponent implements OnInit , OnDestroy {
       showGreeting : true,
       microphone : true,
       greetingMsg : "Hello! How can I help you today?",
-      hideSearchIcon : false,
-      autoSuggest : false
+      showSearchIcon : true,
+      autoSuggest : false,
+      buttonText : 'Go',
+      showRecentSearches : true
     });
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
