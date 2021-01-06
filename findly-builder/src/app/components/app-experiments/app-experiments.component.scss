@@ -128,7 +128,7 @@
             .delete-table {
               display: none;
               position: absolute;
-              right: 30px;
+              right: 20px;
               img {
                 margin-left: 15px;
                 cursor: pointer;
@@ -224,7 +224,7 @@
               }
             }
             .date-stamp {
-              color: #5f6368;
+              color: #9AA0A6;
               font-weight: normal;
               font-size: 10px;
               line-height: 12px;
@@ -294,6 +294,28 @@
                     }
                   }
                 }
+              }
+              .date-stamp{
+                color: #9AA0A6;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 15px;                
+                &.bottom{
+                  width: 125px;
+                }
+              }             
+              .hour{
+                width: 125px;
+                display: inline-block;                
+              }
+              .hours{
+                color: #0D6EFD;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 15px;
+              }
+              .inline-block{
+                line-height: 0;
               }
             }
           }
