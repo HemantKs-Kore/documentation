@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+declare const $: any;
 
 @Component({
   selector: 'app-result-ranking',
@@ -26,12 +27,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   selectedRecord : any = {};
   resultLogs : boolean = false;
   customizeList : any;
+  totalRecord = 0;
+  limitpage = 10;
+  customizeListBack : any;
   loadingContent : boolean = false;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
   subscription: Subscription;
   timeLogData : any;
+  lastModifiedOn : any;
+  resultSelected = false;
+  collectedRecord = [];
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -166,8 +173,61 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   showLogs(){
     this.resultLogs = true;
   }
- 
-  clickCustomizeRecord(record){
+  resetSelected(){
+    this.customizeList.forEach((element,index) => {
+      element['check'] = false;
+    });
+    this.collectedRecord = [];
+    this.resultSelected = false;
+  }
+  selectAll(){
+    this.collectedRecord = [];
+    if(this.customizeList.length){
+      let selected = this.customizeList.find(element=> {
+        return element['check'] == false ? true : false;
+      });
+      if(!selected){
+        this.resetSelected();
+      }else{
+        this.customizeList.forEach((element,index) => {
+          element['check'] = true;
+          this.collectedRecord.push(element);
+        });
+        this.resultSelected = true;
+      }
+    }
+  }
+  multiSelect(record,opt){
+    let pushRecord = [];
+    //this.collectedRecord  = [];
+    if(opt){
+      this.resultSelected = opt;
+      this.collectedRecord.push(record)
+    }else {
+      let selecetd = false;
+      this.customizeList.forEach((element,index) => {
+        if(element._id != record._id){
+          if(element['check'] == true){
+            pushRecord.push(element)
+          }
+        }
+        if(element._id == record._id){
+          this.collectedRecord.splice(index,1);
+        }
+      });
+      
+      if(pushRecord.length > 0){
+        this.resultSelected = true;
+      }else {
+        this.resultSelected = false;
+      }
+    }
+    console.log(this.collectedRecord)
+  }
+  clickCustomizeRecord(record,opt){
+    //opt == 'default' ?  this.resultSelected = false : this.resultSelected = true;
+    this.multiSelect(record,opt)
+   
     this.selectedRecord = record;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -178,11 +238,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
-      this.actionLogData = res;
+      this.lastModifiedOn = res.lMod;
+      this.actionLogData = res.customizations;
       for(let i =0; i<this.actionLogData.length; i++){
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
-        this.actionLogData[i].target.contentInfo.createdOn = moment(this.actionLogData[i].target.contentInfo.createdOn).fromNow()
+        this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
         //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         // if(this.actionLogData[i].target.contentType == 'faq'){
         //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
@@ -208,6 +269,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     };
     let result :any = [];
       var obj :any = {};
+      obj.config = {};
       obj.contentType = actLog.target.contentType ;
       //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
       obj.contentId = actLog.target.contentId;
@@ -241,6 +303,22 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
     });
   
+  }
+  applyFilter(value){
+    let list = [...this.customizeListBack];
+    let listPush = [];
+    if(value){
+      list.forEach(element => {
+        if(element.searchQuery.includes(value)){
+          listPush.push(element);
+        }
+      });
+      this.customizeList = [...listPush]
+    }else{
+      //listPush = [...list]
+      this.customizeList = [...this.customizeListBack];
+    }
+   
   }
   timeLog(record){
     // this.selectedRecord = record;
@@ -314,7 +392,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.customizeList = res;
+      this.customizeListBack = [...res];
+      this.totalRecord = res.length
+      this.customizeList.forEach((element,index) => {
+        
+      if(index == 0) {
+        element['check'] = false;
+        this.clickCustomizeRecord(element,false)
+      }else{
+        element['check'] = false;
+      }
       
+    });
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');

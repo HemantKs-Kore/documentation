@@ -282,6 +282,11 @@
                             .img-block{
                                 margin-bottom: 16px;
                                 img{
+                                    width: 31px;
+                                    height: 29px;
+                                    left: 87px;
+                                    top: 545px;
+                                    // text-align: center;
 
                                 }
                             }
@@ -383,6 +388,15 @@
                         .prize{
                             margin-left: 5px;
                         }
+                        .success{
+                            font-family: Inter;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-size: 10px;
+                            line-height: 12px;
+                            color: #9AA0A6;
+                            padding:5px;
+                        }
                     }
                     .status {
                         padding-left: 0;
@@ -423,10 +437,11 @@
                 }            
             }
             .center-image{
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
+                // position: absolute;
+                // left: 50%;
+                // top: 50%;
+                // transform: translate(-50%, -50%);
+                text-align: center;
             }                                   
         } 
     }

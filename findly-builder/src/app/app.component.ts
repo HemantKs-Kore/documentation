@@ -19,6 +19,7 @@ declare const FindlySDK: any;
 declare let window:any;
 declare let self:any;
 import * as _ from 'underscore';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit , OnDestroy {
   addNewResult = true;
   showInsightFull = false;
   queryText ;
+  subscription:Subscription;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -68,6 +70,9 @@ export class AppComponent implements OnInit , OnDestroy {
     this.previousState = this.getPreviousState();
     this.showHideSearch(false);
     this.userInfo = this.authService.getUserInfo() || {};
+    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res =>{
+     this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    })
   }
   showMenu(event){
     this.showMainMenu = event
@@ -99,6 +104,10 @@ export class AppComponent implements OnInit , OnDestroy {
           if(route && this.pathsObj && this.pathsObj[route]){
             setTimeout(()=>{
               this.preview(this.pathsObj[route]);
+            },200);
+          } else {
+            setTimeout(()=>{
+              this.preview('');
             },200);
           }
          } catch (e) {
@@ -171,7 +180,7 @@ export class AppComponent implements OnInit , OnDestroy {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
           _id:appData.searchIndexes[0]._id,
-          pipelineId:appData.searchIndexes[0].queryPipelineId
+          pipelineId:this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:''
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();
@@ -238,6 +247,7 @@ export class AppComponent implements OnInit , OnDestroy {
   }
   ngOnDestroy(){
     this.authService.findlyApps.unsubscribe();
+    this.subscription.unsubscribe();
   }
   distroySearch(){
     if(this.searchInstance && this.searchInstance.destroy) {
@@ -315,7 +325,7 @@ export class AppComponent implements OnInit , OnDestroy {
       if(parms.type === 'showInsightFull' && parms.data === true && _self.bridgeDataInsights){
         _self.bridgeDataInsights = false;
         _self.showInsightFull = true;
-        $('.ksa-resultsContainer').css({width:'50%'});
+        // $('.ksa-resultsContainer').css({width:'50%'});
       }else{
         _self.bridgeDataInsights = true;
         _self.showInsightFull = false;

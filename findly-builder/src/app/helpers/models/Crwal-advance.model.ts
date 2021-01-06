@@ -9,10 +9,12 @@ export class AdvanceOpts{
     scheduleOpt:boolean = false;
     scheduleOpts:scheduleOpts = new scheduleOpts();
     useCookies = false;
-    isRobotTxtDirectives = false;
-    isCrawlingRestrictToSitemaps= false;
+    respectRobotTxtDirectives = false;
+    crawlBeyondSitemaps= false;
     isJavaScriptRendered = false;
-    isBlockHttpsMsgs = false;
+    blockHttpsMsgs = false;
+    crawlDepth : number;
+    maxUrlLimit  : number;
     //schedulePeriod: String ="";
     repeatInterval: String ="";
     crawlEverything: boolean = true;
@@ -50,11 +52,11 @@ export class EndsOn {
       
 }
 export class AllowUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 export class BlockUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 

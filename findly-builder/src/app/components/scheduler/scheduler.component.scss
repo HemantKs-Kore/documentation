@@ -398,7 +398,31 @@
 
 
 .schedular_row_data{
-    margin-bottom: 17px !important;
+    margin-bottom: 20px !important;
+    &.bg-rows{
+        .kr-sg-input-text{
+            input{
+                border: 0;
+                background: #EFF0F1;
+            }
+        }
+        .schedule-AM{
+            border: 0 !important;
+            background: #EFF0F1 !important;
+        }
+        .schedule-PM{
+            border: 0 !important;
+            background: #EFF0F1 !important;
+        }
+        .kr-sg-dropdowns {
+            .dropdown-open {
+                .dropdown-input{
+                    border: 0;
+                    background: #EFF0F1;
+                }
+            }
+        }
+    }
     .row_column {      
         .scheduletitle{
             font-size: 12px;

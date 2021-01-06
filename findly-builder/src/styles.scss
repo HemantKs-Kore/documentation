@@ -1,19 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
-:root { 
-    --primary-color1: #009DAB;
-    --primary-color2: #26344A;
-    --primary-color3: #8A959F;
-    --background-color1: #F3F3F4;
-    --white-color: #FFFFFF;
-    --background-color2: #F2F3F5;
-    --background-color3: #E5E8EC;
-    --green-alert-color: #09A624;
-    --red-alert-color:#FF001F;
-    --blue-focus-color:#1372FF;
-    --yellow-color:#F5A623;
-    --light-red-color:#FF5D5D;
-    --blue-color:#4A90E2;
-    --peach-color:#F3A160;
-    --orange-color:#FC8500;
-    --corner-radius:2px;
-  }
+@import "~nouislider/distribute/nouislider.min.css";
+:root {
+  --primary-color1: #009dab;
+  --primary-color2: #26344a;
+  --primary-color3: #8a959f;
+  --background-color1: #f3f3f4;
+  --white-color: #ffffff;
+  --background-color2: #f2f3f5;
+  --background-color3: #e5e8ec;
+  --green-alert-color: #09a624;
+  --red-alert-color: #ff001f;
+  --blue-focus-color: #1372ff;
+  --yellow-color: #f5a623;
+  --light-red-color: #ff5d5d;
+  --blue-color: #4a90e2;
+  --peach-color: #f3a160;
+  --orange-color: #fc8500;
+  --corner-radius: 2px;
+}

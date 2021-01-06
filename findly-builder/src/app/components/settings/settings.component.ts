@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     anonymus: true,
     register: true,
     awt: 'HS256',
-    enabled: true
+    enabled: false
   };
   channels = [
     {
@@ -57,6 +57,7 @@ export class SettingsComponent implements OnInit {
       icon: "assets/icons/webhook.svg"
     }
   ]
+  allBotArray = [];
   @ViewChild('addCredential') addCredential: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
@@ -202,18 +203,18 @@ export class SettingsComponent implements OnInit {
     }
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
-        this.channnelConguired = res;
+        this.channnelConguired.apps = [...res.apps];
         if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
-          if(this.selectedApp.appPreferences && this.selectedApp.appPreferences.rtmAppId){
-            res.apps.forEach(element => {
-              if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
-                this.listData=element;
-              }
+          // if(this.selectedApp.appPreferences && this.selectedApp.appPreferences.rtmAppId){
+          //   res.apps.forEach(element => {
+          //     if(element.clientId === this.selectedApp.appPreferences.rtmAppId){
+          //       this.listData=element;
+          //     }
               
-            });
-          }
-        
+          //   });
+          // }
+          this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length-1];
           this.slider = 3
           this.configFlag = true;
         }
@@ -283,8 +284,22 @@ export class SettingsComponent implements OnInit {
 
     this.service.invoke('get.linkedBot', queryParams).subscribe(
       res => {
-        if (res.configuredBots) this.configuredBot_streamId = res.configuredBots[0]._id
+        if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
         console.log(res);
+        res.configuredBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "new"
+          }
+          this.allBotArray.push(obj);
+        });
+        res.unpublishedBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "delete"
+          }
+          this.allBotArray.push(obj);
+        });
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -319,7 +334,9 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('standard.publish', queryParams, payload).subscribe(
       res => {
         this.notificationService.notify('Standard Published', 'success');
-        this.universalPublish();
+        if(this.allBotArray.length > 0){
+          this.universalPublish();
+        }
         console.log(res);
       },
       errRes => {
@@ -331,19 +348,20 @@ export class SettingsComponent implements OnInit {
       }
     );
   }
+  
   universalPublish() {
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
     }
     let payload = {
-      "bots":
-        [
-          {
-            "_id": this.configuredBot_streamId,
-            "state": "new"
-          }
-        ],
+      "bots": this.allBotArray,
+        // [
+        //   {
+        //     "_id": this.configuredBot_streamId,
+        //     "state": "new"
+        //   }
+        // ],
       "publishAllComponents": true,
       "versionComment": "publishing",
       "linkedBotCount": 1

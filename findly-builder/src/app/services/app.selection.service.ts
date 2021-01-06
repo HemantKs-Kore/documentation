@@ -26,13 +26,12 @@ export class AppSelectionService {
         this.queryList = res || [];
         if(this.queryList){
           this.workflowService.appQueryPipelines(res);
-          if(this.queryList.length){
+          if(setPipline && setPipline._id){
+            this.selectQueryConfig(setPipline);
+          } else if(this.queryList.length){
             this.selectQueryConfig(res[0]);
           }else{
             this.selectQueryConfig({});
-          }
-          if(setPipline && setPipline._id){
-            this.selectQueryConfig(setPipline);
           }
           this.queryConfigs.next(res);
          }

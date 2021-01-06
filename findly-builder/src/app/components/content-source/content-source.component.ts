@@ -25,6 +25,8 @@ import { CrwalObj , AdvanceOpts , AllowUrl , BlockUrl ,scheduleOpts} from 'src/a
 })
 export class ContentSourceComponent implements OnInit, OnDestroy {
   loadingSliderContent = false;
+  executionPop = -1;
+  loadingcheckForUpdate = false;
   isEditDoc: boolean = false;
   editDocObj : any = {};
   editConfObj : any = {};
@@ -58,6 +60,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   statusArr = [];
   docTypeArr = [];
   selectedFilter: any = ''
+  executionLogStatus  = false;
   contentTypes = {
     webdomain: 'WEB',
     document: 'DOC'
@@ -72,6 +75,48 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     scheduled :{name :'In Progress', color: '#0D6EFD'},
     halted : {name : 'Stopped', color: '#DD3646'}
   };
+  executionObj : any = {
+    'Execution Successful' : {
+      tooltip : "",
+      icon : "assets/icons/content/success.svg"
+    },
+    'Execution Failed' : {
+      tooltip : "",
+      icon : "assets/icons/content/failed.svg"
+    },
+    'Execution Stopped' : {
+      tooltip : "Sitemap Validation failed due to timeout",
+      icon : "assets/icons/content/stopped.svg"
+    },
+    'Execution In Progress' : {
+      tooltip : "",
+      icon : "assets/icons/content/ex-stat_inprogress.svg"
+    },
+  };
+  stateExecutionstageStatusObj : any = {
+    'success' : { icon  : "assets/icons/content/success.svg" },
+    'failed'  : { icon  : "assets/icons/content/failed.svg" },
+    'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+    'inProgress' : { icon  : "assets/icons/content/stopped.svg" }
+  }
+  finalStateExecutionstageStatusObj: any = {
+    'success' : { icon  : "assets/icons/content/succes-circle.svg" },
+    'failed'  : { icon  : "assets/icons/content/failed-circle.svg" },
+    'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+  }
+  stateExecutionStageNameObj : any = {
+    'process_in_queue' : { label : "Process in Queue" , icon : this.stateExecutionstageStatusObj},
+    'url_validation' : { label : "URL Validation" , icon : this.stateExecutionstageStatusObj},
+    'network_validation' : { label : "Network Validation" , icon : this.stateExecutionstageStatusObj},
+    'indexing_restrictions' : { label : "Index Restriction" , icon : this.stateExecutionstageStatusObj},
+    'content_verification' : { label : "Content Verification" , icon : this.stateExecutionstageStatusObj},
+    'sitemap_identification' : { label : "Sitemap Identification" , icon : this.stateExecutionstageStatusObj},
+    'crawling' : { label : "Crawling" , icon : this.stateExecutionstageStatusObj},
+    'stopped' : { label : "Stopped" , icon : this.finalStateExecutionstageStatusObj},
+    'failed' : { label : "Failed" , icon : this.finalStateExecutionstageStatusObj},
+    'successful' : { label : "Successful" , icon : this.finalStateExecutionstageStatusObj},
+  };
+ 
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
@@ -103,11 +148,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   executionHistoryData : any;
   sourceStatus = 'success';
   useCookies = false;
-  isRobotTxtDirectives = false;
-  isCrawlingRestrictToSitemaps= false;
+  respectRobotTxtDirectives = false;
+  crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
-  
+  blockHttpsMsgs = false;
+  crawlDepth : number;
+  maxUrlLimit: number;
+  crwalOptionLabel= '';
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -133,6 +180,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  hoverExecutionLog(){
+    this.executionLogStatus = true;
+  }
   addNewContentSource(type) {
     this.showSourceAddition = type;
     // this.openAddSourceModal();
@@ -178,6 +228,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if(sec <= 0) return duration =  min + "m ";
         }else if(sec > 0){
           return duration = sec + "s";
+        }else{
+          return duration = '0' + "s";
         }
     }
   }
@@ -352,6 +404,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
+      this.pagingData.forEach(element => {
+        element['url_display'] = element._source.url;
+      });
 
       /** Paging */
       this.sliderStep = 0;
@@ -361,6 +416,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       //this.selectedSource.advanceSettings.scheduleOpts = new scheduleOpts();
       this.allowUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.allowedURLs : [];
       this.blockUrlArr = this.selectedSource.advanceSettings ? this.selectedSource.advanceSettings.blockedURLs : [];
+      if(this.selectedSource.advanceSettings.allowedURLs.length > 0){
+        this.crwalOptionLabel = 'Crawl Only Specific URLs'
+      }else if(this.selectedSource.advanceSettings.blockedURLs.length > 0){
+        this.crwalOptionLabel = 'Crawl Everything Except Specific URls'
+      }else{
+        this.crwalOptionLabel = 'Crawl Everything'
+      }
       this.swapSlider('page')
       // if(this.isConfig && $('.tabname') && $('.tabname').length){
       //   $('.tabname')[1].classList.remove('active');
@@ -443,6 +505,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.executionHistoryData.forEach(element => {
           element.executionStats.duration = this.duration(element.executionStats.duration);
           element.createdOn = moment(element.createdOn).fromNow();
+          if(element.executionStats.statusLogs){
+            element.executionStats.statusLogs.forEach(status_log => {
+              status_log.timeTaken = this.duration(status_log.timeTaken);
+            });
+          }
         });
       } 
       
@@ -470,10 +537,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if(source.extractionType === 'webdomain'){
         if(source.advanceSettings){
           this.useCookies = source.advanceSettings.useCookies;
-          this.isRobotTxtDirectives = source.advanceSettings.isRobotTxtDirectives;
-          this.isCrawlingRestrictToSitemaps = source.advanceSettings.isCrawlingRestrictToSitemaps;
+          this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
+          this.crawlBeyondSitemaps = source.advanceSettings.crawlBeyondSitemaps;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
-          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.blockHttpsMsgs = source.advanceSettings.blockHttpsMsgs;
+          this.crawlDepth = source.advanceSettings.crawlDepth;
+          this.maxUrlLimit = source.advanceSettings.maxUrlLimit
         }
         this.openStatusModal();
         this.loadingSliderContent = true;
@@ -714,6 +783,30 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   openImageLink(url) {
     window.open(url, '_blank');
   }
+  checkForUpdate(page){
+    //this.notificationService.notify('Checking for Updates', 'success');
+    this.loadingcheckForUpdate = true;
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      extractionSourceId : this.selectedSource._id,
+      contentId : page._id
+    }
+    const payload: any ={
+      url: page._source.url
+    }
+    this.service.invoke('check.forUpdates', quaryparms,payload).subscribe(res => {
+      this.loadingcheckForUpdate = false;
+      if(res._meta.updateAvailable){
+        this.notificationService.notify('A new version of this page is available', 'success');
+      }else{
+        this.notificationService.notify('The page is up to date', 'success');
+      }
+      
+    }, errRes => {
+      this.loadingcheckForUpdate = false;
+      this.errorToaster(errRes, 'Failed Update');
+    });
+  }
   reCrwalingWeb(from,page,event){
     if (event) {
       event.stopImmediatePropagation();
@@ -731,7 +824,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Re-Crawling', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'Failed to Re-Cwral');
+      this.errorToaster(errRes, 'Failed to Re-Crawl');
     });
   }
   
@@ -947,9 +1040,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         const obj: string[] = requireddata;
         // tslint:disable-next-line:prefer-for-of
         for (let j = 0; j < obj.length; j++) {
+         if(obj[j]){
           if (obj[j].includes(valToSearch)) {
             tableData.push(this.resources[i]);
           }
+         }
         }
       }
       tableData = [...new Set(tableData)]
@@ -979,7 +1074,15 @@ editPages(){
   this. editConfigEnable=true;
 }
 
-
+executionHistoryPop(history , index){
+  this.executionPop = index;
+}
+onHistoryPop(index){
+  this.executionPop = index;
+}
+mouseleave(){
+  this.executionPop = -1;
+}
 keyPress(event){
   const code = (event.keyCode ? event.keyCode : event.which);
   if (code === 13) {
@@ -1072,10 +1175,12 @@ keyPress(event){
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+    crawler.advanceOpts.crawlDepth = this.crawlDepth;
+    crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
       type == 'block' ? crawler.advanceOpts.blockedURLs.push(allowUrls) :crawler.advanceOpts.allowedURLs.push(allowUrls);
     }else{
@@ -1193,11 +1298,21 @@ keyPress(event){
       crawler.advanceOpts = this.selectedSource.advanceSettings;
     }
     crawler.advanceOpts.useCookies = this.useCookies;
-    crawler.advanceOpts.isRobotTxtDirectives = this.isRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlingRestrictToSitemaps= this.isCrawlingRestrictToSitemaps;
+    crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
-
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+    if(Number(this.crawlDepth)){
+      crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
+    }else{
+      delete crawler.advanceOpts.crawlDepth;
+    }
+    if(Number(this.maxUrlLimit)){
+      crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+    }else{
+      delete crawler.advanceOpts.maxUrlLimit;
+    }
+    
     crawler.advanceOpts.allowedURLs = [...this.allowUrlArr]
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
@@ -1208,7 +1323,7 @@ keyPress(event){
     //console.log(payload);
 
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Crwaler Updated', 'success');
+      this.notificationService.notify('Crawler Updated', 'success');
       this.editTitleFlag = false;
       this.getSourceList();
       this.closeStatusModal();
@@ -1269,7 +1384,8 @@ keyPress(event){
       }
     }
   }
-  crawlOption(opt){
+  crawlOption(opt,label){
+    this.crwalOptionLabel=  label;
     if(opt != 'any'){
       this.selectedSource.advanceSettings.crawlEverything = false;
       if(opt == 'allow'){

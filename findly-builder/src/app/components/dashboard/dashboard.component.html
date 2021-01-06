@@ -7,13 +7,13 @@
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
             <div class="custom_date_picker_sec">
-                <input type="text" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
                 <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
               </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
-                <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
+                <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
+                <span class="week time"(click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
                 <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.ctr'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+                        <div class="title-info">{{'metrics.dash_board_view.clicks'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.ctr}}%</div>
@@ -115,7 +115,7 @@
                     <div class="full-card pb-4">
                         <div class="legends-info">
                             <div class="content">
-                                <div class="title">{{'metrics.dash_board_view.total_searches'| translate}}</div>
+                                <div class="title">{{'metrics.dash_board_view.search_trends'| translate}}</div>
                                 <!-- <div class="count-data">
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+8%</span>
@@ -234,25 +234,26 @@
                         <div class="title-card">{{'metrics.dash_board_view.Top_Search_Results'| translate}} </div>
                         <div class="table-content-data">
                             <div class="table_header row m-0">
-                                <div class="col-5 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
+                                <div class="col-6 header-title"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
                                 <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div>
                                 <div class="col-1 header-title text-center">{{'metrics.dash_board_view.Appearances'| translate}}</div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
-                                <div class="col-1 header-title text-center" ngbTooltip='Click-Through Rate'><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div>
+                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div> <!--  ngbTooltip='Click-Through Rate' -->
                                 <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
-                                <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
-                                <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div>
+                                <!-- <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
+                                <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div> -->
                                 <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
                                     Count</div> -->
                             </div>
                             <div class="table_body row m-0"  *ngFor="let topSearchResult of topSearchResults;let i = index">
                                 <div class="col-6 body-title ">{{topSearchResult.answer}}</div>
+                                <div class="col-1 header-title text-right"></div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.appearances}}</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.clicks}}</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.clickThroughRate}}%</div>
+                                <div class="col-2 body-title text-center">{{topSearchResult.clickThroughRate}}%</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.avgPosition}}</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div>
+                                <!-- <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div> -->
                             </div>
                             <!-- <div class="table_body row m-0">
                                 <div class="col-6 body-title ">Opening a new account in HDFC</div>
@@ -310,7 +311,7 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">{{'metrics.dash_board_view.Most_Click_Position'| translate}}</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}</div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
                         <div class="text-center">{{'metrics.dash_board_view.Number_of_Clicks'| translate}}</div>
                     </div>
@@ -336,7 +337,7 @@
                                 <div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Feedback_Recieved'| translate}}</span>                                   
+                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Feedback_Received'| translate}}</span>                                   
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication notusefull"></span><span class="title">{{'metrics.dash_board_view.Not_Useful_Result'| translate}}</span>

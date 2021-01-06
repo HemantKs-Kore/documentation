@@ -300,7 +300,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
  if(this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length >1){
   this.faqResponse.defaultAnswers.splice(index,1);
    } else {
-    this.notify.notify('Atlease one answer is required', 'error');
+    this.notify.notify('Atleast one answer is required', 'error');
    }
   }
   setDataforEditDelete(faqdata){
@@ -390,7 +390,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj.multimedia = {
               type:'image',
               url:answer.image.url,
-              position:'horizontalSplit'
+              // position:'horizontalSplit'
+              position: answer.responseType
             }
           }
           defaultAnswers.push(answerObj);
@@ -407,7 +408,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj1.multimedia = {
               type:'image',
               url:answer.image.url,
-              position:'horizontalSplit'
+              // position:'horizontalSplit'
+              position: answer.responseType
             }
           }
           const _conditions = [];

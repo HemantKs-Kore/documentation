@@ -195,7 +195,7 @@ export class UserEngagementComponent implements OnInit {
     if (range === -1) {
       this.showDateRange = true;
       this.datetimeTrigger.nativeElement.click();
-      this.dateLimt('custom')
+      // this.dateLimt('custom')
     } else if (range === 7) {
       this.startDate = moment().subtract({ days: 6 });
       this.endDate = moment();
@@ -537,6 +537,15 @@ var valueList2 = totaldata.map(function (item) {
       },
       yAxis: {
            type: 'value',
+           name: 'Number of Users',
+           nameLocation: 'middle',
+           nameGap: 50,
+           nameTextStyle: {
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
            axisLabel:{
             //margin: 20,
             color: "#9AA0A6",

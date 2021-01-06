@@ -19,6 +19,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   selected = '';
   trainingMenu = false;
   addFieldModalPopRef:any;
+  statusDockerModalPopRef : any;
   loadingQueryPipelines:any = true;
   queryConfigs:any = [];
   newConfigObj:any = {
@@ -35,10 +36,17 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   configObj:any = {};
   selectedConfig:any ={};
-  subscription:Subscription
+  subscription:Subscription;
+  editName : boolean = false;
+  editNameVal : String = "";
+  public showStatusDocker : boolean = false;
+  public statusDockerLoading : boolean = false;
+  public dockersList : Array<any> = [];
   @Input() show;
   @Input() settingMainMenu;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
+  @ViewChild('statusDockerModalPop') statusDockerModalPop: KRModalComponent;
+  
   constructor( private service:ServiceInvokerService,
       private headerService: SideBarService,
       private workflowService: WorkflowService,
@@ -83,19 +91,32 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   selectDefault(){
     this.newConfigObj._id = this.selectedConfig;
   }
-  markAsDefault(config){
+  editConfig(config,action){
+    this.editName = true;
+    this.editNameVal = config.name;
+    this.selectQueryPipelineId(config,null,'edit')
+  }
+  markAsDefault(config,action?){
+    this.editName = false;
     const queryParms ={
       queryPipelineId:config._id,
       searchIndexID:this.workflowService.selectedSearchIndexId
     }
-    const payload = {
-          default:true,
+    let payload = {}
+    if(action == 'edit'){
+       payload = {
+        name:this.editNameVal,
+      }
+    }else{
+       payload = {
+        default:true,
+      }
     }
     this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
       res => {
         this.notify.notify('Set to default successfully','success');
-       this.appSelectionService.getQureryPipelineIds();
-       if(config && config._id){
+       this.appSelectionService.getQureryPipelineIds(config);
+       if(config && config._id && action !== 'edit'){
          this.selectQueryPipelineId(config);
        }
       },
@@ -136,10 +157,28 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       }
     );
   }
-  selectQueryPipelineId(queryConfigs){
+  selectQueryPipelineId(queryConfigs,event?,type?){
+    if(event && !this.editName){
+      event.close();
+    }
+    if(this.editName && type){
+      this.editName = true
+    }else{
+      this.editName = false;
+      //event.close();
+    }
     this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs._id;
     this.reloadCurrentRoute()
+  }
+  onKeypressEvent(e,config){
+    if(e){
+      e.stopPropagation();
+    }
+    if (e.keyCode == 13) {
+      this.markAsDefault(config,'edit')
+      return false;
+  }
   }
   ngOnInit() {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
@@ -171,6 +210,31 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     };
     this.addFieldModalPopRef = this.addFieldModalPop.open();
   }
+
+  // Controlling the Status Docker Opening
+  openStatusDocker(){
+    if(this.showStatusDocker){
+      this.statusDockerLoading = true;
+      // this.getDockerData();
+    }
+  }
+
+  getDockerData(){
+    const queryParms ={
+      searchIndexId:this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(
+      res => {
+        this.statusDockerLoading = false;
+        this.dockersList = res.dockStatuses;
+      },
+      errRes => {
+        this.statusDockerLoading = false;
+        this.errorToaster(errRes,'Failed to get Status of Docker.');
+      }
+    );
+  }
+
   ngOnDestroy(){
     this.subscription?this.subscription.unsubscribe(): false;
   }

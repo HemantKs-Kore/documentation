@@ -21,7 +21,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
   fieldAutoSuggestion:any =[];
   selectedApp;
   serachIndexId;
-
+  fieldDataType ='number';
+  filedTypeShow = false;
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
@@ -163,12 +164,34 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
   createNewFacet() {
     this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
+    if(this.selectedField && this.selectedField.fieldDataType){
+      this.selectedField.fieldDataType = null;
+    }
     this.openModal();
   }
   editFacetModal(facet){
-    // this.getFieldData(facet.fieldId);
-    this.addEditFacetObj = JSON.parse(JSON.stringify(facet));
-    this.openModal();
+    this.getRecordDetails(facet)
+  }
+  getRecordDetails(data){
+    const quaryparms: any = {
+      searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
+      offset:0,
+      limit:100
+    };
+    this.service.invoke('get.allField', quaryparms).subscribe(res => {
+      res.fields.forEach(element => {
+        if(element._id === data.fieldId){
+          console.log(element)
+          this.addEditFacetObj = JSON.parse(JSON.stringify(data));
+          this.selectField(element);
+          this.openModal();
+        }
+      });
+    }, errRes => {
+      this.loadingContent = false;
+      this.errorToaster(errRes,'Failed to get index  stages');
+    });
   }
   resetDefaults(){
     this.facetDefaultValueObj = {
@@ -192,9 +215,6 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
   }
   getFieldAutoComplete(query){
-    // if (/^\d+$/.test(query)) {
-    //   query = query.parseInt();
-    // }
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       indexPipelineId:this.indexPipelineId,
@@ -205,6 +225,12 @@ export class FacetsComponent implements OnInit , OnDestroy{
      }, errRes => {
        this.errorToaster(errRes,'Failed to get fields');
      });
+     if(!query){
+      this.fieldDataType = 'number';
+      this.filedTypeShow = false;
+     }else{
+      this.filedTypeShow = true;
+     }
   }
   switchType(type){
     if(type=== 'value'){
@@ -224,23 +250,24 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.addEditFacetObj.facetRange.splice(index ,1);
   }
   addFiled(facet?){
-    // if(facet.facetType === 'value'){
-    //   if(this.addEditFacetObj.facetRange){
-    //     delete this.addEditFacetObj.facetRange;
-    //   }
-    //   if(!this.addEditFacetObj.facetValue){
-    //     this.addEditFacetObj.facetValue = [];
-    //   }
-    //   this.addEditFacetObj.facetValue.push(this.facetDefaultValueObj.value);
-    // } else {
+    if(this.addEditFacetObj.facetType === 'value'){
+      if(this.addEditFacetObj.facetRange){
+        delete this.addEditFacetObj.facetRange;
+      }
+      if(!this.addEditFacetObj.facetValue){
+        this.addEditFacetObj.facetValue = {};
+      }
+    } else {
       if(this.addEditFacetObj.facetValue){
         delete this.addEditFacetObj.facetValue;
       }
       if(!this.addEditFacetObj.facetRange){
         this.addEditFacetObj.facetRange = [];
       }
-      this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
-    // }
+      if(this.facetDefaultValueObj.range.rangeName){
+        this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
+      }
+    }
     this.resetDefaults();
   }
   getFieldData(fieldId){
@@ -272,7 +299,15 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
   selectField(suggesition){
     this.selectedField = suggesition;
-    this.addEditFacetObj.fieldId = suggesition.fieldId
+    this.fieldDataType = suggesition.fieldDataType;
+    this.filedTypeShow = true;
+    if(suggesition.fieldId){
+      this.addEditFacetObj.fieldId = suggesition.fieldId;
+      this.selectedField.fieldId = suggesition.fieldId;
+    }else{
+      this.addEditFacetObj.fieldId =  suggesition._id;
+      this.selectedField.fieldId = suggesition._id;
+    }
     this.addEditFacetObj.fieldName = suggesition.fieldName
   }
   createFacet() {
@@ -438,6 +473,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.showSearch = !this.showSearch
   };
   ngOnDestroy(){
-    this.subscription?this.subscription.unsubscribe(): false;
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
    }
   }

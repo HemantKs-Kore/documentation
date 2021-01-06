@@ -25,6 +25,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   // } else {
   //   korejstz = requireKr(2).jstz;
   // }
+  var carouselTemplateCount = 0
+  var carouselEles = [];
 
   var KRPerfectScrollbar;
   if (window.PerfectScrollbar && typeof PerfectScrollbar === 'function') {
@@ -242,6 +244,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       vars.locationObject = {};
 
+      vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
+
       var IPBasedLocationURL = "http://ip-api.com/json";
       $.ajax({
         url: IPBasedLocationURL,
@@ -254,6 +258,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log("Unable to fetch user's location.", error)
         }
       })
+
+      vars.countOfSelectedFilters = 0;
     }; //********************original widget.js start */
 
 
@@ -328,8 +334,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.setAPIDetails = function () {
 
       var _self = this;
-      var SearchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83';
-      // var SearchIndexID = 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e'
+      // var SearchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83'; // DEV SearchIndexID
+      var SearchIndexID = _self.config.botOptions ? _self.config.botOptions.searchIndexID : 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e';
+      // var SearchIndexID = 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e' // PILOT SearchIndexID
       var pipelineId = '';
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
         // SearchIndexID = window.selectedFindlyApp._id
@@ -995,7 +1002,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <div class="heading {{if koreWidgetSDKInstance.isDev==true}}display-none{{/if}}">\
               <div class="logo-sec-title">\
                 <img class="show-in-findly logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAW0SURBVHgBrVY7bxxVFD73MbOzu36skzgRDVoLISUFitPQQkoqNl3KICQKGuAXJP4FpESisJEQosNUlCy/gICQCAXyFkgkIDvr7HrncV9858zaROSBkJjR1c7MnTnf+b7znXtX0b8cBx8+GmgXb0VqrpJS22RoYIymGOIkEU1Dnb42ROOtT16avCiOet7Ezzd/HxpFu42fvxlcRREnpUhJedLaku11qeivkjEZ+QVmXdqLgXaufPlswGcC3R89+MAFd7epKgqxIc9A/Bs9qZQoUcBQZHRO1ha0fmmTut0uuYWjPLN3tr7Y3Hkh0MHoYBBpdfdkVo6cc9RglG5GIdSQqkZ4MGJmpHEqKGlJKw3Agnpgd+Glc6SjBnPa18G8s7W/MT2NbZ8EMn6wW5XlqJo1VNYlNdFRHUqw8eRTQyHFNjsFkAQwpGl0B79Iqn5MzczRhQvnqNfrjpROA7x6/SlGv7z+8Ha2Zu8cHR3TvCmpChXVkKuJbX1YQmaTkqIkwikAWMoUAylGx3VOPdOh86sDWl3pU57buy9/s/HRGdD3lw+GxVr3IKRAhydTKhG8Dg1VqUbgBDYQDYNP3AoQCRTAYEOrNUDs8l7RuXydNjrrtLayQtqa61vjjbFIZ6zdtdHQ4WIKJg6jJpc82LTBA+L6xBYgAEaplBdTtMw6KaOeSlTAHE1yNId5MpyFKqhj9W18NlbMJs86Bx5h/qyPqEQtHrNsAHIylozYawLCVgCgZA8xMZ/B7myPFZ2JYdZ1ly5ma3TerlMBKXOdX7PaZCOmP/czSBXomBmBQRMTsiP50KVWrIDgHmD61ElsCrgOpm8lZbMkfk4Si991UAXtPbIdnb/dgMUMDpvi4RwvLiLWAbzEUnHx+VW/dJzHPcvn5Wlr88IouXIxSu005h8j1iUkwiqkFN6wVunhoWeQREcYFV4QIPySvAg20N/jmV5+6ERC5tdWqQqoE+asMq2VIxfV0TBPhByY5NAih+EfCPooMAuFGhmqkO8iJXGaGDO1NYkxSmCWkpRuq4Rrh0Qa9FpHG5FVpTYhLgFDd0kNrcPDYwSYYaLERzw5B3BFrd7sNa5Da2sGYatzVyQwlIfiymbpSGYVpTYksbipV7meRtnpSUyDCh/XCBQQFK+L4+Kpt1KShgtLi6fTrCX/tOyoJPVywp5kaSo5CdwMjJraQptJrrPt2pcinZcAFuIZsTSJoxK13QP5lsFp2bIkdeElqTUPioOaGupilZhhmbL4di3Gexbl/G5gettJleI0z82ILmdmtWisBCBRuyIwHCun0pIJKyDXWlLQkmCO5x0wklQ4zg+68rSfIYMCKzB2GsjX9gUho4CPGMxh3glLK2zF7qq9r5OW7yQ5BlEZ9qsCbuvA4knkc1Ht6ys/rY7XTGesEZhfCFg6OChnFakjQaRRkXkAIEvqBRR9w614ep94Hous7sMQBVhndAiToSyTt+5vjqXJN222s6KZbg4mWEbOBkvITDMxCCeRZJlBYIA23ENSFdQOSeZ6RQbHmQHEyeaoZRMUoNfudceX8/7YChAkw2iWMjmuFT5okDlL6NFnYSklJxORTAKIxvqmVA/PDS0Qs+RtQxd7792/uHcGxMelrH/jWmdj0jfdVj7FIJmwaXDNmZ/ALHOYYQHdK7aygPUwupCqkPouMF8DLFe9SRHynac2Pj6+ulwOHxJ9+2MzH07CHEVsELSW36XRKZ7uRKrdfTTYWcWbAvyG6x5M0Edd8pSu703+/qPy1J+TOwDTSX38m29GD7CNzwUI2wVOn/xZeypZgqjd+hQzyGAfTX1lxvDajf3J1vTJuM/9u/X+q/Nbx0HdnpIfltyMGA3AgmyG0k2yEvAKwADndT65qMPOp7+2Nfnn8Vyg0+PdV05GD2IawRBXsZFvu+WqAP+BRZp0yYxXYvrs88nqmP7P49awHN7EoP94/AUUr0KuNdomKAAAAABJRU5ErkJggg==">\
-                <img class="search-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAARCAYAAABq+XSZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANmSURBVHgB3VddUuJAEO6J2XduYFzZZ/UExBOIJzCcADiBegL1BngC8QTGE8g+q+V4AtlnIr1fz0zCJEuALaG07CqG+e3p7vn6J0QrUhT92qdvRiqKmmf1y6y1fh5EP5sXxNTDRKpfng7pgxRFu21cLcYca/10GYGIwsSuZgNcqmmDFO0070jRKERzWruLVYp2QFNukFIY05jWQ23cewIDaPQvoXhUyMFhilbTJompQcwq9KZSTN5Xdmlp8fodIOQarzKib0BA24H8z5SH4pg8m7cZ/p5QQC2ahgJVwLQZU6BOzOJ00qcg7KKHNTXG+LwKW7jNqV2X/VmfllCVP9iNnRz7kKPr5s/r3KM4zyyIgkwKex9HJXmm/BrSSjSN4QIiTEoGpioC48SubYnhXJ+xFCYQ8iC/DBfdYLpdsFJhjHYJgjIN+CeOv6Bx4OToQo7ExiLdmXfSKMZ0BuWGGN47AzzAIId43NSJCeMEeqa84hMEglaJE6u+b7G5pBC4mI+NQRRdOCETND0T2HLFma+wRwSKF8YZElhqDVlSszcIWoXyCmPzH6S1h6f0B21fAmk+BV7bIg/ZxyvIe3kIj31lTgh0y4hVBxeN3CWCDoH/nluN3T+i+nPP9VNn5HgxX7o1yjKL8To2IxgZoSBf1x3zlTYyyTmBvgS5Cnk+LwzVoLy8PMAplb15w2o2aDhFynyYf+NgTAspG0A8QVLD1Rj7xq1s+k3rTrm02QWSJZ02jAw2S/2ji//yuvCJdZNSUWVie9kRCXIF9InFVY7MgiBi4V1bdySPwME50SQ1fQoFda3q1oA2SspZmyMTgSmHIa9WLeaKWsVjO/l+WbfdIkRF1hUfTbHkMsXevP0bVl6g61xB0Y2J/Cp8cHD8n/Oxmxj56U0MKdUaDOviycSuBXw027MrBVV7HveNKm+sztxxxVLDRH7xf+bblc/7vmoyhk8/xIgxfkez+6gvqQ5GeZOfyUCqGssshcTZjusvKF3feyZ3FjQZYpxK70Xr15lw2TFROaoiOEl6G1rYq7GkTrxXw+cnsUbecK4cedS3cqRl3obXjn/GfSsMTcls7nuy9/lyiZxSktAXJffx04KECVnUpFDkwx9VPq1Y4X0GoaIsfFXc5r1Da6YvrDxdIWrfOsVHeX2/TvoL5IWKplAqwt0AAAAASUVORK5CYII=">\
+                <img class="search-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAOCAYAAADub7QZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAaLSURBVHgB7VhdUhtJDFaPTdU+7U5OkDaY5x1OEHOCwAlinwA4Ac4JAifAPkHICXBOEL/z49kTxPscY+0nqac9HjAeB6jdVK0K7PGMuvXT0idpGvQ/vQp5v5ul6e+/TUH0C5ErLrz3KSXNI1xmxJTiyZTm/CXPbwf0HyPTdeuT/pj/OMnzvJbTvd85oyT5w9bNv76WbQiGLjm+wOWUeNaqq9+r6MC0n+c3o7rrmmFxhsVXGggFMf6dO/Ct9hGM2v83jHqCUmLuyoVzrk/i+DWEIPJghi1sN5zz+BzQqxJPN/Gb9+1jnAOS0uX55GafnkdjnOGYaJZvsijRT4tmBAPnxK4nUQXHnQeeDHHTpV+emgeVG51Wq/WWXoHy/HqAJHpDfL9HmxHOwHn7f7YOYyDDHgIy32RdM3xn+sluqMYYjQCxKB1uyWmxtDB1SA0QWORhFX4VshJ+j2eZRHyI1vNCQWTDJ5QlKU9fKXHfiefHJv+mvyyDva1/KCPK2m6fGmI8wWeZJ3+Xhe7MjR6++xW9M6TJkekt6yivls51PPAb4Np9COz7Fb8hMDmt6mr+4AOr4pwCma+etFn2o+Yp2DumgxujfH5c+FdR/5Oj++5kMvmLalIREAJrOHz+AMVGRc2BMt0HK1xTSku2fM91sC7FujNVxg6or2WHnOzdMcUbBzBkT2HU6R4ds5876ogkBN+SDG1zvMrYbr/N724+lkWza5yZk0t8JV2iczSwQHMe4vNvPTBH76kUEFZWYuk0qBc9pHT6HfHHYA0PSsTtZcjwzrKPGt/A5wN/rv5Qm3be5Xe3PfOH84E7tfXuKz1CpkPjSus6u3PzMQIe96J/NegqOtSgJCgYnAyFHF0hOr9LhGqkLymyK78zKy1oViY3Dt8ntpROJWo1ciUDWXlOwPNGGqu4P4KiokNHy5OUqTmdax2NiMWHBr1BPyZDjzJJlmqJ00ycBl0+LIuYd8NFcWCD8DuDvM6CryGyA+qhGVTdIVtsUd3X8iwnSvSbyAjr2eHAbluhLANZXGY+mx0uyrSgh/hsdkariOkLSpI0jGehRO2bjGZGzyBFCNkUhz0VhCCKpcAiuLVzaoIBRfbc4IkLQ6UUBITBYQeIizBp2alBtEoH1Lrb4+IHAvGiMNgOT/cBChRgRpWAcL0C0RDAQ20cyS3zGBKI3pd2Ywadm9NoJ8pjYJxGGZhiYN9QDgWm90ub1eCpkmawXSZ8qnpK45jftMpc2Cs2oE/V/vBs4TNBDGqEQAhI+JOULIRcD6SzDVkv0TsMxviQFZKN3r4B0UCS+F85JL+9e4RAmgD6vyOIvoWm9XHiyoTAXOw1XuiWT6W3sP+nmiT3oKNfzk720O0ijqy6xJXQRDJSMl15u2ZfM6Cl9/V5lkkavBLKwXfus/hFfFRF4bpkPm5jjzZD/gSGnNILUFMdlgSnhJk+ZNwIz/6AwTAgkQyLEWnBEmG3RPdjdQrzmTVw4JmjaaQfI1N6A0qqzWwB7bMxbUSCavF1SyeOnYvnXvYWm8OI2Aqy4Bf60/oTQUup2dSqw/OYFqFZHti0gzLn6F0o0RfYK9/kXYGWbvGxBtnsMDaSEhzPpKZmVZjp0QWLsScmVJunTJ3JISMIdYvQXWPyAJKMAp+9JJqzrAXfVifA4zS/u+7FveqTyWCWBlS7ZmSRINJnfcpbGOV+1H8nUnThMs1UgxhdONm4LQc6sslIDgpl7O66b7q3+9IfFSgjmUnW46zkqVKcSoRC0oUp4JtxcEob0RyB7aT57y9kbOTjldQUOENkjUizh45xfWyQ6PyCrSgf98j8pvYZVhKSkRycwrzTJvI8wikcrfAsgaLjVNFnrKMoI9WuuaV11ZsaNFJ9axofsjjw8gAOHCw9b7WtZ7KycawHw9TVZ9taaqZqn8m2/mPOb3D4j/O4x1BTCAHM4V2Oa2Cy2B3FkVX9cj9eXKswL409eHrSR8UXVpwcavkh9HDoiySozB8aXKvL8gYUpoyiwy0O03m7T6L4YTELKzTxbM/eKTgfkCU1Pms8FfpivdQa29XRiLlWVj+QYdloMmjWo42IS/3B/eXDxy4EOoLXykaAYQ3ug4icetAmW7PS7Js+4EH200qbMDEViWZrMvOb21/0RbPBoneTpjV5H69lXSTl+2J9iPQQOgYP6QXIVW+Usu/J165h/EtX8a17XodeYo+fpTp+qOurypq1NhU85QZa7lX5jW/LA4Hyl/LPPxcB5wPLR3A/AAAAAElFTkSuQmCC">\
                 <span class="head">Kore Search Assistant</span>\
               </div>\
               <div class="right-side-icons">\
@@ -1003,6 +1010,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBzVLBEYJADNxD/FtCdPg7doAlWIKVCJVYgiWoHeCf0etACwDOvRyMfphRfGBmCJlNdi+XCzC2Ge9kkezgkH1DJDOz1zLXWOaJE5HZp1xf6zk+jl+K8Z0gBlmnNoQT4UcbX0CHaG+l4WSFg9zDVRtgyrg5wNUrYvxXW0vr7SCQJ0fuwpl1D6AROHPRmJjPaU2fgJ4Mw/oya/GU30m7U8zYUNMnwBbpRDdSBc2SvtDuFHMSaoK9L10UTuH9XL1Gg7RNpkBVaEzM57oZ6Ptz6Xi1HH9hT/FGV798NRUBAAAAAElFTkSuQmCC">\
                 <img class="show-in-findly" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADgSURBVHgBzZJBEsFAEEX/jNhzg0bs3UCcgBvgJOImnMAROII9KX2E7IPRnYhKqVkkZRFvM9M183/1TH+gbUy5IRpPgIyFlCiM5WTjlziGRcxJsv8Y0DDcwCGW7RnuPpO1B3Qjv8EzgjFzvl37WgUVsTKBCY5qwnzZ+eTSqXaxLGsL51Zfd+QpnQg1CfiWDHLnQejEbM2c7NAAix9p3yCoe5FotJDxHWQCRa1/Jplo0MHjBM1JFWf21Q5SWDst5uwjO+Uh05zoqB22zNe4EuXRqoivIa/+LSAiTSlJ0M74C16gMU0xa7sy7wAAAABJRU5ErkJggg==">\
                 <img class="help-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE1SURBVHgBhVI7TsNAEH27cY8VOMA6OBJlcgLMCeAGNhUl4STACZLcAEoq3NG6RQTFXCCYjsJ4eJs48ieOMtJIo5k3b74KLTFmOAIkoOlSM0DFafqR1DGqAhsD5UxpjiAyZ4gJQh/OaaeQ/DqlNNiNd7o0xp+gQ6x/E7ddkGJTofcKUWRaxLUWr6jk/pyViQGUTCF/457rnkTQ+jddLh6rNvUbE97Z2o3bPzbZ9+oly1ap6/bHQO9MMxCisDNsxYk40x0rTCwrBFFtBTPiL2E8X7BHbEt2loaPeGdvwsC/X1cRfdGOaWqyHrItBX64Zq9+oxKXaLI9Q6uwqxpXlzU9EhI/Z6X8AVIEndXQnI9LICZ/Kh0HjjsY3jaOWzFt38i+jo55hi+6j4jgMsC5qjdSu20cfth/n92EMGjOb2IAAAAASUVORK5CYII=">\
+                <img class="telephone-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAV1JREFUKBWF0TFIAlEYB/Dve3dekkK2REK7Jw613NUSSIPEqShOlTUYzS4NDUG4RTQ1OEW4FBUN0mDQpFvRzVIQRFNJQtZgdHTvfT0pgkiub3k83v/H9773AGTpRjIXMayjeLyk9vZexWRwVhBsyRB/6NrH/yEmgzvIlPmbq9oiArw9du0Dzw5EODIQGrq2rKIGQCYjqHoCQDh1Op2VYLDlAqEAhd17AYwZ1qhLeCnvlkIGw5xgT1UHp5oXJ8/9IGvaZy1gbJkDVH0K3gFg+cPt1ibi2VA/IOf8Kt1MLwji6xpTZ1zBlwRQwQeQ5whROWc2HDDyjUbJ/QE9FjFSBQJaRU1JMBdiQvCyfAiSXW25+sMBc+4X+EZ5ALFBqpIZH/PfttsBX71ecXQzuS/PlT+gh/TJdIK42EWG21pouOK8vEZJ8EOGsNYX9FB0Ohfm784mEGQQ6QkRi/Jzzz8BvMZ7XKjblkAAAAAASUVORK5CYII=">\
                 <img class="elipse-overflow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAADCAYAAABI4YUMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABUSURBVHgBhcrBDYAgEETRiW4BSCzAo11YgpZgCZZgJ1qClmBDQgEkMFzgBPxkD/sy/cSUHi816Nma/wNrWQfIBo94J1KyV+wQwD2Elc+bB+6mLSULWI0gebajC9UAAAAASUVORK5CYII=">\
                 <img class="close-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABxSURBVHgBhZDBDYAgDEV/xAXcoKs4iW7gCqzgRLiGJ7160hH8ak1IAW3yGiiPUOoADGQjB/IhpKuYGhK0kJOCOnd4shhZtObt7VguSlb+lN7ndkXigxpp46Pur3VLVvw07mE+mJMS2TH1ZC6IE54ZyglkyhuCR14v1QAAAABJRU5ErkJggg==">\
               </div>\
@@ -1110,8 +1118,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           {{if faq.multimedia.position=="horizontalSplit"}}\
                             <div class="image-content-space-horizontal"><img class="multimedia-image-horizontal" src="${faq.multimedia.url}" /></div>\
                           {{/if}}\
+                          {{if faq.multimedia.position=="verticalSplit"}}\
+                            <div class="image-content-space-vertical"><img class="multimedia-image-vertical" src="${faq.multimedia.url}" /></div>\
+                          {{/if}}\
                         {{/if}}\
-                        <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
+                        <div class="content-inner {{if faq.multimedia&&faq.multimedia.position=="verticalSplit"}}vertical-split-content-inner{{/if}}">{{html getHTMLForSearch(faq.answer)}}</div>\
                         <div class="divfeedback">\
                         <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
                         <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
@@ -1153,12 +1164,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 </div>\
                 <div class="faqs-bottom-actions background-white">\
                     <span class="appearences">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                    <span class="custom-appearences-content">${faq.feedback.appearance} VIEWS</span>&nbsp;\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                    <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
-                    <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                    <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                      <span class="custom-appearences-content">${faq.feedback.appearance} VIEWS</span>&nbsp;\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                      <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
+                      <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                      <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
+                      <div class="result-tuning-action-notification-container">\
+                        <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                        <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                        <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                        <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                      </div>\
                     </span>\
                     <span class="actions display-none">\
                     <span class="img-action  dont-show">\
@@ -1192,11 +1209,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                  <div class="image-url-sec">\
-                     <img src="${page.imageUrl}"></img>\
+                     <img src="${page.pageImageUrl}"></img>\
                  </div>\
                  <div class="pages-content">\
-                   <div class="title" title="${page.title}">${page.title}</div>\
-                   <div class="desc-info">{{html page.searchResultPreview}}</div>\
+                   <div class="title" title="${page.pageTitle}">${page.pageTitle}</div>\
+                   <div class="desc-info">{{html page.pageSearchResultPreview}}</div>\
                  </div>\
                  <img class="external-link-show" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACwSURBVHgBjZHRDcIgGIR/CAO5gTqJfWlf6wbWCUwfCw8yCm7gCE4C3k9ogtgSLmn+tnyXO0AYYx5EdKVCfd+LZVmslPKS/1cMCyGs9/5VmgDbEILD+ojPw2oghodhsBspDg1uCX7zlFRRgic8dyTNMbUFRtKEWh+urlrgtR6GUy0wS2vdIeEpC/i0Bef6MaTY8x78Z8hMu4p7wAUd0bHGRQZHSwobmfEyYnY1A8PMfgGDQ1B/OCu3QAAAAABJRU5ErkJggg==">\
                  </a>\
@@ -1234,13 +1251,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
                  <div class="faqs-bottom-actions background-white">\
                  <span class="appearences">\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                 <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>\
-                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                 <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
-                 <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
-                 <span class="appearences-count display-none">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
-                 </span>\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                    <span class="custom-appearences-content">${page.feedback.appearance} VIEWS</span>\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                    <span class="custom-appearences-content">${page.feedback.click} CLICKS</span>\
+                    <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
+                    <span class="appearences-count display-none">${page.feedback.appearance} Appearances - ${page.feedback.click} Clicks</span>\
+                    <div class="result-tuning-action-notification-container">\
+                      <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                      <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                      <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                      <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                    </div>\
+                  </span>\
                  <span class="actions display-none">\
                  <span class="img-action  dont-show">\
                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC1SURBVHgBrZIBDYNADEUr4SScBCQgpQ42B8zBcAAONgdIQMIkIIH14F3SNMu2EJr8BHrt6y+HyB4PU5aDoabXWYBkmkyraeFZ5Qv8QnF00Mi+Vj27xsa7aWbCxLQm1JR8D6CryY7GRFPGYgS0ADKA8r41ti4pgNYA8Odqego7+MmJgp73CkjkKkSrpRHAwP4+1K1Tony8W6jZEgt2B1fcMunnf5CxNgPx9zzK51v4O/QMQHEnbzn9OwsfLWhBAAAAAElFTkSuQmCC">\
@@ -1360,7 +1383,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <input id="viewTypeCheckboxControl" type="checkbox">\
               <div class="slider"><span class="enabled">Customize</span><span class="disabled">Preview</span></div>\
             </label>\
-            <div class="show_insights" data-displayInsights="true"><span class="show_insights_text">SHOW INSIGHTS </span><img class="show_insights_icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC"></div>\
+            <div class="show_insights display-none" data-displayInsights="true">\
+              <span class="show_insights_text display-none">SHOW INSIGHTS </span><img class="show_insights_icon display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACUSURBVHgBdY7NCcJAEIVnx58IZmVLSAe2oJ149OAmKSGWEC1AO0gJlmAJYg0Kgsm+0REEDcmDObz3fYch61FN1o+EeuJySawPB0ZotuMo6pRVAqRCCOVniDf1Ypbi/AbuR3I2Cxdl2s0XWN+sjOGM2Sy1Q+QkQHnbD49/ombqnznTYE5MJILrfTcq+n6nOK0Lvfb+ArpOOQuJ5trnAAAAAElFTkSuQmCC">\
+              <span class="query-analytics-control-fullscreen-view"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBzZHNEcIgEIWfPwXYgZRAB1KCJdCB6SCWYAcpwRKkA8cK5OopdqC742YGHBJQPPhmvklgdx8Lu0C9dsQNlWqJB9GUJK8yJnsUmpyJK9ER5hsTBCaN/HNxP2bCp6qESSdFOthTYpp8k4OccCS2iFvX+EDckSVOiFu3qJCSDovGGWpWkGPk66biS+Rl8bqqm4iv55nid42+HRu1QZBHrpCXltzIyBCboBOFvIZJR0Y/0f8Z8fgvhJe1I+6Ckz0v6yHuE/H+Cfn+M6AXJD0vAAAAAElFTkSuQmCC">Query Analytics</span>\
+            </div>\
           </div>\
           {{if searchFacets.length}}\
             <button id="closeFacetFilterControl" class="display-none custom-button-filter-results custom-mt-3">\
@@ -1405,26 +1431,34 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${page.url}" target="_blank">\
                         <div class="image-url-sec">\
-                          <img src="${page.imageUrl}"></img>\
+                          <img src="${page.pageImageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${page.title}">${page.title}\
+                          <div class="title" title="${page.pageTitle}">${page.pageTitle}\
                           <span class="custom-external-link-show-container display-none">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">{{html page.searchResultPreview}}</div>\
+                          <div class="desc-info">{{html page.pageSearchResultPreview}}</div>\
                           <div class="custom-matched-results-container">\
-                            <div class="custom-matched-results-page-icon">\
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
-                            </div>\
-                            <div class="custom-matched-results-page-summary">\
-                              <span class="custom-matched-results-page-summary-content">\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span>${page.feedback.appearance} VIEWS</span>\
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>${page.feedback.click} CLICKS</span>\
-                              </span>\
+                            <div class="flex-data">\
+                              <div class="custom-matched-results-page-icon">\
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
+                              </div>\
+                              <div class="result-tuning-action-notification-container fullscreen-notification">\
+                                <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                                <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                                <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                                <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                              </div>\
+                              <div class="custom-matched-results-page-summary">\
+                                <span class="custom-matched-results-page-summary-content">\
+                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                                  <span class="pr_15">${page.feedback.appearance} Views</span>\
+                                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                                  <span>${page.feedback.click} Clicks</span>\
+                                </span>\
+                              </div>\
                             </div>\
                           </div>\
                           <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
@@ -1505,9 +1539,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             {{if faq.multimedia.position=="horizontalSplit"}}\
                               <div class="image-content-space-horizontal"><img class="multimedia-image-horizontal" src="${faq.multimedia.url}" /></div>\
                             {{/if}}\
+                            {{if faq.multimedia.position=="verticalSplit"}}\
+                              <div class="image-content-space-vertical"><img class="multimedia-image-vertical" src="${faq.multimedia.url}" /></div>\
+                            {{/if}}\
                           {{/if}}\
-                          <div class="content-inner">{{html getHTMLForSearch(faq.answer)}}</div>\
-                          <div class="divfeedback">\
+                          <div class="content-inner {{if faq.multimedia&&faq.multimedia.position=="verticalSplit"}}vertical-split-content-inner{{/if}}">{{html getHTMLForSearch(faq.answer)}}</div>\
+                          <div class="divfeedback {{if viewType=="Customize"}}display-none{{/if}}">\
                             <span class="yesLike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtdXAtZ3JheTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJ0aHVtYnMtdXAtZ3JheSIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-up"></span>\
                             <span class="noDislike"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTRweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgMTQgMTQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUzLjIgKDcyNjQzKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT50aHVtYnMtZG93bi1ncmF5PC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9InRodW1icy1kb3duLWdyYXkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcuMDAwMDAwLCA3LjAwMDAwMCkgc2NhbGUoLTEsIC0xKSB0cmFuc2xhdGUoLTcuMDAwMDAwLCAtNy4wMDAwMDApICIgZmlsbD0iIzRENTc1QyIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBhdGggZD0iTTEuMTY0LDEzLjMzMyBDMC44ODksMTMuMzMzIDAuNjY3LDEzLjExNSAwLjY2NywxMi44NDYgTDAuNjY3LDcgQzAuNjY3LDYuNzMgMC44ODksNi41MTMgMS4xNjQsNi41MTMgTDMuNDk4LDYuNTEzIEw1LjAyNiwxLjAyNiBDNS4wODYsMC44MTQgNS4yODIsMC42NjYgNS41MDYsMC42NjYgQzYuNjgsMC42NjYgNy42MzIsMS41OTkgNy42MzIsMi43NDggTDcuNjMyLDUuNDUgTDExLjIwNyw1LjQ1IEMxMi41MSw1LjQ1IDEzLjUwNyw2LjU4NyAxMy4zMDgsNy44NDggTDEyLjcyNCwxMS41NjggQzEyLjU2NCwxMi41ODQgMTEuNjcyLDEzLjMzMyAxMC42MjMsMTMuMzMzIEwxLjE2NCwxMy4zMzMgWiBNMy4zOCwxMi4zNTkgTDMuMzgsNy40ODcgTDEuNjYyLDcuNDg3IEwxLjY2MiwxMi4zNTkgTDMuMzgsMTIuMzU5IEwzLjM4LDEyLjM1OSBaIE01Ljg3LDEuNjk5IEw0LjM3Niw3LjA2NiBMNC4zNzYsMTIuMzYgTDEwLjYyMywxMi4zNiBDMTEuMTgxLDEyLjM2IDExLjY1NSwxMS45NjEgMTEuNzQsMTEuNDIxIEwxMi4zMjUsNy43MDEgQzEyLjQzLDcuMDMgMTEuOSw2LjQyNSAxMS4yMDcsNi40MjUgTDcuMTM1LDYuNDI1IEM2Ljg2LDYuNDI1IDYuNjM3LDYuMjA3IDYuNjM3LDUuOTM4IEw2LjYzNywyLjc0OCBDNi42MzcsMi4yNjEgNi4zMTcsMS44NDggNS44NywxLjcgTDUuODcsMS42OTkgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=" class="thumbs-down"></span>\
                           </div>\
@@ -1515,16 +1552,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                       <div class="desc-info">{{html getHTMLForSearch(faq.answer)}}</div>\
                       <div class="custom-matched-results-container">\
-                        <div class="custom-matched-results-faq-icon">\
-                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
-                        </div>\
-                        <div class="custom-matched-results-faq-summary">\
-                          <span class="custom-matched-results-faq-summary-content">\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                            <span>${faq.feedback.appearance} VIEWS</span>\
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                            <span>${faq.feedback.click} CLICKS</span>\
-                          </span>\
+                        <div class="flex-data">\
+                          <div class="custom-matched-results-faq-icon">\
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
+                          </div>\
+                          <div class="result-tuning-action-notification-container fullscreen-notification">\
+                            <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                            <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                            <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                            <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                          </div>\
+                          <div class="custom-matched-results-faq-summary">\
+                            <span class="custom-matched-results-faq-summary-content">\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
+                              <span class="pr_15">${faq.feedback.appearance} Views</span>\
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
+                              <span>${faq.feedback.click} Clicks</span>\
+                            </span>\
+                          </div>\
                         </div>\
                       </div>\
                       <div class="custom-full-search-matched-results-actions custom-live-search-matched-results-actions">\
@@ -1595,17 +1640,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
-                      <a class="faqs-wrp-content" href="${document.externalFileUrl}" target="_blank" id=${key}>\
+                      <a class="faqs-wrp-content" href="${document.externalFileURL}" target="_blank" id=${key}>\
                         <div class="image-url-sec">\
                           <img src="${document.imageUrl}"></img>\
                         </div>\
                         <div class="pages-content">\
-                          <div class="title" title="${document.title}">${document.title}\
+                          <div class="title" title="${document.docTitle}">${document.docTitle}\
                           <span class="custom-external-link-show-container display-none">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABnSURBVHgBnZHdDYAgDIRPJ3GEbqSb6EaOpBvgBgimSNPwf8k9FO67EDqhLItBkfMVClZnw4P0ocIUAD8slWaST7SN4SKgwzs01dKcA04VrgIp/ZkZnfLAg/y3gu9uebAhbjFlw5lPL9CZJwJeTcCIAAAAAElFTkSuQmCC">\
                           </span>\
                           </div>\
-                          <div class="desc-info">${document.searchResultPreview}</div>\
+                          <div class="desc-info">${document.docSearchResultPreview}</div>\
                           <div class="custom-matched-results-container">\
                             <div class="custom-matched-results-page-icon">\
                               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
@@ -1613,9 +1658,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="custom-matched-results-page-summary">\
                               <span class="custom-matched-results-page-summary-content">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBPU/LDYJAFHQXuHDREiwBOtASrEA9wgWsYKECJYQQTmoFliBWYAtbAtxI+DmTsJI88ubNvJl9YrV8eZ7vbNtW8zx7QogNRjXqGQTBg7zkr6oqZVnWC+0HIn+aJp8ilCrLUlEjiqI4SSkJ9sMwbB3HOaLf9H2fIUEj4TuO40HCiURKEV1BtHBsIXpzhgQuKBtDD+QFTldsZmEYJoxCpIYgRsuKkCpr13U1QIPS5jgsE6+7rmvgWgtD4KAY7hHizsRwu/NJ5uq/cIlL4BQtMMUzbob7AcvvZ8ELJe2ZAAAAAElFTkSuQmCC">\
-                                <span>${document.feedback.appearance} VIEWS</span>\
+                                <span class="pr_15">${document.feedback.appearance} Views</span>\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADnSURBVHgBnZHRDYJADIZ7hwk8OoJuoBvgBjqB4ZEnRgA28I3AC2ECdQNGcAMZwQXg/KuHQTxOY5Om0OvXa/8TNLI8z+Ou6xJ8JmEYpmQwOU5oYMkQTZg0JXFDQxaT9IfNbIdZlimEGu7TYEcrRM/drn1Ek4RhyWpxR3g8JvrdBjs+BBIMQLG14zilUuqkxxBkGZmFSDWwE0Js6QeT6JoAOAM4avDyFdIzv4FTxUVRrBCa1zsNwbIs5yaobdsI+1cfC2tZ93B+k5qVQ26BZhH+fdd1N0aVUORzEbpy5FsbeOV53iEIgtsdmbJxSEqhuZgAAAAASUVORK5CYII=">\
-                                <span>${document.feedback.click} CLICKS</span>\
+                                <span>${document.feedback.click} Clicks</span>\
                               </span>\
                             </div>\
                           </div>\
@@ -1970,7 +2015,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var messageBubbles = '<script>\
         <div class="messageBubble">\
           {{if msgData && msgData.from==="user"}}\
-            <div class="userMessage"><span>${msgData.text}</span></div>\
+            <div class="userMessage"><span>${msgData.text}</span>\
+            {{if devMode=="true"}}\
+              <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">\
+                Query Analytics\
+              </div>\
+            {{/if}}\
+            </div>\
           {{/if}}\
           {{if msgData && msgData.from==="bot"}}\
           <div class="messageBubble-content">\
@@ -2043,7 +2095,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
     }
-    FindlySDK.prototype.getListTemplate = function (type) {
+    FindlySDK.prototype.getListViewTemplate = function () {
       var listT =
         '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
             {{if msgData.message}} \
@@ -2093,6 +2145,187 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </script>';
       return listT;
     }
+
+    FindlySDK.prototype.getCarouselTemplate = function (type) {
+      var carouselTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
+                    {{if msgData.message}} \
+                      <div class="messageBubble">\
+                        <li {{if msgData.type !== "bot_response"}}id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon"> \
+                            {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
+                            {{if msgData.icon}}<div aria-live="off" class="profile-photo extraBottom"> <div class="user-account avtar" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
+                            {{if msgData.message[0].component.payload.text}}<div class="messageBubble tableChart">\
+                                <span>{{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.text, "bot")}}</span>\
+                            </div>{{/if}}\
+                            <div class="carousel" id="carousel-one-by-one" style="height: 0px;">\
+                                {{each(key, msgItem) msgData.message[0].component.payload.elements}} \
+                                    <div class="slide">\
+                                        {{if msgItem.image_url}} \
+                                            <div class="carouselImageContent" {{if msgItem.default_action && msgItem.default_action.url}}url="${msgItem.default_action.url}"{{/if}} {{if msgItem.default_action && msgItem.default_action.title}}data-value="${msgItem.default_action.title}"{{/if}} {{if msgItem.default_action && msgItem.default_action.type}}type="${msgItem.default_action.type}"{{/if}} {{if msgItem.default_action && msgItem.default_action.payload}} value="${msgItem.default_action.payload}"{{/if}}> \
+                                                <img alt="image" src="${msgItem.image_url}" onerror="this.onerror=null;this.src=\'../libs/img/no_image.png\';"/> \
+                                            </div> \
+                                        {{/if}} \
+                                        <div class="carouselTitleBox"> \
+                                            <p class="carouselTitle">{{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgItem.title, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgItem.title, "user")}} {{/if}}</p> \
+                                            {{if msgItem.subtitle}}<p class="carouselDescription">{{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgItem.subtitle, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgItem.subtitle, "user")}} {{/if}}</p>{{/if}} \
+                                            {{if msgItem.default_action && msgItem.default_action.type === "web_url"}}<div class="listItemPath carouselDefaultAction" type="url" url="${msgItem.default_action.url}">${msgItem.default_action.url}</div>{{/if}} \
+                                            {{if msgItem.buttons}} \
+                                                {{each(key, msgBtn) msgItem.buttons}} \
+                                                    <div {{if msgBtn.payload}}value="${msgBtn.payload}"{{/if}} {{if msgBtn.url}}url="${msgBtn.url}"{{/if}} class="listItemPath carouselButton" data-value="${msgBtn.value}" type="${msgBtn.type}">\
+                                                        {{html convertMDtoHTMLForCarousel(msgBtn.title, "bot")}}\
+                                                    </div> \
+                                                {{/each}} \
+                                            {{/if}} \
+                                        </div>\
+                                    </div>\
+                                {{/each}} \
+                            </div>\
+                        </li> \
+                      </div>\
+                    {{/if}}\
+                </script>';
+      return carouselTemplate;
+    }
+
+    FindlySDK.prototype.getQuickReplyTemplate = function (type) {
+      var quickReplyTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
+                    {{if msgData.message}} \
+                      <div class="messageBubble">\
+                        <li {{if msgData.type !== "bot_response"}} id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon quickReplies" style="margin-top: -20px"> \
+                            <div class="buttonTmplContent">\
+                                {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
+                                {{if msgData.icon}}<div aria-live="off" class="profile-photo"> <div class="user-account avtar marginT50" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
+                                {{if msgData.message[0].component.payload.text}} \
+                                    <div class="buttonTmplContentHeading quickReply" style="display: none;"> \
+                                        {{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.text, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.text, "user")}} {{/if}} \
+                                        {{if msgData.message[0].cInfo && msgData.message[0].cInfo.emoji}} \
+                                            <span class="emojione emojione-${msgData.message[0].cInfo.emoji[0].code}">${msgData.message[0].cInfo.emoji[0].title}</span> \
+                                        {{/if}} \
+                                    </div>\
+                                    {{/if}} \
+                                    {{if msgData.message[0].component.payload.quick_replies && msgData.message[0].component.payload.quick_replies.length}} \
+                                    <div class="fa fa-chevron-left quickreplyLeftIcon hide"></div><div class="fa fa-chevron-right quickreplyRightIcon"></div>\
+                                        <div class="quick_replies_btn_parent"><div class="autoWidth">\
+                                            {{each(key, msgItem) msgData.message[0].component.payload.quick_replies}} \
+                                                <div class="buttonTmplContentChild quickReplyDiv"> <span {{if msgItem.payload}}value="${msgItem.payload}"{{/if}} class="quickReply {{if msgItem.image_url}}with-img{{/if}}" type="${msgItem.content_type}">\
+                                                    {{if msgItem.image_url}}<img src="${msgItem.image_url}">{{/if}} <span class="quickreplyText {{if msgItem.image_url}}with-img{{/if}}">{{html convertMDtoHTMLForCarousel(msgItem.title, "bot")}}</span></span>\
+                                                </div> \
+                                            {{/each}} \
+                                        </div>\
+                                    </div>\
+                                {{/if}} \
+                            </div>\
+                        </li> \
+                      </div> \
+                    {{/if}} \
+                </script>';
+      return quickReplyTemplate;
+    }
+
+    FindlySDK.prototype.getButtonTemplate = function () {
+      var buttonTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
+                              {{if msgData.message}} \
+                                <div class="messageBubble">\
+                                  <li {{if msgData.type !== "bot_response"}}id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon"> \
+                                    <div class="buttonTmplContent"> \
+                                      {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
+                                      {{if msgData.icon}}<div aria-live="off" class="profile-photo"> <div class="user-account avtar" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
+                                      <ul class="buttonTmplContentBox">\
+                                        <li class="buttonTmplContentHeading"> \
+                                          {{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.text, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.text, "user")}} {{/if}} \
+                                            {{if msgData.message[0].cInfo && msgData.message[0].cInfo.emoji}} \
+                                            <span class="emojione emojione-${msgData.message[0].cInfo.emoji[0].code}">${msgData.message[0].cInfo.emoji[0].title}</span> \
+                                          {{/if}} \
+                                        </li>\
+                                        {{each(key, msgItem) msgData.message[0].component.payload.buttons}} \
+                                          <a href="" style="text-decoration: none;">\
+                                            <li {{if msgItem.payload}}value="${msgItem.payload}"{{/if}} {{if msgItem.payload}}actual-value="${msgItem.payload}"{{/if}} {{if msgItem.url}}url="${msgItem.url}"{{/if}} class="buttonTmplContentChild" data-value="${msgItem.value}" type="${msgItem.type}">\
+                                              {{html convertMDtoHTMLForCarousel(msgItem.title, "bot")}}\
+                                            </li> \
+                                          </a> \
+                                        {{/each}} \
+                                      </ul>\
+                                    </div>\
+                                  </li> \
+                                </div>\
+                              {{/if}} \
+                            </script>';
+      return buttonTemplate;
+    }
+
+    FindlySDK.prototype.getListTemplate = function () {
+      var listTemplate = '<script id="chat_message_tmpl" type="text/x-jqury-tmpl"> \
+                            {{if msgData.message}} \
+                              <div class="messageBubble">\
+                              <li {{if msgData.type !== "bot_response"}}id="msg_${msgItem.clientMessageId}"{{/if}} class="{{if msgData.type === "bot_response"}}fromOtherUsers{{else}}fromCurrentUser{{/if}} with-icon"> \
+                              <div class="listTmplContent"> \
+                              {{if msgData.createdOn}}<div aria-live="off" class="extra-info">${helpers.formatDate(msgData.createdOn)}</div>{{/if}} \
+                              {{if msgData.icon}}<div aria-live="off" class="profile-photo"> <div class="user-account avtar" style="background-image:url(${msgData.icon})"></div> </div> {{/if}} \
+                                <ul class="listTmplContentBox"> \
+                                {{if msgData.message[0].component.payload.text || msgData.message[0].component.payload.heading}} \
+                                  <li class="listTmplContentHeading"> \
+                                    {{if msgData.type === "bot_response" && msgData.message[0].component.payload.heading}} {{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.heading, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgData.message[0].component.payload.text, "user")}} {{/if}} \
+                                      {{if msgData.message[0].cInfo && msgData.message[0].cInfo.emoji}} \
+                                        <span class="emojione emojione-${msgData.message[0].cInfo.emoji[0].code}">${msgData.message[0].cInfo.emoji[0].title}</span> \
+                                    {{/if}} \
+                                  </li> \
+                                {{/if}} \
+                                  {{each(key, msgItem) msgData.message[0].component.payload.elements}} \
+                                    {{if msgData.message[0].component.payload.buttons}} \
+                                      {{if key<= 2 }}\
+                                        <li class="listTmplContentChild"> \
+                                          {{if msgItem.image_url}} \
+                                            <div class="listRightContent" {{if msgItem.default_action && msgItem.default_action.url}}url="${msgItem.default_action.url}"{{/if}} {{if msgItem.default_action && msgItem.default_action.title}}data-value="${msgItem.default_action.title}"{{/if}} {{if msgItem.default_action && msgItem.default_action.type}}type="${msgItem.default_action.type}"{{/if}} {{if msgItem.default_action && msgItem.default_action.payload}} value="${msgItem.default_action.payload}"{{/if}}> \
+                                              <img alt="image" src="${msgItem.image_url}" onerror="this.onerror=null;this.src=\'../libs/img/no_image.png\';"/> \
+                                            </div> \
+                                          {{/if}} \
+                                          <div class="listLeftContent"> \
+                                            <div class="listItemTitle">{{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgItem.title, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgItem.title, "user")}} {{/if}}</div> \
+                                              {{if msgItem.subtitle}}<div class="listItemSubtitle">{{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgItem.subtitle, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgItem.subtitle, "user")}} {{/if}}</div>{{/if}} \
+                                                {{if msgItem.default_action && msgItem.default_action.url}}<div class="listItemPath" type="url" url="${msgItem.default_action.url}">${msgItem.default_action.url}</div>{{/if}} \
+                                                  {{if msgItem.buttons}}\
+                                            <div> \
+                                            <span class="buyBtn" {{if msgItem.buttons[0].type}}type="${msgItem.buttons[0].type}"{{/if}} {{if msgItem.buttons[0].url}}url="${msgItem.buttons[0].url}"{{/if}} {{if msgItem.buttons[0].payload}}value="${msgItem.buttons[0].payload}"{{/if}}>{{if msgItem.buttons[0].title}}${msgItem.buttons[0].title}{{else}}Buy{{/if}}</span> \
+                                          </div> \
+                                        {{/if}}\
+                                      </div>\
+                                    </li> \
+                                  {{/if}}\
+                              {{else}} \
+                              <li class="listTmplContentChild"> \
+                                  {{if msgItem.image_url}} \
+                                      <div class="listRightContent" {{if msgItem.default_action && msgItem.default_action.url}}url="${msgItem.default_action.url}"{{/if}} {{if msgItem.default_action && msgItem.default_action.title}}data-value="${msgItem.default_action.title}"{{/if}} {{if msgItem.default_action && msgItem.default_action.type}}type="${msgItem.default_action.type}"{{/if}} {{if msgItem.default_action && msgItem.default_action.payload}} value="${msgItem.default_action.payload}"{{/if}}> \
+                                          <img alt="image" src="${msgItem.image_url}" onerror="this.onerror=null;this.src=\'../libs/img/no_image.png\';" /> \
+                                      </div> \
+                                  {{/if}} \
+                                  <div class="listLeftContent"> \
+                                      <div class="listItemTitle">{{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgItem.title, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgItem.title, "user")}} {{/if}}</div> \
+                                      {{if msgItem.subtitle}}<div class="listItemSubtitle">{{if msgData.type === "bot_response"}} {{html convertMDtoHTMLForCarousel(msgItem.subtitle, "bot")}} {{else}} {{html convertMDtoHTMLForCarousel(msgItem.subtitle, "user")}} {{/if}}</div>{{/if}} \
+                                      {{if msgItem.default_action && msgItem.default_action.url}}<div class="listItemPath" type="url" url="${msgItem.default_action.url}">${msgItem.default_action.url}</div>{{/if}} \
+                                      {{if msgItem.buttons}}\
+                                      <div> \
+                                          <span class="buyBtn" {{if msgItem.buttons[0].type}}type="${msgItem.buttons[0].type}"{{/if}} {{if msgItem.buttons[0].url}}url="${msgItem.buttons[0].url}"{{/if}} {{if msgItem.buttons[0].payload}}value="${msgItem.buttons[0].payload}"{{/if}}>{{if msgItem.buttons[0].title}}${msgItem.buttons[0].title}{{else}}Buy{{/if}}</span> \
+                                      </div> \
+                                      {{/if}}\
+                                  </div>\
+                              </li> \
+                          {{/if}} \
+                      {{/each}} \
+                      </li> \
+                      {{if msgData.message[0].component.AlwaysShowGlobalButtons || (msgData.message[0].component.payload.elements.length > 3 && msgData.message[0].component.payload.buttons)}}\
+                      <li class="viewMoreList"> \
+                          <span class="viewMore" url="{{if msgData.message[0].component.payload.buttons[0].url}}${msgData.message[0].component.payload.buttons[0].url}{{/if}}" type="${msgData.message[0].component.payload.buttons[0].type}" value="{{if msgData.message[0].component.payload.buttons[0].payload}}${msgData.message[0].component.payload.buttons[0].payload}{{else}}${msgData.message[0].component.payload.buttons[0].title}{{/if}}">${msgData.message[0].component.payload.buttons[0].title}</span> \
+                      </li> \
+                      {{/if}}\
+                  </ul> \
+              </div> \
+          </li> \
+        </div>\
+      {{/if}} \
+    </script>';
+
+      return listTemplate;
+    }
+
     FindlySDK.prototype.getSuggestion = function (suggestions) {
       var _self = this;
       var $suggest = $('#suggestion');
@@ -2178,6 +2411,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.context_variables_textarea').hide();
         }
       });
+
+      $(document).off('click', '.telephone-icon').on('click', '.telephone-icon', function (event) {
+        console.log(event);
+        window.location.href = "tel:(212) 733-2323"
+      })
       // $(document).off('mouseover', '.contest_variables_dropdown').on('mouseover', '.contest_variables_dropdown', function (event) {
       //   $(event.target).toggleClass('contest-active');
       //   if($(event.target).hasClass('contest-active')) {
@@ -2349,7 +2587,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if ($('.start-search-icon-div').hasClass('active')) {
         $('.start-search-icon-div').addClass('hide');
       }
-      console.log('---- fill search hides preview ball icon ----------')
+      console.log('---- full search hides preview ball icon ----------')
       $('.search-body-full').removeClass('hide');
       $('.search-body-full').html(searchFullData);
       $('.search-container').removeClass('active');
@@ -2364,6 +2602,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           $(".faqs-shadow").addClass('custom-faqs-shadow');
           $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+
+          // $(".divfeedback").css('display', 'none');
 
           $(".custom-matched-results-container").css('display', 'block');
 
@@ -2389,6 +2629,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           $(".faqs-shadow").removeClass('custom-faqs-shadow');
           $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content-border');
+
+          // $(".divfeedback").css('display', 'block');
 
           $(".custom-matched-results-container").css('display', 'none');
 
@@ -2419,6 +2661,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             $(".faqs-shadow").addClass('custom-faqs-shadow');
             $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+
             $(".custom-matched-results-container").css('display', 'block');
 
             if (($('.custom-external-link-show-container').hasClass('display-none')) == true) {
@@ -2435,6 +2678,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(".pages-wrp").sortable("disable");
             }
             $(".custom-matched-results-container").css('display', 'none');
+
             if (($('.custom-external-link-show-container').hasClass('display-none')) == false) {
               $('.image-url-sec').css('display', 'table-cell');
               $('.desc-info').css('max-width', '100%');
@@ -2463,6 +2707,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             $(".faqs-shadow").addClass('custom-faqs-shadow');
             $(".faqs-wrp-content").addClass('custom-faqs-wrp-content-border');
+
+            // $(".divfeedback").css('display', 'none');
+
             $(".custom-matched-results-container").css('display', 'block');
 
             $('.desc-info').css('max-width', '65%');
@@ -2474,6 +2721,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if ($(".tasks-wrp").hasClass('ui-sortable, ui-sortable-disabled')) {
               $(".tasks-wrp").sortable("disable");
             }
+
+            // $(".divfeedback").css('display', 'block');
 
             $(".custom-matched-results-container").css('display', 'none');
             $('.desc-info').css('max-width', '100%');
@@ -2561,33 +2810,46 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           navLinks[i].className = navLinks[i].className.replace(" nav-link-item-active", "");
         }
         event.currentTarget.className += " nav-link-item-active";
+        $(searchData).find('.tasks-wrp .faqs-shadow').find(".accordion.acc-active").trigger('click');
         if (_self.vars.showingMatchedResults == true) {
           if ($(event.currentTarget).attr('id') == 'viewTypeCustomize') {
             _self.vars.customizeView = true;
-            $(".custom-insights-control-container").show();
+            // $(".custom-insights-control-container").show();
+
+            // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+
             $(".tasks-wrp").sortable();
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
 
             $(".faqs-shadow").addClass('custom-faqs-shadow');
             $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
+
             $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
 
             $(".image-url-sec").css('display', 'none');
             $(".faqs-bottom-actions").css('display', 'table');
 
+            $(".divfeedback").css('display', 'none');
+
           }
           else {
             _self.vars.customizeView = false;
 
-            $(".custom-insights-control-container").hide();
+            // $(".custom-insights-control-container").hide();
+
+            // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
+
             $(".faqs-shadow").removeClass('custom-faqs-shadow');
             $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
+
             $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
 
             $(".tasks-wrp").sortable("disable");
             $(".image-url-sec").css('display', 'table-cell');
             $(".faqs-bottom-actions").css('display', 'none');
+
+            $(".divfeedback").css('display', 'block');
 
             $('.notification-div').hide();
           }
@@ -2607,6 +2869,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       })
 
       $('.show-all-results').off('click').on('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
         /*var data = $(e.currentTarget).closest('.finalResults').data() || {};
         _self.vars.searchObject.liveData = data
         console.log(data);*/
@@ -2662,7 +2926,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }*/
 
         if (_self.vars.filterObject.length > 0) {
-          payload.filters = filterObject;
+          payload.filters = _self.vars.filterObject;
         }
 
         console.log(payload);
@@ -2833,6 +3097,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(this).is(':checked')) {
           console.log($(this).attr("id"));
           _self.vars.selectedFiltersArr.push($(this).attr("id"));
+
+          _self.vars.countOfSelectedFilters += 1;
+
           _self.filterResults(event, true);
         }
         else {
@@ -2843,6 +3110,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.vars.selectedFiltersArr.splice(_self.vars.selectedFiltersArr.indexOf(filter), 1)
             }
           })
+
+          _self.vars.countOfSelectedFilters -= 1;
+
           _self.filterResults(event, false);
         }
       });
@@ -2853,6 +3123,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('#loaderDIV').show();
         _self.vars.filterObject = [];
         _self.vars.selectedFiltersArr = [];
+
+        _self.vars.countOfSelectedFilters = 0;
+
         _self.searchByFacetFilters([]);
       });
 
@@ -2862,16 +3135,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($(this).attr('data-displayinsights') == "true") {
           responseObject = { 'type': 'showInsightFull', data: true, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', false);
-          $(this).find('.show_insights_text').text("HIDE INSIGHTS ");
-          $(this).find('.show_insights_icon').css('transform', 'rotate(180deg)')
+          /*$(this).find('.show_insights_text').text("HIDE INSIGHTS ");
+          $(this).find('.show_insights_icon').css('transform', 'rotate(180deg)')*/
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
         else {
           responseObject = { 'type': 'showInsightFull', data: false, query: _self.vars.searchObject.searchText };
           $(this).attr('data-displayinsights', true);
-          $(this).find('.show_insights_text').text("SHOW INSIGHTS ");
-          $(this).find('.show_insights_icon').css('transform', 'rotate(360deg)');
+          /*$(this).find('.show_insights_text').text("SHOW INSIGHTS ");
+          $(this).find('.show_insights_icon').css('transform', 'rotate(360deg)');*/
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
@@ -2892,6 +3165,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-container').off('click', '.recentText').on('click', '.recentText', function (e) {
         var recentSearch = $(this).attr('id');
         e.target.value = recentSearch;
+
+        $('.custom-header-container-center').css('visibility', 'hidden');
+
         $('#search').val(recentSearch).focus();
         $('#search').trigger("keyup");
 
@@ -3193,8 +3469,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           indicatorMessage = "UNHIDING";
         }
         else {
-          // indicatorMessage = "HIDING";
-          indicatorMessage = "HIDDEN"
+          indicatorMessage = "HIDING";
+          // indicatorMessage = "HIDDEN"
         }
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
@@ -3203,7 +3479,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });*/
           selectedElement.attr('visible', conf.visible);
           if (selectedElement.attr('visible') == "false") {
-            selectedElement.find('.notification-div').text(indicatorMessage).show();
+            // selectedElement.find('.notification-div').text(indicatorMessage).show();
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            })
+
+            if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').show();
+            }
             elementHidden.text("UNHIDE");
             selectedElement.addClass('hide-actions');
           }
@@ -3211,6 +3503,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
               $(this).hide();
             });
+            if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+              selectedElement.find('#hideAction').hide();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').hide();
+              selectedElement.find('#hideAction').hide();
+            }
             elementHidden.text("HIDE");
             selectedElement.removeClass('hide-actions');
           }
@@ -3221,8 +3521,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var elementPinned = selectedElement.find('.pinning > .custom-actions-content');
         var indicatorMessage = ''
         if (elementPinned.text() == "PIN") {
-          // indicatorMessage = "PINNING";
-          indicatorMessage = "PINNED"
+          indicatorMessage = "PINNING";
+          // indicatorMessage = "PINNED"
         }
         else {
           indicatorMessage = "UNPINNING";
@@ -3237,12 +3537,36 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
               $(this).hide();
             });
+            if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+              selectedElement.find('#pinAction').hide();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').hide();
+              selectedElement.find('#pinAction').hide();
+            }
+
             elementPinned.text("PIN");
             selectedElement.removeClass('hide-visibility-control');
 
           }
           else {
-            selectedElement.find('.notification-div').text(indicatorMessage).show();
+            // selectedElement.find('.notification-div').text(indicatorMessage).show();
+            selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+              $(this).hide();
+            });
+            if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').show();
+            }
             elementPinned.text("UNPIN");
             selectedElement.addClass('hide-visibility-control');
           }
@@ -3253,10 +3577,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = "BOOSTED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });*/
-          selectedElement.find('.notification-div').text(indicatorMessage).show();
+          });
+          // selectedElement.find('.notification-div').text(indicatorMessage).show();
+          if ($(event.target).closest('.boosting').attr('data-viewmode') == "full") {
+            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+            selectedElement.find('#buryAction').hide();
+            selectedElement.find('#boostAction').show();
+          }
+          else {
+            selectedElement.find('.result-tuning-action-notification-container').show();
+            selectedElement.find('#buryAction').hide();
+            selectedElement.find('#boostAction').show();
+          }
+
           selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
@@ -3265,10 +3600,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var indicatorMessage = "LOWERED";
         _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
           console.log(res);
-          /*selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
+          selectedElement.find('.notification-div').text(indicatorMessage).show().delay(2000).fadeOut(1600, function () {
             $(this).hide();
-          });*/
-          selectedElement.find('.notification-div').text(indicatorMessage).show();
+          });
+          // selectedElement.find('.notification-div').text(indicatorMessage).show();
+          if (($(event.target).closest('.burying').attr('data-viewmode') == "full")) {
+            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+            selectedElement.find('#boostAction').hide();
+            selectedElement.find('#buryAction').show();
+          }
+          else {
+            selectedElement.find('.result-tuning-action-notification-container').show();
+            selectedElement.find('#boostAction').hide();
+            selectedElement.find('#buryAction').show();
+          }
           selectedElement.attr('boost', conf.boost);
         }, function (eRes) {
           console.log(eRes);
@@ -3432,7 +3777,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       console.log(payload);
 
-      facetActive = $('.facetActive').attr('id');
+      if (_self.vars.countOfSelectedFilters > 1) {
+        facetActive = "all results";
+      }
+      else {
+        facetActive = $('.facetActive').attr('id');
+      }
       console.log("Active Facet Tab: ", facetActive);
 
       // payload.isDev = _self.isDev;
@@ -3479,6 +3829,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (resultType == "page" || resultType == "faq") {
+        var experimentObjectProps = Object.getOwnPropertyNames(_self.vars.experimentsObject);
         payload.answerInfo = {};
 
         payload.answerInfo = {};
@@ -3488,6 +3839,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         payload.clickRank = parseInt(resultPosition);
         payload.clickRank = payload.clickRank + 1;
+
+        if (experimentObjectProps.length > 0) {
+          payload.queryPipelineId = _self.vars.experimentsObject ? _self.vars.experimentsObject.queryPipelineId : "";
+          payload.relay = _self.vars.experimentsObject ? _self.vars.experimentsObject.relay : "";
+          if (_self.vars.experimentsObject.experimentId) {
+            payload.experimentId = _self.vars.experimentsObject.experimentId;
+          }
+        }
+
       }
 
       if (resultType == "task") {
@@ -3527,9 +3887,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
-        if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+        // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+
+        /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
           $('.custom-insights-control-container').show();
-        }
+        }*/
       }
 
 
@@ -3543,7 +3905,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //_self.bindSearchActionEvents();
 
 
-      $('.custom-insights-control-container').off('click').on('click', function (event) {
+      // $('.custom-insights-control-container').off('click').on('click', function (event) {
+      $(dataHTML).off('click', '.query-analytics-control-container').on('click', '.query-analytics-control-container', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
         if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
@@ -3551,11 +3914,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(responseObject);
           _self.parentEvent(responseObject);
         }
-        $('.custom-header-container-left').css('visibility', 'visible');
-        $('.custom-insights-control-container').hide();
+        /*$('.custom-header-container-left').css('visibility', 'visible');
+        $('.custom-insights-control-container').hide();*/
       })
 
-      $('.custom-header-container-left').off('click').on('click', function (event) {
+      /*$('.custom-header-container-left').off('click').on('click', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -3573,7 +3936,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
 
         $('.custom-header-container-left').css('visibility', 'hidden');
-      })
+      })*/
 
       // $('.pay-button').off('click').on('click')
       if (templateType === "search-container") {
@@ -3613,6 +3976,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
             }
+            
+            $('.custom-header-container-center').css('visibility', 'visible');
+
+            _self.vars.filterObject = [];
+            _self.vars.selectedFiltersArr = [];
+            _self.vars.countOfSelectedFilters = 0;
+
           }
         })
         $(dataHTML).off('click', '.search-button').on('click', '.search-button', function (e) {
@@ -3836,6 +4206,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     $('.search-body').hide();
                     $('#searchChatContainer').addClass('bgfocus-override');
                   }
+                  else {
+                    $('.search-body').hide();
+                    $('#searchChatContainer').addClass('bgfocus-override');
+                  }
                 })
               }
             } else {
@@ -3843,6 +4217,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.search-body').removeClass('h-100');
             }
           }
+
+          $('.custom-header-container-center').css('visibility', 'hidden');
+
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
@@ -3920,6 +4297,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           //   });
           // }
+
+          $('.custom-header-container-center').css('visibility', 'hidden');
 
         });
 
@@ -4185,51 +4564,68 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       if (res.templateType === 'search') {
+
+        if (res.queryPipelineId && res.relay) {
+
+          _self.vars.experimentsObject = {};
+
+          if (res.relay == "experiment") {
+            if (res.experimentId) {
+              _self.vars.experimentsObject['experimentId'] = res.experimentId;
+            }
+          }
+
+          _self.vars.experimentsObject['queryPipelineId'] = res.queryPipelineId;
+          _self.vars.experimentsObject['relay'] = res.relay;
+
+          console.log("Experiments Object", _self.vars.experimentsObject);
+        }
+
         res = res.template;
         var liveResult = res.results;
         var topMatchFAQ;
         var topMatchTask;
 
-        /* res.searchFacets = [
-         {
-           "fieldName": "String",
-           "facetName": "String",
-           "facetType": "range",
-           "buckets": [
-             {
-               "key": "djikstra",
-               "from": 10.0,
-               "to": 20.0,
-               "doc_count": 1
-             },
-             {
-               "key": "prims",
-               "from": 20.0,
-               "to": 40.0,
-               "doc_count": 0
-             }
-           ]
-         },
-         {
-           "fieldName": "benefits_field",
-           "facetName": "benefits",
-           "facetType": "value",
-           "buckets": [
-             {
-               "key": "accelerating rewards",
-               "doc_count": 55
-             },
-             {
-               "key": "page",
-               "doc_count": 3
-             },
-             {
-               "key": "task",
-               "doc_count": 1
-             }
-           ]
-         }
-       ]*/
+        /*res.searchFacets = [
+          {
+            "fieldName": "String",
+            "facetName": "String",
+            "facetType": "range",
+            "buckets": [
+              {
+                "key": "djikstra",
+                "from": 10.0,
+                "to": 20.0,
+                "doc_count": 1
+              },
+              {
+                "key": "prims",
+                "from": 20.0,
+                "to": 40.0,
+                "doc_count": 0
+              }
+            ]
+          },
+          {
+            "fieldName": "benefits_field",
+            "facetName": "benefits",
+            "facetType": "value",
+            "buckets": [
+              {
+                "key": "accelerating rewards",
+                "doc_count": 55
+              },
+              {
+                "key": "page",
+                "doc_count": 3
+              },
+              {
+                "key": "task",
+                "doc_count": 1
+              }
+            ]
+          }
+        ]*/
         // liveResult.forEach(function (result) {
         //   if (result.contentType === "faq") {
         //     faqs.push(result);
@@ -4402,27 +4798,37 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               /*$(searchData).find(".tasks-wrp").sortable();
               $(searchData).find(".tasks-wrp").sortable("option", "disabled", false);
               $(searchData).find(".tasks-wrp").disableSelection();*/
-              $(".custom-insights-control-container").show();
+              // $(".custom-insights-control-container").show();
+
+              // $(".query-analytics-control-container").show(); // Temporary modification, made as per FLY-1012
+
               $(".faqs-shadow").addClass('custom-faqs-shadow');
               $(".faqs-wrp-content").addClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").addClass('custom-faqs-bottom-actions');
               $(".image-url-sec").css('display', 'none');
               $(".faqs-bottom-actions").css('display', 'table');
 
-              if ($('.custom-header-container-left').css('visibility') == 'hidden') {
+              $(".divfeedback").css('display', 'none');
+
+              /*if ($('.custom-header-container-left').css('visibility') == 'hidden') {
                 // debugger;
                 $('.custom-insights-control-container').show();
-              }
+              }*/
             }
             else {
               // $(searchData).find(".tasks-wrp").sortable("disable");
-              $(".custom-insights-control-container").hide();
+              // $(".custom-insights-control-container").hide();
+
+              // $(".query-analytics-control-container").hide(); // Temporary modification, made as per FLY-1012
+
               $(".faqs-shadow").removeClass('custom-faqs-shadow');
               $(".faqs-wrp-content").removeClass('custom-faqs-wrp-content');
               $(".faqs-bottom-actions").removeClass('custom-faqs-bottom-actions');
 
               $(".image-url-sec").css('display', 'table-cell');
               $(".faqs-bottom-actions").css('display', 'none');
+
+              $('.divfeedback').css('display', 'block');
             }
 
             /*if (_self.vars.showingMatchedResults == true && dataObj.faqs.length > 0) {
@@ -4453,6 +4859,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if ($('.search-container').hasClass('conversation')) {
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
+
+            _self.sendMessageToSearch('bot', 'Unable to find results at this moment');
           }
         }
       } else if (res.templateType === 'botAction') {
@@ -4508,6 +4916,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('.search-body').addClass('hide');
             $('#searchChatContainer').removeClass('bgfocus');
             $('.search-body').removeClass('h-100');
+
+            $('.custom-header-container-center').css('visibility', 'visible');
+
           };
         } else {
           $('.search-body').removeClass('hide');
@@ -4521,11 +4932,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         'text': '',
         'from': type,
       }
+      var devMode = _self.isDev ? 'true' : 'false';
+      var viewType = _self.vars.customizeView ? 'Customize' : 'Preview';
+
       if (type === 'user' && ($('#search').val() !== null) && ($('#search').val() !== undefined)) {
         messageData.text = $('#search').val();
         if (messageData.text && messageData.text.trim()) {
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-            msgData: messageData
+            msgData: messageData,
+            devMode: devMode,
+            viewType: viewType
           });
           $('#searchChatContainer').append(template);
         }
@@ -4562,7 +4978,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               messageData.text = payData.postback_value;//"Pay nowwww";
               messageData.from = 'user';
               var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-                msgData: messageData
+                msgData: messageData,
+                devMode: devMode,
+                viewType: viewType
               });
               $('#searchChatContainer').append(template);
               _self.bindLiveDataToChat();
@@ -4577,7 +4995,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
             var listDefaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": { "type": "template", "payload": { "template_type": "listView", "seeMore": true, "moreCount": 4, "text": "Here are your details", "heading": "Speed Analysis", "buttons": [{ "title": "See more", "type": "postback", "payload": "payload" }], "elements": [{ "title": "Checking", "subtitle": "XXXX192", "value": "$7,496.13", "default_action": { "title": "Checking", "type": "payload", "payload": "Checking" } }, { "title": "Trading", "subtitle": "XXXX045", "value": " $22,053.47", "default_action": { "title": "Trading", "type": "payload", "payload": "Trading" } }, { "title": "Credit Card", "subtitle": "XXXX100", "value": "$3,596.00", "default_action": { "title": "Credit Card", "type": "payload", "payload": "Credit Card" } }, { "title": "Savings", "subtitle": "XXXX277", "value": "$17,290.00", "default_action": { "title": "Savings", "type": "payload", "payload": "Savings" } }] } }, "cInfo": { "body": "Here are your details" } }], "messageId": "ms-72023d22-2270-514c-9054-8af4c3408460", "botInfo": { "chatBot": "MyBank Virtual Assistant", "taskBotId": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1" }, "createdOn": "2020-09-08T18:39:24.689Z", "icon": "https://app.findly.ai:443/api/getMediaStream/market/f-6374e248-76ad-5fa9-bcc2-63cd116c4944.png?n=5797654043&s=IklOclpPZElVWWlEK2MzZFNKSTl2b1E5b3hiSWFuV3FtSGR4bElpT2dLaFU9Ig$$", "contextId": "dcx-5b5a373e-7e9b-5215-b074-671b616d4055", "usedtime": 395, "NLAnalysis": { "scoringModel": "original", "toneAnalysis": { "dialogTone": [{ "tone_name": "positive", "level": 2, "count": 1 }, { "tone_name": "joy", "level": 1, "count": 1 }] }, "nlProcessing": { "originalInput": "my balance", "canonical": "I balance", "wordAnalysis": [{ "word": "I", "ignored": true, "pos": "Pronoun_possessive ", "original": "my", "processedWord": "my" }, { "word": "balance", "ignored": false, "pos": "Noun_singular ", "role": "MAINSUBJECT ", "original": "balance", "processedWord": "balance" }] }, "noLabelMatch": ["st-d77caa4b-083a-533c-90d9-733c80ef1cb1"], "ml": { "possible": [{ "task": "CheckBalance", "state": "configured", "score": 0.9414263358151247, "scoringCriteria": "Probabilistic score", "matchType": "possible" }], "eliminated": [{ "task": "TransferMoney", "state": "configured", "score": 0.02181479727476244, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "MakePayment", "state": "configured", "score": 0.010900485239433579, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "ShowAccountDetails", "state": "configured", "score": 0.009582143296980096, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }, { "task": "Log In", "state": "configured", "score": 0.00538434196688181, "scoringCriteria": "Probabilistic score", "matchType": "unlikely" }], "namedEntityRecognition": [] }, "fm": { "definitive": [{ "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "task": "CheckBalance", "state": "configured", "foundVia": "pattern" }] }, "faq": { "demystify": { "SpellCorrectedInput": "my balance", "lemmatizer_used": "PATTERN", "normalizedQuery": "my balance", "OntologyTraits": [], "failed_questions": { "path_coverage": { "total_failures": 62, "questions": ["What is a term loan", "How can I contact customer service?", "What is a credit score", "How do I request a replacement card?", "Where can I find my ABA routing number on my check?"] }, "mandatory_node": { "total_failures": 0, "paths": [] }, "precondition_node": { "total_failures": 2, "paths": ["*locate atms", "*wire transfer"] } }, "SelectedPathCount": 25, "ExtractedEntities": ["balance"], "ContextEntities": [], "PreConditionNodes": [], "filtered_questions": { "score": [["What is the collected balance?", 0.5773502691896258], ["What is a CD?", 0], ["What is a traveler's check?", 0], ["what is individual retirement account", 0], ["What is a canceled check?", 0]], "traits": [] } } }, "finalResolver": { "ranking": [{ "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "intent": "CheckBalance", "activityType": "dialog", "state": "configured", "totalScore": 6450, "scoring": { "count": 2, "score": 6450, "botid": "st-d77caa4b-083a-533c-90d9-733c80ef1cb1", "botname": "MyBank Virtual Assistant", "activity": "CheckBalance", "activityType": 1, "foundFmEngine": true, "labelsize": 2, "scoreBreakdown": { "coverage": 2000, "spreadBonus": 800, "orderBonus": 200, "wordMatch": 500, "exactWords": 60, "sentenceBonus": 4000, "positionBonus": 1800, "roleBonus": 100, "faqQuestionBonus": 0, "tasktypeBonus": 50, "matchBonus": 500, "phraseJoinPenalty": 0 }, "sentence": 0, "mask": "0 1 2", "allmask": "0 1 2 ", "pattern": "{ get what_is check }   [ my account acct credit] [balance bal]", "exactcount": 2, "priority": 10, "mainRoles": 1, "matchType": "definite", "csMatch": true }, "identifyingEngines": { "fm": true }, "csMatch": true, "intentMatchVia": "pattern" }], "userInput": "my balance", "winningIntent": [{ "intent": "CheckBalance", "taskId": "dg-7dabfd36-6024-5de8-9866-bf32fa24765b", "activityType": "dialog", "state": "configured", "score": 6450 }], "entities": [] } }, "traceId": "827bca70e1572629" };
             listDefaultMessage.message[0].component = messageData;
-
+            console.log(messageData.payload.text);
             var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
               msgData: {
                 from: "bot",
@@ -4587,14 +5005,258 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#searchChatContainer').append(template);
 
 
-            var template = $(_self.getListTemplate()).tmpl({
+            var template = $(_self.getListViewTemplate()).tmpl({
               'msgData': listDefaultMessage,
               'helpers': helpers,
               'extension': {}
             });
             $('#searchChatContainer').append(template);
           }
-        } else {
+          else if (messageData.payload && messageData.payload.template_type === "carousel") {
+
+            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+            defaultMessage.message[0].component = messageData;
+            var template = $(_self.getCarouselTemplate()).tmpl({
+              'msgData': defaultMessage,
+              'helpers': helpers,
+              'extension': {}
+            });
+            setTimeout(function () {
+              $('.carousel:last').addClass("carousel" + carouselTemplateCount);
+              var count = $(".carousel" + carouselTemplateCount).children().length;
+              if (count > 1) {
+                var carouselOneByOne = new PureJSCarousel({
+                  carousel: '.carousel' + carouselTemplateCount,
+                  slide: '.slide',
+                  oneByOne: true,
+                  jq: $,
+                });
+                $('.carousel' + carouselTemplateCount).parent().show();
+                // $('.carousel' + carouselTemplateCount).attr('style', 'height: inherit !important');
+                carouselEles.push(carouselOneByOne);
+              }
+              //window.dispatchEvent(new Event('resize'));
+              var evt = document.createEvent("HTMLEvents");
+              evt.initEvent('resize', true, false);
+              window.dispatchEvent(evt);
+              carouselTemplateCount += 1;
+              $('#searchChatContainer').animate({
+                scrollTop: $('#searchChatContainer').prop("scrollHeight")
+              }, 0);
+            });
+            $(template).off('click', '.carouselButton').on('click', '.carouselButton', function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              var type = $(this).attr('type');
+              if (type) {
+                type = type.toLowerCase();
+              }
+              if (type == "postback" || type == "text") {
+                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                var _innerText = $(this).attr('value').trim();
+                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                var messageData = {};
+                messageData.text = _innerText;
+                messageData.from = 'user';
+                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
+                });
+                $('#searchChatContainer').append(templateMessageBubble);
+                _self.sendMessage(_innerText);
+              } else if (type == "url" || type == "web_url") {
+                var a_link = $(this).attr('url');
+                if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+                  a_link = "http:////" + a_link;
+                }
+                var _tempWin = window.open(a_link, "_blank");
+              }
+            })
+            $('#searchChatContainer').append(template);
+          }
+          else if (messageData.payload && messageData.payload.template_type === "quick_replies") {
+            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+            defaultMessage.message[0].component = messageData;
+
+            var messageBotData = {};
+            messageBotData.text = defaultMessage.message[0].component.payload.text;
+            messageBotData.from = 'bot';
+
+            console.log(defaultMessage);
+            var template = $(_self.getQuickReplyTemplate("templatequickreply")).tmpl({
+              'msgData': defaultMessage,
+              'helpers': helpers,
+              'extension': {}
+            });
+
+            setTimeout(function () {
+              var evt = document.createEvent("HTMLEvents");
+              evt.initEvent('resize', true, false);
+              window.dispatchEvent(evt);
+            }, 150);
+
+            $(template).off('click', '.quickreplyRightIcon').on('click', '.quickreplyRightIcon', function (event) {
+              var _quickReplesDivs = event.currentTarget.parentElement.getElementsByClassName('buttonTmplContentChild');
+              if (_quickReplesDivs.length) {
+                var _scrollParentDiv = event.target.parentElement.getElementsByClassName('quick_replies_btn_parent');
+                var _totalWidth = event.target.parentElement.offsetWidth;
+                var _currWidth = 0;
+                // calculation for moving element scroll
+                for (var i = 0; i < _quickReplesDivs.length; i++) {
+                  _currWidth += (_quickReplesDivs[i].offsetWidth + 10);
+                  if (_currWidth > _totalWidth) {
+                    //_scrollParentDiv[0].scrollLeft = _currWidth;
+                    $(_scrollParentDiv).animate({
+                      scrollLeft: (_scrollParentDiv[0].scrollLeft + _quickReplesDivs[i].offsetWidth + 20)
+                    }, 'slow', function () {
+                      // deciding to enable left and right scroll icons
+                      var leftIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyLeftIcon');
+                      leftIcon[0].classList.remove('hide');
+                      if ((_scrollParentDiv[0].scrollLeft + _totalWidth + 10) >= _scrollParentDiv[0].scrollWidth) {
+                        var rightIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyRightIcon');
+                        rightIcon[0].classList.add('hide');
+                      }
+                    });
+                    break;
+                  }
+                }
+              }
+            });
+            $(template).off('click', '.quickreplyLeftIcon').on('click', '.quickreplyLeftIcon', function (event) {
+              var _quickReplesDivs = event.currentTarget.parentElement.getElementsByClassName('buttonTmplContentChild');
+              if (_quickReplesDivs.length) {
+                var _scrollParentDiv = event.target.parentElement.getElementsByClassName('quick_replies_btn_parent');
+                var _totalWidth = _scrollParentDiv[0].scrollLeft;
+                var _currWidth = 0;
+                for (var i = 0; i < _quickReplesDivs.length; i++) {
+                  _currWidth += (_quickReplesDivs[i].offsetWidth + 10);
+                  if (_currWidth > _totalWidth) {
+                    //_scrollParentDiv[0].scrollLeft = (_totalWidth - _quickReplesDivs[i].offsetWidth+20);
+                    $(_scrollParentDiv).animate({
+                      scrollLeft: (_totalWidth - _quickReplesDivs[i].offsetWidth - 50)
+                    }, 'slow', function () {
+                      // deciding to enable left and right scroll icons
+                      var rightIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyRightIcon');
+                      rightIcon[0].classList.remove('hide');
+                      if (_scrollParentDiv[0].scrollLeft <= 0) {
+                        var leftIcon = _scrollParentDiv[0].parentElement.querySelectorAll('.quickreplyLeftIcon');
+                        leftIcon[0].classList.add('hide');
+                      }
+                    });
+                    break;
+                  }
+                }
+              }
+            });
+            $(template).off('click', '.quickReply').on('click', '.quickReply', function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              var type = $(this).attr('type');
+              if (type) {
+                type = type.toLowerCase();
+              }
+              if (type == "postback" || type == "text") {
+                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                var _innerText = $(this).attr('value').trim();
+                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                var messageData = {};
+                messageData.text = _innerText;
+                messageData.from = 'user';
+                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
+                });
+                $('#searchChatContainer').append(templateMessageBubble);
+                _self.sendMessage(_innerText);
+              }
+            })
+
+            var templateBotMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+              msgData: messageBotData
+            });
+            $('#searchChatContainer').append(templateBotMessageBubble);
+            $('#searchChatContainer').append(template);
+          }
+          else if (messageData.payload && messageData.payload.template_type === "button") {
+            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+            defaultMessage.message[0].component = messageData;
+            console.log(defaultMessage);
+
+            var template = $(_self.getButtonTemplate("templatebutton")).tmpl({
+              'msgData': defaultMessage,
+              'helpers': helpers,
+              'extension': {}
+            });
+            $(template).off('click', '.buttonTmplContentBox li').on('click', '.buttonTmplContentBox li', function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              var type = $(this).attr('type');
+              if (type) {
+                type = type.toLowerCase();
+              }
+              if (type == "postback" || type == "text") {
+                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                var _innerText = $(this).attr('value').trim();
+                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                var messageData = {};
+                messageData.text = displayMessage;
+                messageData.from = 'user';
+                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
+                });
+                $('#searchChatContainer').append(templateMessageBubble);
+                _self.sendMessage(_innerText);
+              }
+            })
+            $('#searchChatContainer').append(template);
+          }
+          else if (messageData.payload && messageData.payload.template_type === "list") {
+            var defaultMessage = { "type": "bot_response", "from": "bot", "message": [{ "type": "text", "component": {} }] }
+            defaultMessage.message[0].component = messageData;
+            console.log(defaultMessage);
+
+            var template = $(_self.getListTemplate()).tmpl({
+              'msgData': defaultMessage,
+              'helpers': helpers,
+              'extension': {}
+            });
+            $(template).off('click', '.listItemPath, .listRightContent').on('click', '.listItemPath, .listRightContent', function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              var type = $(this).attr('type');
+              if (type) {
+                type = type.toLowerCase();
+              }
+              if (type == "postback" || type == "text") {
+                //$('.chatInputBox').text($(this).attr('actual-value') || $(this).attr('value'));
+                var _innerText = $(this).attr('value').trim();
+                var displayMessage = ($(this)[0] && $(this)[0].innerText) ? $(this)[0].innerText.trim() : "" || ($(this) && $(this).attr('data-value')) ? $(this).attr('data-value').trim() : "";
+                var messageData = {};
+                messageData.text = displayMessage;
+                messageData.from = 'user';
+                var templateMessageBubble = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+                  msgData: messageData,
+                  devMode: devMode,
+                  viewType: viewType
+                });
+                $('#searchChatContainer').append(templateMessageBubble);
+                _self.sendMessage(_innerText);
+              } else if (type == "url" || type == "web_url") {
+                var a_link = $(this).attr('url');
+                if (a_link.indexOf("http:") < 0 && a_link.indexOf("https:") < 0) {
+                  a_link = "http:////" + a_link;
+                }
+                var _tempWin = window.open(a_link, "_blank");
+              }
+            })
+            $('#searchChatContainer').append(template);
+          }
+        }
+        else {
           //simple text message
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData
@@ -4606,7 +5268,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         messageData.text = _self.vars.searchObject.searchText;
         messageData.from = 'user';
         var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
-          msgData: messageData
+          msgData: messageData,
+          devMode: devMode,
+          viewType: viewType
         });
         //$('#searchChatContainer').append(template);
         $('.search-body').hide();
@@ -4681,7 +5345,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       headers["Authorization"] = bearer;
       headers["Content-Type"] = "application/json";
 
-      console.log("Request Payload", payload);
+      console.log("Initial Payload", payload);
 
       var currentDate = new Date();
       var dateTime = currentDate.getDate() + "/"
@@ -4715,10 +5379,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (url == this.API.livesearchUrl) {
         if (this.isDev == true) {
-          headers["state"] = "Configured";
+          headers["state"] = "configured";
         }
         else {
-          headers["state"] = "Published";
+          headers["state"] = "published";
         }
       }
 
@@ -4739,13 +5403,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               contextObj = {};
             }
           }
-          // if (contextObj) {
           this.bot.options.botInfo.customData = { 'userContext': contextObj }
           payload.messagePayload["botInfo"].customData = this.bot.options.botInfo.customData;
-          // }
         }
       }
-      console.log("Search Payload (live-search/full-search", payload);
+      console.log("Finalized Payload", payload);
 
       payload = JSON.stringify(payload);
 
@@ -5268,6 +5930,27 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         windowWidth = window.innerWidth;
         left = ((windowWidth / 2) - 250) + 'px';
         $(dataHTML).css('left', left);
+
+        var quickReplyDivs = document.querySelectorAll('.quickReplies');
+        for (var i = 0; i < quickReplyDivs.length; i++) {
+          var btnsParentDiv = quickReplyDivs[i].querySelectorAll('.quick_replies_btn_parent');
+          var leftScrollBtn = quickReplyDivs[i].querySelectorAll('.quickreplyLeftIcon');
+          var rightScrollBtn = quickReplyDivs[i].querySelectorAll('.quickreplyRightIcon');
+          if (btnsParentDiv[0].hasChildNodes()) {
+            if (btnsParentDiv[0].scrollLeft > 0) {
+              leftScrollBtn[0].classList.remove('hide');
+            }
+            else {
+              leftScrollBtn[0].classList.add('hide');
+            }
+            if (btnsParentDiv[0].offsetWidth < btnsParentDiv[0].scrollWidth) {
+              rightScrollBtn[0].classList.remove('hide');
+            }
+            else {
+              rightScrollBtn[0].classList.add('hide');
+            }
+          }
+        }
       });
       _self.showGreetingMsg = true;
       _self.vars.searchObject.clearGreetingTimeOut = setTimeout(function () {
@@ -5336,8 +6019,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       config = config || _self.config.botOptions
       _self.bot = requireKr('/KoreBot.js').instance();
+      // _self.bot.init(_self.config.botOptions, _self.config.messageHistoryLimit)
       _self.bot.init(config, _self.config.messageHistoryLimit);
       _self.bindSocketEvents();
+
     };
 
     FindlySDK.prototype.destroy = function (config) {
@@ -10521,7 +11206,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.getHTMLForSearch = function (val) {
       return FindlySDK.prototype.convertMDtoHTML.call(koreWidgetSDKInstance, val);
     };
-
+    FindlySDK.prototype.convertMDtoHTMLForCarousel = function (val, responseType, msgItem) {
+      return FindlySDK.prototype.convertMDtoHTML.call(koreWidgetSDKInstance, val, responseType, msgItem);
+    }
     FindlySDK.prototype.filterTabsForWindow = function (parentId, subpanelId, filterId) {
       FindlySDK.prototype.filterTabs.call(koreWidgetSDKInstance, parentId, subpanelId, filterId);
     };
@@ -10620,6 +11307,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     window.openPanel = FindlySDK.prototype.openPanelForWindow;
     window.getHTMLForSearch = FindlySDK.prototype.getHTMLForSearch;
+    window.convertMDtoHTMLForCarousel = FindlySDK.prototype.convertMDtoHTMLForCarousel;
     window.filterTabs = FindlySDK.prototype.filterTabsForWindow;
     window.viewMorePanel = FindlySDK.prototype.viewMorePanelForWindow;
     window.scrollData = FindlySDK.prototype.scrollDataForWindow;

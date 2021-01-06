@@ -9,6 +9,7 @@
   'use strict';
 
   window.PureJSCarousel = function(settings) {
+    $ = $ || settings.jq;
     this.carousel          = document.querySelector(settings.carousel);
     this.slides            = this.carousel.querySelectorAll(settings.slide);
     this.btnNext           = this.carousel.querySelector(settings.btnNext) || null;

@@ -1238,6 +1238,7 @@ div.divBlockEmptylastChild:first-child {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
         background: #fff !important;
         display: block !important;
+        margin-bottom: 4px;
         &.noShadow{
             box-shadow: none;
         }
@@ -1889,4 +1890,134 @@ ngx-simplebar {
             }
         }
     }    
+}
+.krFindlyAppComponent{
+    &.appSelected{
+        .appContent{
+            &.pl-0{
+                .search-background-div{
+                    .search-container{
+                        &.conversation{
+                            right: 10px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ngb_tooltip_custom_class{
+    opacity: 1 !important;
+    margin-left: -14px;    
+    .arrow{
+        &::before{
+            border-top-color: #fff !important;
+        }
+    }
+    .tooltip-inner{
+        color: #202124;
+        opacity: 1;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 6px 10px;
+        background: #FFFFFF;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        max-width: 100%;
+    }
+}
+
+nouislider{
+    margin: 33px 0 !important;
+    .noUi-target{
+        height: 6px;
+        border-radius: 0;
+        border: none;
+        box-shadow: none; 
+        .noUi-connects{
+            border-radius: 0 !important;
+        }       
+    }
+    .noUi-horizontal {
+        .noUi-handle{
+            box-shadow: none !important;
+            border: 0;
+            background: transparent;
+            outline: 0 !important;
+            cursor: pointer;
+            border-radius: 0;
+            &::after{
+                left: 14px;
+                top: -5px;
+                background: #202124;
+                height: 26px;
+            }
+        }
+        .noUi-tooltip{
+            background: #202124;
+            box-shadow: 0px 5px 6px rgba(43, 44, 45, 0.11);
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 13px;
+            text-align: center;
+        }
+    }
+    .noUi-connect{
+        background: red;
+        &.c-1-color { background: rgb(255, 0, 0); }
+        &.c-2-color { background: rgb(0, 0, 255); }
+        &.c-3-color { background: rgb(140, 255, 26); }
+        &.c-4-color { background: rgb(255, 255, 0); }
+      }
+}
+.date-tooltip{
+    .arrow{
+        &::before{
+            border-right-color: #fff;
+        }
+    }
+    .tooltip-inner{
+        background: #FFFFFF;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+        color: #202124;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 5px 10px;
+    }
+
+}
+.experiment-container{
+    .table-data-content {
+        .acc-card {
+            .acc-card-header {
+                .acc-card-link {
+                    .row_data {
+                        .duration-data {
+                            .right-sec{
+                                ngb-progressbar{
+                                    .progress{
+                                      height: 6px;
+                                      background: #E4E5E7;
+                                      border-radius: 6px;
+                                      margin-top: 6px;
+                                      .progress-bar{
+                                        &.bg-secondary{
+                                            border-radius: 6px;
+                                            background: #BDC1C6 !important;
+                                        }
+                                      }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
