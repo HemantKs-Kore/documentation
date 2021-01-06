@@ -9,11 +9,17 @@
                 <div class="content left-content">
                     <div class="content-boxes faq_tasks_list">
                         <div class="header-sec">
-                            <div class="row col-12 kr-sg-input-search reset-div" *ngIf="resultSelected"> 
-                                <div class="col-1">
+                            <div class="row kr-sg-input-search reset-div" *ngIf="resultSelected">
+                                <div class="col-1 mt-8" *ngIf="collectedRecord.length == customizeList.length">
+                                    <div class="kr-sg-checkbox">
+                                        <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" checked autocomplete="off" (click) = "selectAll()">
+                                        <label for="selectAllFaqs" class="checkbox-custom-label"></label>
+                                    </div>
+                                </div>  
+                                <div class="col-1" *ngIf="collectedRecord.length != customizeList.length">
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
-                                <div class="col-3">
+                                <div class="col-3 mt-8">
                                     {{collectedRecord.length}} Selected
                                 </div> 
                                 <div class="col-8">
@@ -67,10 +73,10 @@
                                 <div id="accordion" class="accordion-content">
                                     <div *ngIf="customizeList">
                                         <div class="card-content" *ngFor="let list of customizeList;let i = index">
-                                            <div   class="card_link collapsed" [ngClass]="{'is-checked': list.check == true}" >      
+                                            <div   class="card_link collapsed" [ngClass]="{'is-checked': list.check == true || selectedRecord._id == list._id}" (click) ="clickCustomizeRecord(list,$event)">      
                                                 <div class="d-flex align-items-center" >
                                                     <div class="kr-sg-checkbox col-1" (click)="$event.stopImmediatePropagation();">
-                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="clickCustomizeRecord(list,!list.check)">
+                                                        <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox"  autocomplete="off" [(ngModel)]="list.check" (click) ="multiSelect(list,!list.check)">
                                                         <label [attr.for]="i" class="checkbox-custom-label" ></label>
                                                     </div>
                                                     <div class="title-desc-sec col-10">
@@ -88,7 +94,7 @@
                                         <div class="heading">{{'resultRanking.no_search_results' | translate}}</div>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="pagination">
                                     <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
                                 </div>
                                </ng-container>

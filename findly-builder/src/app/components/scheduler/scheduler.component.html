@@ -108,19 +108,19 @@
               <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{custFreq}}</button>                                            
                   <ul class="dropdown-menu content-menu content-width">                                               
-                    <li (click)="custFrequency('Days')"><a>Days</a></li>
-                    <li (click)="custFrequency('Weeks')"><a>Weeks</a></li>
-                    <li (click)="custFrequency('Months')"><a>Months</a></li>
-                    <li (click)="custFrequency('Years')"><a>Years</a></li>
+                    <li (click)="custFrequency('Days')"><a *ngIf="repeatEvery == 1">Day</a><a *ngIf="repeatEvery > 1">Days</a></li>
+                    <li (click)="custFrequency('Weeks')"><a *ngIf="repeatEvery == 1">Week</a><a *ngIf="repeatEvery > 1">Weeks</a></li>
+                    <li (click)="custFrequency('Months')"><a *ngIf="repeatEvery == 1">Month</a><a *ngIf="repeatEvery > 1">Months</a></li>
+                    <li (click)="custFrequency('Years')"><a *ngIf="repeatEvery == 1">Year</a><a *ngIf="repeatEvery > 1">Years</a></li>
                   </ul>
                 </div>
             </div>
           </div>
           <div class="repeat-on">
             <div>
-              <span>Repeat On</span>
+              <span>On</span>
             </div>
-            <div class="" *ngIf = "custFreq == 'Weeks'"> 
+            <div class="" *ngIf = "custFreq == 'Weeks' || custFreq == 'Week'"> 
               <div class="circle cs" [ngClass] = "{'active' : weeKDay == 'SUN'}" (click)="custweeKday('SUN')">S</div>
               <div class="circle cm" [ngClass] = "{'active' : weeKDay == 'MON'}" (click)="custweeKday('MON')">M</div>
               <div class="circle ct" [ngClass] = "{'active' : weeKDay == 'TUE'}" (click)="custweeKday('TUE')">T</div>
@@ -129,8 +129,10 @@
               <div class="circle cf" [ngClass] = "{'active' : weeKDay == 'FRI'}" (click)="custweeKday('FRI')">F</div>
               <div class="circle csa" [ngClass] = "{'active' : weeKDay == 'SAT'}" (click)="custweeKday('SAT')">S</div>
             </div>
-            <div class="custom-repeat-on" *ngIf = "custFreq != 'Weeks'"> 
-                Every {{repeatEvery}} {{custFreq}} from {{month}} {{date}} {{year}}
+            <div class="custom-repeat-on" *ngIf = "custFreq != 'Weeks' && custFreq != 'Week'"> 
+               <ng-container *ngIf = "custFreq == 'Days' || custFreq == 'Day'">Repeat Every {{repeatEvery}} {{custFreq}} from {{month}} {{date}} {{year}} </ng-container> 
+               <ng-container *ngIf = "custFreq == 'Months' || custFreq == 'Month'">Repeat Every {{repeatEvery}} {{custFreq}} On {{dateOrdinal}}</ng-container>
+               <ng-container *ngIf = "custFreq == 'Years' || custFreq == 'Year'">Repeat Every {{repeatEvery}} {{custFreq}} from {{month}} {{dateOrdinal}}  </ng-container>
             </div>
           </div>
           <div class="ends">
