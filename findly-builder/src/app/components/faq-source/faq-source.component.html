@@ -79,14 +79,14 @@
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
-                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)" title="{{(faq && faq._source)?faq._source.question:''}}"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
                                                     <input  [attr.id]="'selectFaqCheckBox_' + faq._id" (change)="checkUncheckfaqs(faq)" class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off">
                                                     <label [attr.for]="'selectFaqCheckBox_' + faq._id" class="checkbox-custom-label"></label>
                                                 </div>
-                                                <div class="title-desc-sec" title="{{faq._source.question}}">
+                                                <div class="title-desc-sec">
                                                     <div class="title">{{faq._source.question}}</div>
                                                     <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.defaultAnswers[0].payload)'></div>
                                                     <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
@@ -646,7 +646,7 @@
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body">
-    <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()"></app-add-faq>
+    <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaqToEdit" (cancelfaqEvent)="faqCancle()"></app-add-faq>
   </div>
 </perfect-scrollbar> 
   <div class="modal-footer">
