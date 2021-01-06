@@ -704,5 +704,11 @@ export class EndPointsService {
       method: 'post'
     };
 
+    this.serviceList['get.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData?limit=:limit&skip=:skip',
+      // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
+      method: 'get'
+    };
+
   }
 }

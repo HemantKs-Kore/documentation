@@ -26,7 +26,22 @@
             <div class="filter-sec text-right mb-1">
                 <button class="kr-sg-button-danger btn_lg">Delete</button>
             </div>
-            <div class="structured-data">
+            <div class="structured-data" *ngFor="let data of structuredDataItemsList">
+                <div class="kr-sg-checkbox d-block">
+                    <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                </div>
+                <div class="data-content">
+                    <!-- <pre>{{data._source.parsedData}}</pre> -->
+                    <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data._source.parsedData"></ngx-codemirror>
+                </div>
+                <div class="action-links">
+                    <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                </div>
+                <div class="info-link"><img src="assets/icons/info.svg"></div>
+            </div>
+            <!-- <div class="structured-data">
                 <div class="kr-sg-checkbox d-block">
                     <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
                     <label for="checkbox_drp2" class="checkbox-custom-label"></label>
@@ -39,23 +54,10 @@
                     <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                 </div>
                 <div class="info-link"><img src="assets/icons/info.svg"></div>
-            </div>
-            <div class="structured-data">
-                <div class="kr-sg-checkbox d-block">
-                    <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
-                    <label for="checkbox_drp2" class="checkbox-custom-label"></label>
-                </div>
-                <div class="data-content">
-                    To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
-                </div>
-                <div class="action-links">
-                    <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                </div>
-                <div class="info-link"><img src="assets/icons/info.svg"></div>
-            </div>
+            </div> -->
         </div>
-    </perfect-scrollbar>    
+        <app-record-pagination class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
+    </perfect-scrollbar>
 </div>
 
 <kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
