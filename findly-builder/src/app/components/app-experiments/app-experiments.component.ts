@@ -161,8 +161,6 @@ export class AppExperimentsComponent implements OnInit {
             this.variantsArray.push(this.variantList[this.variantsArray.length]);
           }
         }
-        count.forEach(element => {
-       });
       }else{
         this.variantsArray.push(this.variantList[this.variantsArray.length]);
       }
@@ -227,7 +225,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   // fetch variant data
   fetchVariant(index, data, type) {
-    console.log('data', data)
     if (type === 'name') {
       this.variantsArray[index] = { ...this.variantsArray[index], name: data };
     }
@@ -245,7 +242,6 @@ export class AppExperimentsComponent implements OnInit {
   // slider changed
   sliderChanged() {
     this.sliderPercentage();
-    console.log('this.someRangeconfig', this.someRangeconfig);
     this.recheckSliderDrag();
   }
   // show slider percentage
@@ -369,7 +365,6 @@ export class AppExperimentsComponent implements OnInit {
     if (this.someRange !== undefined) {
       await this.sliderPercentage();
     }
-    console.log('add experiment', this.experimentObj);
     this.experimentObj.variants = this.variantsArray;
     if (this.form_type === 'add') {
       const quaryparms: any = {
@@ -500,7 +495,6 @@ export class AppExperimentsComponent implements OnInit {
           return obj;
         })
       }
-      console.log('this.filterExperiments', this.filterExperiments)
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
       this.selectedTab(this.setTab);
@@ -533,7 +527,6 @@ export class AppExperimentsComponent implements OnInit {
           this.deleteExperiment(record, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
         }
       })
   }
