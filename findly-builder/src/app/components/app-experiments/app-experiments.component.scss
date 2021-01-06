@@ -164,10 +164,11 @@
                   }
                 }
                 &.left {
-                  padding-right: 30px;
+                  padding-right: 30px;  
+                  min-width: 100px;
                 }
                 &.right {
-                  padding-left: 30px;
+                  padding-left: 20px;
                   position: relative;
                   &::before {
                     content: "";
@@ -185,6 +186,7 @@
                 font-size: 10px;
                 line-height: 12px;
                 margin-left: 5px;
+                margin-right: 5px;
               }
             }
             .status {
@@ -259,7 +261,7 @@
               }
               .left-sec {
                 padding-right: 10px;
-                border-right: 1px solid #e4e5e7;
+                // border-right: 1px solid #e4e5e7;
                 min-height: 32px;
                 display: flex;
                 // align-items: center;
@@ -267,6 +269,7 @@
                 justify-content: center;
               }
               .right-sec {
+                border-left: 1px solid #e4e5e7;
                 padding-left: 10px;
                 position: relative;
                 // &::before{
@@ -352,6 +355,9 @@
               font-weight: normal;
               font-size: 14px;
               line-height: 17px;
+              &.leader_percent{
+                color: #0D6EFD !important;
+              }
             }
           }
           .v-search-config {

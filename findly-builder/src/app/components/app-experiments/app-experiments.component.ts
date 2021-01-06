@@ -5,6 +5,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-app-experiments',
@@ -34,6 +35,7 @@ export class AppExperimentsComponent implements OnInit {
     connect: this.conn,
     tooltips: this.tool,
     start: this.star,
+    step: 5,
     format: {
       from: function (value) {
         return parseInt(value);
@@ -44,15 +46,25 @@ export class AppExperimentsComponent implements OnInit {
     },
     range: {
       min: 0,
+      '5%': 5,
       '10%': 10,
+      '15%': 15,
       '20%': 20,
+      '25%': 25,
       '30%': 30,
+      '35%': 35,
       '40%': 40,
+      '45%': 45,
       '50%': 50,
+      '55%': 55,
       '60%': 60,
+      '65%': 65,
       '70%': 70,
+      '75%': 75,
       '80%': 80,
+      '85%': 85,
       '90%': 90,
+      '95%': 95,
       max: 100
     },
     snap: true,
@@ -99,6 +111,11 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.duration.days = data.duration.days;
       this.showSlider = true;
       this.showTraffic(this.variantsArray.length, 'add');
+    }
+    else{
+      // default two varients has to be there.
+      this.addVarient();
+      this.addVarient();
     }
     this.addExperimentsRef = this.addExperiments.open();
   }
@@ -147,21 +164,25 @@ export class AppExperimentsComponent implements OnInit {
     else if (length === 4) {
       this.star.push(25, 50, 75, 100);
     }
-    this.sliderUpdate();
+    setTimeout( () =>{
+      this.sliderUpdate();
+    }, 500);
   }
   //slider destroy method
   sliderUpdate() {
-    console.log("this.start", this.star)
+    console.log("this.start", this.star);
     this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
-    console.log("new data shown", this.someRangeconfig)
+    console.log("new data shown", this.someRangeconfig);
     setTimeout(() => {
       this.showSlider = false;
       this.sliderref.slider.destroy();
       this.sliderref.slider.updateOptions(this.someRangeconfig, true);
-    }, 1000)
+      // this.recheckSliderDrag();
+    }, 50)
     setTimeout(() => {
       this.showSlider = true;
-    }, 2000);
+      this.recheckSliderDrag();
+    }, 100);
   }
   //fetch variant data
   fetchVariant(index, data, type) {
@@ -183,6 +204,8 @@ export class AppExperimentsComponent implements OnInit {
   //slider changed
   sliderChanged() {
     this.sliderPercentage();
+    console.log("this.someRangeconfig", this.someRangeconfig);
+    this.recheckSliderDrag();
   }
   //show slider percentage
   showSliderPercentage(length) {
@@ -195,7 +218,7 @@ export class AppExperimentsComponent implements OnInit {
       setPercent = [50, 50];
     }
     else if (length === 3) {
-      setPercent = [30, 60, 10];
+      setPercent = [30, 30, 40];
     }
     else if (length === 4) {
       setPercent = [25, 25, 25, 25];
@@ -203,6 +226,33 @@ export class AppExperimentsComponent implements OnInit {
     for (let i = 0; i < this.variantsArray.length; i++) {
       this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: setPercent[i] };
     }
+  }
+  recheckSliderDrag(){
+    // disables the right most handel to drag.
+    setTimeout( ()=>{
+      let elements = document.getElementsByClassName('noUi-tooltip');
+
+      if(elements.length){
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].innerHTML = this.variantsArray[i].trafficPct + '%';
+        } 
+      }
+
+      var origins = document.getElementsByClassName('noUi-origin');
+      if(origins.length){
+        origins[origins.length-1].setAttribute('disabled', 'true');
+      }
+
+      var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
+
+      var connect = document.querySelectorAll('.noUi-connect');
+      if(connect.length){
+        for (var i = 0; i < connect.length; i++) {
+          connect[i].classList.add(classes[i]);
+        } 
+      }
+    }, 50);
+
   }
   //get list of querypipelines method
   queryPipeline: any = [];
