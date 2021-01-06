@@ -9,11 +9,11 @@
                 <div class="content left-content">
                     <div class="content-boxes faq_tasks_list">
                         <div class="header-sec">
-                            <div class="row col-12 kr-sg-input-search reset-div" *ngIf="resultSelected"> 
+                            <div class="row kr-sg-input-search reset-div" *ngIf="resultSelected"> 
                                 <div class="col-1">
                                     <img (click) = "selectAll()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                                 </div>  
-                                <div class="col-3">
+                                <div class="col-3 mt-8">
                                     {{collectedRecord.length}} Selected
                                 </div> 
                                 <div class="col-8">
@@ -88,7 +88,7 @@
                                         <div class="heading">{{'resultRanking.no_search_results' | translate}}</div>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="pagination">
                                     <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
                                 </div>
                                </ng-container>

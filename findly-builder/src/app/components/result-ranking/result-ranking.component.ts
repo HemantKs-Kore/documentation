@@ -173,12 +173,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   showLogs(){
     this.resultLogs = true;
   }
+  paginate(event){
+    this.getcustomizeList();
+    //event.limit;
+    //event.skip;
+  }
   resetSelected(){
     this.customizeList.forEach((element,index) => {
       element['check'] = false;
     });
     this.collectedRecord = [];
     this.resultSelected = false;
+    this.getcustomizeList();
   }
   selectAll(){
     this.collectedRecord = [];
