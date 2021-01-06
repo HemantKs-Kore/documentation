@@ -5,6 +5,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+import * as moment from 'moment';
+declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-app-experiments',
@@ -34,6 +36,7 @@ export class AppExperimentsComponent implements OnInit {
     connect: this.conn,
     tooltips: this.tool,
     start: this.star,
+    step: 5,
     format: {
       from: function (value) {
         return parseInt(value);
@@ -44,8 +47,28 @@ export class AppExperimentsComponent implements OnInit {
     },
     range: {
       min: 0,
+      '5%': 5,
+      '10%': 10,
+      '15%': 15,
+      '20%': 20,
+      '25%': 25,
+      '30%': 30,
+      '35%': 35,
+      '40%': 40,
+      '45%': 45,
+      '50%': 50,
+      '55%': 55,
+      '60%': 60,
+      '65%': 65,
+      '70%': 70,
+      '75%': 75,
+      '80%': 80,
+      '85%': 85,
+      '90%': 90,
+      '95%': 95,
       max: 100
-    }
+    },
+    snap: true,
   };
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild("sliderref") sliderref;
@@ -62,27 +85,15 @@ export class AppExperimentsComponent implements OnInit {
   closeModalPopup() {
     this.exp_status = '';
     this.form_type = '';
-    this.star = [];
-    this.star.push(100);
-    if (this.conn.length > 2) {
-      for (let i = 0; i < this.conn.length; i++) {
-        if (this.conn.length > 2) {
-          this.conn.pop();
-          this.tool.pop();
-        }
-      }
-    }
-    this.sliderUpdate('close');
     this.variantsArray = [];
     this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
+    this.showSlider = false;
+    if(this.sliderref.slider){
+      this.sliderref.slider.destroy();
+      this.sliderref.slider.updateOptions(this.someRangeconfig, true);
+    }
     this.addExperimentsRef.close();
-    console.log("logg", this.someRangeconfig)
-  }
-  //traffic slider config object
-  sliderConfig() {
-    this.conn = [true, true];
-    this.tool = [true];
-    this.star = [100];
+    console.log("this.someRangeconfig", this.someRangeconfig)
   }
   //show or hide search input
   toggleSearch() {
@@ -103,7 +114,14 @@ export class AppExperimentsComponent implements OnInit {
       this.experimentObj.name = data.name;
       this.variantsArray = data.variants;
       this.experimentObj.duration.days = data.duration.days;
-      this.showTraffic(this.variantsArray.length, 'add')
+      this.showSlider = true;
+      this.showTraffic(this.variantsArray.length, 'add');
+    }
+    else{
+      // default two varients has to be there.
+      this.showSlider = false;
+      this.addVarient();
+      this.addVarient();
     }
     this.addExperimentsRef = this.addExperiments.open();
   }
@@ -119,8 +137,8 @@ export class AppExperimentsComponent implements OnInit {
   }
   //based on variant show traffic 
   showTraffic(length, type) {
+    this.star = [];
     if (length > 1) {
-      this.star = [];
       if (type === 'add') {
         this.conn.push(true);
         this.tool.push(true);
@@ -132,18 +150,15 @@ export class AppExperimentsComponent implements OnInit {
     }
     if (length === 0) {
       this.showSlider = false;
-      this.sliderConfig();
     }
     else if (length === 1) {
       if (type === 'add') {
-        this.showSlider = true;
+        this.star.push(100);
       }
-      else {
-        this.star = [];
+      else if (type === 'remove') {
         this.conn.pop();
         this.tool.pop();
         this.star.push(100);
-        this.sliderUpdate('open');
       }
     }
     else if (length === 2) {
@@ -155,24 +170,25 @@ export class AppExperimentsComponent implements OnInit {
     else if (length === 4) {
       this.star.push(25, 50, 75, 100);
     }
-    if (length > 1) {
-      this.sliderUpdate('open');
-    }
+    setTimeout( () =>{
+      this.sliderUpdate();
+    }, 500);
   }
   //slider destroy method
-  sliderUpdate(type) {
-    this.showSlider = false;
+  sliderUpdate() {
+    console.log("this.start", this.star);
     this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
+    console.log("new data shown", this.someRangeconfig);
     setTimeout(() => {
       this.showSlider = false;
       this.sliderref.slider.destroy();
       this.sliderref.slider.updateOptions(this.someRangeconfig, true);
-    }, 1000)
-    if (type === 'open') {
-      setTimeout(() => {
-        this.showSlider = true;
-      }, 2000);
-    }
+      // this.recheckSliderDrag();
+    }, 50)
+    setTimeout(() => {
+      this.showSlider = true;
+      this.recheckSliderDrag();
+    }, 100);
   }
   //fetch variant data
   fetchVariant(index, data, type) {
@@ -183,20 +199,19 @@ export class AppExperimentsComponent implements OnInit {
     else if (type === 'queryid') {
       this.variantsArray[index] = { ...this.variantsArray[index], queryPipelineId: data._id, queryPipelineName: data.name };
     }
-    console.log("this.variant", this.variantsArray);
   }
   //remove variant
   removeVariant(index) {
     this.variantsArray.splice(index, 1);
-    console.log("this.variantArray", this.variantsArray);
     this.trafficData.splice(index, 1);
     this.showTraffic(this.variantsArray.length, 'remove');
-    this.showSliderPercentage(this.variantsArray.length);
+    //this.showSliderPercentage(this.variantsArray.length);
   }
   //slider changed
   sliderChanged() {
-    console.log("slider changed", this.someRange);
     this.sliderPercentage();
+    console.log("this.someRangeconfig", this.someRangeconfig);
+    this.recheckSliderDrag();
   }
   //show slider percentage
   showSliderPercentage(length) {
@@ -209,7 +224,7 @@ export class AppExperimentsComponent implements OnInit {
       setPercent = [50, 50];
     }
     else if (length === 3) {
-      setPercent = [30, 60, 10];
+      setPercent = [30, 30, 40];
     }
     else if (length === 4) {
       setPercent = [25, 25, 25, 25];
@@ -217,6 +232,33 @@ export class AppExperimentsComponent implements OnInit {
     for (let i = 0; i < this.variantsArray.length; i++) {
       this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: setPercent[i] };
     }
+  }
+  recheckSliderDrag(){
+    // disables the right most handel to drag.
+    setTimeout( ()=>{
+      let elements = document.getElementsByClassName('noUi-tooltip');
+
+      if(elements.length){
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].innerHTML = this.variantsArray[i].trafficPct + '%';
+        } 
+      }
+
+      var origins = document.getElementsByClassName('noUi-origin');
+      if(origins.length){
+        origins[origins.length-1].setAttribute('disabled', 'true');
+      }
+
+      var classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
+
+      var connect = document.querySelectorAll('.noUi-connect');
+      if(connect.length){
+        for (var i = 0; i < connect.length; i++) {
+          connect[i].classList.add(classes[i]);
+        } 
+      }
+    }, 50);
+
   }
   //get list of querypipelines method
   queryPipeline: any = [];
@@ -264,13 +306,21 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
       let date1: any = new Date();
       const result = res.map(data => {
-        let date2: any = new Date(data.end);
-        let sub = Math.abs(date1 - date2) / 1000;
-        let days = Math.floor(sub / 86400);
+        // let date2: any = new Date(data.end);
+        // let sub = Math.abs(date1 - date2) / 1000;
+        // let days = Math.floor(sub / 86400);
+        var createdOn = new Date(data.createdOn);
+        var today = moment();
+        var days = today.diff(createdOn, 'hours');
         let obj = Object.assign({}, data);
+
+        var endsOn : any = new Date(data.end);
+        endsOn = moment(endsOn);
+        var total_days = endsOn.diff(createdOn, 'hours');
         obj.date_days = days;
+        obj.total_days = total_days; 
         return obj;
-      })
+      });
       this.listOfExperiments = result;
       this.filterExperiments = result;
       this.countExperiment(result);
