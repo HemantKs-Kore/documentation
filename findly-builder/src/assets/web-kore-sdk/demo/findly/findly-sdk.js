@@ -5870,8 +5870,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       if (config.dataHandler || config.container) {
         _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
-          if (config.template) {
-            var dataHTML = $('#' + config.template).tmplProxy(data);
+          if (config.templateId) {
+            var dataHTML = $('#' + config.templateId).tmplProxy(data);
+            $('#' + config.container).empty().append(dataHTML);
+          } else if (config.template) {
+            var dataHTML = $(config.template).tmplProxy(data);
             $('#' + config.container).empty().append(dataHTML);
           } else {
             var dataHTML = $(_self.getSearchTemplate('freqData')).tmplProxy(data);
