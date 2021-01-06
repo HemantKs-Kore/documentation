@@ -971,10 +971,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               ${classes}"\
             {{/if}}\
             {{if hideSearchIcon}}\
-              style="position: absolute; bottom: 0px;background:transparent; width:88% !important;"> \
+              style="position: absolute; bottom: 0px;  width:88% !important; \
             {{else}}\
-              style="position: absolute; bottom: 0px;background:transparent;padding-left:46px!important;"> \
+              style="position: absolute; bottom: 0px; padding-left:46px!important; \
             {{/if}}\
+               background:transparent;">\
             {{if microphone}}\
               <div class="sdkFooterIcon microphoneBtn"> \
                   <button class="notRecordingMicrophone" title="Microphone On"> \
@@ -4168,9 +4169,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         $('.search-body').scrollTop(2);
                       }, 100);
                       _self.bindAllResultsView();
-                      _self.getSuggestion(res.autoComplete.keywords);
-                      tmplData['suggestions'] = res.autoComplete.keywords
-                      
+                      _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
+                      tmplData['suggestions'] = res.autoComplete.keywords;
                       //to sort rendering results based on score
                       var scoreArray = [
                         {
@@ -5871,6 +5871,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (config.searchHandler) {
         _self.pubSub.subscribe('sa-search-result', (msg, data) => {
           config.searchHandler(data);
+        })
+      }
+      if (config && config.autoSuggest === true) {
+        _self.pubSub.subscribe('sa-auto-suggest', (msg, data) => {
+          _self.getSuggestion(data);
         })
       }
 
