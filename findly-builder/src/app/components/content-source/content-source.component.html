@@ -793,7 +793,7 @@
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
                 [scrollIndicators]="true">
-                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
+                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
@@ -885,13 +885,20 @@
                       <ng-container>
                         <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
                           <div class="eye-img">
-                            <img src="assets/icons/content/eye.svg">
-                            <div class="execute-log">
+                            <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
+                            <div class="execute-log" *ngIf="executionLogStatus">
                               <div class="header-title">
                                 <div class="title">EXECUTION LOG</div>
-                                <div class="close-log"><img src="assets/images/close.svg"></div>
+                            <div class="close-log"><img src="assets/images/close.svg" (click)="executionLogStatus = false"></div>
                               </div>
-                              <div class="log-details">
+                              <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
+                                <div class="log-details" *ngIf="statlog.stageName">
+                                  <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
+                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                                </div>
+                              </ng-container>
+                              
+                              <!-- <div class="log-details">
                                 <img src="assets/icons/content/success.svg">
                                 <span class="log-name">URL Validation <span class="time">(5s)</span></span>
                               </div>
@@ -918,18 +925,25 @@
                               <div class="log-details">
                                 <img src="assets/images/success-circle.svg">
                                 <span class="log-name">Successfull</span>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                           <div class="col_ col-3 d-flex">
-                            <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class">
-                              <img src="assets/icons/content/success.svg">
+                            <span class="execute-success mr-2" ngbTooltip='{{executionObj[history.executionStats.executionStatusMessage].tooltip}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                              <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
                             </span>
+                            <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Failed'" src="assets/icons/content/failed.svg">
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
+                            </span> -->
                             <div class="text-truncate w-100 pr-4">{{history.executionStats.executionStatusMessage}} </div>
                             <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
                             </div>
                             <div *ngIf = "i == executionPop"> 
                               HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                              {{executionObj[history.executionStats.executionStatusMessage]}}
                             </div> -->                            
                           </div>
                           <div class="col_ col-3">{{history.executionStats.duration}}</div>
