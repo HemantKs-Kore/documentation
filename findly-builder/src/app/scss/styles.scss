@@ -1966,6 +1966,13 @@ nouislider{
             text-align: center;
         }
     }
+    .noUi-connect{
+        background: red;
+        &.c-1-color { background: rgb(255, 0, 0); }
+        &.c-2-color { background: rgb(0, 0, 255); }
+        &.c-3-color { background: rgb(140, 255, 26); }
+        &.c-4-color { background: rgb(255, 255, 0); }
+      }
 }
 .date-tooltip{
     .arrow{
@@ -1984,13 +1991,6 @@ nouislider{
     }
 
 }
-.noUi-connect{
-    background: red;
-    &.c-1-color { background: rgb(255, 0, 0); }
-    &.c-2-color { background: rgb(0, 0, 255); }
-    &.c-3-color { background: rgb(140, 255, 26); }
-    &.c-4-color { background: rgb(255, 255, 0); }
-  }
 .experiment-container{
     .table-data-content {
         .acc-card {
