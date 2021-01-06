@@ -793,7 +793,7 @@
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
                 [scrollIndicators]="true">
-                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
+                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
