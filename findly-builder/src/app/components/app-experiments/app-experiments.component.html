@@ -105,10 +105,10 @@
                     <div class="date-stamp m-0">{{ exp.start | date: "mediumDate" }}</div>
                     <div class="inline-block mb-1">
                       <div class="hour">
-                        <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
+                        <ngb-progressbar type="secondary" [value]="exp.date_days" [max]="exp.total_days">
                         </ngb-progressbar>
                       </div>
-                      <span class="hours ml-2">{{ 24 * exp.date_days }} hrs more to go</span>
+                      <span class="hours ml-2" *ngIf="exp.state !== 'completed'">{{ exp.date_days }} hrs more to go</span>
                     </div>
                     <div class="text-right date-stamp bottom m-0">{{ exp.end | date: "mediumDate" }}</div>
                   </div>

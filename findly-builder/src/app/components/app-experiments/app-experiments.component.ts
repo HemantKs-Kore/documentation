@@ -88,7 +88,10 @@ export class AppExperimentsComponent implements OnInit {
     this.variantsArray = [];
     this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
     this.showSlider = false;
-    this.sliderref.slider.destroy();
+    if(this.sliderref.slider){
+      this.sliderref.slider.destroy();
+      this.sliderref.slider.updateOptions(this.someRangeconfig, true);
+    }
     this.addExperimentsRef.close();
     console.log("this.someRangeconfig", this.someRangeconfig)
   }
@@ -116,6 +119,7 @@ export class AppExperimentsComponent implements OnInit {
     }
     else{
       // default two varients has to be there.
+      this.showSlider = false;
       this.addVarient();
       this.addVarient();
     }
@@ -302,11 +306,19 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
       let date1: any = new Date();
       const result = res.map(data => {
-        let date2: any = new Date(data.end);
-        let sub = Math.abs(date1 - date2) / 1000;
-        let days = Math.floor(sub / 86400);
+        // let date2: any = new Date(data.end);
+        // let sub = Math.abs(date1 - date2) / 1000;
+        // let days = Math.floor(sub / 86400);
+        var createdOn = new Date(data.createdOn);
+        var today = moment();
+        var days = today.diff(createdOn, 'hours');
         let obj = Object.assign({}, data);
+
+        var endsOn : any = new Date(data.end);
+        endsOn = moment(endsOn);
+        var total_days = endsOn.diff(createdOn, 'hours');
         obj.date_days = days;
+        obj.total_days = total_days; 
         return obj;
       });
       this.listOfExperiments = result;
