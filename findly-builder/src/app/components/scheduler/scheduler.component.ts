@@ -300,7 +300,7 @@ export class SchedulerComponent implements OnInit {
     scheduledObject.date = this.dateFormatConverter(this.startDate);
     scheduledObject.time = time;
     /** Time data */
-    time.hour = timeHH;
+    time.hour = String(timeHH);
     time.minute = this.timeMM;
     time.timeOpt = this.meridiem;
     time.timezone = this.stz;
