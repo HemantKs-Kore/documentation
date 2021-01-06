@@ -19,7 +19,21 @@
                     </div>
                 </div>
                 <div (click)="openStatusModal()" class="title"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
-                <!-- <div class="clock"><img src="assets/icons/clock.svg"></div> -->
+                <div class="clock"><img src="assets/icons/clock.svg"></div>
+                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/export-top.svg"></button>                                            
+                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                          <li>Export to JSON</li>
+                          <li>Export to CSV</li>                         
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="export-success-notification">
+                <div class="check"><img src="assets/icons/docker/check.svg"></div>
+                <div class="desc-info">Export to JSON is in progress. You can check the status in the Status Docker</div>
+                <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
         <div class="faq-content-boxes">
