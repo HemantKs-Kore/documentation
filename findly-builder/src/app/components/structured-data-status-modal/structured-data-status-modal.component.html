@@ -38,10 +38,9 @@
           <div class="relaxNote">{{docStatusObject.statusMessage}}</div>
         </div>
       </div>
-      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': docStatusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">{{'structuredData.abort' | translate}}</button>
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
+      <div class="modal-footer text-right">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': docStatusObject.status==='success'}" data-dismiss="modal">{{'structuredData.abort' | translate}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="closeModal()">{{'structuredData.ok' | translate}}</button>
       </div>
     </div>

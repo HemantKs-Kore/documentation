@@ -191,43 +191,27 @@ export class StructuredDataComponent implements OnInit {
 
   //delete experiment popup
   deleteStructuredDataPopup(record) {
-      let obj = {
-        title: "Do you really want to delete?",
-        confirmationMsg: "Selected data will be permanently deleted.",
-        yes: "Proceed",
-        no: "Cancel",
-        type: "removeAnnotation"
-      };
-      const dialogRef = this.dialog.open(ConfirmationComponent, {
-        data: { info: obj },
-        panelClass: 'kr-confirmation-panel',
-        disableClose: true,
-        autoFocus: true
-      });
-      dialogRef.afterClosed().subscribe(res => {
-        if (res) {
-          // delete
-          this.deleteStructuredData(record);
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '530px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+          newTitle: 'Do you really want to delete?',
+          body: 'Selected data will be permanently deleted.',
+          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp: true,
         }
       });
-
-      // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      //   width: '530px',
-      //   height: 'auto',
-      //   panelClass: 'delete-popup',
-      //   data: {
-      //     newTitle: 'Do you really want to delete?',
-      //     body: 'Selected data will be permanently deleted.',
-      //     buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-      //     confirmationPopUp: true,
-      //   }
-      // });
-      // dialogRef.afterClosed().subscribe(res => {
-      //   if (res) {
-      //     // delete
-      //     this.deleteStructuredData(record);
-      //   }
-      // });
+      dialogRef.componentInstance.onSelect.subscribe(res => {
+        if (res === 'yes') {
+          // delete
+          dialogRef.close();
+          this.deleteStructuredData(record);
+        }
+        else if (res === 'no') {
+          dialogRef.close();
+        }
+      });
   }
 
   deleteStructuredData(record){
