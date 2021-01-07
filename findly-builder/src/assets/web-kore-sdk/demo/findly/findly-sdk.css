@@ -11429,5 +11429,5 @@ padding-right: 0;
     margin-right: 15px;
 }
 .display-block {
-    display: block;
+    display: block !important;
 }

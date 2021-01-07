@@ -1058,11 +1058,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <span class="custom-appearences-content">${faq.feedback.click} CLICKS</span>\
                       <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
                       <span class="appearences-count display-none">${faq.feedback.appearance} Appearances - ${faq.feedback.click} Clicks</span>\
-                      <div class="result-tuning-action-notification-container">\
-                        <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
-                        <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
-                        <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
-                        <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                      <div class="result-tuning-action-notification-container {{if faq.customization!=null}}display-block{{/if}}">\
+                        <img id="hideAction" class="{{if faq.customization!=null&&faq.customization.action=="hidden"&&faq.customization.value==false}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                        <img id="pinAction" class="{{if faq.customization!=null&&faq.customization.action=="pinned"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                        <img id="boostAction" class="{{if faq.customization!=null&&faq.customization.action=="boosted"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                        <img id="buryAction" class="{{if faq.customization!=null&&faq.customization.action=="burried"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
                       </div>\
                     </span>\
                     <span class="actions display-none">\
@@ -1145,11 +1145,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <span class="custom-appearences-content">${pageInfo.feedback.click} CLICKS</span>\
                     <img class="display-none" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFPSURBVHgBrVLbbYNAEDye4pMSkg7iChJXEFKBgwRC/KUD4wr8iXhIZ1eQpII4FZgS6CD8gyCzDqA7ZBRZ9kir4253b+dmYOxKKOxCpGn6qqrqY13XmzAMS32uMEkSp23bgoqkiYrCu65jhmHQ1lVnmiNMeUfRl3gex/EdlqqPT+kJNLFpmtI0zWds3xB2P3FHdHHhA763iL3v+9HISJi47s8OiA0KbTyhxOqA8gorTWdolnTTJ+8rPc9bMhkFBlBuTflJjp00CIIgQvJF07QFO4P/8heBc26TXhKDcyC/8zznvfIjIOiRHCLdaD9qMPhuWVaFImfq91A3iCkxGHzXdf0IK39QtMLxnv35/QQmJ8pZlpFTBWJJukgM+tsrCHXvum41nFEzmG3RzGmPAQvx71TEQjQfxGbheTswJFbz/wH8/2AzAIMIl3dYv9mt8Qs1FJbJYYs8PAAAAABJRU5ErkJggg==">\
                     <span class="appearences-count display-none">${pageInfo.feedback.appearance} Appearances - ${pageInfo.feedback.click} Clicks</span>\
-                    <div class="result-tuning-action-notification-container">\
-                      <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
-                      <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
-                      <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
-                      <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                    <div class="result-tuning-action-notification-container {{if pageInfo.customization!=null}}display-block{{/if}}">\
+                      <img id="hideAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="hidden"&&pageInfo.customization.value==false}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                      <img id="pinAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="pinned"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                      <img id="boostAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="boosted"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                      <img id="buryAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="burried"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
                     </div>\
                   </span>\
                  <span class="actions display-none">\
@@ -1333,11 +1333,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                               <div class="custom-matched-results-page-icon">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACeSURBVHgBjZDNDQIhEIXZyR44agfagS1YgiVwJBShWwQhnCjBEixBO5AO3CMndJ4JyYb9Ce8yMPPNe4HOe3/NOd/EXCP3z8aYFy6dc+4rpdwrpcYphT6XyPAFMKFZQ0WAiOhurT31Yl2RoScOXB8lYlNgSDSqrzbfXA4lWmt9XASng1bHWC81O/4fE0LYrQFlBschpfTh2EWQZ/j44QdAT0c3vu2rHAAAAABJRU5ErkJggg==">\
                               </div>\
-                              <div class="result-tuning-action-notification-container fullscreen-notification">\
-                                <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
-                                <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
-                                <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
-                                <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                              <div class="result-tuning-action-notification-container fullscreen-notification {{if devMode=="false"&&pageInfo.customization!=null}}display-block{{/if}}">\
+                                <img id="hideAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="hidden"&&pageInfo.customization.value==false}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                                <img id="pinAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="pinned"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                                <img id="boostAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="boosted"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                                <img id="buryAction" class="{{if pageInfo.customization!=null&&pageInfo.customization.action=="burried"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
                               </div>\
                               <div class="custom-matched-results-page-summary">\
                                 <span class="custom-matched-results-page-summary-content">\
@@ -1444,11 +1444,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           <div class="custom-matched-results-faq-icon">\
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFuSURBVHgBjVPNbYMwGAUnOeTWDZoR0g2aCUomIJG4IITSDZKMECEESEilE5RM0GzQbtCyQY5wAPoeAuq6KY2lDxt/730/z7amDYwgCGa0IYyubniedz+ZTMyqqgxd12+4V9f1GesUy71t258yXsg/URRtR6PRCwgZCHcA6zSu4c5gr6hoe7ECkpF1heVCzSK3xCCwBJh9H0By9OQwDDeo5LHl9gRisf9WluXSdd1T1wKzP3fkFkTygoYWDGpDHzH4P4zHY7PXAGBDCJF0pUIHitcEpCHbEXtzqRtijaaFtvwPinWpb9/35yA/IclS1ga8Gqc1E9rAYHCSUcH6L2EFHTznOI5vVSdbY/mO47yrgTGdLcvKugqORVGs1QDT6TSRtemzCkEB02bND1QlcKNe2zzPKdRKzd7el+970Dp2mBj534vEI0dbux8BlCCJ1h6jRDR5N2CHjvwrQAcGiIAH+TGhxRQzg560a8c1z/kLZhPUDza2l/UAAAAASUVORK5CYII=">\
                           </div>\
-                          <div class="result-tuning-action-notification-container fullscreen-notification">\
-                            <img id="hideAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
-                            <img id="pinAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
-                            <img id="boostAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
-                            <img id="buryAction" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
+                          <div class="result-tuning-action-notification-container fullscreen-notification {{if devMode=="false"&&faq.customization!=null}}display-block{{/if}}">\
+                            <img id="hideAction" class="{{if faq.customization!=null&&faq.customization.action=="hidden"&&faq.customization.value==false}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAE6SURBVHgBlVLLTcNAEJ1ZKIASTAW4BPsGSZDSAe4A+4DknGKfsMTBSgU4HSABEbeUQNJBSjC3HMIOb/0ha0MOHmm9s6OZeW/emAgm8WQtDyOXBpqqL72kcx7cgFtH4lFAzDkdxOen1UZmtzmJDpusDYm8GBDOPnY9ZJPAVyR00TLgx9eIs3c0/75EfIuEhPjsU2Y3YQcZqM9wHTQogTBFtGwZHJmN17gMqodXwdkqVSico8gFik9avDrzyMCaMMXHARMffgCRPUXCU5xI4msgo+gXqt/gYFCdamZNCyTMFaZeEktO+z0og65ttgaVUCqtQBTdE+tFM/O4AKoRzMwY0N+dlN0tyBdnb4m1qkliqNAp+0dE7rA0lESFzdrcWgPZIQ1Htojf2Q2YBlj/R1JDirHbAvNGECww7x8lFZ3pEBqXQgAAAABJRU5ErkJggg==">\
+                            <img id="pinAction" class="{{if faq.customization!=null&&faq.customization.action=="pinned"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBlZDBEYIwEEV3gwVQAiVYgtwELlKCTTjRi56c3Bwr0A64iOMNSkgJlGADcU0Co3ECojlkdv/8l78bgJFD6+xAPCPi6db0+NW8ShbAWOEou0GANukUFFb6ydDV8R8zEB0tQHweAQQnXc764+AOiDmKSz1plRFzQDHuS2la1qpqqa+mF7Dmq/R26MaqdBm5fhTlx57sXbHQ5A8muYD9lQcUusv1ePELQpAe4JrNrChuTQfVQCr3IognZwv9eJ41yEX4geyVuwAAAABJRU5ErkJggg==">\
+                            <img id="boostAction" class="{{if faq.customization!=null&&faq.customization.action=="boosted"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADZSURBVHgBfZC9DcJADIXtywJsACMwQuhQLhRskEwA5YUmoUHpIiZINkjBj+hYASYARmCAyNhE0QG6cJIly/7e+dkAjkcmSCVcPeWCAdAHVOM+kYUTXZDRlRXrqlfEjbKDyUxHElakyy9LAgPBE/ND1ILeWUJyqbHFRydCSsKa4Svm+8zCag3QSJvtNBPMT3cyYcZfD4GW/sDa0Dcys+jDZtTWOns8sUuAvJovs8V8V/3sFgHiAqiZyySkVTCGBkvwKMbN8eI8iDDEDIsUW03/we9FpYcUA6niBUTBdjWOviKAAAAAAElFTkSuQmCC">\
+                            <img id="buryAction" class="{{if faq.customization!=null&&faq.customization.action=="burried"}}display-block {{else}}display-none {{/if}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADaSURBVHgBhZDBEYIwEADv0AK0AzuQEvTHBD5WoCXowyH4AT4OMz60A+zAjzL+HDugA2kEzkuiiCOD90gud7u5TJB8cYIKYtxlOXQEbYQNZIUWYLWCPqa05kInjCmzsYXJtQAqZ1oK3PkPrGoKZga3WW6RdEa1RBA1JQNDpGFmaDkZIEk35VaBSRYrGaB3A2RIG2ovpxqWIuSzjbou3SOvjy9JxwsO3D3DQ0wui89bWTLTVO6MjKhykZoL235DetFbqmFfHJoMtklA1RgQB9y+Y3KO4F+YSV4r+ARhYHopRoWUEwAAAABJRU5ErkJggg==">\
                           </div>\
                           <div class="custom-matched-results-faq-summary">\
                             <span class="custom-matched-results-faq-summary-content">\
@@ -2685,7 +2685,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var navLinks = document.getElementsByClassName("custom-header-nav-link-item");
 
         if (_self.config.viaSocket && _self.vars.resultRankingActionPerformed == true) {
-          
+
           var scrollHeight = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').prop("scrollHeight");
           $('#searchChatContainer').animate({ scrollTop: scrollHeight }, 500);
 
@@ -3385,12 +3385,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
               selectedElement.find('#boostAction').hide();
               selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').removeClass('display-none');
               selectedElement.find('#hideAction').show();
             }
             else {
               selectedElement.find('.result-tuning-action-notification-container').show();
               selectedElement.find('#boostAction').hide();
               selectedElement.find('#buryAction').hide();
+              selectedElement.find('#hideAction').removeClass('display-none');
               selectedElement.find('#hideAction').show();
             }
             elementHidden.text("UNHIDE");
@@ -3401,12 +3403,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(this).hide();
             });
             if ($(event.target).closest('.visibility').attr('data-viewmode') == "full") {
-              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
-              selectedElement.find('#hideAction').hide();
+              if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#hideAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').removeClass("display-block");
+                selectedElement.find('#hideAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+                selectedElement.find('#hideAction').hide();
+              }
             }
             else {
-              selectedElement.find('.result-tuning-action-notification-container').hide();
-              selectedElement.find('#hideAction').hide();
+              if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#hideAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container').removeClass("display-block");
+                selectedElement.find('#hideAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container').hide();
+                selectedElement.find('#hideAction').hide();
+              }
             }
             elementHidden.text("HIDE");
             selectedElement.removeClass('hide-actions');
@@ -3440,12 +3454,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(this).hide();
             });
             if ($(event.target).closest('.pinning').attr('data-viewmode') == "full") {
-              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
-              selectedElement.find('#pinAction').hide();
+              if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClas('display-block') && selectedElement.find('#pinAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').removeClass("display-block");
+                selectedElement.find('#pinAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hide();
+                selectedElement.find('#pinAction').hide();
+              }
             }
             else {
-              selectedElement.find('.result-tuning-action-notification-container').hide();
-              selectedElement.find('#pinAction').hide();
+              if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#pinAction').hasClass('display-block')) {
+                selectedElement.find('.result-tuning-action-notification-container').removeClass("display-block");
+                selectedElement.find('#pinAction').removeClass("display-block");
+              }
+              else {
+                selectedElement.find('.result-tuning-action-notification-container').hide();
+                selectedElement.find('#pinAction').hide();
+              }
             }
 
             elementPinned.text("PIN");
@@ -3461,12 +3487,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
               selectedElement.find('#boostAction').hide();
               selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').removeClass("display-none");
               selectedElement.find('#pinAction').show();
             }
             else {
               selectedElement.find('.result-tuning-action-notification-container').show();
               selectedElement.find('#boostAction').hide();
               selectedElement.find('#buryAction').hide();
+              selectedElement.find('#pinAction').removeClass('display-none');
               selectedElement.find('#pinAction').show();
             }
             elementPinned.text("UNPIN");
@@ -3489,14 +3517,30 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
           // selectedElement.find('.notification-div').text(indicatorMessage).show();
           if ($(event.target).closest('.boosting').attr('data-viewmode') == "full") {
-            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#boostAction').show();
+            if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#buryAction').hasClass('display-block')) {
+              selectedElement.find('#buryAction').removeClass("display-block");
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
           }
           else {
-            selectedElement.find('.result-tuning-action-notification-container').show();
-            selectedElement.find('#buryAction').hide();
-            selectedElement.find('#boostAction').show();
+            if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#buryAction').hasClass('display-block')) {
+              selectedElement.find('#buryAction').removeClass("display-block");
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#buryAction').hide();
+              selectedElement.find('#boostAction').removeClass("display-none");
+              selectedElement.find('#boostAction').show();
+            }
           }
 
           selectedElement.attr('boost', conf.boost);
@@ -3517,14 +3561,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           });
           // selectedElement.find('.notification-div').text(indicatorMessage).show();
           if (($(event.target).closest('.burying').attr('data-viewmode') == "full")) {
-            selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
-            selectedElement.find('#boostAction').hide();
-            selectedElement.find('#buryAction').show();
+            if (selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').hasClass('display-block') && selectedElement.find('#boostAction').hasClass('display-block')) {
+              selectedElement.find('#boostAction').removeClass("display-block");
+              selectedElement.find('#buryAction').removeClass("display-none");
+              selectedElement.find('#buryAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container.fullscreen-notification').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').show();
+            }
           }
           else {
-            selectedElement.find('.result-tuning-action-notification-container').show();
-            selectedElement.find('#boostAction').hide();
-            selectedElement.find('#buryAction').show();
+            if (selectedElement.find('.result-tuning-action-notification-container').hasClass('display-block') && selectedElement.find('#boostAction').hasClass('display-block')) {
+              selectedElement.find('#boostAction').removeClass("display-block");
+              selectedElement.find('#buryAction').removeClass("display-none");
+              selectedElement.find('#buryAction').show();
+            }
+            else {
+              selectedElement.find('.result-tuning-action-notification-container').show();
+              selectedElement.find('#boostAction').hide();
+              selectedElement.find('#buryAction').removeClass("display-none");
+              selectedElement.find('#buryAction').show();
+            }
           }
           selectedElement.attr('boost', conf.boost);
 
