@@ -124,6 +124,8 @@ export class StructuredDataComponent implements OnInit {
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
     }
+    // refresh the data
+    this.getStructuredDataList();
   }
 
   openAdvancedSearch(){
