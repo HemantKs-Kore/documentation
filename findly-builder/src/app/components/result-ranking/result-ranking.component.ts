@@ -272,47 +272,66 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   
   removeRecord(actLog){
-    
     const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId: this.queryPipelineId
     };
-    let result :any = [];
-      var obj :any = {};
-      obj.config = {};
-      obj.contentType = actLog.target.contentType ;
-      //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
-      obj.contentId = actLog.target.contentId;
-      if(actLog.customization.action == 'pinned' ) obj.config['pinIndex'] = -1;
-      if(actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;  
-      if(actLog.customization.action == 'hidden' ) obj.config['hidden'] = true;
-      // obj.config = {
-      //    pinIndex : -1,
-      //   //boost: 1.0,
-      //   //visible: true,
-      //burried
-      // }
-      result.push(obj);
-    
-    let payload : any = {};
-    
-    payload.searchQuery = this.selectedRecord.searchQuery;//this.query;
-    payload.results = result;
-    this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
-      
-      this.notificationService.notify('Record Removed', 'success');
-      this.getcustomizeList();
-      this.actionLogData = [];
-      this.customizeList = [];
-      //console.log(res);
-    }, errRes =>  {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed remove record', 'error');
+    let result: any = [];
+    var obj: any = {};
+    obj.config = {};
+    obj.contentType = actLog.target.contentType;
+    //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
+    obj.contentId = actLog.target.contentId;
+    if (actLog.customization.action == 'pinned') obj.config['pinIndex'] = -1;
+    if (actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;
+    if (actLog.customization.action == 'hidden') obj.config['hidden'] = true;
+    // obj.config = {
+    //    pinIndex : -1,
+    //   //boost: 1.0,
+    //   //visible: true,
+    //burried
+    // }
+    result.push(obj);
+
+    let payload: any = {};
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        newTitle : 'Do you want to remove?',
+        body : 'Selected customiztion will be removed once you procced.',
+        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
       }
     });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            payload.searchQuery = this.selectedRecord.searchQuery;//this.query;
+            payload.results = result;
+            this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
+              dialogRef.close();
+              this.notificationService.notify('Record Removed', 'success');
+              this.getcustomizeList();
+              this.actionLogData = [];
+              this.customizeList = [];
+              //console.log(res);
+            }, errRes =>  {
+              if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+              } else {
+                this.notificationService.notify('Failed remove record', 'error');
+              }
+            });
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+    })
+    
   
   }
   applyFilter(value){
@@ -356,7 +375,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
        }
      });
   }
- 
+  
   restore(record){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -364,13 +383,16 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       rankingAndPinningId : record._id
     };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
+        newTitle : 'Do you really want to reset?',
+        body : 'Selected queries will be set to Reset once you procced',
+        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
       }
     });
     dialogRef.componentInstance.onSelect
@@ -381,6 +403,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
               this.getcustomizeList();
               this.actionLogData = [];
               this.customizeList = [];
+              dialogRef.close();
              }, errRes => {
                if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
                  this.notificationService.notify(errRes.error.errors[0].msg, 'error');

@@ -108,15 +108,15 @@
               <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{custFreq}}</button>                                            
                   <ul class="dropdown-menu content-menu content-width">                                               
-                    <!-- <li (click)="custFrequency('Days')"><a *ngIf="repeatEvery == 1">Day</a><a *ngIf="repeatEvery > 1''">Days</a></li>
-                    <li (click)="custFrequency('Weeks')"><a *ngIf="repeatEvery == 1">Week</a><a *ngIf="repeatEvery > 1">Weeks</a></li>
-                    <li (click)="custFrequency('Months')"><a *ngIf="repeatEvery == 1">Month</a><a *ngIf="repeatEvery > 1">Months</a></li>
-                    <li (click)="custFrequency('Years')"><a *ngIf="repeatEvery == 1">Year</a><a *ngIf="repeatEvery > 1">Years</a></li> -->
+                    <li (click)="custFrequency('Days')"><a *ngIf="repeatEvery == '1'">Day</a><a *ngIf="repeatEvery != '1'">Days</a></li>
+                    <li (click)="custFrequency('Weeks')"><a *ngIf="repeatEvery == '1'">Week</a><a *ngIf="repeatEvery != '1'">Weeks</a></li>
+                    <li (click)="custFrequency('Months')"><a *ngIf="repeatEvery == '1'">Month</a><a *ngIf="repeatEvery != '1'">Months</a></li>
+                    <li (click)="custFrequency('Years')"><a *ngIf="repeatEvery == '1'">Year</a><a *ngIf="repeatEvery != '1'">Years</a></li>
                     
-                    <li (click)="custFrequency('Days')"><a>Day</a></li>
+                    <!-- <li (click)="custFrequency('Days')"><a>Day</a></li>
                     <li (click)="custFrequency('Weeks')"><a>Week</a></li>
                     <li (click)="custFrequency('Months')"><a>Month</a></li>
-                    <li (click)="custFrequency('Years')"><a>Year</a></li>
+                    <li (click)="custFrequency('Years')"><a>Year</a></li> -->
                   </ul>
                 </div>
             </div>
