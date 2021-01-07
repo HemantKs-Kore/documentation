@@ -187,48 +187,82 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.getcustomizeList();
   }
   selectAll(){
-    this.collectedRecord = [];
-    if(this.customizeList.length){
-      let selected = this.customizeList.find(element=> {
-        return element['check'] == false ? true : false;
-      });
-      if(!selected){
-        this.resetSelected();
-      }else{
-        this.customizeList.forEach((element,index) => {
-          element['check'] = true;
-          this.collectedRecord.push(element);
-        });
-        this.resultSelected = true;
-      }
-    }
-  }
-  multiSelect(record,opt){
-   
-    let pushRecord = [];
-    //this.collectedRecord  = [];
-    if(opt){
-      this.resultSelected = opt;
-      this.collectedRecord.push(record)
-    }else {
-      let selecetd = false;
+    //this.collectedRecord = [];
+    let selected = false;
+    if(this.collectedRecord.length == this.customizeList.length){
+      this.resetSelected();
+    }else if(this.collectedRecord.length >= 0 && this.collectedRecord.length < this.customizeList.length){
+      this.collectedRecord = [];
       this.customizeList.forEach((element,index) => {
-        if(element._id != record._id){
-          if(element['check'] == true){
-            pushRecord.push(element)
-          }
-        }
-        if(element._id == record._id){
-          this.collectedRecord.splice(index,1);
-        }
+        element['check'] = true;
+        this.collectedRecord.push(element);
       });
-      
-      if(pushRecord.length > 0){
-        this.resultSelected = true;
-      }else {
-        this.resultSelected = false;
-      }
+      this.resultSelected = true;
+    }else{
+      this.resetSelected();
     }
+    // if(this.customizeList.length){
+    //   let selected = this.customizeList.find(element=> {
+    //     return element['check'] == false ? true : false;
+    //   });
+    //   if(!selected){
+    //     this.resetSelected();
+    //   }else{
+    //     this.customizeList.forEach((element,index) => {
+    //       element['check'] = true;
+    //       this.collectedRecord.push(element);
+    //     });
+    //     this.resultSelected = true;
+    //   }
+    // }
+  }
+  multiSelect(record,opt,event){
+   if(event){
+
+   }
+   if(event.target.checked){
+    this.collectedRecord.push(record)
+   }else{
+    this.collectedRecord.forEach((element,index) => {
+      if(element._id == record._id){
+        this.collectedRecord.splice(index,1);
+      }
+    });
+   }
+   if(this.collectedRecord.length > 0){
+    this.resultSelected = true;
+  }else {
+    this.resultSelected = false;
+  }
+  
+    // let pushRecord = [];
+    // //this.collectedRecord  = [];
+    // if(event.target.checked){
+    //   this.resultSelected = opt;
+    //   // this.collectedRecord.forEach(element => {
+        
+    //   // });
+    //   this.collectedRecord.push(record)
+    // }else {
+    //   let selecetd = false;
+    //   this.customizeList.forEach((element,index) => {
+    //     if(element._id != record._id){
+    //       if(element['check'] == true){
+    //         pushRecord.push(element)
+    //       }
+    //     }
+    //     if(element._id == record._id){
+    //       this.collectedRecord.splice(index,1);
+    //     }
+    //   });
+      
+    //   if(pushRecord.length > 0){
+    //     this.resultSelected = true;
+    //   }else {
+    //     this.resultSelected = false;
+    //     this.collectedRecord = [];
+    //   }
+    // }
     console.log(this.collectedRecord)
   }
   clickCustomizeRecord(record,event?){
