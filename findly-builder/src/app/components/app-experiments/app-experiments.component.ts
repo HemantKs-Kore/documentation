@@ -125,10 +125,21 @@ export class AppExperimentsComponent implements OnInit {
     });
     this.someRangeconfig.tooltips = tooltips;
   }
-  updateSliderConfig(destroy?){
+  updateSlderModel(){
+    this.someRange =  this.someRangeconfig.start;
+    console.log('this.variantsArray = ' + this.variantsArray);
+    console.log('start = ' + this.someRange + ' || ' + this.someRangeconfig.start);
+    console.log('connect = ' + this.someRangeconfig.connect);
+    console.log('tooltips = ' + this.someRangeconfig.tooltips);
+  }
+  updateAllSliderConfigs(){
     this.updateSliderConnects();
     this.updateSliderTooltips();
-    if(destroy && this.sliderref && this.sliderref.slider){
+    this.updateSlderModel();
+  }
+  updateSliderConfig(destroy?){
+    this.updateAllSliderConfigs();
+    if(this.sliderref && this.sliderref.slider){
       this.sliderref.slider.destroy();
     }
     if(this.sliderref &&  this.sliderref.slider){
@@ -220,6 +231,7 @@ export class AppExperimentsComponent implements OnInit {
      this.updateSliderConfig();
     })
     setTimeout(() => {
+      this.updateAllSliderConfigs();
       this.showSlider = true;
       this.recheckSliderDrag();
     }, 50);
