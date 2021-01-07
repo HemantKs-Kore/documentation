@@ -98,6 +98,7 @@ import { AppExperimentsComponent } from './components/app-experiments/app-experi
 import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 import { AddStructuredDataComponent } from './components/add-structured-data/add-structured-data.component';
 import { StructuredDataStatusModalComponent } from './components/structured-data-status-modal/structured-data-status-modal.component';
+import { StatusDockerComponent } from './components/status-docker/status-docker.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -166,8 +167,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppExperimentsComponent,
     StructuredDataComponent,
     AddStructuredDataComponent,
-    StructuredDataStatusModalComponent
-  ],
+    StructuredDataStatusModalComponent,
+    StatusDockerComponent
+    ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -204,8 +206,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     ToastrModule.forRoot({
       timeOut: 5000,
-      autoDismiss	: false,
-      closeButton : true
+      autoDismiss: false,
+      closeButton: true
     }),
     NgxDaterangepickerMd.forRoot()
   ],

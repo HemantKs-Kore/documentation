@@ -1,0 +1,87 @@
+.statusDockerBody{
+    .clear_icon{
+        padding: 15px 17px;
+        color: #9AA0A6;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+    .docker-list{
+        padding: 0 17px;
+        padding-bottom: 10px;
+        .row-content{
+            margin-bottom: 12px;
+            .heading{
+                color: #202124;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 15px;
+                margin-bottom: 6px;
+            }
+            .desc{
+                color: #9AA0A6;
+                font-weight: normal;
+                font-size: 10px;
+                line-height: 12px;
+                .tooltip-data{
+                    display: none;
+                    cursor: pointer;
+                    margin-left: 4px;
+                    img{
+                        height: 11px;
+                    }
+                }
+            }
+            .task_content{
+                &:hover{
+                    .desc{
+                        .tooltip-data{
+                            display: inline;
+                        }
+                    }
+                }
+            }
+            .img-block{
+                margin-right: 24px;
+                img{
+                    cursor: pointer;
+                }
+            }
+            .status-blcok{
+                img{
+                    cursor: pointer;
+                }
+            }
+        }
+    }    
+    .perfect-scroll-modal-body{
+        &.docker{
+            height: 215px;
+        }        
+    }
+    .inProgress{
+        width: 20px;
+        height: 20px;
+        -webkit-animation:spin 4s linear infinite;
+        -moz-animation:spin 4s linear infinite;
+        animation:spin 4s linear infinite;
+    }
+    .run-percentageDone {
+        position: absolute;
+        // left: 69px;
+        // top: 2px;
+        left: 55px;
+        top: 7px;
+        font-size: 10px;
+        color: #a6bdda;
+    }
+    .anchor {
+        cursor: pointer;
+    }
+    .clear_icon.disabled{
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}

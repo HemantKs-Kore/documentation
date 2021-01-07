@@ -213,6 +213,14 @@
 			</div>
 		</div>
 
+		<div class="status-docker" (click)="(showStatusDocker = !showStatusDocker); openStatusDocker()">
+			<div class="circles">
+				<div class="inner-clrcle"></div>
+			</div>
+			<div class="docker-title">
+				 {{ 'status_docker' | translate}}
+			</div>
+		</div>
 		<!-- <div class="sidebar-fixed position-fixed activeMenu">
 
 		<div mat-button class="mat-button" [routerLink]="['/settings']"  skipLocationChange routerLinkActive="active" (click)="preview('weights')" mat-button>
@@ -250,7 +258,7 @@
 			</div>
 			<div class="kr-sg-input-text pt-4">
 				<div class="label-text" >Name of Configuration</div>
-				<input type="text" placeholder="Placeholder text" [(ngModel)]="newConfigObj.name" class="input-text">
+				<input type="text" placeholder="Enter Name" [(ngModel)]="newConfigObj.name" class="input-text">
 			</div>
 		</div>
 		<ng-container *ngIf="newConfigObj.method === 'clone'">
@@ -286,3 +294,7 @@
         <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">Cancel</button>
     </div>    
 </kr-modal>
+
+<div class="statusDockerContent" *ngIf="showStatusDocker">
+	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
+</div>

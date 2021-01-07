@@ -1978,6 +1978,29 @@ nouislider{
             text-align: center;
         }
     }
+    .noUi-connect{
+        background: red;
+        &.c-1-color { background: rgb(255, 0, 0); }
+        &.c-2-color { background: rgb(0, 0, 255); }
+        &.c-3-color { background: rgb(140, 255, 26); }
+        &.c-4-color { background: rgb(255, 255, 0); }
+      }
+}
+.date-tooltip{
+    .arrow{
+        &::before{
+            border-right-color: #fff;
+        }
+    }
+    .tooltip-inner{
+        background: #FFFFFF;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+        color: #202124;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 5px 10px;
+    }
 
 }
 .imort-structure-data{
@@ -2011,3 +2034,31 @@ nouislider{
 // .CodeMirror-sizer{
 //     margin-left: 37px !important;
 // }
+.experiment-container{
+    .table-data-content {
+        .acc-card {
+            .acc-card-header {
+                .acc-card-link {
+                    .row_data {
+                        .duration-data {
+                            ngb-progressbar{
+                                .progress{
+                                  height: 6px;
+                                  background: #E4E5E7;
+                                  border-radius: 6px;
+                                  margin-top: 0px;
+                                  .progress-bar{
+                                    &.bg-secondary{
+                                        border-radius: 6px;
+                                        background: #BDC1C6 !important;
+                                    }
+                                  }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

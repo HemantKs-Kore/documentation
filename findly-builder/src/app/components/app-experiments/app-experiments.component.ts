@@ -5,6 +5,8 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
+import * as moment from 'moment';
+declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-app-experiments',
@@ -12,176 +14,284 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog,) { }
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
   showSearch;
+  select_config: any;
   searchFields: any = '';
-  experiment: any = {
+  variantsArray: any = [];
+  experimentObj: any = {
     name: '',
-    variants: [],
-    duration: 0
+    variants: this.variantsArray,
+    duration: { days: 0 }
   }
   conn: any = [true, true];
   tool: any = [true];
   star: any = [100];
-  someRange;
-  showSlider: boolean = false;
-  public someRangeconfig: any = {
-    behaviour: "drag",
-    connect: this.conn,
-    tooltips: this.tool,
-    start: this.star,
-    range: {
-      min: 0,
-      max: 100
-    }
-  };
+  someRange: any;
+  showSlider = false;
+  someRangeconfig:any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
-  @ViewChild("sliderref") sliderref;
-  varients = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }, { color: '#c44dff', code: 'E' }];
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService, public dialog: MatDialog,) { }
+  @ViewChild('sliderref') sliderref;
+  variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
+  // add Experiment
+  form_type;
+  exp_id;
+  exp_status: string;
+  // add variant dynamically
+  trafficData: any = [];
+  // get list of querypipelines method
+  queryPipeline: any = [];
+  // get list of experiments method
+  listOfExperiments: any = [];
+  filterExperiments: any = [];
+  allExp: number;
+  confExp: number;
+  actExp: number;
+  pauExp: number;
+  compExp: number;
+  loadingContent: boolean;
+  res1 = [];
+  status_active: boolean;
+  // filter list using tabs
+  setTab = 'all';
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getExperiments();
     this.getQueryPipeline();
+    this.setSliderDefaults();
   }
-  //close model popup method
+  setSliderDefaults(starts?){
+    starts = starts || [...this.star];
+    this.someRangeconfig = {
+      behaviour: 'drag',
+      connect: [...this.conn],
+      tooltips: [...this.tool],
+      start: starts,
+      step: 5,
+      format: {
+        from: (value) => {
+          return parseInt(value,10);
+        },
+        to: (value) => {
+          return parseInt(value,10);
+        }
+      },
+      range: {
+        min: 0,
+        '5%': 5,'10%': 10,'15%': 15,'20%': 20,'25%': 25,'30%': 30,'35%': 35,
+        '40%': 40,'45%': 45,'50%': 50,'55%': 55,'60%': 60,'65%': 65,'70%': 70,
+        '75%': 75,'80%': 80,'85%': 85,'90%': 90,'95%': 95,
+        max: 100
+      },
+      snap: true,
+    };
+   this.updateSliderConfig();
+  }
+  // close model popup method
   closeModalPopup() {
-    this.varientArray = [];
-    this.selectedVariant = [];
+    this.exp_status = '';
+    this.form_type = '';
+    this.variantsArray = [];
+    this.experimentObj = { name: '', variants: [], duration: { days: 0 } };
+    this.updateSliderConfig(true);
     this.showSlider = false;
-    this.conn = [true, true];
-    this.tool = [true];
-    this.star = [100];
-    this.experiment = { name: '', variants: [], duration: 0 };
+    this.someRangeconfig = null;
+    this.setSliderDefaults();
     this.addExperimentsRef.close();
   }
-  //open experiment model
-  form_type: string;
-  exp_id: string;
-  status: string;
-  addExperiment(type, data) {
-    this.form_type = type;
-    this.addExperimentsRef = this.addExperiments.open();
-    if (type === 'edit') {
-      if (data !== undefined) {
-        this.exp_id = data._id;
-        this.experiment.name = data.name;
-        this.varientArray = data.variants;
-        this.selectedVariant = data.variants;
-        this.experiment.duration = data.duration.days;
-        this.status = data.state;
-        console.log("data update", data);
-        if (data.variants.length === 1) {
-          this.showSlider = true;
-        }
-        else if (data.variants.length >= 2) {
-          this.star = [];
-          this.conn.push(true);
-          this.tool.push(true);
-          for (let i = 0; i < data.variants.length; i++) {
-            this.star.push(data.variants[i].trafficPct);
-          }
-
-        }
-        this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
-        if (data.variants.length > 1) {
-          setTimeout(() => {
-            this.showSlider = false;
-            this.sliderref.slider.destroy();
-            this.sliderref.slider.updateOptions(this.someRangeconfig, true);
-          }, 1000)
-          setTimeout(() => {
-            this.showSlider = true;
-          }, 2000);
-        }
-      }
-    }
-  }
-  //add new varient method
-  varientArray: any = [];
-  addVarient() {
-    if (this.varientArray.length < 4) {
-      this.varientArray.push(this.varients[this.varientArray.length]);
-      if (this.varientArray.length === 1) {
-        this.showSlider = true;
-      }
-      else if (this.varientArray.length === 2) {
-        this.star = [];
-        this.conn.push(true);
-        this.tool.push(true);
-        this.star.push(50, 100);
-      }
-      else if (this.varientArray.length === 3) {
-        this.star = [];
-        this.conn.push(true);
-        this.tool.push(true);
-        this.star.push(33.3, 66.3, 100);
-      }
-      else if (this.varientArray.length === 4) {
-        this.star = [];
-        this.conn.push(true);
-        this.tool.push(true);
-        this.star.push(25, 50, 75, 100);
-      }
-      this.someRangeconfig = { ...this.someRangeconfig, start: this.star };
-      if (this.varientArray.length > 1) {
-        setTimeout(() => {
-          this.showSlider = false;
-          this.sliderref.slider.destroy();
-          this.sliderref.slider.updateOptions(this.someRangeconfig, true);
-        }, 1000)
-        setTimeout(() => {
-          this.showSlider = true;
-        }, 2000);
-      }
-    }
-  }
-  //close varient method
-  closeVariant(data) {
-    const index = this.varientArray.indexOf(data);
-    if (index > -1) this.varientArray.splice(index, 1);
-  }
-  //show or hide search input
+  // show or hide search input
   toggleSearch() {
     if (this.showSearch && this.searchFields) {
       this.searchFields = '';
     }
     this.showSearch = !this.showSearch
   }
-  //fetch variant inputs
-  selectedVariant: any = [];
-  select_config;
-  fetchVariant(type, name, key) {
-    console.log("this.selectedVariant", this.selectedVariant)
-    for (let dat of this.varients) {
-      if (dat.code === type.code) {
-        if (key === 'name' && name !== '') {
-          const exist = this.selectedVariant.some(dat => dat.code === type.code);
-          console.log("exist", exist)
-          if (exist)
-            for (let i in this.selectedVariant) {
-              if (this.selectedVariant[i].code === type.code) {
-                this.selectedVariant[i] = { ...this.selectedVariant[i], name: name };
-              }
-            }
-          else this.selectedVariant.push({ 'code': dat.code, 'color': dat.color, 'name': name })
-        }
-        else if (key === 'queryid') {
-          for (let i in this.selectedVariant) {
-            if (this.selectedVariant[i].code === type.code) {
-              this.selectedVariant[i].queryPipelineId = name;
-            }
-          }
-        }
-      }
+  updateSliderConnects(){
+    const connects:any = [true];
+    this.someRangeconfig.start.forEach(element => {
+      connects.push(true);
+    });
+    this.someRangeconfig.connect = connects;
+  }
+  updateSliderTooltips(){
+    const tooltips:any = [];
+    this.someRangeconfig.start.forEach(element => {
+      tooltips.push(true);
+    });
+    this.someRangeconfig.tooltips = tooltips;
+  }
+  updateSliderConfig(destroy?){
+    this.updateSliderConnects();
+    this.updateSliderTooltips();
+    if(destroy && this.sliderref && this.sliderref.slider){
+      this.sliderref.slider.destroy();
+    }
+    if(this.sliderref &&  this.sliderref.slider){
+      this.sliderref.slider.updateOptions(this.someRangeconfig, true);
     }
   }
-  //get list of querypipelines method
-  queryPipeline: any = [];
+  addExperiment(type, data) {
+    this.form_type = type;
+    if (type === 'edit') {
+      this.showSlider = false;
+      this.exp_id = data._id;
+      this.exp_status = data.state;
+      this.experimentObj.name = data.name;
+      this.variantsArray = JSON.parse(JSON.stringify(data.variants));
+      this.experimentObj.duration.days = data.duration.days;
+      this.setSliderDefaults();
+      this.showTraffic(this.variantsArray.length, 'add');
+    }
+    else{
+      this.showSlider = false;
+      this.addVarient(2);
+    }
+    this.addExperimentsRef = this.addExperiments.open();
+  }
+  addVarient(count?) {
+    if (this.variantsArray.length <= 3) {
+      this.showSlider = false;
+      if(count){
+        for (let i = 0; i < count; i++) {
+          if (this.variantsArray.length <= 3) {
+            this.variantsArray.push(this.variantList[this.variantsArray.length]);
+          }
+        }
+      }else{
+        this.variantsArray.push(this.variantList[this.variantsArray.length]);
+      }
+      const length = this.variantsArray.length;
+      this.showTraffic(length, 'add');
+      this.showSliderPercentage(length);
+    }
+  }
+  // based on variant show traffic
+  showTraffic(length, type) {
+    this.star = [];
+    if (length > 1) {
+      if (type === 'add') {
+        this.conn.push(true);
+        this.tool.push(true);
+      }
+      else if (type === 'remove') {
+        this.conn.pop();
+        this.tool.pop();
+      }
+    }
+    if (length === 0) {
+      this.showSlider = false;
+    }
+    else if (length === 1) {
+      if (type === 'add') {
+        this.star.push(100);
+      }
+      else if (type === 'remove') {
+        this.conn.pop();
+        this.tool.pop();
+        this.star.push(100);
+      }
+    }
+    else if (length === 2) {
+      this.star.push(50, 100);
+    }
+    else if (length === 3) {
+      this.star.push(30, 60, 100);
+    }
+    else if (length === 4) {
+      this.star.push(25, 50, 75, 100);
+    }
+    setTimeout( () =>{
+      this.showSlider = false;
+      this.sliderUpdate();
+    }, 500);
+  }
+  // slider destroy method
+  sliderUpdate() {
+    this.someRangeconfig.start = [...this.star];
+    this.updateSliderConnects();
+    this.updateSliderTooltips();
+    setTimeout(() => {
+      this.showSlider = false;
+     this.updateSliderConfig();
+    })
+    setTimeout(() => {
+      this.showSlider = true;
+      this.recheckSliderDrag();
+    }, 50);
+  }
+  // fetch variant data
+  fetchVariant(index, data, type) {
+    if (type === 'name') {
+      this.variantsArray[index] = { ...this.variantsArray[index], name: data };
+    }
+    else if (type === 'queryid') {
+      this.variantsArray[index] = { ...this.variantsArray[index], queryPipelineId: data._id, queryPipelineName: data.name };
+    }
+  }
+  // remove variant
+  removeVariant(index) {
+    this.variantsArray.splice(index, 1);
+    this.trafficData.splice(index, 1);
+    this.showTraffic(this.variantsArray.length, 'remove');
+    // this.showSliderPercentage(this.variantsArray.length);
+  }
+  // slider changed
+  sliderChanged() {
+    this.sliderPercentage();
+    this.recheckSliderDrag();
+  }
+  // show slider percentage
+  showSliderPercentage(length) {
+    let setPercent = [];
+    this.trafficData = [];
+    if (length === 1) {
+      setPercent = [100];
+    }
+    else if (length === 2) {
+      setPercent = [50, 50];
+    }
+    else if (length === 3) {
+      setPercent = [30, 30, 40];
+    }
+    else if (length === 4) {
+      setPercent = [25, 25, 25, 25];
+    }
+    for (let i = 0; i < this.variantsArray.length; i++) {
+      this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: setPercent[i] };
+    }
+  }
+  recheckSliderDrag(){
+    // disables the right most handel to drag.
+    setTimeout( ()=>{
+      const elements = document.getElementsByClassName('noUi-tooltip');
+
+      if(elements.length){
+        for (let i = 0; i < elements.length; i++) {
+          elements[i].innerHTML = this.variantsArray[i].trafficPct + '%';
+        }
+      }
+
+      const origins = document.getElementsByClassName('noUi-origin');
+      if(origins.length){
+        origins[origins.length-1].setAttribute('disabled', 'true');
+      }
+
+      const classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
+
+      const connect = document.querySelectorAll('.noUi-connect');
+      if(connect.length){
+        for (let i = 0; i < connect.length; i++) {
+          connect[i].classList.add(classes[i]);
+        }
+      }
+    }, 50);
+
+  }
   getQueryPipeline() {
     const header: any = {
       'x-timezone-offset': '-330'
@@ -201,17 +311,6 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
-  //get list of experiments method
-  listOfExperiments: any = [];
-  filterExperiments: any = [];
-  allExp: number;
-  confExp: number;
-  actExp: number;
-  pauExp: number;
-  compExp: number;
-  loadingContent: boolean;
-  res1 = [];
-  status_active: boolean;
   getExperiments() {
     this.loadingContent = true;
     const header: any = {
@@ -224,15 +323,26 @@ export class AppExperimentsComponent implements OnInit {
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
-      this.listOfExperiments = res;
-      this.filterExperiments = res;
-      this.status_active = res.filter(item => item.state === 'configured').length > 1 ? true : false;
-      console.log("status_active", this.status_active)
-      this.allExp = this.listOfExperiments.length;
-      this.confExp = this.listOfExperiments.filter(item => item.state === "configured").length;
-      this.actExp = this.listOfExperiments.filter(item => item.state === "active").length;
-      this.pauExp = this.listOfExperiments.filter(item => item.state === "paused").length;
-      this.compExp = this.listOfExperiments.filter(item => item.state === "completed").length;
+      const date1: any = new Date();
+      const result = res.map(data => {
+        // let date2: any = new Date(data.end);
+        // let sub = Math.abs(date1 - date2) / 1000;
+        // let days = Math.floor(sub / 86400);
+        const createdOn = new Date(data.createdOn);
+        const today = moment();
+        const days = today.diff(createdOn, 'hours');
+        const obj = Object.assign({}, data);
+
+        let endsOn : any = new Date(data.end);
+        endsOn = moment(endsOn);
+        const total_days = endsOn.diff(createdOn, 'hours');
+        obj.date_days = days;
+        obj.total_days = total_days;
+        return obj;
+      });
+      this.listOfExperiments = result;
+      this.filterExperiments = result;
+      this.countExperiment(result);
       this.loadingContent = false;
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -242,88 +352,30 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
-  //add new experiment method
-  createExperiment() {
+  // filter count of list of experiments
+  countExperiment(res) {
+    this.status_active = res.filter(item => item.state === 'active').length >= 1 ? true : false;
+    this.allExp = res.length;
+    this.confExp = res.filter(item => item.state === 'configured').length;
+    this.actExp = res.filter(item => item.state === 'active').length;
+    this.pauExp = res.filter(item => item.state === 'paused').length;
+    this.compExp = res.filter(item => item.state === 'completed').length;
+  }
+  // add new experiment method
+  async createExperiment() {
+    if (this.someRange !== undefined) {
+      await this.sliderPercentage();
+    }
+    this.experimentObj.variants = this.variantsArray;
     if (this.form_type === 'add') {
-      if (this.varientArray.length === 1) {
-        for (let i in this.selectedVariant) {
-          this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 }
-        }
-      }
-      if (this.varientArray.length === 2) {
-        if (this.someRange === undefined) {
-          for (let i in this.selectedVariant) {
-            this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 50 }
-          }
-        }
-        else {
-          for (let i = 0; i < this.selectedVariant.length; i++) {
-            if (i == 0) {
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[0]) }
-            }
-            else {
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 - parseInt(this.someRange[0]) }
-            }
-          }
-        }
-      }
-      if (this.varientArray.length === 3) {
-        if (this.someRange === undefined) {
-          for (let i in this.selectedVariant) {
-            this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 33.34 }
-          }
-        }
-        else {
-          for (let i = 0; i < this.selectedVariant.length; i++) {
-            if (i == 0) {
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[0]) }
-            }
-            else if (i == 1) {
-              let sum = parseInt(this.someRange[1]) - parseInt(this.someRange[0]);
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: sum }
-            }
-            else if (i == 2) {
-              let sum = parseInt(this.someRange[0]) + (parseInt(this.someRange[1]) - parseInt(this.someRange[0]));
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 - Math.abs(sum) }
-            }
-          }
-        }
-      }
-      if (this.varientArray.length === 4) {
-        if (this.someRange === undefined) {
-          for (let i in this.selectedVariant) {
-            this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 25 }
-          }
-        }
-        else {
-          for (let i = 0; i < this.selectedVariant.length; i++) {
-            if (i == 0) {
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[0]) }
-            }
-            else if (i == 1) {
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[1]) - parseInt(this.someRange[0]) }
-            }
-            else if (i == 2) {
-              let sum =
-                this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: parseInt(this.someRange[2]) - parseInt(this.someRange[1]) }
-            }
-            else if (i == 3) {
-              let sum = parseInt(this.someRange[0]) + (parseInt(this.someRange[1]) - parseInt(this.someRange[0])) + (parseInt(this.someRange[2]) - parseInt(this.someRange[1]));
-              this.selectedVariant[i] = { ...this.selectedVariant[i], trafficPct: 100 - sum }
-            }
-          }
-        }
-      }
-      this.experiment.variants = this.selectedVariant;
-      this.experiment.duration = { "days": this.experiment.duration };
-      console.log("this.experiment", this.experiment);
       const quaryparms: any = {
         searchIndexId: this.serachIndexId
       };
-      this.service.invoke('create.experiment', quaryparms, this.experiment).subscribe(res => {
-        console.log("add res", res);
+      this.service.invoke('create.experiment', quaryparms, this.experimentObj).subscribe(res => {
+        this.filterExperiments.push(res);
+        this.countExperiment(this.filterExperiments);
+        this.selectedTab(this.setTab);
         this.closeModalPopup();
-        this.getExperiments();
         this.notificationService.notify('Experiment added successfully', 'success');
       }, errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -334,39 +386,120 @@ export class AppExperimentsComponent implements OnInit {
       });
     }
     else {
-      this.experiment.variants = this.selectedVariant.filter(dat => dat.queryPipelineId !== undefined || dat.select_config === undefined);
-      this.experiment.duration = { "days": this.experiment.duration };
-      console.log("this.experiment", this.experiment)
-      // const quaryparms: any = {
-      //   searchIndexId: this.serachIndexId,
-      //   experimentId: this.exp_id
-      // };
-      // this.service.invoke('edit.experiment', quaryparms, this.experiment).subscribe(res => {
-      //   console.log("add res", res);
-      //   this.closeModalPopup();
-      //   this.getExperiments();
-      //   this.notificationService.notify('Experiment Updated successfully', 'success');
-      // }, errRes => {
-      //   if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-      //     this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      //   } else {
-      //     this.notificationService.notify('Failed ', 'error');
-      //   }
-      // });
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        experimentId: this.exp_id
+      };
+      this.service.invoke('edit.experiment', quaryparms, this.experimentObj).subscribe(res => {
+        this.closeModalPopup();
+        this.filterExperiments = this.filterExperiments.map(item => {
+          if (item._id === this.exp_id) {
+            return { ...res, date_days: item.date_days }
+          }
+          else {
+            return item
+          }
+        })
+        this.listOfExperiments = this.filterExperiments;
+        this.notificationService.notify('Experiment Updated successfully', 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
     }
   }
-  //run an experiment
-  runExperiment(id, event) {
+  // change traffic percentage based on slider
+  sliderPercentage() {
+    if (this.variantsArray.length === 1) {
+      // tslint:disable-next-line:forin
+      for (const i in this.variantsArray) {
+        this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: 100 }
+      }
+    }
+    if (this.variantsArray.length === 2) {
+      for (let i = 0; i < this.variantsArray.length; i++) {
+        if (i === 0) {
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: this.someRange[0] }
+        }
+        else {
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: 100 - this.someRange[0] }
+        }
+      }
+    }
+    if (this.variantsArray.length === 3) {
+      for (let i = 0; i < this.variantsArray.length; i++) {
+        if (i === 0) {
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: this.someRange[0] }
+        }
+        else if (i === 1) {
+          const sum = this.someRange[1] - this.someRange[0];
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: sum }
+        }
+        else if (i === 2) {
+          const sum = this.someRange[0] + (this.someRange[1] - this.someRange[0]);
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: 100 - sum }
+        }
+      }
+    }
+    if (this.variantsArray.length === 4) {
+      for (let i = 0; i < this.variantsArray.length; i++) {
+        if (i === 0) {
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: this.someRange[0] }
+        }
+        else if (i === 1) {
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: this.someRange[1] - this.someRange[0] }
+        }
+        else if (i === 2) {
+          const sum =
+            this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: this.someRange[2] - this.someRange[1] }
+        }
+        else if (i === 3) {
+          const sum = this.someRange[0] + (this.someRange[1] - this.someRange[0]) + (this.someRange[2] - this.someRange[1]);
+          this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: 100 - sum }
+        }
+      }
+    }
+  }
+  // run an experiment
+  runExperiment(id, status, event) {
     event.stopPropagation();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       experimentId: id
     };
-    const Obj = { "state": "active" }
+    const Obj = { state: status }
     this.service.invoke('edit.experiment', quaryparms, Obj).subscribe(res => {
-      console.log("run res", res);
-      this.notificationService.notify('Experiment Running successfully', 'success');
-      this.getExperiments();
+      this.filterExperiments = this.filterExperiments.map(item => {
+        if (item._id === id) {
+          if (status === 'active') {
+            return res
+          }
+          else {
+            return { ...item, state: status }
+          }
+        }
+        else {
+          return item
+        }
+      })
+      if (status === 'active') {
+        const date1: any = new Date();
+        this.filterExperiments = this.filterExperiments.map(data => {
+          const date2: any = new Date(data.end);
+          const sub = Math.abs(date1 - date2) / 1000;
+          const days = Math.floor(sub / 86400);
+          const obj = Object.assign({}, data);
+          obj.date_days = days;
+          return obj;
+        })
+      }
+      this.listOfExperiments = this.filterExperiments;
+      this.countExperiment(this.listOfExperiments);
+      this.selectedTab(this.setTab);
+      this.notificationService.notify(`Experiment ${status} successfully`, 'success');
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -375,7 +508,7 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
-  //delete experiment popup
+  // delete experiment popup
   deleteExperimentPopup(record, event) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -395,11 +528,10 @@ export class AppExperimentsComponent implements OnInit {
           this.deleteExperiment(record, dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          console.log('deleted')
         }
       })
   }
-  //delete experiment
+  // delete experiment
   deleteExperiment(id, dialogRef) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -420,10 +552,8 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
-  //filter list using tabs
-  setTab: string = 'all';
   selectedTab(type) {
-    let filterArray: any = this.filterExperiments;
+    const filterArray: any = this.filterExperiments;
     this.setTab = type;
     if (type === 'all') {
       this.listOfExperiments = this.filterExperiments;

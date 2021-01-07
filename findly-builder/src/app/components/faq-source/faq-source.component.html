@@ -58,7 +58,7 @@
                                 <input class="checkbox-custom" type="checkbox" id="selectAllFaqs" (change)="selectAll()" [(ngModel)]="faqSelectionObj.selectAll" autocomplete="off">
                                 <label for="selectAllFaqs" class="checkbox-custom-label"></label>
                             </div>  
-                            <div class="title">{{faqSelectionObj.selectedCount}} Selected</div>
+                            <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
@@ -79,7 +79,7 @@
                             <div id="accordion" class="accordion-content">
                                 <div *ngFor="let faq of faqs">
                                     <div class="card-content" *ngIf="faq.action!=='delete'">
-                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
+                                        <div [attr.id]="'faqquestionAcc' + faq._id" (click)="selectedFaqToTrain(faq, $event)" title="{{(faq && faq._source)?faq._source.question:''}}"  class="card_link collapsed" [ngClass]="{'is-checked':(selectedFaq && selectedFaq._id===faq._id) ||  ((faqSelectionObj && faqSelectionObj.selectedItems[faq._id]) || faqSelectionObj.selectAll)}" data-toggle="collapse" [attr.data-target]="'#'+faq._id" [attr.aria-controls]="collapseOne">      
                                             <span class="published-que" *ngIf="(faq.state==='published')" [ngClass]="{'reverted': (faq.state==='reverted')}">{{faq.state | titlecase}}</span>
                                             <div class="d-flex align-items-center">
                                                 <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
@@ -116,8 +116,8 @@
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
                            </ng-container>
                         </perfect-scrollbar>
-                        <!-- <app-record-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination> -->
-                       <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination>
+                        <app-record-pagination *ngIf="!loadingTab && !searchFaq && faqSelectionObj.stats[selectedtab]" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
+                       <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
                             <ng-container *ngIf="!loadingTab">
                                 <img src="assets/images/icons/empty_ill.svg">
@@ -646,7 +646,7 @@
   </div>
 <perfect-scrollbar class="perfect-scroll-modal-body">
   <div class="modal-body">
-    <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaq" (cancelfaqEvent)="faqCancle()"></app-add-faq>
+    <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (editFaq)="editFaq($event)" [faqData]="selectedFaqToEdit" (cancelfaqEvent)="faqCancle()"></app-add-faq>
   </div>
 </perfect-scrollbar> 
   <div class="modal-footer">

@@ -697,6 +697,11 @@ export class EndPointsService {
     //   endpoint: this.API_SERVER_URL + ' /users/:userId/streams/:streamId/sdk/apps/:appId?streamId=:streamId',
     //    method: 'put'
     // }
+    // API for GET Docker Status
+    this.serviceList['get.dockStatus'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      method: 'get'
+    }
 
     this.serviceList['add.structuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:file',
@@ -718,5 +723,14 @@ export class EndPointsService {
       method: 'put'
     }
 
+    this.serviceList['delete.dockById'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
+      method: 'delete'
+    }
+
+    this.serviceList['delete.clearAllDocs'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
+      method: 'delete'
+    }
   }
 }

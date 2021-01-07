@@ -60,6 +60,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   statusArr = [];
   docTypeArr = [];
   selectedFilter: any = ''
+  executionLogStatus  = false;
   contentTypes = {
     webdomain: 'WEB',
     document: 'DOC'
@@ -74,6 +75,50 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     scheduled :{name :'In Progress', color: '#0D6EFD'},
     halted : {name : 'Stopped', color: '#DD3646'}
   };
+  executionObj : any = {
+    'Execution Successful' : {
+      tooltip : "",
+      icon : "assets/icons/content/success.svg"
+    },
+    'Execution Failed' : {
+      tooltip : "",
+      icon : "assets/icons/content/failed.svg"
+    },
+    'Execution Stopped' : {
+      tooltip : "Sitemap Validation failed due to timeout",
+      icon : "assets/icons/content/stopped.svg"
+    },
+    'Execution In Progress' : {
+      tooltip : "",
+      icon : "assets/icons/content/ex-stat_inprogress.svg"
+    },
+  };
+  stateExecutionstageStatusObj : any = {
+    'success' : { icon  : "assets/icons/content/success.svg" },
+    'failed'  : { icon  : "assets/icons/content/failed.svg" },
+    'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+    'running' : { icon  : "assets/icons/content/ex-stat_inprogress.svg" },
+    'inProgress' : { icon  : "assets/icons/content/ex-stat_inprogress.svg" }
+  }
+  finalStateExecutionstageStatusObj: any = {
+    'success' : { icon  : "assets/icons/content/succes-circle.svg" },
+    'failed'  : { icon  : "assets/icons/content/failed-circle.svg" },
+    'running' : { icon  : "assets/icons/content/ex-stat_inprogress.svg" },
+    'stopped' : { icon  : "assets/icons/content/stopped.svg" },
+  }
+  stateExecutionStageNameObj : any = {
+    'process_in_queue' : { label : "Process in Queue" , icon : this.stateExecutionstageStatusObj},
+    'url_validation' : { label : "URL Validation" , icon : this.stateExecutionstageStatusObj},
+    'network_validation' : { label : "Network Validation" , icon : this.stateExecutionstageStatusObj},
+    'indexing_restrictions' : { label : "Index Restriction" , icon : this.stateExecutionstageStatusObj},
+    'content_verification' : { label : "Content Verification" , icon : this.stateExecutionstageStatusObj},
+    'sitemap_identification' : { label : "Sitemap Identification" , icon : this.stateExecutionstageStatusObj},
+    'crawling' : { label : "Crawling" , icon : this.stateExecutionstageStatusObj},
+    'stopped' : { label : "Stopped" , icon : this.finalStateExecutionstageStatusObj},
+    'failed' : { label : "Failed" , icon : this.finalStateExecutionstageStatusObj},
+    'successful' : { label : "Successful" , icon : this.finalStateExecutionstageStatusObj},
+  };
+ 
   sliderStep = 0;
   selectedPage: any = {};
   selectedSource: any = {};
@@ -106,9 +151,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   sourceStatus = 'success';
   useCookies = false;
   respectRobotTxtDirectives = false;
-  isCrawlBeyondSitemap= false;
+  crawlBeyondSitemaps= false;
   isJavaScriptRendered = false;
-  isBlockHttpsMsgs = false;
+  blockHttpsMsgs = false;
   crawlDepth : number;
   maxUrlLimit: number;
   crwalOptionLabel= '';
@@ -137,6 +182,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  hoverExecutionLog(){
+    this.executionLogStatus = true;
+  }
   addNewContentSource(type) {
     this.showSourceAddition = type;
     // this.openAddSourceModal();
@@ -182,6 +230,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if(sec <= 0) return duration =  min + "m ";
         }else if(sec > 0){
           return duration = sec + "s";
+        }else{
+          return duration = '0' + "s";
         }
     }
   }
@@ -356,6 +406,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
       const data = [...res]
       this.pagingData = data.slice(0, this.limitpage);
+      this.pagingData.forEach(element => {
+        element['url_display'] = element._source.url;
+      });
 
       /** Paging */
       this.sliderStep = 0;
@@ -454,6 +507,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.executionHistoryData.forEach(element => {
           element.executionStats.duration = this.duration(element.executionStats.duration);
           element.createdOn = moment(element.createdOn).fromNow();
+          if(element.executionStats.statusLogs){
+            element.executionStats.statusLogs.forEach(status_log => {
+              status_log.timeTaken = this.duration(status_log.timeTaken);
+            });
+          }
         });
       } 
       
@@ -482,9 +540,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         if(source.advanceSettings){
           this.useCookies = source.advanceSettings.useCookies;
           this.respectRobotTxtDirectives = source.advanceSettings.respectRobotTxtDirectives;
-          this.isCrawlBeyondSitemap = source.advanceSettings.isCrawlBeyondSitemap;
+          this.crawlBeyondSitemaps = source.advanceSettings.crawlBeyondSitemaps;
           this.isJavaScriptRendered = source.advanceSettings.isJavaScriptRendered;
-          this.isBlockHttpsMsgs = source.advanceSettings.isBlockHttpsMsgs;
+          this.blockHttpsMsgs = source.advanceSettings.blockHttpsMsgs;
           this.crawlDepth = source.advanceSettings.crawlDepth;
           this.maxUrlLimit = source.advanceSettings.maxUrlLimit
         }
@@ -768,7 +826,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('reCrwal.website', quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Re-Crawling', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'Failed to Re-Cwral');
+      this.errorToaster(errRes, 'Failed to Re-Crawl');
     });
   }
   
@@ -1120,9 +1178,9 @@ keyPress(event){
     crawler.advanceOpts.blockedURLs = [...this.blockUrlArr]
     crawler.advanceOpts.useCookies = this.useCookies;
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     crawler.advanceOpts.crawlDepth = this.crawlDepth;
     crawler.advanceOpts.maxUrlLimit= this.maxUrlLimit;
     if(option == 'add'){
@@ -1243,9 +1301,9 @@ keyPress(event){
     }
     crawler.advanceOpts.useCookies = this.useCookies;
     crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-    crawler.advanceOpts.isCrawlBeyondSitemap= this.isCrawlBeyondSitemap;
+    crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
     crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
-    crawler.advanceOpts.isBlockHttpsMsgs = this.isBlockHttpsMsgs;
+    crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
     if(Number(this.crawlDepth)){
       crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
     }else{
@@ -1267,7 +1325,7 @@ keyPress(event){
     //console.log(payload);
 
     this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Crwaler Updated', 'success');
+      this.notificationService.notify('Crawler Updated', 'success');
       this.editTitleFlag = false;
       this.getSourceList();
       this.closeStatusModal();
