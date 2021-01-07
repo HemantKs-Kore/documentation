@@ -5868,8 +5868,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addFrequentlyUsedControl = function(config) {
       var _self = this;
-      if (config.dataHandler || config.container) {
-        _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
+      
+      _self.pubSub.subscribe('sa-freq-data', (msg, data) => {
+        if (config.container) {
           if (config.templateId) {
             var dataHTML = $('#' + config.templateId).tmplProxy(data);
             $('#' + config.container).empty().append(dataHTML);
@@ -5880,23 +5881,46 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var dataHTML = $(_self.getSearchTemplate('freqData')).tmplProxy(data);
             $('#' + config.container).empty().append(dataHTML);
           }
-          if (config.dataHandler) {
-            config.dataHandler(data);
-          }
+          
           _self.deleteRecents();
           _self.recentClick();
           _self.bindSearchActionEvents();
-        })
-      }
+        }
+        if (config.dataHandler) {
+          config.dataHandler(data);
+        }
+      });
+    }
+    
+    FindlySDK.prototype.addSearchResult = function(config) {
+      var _self = this;
+      _self.pubSub.subscribe('sa-search-result', (msg, data) => {
+        if (config.container) {
+          if (config.pageTemplateId) {
+            var dataHTML = $('#' + config.pageTemplateId).tmplProxy(data);
+            $('#' + config.container).empty().append(dataHTML);
+          } else if (config.pageTemplate) {
+            var dataHTML = $(config.pageTemplate).tmplProxy(data);
+            $('#' + config.container).append(dataHTML);
+          }
+          if (config.faqTemplateId) {
+            var dataHTML = $('#' + config.faqTemplateId).tmplProxy(data);
+            $('#' + config.container).empty().append(dataHTML);
+          } else if (config.faqTemplate) {
+            var dataHTML = $(config.faqTemplate).tmplProxy(data);
+            $('#' + config.container).append(dataHTML);
+          }
+        }
+
+        if (config.searchHandler) {
+          config.searchHandler(data)
+        }
+      });
     }
     FindlySDK.prototype.addSearchText = function(config) {
       var _self = this;
       window.koreWidgetSDKInstance = _self;
-      if (config.searchHandler) {
-        _self.pubSub.subscribe('sa-search-result', (msg, data) => {
-          config.searchHandler(data);
-        })
-      }
+      
       if (config && config.autoSuggest === true) {
         _self.pubSub.subscribe('sa-auto-suggest', (msg, data) => {
           _self.getSuggestion(data);
