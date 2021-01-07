@@ -21,8 +21,11 @@
             </div>
         </div>
     </div> 
-    <perfect-scrollbar>
+    <perfect-scrollbar class="structured-data-scroll">
         <div class="structured-data-table-sec">
+            <div class="filter-sec text-left mb-1" *ngIf="appliedAdvancedSearch.length">
+                <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
+            </div>
             <div class="filter-sec text-right mb-1">
                 <button class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
             </div>

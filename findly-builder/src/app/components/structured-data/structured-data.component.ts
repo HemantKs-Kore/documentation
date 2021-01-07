@@ -5,7 +5,7 @@ import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -56,6 +56,7 @@ export class StructuredDataComponent implements OnInit {
   allSelected : boolean = false;
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
+  appliedAdvancedSearch = '';
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -135,10 +136,14 @@ export class StructuredDataComponent implements OnInit {
       this.adwancedSearchModalPopRef.close();
     }
     this.advancedSearchInput = '';
+    this.appliedAdvancedSearch = '';
   }
 
   applyAdvancedSearch(){
-    console.log("search Input", this.advancedSearchInput);
+    this.appliedAdvancedSearch = this.advancedSearchInput;
+    if(this.adwancedSearchModalPopRef){
+      this.adwancedSearchModalPopRef.close();
+    }
   }
 
   toggleSearch(activate) {
@@ -172,26 +177,24 @@ export class StructuredDataComponent implements OnInit {
 
     //delete experiment popup
     deleteStructuredDataPopup(record) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
-        height: '306px',
-        panelClass: 'delete-popup',
-        data: {
-          title: 'Do you really want to delete?',
-          text: 'Selected data will be permanently deleted.',
-          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }]
-        }
-      });
-  
-      dialogRef.componentInstance.onSelect
-        .subscribe(result => {
-          if (result === 'yes') {
-            // this.deleteStructuredData(record, dialogRef);
-          } else if (result === 'no') {
-            dialogRef.close();
-            console.log('deleted')
+        let obj = {
+          title: "Do you really want to delete?",
+          confirmationMsg: "Selected data will be permanently deleted.",
+          yes: "Proceed",
+          no: "Cancel",
+          type: "removeAnnotation"
+        };
+        const dialogRef = this.dialog.open(ConfirmationComponent, {
+          data: { info: obj },
+          panelClass: 'kr-confirmation-panel',
+          disableClose: true,
+          autoFocus: true
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (res) {
+            // delete
           }
-        })
+        });
     }
 
 }

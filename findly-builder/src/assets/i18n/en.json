@@ -325,6 +325,7 @@
     "cancel" : "Cancel",
     "apply" : "Apply",
     "addField" : "Add Data",
-    "searchFilterDesc" : "Eg: field==lastName||(field==FirstName&&field==Age)"
+    "searchFilterDesc" : "Eg: field==lastName||(field==FirstName&&field==Age)",
+    "editFilter" : "Edit Filter"
  }
 }

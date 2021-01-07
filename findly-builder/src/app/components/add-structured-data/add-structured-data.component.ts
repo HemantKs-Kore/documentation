@@ -35,6 +35,8 @@ export class AddStructuredDataComponent implements OnInit {
   selectedJsonForEdit: any;
   sampleJsonPath = '/home/assets/sampleData/sample.json';
   sampleCsvPath = '/home/assets/sampleData/sample.csv';
+  openingBrace = "{";
+  closingBrace = "}"
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input('selectedSourceType') selectedSourceType: any;
