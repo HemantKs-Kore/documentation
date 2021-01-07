@@ -303,6 +303,7 @@
  },
  "structuredData" : {
     "structuredData" : "Structured Data",
+    "structuredDataImport" : "Import Structured Data",
     "upload_json" : "Upload JSON / CSV File",
     "drag_drop" : "Drag and drop file anywhere on this screen",
     "browse" : "Browse",
@@ -326,6 +327,15 @@
     "apply" : "Apply",
     "addField" : "Add Data",
     "searchFilterDesc" : "Eg: field==lastName||(field==FirstName&&field==Age)",
-    "editFilter" : "Edit Filter"
+    "editFilter" : "Edit Filter",
+    "configuratoin_progress" : "Configuration in Progress...",
+    "configuratoin_success" : "Successfully Configured.",
+    "configuration_failed" : "Configuration Failed",
+    "initial_file_validation" : "Initial File Validation",
+    "import_progress" : "Import In-progress",
+    "import_done" : "Import Done",
+    "notified_when_done" : "You will be notified when the import process is done.",
+    "abort" : "Abort",
+    "ok" : "Ok"
  }
 }

@@ -743,5 +743,9 @@
 </kr-modal> 
 
 <kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
-  <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition()"></app-add-structured-data>
+  <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
+</kr-modal>
+
+<kr-modal modalType="default" #structuredDataStatusModalPop>
+  <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"></app-structured-data-status-modal>
 </kr-modal>

@@ -700,15 +700,23 @@ export class EndPointsService {
 
     this.serviceList['add.structuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:file',
-      // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method: 'post'
     };
 
     this.serviceList['get.structuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData?limit=:limit&skip=:skip',
-      // endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source?sourceType=:faqType',
       method: 'get'
     };
+
+    this.serviceList['delete.structuredData'] ={
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
+      method: 'delete'
+    }
+
+    this.serviceList['update.structuredData'] ={
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
+      method: 'put'
+    }
 
   }
 }

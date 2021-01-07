@@ -185,6 +185,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   searchAssociatedBots: any;
   addStructuredDataModalPopRef : any;
   structuredData : any = {};
+  structuredDataStatusModalRef : any;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -202,6 +203,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
+  @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -370,7 +372,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  cancleSourceAddition() {
+  cancleSourceAddition(event?) {
     if (this.resourceIDToOpen) {
       const event: any = {}
       this.cancleEvent.emit(event);
@@ -382,7 +384,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     this.closeLinkBotsModal();
-    this.closeStructuredDataModal();
+    this.closeStructuredDataModal(event);
   }
   selectSource(selectedCrawlMethod) {
     console.log(selectedCrawlMethod);
@@ -913,9 +915,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  closeStructuredDataModal(){
+  closeStructuredDataModal(event?){
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
+      if(event.showStatusModal){
+        this.openStructuredDataStatusModal();
+      }
+    }
+  }
+
+  openStructuredDataStatusModal(){
+    this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
+  }
+
+  closeStructuredDataStatusModal(){
+    if(this.structuredDataStatusModalRef){
+      this.router.navigate(['/structuredData'], { skipLocationChange: true });
+      this.structuredDataStatusModalRef.close();
     }
   }
 

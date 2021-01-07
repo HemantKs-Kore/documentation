@@ -155,11 +155,13 @@ export class AddStructuredDataComponent implements OnInit {
     }
   }
 
-  cancleSourceAddition() {
+  cancleSourceAddition(event?) {
+    this.closeStructuredDataModal.emit(event);
     this.newSourceObj = {};
     this.selectedSourceType = null;
+    this.selectedJsonForEdit = null;
+    this.structuredData = {};
     this.removeFile();
-    this.closeStructuredDataModal.emit();
   }
 
   proceedSource(){
@@ -180,8 +182,14 @@ export class AddStructuredDataComponent implements OnInit {
       try{
         let payload_temp = JSON.parse(this.structuredData.payload);
         console.log("payload", payload);
-        quaryparms.file = 'manual';
-        this.jsonInvoke(payload_temp,endPoint,quaryparms);
+        if(this.selectedJsonForEdit){
+          // edit
+          this.updateStructuredData(payload_temp);
+        }
+        else{
+          quaryparms.file = 'manual';
+          this.jsonInvoke(payload_temp,endPoint,quaryparms);
+        }
       }
       catch (e){
         console.log("error", e);
@@ -189,13 +197,35 @@ export class AddStructuredDataComponent implements OnInit {
     }
   }
 
+  updateStructuredData(jsonData){
+    let quaryparms :any = {};
+    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.sourceId = Math.random().toString(36).substr(7);
+    if(jsonData){
+      quaryparms.contentId = this.selectedJsonForEdit._id;
+      this.service.invoke('update.structuredData', quaryparms, {jsonData : jsonData}).subscribe(res => {
+        if(res){
+          this.cancleSourceAddition();
+          this.notificationService.notify('Updated Successfully', 'success');
+        }
+      }, errRes => {
+        console.log("error", errRes);
+        this.notificationService.notify('Updation has gone wrong.', 'error');
+      });
+    }
+  }
+
 
   jsonInvoke(payload,endPoint,quaryparms){
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
       // this.openStatusModal();
-      console.log("res upload", res);
-      this.router.navigate(['/structuredData'], { skipLocationChange: true });
-      this.cancleSourceAddition();
+      if(quaryparms.file === 'file'){
+        this.cancleSourceAddition({showStatusModal : true});
+      }
+      else{
+        this.router.navigate(['/structuredData'], { skipLocationChange: true });
+        this.cancleSourceAddition();
+      }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');

@@ -1,0 +1,106 @@
+.status-modal-popup{
+    .modal_content{
+        .modal-header{
+            background: #FFFFFF;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            height: auto;
+            text-align: left;
+            display: block;
+            padding: 17px 30px;
+            font-weight: 600;
+            img{
+                float: right;
+                cursor: pointer;
+            }
+        }
+        .modal-body{
+            padding: 45px 35px;
+            background: #EFF0F1;
+            .configInProgress{
+                margin-bottom: 28px;
+            }
+            .message-success{
+                color: #202124;
+                font-size: 26px;
+                font-weight: bold;
+                margin-bottom: 30px;
+            }
+            .content-title{
+                color: #202124;
+                font-size: 14px;
+                margin-bottom: 15px;
+                img{
+                    margin-right: 12px;
+                }
+            }
+            .status-identification-content{
+                width: 230px;
+                margin: 0 auto;
+                text-align: left;
+            }
+            .progressNote{
+                color: #202124;
+                font-weight: 500;
+                font-size: 14px;
+                margin: 40px 0 20px 0;
+            }
+            .relaxNote{
+                color: #9AA0A6;
+                font-size: 14px;
+                font-weight: normal;
+                margin: 20px 0 0 0;
+            } 
+            .mat_progress_bar{
+                width: 275px;
+                margin: 0 auto;              
+                background: #BDC1C6;
+                border-radius: 2px;
+            }    
+            .error-check{
+                width: 40px;
+                height: 40px;
+                border-radius: 100%;
+                margin: 10px auto;
+                margin-bottom: 15px;
+                position: relative;
+            img {
+                width: 50px;
+                height: 50px;
+                left: 0px;
+                top: -25px;
+                position: relative;
+            }
+            }       
+        }
+        .modal-footer{
+            text-align: left;
+            display: block;
+            height: auto;
+            padding: 10px 30px;
+            background: #FFFFFF;
+            border-radius: 4px;
+            .kr-sg-button-primary{
+                height: 34px;
+                margin: 0 15px 0 0;
+                background: #0D6EFD;
+                color: #fff;
+                &:disabled{
+                    background: #F3F2F1;
+                    color: #9AA0A6;
+                }
+            }
+            .kr-sg-button-secondary{
+                height: 34px;
+                margin: 0 15px 0 0;
+                background: #fff;
+                border: 1px solid #BDC1C6;                
+                border-radius: 4px;
+                color: #202124;
+                &:disabled{
+                    color: #BDC1C6;
+                }
+            }
+        }
+    }
+}

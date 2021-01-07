@@ -5,8 +5,9 @@ import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-structured-data',
@@ -57,9 +58,12 @@ export class StructuredDataComponent implements OnInit {
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
   appliedAdvancedSearch = '';
+  isLoading : boolean = false;
+  structuredDataStatusModalRef : any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
+  @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -73,6 +77,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   getStructuredDataList(skip?){
+    this.isLoading = true;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -83,7 +88,7 @@ export class StructuredDataComponent implements OnInit {
       quaryparms.skip = skip;
     }
     this.service.invoke('get.structuredData', quaryparms).subscribe(res => {
-      console.log("res", res);
+      this.isLoading = false;
       this.structuredDataItemsList = res;
       this.structuredDataItemsList.forEach(data => {
         if(data._source.jsonData){
@@ -92,6 +97,8 @@ export class StructuredDataComponent implements OnInit {
       });
     }, errRes => {
       console.log("error", errRes);
+      this.isLoading = false;
+      this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');
     });
   }
 
@@ -103,8 +110,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   editJson(payload){
-    console.log("payload", payload._source.parsedData);
-    this.selectedSourceType = this.availableSources[1];
+    this.selectedSourceType = JSON.parse(JSON.stringify(this.availableSources[1]));
     this.selectedSourceType.payload = payload;
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
@@ -115,17 +121,23 @@ export class StructuredDataComponent implements OnInit {
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  cancleSourceAddition() {
+  cancleSourceAddition(event?) {
     this.selectedSourceType = null;
-    this.closeStructuredDataModal();
+    this.closeStructuredDataModal(event);
   }
 
-  closeStructuredDataModal(){
+  closeStructuredDataModal(event?){
+    this.selectedSourceType = {};
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
+      if(event.showStatusModal){
+        this.openStructuredDataStatusModal();
+      }
+      else{
+        // refresh the data
+        this.getStructuredDataList();
+      }
     }
-    // refresh the data
-    this.getStructuredDataList();
   }
 
   openAdvancedSearch(){
@@ -177,26 +189,74 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
-    //delete experiment popup
-    deleteStructuredDataPopup(record) {
-        let obj = {
-          title: "Do you really want to delete?",
-          confirmationMsg: "Selected data will be permanently deleted.",
-          yes: "Proceed",
-          no: "Cancel",
-          type: "removeAnnotation"
-        };
-        const dialogRef = this.dialog.open(ConfirmationComponent, {
-          data: { info: obj },
-          panelClass: 'kr-confirmation-panel',
-          disableClose: true,
-          autoFocus: true
-        });
-        dialogRef.afterClosed().subscribe(res => {
-          if (res) {
-            // delete
-          }
-        });
+  //delete experiment popup
+  deleteStructuredDataPopup(record) {
+      let obj = {
+        title: "Do you really want to delete?",
+        confirmationMsg: "Selected data will be permanently deleted.",
+        yes: "Proceed",
+        no: "Cancel",
+        type: "removeAnnotation"
+      };
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        data: { info: obj },
+        panelClass: 'kr-confirmation-panel',
+        disableClose: true,
+        autoFocus: true
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          // delete
+          this.deleteStructuredData(record);
+        }
+      });
+
+      // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      //   width: '530px',
+      //   height: 'auto',
+      //   panelClass: 'delete-popup',
+      //   data: {
+      //     newTitle: 'Do you really want to delete?',
+      //     body: 'Selected data will be permanently deleted.',
+      //     buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+      //     confirmationPopUp: true,
+      //   }
+      // });
+      // dialogRef.afterClosed().subscribe(res => {
+      //   if (res) {
+      //     // delete
+      //     this.deleteStructuredData(record);
+      //   }
+      // });
+  }
+
+  deleteStructuredData(record){
+    let quaryparms : any = {};
+    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.sourceId = Math.random().toString(36).substr(7);
+    if(record){
+      quaryparms.contentId = record._id;
+      this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
+        if(res){
+          this.getStructuredDataList();
+          this.notificationService.notify('Deleted Successfully', 'success');
+        }
+      }, errRes => {
+        console.log("error", errRes);
+        this.notificationService.notify('Deletion has gone wrong.', 'error');
+      });
     }
+  }
+
+  openStructuredDataStatusModal(){
+    this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
+  }
+
+  closeStructuredDataStatusModal(){
+    if(this.structuredDataStatusModalRef){
+      this.structuredDataStatusModalRef.close();
+      this.getStructuredDataList();
+    }
+  }
 
 }

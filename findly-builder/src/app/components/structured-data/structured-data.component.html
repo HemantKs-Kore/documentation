@@ -22,49 +22,58 @@
         </div>
     </div> 
     <perfect-scrollbar class="structured-data-scroll">
-        <div class="structured-data-table-sec">
-            <div class="filter-sec text-left mb-1" *ngIf="appliedAdvancedSearch.length">
-                <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
+        <div *ngIf="!isLoading">
+            <div class="structured-data-table-sec">
+                <div class="filter-sec text-left mb-1" *ngIf="appliedAdvancedSearch.length">
+                    <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
+                </div>
+                <div class="filter-sec text-right mb-1">
+                    <button class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
+                </div>
+                <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
+                    <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
+                        <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="data-content">
+                        <!-- <pre>{{data._source.parsedData}}</pre> -->
+                        <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data._source.parsedData"></ngx-codemirror>
+                    </div>
+                    <div class="action-links">
+                        <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    </div>
+                    <div class="info-link"><img src="assets/icons/info.svg"></div>
+                </div>
+                <div class="empty_records" *ngIf="!structuredDataItemsList.length">
+                    No records. Go on and Create One.
+                </div>
+                <!-- <div class="structured-data">
+                    <div class="kr-sg-checkbox d-block">
+                        <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                        <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="data-content">
+                        To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
+                    </div>
+                    <div class="action-links">
+                        <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                    </div>
+                    <div class="info-link"><img src="assets/icons/info.svg"></div>
+                </div> -->
             </div>
-            <div class="filter-sec text-right mb-1">
-                <button class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
-            </div>
-            <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
-                <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
-                    <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
-                    <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
-                </div>
-                <div class="data-content">
-                    <!-- <pre>{{data._source.parsedData}}</pre> -->
-                    <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data._source.parsedData"></ngx-codemirror>
-                </div>
-                <div class="action-links">
-                    <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                </div>
-                <div class="info-link"><img src="assets/icons/info.svg"></div>
-            </div>
-            <!-- <div class="structured-data">
-                <div class="kr-sg-checkbox d-block">
-                    <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
-                    <label for="checkbox_drp2" class="checkbox-custom-label"></label>
-                </div>
-                <div class="data-content">
-                    To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
-                </div>
-                <div class="action-links">
-                    <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                </div>
-                <div class="info-link"><img src="assets/icons/info.svg"></div>
-            </div> -->
+            <app-record-pagination class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
         </div>
-        <app-record-pagination class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
+        <div class="mainLoadingSpinner" *ngIf="isLoading" >
+            <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+            <span class="please-wait-message">{{'synonyms.please_wait' | translate}}</span>
+        </div>
     </perfect-scrollbar>
 </div>
 
 <kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
-    <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition()"></app-add-structured-data>
+    <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 
 <kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #advancedSearchModalPop>
@@ -83,4 +92,8 @@
             <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleAdvansedSearch()">{{'structuredData.cancel' | translate}}</button>
             <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!advancedSearchInput.length" (click)="applyAdvancedSearch()">{{ 'structuredData.apply' | translate}}</button>
         </div>
+</kr-modal>
+
+<kr-modal modalType="default" #structuredDataStatusModalPop>
+    <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"></app-structured-data-status-modal>
 </kr-modal>
