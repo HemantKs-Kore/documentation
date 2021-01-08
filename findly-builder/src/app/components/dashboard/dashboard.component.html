@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="create_new_link" (click)="viewAll('/searchInsights')">View all</div>
+                        <div class="create_new_link" (click)="viewAll('/searchInsights','Top_Search_Queries')">View all</div>
                         <!-- <app-pagination  [totalRecord]='tsqtotalRecord' [limitpage]='tsqlimitpage' [recordEnd]="tsqrecordEnd"
                         [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
@@ -204,7 +204,7 @@
                             </div>
                             
                         </div>
-                        <div class="create_new_link" (click)="viewAll('/searchInsights')">View all</div>
+                        <div class="create_new_link" (click)="viewAll('/searchInsights','Top_Search_Queries_with_No_Result')">View all</div>
                         <!-- <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
                         [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                     </div>
@@ -220,11 +220,15 @@
                                 <ul class="dropdown-menu content-menu m-0" ngbDropdownMenu>
                                     <div class="kr-sg-checkbox d-block p-0">
                                         <input id="checkbox_1" class="checkbox-custom" type="checkbox" checked>
-                                        <label for="checkbox_1" class="checkbox-custom-label">Live Search</label>
+                                        <label for="checkbox_1" class="checkbox-custom-label">FAQs</label>
+                                    </div>
+                                    <div class="kr-sg-checkbox d-block p-0">
+                                        <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="checkbox_12" class="checkbox-custom-label">Actions</label>
                                     </div>
                                     <div class="kr-sg-checkbox d-block p-0 m-0">
                                         <input id="checkbox_12" class="checkbox-custom" type="checkbox" checked>
-                                        <label for="checkbox_12" class="checkbox-custom-label">Full Search</label>
+                                        <label for="checkbox_12" class="checkbox-custom-label">Content</label>
                                     </div>
                                 </ul>
                             </div>

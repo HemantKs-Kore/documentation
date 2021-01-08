@@ -40,6 +40,7 @@ export class SearchInsightsComponent implements OnInit {
   endDate: any = moment();
   defaultSelectedDay = 7;
   showDateRange: boolean = false;
+  querieswithresults : boolean = true;
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
@@ -54,6 +55,11 @@ export class SearchInsightsComponent implements OnInit {
     this.getQueries("QueriesWithNoResults");
     this.getQueries("QueriesWithResults");
     //this.getQueries("GetSearchQueriesResults");
+
+    if(localStorage.getItem('search_Insight_Result')){
+      localStorage.getItem('search_Insight_Result') == 'Top_Search_Queries' ? this.querieswithresults = true: this.querieswithresults = false;
+      localStorage.removeItem('search_Insight_Result');
+    }
     
   }
   openDateTimePicker(e) {

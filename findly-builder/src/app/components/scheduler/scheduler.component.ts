@@ -121,9 +121,9 @@ export class SchedulerComponent implements OnInit {
         this.weeKDay = 'SUN';
         this.endDate  = '';
         this.occurence = '';
-        this.endsFreq('endsNever');
+        this.endsFreq('never');
     }
-    this.endsFreq('endsNever');
+    this.endsFreq('never');
     //console.log(this.dateConverter('SUN'))
     //console.log(this.crwalObject);
     
@@ -335,7 +335,7 @@ export class SchedulerComponent implements OnInit {
     this.weeKDay = 'SUN';
     this.endDate  = '';
     this.occurence = '';
-    this.endsFreq('endsNever');
+    this.endsFreq('never');
     this.closeCustomRecModal();
   }
   endsFreq(freq){
@@ -349,7 +349,7 @@ export class SchedulerComponent implements OnInit {
       this.endsOn = true;
       this.endsAt = false;
       this.endsOnSelected = freq;
-    }else if(freq == 'at'){
+    }else if(freq == 'after'){
       this.endsNever = false;
       this.endsOn = false;
       this.endsAt = true;
