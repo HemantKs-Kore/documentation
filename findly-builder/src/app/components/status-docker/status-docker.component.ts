@@ -15,8 +15,8 @@ declare let self: any;
   styleUrls: ['./status-docker.component.scss']
 })
 export class StatusDockerComponent implements OnInit {
-fileId;
-dockStatuses:any=[];
+   fileId;
+
   @Input('statusDockerLoading') statusDockerLoading : any;
 
   public dockersList : Array<any> = [];
@@ -195,10 +195,7 @@ dockStatuses:any=[];
     }
   }
   downloadDockFile(fileId, fileName,streamId,dockId) {
-    // const attachParam = {
-     
-    // }
-    const params = {
+        const params = {
       fileId,
     streamId : streamId,
     dockId  :  dockId

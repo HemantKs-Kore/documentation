@@ -165,7 +165,7 @@
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
                 placeholder="Enter Description" class="input-text"></textarea>
             </div>
-            <div class="container-import">
+            <div class="container-import"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
             <div class="import">IMPORT FROM FILE</div>
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
