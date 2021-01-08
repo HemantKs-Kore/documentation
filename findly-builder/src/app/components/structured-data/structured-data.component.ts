@@ -24,7 +24,7 @@ export class StructuredDataComponent implements OnInit {
       description: 'Import from JSON or CSV',
       icon: 'assets/icons/content/database-Import.svg',
       id: 'contentStucturedDataImport',
-      sourceType: 'json',
+      sourceType: 'object',
       resourceType: 'structuredData'
     },
     {
@@ -32,7 +32,7 @@ export class StructuredDataComponent implements OnInit {
       description: 'Add structured data manually',
       icon: 'assets/icons/content/database-add.svg',
       id: 'contentStucturedDataAdd',
-      sourceType: 'json',
+      sourceType: 'object',
       resourceType: 'structuredDataManual'
     }
   ];
@@ -60,6 +60,7 @@ export class StructuredDataComponent implements OnInit {
   appliedAdvancedSearch = '';
   isLoading : boolean = false;
   structuredDataStatusModalRef : any;
+  structuredDataDocPayload : any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -91,8 +92,11 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.structuredDataItemsList = res;
       this.structuredDataItemsList.forEach(data => {
-        if(data._source.jsonData){
-          data._source.parsedData = JSON.stringify(data._source.jsonData, null, 1);
+        if(data._source){
+          if(data._source.contentType){
+            delete data._source.contentType;
+          }
+          data.parsedData = JSON.stringify(data._source, null, 1);
         }
       });
     }, errRes => {
@@ -130,7 +134,8 @@ export class StructuredDataComponent implements OnInit {
     this.selectedSourceType = {};
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
-      if(event.showStatusModal){
+      if(event && event.showStatusModal){
+        this.structuredDataDocPayload = event.payload;
         this.openStructuredDataStatusModal();
       }
       else{

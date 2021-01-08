@@ -54,6 +54,9 @@ export class AddStructuredDataComponent implements OnInit {
     this.userInfo = this.authService.getUserInfo() || {};
   }
 
+  ngAfterViewInit(){
+  }
+
   ngOnChanges(changes){
     if(changes && changes.selectedSourceType){
       if(changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual'){
@@ -61,7 +64,7 @@ export class AddStructuredDataComponent implements OnInit {
           this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
           console.log("source",changes.selectedSourceType.currentValue);
           // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
-          this.structuredData.payload = this.selectedJsonForEdit._source.parsedData;
+          this.structuredData.payload = this.selectedJsonForEdit.parsedData;
           setTimeout( () => {
             this.indentObj();
           },100)
@@ -69,6 +72,11 @@ export class AddStructuredDataComponent implements OnInit {
         else{
           this.structuredData.payload = JSON.stringify({});
         }
+        setTimeout(() => {
+          if(this.codemirror && this.codemirror.codeMirror){
+            this.codemirror.codeMirror.refresh();
+          }
+        }, 200);
       }
     }
   }
@@ -200,10 +208,11 @@ export class AddStructuredDataComponent implements OnInit {
   updateStructuredData(jsonData){
     let quaryparms :any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    quaryparms.sourceId = Math.random().toString(36).substr(7);
+    // quaryparms.sourceId = Math.random().toString(36).substr(7);
     if(jsonData){
       quaryparms.contentId = this.selectedJsonForEdit._id;
-      this.service.invoke('update.structuredData', quaryparms, {jsonData : jsonData}).subscribe(res => {
+      quaryparms.sourceId = this.selectedJsonForEdit.extractionSourceId;
+      this.service.invoke('update.structuredData', quaryparms,jsonData).subscribe(res => {
         if(res){
           this.cancleSourceAddition();
           this.notificationService.notify('Updated Successfully', 'success');
@@ -220,7 +229,7 @@ export class AddStructuredDataComponent implements OnInit {
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
       // this.openStatusModal();
       if(quaryparms.file === 'file'){
-        this.cancleSourceAddition({showStatusModal : true});
+        this.cancleSourceAddition({showStatusModal : true, payload : res});
       }
       else{
         this.router.navigate(['/structuredData'], { skipLocationChange: true });

@@ -71,7 +71,10 @@
                 top: -25px;
                 position: relative;
             }
-            }       
+            }    
+            .success-check.in-progress img {
+                opacity: 0.5 !important;
+            }  
         }
         .modal-footer{
             text-align: left;

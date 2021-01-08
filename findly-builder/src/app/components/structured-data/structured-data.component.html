@@ -6,16 +6,16 @@
                 <input type="text" [(ngModel)]="searchText" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
             </div> 
             <div class="seach-block">
-                <span [ngClass]="{'d-none': searchActive}" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
-                <img [ngClass]="{'d-none': !searchActive}" src="assets/images/close.svg" (click)="toggleSearch(false)">
+                <span [ngClass]="{'d-none': searchActive}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
+                <img [ngClass]="{'d-none': !searchActive}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)">
             </div>   
-            <div class="adv-search" (click)="openAdvancedSearch()"><img src="assets/icons/content/indent.svg">{{'structuredData.advancedSearch' | translate}}</div>
+            <div class="adv-search" id="btn_toggle__advanced_search_structured_data" (click)="openAdvancedSearch()"><img src="assets/icons/content/indent.svg">{{'structuredData.advancedSearch' | translate}}</div>
             <div class="kr-sg-dropdowns w-auto add_data" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/add_plus.svg">{{'structuredData.addField' | translate}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input" id="btn_toggle_add_file_structured_data" ngbDropdownToggle><img src="assets/icons/add_plus.svg">{{'structuredData.addField' | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                      <li (click)="openAddStructuredData('structuredData')">{{'structuredData.import' | translate}}</li>
-                      <li (click)="openAddStructuredData('structuredDataManual')">{{'structuredData.addManually' | translate}}</li>                  
+                      <li id="btn_open_import_structured_data" (click)="openAddStructuredData('structuredData')">{{'structuredData.import' | translate}}</li>
+                      <li id="btn_open_manual_structured_data" (click)="openAddStructuredData('structuredDataManual')">{{'structuredData.addManually' | translate}}</li>                  
                     </ul>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
                 </div>
                 <div class="filter-sec text-right mb-1">
-                    <button class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
+                    <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
                 </div>
                 <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                     <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
@@ -37,11 +37,11 @@
                     </div>
                     <div class="data-content">
                         <!-- <pre>{{data._source.parsedData}}</pre> -->
-                        <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data._source.parsedData"></ngx-codemirror>
+                        <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
                     </div>
                     <div class="action-links">
-                        <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                        <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
                     <div class="info-link"><img src="assets/icons/info.svg"></div>
                 </div>
@@ -63,7 +63,7 @@
                     <div class="info-link"><img src="assets/icons/info.svg"></div>
                 </div> -->
             </div>
-            <app-record-pagination class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
+            <app-record-pagination id="pagination_structured_data" class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
         </div>
         <div class="mainLoadingSpinner" *ngIf="isLoading" >
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
@@ -79,7 +79,7 @@
 <kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #advancedSearchModalPop>
     <div class="modal-header">
         <div class="title">{{'structuredData.advancedSearch' | translate }}</div>
-        <div class="close_icon"><img (click)="cancleAdvansedSearch()" src="assets/icons/modal-close.svg"></div>
+        <div class="close_icon"><img id="btn_close_advanced_search" (click)="cancleAdvansedSearch()" src="assets/icons/modal-close.svg"></div>
       </div>
         <div class="modal-body">
             <div class="kr-sg-input-text text">
@@ -89,11 +89,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleAdvansedSearch()">{{'structuredData.cancel' | translate}}</button>
-            <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="!advancedSearchInput.length" (click)="applyAdvancedSearch()">{{ 'structuredData.apply' | translate}}</button>
+            <button class="kr-sg-button-secondary backbtn btn_md mr-2" id="btn_cancel_advanced_search" (click)="cancleAdvansedSearch()">{{'structuredData.cancel' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" id="btn_apply_advanced_search" [disabled]="!advancedSearchInput.length" (click)="applyAdvancedSearch()">{{ 'structuredData.apply' | translate}}</button>
         </div>
 </kr-modal>
 
 <kr-modal modalType="default" #structuredDataStatusModalPop>
-    <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"></app-structured-data-status-modal>
+    <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()" [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
 </kr-modal>

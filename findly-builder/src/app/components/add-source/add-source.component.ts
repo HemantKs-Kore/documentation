@@ -146,7 +146,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Import from JSON or CSV',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',
-          sourceType: 'json',
+          sourceType: 'object',
           resourceType: 'structuredData'
         },
         {
@@ -154,7 +154,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           description: 'Add structured data manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
-          sourceType: 'json',
+          sourceType: 'object',
           resourceType: 'structuredDataManual'
         }
       ]
@@ -186,6 +186,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   addStructuredDataModalPopRef : any;
   structuredData : any = {};
   structuredDataStatusModalRef : any;
+  structuredDataDocPayload : any;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -923,7 +924,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   closeStructuredDataModal(event?){
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
-      if(event.showStatusModal){
+      if(event && event.showStatusModal){
+        this.structuredDataDocPayload = event.payload;
         this.openStructuredDataStatusModal();
       }
     }

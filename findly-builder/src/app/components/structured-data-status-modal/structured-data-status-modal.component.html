@@ -1,46 +1,46 @@
 <div class="status-modal-popup">
     <div class="modal_content">
-      <div class="modal-header">{{'structuredData.structuredData' | translate}} <img src="assets/images/close.svg"
+      <div class="modal-header">{{'structuredData.structuredDataImport' | translate}} <img src="assets/images/close.svg"
           (click)="closeModal()"></div>
       <div class="modal-body">
-        <div class="success-check pb-4">
+        <div class="success-check pb-4" [ngClass]="{'in-progress' : (docStatusObject.status==='IN_PROGRESS')}" *ngIf="(docStatusObject.status==='SUCCESS' || docStatusObject.status==='IN_PROGRESS')">
           <img src="assets/icons/successCheck.svg">
         </div>
-        <div class="error-check" *ngIf="(docStatusObject.status==='failed')">
+        <div class="error-check" *ngIf="(docStatusObject.status==='FAILURE')">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='In-progress')">
-            {{'structuredData.configuratoin_progress'}}
-          </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='success')">
-          {{'structuredData.configuratoin_success'}}
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='IN_PROGRESS')">
+            {{'structuredData.configuratoin_progress' | translate}}
         </div>
-        <div class="message-success text-center" *ngIf="(docStatusObject.status==='failed')">
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='SUCCESS')">
+          {{'structuredData.configuratoin_success' | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE')">
           {{'structuredData.configuration_failed' | translate}}
         </div>
-        <ng-container *ngIf="docStatusObject && docStatusObject.validation && !(docStatusObject.status==='failed')">
+        <ng-container *ngIf="docStatusObject && docStatusObject.validation && !(docStatusObject.status==='FAILURE')">
           <div class="status-identification-content"
-            *ngIf="!((docStatusObject.status==='success') || (docStatusObject.status==='failed'))">
+            *ngIf="!((docStatusObject.status==='SUCCESS') || (docStatusObject.status==='FAILURE'))">
             <div class="content-title">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>{{'structuredData.initial_file_validation' | translate}} </span> <!--  <span >done</span> -->
             </div>
           </div>
         </ng-container>
-        <div class="progressNote">
+        <div class="progressNote" *ngIf="(docStatusObject.status==='IN_PROGRESS')">
           <div>{{'structuredData.import_progress' | translate}}</div>
         </div>
-        <div class="text-center" *ngIf="!((docStatusObject.status==='success') || (docStatusObject.status==='failed'))">
+        <div class="text-center" *ngIf="!((docStatusObject.status==='SUCCESS') || (docStatusObject.status==='FAILURE'))">
           <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
           <div class="relaxNote">{{'structuredData.notified_when_done' | translate}}</div>
         </div>
-        <div class="text-center" *ngIf="(docStatusObject.status==='failed')">
-          <div class="relaxNote">{{docStatusObject.statusMessage}}</div>
+        <div class="text-center" *ngIf="(docStatusObject.status==='FAILURE')">
+          <div class="relaxNote">{{docStatusObject.store.statusMessage}}</div>
         </div>
       </div>
       <div class="modal-footer text-right">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': docStatusObject.status==='success'}" data-dismiss="modal">{{'structuredData.abort' | translate}}</button>
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        <button type="button" (click)="closeModal()" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': ((docStatusObject.status==='SUCCESS') || (docStatusObject.status === 'FAILURE'))}" data-dismiss="modal">{{'structuredData.abort' | translate}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="(docStatusObject.status==='IN_PROGRESS' && !(docStatusObject.validation))"
           (click)="closeModal()">{{'structuredData.ok' | translate}}</button>
       </div>
     </div>
