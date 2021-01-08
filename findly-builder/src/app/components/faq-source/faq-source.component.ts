@@ -1054,7 +1054,6 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   exportFaq(ext){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      streamId: this.selectedApp._id || this.selectedApp[0]._id
     };
     const payload = {   
       exportType:ext,
@@ -1062,6 +1061,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.service.invoke('export.faq',quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
      this.dock.trigger()
+     
 
       },
        errRes => {

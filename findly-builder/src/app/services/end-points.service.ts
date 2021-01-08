@@ -702,6 +702,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
       method: 'get'
     }
+    this.serviceList['put.dockStatus'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',
+      method: 'put'
+    }
 
     this.serviceList['delete.dockById'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
@@ -715,6 +719,11 @@ export class EndPointsService {
     
     this.serviceList['export.faq'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/export',
+      method: 'post'      
+     }
+     
+    this.serviceList['import.faq'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/import',
       method: 'post'      
      }
     //  this.serviceList['export.dockstatus'] = {

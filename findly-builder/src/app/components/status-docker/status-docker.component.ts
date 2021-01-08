@@ -15,7 +15,8 @@ declare let self: any;
   styleUrls: ['./status-docker.component.scss']
 })
 export class StatusDockerComponent implements OnInit {
-
+fileId;
+dockStatuses:any=[];
   @Input('statusDockerLoading') statusDockerLoading : any;
 
   public dockersList : Array<any> = [];
@@ -58,7 +59,8 @@ export class StatusDockerComponent implements OnInit {
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
-            this.downloadDockFile(record.fileId, record.store.urlParams);
+            this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
+
           }
         })
         const queuedJobs = _.filter(res.dockStatuses, (source) => {
@@ -192,12 +194,27 @@ export class StatusDockerComponent implements OnInit {
       this.dockServiceSubscriber.unsubscribe();
     }
   }
-  downloadDockFile(fileId, fileName) {
-    const params = {fileId};
-    this.service.invoke('attachment.file', params).subscribe(res=>{
-        const hrefURL = res.fileUrl + fileName;
-        window.open(hrefURL);
+  downloadDockFile(fileId, fileName,streamId,dockId) {
+    // const attachParam = {
+     
+    // }
+    const params = {
+      fileId,
+    streamId : streamId,
+    dockId  :  dockId
+    }
+   let payload = {
+    "store":{
+      "toastSeen":true,
+      "urlParams":fileName,
+             }      
+    }
+    this.service.invoke('attachment.file', params ).subscribe(res=>{
+       let hrefURL = res.fileUrl + fileName;
+       window.open(hrefURL , '_self');
+        this.service.invoke('put.dockStatus',params,payload).subscribe(res=>{
+        }
+        )
     }, err=>{ console.log(err) });
 }
-
 }
