@@ -49,7 +49,8 @@ export class StructuredDataComponent implements OnInit {
     matchBrackets: true,
     lint: false,
     indentUnit: 0,
-    readOnly:'nocursor'
+    readOnly:'nocursor',
+    scrollbarStyle : 'null'
   };
   searchActive: boolean = false;
   searchText : any = '';
@@ -92,12 +93,13 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.structuredDataItemsList = res;
       this.structuredDataItemsList.forEach(data => {
+        data.objectLength =  Object.keys(data._source).length;
         if(data._source){
           if(data._source.contentType){
             delete data._source.contentType;
           }
           data.parsedData = JSON.stringify(data._source, null, 1);
-        }
+        };
       });
     }, errRes => {
       console.log("error", errRes);
@@ -195,7 +197,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   //delete experiment popup
-  deleteStructuredDataPopup(record) {
+  deleteStructuredDataPopup(record?) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -209,9 +211,16 @@ export class StructuredDataComponent implements OnInit {
       });
       dialogRef.componentInstance.onSelect.subscribe(res => {
         if (res === 'yes') {
-          // delete
-          dialogRef.close();
-          this.deleteStructuredData(record);
+          if(this.selectedStructuredData.length){
+            //bulk delete
+            dialogRef.close();
+            this.deleteBulkStructuredData();
+          }
+          else{
+            // delete
+            dialogRef.close();
+            this.deleteStructuredData(record);
+          }
         }
         else if (res === 'no') {
           dialogRef.close();
@@ -227,6 +236,28 @@ export class StructuredDataComponent implements OnInit {
       quaryparms.contentId = record._id;
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
         if(res){
+          this.getStructuredDataList();
+          this.notificationService.notify('Deleted Successfully', 'success');
+        }
+      }, errRes => {
+        console.log("error", errRes);
+        this.notificationService.notify('Deletion has gone wrong.', 'error');
+      });
+    }
+  }
+
+  deleteBulkStructuredData(){
+    let quaryparms : any = {};
+    let payload : any = {};
+    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    if(this.selectedStructuredData.length){
+      payload.docIds = [];
+      this.selectedStructuredData.forEach((data : any) => {
+        payload.docIds.push(data._id);
+      });
+      this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
+        if(res){
+          this.selectedStructuredData = [];
           this.getStructuredDataList();
           this.notificationService.notify('Deleted Successfully', 'success');
         }

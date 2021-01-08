@@ -36,7 +36,8 @@ export class AddStructuredDataComponent implements OnInit {
   sampleJsonPath = '/home/assets/sampleData/sample.json';
   sampleCsvPath = '/home/assets/sampleData/sample.csv';
   openingBrace = "{";
-  closingBrace = "}"
+  closingBrace = "}";
+  startingValue : any;
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input('selectedSourceType') selectedSourceType: any;
@@ -227,7 +228,7 @@ export class AddStructuredDataComponent implements OnInit {
 
   jsonInvoke(payload,endPoint,quaryparms){
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      // this.openStatusModal();
+      this.notificationService.notify('Imported Successfully', 'success');
       if(quaryparms.file === 'file'){
         this.cancleSourceAddition({showStatusModal : true, payload : res});
       }

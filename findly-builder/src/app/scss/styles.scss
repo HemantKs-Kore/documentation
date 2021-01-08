@@ -2084,4 +2084,13 @@ nouislider{
     .pagination{
         bottom: 5px !important;
     }
+    .CodeMirror {
+        height: auto !important;
+        margin-bottom: .5rem!important;
+    }
+    
+    .CodeMirror-scroll {
+        max-height:120px !important;
+        overflow: hidden !important;
+    }
 }

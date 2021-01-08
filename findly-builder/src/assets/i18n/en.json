@@ -338,6 +338,7 @@
     "import_done" : "Import Done",
     "notified_when_done" : "You will be notified when the import process is done.",
     "abort" : "Abort",
-    "ok" : "Ok"
+    "ok" : "Ok",
+    "viewJson" : "View Full JSON"
  }
 }

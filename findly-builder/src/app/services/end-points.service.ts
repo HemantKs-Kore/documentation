@@ -718,6 +718,11 @@ export class EndPointsService {
       method: 'delete'
     }
 
+    this.serviceList['delete.clearAllStructureData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData',
+      method: 'delete'
+    }
+
     this.serviceList['update.structuredData'] ={
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
       method: 'put'

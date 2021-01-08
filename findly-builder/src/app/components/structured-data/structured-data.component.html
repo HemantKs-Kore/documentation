@@ -28,7 +28,7 @@
                     <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
                 </div>
                 <div class="filter-sec text-right mb-1">
-                    <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length">{{'structuredData.delete' | translate}}</button>
+                    <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
                 </div>
                 <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                     <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
@@ -38,6 +38,7 @@
                     <div class="data-content">
                         <!-- <pre>{{data._source.parsedData}}</pre> -->
                         <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
+                        <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
                     </div>
                     <div class="action-links">
                         <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
