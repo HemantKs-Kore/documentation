@@ -96,6 +96,7 @@ import { FieldManagementComponent } from './components/field-management/field-ma
 import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { StatusDockerComponent } from './components/status-docker/status-docker.component';
+import {  DockStatusService} from './services/dock.status.service';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -223,7 +224,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatSnackBar,
     ConvertMDtoHTML,
     MatDatepickerModule,
-    AppSelectionService
+    AppSelectionService,
+    DockStatusService
   ],
   // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent]
