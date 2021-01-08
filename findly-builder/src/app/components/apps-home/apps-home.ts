@@ -44,10 +44,19 @@ export class AppsListingComponent implements OnInit {
 
   ngOnInit() {
     $('.krFindlyAppComponent').removeClass('appSelected');
-    this.apps =  this.workflowService.findlyApps();
+    const apps =  this.workflowService.findlyApps();
+    this.prepareApps(apps);
     setTimeout(() => {
      $('#serachInputBox').focus();
     }, 100);
+  }
+  prepareApps(apps){
+    apps.sort((a,b) =>{
+      const bDate:any = new Date(b.lastModifiedOn);
+      const aDate:any = new Date(a.lastModifiedOn);
+      return  bDate - aDate;
+    });
+    this.apps = apps;
   }
   openApp(app) {
   this.appSelectionService.openApp(app);
@@ -99,6 +108,7 @@ export class AppsListingComponent implements OnInit {
       res => {
         this.notificationService.notify('App created successfully', 'success');
         self.apps.push(res);
+        this.prepareApps(self.apps);
         this.openApp(res)
         self.workflowService.showAppCreationHeader(true);
         // self.router.navigate(['/source'], { skipLocationChange: true });

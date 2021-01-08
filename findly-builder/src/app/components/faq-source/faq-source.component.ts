@@ -64,6 +64,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   public model: any;
   loadingFaqs = true;
   editfaq = false;
+  selectedFaqToEdit;
   statusObj: any = {
     failed: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
@@ -638,6 +639,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.openEditFAQModal(true);
   }
   openEditFAQModal(edit?) {
+    this.selectedFaqToEdit = JSON.parse(JSON.stringify(this.selectedFaq));
    this.editFAQModalPopRef  = this.editFAQModalPop.open();
   }
   closeEditFAQModal() {
