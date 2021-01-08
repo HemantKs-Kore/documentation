@@ -8853,7 +8853,8 @@ ngb-accordion .card-header {
     height: calc(100vh - 112px);
     display: flex;
     overflow: auto;
-    padding: 15px 15px 15px 20px;
+    /* padding: 15px 15px 15px 20px; */
+    padding: 0px 15px 15px 20px;
     position: relative;
     width: 100%;
 }
@@ -8873,9 +8874,13 @@ ngb-accordion .card-header {
     margin: 0px;
   }
   .ksa-resultsContainer .ksa-resultsRight {   
-       padding: 26px 0 0 0;
-       width: 30%;
+       /* padding: 26px 0 0 0; */
+       position: relative;
+       padding: 0;
+       width: 35%;
        display: none;
+
+       right: -15px;
   }
   .ksa-resultsContainer .ksa-resultsRight .rightContentSubTitle {
     color: #000000;
@@ -10311,7 +10316,7 @@ input:checked + .custom-slider:before {
     position: relative;
 }
 .matched-faq-containers .custom-faqs-shadow .custom-faqs-wrp-content-border .desc-info {
-    max-width: 65% !important;
+    max-width: 65%;
 }
 .loader-container {
     display: none;
@@ -10332,18 +10337,21 @@ input:checked + .custom-slider:before {
     z-index: 999;
 }
 .filters-container {   
-    position: absolute;
+    /* position: absolute; */
+    position: relative;
     background: #F8F9FA;
     border: 1px solid #E5EBF0;
     box-sizing: border-box;
     border-radius: 0;
-    width: 334px;
-    /* height: calc(100% - 8px); */
-    height: fit-content;
+    /* width: 334px; */
+    width: 100%;
+    height: 100%;
+    /* height: calc(100% - 8px); */ 
+    /* height: fit-content; */
     right: 0px;
     top: 0px;
     padding: 30px;
-    display: none;
+    /* display: none; */
 }
 .filters-header {
     width: 100%;
@@ -10375,9 +10383,9 @@ input:checked + .custom-slider:before {
 .filters-body {
     position: relative;
     /* height: 100%; */
-    /* height: fit-content; */
-    max-height: 300px;
-    overflow: auto;
+    height: fit-content;
+    /* max-height: 300px; */
+    /* overflow: auto; */
     width: 100%;
     background: #f8f9fa;
     padding: 0;
@@ -11429,5 +11437,5 @@ padding-right: 0;
     margin-right: 15px;
 }
 .display-block {
-    display: block;
+    display: block !important;
 }
