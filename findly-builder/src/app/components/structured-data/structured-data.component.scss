@@ -86,7 +86,7 @@
         }
     }
     perfect-scrollbar{
-        height: calc(100vh - 134px);
+        height: calc(100vh - 192px);
     }
     .structured-data-table-sec{
         padding: 0 20px 0 45px;
@@ -122,9 +122,9 @@
                 .action-links{
                     display: block;
                 }
-                .info-link{
-                    display: none;
-                }   
+                // .info-link{
+                //     display: none;
+                // }   
             }
             .kr-sg-checkbox{
                 position: absolute;

@@ -2062,3 +2062,26 @@ nouislider{
         }
     }
 }
+
+
+.structured-data-container {
+    .structured-data-table-sec {
+        .structured-data {
+            .data-content{
+                ngx-codemirror{
+                    .cm-s-neo{
+                        &.CodeMirror{
+                            background-color: transparent !important;
+                        }
+                        .CodeMirror-linenumber{
+                            background-color: transparent !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .pagination{
+        bottom: 5px !important;
+    }
+}
