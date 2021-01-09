@@ -289,6 +289,9 @@ export class AppComponent implements OnInit , OnDestroy {
       buttonText : 'Go',
       showRecentSearches : true
     });
+    this.searchInstance.addSearchFacets({
+      container : 'sa-facets-container'
+    });
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
   }
   showHideSearch(show,disabelInstanceDistroy?){

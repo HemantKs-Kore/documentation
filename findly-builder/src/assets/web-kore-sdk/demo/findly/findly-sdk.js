@@ -999,6 +999,40 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         return searchControl;
     }
+    FindlySDK.prototype.getSearchFacetsTemplate = function() {
+      return '\
+        <div>\
+          <div class="filters-container">\
+            <div class="filters-header">\
+              <div class="filters-heading">Filter by</div>\
+              <div class="filters-reset">\
+                <div class="filters-reset-anchor">Clear all</div>\
+              </div>\
+            </div>\
+            <div class="filters-body">\
+              {{each(i, searchFacet) searchFacets}}\
+                <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                  <div class="filters-content-heading">${searchFacet.facetName}</div>\
+                  {{each(j, bucket) searchFacet.buckets}}\
+                    {{if searchFacet.facetType == "value"}}\
+                      <div class="kr-sg-checkbox d-block custom_checkbox">\
+                        <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                        <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                      </div>\
+                    {{/if}}\
+                    {{if searchFacet.facetType == "range"}}\
+                      <div class="kr-sg-checkbox d-block custom_checkbox">\
+                        <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                        <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                      </div>\
+                    {{/if}}\
+                  {{/each}}\
+                </div>\
+              {{/each}}\
+            </div>\
+          </div>\
+        </div>'
+    }
     FindlySDK.prototype.getSearchTemplate = function (type) {
       var searchContainer = '<script type="text/x-jqury-tmpl">\
         <div class="search-container conversation">\
@@ -1745,37 +1779,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             </div>\
           </div>\
         </div>\
-        {{if searchFacets.length}}\
-        <div class="filters-container">\
-          <div class="filters-header">\
-            <div class="filters-heading">Filter by</div>\
-            <div class="filters-reset">\
-              <div class="filters-reset-anchor">Clear all</div>\
-            </div>\
-          </div>\
-          <div class="filters-body">\
-            {{each(i, searchFacet) searchFacets}}\
-              <div class="filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
-                <div class="filters-content-heading">${searchFacet.facetName}</div>\
-                {{each(j, bucket) searchFacet.buckets}}\
-                  {{if searchFacet.facetType == "value"}}\
-                    <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
-                      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
-                    </div>\
-                  {{/if}}\
-                  {{if searchFacet.facetType == "range"}}\
-                    <div class="kr-sg-checkbox d-block custom_checkbox">\
-                      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
-                      <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
-                    </div>\
-                  {{/if}}\
-                {{/each}}\
-              </div>\
-            {{/each}}\
-          </div>\
-        </div>\
-        {{/if}}\
+          <div id="sa-facets-container"> \
+          </div> \
         <div class="ksa-resultsRight">\
             <div class="rightContainer">\
                 <div class="rightContentSubTitle">Near by Branch/ATM</div>\
@@ -2589,7 +2594,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       });
-
+// _self.vars.searchFacetFilters
       $('.search-container').addClass('full-page');
       if ($('.start-search-icon-div').hasClass('active')) {
         $('.start-search-icon-div').addClass('hide');
@@ -2598,6 +2603,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-body-full').removeClass('hide');
       $('.search-body-full').html(searchFullData);
       $('.search-container').removeClass('active');
+      _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
 
@@ -4730,7 +4736,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchFacets = _self.vars.searchFacetFilters;
           console.log(searchFacets);
         }
-
         // debugger;
 
         if (tasks.length) {
@@ -5891,17 +5896,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }
-    
+    FindlySDK.prototype.addSearchFacets = function(config) {
+      var _self = this;
+      _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
+        if (config.templateId) {
+          var dataHTML = $('#' + config.templateId).tmplProxy(data);
+          $('#' + config.container).empty().append(dataHTML);
+        } else if (config.template) {
+          var dataHTML = $(config.template).tmplProxy(data);
+          $('#' + config.container).empty().append(dataHTML);
+        } else {
+          var dataHTML = $(_self.getSearchFacetsTemplate()).tmplProxy({searchFacets : data});
+          $('#' + config.container).empty().append(dataHTML);
+          $('#openFacetFilterControl').off('click').on('click', function (event) {
+            if ($('.filters-container').css('display') == 'block') {
+              $('.filters-container').hide();
+            }
+            else {
+              $('.filters-container').show();
+            }
+          });
+        }
+        _self.bindFacetsToggle();
+        _self.bindAllResultsView();
+      });
+    }
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
+        console.log("yyyyyyyyyyyyyyy", data);
         if (config.container) {
           if (config.pageTemplateId) {
             var dataHTML = $('#' + config.pageTemplateId).tmplProxy(data);
             $('#' + config.container).empty().append(dataHTML);
           } else if (config.pageTemplate) {
             var dataHTML = $(config.pageTemplate).tmplProxy(data);
-            $('#' + config.container).append(dataHTML);
+            $('#' + config.container).empty().append(dataHTML);
           }
           if (config.faqTemplateId) {
             var dataHTML = $('#' + config.faqTemplateId).tmplProxy(data);
