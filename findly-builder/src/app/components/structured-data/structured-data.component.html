@@ -25,11 +25,20 @@
         <div *ngIf="!isLoading">
             <ng-container *ngIf="structuredDataItemsList.length">
                 <div class="structured-data-table-sec">
-                    <div class="filter-sec text-left mb-1" *ngIf="appliedAdvancedSearch.length">
-                        <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
+                    <div class="toast-block-blue row m-0 align-items-center">
+                        <div class="col-9 d-flex p-0 align-items-center">
+                            <img src="assets/icons/structured-data/Info.svg" class="mr-2">
+                            <span class="info-text">Data has already been indexed</span>
+                        </div>      
+                        <div class="col-3 p-0 text-right"><img class="close-icon" src="assets/icons/modal-close.svg"></div>                                                                                                                              
                     </div>
-                    <div class="filter-sec text-right mb-1">
-                        <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
+                    <div class="row align-items-center m-0 position-relative">
+                        <div class="filter-sec text-left mb-1 col-7 p-0" *ngIf="appliedAdvancedSearch.length">
+                            <span class="filter_text">{{advancedSearchInput}} <img src="assets/icons/structured-data/close-filter.svg" class="ml-3"></span> <span class="ml-3 filter-title">{{'structuredData.editFilter' | translate}}</span>
+                        </div>
+                        <div class="filter-sec text-right mb-1 col-5 p-0" [ngClass]="{'col-12' : !appliedAdvancedSearch.length}">
+                            <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
+                        </div>                        
                     </div>
                     <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                         <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
@@ -41,20 +50,18 @@
                             <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
                             <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
                         </div>
-                        <div class="toast-block d-none">
-                            <div class="content-title">
-                                <img src="assets/icons/green-check-circle.svg" class="successfullyIndex mr-2">
-                                <span>{{'structuredData.success_indexing' | translate}} </span>
-                                <span class="index_data ml-2">{{'structuredData.index_data' | translate}}</span>
-                                <img class="close" src="assets/icons/modal-close.svg">
-                            </div>
+                        <div class="toast-block">
+                            <img src="assets/icons/green-check-circle.svg" class="successfullyIndex mr-2">
+                            <span class="info-text">{{'structuredData.success_indexing' | translate}} </span>
+                            <span class="index_data ml-2">{{'structuredData.index_data' | translate}}</span>
+                            <img class="close-icon" src="assets/icons/modal-close.svg">
                         </div>
                         <div class="action-links">
                             <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                         </div>
                         <div class="info-link"><img src="assets/icons/info.svg"></div>
-                        <div class="indexing d-none">
+                        <div class="indexing">
                             <button class="kr-sg-button-secondary btn_md">Index</button>
                         </div>
                     </div>
