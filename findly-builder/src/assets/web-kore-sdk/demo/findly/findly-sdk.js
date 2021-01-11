@@ -2594,7 +2594,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       });
-// _self.vars.searchFacetFilters
+
       $('.search-container').addClass('full-page');
       if ($('.start-search-icon-div').hasClass('active')) {
         $('.start-search-icon-div').addClass('hide');
@@ -2650,12 +2650,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.faqs-bottom-actions').css('display', 'none');
         }
 
-        if (_self.vars.selectedFiltersArr.length > 0) {
-          _self.vars.selectedFiltersArr.forEach(function (filter) {
-            $("#" + filter).prop('checked', true)
-            console.log(filter);
-          })
-        }
+        // if (_self.vars.selectedFiltersArr.length > 0) {
+        //   _self.vars.selectedFiltersArr.forEach(function (filter) {
+        //     $("#" + filter).prop('checked', true)
+        //     console.log(filter);
+        //   })
+        // }
+        _self.markSelectedFilters();
 
         /*if (_self.vars.showingMatchedResults == true) {
           $('.tasks-wrp.results-wrp .faqs-shadow').first().find(".accordion").trigger('click'); // Triggering expand event of the first matched FAQ by the virtue of its position
@@ -3852,6 +3853,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           console.log(_self.vars.searchObject.liveData);
           _self.prepAllSearchData(facetActive);
+          _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
           $('#loaderDIV').hide()
           // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
 
@@ -4784,6 +4786,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           originalQuery: res.originalQuery || '',
         }
+        _self.pubSub.publish('sa-search-result', dataObj);
+        _self.pubSub.publish('sa-search-facets', dataObj.searchFacets);
         // if(!_self.isDev){
         //   dataObj = {
         //     faqs: faqs.slice(0,2),
@@ -5919,7 +5923,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         _self.bindFacetsToggle();
         _self.bindAllResultsView();
+        _self.markSelectedFilters();
       });
+    }
+    FindlySDK.prototype.markSelectedFilters = function() {
+      var _self = this;
+      if (_self.vars.selectedFiltersArr.length > 0) {
+        _self.vars.selectedFiltersArr.forEach(function (filter) {
+          $("#" + filter).prop('checked', true)
+          console.log(filter);
+        })
+      }
+
     }
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
