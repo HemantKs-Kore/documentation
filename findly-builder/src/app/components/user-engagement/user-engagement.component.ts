@@ -641,6 +641,31 @@ var valueList2 = totaldata.map(function (item) {
       
     // });
         this.mostUsedDeviceBar  = {
+          // tooltip: {
+          //   trigger: 'axis',
+          //   axisPointer: {            
+          //     type: 'none'        
+          // },
+          //   formatter:  (params) => `
+          //       <div class="metrics-tooltips-hover userengagment-tooltip">          
+          //       <div class="data-content">
+          //           <div class="main-title">Total Users</div>
+          //           <div class="title total">${params[0].value + params[1].value}</div>
+          //       </div>
+          //       <div class="data-content">
+          //           <div class="main-title">New Users</div>
+          //           <div class="title new">${params[1].value}</div>
+          //       </div>
+          //       <div class="data-content border-0">
+          //           <div class="main-title">Repeat Users</div>
+          //           <div class="title return">${params[0].value}</div>
+          //       </div>
+          //   </div> 
+          //   `,
+          //   position: 'top',
+          //   padding: 0
+           
+          // },
           xAxis: {
               type: 'value',
               axisLabel: {

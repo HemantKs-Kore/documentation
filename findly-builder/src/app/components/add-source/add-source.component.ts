@@ -496,6 +496,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   proceedSource() {
     let payload: any = {};
+    let schdVal =  true;
     const crawler = this.crwalObject;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -510,6 +511,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
      this.faqAnotate(payload,endPoint,quaryparms);
+     schdVal = true;
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
@@ -560,17 +562,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
-      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-        this.openStatusModal();
-        this.poling(res._id,'scheduler');
-        this.crwal_jobId = res._id
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed to add sources ', 'error');
+      if(payload.advanceOpts.scheduleOpt){
+        if(payload.advanceOpts.scheduleOpts){
+          if(!payload.advanceOpts.scheduleOpts.date){
+            schdVal = false;
+          }
+          if(!payload.advanceOpts.scheduleOpts.time){
+            schdVal = false;
+          }else{
+            if(payload.advanceOpts.scheduleOpts.time.hour == "") schdVal = false;
+            if(payload.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if(payload.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+          }
         }
-      });
+      }
+      if(schdVal){
+        this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+          this.openStatusModal();
+          this.poling(res._id,'scheduler');
+          this.crwal_jobId = res._id
+        }, errRes => {
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed to add sources ', 'error');
+          }
+        });
+      }else{
+        this.notificationService.notify('Please fill Date and Time fields', 'error');
+      }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
 
