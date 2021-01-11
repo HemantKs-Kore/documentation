@@ -156,7 +156,7 @@
               </div>
             </div>
             <div class="ends-never sp-at row ">
-              <input type="radio" name="radio"  value ="endsAt" class="ends-radio" (click)="endsFreq('at')"> <span class="sp">At</span>
+              <input type="radio" name="radio"  value ="endsAt" class="ends-radio" (click)="endsFreq('after')"> <span class="sp">At</span>
               <input id="occurenceId" type="number" min="0" max="30" class="input-text date-pick" placeholder="0" [(ngModel)] = "occurence" [disabled] = "!endsAt"> <span class="occur-span">Occurences</span>
             </div>
           </div>

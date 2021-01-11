@@ -702,6 +702,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
       method: 'get'
     }
+    this.serviceList['put.dockStatus'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',
+      method: 'put'
+    }
 
     this.serviceList['add.structuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:file',
@@ -737,5 +741,23 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
       method: 'delete'
     }
+    
+    this.serviceList['export.faq'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/export',
+      method: 'post'      
+     }
+     
+    this.serviceList['import.faq'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/import',
+      method: 'post'      
+     }
+    //  this.serviceList['export.dockstatus'] = {
+    //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
+    //   method: 'post'      
+    //  }
+    //  this.serviceList['export.url'] = {
+    //   endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
+    //   method: 'get'      
+    //  }
   }
 }

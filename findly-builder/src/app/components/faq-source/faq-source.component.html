@@ -19,7 +19,21 @@
                     </div>
                 </div>
                 <div (click)="openStatusModal()" class="title"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
-                <!-- <div class="clock"><img src="assets/icons/clock.svg"></div> -->
+                <div class="clock"><img src="assets/icons/clock.svg"></div>
+                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/export-top.svg"></button>                                            
+                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                          <li (click)='exportFaq("json")'>Export to JSON</li>
+                          <li (click)='exportFaq("csv")'>Export to CSV</li>                         
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="export-success-notification d-none">
+                <div class="check"><img src="assets/icons/docker/check.svg"></div>
+                <div class="desc-info">Export to JSON is in progress. You can check the status in the Status Docker</div>
+                <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
         <div class="faq-content-boxes">
@@ -395,7 +409,7 @@
                                         <div class="bot-response-view-mode">
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source && selectedFaq._source.defaultAnswers && selectedFaq._source.defaultAnswers.length">
                                                 <ng-container *ngFor="let answer of selectedFaq._source.defaultAnswers ;let i = index;">
-                                                    <div class="bot-response-title">Bot Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
+                                                    <div class="bot-response-title">Response <span *ngIf="(selectedFaq._source.defaultAnswers.length > 1) || (selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length)">{{ ' ' + (i + 1)}}</span></div> 
                                                     <div class="img-view-mode" *ngIf="answer && answer.multimedia && answer.multimedia.url">
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
@@ -542,11 +556,11 @@
                 <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
                 <section class="table-content">
                     <header class="table-header">
-                        <div class="col" (click)="sortBy('name')">Title<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('name')">Source Title<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('extrated')">Extrated <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('createdOn')">Created By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('extrated')">No. Of FAQS <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col" (click)="sortBy('createdOn')">Triggered By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>

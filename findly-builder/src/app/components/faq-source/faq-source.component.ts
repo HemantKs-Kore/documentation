@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, AfterViewInit } from '@angular/core';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -8,7 +8,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { from, interval, Subject, Subscription } from 'rxjs';
-import { startWith, elementAt, filter } from 'rxjs/operators';
+import { startWith, elementAt, filter , pluck} from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
@@ -16,6 +16,7 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
+import {  DockStatusService} from '../../services/dock.status.service';
 declare const $: any;
 import * as moment from 'moment';
 
@@ -37,6 +38,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
   selectedApp: any = {};
+  fileName: ' ';
   resources: any = [];
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
@@ -97,15 +99,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   altAddSub: Subscription;
   altCancelSub: Subscription;
   followAddSub: Subscription;
-  followCancelSub: Subscription;
+  followCancelSub: Subscription; 
   @ViewChild('editQaScrollContainer' , { static: true })editQaScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('fqasScrollContainer' , { static: true })fqasScrollContainer?: PerfectScrollbarComponent;
   @ViewChild('addfaqSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('editfaqSourceModalPop') editFAQModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
-
-
 
   constructor(
     public workflowService: WorkflowService,
@@ -114,6 +114,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
+    private dock: DockStatusService,
     private convertMDtoHTML:ConvertMDtoHTML,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
@@ -1051,5 +1052,27 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.altCancelSub?this.altCancelSub.unsubscribe(): false;
     this.followAddSub?this.followAddSub.unsubscribe(): false;
     this.followCancelSub?this.followCancelSub.unsubscribe(): false;
+  }
+  exportFaq(ext){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    const payload = {   
+      exportType:ext,
+    }
+    this.service.invoke('export.faq',quaryparms,payload).subscribe(res => {
+      this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
+     this.dock.trigger()
+     
+
+      },
+       errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+    
+    });
   }
 }

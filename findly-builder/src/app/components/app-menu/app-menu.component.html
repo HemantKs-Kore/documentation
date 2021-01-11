@@ -295,6 +295,6 @@
     </div>    
 </kr-modal>
 
-<div class="statusDockerContent" *ngIf="showStatusDocker">
+<div class="statusDockerContent" [ngClass]="{'d-none': !showStatusDocker}">
 	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
 </div>

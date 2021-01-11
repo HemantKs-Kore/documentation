@@ -301,15 +301,15 @@
         </div>
       </div>
 
-      <div class="mb-3 variant-add" (click)="addVarient()"
+      <div class="mb-3 variant-add" (click)="addVarient()" *ngIf="variantsArray.length < 4"
         [hidden]="exp_status !== 'configured' && form_type === 'edit'">
         <img src="assets/icons/add_blue.svg" />Add Variant
       </div>
 
-      <div class="trafic-sec" *ngIf="showSlider && someRangeconfig">
+      <div class="trafic-sec" >
         <div class="pl-pr-5 slider-sec">
           <div class="label-text">Traffic</div>
-          <nouislider #sliderref [config]="someRangeconfig" [(ngModel)]="someRange" (slide)="sliderChanged()"></nouislider>
+          <nouislider *ngIf="showSlider" #sliderref [config]="someRangeconfig" [(ngModel)]="someRange" (slide)="sliderChanged()"></nouislider>
         </div>
         <div class="percentage-sec">
           <div class="names" *ngFor="let code of variantsArray">
