@@ -3,7 +3,7 @@
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
         <div class="d-flex align-items-center">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !searchActive}">                               
-                <input type="text" [(ngModel)]="searchText" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
+                <input type="text" [(ngModel)]="searchText" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
             </div> 
             <div class="seach-block">
                 <span [ngClass]="{'d-none': searchActive}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
@@ -23,48 +23,81 @@
     </div> 
     <perfect-scrollbar class="structured-data-scroll">
         <div *ngIf="!isLoading">
-            <div class="structured-data-table-sec">
-                <div class="filter-sec text-left mb-1" *ngIf="appliedAdvancedSearch.length">
-                    <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
+            <ng-container *ngIf="structuredDataItemsList.length">
+                <div class="structured-data-table-sec">
+                    <div class="filter-sec text-left mb-1" *ngIf="appliedAdvancedSearch.length">
+                        <span class="filter_text">{{advancedSearchInput}}</span> <span class="ml-3">{{'structuredData.editFilter' | translate}}</span>
+                    </div>
+                    <div class="filter-sec text-right mb-1">
+                        <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
+                    </div>
+                    <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
+                        <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
+                            <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
+                            <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
+                        </div>
+                        <div class="data-content">
+                            <!-- <pre>{{data._source.parsedData}}</pre> -->
+                            <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
+                            <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
+                        </div>
+                        <div class="toast-block d-none">
+                            <div class="content-title">
+                                <img src="assets/icons/green-check-circle.svg" class="successfullyIndex mr-2">
+                                <span>{{'structuredData.success_indexing' | translate}} </span>
+                                <span class="index_data ml-2">{{'structuredData.index_data' | translate}}</span>
+                                <img class="close" src="assets/icons/modal-close.svg">
+                            </div>
+                        </div>
+                        <div class="action-links">
+                            <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        </div>
+                        <div class="info-link"><img src="assets/icons/info.svg"></div>
+                        <div class="indexing d-none">
+                            <button class="kr-sg-button-secondary btn_md">Index</button>
+                        </div>
+                    </div>
+                    <!-- <div class="structured-data">
+                        <div class="kr-sg-checkbox d-block">
+                            <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                            <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                        </div>
+                        <div class="data-content">
+                            To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
+                        </div>
+                        <div class="action-links">
+                            <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                        </div>
+                        <div class="info-link"><img src="assets/icons/info.svg"></div>
+                    </div> -->
                 </div>
-                <div class="filter-sec text-right mb-1">
-                    <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
+                <app-record-pagination id="pagination_structured_data" class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
+            </ng-container>
+            <div class="empty_records" *ngIf="noItems">
+                <div class="col-12">
+                    <img class="action_icon" src="assets/images/structured-data-empty.svg" >
                 </div>
-                <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
-                    <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
-                        <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
-                        <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="data-content">
-                        <!-- <pre>{{data._source.parsedData}}</pre> -->
-                        <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
-                        <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
-                    </div>
-                    <div class="action-links">
-                        <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                        <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    </div>
-                    <div class="info-link"><img src="assets/icons/info.svg"></div>
+                <div class="col-12 row">
+                    <ng-container *ngIf="noItems && !emptySearchResults">
+                        <span class="col-12">{{'structuredData.no_structuer_data' | translate}}</span>
+                        <span class="col-12">{{'structuredData.help_text' | translate}}</span>
+                        <div class="kr-sg-dropdowns w-auto add_data empty" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                            <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" id="btn_empty_toggle_add_file_structured_data" ngbDropdownToggle>{{'structuredData.addData' | translate}}</button>                                            
+                                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                                  <li id="btn_open_import_structured_data" (click)="openAddStructuredData('structuredData')">{{'structuredData.import' | translate}}</li>
+                                  <li id="btn_open_manual_structured_data" (click)="openAddStructuredData('structuredDataManual')">{{'structuredData.addManually' | translate}}</li>                  
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="noItems && emptySearchResults">
+                        <span class="col-12">{{'structuredData.empty_search_result' | translate}}</span>
+                    </ng-container>
                 </div>
-                <div class="empty_records" *ngIf="!structuredDataItemsList.length">
-                    No records. Go on and Create One.
-                </div>
-                <!-- <div class="structured-data">
-                    <div class="kr-sg-checkbox d-block">
-                        <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
-                        <label for="checkbox_drp2" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="data-content">
-                        To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
-                    </div>
-                    <div class="action-links">
-                        <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                        <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    </div>
-                    <div class="info-link"><img src="assets/icons/info.svg"></div>
-                </div> -->
             </div>
-            <app-record-pagination id="pagination_structured_data" class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
         </div>
         <div class="mainLoadingSpinner" *ngIf="isLoading" >
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>

@@ -69,8 +69,28 @@ export class StructuredDataStatusModalComponent implements OnInit {
     )
   }
 
+  abortDoc(){
+      const queryParms ={
+        searchIndexId:this.workflowService.selectedSearchIndexId,
+        id : this.docStatusObject._id,
+        statusType : this.docStatusObject.statusType
+      }
+      this.service.invoke('delete.dockById', queryParms).subscribe(
+        res => {
+          this.closeModal();
+          this.notificationService.notify(res.msg, 'success');
+        },
+        errRes => {
+          this.notificationService.notify(errRes,'Failed to Abort.');
+        }
+      );
+  }
+
   closeModal(){
     this.closeStructuredDataStatusModal.emit();
+    if(this.pollingSubscriber){
+      this.pollingSubscriber.unsubscribe();
+    }
   }
 
   ngOnDestroy(){

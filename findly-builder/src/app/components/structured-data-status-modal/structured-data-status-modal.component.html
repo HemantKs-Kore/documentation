@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="modal-footer text-right">
-        <button type="button" (click)="closeModal()" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': ((docStatusObject.status==='SUCCESS') || (docStatusObject.status === 'FAILURE'))}" data-dismiss="modal">{{'structuredData.abort' | translate}}</button>
+        <button type="button" (click)="abortDoc()" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': ((docStatusObject.status==='SUCCESS') || (docStatusObject.status === 'FAILURE'))}" data-dismiss="modal">{{'structuredData.abort' | translate}}</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="(docStatusObject.status==='IN_PROGRESS' && !(docStatusObject.validation))"
           (click)="closeModal()">{{'structuredData.ok' | translate}}</button>
       </div>
