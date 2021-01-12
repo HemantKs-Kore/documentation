@@ -944,6 +944,20 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         //return searchContainer;
     }
+    FindlySDK.prototype.getSourceTypeTemplate = function() {
+      return '\
+      <div>\
+        <ul class="nav nav-tabs custom-nav-panel">\
+                <li class="tabTitle">\
+                  {{each(key, facet) facets}}\
+                    <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">${facet.key}\
+                        <span class="resultCount">(${facet.value})</span>\
+                    </a>\
+                  {{/each}}\
+                </li>\
+        </ul>\
+      </div> ';
+    }
     FindlySDK.prototype.getSearchControl = function() {
       var searchControl = '<script type="text/x-jqury-tmpl">\
             <div class="search-bar">\
@@ -1407,18 +1421,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
         </div>\
         <div class="custom-nav-panel-container">\
-        <div class="custom-full-page-view-header-container-left">\
-          <img class="custom-chevron-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAANCAYAAACUwi84AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgBpZDdCQAgCIRtE0doo9zMURqlEVohA3vzB+ng8OE7DrwGvrqYIrj0mnBnkCyIWluHV1PMEAi1YXyH3hdpyB2pHOIDPWEQQp4izIEAAAAASUVORK5CYII=">\
-        </div>\
-          <ul class="nav nav-tabs custom-nav-panel">\
-            <li class="tabTitle">\
-              {{each(key, facet) facets}}\
-                <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
-                    <span class="resultCount">(${facet.value})</span>\
-                </a>\
-              {{/each}}\
-            </li>\
-          </ul>\
+          <div class="custom-full-page-view-header-container-left">\
+            <img class="custom-chevron-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAANCAYAAACUwi84AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgBpZDdCQAgCIRtE0doo9zMURqlEVohA3vzB+ng8OE7DrwGvrqYIrj0mnBnkCyIWluHV1PMEAi1YXyH3hdpyB2pHOIDPWEQQp4izIEAAAAASUVORK5CYII=">\
+          </div>\
+          <div id="sa-custom-nav-panel-container" class="custom-nav-panel">\
+          </div>\
           <div class="custom-full-page-view-header-container-center-secondary {{if devMode=="false"||showingMatchedResults=="false"}}display-none{{/if}}">\
             <label class="kr-sg-toggle custom_toggle">\
               <input id="viewTypeCheckboxControl" type="checkbox">\
@@ -2540,16 +2547,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-
+    FindlySDK.prototype.getFacetsAsArray = function (facetsObj) {
+      var _self = this;
+      var facets = [];
+      if (facetsObj) {
+        Object.keys(facetsObj).forEach(facet => {
+          facets.push({ key: facet, value: facetsObj[facet] })
+        })
+      }
+      return facets;
+    }
 
     FindlySDK.prototype.prepAllSearchData = function (selectedFacet) {
       var _self = this, facets = [], totalResultsCount = null, viewType = '', showingMatchedResults = '', devMode = '';
       if (!facets.length) {
         if (_self.vars.searchObject.liveData.facets) {
 
-          Object.keys(_self.vars.searchObject.liveData.facets).forEach(facet => {
-            facets.push({ key: facet, value: _self.vars.searchObject.liveData.facets[facet] })
-          })
+          // Object.keys(_self.vars.searchObject.liveData.facets).forEach(facet => {
+          //   facets.push({ key: facet, value: _self.vars.searchObject.liveData.facets[facet] })
+          // })
+          facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
         }
         console.log(facets);
       }
@@ -2563,7 +2580,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       devMode = _self.isDev ? 'true' : 'false';
       console.log("DEV Mode", devMode, _self.isDev);
       // debugger;
-      var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy({
+      var tmplData = {
         facets: facets,
         dataLoaded: false,
         search: _self.vars.searchObject.liveData.originalQuery,
@@ -2593,7 +2610,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return key;
           }
         }
-      });
+      }
+      var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy(tmplData);
 
       $('.search-container').addClass('full-page');
       if ($('.start-search-icon-div').hasClass('active')) {
@@ -2604,6 +2622,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.search-body-full').html(searchFullData);
       $('.search-container').removeClass('active');
       _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
+      _self.pubSub.publish('sa-search-result', tmplData);
+      _self.pubSub.publish('sa-source-type', facets);
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
 
@@ -3852,8 +3872,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             // searchFacets: searchFacets,
           }
           console.log(_self.vars.searchObject.liveData);
-          _self.prepAllSearchData(facetActive);
           _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
+          _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+          _self.prepAllSearchData(facetActive);
           $('#loaderDIV').hide()
           // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
 
@@ -4211,6 +4232,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         $('.' + obj.name).css("order", index + 1);
                       })
                       _self.pubSub.publish('sa-search-result', dataObj);
+                      _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                     } else {
                       if ($('#search').val()) {
                         var dataObj = {
@@ -4240,6 +4262,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         }, 100);
 
                         _self.pubSub.publish('sa-search-result', dataObj);
+                        _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
                       }
                     }
                     _self.vars.searchObject.liveData = {
@@ -4788,6 +4811,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         _self.pubSub.publish('sa-search-result', dataObj);
         _self.pubSub.publish('sa-search-facets', dataObj.searchFacets);
+        console.log("facets 555555555555555555555", _self.getFacetsAsArray(facets))
+        _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
         // if(!_self.isDev){
         //   dataObj = {
         //     faqs: faqs.slice(0,2),
@@ -5900,28 +5925,56 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }
+    FindlySDK.prototype.addSourceType = function(config) {
+      var _self = this;
+      _self.pubSub.subscribe('sa-source-type', (msg, data) => {
+        var facets = data;
+        
+        if (config.templateId) {
+          var dataHTML = $('#' + config.templateId).tmplProxy({facets: facets});
+          $('#' + config.container).empty().append(dataHTML);
+        } else if (config.template) {
+          var dataHTML = $(config.template).tmplProxy({facets: facets});
+          $('#' + config.container).empty().append(dataHTML);
+        } else {
+          var dataHTML = $(_self.getSourceTypeTemplate()).tmplProxy({facets : facets});
+          $('#' + config.container).empty().append(dataHTML);
+        }
+        $('#openFacetFilterControl').off('click').on('click', function (event) {
+          if ($('.filters-container').css('display') == 'block') {
+            $('.filters-container').hide();
+          }
+          else {
+            $('.filters-container').show();
+          }
+        });
+        _self.bindFacetsToggle();
+        _self.bindAllResultsView();
+        _self.markSelectedFilters();
+      });
+    }
     FindlySDK.prototype.addSearchFacets = function(config) {
       var _self = this;
       _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
         if (config.templateId) {
-          var dataHTML = $('#' + config.templateId).tmplProxy(data);
+          var dataHTML = $('#' + config.templateId).tmplProxy({searchFacets : data});
           $('#' + config.container).empty().append(dataHTML);
         } else if (config.template) {
-          var dataHTML = $(config.template).tmplProxy(data);
+          var dataHTML = $(config.template).tmplProxy({searchFacets : data});
           $('#' + config.container).empty().append(dataHTML);
         } else {
           var dataHTML = $(_self.getSearchFacetsTemplate()).tmplProxy({searchFacets : data});
           $('#' + config.container).empty().append(dataHTML);
-          $('#openFacetFilterControl').off('click').on('click', function (event) {
-            if ($('.filters-container').css('display') == 'block') {
-              $('.filters-container').hide();
-            }
-            else {
-              $('.filters-container').show();
-            }
-          });
         }
-        _self.bindFacetsToggle();
+        $('#openFacetFilterControl').off('click').on('click', function (event) {
+          if ($('.filters-container').css('display') == 'block') {
+            $('.filters-container').hide();
+          }
+          else {
+            $('.filters-container').show();
+          }
+        });
+      _self.bindFacetsToggle();
         _self.bindAllResultsView();
         _self.markSelectedFilters();
       });
@@ -5950,7 +6003,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (config.faqTemplateId) {
             var dataHTML = $('#' + config.faqTemplateId).tmplProxy(data);
-            $('#' + config.container).empty().append(dataHTML);
+            $('#' + config.container).append(dataHTML);
           } else if (config.faqTemplate) {
             var dataHTML = $(config.faqTemplate).tmplProxy(data);
             $('#' + config.container).append(dataHTML);
