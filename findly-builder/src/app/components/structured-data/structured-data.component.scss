@@ -249,6 +249,10 @@
     }
 
     .empty_records{
+        .no-data{
+            font-size: 16px;
+            font-weight: 800;
+        }
         .add_data{
             button{
                 background-color: #0D6EFD;

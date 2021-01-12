@@ -185,6 +185,15 @@ export class StructuredDataComponent implements OnInit {
         this.getStructuredDataList();
       }
     }
+    else {
+      setTimeout(() => {
+        let id = 'direct-search';
+        let element = document.getElementById(id);
+        if(element){
+          element.focus();
+        }
+      }, 100);
+    }
   }
 
   selectData(item, index){
