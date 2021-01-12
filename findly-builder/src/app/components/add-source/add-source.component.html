@@ -171,22 +171,22 @@
             <!-- File uploader with Drag & Drop START HERE -->
            
             <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
-                <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item d-none">
+                <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
+                  <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#fromfile">Extract from file</a>
                   </li>
-                  <li class="nav-item d-none">
+                  <li class="nav-item ">
                     <a class="nav-link" data-toggle="tab" href="#fromurl">Extract from url</a>
                   </li>             
                 </ul>
                   <!-- Tab panes -->
                 <div class="tab-content">
                   <div id="fromfile" class="tab-pane browsebyfile active">
-                    <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
+                    <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id==='faqDoc')">
                       <div class="title-data col-6 p-0">Browse File</div>
                     <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
-                        <span class="sample-text" style="padding-right:10px" (click)='downloadSampleData("json")'><img src="assets/icons/docker/download.svg">Sample JSON</span>
-                        <span class="sample-text" (click)='downloadSampleData("csv")'><img src="assets/icons/docker/download.svg">Sample CSV</span>
+                        <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
+                        <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
                     </div>
                     </div>
                     <div class="kr-sg-input-text-area mb-4">
