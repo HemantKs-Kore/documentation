@@ -203,6 +203,14 @@
 				</span>
 				<span class="linkTitle">Credentials</span>
 			</div>
+			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active"
+				(click)="preview('index')" mat-button>
+				<span class="inlineIconBox">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="defaultIcon">
+					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
+				</span>
+				<span class="linkTitle">Search Interface</span>
+			</div>
 		</div>
 
 		<div class="status-docker" (click)="(showStatusDocker = !showStatusDocker); openStatusDocker()">

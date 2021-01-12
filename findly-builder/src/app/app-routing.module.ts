@@ -27,6 +27,7 @@ import { FieldManagementComponent } from './components/field-management/field-ma
 import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
+import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 const routes: Routes = [
   {
     path: '',
@@ -60,6 +61,7 @@ const routes: Routes = [
       { path: 'credentials-list', component: CredentialsListComponent},
       { path: 'FieldManagementComponent', component: FieldManagementComponent},
       { path: 'experiments', component: ExperimentsComponent},
+      { path: 'searchInterface', component: SearchInterfaceComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

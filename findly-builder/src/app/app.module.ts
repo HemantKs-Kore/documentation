@@ -98,6 +98,7 @@ import { AppExperimentsComponent } from './components/app-experiments/app-experi
 import { StatusDockerComponent } from './components/status-docker/status-docker.component';
 import {  DockStatusService} from './services/dock.status.service';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -164,7 +165,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ExperimentsComponent,
     FieldManagementComponent,
     AppExperimentsComponent,
-    StatusDockerComponent
+    StatusDockerComponent,
+    SearchInterfaceComponent
     ],
   imports: [
     BrowserModule,

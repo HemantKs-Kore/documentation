@@ -1,0 +1,13 @@
+<p>search-interface works!</p>
+<button (click)="openCustomModal()">Custom</button>
+
+<kr-modal modalType="center" modalClass="modal_popups_ sliderComponent" #customModal id="sourceSlider">
+    <div class="modal-header">
+      <div class="close_icon"><img (click)="closeCustomModal()" src="assets/icons/modal-close.svg"></div>
+    </div>
+  
+  <div class="modal-footer">          
+    <button type="button" class="kr-sg-button-primary btn_lg" (click)="closeCustomModal()">Save</button>        
+    <button type="button" class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+  </div>
+  </kr-modal>
