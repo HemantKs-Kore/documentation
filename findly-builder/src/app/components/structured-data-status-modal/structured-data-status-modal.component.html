@@ -18,10 +18,10 @@
         <div class="message-success text-center" *ngIf="(docStatusObject.status==='FAILURE')">
           {{'structuredData.configuration_failed' | translate}}
         </div>
-        <ng-container *ngIf="docStatusObject && docStatusObject.validation && !(docStatusObject.status==='FAILURE')">
+        <ng-container *ngIf="docStatusObject && (docStatusObject.validation && docStatusObject.validation.fileValidation) && !(docStatusObject.status==='FAILURE')">
           <div class="status-identification-content"
-            *ngIf="!((docStatusObject.status==='SUCCESS') || (docStatusObject.status==='FAILURE'))">
-            <div class="content-title">
+            *ngIf="!(docStatusObject.status==='FAILURE')">
+            <div class="content-title text-center">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
               <span>{{'structuredData.initial_file_validation' | translate}} </span> <!--  <span >done</span> -->
             </div>
