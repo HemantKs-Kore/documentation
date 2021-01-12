@@ -66,6 +66,7 @@ export class StructuredDataComponent implements OnInit {
   emptySearchResults : boolean = false;
   skip : any;
   page : any;
+  totalCount : any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -96,9 +97,15 @@ export class StructuredDataComponent implements OnInit {
       quaryparms.skip = skip;
     }
     this.skip = skip;
-    this.service.invoke('get.structuredData', quaryparms).subscribe(res => {
+    this.service.invoke('get.structuredData', quaryparms).subscribe((res : any) => {
       this.isLoading = false;
-      this.structuredDataItemsList = res;
+      this.totalCount = res.total;
+      if(res.data){
+        this.structuredDataItemsList = res.data;
+      }
+      else{
+      this.structuredDataItemsList = [];
+      }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
         if(data._source){
@@ -203,7 +210,7 @@ export class StructuredDataComponent implements OnInit {
     }
     else {
       for (let i = 0; i < this.selectedStructuredData.length; i++) {
-        if (this.selectedStructuredData[i].id === item.id) {
+        if (this.selectedStructuredData[i]._id === item._id) {
           item.isChecked = false;
           this.selectedStructuredData.splice(i, 1);
         }
@@ -234,7 +241,13 @@ export class StructuredDataComponent implements OnInit {
     }
     this.service.invoke('get.searchStructuredData', quaryparms).subscribe(res => {
       this.isLoading = false;
-      this.structuredDataItemsList = res;
+      this.totalCount = res.total;
+      if(res.data){
+        this.structuredDataItemsList = res.data;
+      }
+      else{
+      this.structuredDataItemsList = [];
+      }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
         if(data._source){
@@ -271,10 +284,12 @@ export class StructuredDataComponent implements OnInit {
       });
       dialogRef.componentInstance.onSelect.subscribe(res => {
         if (res === 'yes') {
-          if(this.selectedStructuredData.length){
-            //bulk delete
-            dialogRef.close();
-            this.deleteBulkStructuredData();
+          if(!record){
+            if(this.selectedStructuredData.length){
+              //bulk delete
+              dialogRef.close();
+              this.deleteBulkStructuredData();
+            }
           }
           else{
             // delete
@@ -296,6 +311,7 @@ export class StructuredDataComponent implements OnInit {
       quaryparms.contentId = record._id;
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
         if(res){
+          this.selectedStructuredData = [];
           this.getStructuredDataList();
           this.notificationService.notify('Deleted Successfully', 'success');
         }

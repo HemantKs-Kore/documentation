@@ -84,7 +84,7 @@
                         <div class="info-link"><img src="assets/icons/info.svg"></div>
                     </div> -->
                 </div>
-                <app-record-pagination id="pagination_structured_data" class="pagination" [totalRecord]='structuredDataItemsList.length' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
+                <app-record-pagination id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
             </ng-container>
             <!-- <div class="empty_records d-flex text-center col-12 row d-none" *ngIf="noItems">
                 <div class="col-12">
