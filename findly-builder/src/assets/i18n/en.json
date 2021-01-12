@@ -137,7 +137,9 @@
         "number":"Number",
         "between":"Between",
         "greaterThan":"Greater Than",
-        "lessThan":"Less Than"
+        "lessThan":"Less Than",
+        "static":"Static",
+        "dynamic":"Dynamic"
     },
     "synonyms": {
         "please_wait": "Please Wait!",
