@@ -84,6 +84,9 @@
     }
     perfect-scrollbar{
         height: calc(100vh - 192px);
+        &.adjust-height{
+            height: calc(100vh - 140px);
+        }
     }
     .structured-data-table-sec{
         padding: 0 20px 0 45px;
