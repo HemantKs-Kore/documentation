@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angu
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { scheduleOpts ,InterVal , Time , IntervalValue, EndsOn} from 'src/app/helpers/models/Crwal-advance.model';
+import { NotificationService } from '@kore.services/notification.service';
 declare const $: any;
 
 @Component({
@@ -15,13 +16,13 @@ export class SchedulerComponent implements OnInit {
   customRecurrenceRef : any = [];
   istStratDate: any;
   startDate :any;
-  endDate = '';
+  endDate : any;
   occurence = '';
   endsNever = true;
   endsOn = false;
   endsAt = false;
   dateOrdinal= '';
-  custFreq = 'Weeks';
+  custFreq = 'Week';
   weeKDay = 'SUN';
   stz = 'Time Zone';
   rstz = 'Does not repeat';
@@ -29,7 +30,7 @@ export class SchedulerComponent implements OnInit {
   cronExpression = "* * * * * ?"
   timeHH = '';
   timeMM = '';
-  repeatEvery = '';
+  repeatEvery = '1';
   day = '';
   date = '';
   month = '';
@@ -44,9 +45,10 @@ export class SchedulerComponent implements OnInit {
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
   @ViewChild('customRecurrence') customRecurrence: KRModalComponent;
-  constructor() { 
+  constructor(private notificationService: NotificationService) { 
     var date = new Date;
     this.day = date.toString().split(" ")[0].toLocaleUpperCase();
+    this.weeKDay = this.day || 'SUN'; 
     this.month =  date.toString().split(" ")[1].toLocaleUpperCase();
     this.date =  date.toString().split(" ")[2];
     this.year =  date.toString().split(" ")[3];
@@ -90,6 +92,7 @@ export class SchedulerComponent implements OnInit {
     //   }
     // } 
     // }
+    this.endsFreq('never');
     if(this.crwalObject && this.crwalObject.advanceSettings && this.crwalObject.advanceSettings.scheduleOpts){
       this.istStratDate = this.crwalObject.advanceSettings.scheduleOpts.date;
       this.startDate  = this.crwalObject.advanceSettings.scheduleOpts.date;
@@ -100,18 +103,27 @@ export class SchedulerComponent implements OnInit {
         this.stz = this.crwalObject.advanceSettings.scheduleOpts.time.timezone || 'Time Zone';
       }
       this.rstz = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalType || 'Does not repeat';
-      if(this.crwalObject.advanceSettings.scheduleOpts.intervalValue){
-        this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.every;
-        this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.schedulePeriod;
-        this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.repeatOn;
-        this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endDate;
-        this.occurence = this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.occurrences;
-        this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
-      }
+    //  if(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue){
+    //     this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every;
+    //     this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod;
+    //     this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn;
+    //     this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
+    //     this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences;
+    //     this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType);
+    //   } 
+      if(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue){
+        this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endType,'set');
+        this.repeatEvery = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.every;
+        this.custFreq = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod;
+        this.weeKDay = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn;
+        this.endDate  = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate;
+        this.occurence = this.crwalObject.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.occurrences;
+        
+      } 
     } 
     this.schedulerFlag = this.scheduleFlag;
     console.log(this.schedulerFlag);
-    this.endsFreq('never');
+    
     //console.log(this.dateConverter('SUN'))
     //console.log(this.crwalObject);
     
@@ -130,9 +142,9 @@ export class SchedulerComponent implements OnInit {
         this.stz =  'Time Zone';
       
       this.rstz = 'Does not repeat';
-        this.repeatEvery = '';
-        this.custFreq = 'Weeks';
-        this.weeKDay = 'SUN';
+        this.repeatEvery = '1';
+        this.custFreq = 'Week';
+        this.weeKDay = this.day || 'SUN';
         this.endDate  = '';
         this.occurence = '';
         this.endsFreq('never');
@@ -191,14 +203,17 @@ export class SchedulerComponent implements OnInit {
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date> , rstz : string) {
     console.log(`${type}: ${event.value}`); 
-    this.istStratDate = event.value;
-    this.startDate = event.value;
+    
     if(rstz == 'regular'){
       this.day = event.value.toString().split(" ")[0].toLocaleUpperCase();
       this.month =  event.value.toString().split(" ")[1].toLocaleUpperCase();
       this.date = event.value.toString().split(" ")[2];
       this.dateOrdinal= this.ordinal_nth(Number(this.date));
       this.year = event.value.toString().split(" ")[3];
+      this.istStratDate = event.value;
+      this.startDate = event.value;
+    }else{
+      this.endDate = event.value;
     }
     this.calculateCronExpression()
   }
@@ -243,18 +258,18 @@ export class SchedulerComponent implements OnInit {
     if(!this.repeatEvery){
       this.repeatEvery = '1';
     }
-    if(this.custFreq == 'Days'){
+    if(this.custFreq == 'Days' || this.custFreq == 'Day'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' *';
       this.cronExpression = this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' * ' + '*';
       this.cronExpression = this.repeatEvery + ' days';
-    }else if(this.custFreq == 'Weeks'){
+    }else if(this.custFreq == 'Weeks' || this.custFreq == 'Week'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
       this.cronExpression = this.repeatEvery + ' weeks';
-    }else if(this.custFreq == 'Months'){
+    }else if(this.custFreq == 'Months' || this.custFreq == 'Month'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';
       //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' *';
       this.cronExpression = this.repeatEvery + ' months';
-    }else if(this.custFreq == 'Years'){
+    }else if(this.custFreq == 'Years' || this.custFreq == 'Year'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' '+ this.month + ' ' + '?' + ' */'+this.repeatEvery;
       this.cronExpression = this.repeatEvery + ' years';
     }
@@ -289,7 +304,7 @@ export class SchedulerComponent implements OnInit {
     return string.charAt(0).toLowerCase() + string.slice(1).toLowerCase();
   }
   dateFormatConverter(date){
-    if(date){
+    if(date && typeof(date) == "object"){
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
         let day = date.getDate();
@@ -302,7 +317,9 @@ export class SchedulerComponent implements OnInit {
           monthStr = '0'+ month;
         }
         return year + '-' + monthStr + '-' + dayStr;
-    }else {
+    }else if(typeof(date) == "string"){
+      return date;
+    }else{
       return null;
     }
   }
@@ -329,8 +346,8 @@ export class SchedulerComponent implements OnInit {
     /** interVal Data */
     /** IntervalValue Data */
     intervalValue.every = Number(this.repeatEvery);
-    intervalValue.schedulePeriod = this.lower(this.custFreq);
-    intervalValue.repeatOn = this.custFreq == "Weeks" ? this.weeKDay : ''; 
+    intervalValue.schedulePeriod = this.lower(this.custFreq).charAt(this.lower(this.custFreq).length-1) == 's' ? this.lower(this.custFreq) : this.lower(this.custFreq + 's');
+    intervalValue.repeatOn = this.custFreq == "Weeks" || this.custFreq == "Week"? this.weeKDay : ''; 
     intervalValue.endsOn = endsOn || new EndsOn();
     /** IntervalValue Data */
     /**  EndsOn data */
@@ -343,40 +360,47 @@ export class SchedulerComponent implements OnInit {
     this.cronExpress.emit(this.cronExpression)
   }
   proccedWithCrwal(){
-    this.calculateCronExpression();
-    this.closeCustomRecModal();
+    if(this.endsOnSelected == 'on' && this.endDate == ''){
+      this.notificationService.notify('Please fill Date field', 'error');
+    }else if(this.endsOnSelected == 'after' && this.occurence == ''){
+      this.notificationService.notify('Please fill occurence field', 'error');
+    }else{
+      this.calculateCronExpression();
+      this.closeCustomRecModal();
+    }
   }
   cancelCustomRecModal(){
-    this.repeatEvery = '';
-    this.custFreq = 'Weeks';
-    this.weeKDay = 'SUN';
+    this.repeatEvery = '1';
+    this.custFreq = 'Week';
+    this.weeKDay = this.day || 'SUN';
     this.endDate  = '';
     this.occurence = '';
     this.endsFreq('never');
+    this.rstz = 'Does not repeat';
     this.closeCustomRecModal();
   }
-  endsFreq(freq){
+  endsFreq(freq, type?){
+    if(!type){
+      this.endDate  = '';
+      this.occurence = '';
+    }
+
     if(freq == 'never'){
       this.endsNever = true;
       this.endsOn = false;
       this.endsAt = false;
       this.endsOnSelected = freq;
-      this.endDate  = '';
-      this.occurence = '';
+     
     }else if(freq == 'on'){
       this.endsNever = false;
       this.endsOn = true;
       this.endsAt = false;
       this.endsOnSelected = freq;
-      this.endDate  = '';
-      this.occurence = '';
     }else if(freq == 'after'){
       this.endsNever = false;
       this.endsOn = false;
       this.endsAt = true;
       this.endsOnSelected = freq;
-      this.endDate  = '';
-      this.occurence = '';
     }
     
   }

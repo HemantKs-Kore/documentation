@@ -209,7 +209,7 @@ export class BotActionComponent implements OnInit {
         this.associatedBots = [];
         if (res.length > 0) {
           res.forEach(element => {
-            if (element.type == "default") {
+            if (element.type == "default" || element.type == "universalbot") {
               element.publishedTasksCount = 0;
               element.publishedFAQsCount = 0;
               let dialogsArr = element.taskCounts?.dialogs ?? [];

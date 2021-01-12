@@ -548,6 +548,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }else{
           delete crawler.advanceOpts.maxUrlLimit;
         }
+        
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         crawler.resourceType = this.selectedSourceType.resourceType;
@@ -558,6 +559,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         if(payload.advanceOpts){
           if(!payload.advanceOpts.scheduleOpt){
             delete payload.advanceOpts.scheduleOpts;
+            if(payload.advanceOpts.repeatInterval){
+              delete payload.advanceOpts.repeatInterval;
+            }
           }
         }
         quaryparms.resourceType = resourceType;
