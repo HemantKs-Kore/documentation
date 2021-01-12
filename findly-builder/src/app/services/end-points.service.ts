@@ -532,7 +532,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.queryCustomizeList'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
       method: 'get'
     }
     this.serviceList['put.restoreQueryCustomize'] = {

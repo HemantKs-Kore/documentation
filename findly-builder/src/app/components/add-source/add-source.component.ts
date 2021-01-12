@@ -555,8 +555,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = {...crawler};
         delete payload.resourceType;
-        if(!payload.advanceOpts.scheduleOpt){
-          delete payload.advanceOpts.scheduleOpts;
+        if(payload.advanceOpts){
+          if(!payload.advanceOpts.scheduleOpt){
+            delete payload.advanceOpts.scheduleOpts;
+          }
         }
         quaryparms.resourceType = resourceType;
       }
@@ -567,17 +569,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
-      if(payload.advanceOpts.scheduleOpt){
-        if(payload.advanceOpts.scheduleOpts){
-          if(!payload.advanceOpts.scheduleOpts.date){
+      if(crawler.advanceOpts.scheduleOpt){
+        if(crawler.advanceOpts.scheduleOpts){
+          if(!crawler.advanceOpts.scheduleOpts.date){
             schdVal = false;
           }
-          if(!payload.advanceOpts.scheduleOpts.time){
+          if(!crawler.advanceOpts.scheduleOpts.time){
             schdVal = false;
           }else{
-            if(payload.advanceOpts.scheduleOpts.time.hour == "") schdVal = false;
-            if(payload.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
-            if(payload.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.hour == "") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
           }
         }
       }

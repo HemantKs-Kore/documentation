@@ -44,8 +44,16 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService:AppSelectionService) { }
+    sdk_evenBind(){
+      $(document).off('click','.start-search-icon-div').on('click','.start-search-icon-div',() =>{
+        this.getcustomizeList(20,0);
+      })
+      // $(document).on('click','.start-search-icon-div.active',() =>{
+      //   this.getcustomizeList();
+      // })
+    }
   ngOnInit(): void {
-
+    this.sdk_evenBind();
 
     
   //   this.actionLogData = [{
@@ -167,14 +175,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   loadCustomRankingList(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){
-      this.getcustomizeList();
+      this.getcustomizeList(20,0);
     }
   }
   showLogs(){
     this.resultLogs = true;
   }
   paginate(event){
-    this.getcustomizeList();
+    this.getcustomizeList(event.limit,event.skip);
     //event.limit;
     //event.skip;
   }
@@ -231,7 +239,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     });
     this.collectedRecord = [];
     this.resultSelected = false;
-    this.getcustomizeList();
+    this.getcustomizeList(20,0);
   }
   selectAll(){
     //this.collectedRecord = [];
@@ -404,7 +412,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
               dialogRef.close();
               this.notificationService.notify('Record Removed', 'success');
-              this.getcustomizeList();
+              this.getcustomizeList(20,0);
               this.actionLogData = [];
               this.customizeList = [];
               //console.log(res);
@@ -489,7 +497,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           if (result === 'yes') {
             this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
               //this.customizeList = res;
-              this.getcustomizeList();
+              this.getcustomizeList(20,0);
               this.actionLogData = [];
               this.customizeList = [];
               dialogRef.close();
@@ -507,11 +515,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     
     
   }
-  getcustomizeList(){
-   
+  getcustomizeList(limit?,skip?){
+   limit ? limit : 20;
+   skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      limit : limit,
+      skip : skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.customizeList = res;
