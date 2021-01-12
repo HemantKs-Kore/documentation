@@ -1,6 +1,6 @@
 {
     "Hi": "Hi, ",
-    "WelcometoFindly": "Welcome to Findly.ai",
+    "WelcometoFindly": "Welcome to SearchAssist.ai",
     "Your_Applications": "Your Applications",
     "please_wait": "Please Wait..",
     "FAQs": "FAQs",
@@ -80,6 +80,8 @@
     "search": "Search",
     "status_docker" : "Status Docker",
     "clear_all" : "Clear all",
+    "array":"Array",
+    "object":"Object",
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",
