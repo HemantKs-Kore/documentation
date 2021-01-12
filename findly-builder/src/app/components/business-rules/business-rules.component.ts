@@ -16,6 +16,8 @@ import { map } from 'rxjs/operators';
 import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import * as moment from 'moment';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -36,22 +38,32 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     selectAll: false,
     selectedItems: [],
   };
-  sortObj: any = {
-
-  }
+  sortObj: any = {}
   showSearch = false;
   searchRules = '';
-  conditions = ['contains', 'doesNotContain', 'equals', 'notEquals']
+  conditions = {
+    string: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    date: ['equals', 'between', 'greaterThan','lessThan'],
+    number: ['equals', 'between', 'greaterThan','lessThan'],
+    trait:['contains', 'doesNotContain', 'equals', 'notEquals'],
+    entity:['contains', 'doesNotContain', 'equals', 'notEquals'],
+    keyword:['contains', 'doesNotContain', 'equals', 'notEquals']
+  }
+  datePlaceHolders = {
+    equals:''
+  }
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
     pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
     userContext: ['userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
+    dataTypes:['string','date','number'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
   tagsArray: any = []
   defaultValuesObj: any = {
     contextType: 'searchContext',
+    dataType:'string',
     operator: 'contains',
     contextCategory: 'recentSearches',
     value: []
@@ -173,6 +185,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           contextCategory: rule.contextCategory,
           contextType: rule.contextType,
           operator: rule.operator,
+          dataType:rule.dataType,
           value: rule.value,
         }
         _verifiedRules.push(tempObj);
@@ -189,7 +202,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           scale: outcome.scale,
           fieldName: outcome.fieldName,
           fieldId: outcome.fieldId,
-          // fieldDataType:outcome.fieldDataType,
+          fieldDataType:outcome.fieldDataType,
           outcomeOperator: outcome.outcomeOperator,
           outcomeValue: outcome.outcomeValue
         }
@@ -206,6 +219,36 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   removeTag(tags, index) {
     tags.splice(index, 1);
+  }
+  openDateTimePicker(ruleObj,index){
+    setTimeout(()=>{
+      if(ruleObj && ruleObj.operator === 'between'){
+        $('#rangePicker_' + index).click();
+      } else {
+        $('#datePicker_' + index).click();
+      }
+    })
+  }
+  onDatesUpdated(event,ruleObj){
+    if (!ruleObj.value){
+      ruleObj.value = [];
+    }
+    if(ruleObj && ruleObj.operator === 'between'){
+      if(event.startDate){
+        moment.utc();
+        const date= [];
+        const startDate  = moment.utc(event.startDate).format();
+        const endDate  = moment.utc(event.startDate).format();
+        date.push(startDate);
+        date.push(endDate)
+        ruleObj.value.push(date)
+      }
+    } else {
+      if(event.startDate){
+        const date  = moment.utc(event.startDate).format();
+        ruleObj.value.push(date)
+      }
+    }
   }
   addRules(event: MatChipInputEvent, ruleObj, i) {
     const input = event.input;
@@ -261,7 +304,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     return alltTags.every((f) => f !== suggestion);
   }
   ruleSelection(ruleObj, value, key) {
-    console.log("grt data", ruleObj, value, key);
     if (key === 'contextCategory') {
       ruleObj.contextCategory = value;
     }
@@ -271,6 +313,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (key === 'operator') {
       ruleObj.operator = value;
+    }
+    if (key === 'dataType') {
+      if(ruleObj.dataType !== value){
+        ruleObj.operator = this.conditions[value][0];
+        ruleObj.value = [];
+      }
+      ruleObj.dataType = value;
     }
   }
   outcomeSclection(outcome, value, key) {
