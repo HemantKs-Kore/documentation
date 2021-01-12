@@ -397,7 +397,17 @@
                 <div class="row m-0 response-content-sec">
                   <div class="col-2 p-0 title">Response</div>
                   <div class="tags row m-0 col-10">
-                    <div class="chip-sys-data">
+                    <div class="kr-sg-dropdowns d-inline-block w-auto col-4" ngbDropdown (click)="currentEditInex = index">
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeValueType | translate}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                          <li ngbDropdownItem  (click)="outcomeSclection(outcomeObj,'static','outcomeValueType')">{{"businessRules.static" | translate}}</li>
+                          <li ngbDropdownItem  (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType')">{{"businessRules.dynamic"  | translate}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="chip-sys-data col-8">
                       <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                           <ng-container *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">

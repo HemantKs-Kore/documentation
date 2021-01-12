@@ -75,6 +75,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     fieldId: '',
     outcomeOperator: 'contains',
     outcomeType: 'boost',
+    outcomeValueType:'static',
     outcomeValue: [],
     scale: 3,
   }
@@ -218,6 +219,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           fieldId: outcome.fieldId,
           fieldDataType:outcome.fieldDataType,
           outcomeOperator: outcome.outcomeOperator,
+          outcomeValueType:outcome.outcomeValueType,
           outcomeValue: outcome.outcomeValue
         }
         _verifiedRules.push(tempObj);
@@ -415,6 +417,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (key === 'outcomeOperator') {
       outcome.outcomeOperator = value;
+    }
+    if (key === 'outcomeValueType') {
+      outcome.outcomeValue = [];
+      outcome.outcomeValueType = value;
     }
   }
   checkUncheckfacets(rule) {
