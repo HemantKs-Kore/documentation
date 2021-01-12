@@ -62,6 +62,10 @@ export class StructuredDataComponent implements OnInit {
   isLoading : boolean = false;
   structuredDataStatusModalRef : any;
   structuredDataDocPayload : any;
+  noItems : boolean = false;
+  emptySearchResults : boolean = false;
+  skip : any;
+  page : any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -80,6 +84,8 @@ export class StructuredDataComponent implements OnInit {
 
   getStructuredDataList(skip?){
     this.isLoading = true;
+    this.noItems = false;
+    this.emptySearchResults = false;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -89,6 +95,7 @@ export class StructuredDataComponent implements OnInit {
     if(skip){
       quaryparms.skip = skip;
     }
+    this.skip = skip;
     this.service.invoke('get.structuredData', quaryparms).subscribe(res => {
       this.isLoading = false;
       this.structuredDataItemsList = res;
@@ -101,6 +108,9 @@ export class StructuredDataComponent implements OnInit {
           data.parsedData = JSON.stringify(data._source, null, 1);
         };
       });
+      if(this.structuredDataItemsList.length == 0){
+        this.noItems = true;
+      }
     }, errRes => {
       console.log("error", errRes);
       this.isLoading = false;
@@ -170,7 +180,10 @@ export class StructuredDataComponent implements OnInit {
   toggleSearch(activate) {
     this.searchActive = activate;
     if (!activate) {
-      this.searchText = '';
+      if(this.searchText.length){
+        this.searchText = '';
+        this.getStructuredDataList();
+      }
     }
   }
 
@@ -194,6 +207,44 @@ export class StructuredDataComponent implements OnInit {
     else {
       this.allSelected = false;
     }
+  }
+
+  searchItems(){
+    this.isLoading = true;
+    this.emptySearchResults = false;
+    this.noItems = false;
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      skip: 0,
+      limit : 20,
+      searchQuery : this.searchText
+    };
+    if(this.skip){
+      quaryparms.skip = this.skip;
+    }
+    this.service.invoke('get.searchStructuredData', quaryparms).subscribe(res => {
+      this.isLoading = false;
+      this.structuredDataItemsList = res;
+      this.structuredDataItemsList.forEach(data => {
+        data.objectLength =  Object.keys(data._source).length;
+        if(data._source){
+          if(data._source.contentType){
+            delete data._source.contentType;
+          }
+          data.parsedData = JSON.stringify(data._source, null, 1);
+        };
+      });
+      if(this.structuredDataItemsList.length == 0){
+        this.noItems = true;
+        this.emptySearchResults = true;
+      }
+    }, errRes => {
+      console.log("error", errRes);
+      this.isLoading = false;
+      this.emptySearchResults = false;
+      this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');
+    });
   }
 
   //delete experiment popup

@@ -322,6 +322,7 @@
     "searchFilter" : "Search Filter",
     "advancedSearch" : "Advanced Search",
     "addFiled" : "Add Field",
+    "addData" : "Add Data",
     "import" : "Import Data",
     "addManually" : "Add Manually",
     "delete": "Delete",
@@ -339,6 +340,11 @@
     "notified_when_done" : "You will be notified when the import process is done.",
     "abort" : "Abort",
     "ok" : "Ok",
-    "viewJson" : "View Full JSON"
+    "viewJson" : "View Full JSON",
+    "no_structuer_data" : "You haven’t added any structured data yet!",
+    "help_text" : "Structured Data can be used to index commerce content for product search use cases. SearchAssist allows you to add structured data by either importing from a JSON/CSV file or adding manually.",
+    "success_indexing" : "Successfully edited. You can index it now or later.",
+    "index_data" : "Index Data",
+    "empty_search_result" : "Your Search Query doesn't match with any record."
  }
 }
