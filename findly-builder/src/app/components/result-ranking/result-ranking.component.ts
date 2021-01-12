@@ -178,6 +178,53 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     //event.limit;
     //event.skip;
   }
+  resetCustomization(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId
+    };
+    let ids = []
+    this.collectedRecord.forEach(element => {
+      ids.push(element._id);
+    });
+    let payload = {
+      ids: ids
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        newTitle : 'Are you sure you want to Restore?',
+        body : 'Selected customiztion will be Restore once you proceed.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.service.invoke('reset.bulkCustomization', quaryparms,payload).subscribe(res => {
+              this.resetSelected();
+              this.selectedRecord= {};
+              this.customizeLog = [];
+              this.notificationService.notify('Bulk reset successfull', 'success');
+             }, errRes => {
+               if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                 this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+               } else {
+                 this.notificationService.notify('Failed', 'error');
+               }
+             });
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+    })
+  
+  }
   resetSelected(){
     this.customizeList.forEach((element,index) => {
       element['check'] = false;
@@ -304,31 +351,40 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
        }
      });
   }
-  
   removeRecord(actLog){
     const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
+      rankingAndPinningId: this.selectedRecord._id,
+      contentId : actLog.target.contentId
     };
-    let result: any = [];
-    var obj: any = {};
-    obj.config = {};
-    obj.contentType = actLog.target.contentType;
-    //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
-    obj.contentId = actLog.target.contentId;
-    if (actLog.customization.action == 'pinned') obj.config['pinIndex'] = -1;
-    if (actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;
-    if (actLog.customization.action == 'hidden') obj.config['hidden'] = true;
-    // obj.config = {
-    //    pinIndex : -1,
-    //   //boost: 1.0,
-    //   //visible: true,
-    //burried
-    // }
-    result.push(obj);
+   this.remove_Record(quaryparms)
+  }
+  remove_Record(quaryparms){
+    // const searchIndex = this.serachIndexId;
+    // const quaryparms: any = {
+    //   searchIndexId: searchIndex,
+    //   queryPipelineId: this.queryPipelineId
+    // };
+    // let result: any = [];
+    // var obj: any = {};
+    // obj.config = {};
+    // obj.contentType = actLog.target.contentType;
+    // //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
+    // obj.contentId = actLog.target.contentId;
+    // if (actLog.customization.action == 'pinned') obj.config['pinIndex'] = -1;
+    // if (actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;
+    // if (actLog.customization.action == 'hidden') obj.config['hidden'] = true;
+    // // obj.config = {
+    // //    pinIndex : -1,
+    // //   //boost: 1.0,
+    // //   //visible: true,
+    // //burried
+    // // }
+    // result.push(obj);
 
-    let payload: any = {};
+    // let payload: any = {};
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -337,17 +393,15 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
         newTitle : 'Do you want to remove?',
-        body : 'Selected customiztion will be removed once you procced.',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        body : 'Selected customiztion will be removed once you proceed.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
     dialogRef.componentInstance.onSelect
         .subscribe(result => {
           if (result === 'yes') {
-            payload.searchQuery = this.selectedRecord.searchQuery;//this.query;
-            payload.results = result;
-            this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
+            this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
               dialogRef.close();
               this.notificationService.notify('Record Removed', 'success');
               this.getcustomizeList();
@@ -368,6 +422,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     
   
   }
+  
   applyFilter(value){
     let list = [...this.customizeListBack];
     let listPush = [];
@@ -424,8 +479,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
         newTitle : 'Do you really want to reset?',
-        body : 'Selected queries will be set to Reset once you procced',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        body : 'Selected queries will be set to Reset once you proceed',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
@@ -472,6 +527,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       
     });
+    if(!this.customizeList.length){
+      this.selectedRecord= {};
+      this.customizeLog = [];
+    }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');

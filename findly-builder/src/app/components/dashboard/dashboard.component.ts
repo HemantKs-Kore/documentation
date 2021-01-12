@@ -380,6 +380,16 @@ export class DashboardComponent implements OnInit {
         //splitLine: {show: true}
     }],
     yAxis: [{
+      type: 'value',
+           name: 'Count',
+           nameLocation: 'middle',
+           nameGap: 50,
+           nameTextStyle: {
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
         splitLine: {show: true}
     }],
     

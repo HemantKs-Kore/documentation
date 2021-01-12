@@ -36,6 +36,7 @@ export class SchedulerComponent implements OnInit {
   year = '';
   endsOnSelected = '';
   minDate;
+  schedulerFlag : boolean= false;
   //scheduleData : scheduleOpts = new scheduleOpts();
   @Input() scheduleFlag: any;
   @Input() crwalObject : any;
@@ -108,25 +109,35 @@ export class SchedulerComponent implements OnInit {
         this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
       }
     } 
+    this.schedulerFlag = this.scheduleFlag;
+    console.log(this.schedulerFlag);
+    this.endsFreq('never');
+    //console.log(this.dateConverter('SUN'))
+    //console.log(this.crwalObject);
+    
+  }
+  ngOnChanges(changes) {
+    console.log("ngOnChanges", this.scheduleFlag);
+    this.schedulerFlag = this.scheduleFlag;
     if(!this.scheduleFlag){
+      var emptyData  = new scheduleOpts();
+      this.scheduleData.emit(emptyData);
       this.istStratDate = '';
-      this.startDate  ='';
-        this.timeHH ='';
+      this.startDate  = '';
+        this.timeHH = '';
         this.timeMM = '';
-        this.meridiem = '';
-        this.stz = 'Time Zone';
-        this.rstz = 'Does not repeat';
+        this.meridiem = 'AM';
+        this.stz =  'Time Zone';
+      
+      this.rstz = 'Does not repeat';
         this.repeatEvery = '';
         this.custFreq = 'Weeks';
         this.weeKDay = 'SUN';
         this.endDate  = '';
         this.occurence = '';
         this.endsFreq('never');
+        
     }
-    this.endsFreq('never');
-    //console.log(this.dateConverter('SUN'))
-    //console.log(this.crwalObject);
-    
   }
   modelChangeFn(event,time){
    if(time !='repeatEvery'){
@@ -189,6 +200,7 @@ export class SchedulerComponent implements OnInit {
       this.dateOrdinal= this.ordinal_nth(Number(this.date));
       this.year = event.value.toString().split(" ")[3];
     }
+    this.calculateCronExpression()
   }
   calculateCronExpression(){
     let timeHH = this.timeHH;
@@ -225,7 +237,7 @@ export class SchedulerComponent implements OnInit {
       this.customFrequency(timeHH);
     }
     console.log(this.cronExpression);
-    this.scheduleEmittFunc(timeHH);
+    this.scheduleEmittFunc();
   }
   customFrequency(timeHH){
     if(!this.repeatEvery){
@@ -234,12 +246,14 @@ export class SchedulerComponent implements OnInit {
     if(this.custFreq == 'Days'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' *';
       this.cronExpression = this.timeMM + ' '+ timeHH + ' */'+this.repeatEvery + ' * ' + '*';
+      this.cronExpression = this.repeatEvery + ' days';
     }else if(this.custFreq == 'Weeks'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
       this.cronExpression = this.repeatEvery + ' weeks';
     }else if(this.custFreq == 'Months'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';
-      this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' *';
+      //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' *';
+      this.cronExpression = this.repeatEvery + ' months';
     }else if(this.custFreq == 'Years'){
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' '+ this.month + ' ' + '?' + ' */'+this.repeatEvery;
       this.cronExpression = this.repeatEvery + ' years';
@@ -288,19 +302,22 @@ export class SchedulerComponent implements OnInit {
           monthStr = '0'+ month;
         }
         return year + '-' + monthStr + '-' + dayStr;
+    }else {
+      return null;
     }
   }
-  scheduleEmittFunc(timeHH){
+  scheduleEmittFunc(){
     let scheduledObject : scheduleOpts = new scheduleOpts();
     let time : Time = new Time();
     let interVal : InterVal = new InterVal();
     let intervalValue : IntervalValue = new IntervalValue(); 
     let endsOn : EndsOn = new EndsOn();
     /**Secheduled Data */
+    
     scheduledObject.date = this.dateFormatConverter(this.startDate);
     scheduledObject.time = time;
     /** Time data */
-    time.hour = String(timeHH);
+    time.hour = String(this.timeHH);
     time.minute = this.timeMM;
     time.timeOpt = this.meridiem;
     time.timezone = this.stz;
@@ -319,7 +336,7 @@ export class SchedulerComponent implements OnInit {
     /**  EndsOn data */
     endsOn.endType = this.endsOnSelected;
     endsOn.endDate = this.dateFormatConverter(this.endDate);
-    endsOn.occurrences = Number(this.occurence);
+    endsOn.occurrences = Number(this.occurence) > 0 ? Number(this.occurence) : null;
     /**  EndsOn data */
     /**Secheduled Data */
     this.scheduleData.emit(scheduledObject);
@@ -344,16 +361,22 @@ export class SchedulerComponent implements OnInit {
       this.endsOn = false;
       this.endsAt = false;
       this.endsOnSelected = freq;
+      this.endDate  = '';
+      this.occurence = '';
     }else if(freq == 'on'){
       this.endsNever = false;
       this.endsOn = true;
       this.endsAt = false;
       this.endsOnSelected = freq;
+      this.endDate  = '';
+      this.occurence = '';
     }else if(freq == 'after'){
       this.endsNever = false;
       this.endsOn = false;
       this.endsAt = true;
       this.endsOnSelected = freq;
+      this.endDate  = '';
+      this.occurence = '';
     }
     
   }

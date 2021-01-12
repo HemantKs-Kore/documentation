@@ -72,7 +72,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     queued: {name : 'Queued', color: '#0D6EFD'},
     running: {name : 'In Progress', color: '#0D6EFD'},
     inprogress: {name :'In Progress', color: '#0D6EFD'},
-    scheduled :{name :'In Progress', color: '#0D6EFD'},
+    scheduled :{name :'Queued', color: '#0D6EFD'},
     halted : {name : 'Stopped', color: '#DD3646'}
   };
   executionObj : any = {
@@ -840,7 +840,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId : source.jobId
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
-      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.notificationService.notify('Stoped Crawling', 'success');
       this.getSourceList();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
