@@ -44,7 +44,7 @@
       </button>
     </div>
   </div>
-  <div class="mainLoadingSpinner" *ngIf="loadingContent" [@fadeInOutAnimation]>
+  <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
@@ -242,7 +242,7 @@
                       <mat-form-field class="example-chip-list">
                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
 
-                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date')">
+                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                               <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                 <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
                                   <span class="mat-val" *ngIf="value">{{value}}</span>
@@ -251,7 +251,17 @@
                                 <span>OR</span>
                               </ng-container>
                           </ng-container>
-
+                          <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
+                            <ng-container *ngFor="let value of ruleObj.value; let index = index">
+                              <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
+                                <span class="mat-val" *ngIf="value && value.length">
+                                  <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
+                                </span>
+                                <mat-icon matChipRemove><img src="assets/images/close.svg"/></mat-icon>
+                              </mat-chip>
+                              <span>OR</span>
+                            </ng-container>
+                          </ng-container>
                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
                             <ng-container *ngFor="let value of ruleObj.value; let index = index">
                               <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
@@ -292,9 +302,8 @@
                           </ng-container>
 
                           <ng-container *ngIf="ruleObj.dataType == 'number'">
-                                 <input  placeholder="Type number" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
+                                 <input  placeholder="Type number" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
                           </ng-container>
-
                         </mat-chip-list>
                       </mat-form-field>
                     </div>
@@ -366,8 +375,8 @@
                     </div>
                     <div class="kr-sg-dropdowns col-4 d-inline-block w-auto disabled" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
-                          {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "Choose field"}}
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]='true'>
+                          {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "String"}}
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                         </ul>
@@ -391,13 +400,18 @@
                     <div class="chip-sys-data">
                       <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
-                          <ng-container *ngFor="let value of outcomeObj.outcomeValue; let index = index">
+                          <ng-container *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">
                             <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag)"><span class="mat-val" *ngIf="value">{{value}}</span>
                               <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                             </mat-chip>
                           </ng-container>
-                          <input [placeholder]="outcomeObj.fieldName? 'Type and Press Enter': 'Type and select field'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)" #suggestedInput />
+                          <input #contextSuggestedImput [placeholder]="'Type and Press Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue"  (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList"  [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)"/>
                         </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
+                          <mat-option *ngFor="let suggesion of currentSugg">
+                            {{suggesion}}
+                          </mat-option>
+                        </mat-autocomplete>
                       </mat-form-field>
                     </div>
                   </div>
