@@ -118,6 +118,7 @@ export class UserEngagementComponent implements OnInit {
   maxDate: any= moment();
   defaultSelectedDay = 1;
   showDateRange: boolean = false;
+  busyHour_dataDIV : any;
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
@@ -990,74 +991,61 @@ var valueList2 = totaldata.map(function (item) {
     for(let i=start;i<end;i++ ){
       let sourceObj = {}
       sourceObj['product'] = hourConversion[i];
+      for(let a=1;a<dimensions.length;a ++){
+        // if((this.group == 'date' || this.group == 'week' )&&  i == 0){
+        // } 
+        if(busyChartArrayData[a-1]){
+          if(busyChartArrayData[a-1][i]){
+            sourceObj[dimensions[a]] = busyChartArrayData[a-1][i].totalUsers;
+          }else{
+            sourceObj[dimensions[a]] = '-'
+          }
+        }else{
+          sourceObj[dimensions[a]] = '-'
+        }
+        
+      }
       source.push(sourceObj);
     }
     console.log(dimensions);
     console.log(source);
     console.log(heatData)
-      //let hours = ["1","2"]
-      //let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    //let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
-    // let days = [];
-    // let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
-    // for(let i = 0; i<= 90; i++ ){
-    //   for(let j = 0; j<= i; j++ ){
-    //     for(let k = 1; k<= j; k++ ){
-    //       data.push([i,j,k])
-    //     }
-    //   }
-      // if(i % 2 == 0){
-      //   data.push([[i,i,i]])
-      // }else if(i % 3 == 0){
-      //   data.push([[i+1,i+4,i+5]])
-      // }else if(i % 5 == 0){
-      //   data.push([[i+3,i+4,i+2]])
-      // }
-     
-    //   days.push(i + "Aug")
-    // }  
-  //   <div class="metrics-tooltips-hover agent_drop_tolltip">
-  //   <div class="split-sec">
-  //     <div class="main-title">4th of Aug, 2020</div>
-  //     <div class="data-content"> 10am - 11am</div>
-  //   </div>    
-  //   <div class="indication_text">Number of total user is <b>2 </b></div>
     
-  // </div>
-
+     
 
   // ${console.log( yAxisData[params[0].data[1]] , params[0].axisValue , params[0].data[2])}
   // ${params[0].value}
   // formatter: `
   // formatter:  (params) => `
+  // <div class="indication_text">Number of total user is <b> ${ dimensions[5]} ${params[5].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[4]}  ${params[4].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[3]}  ${params[3].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[2]}  ${params[2].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[1]}  ${params[1].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[0]}  ${params[0].value[2]}</b></div>
     this.heatMapChartOption = {
       // tooltip: {
       //   position: 'top'
       // },
       dataset: {
-        source: heatData
-        },
-
+        dimensions: dimensions,
+        source:source
+    },
+    
         tooltip: {
           trigger: 'axis',
           axisPointer: {            
             type: 'none'        
         },
-          formatter:  (p) =>`
-            <div class="metrics-tooltips-hover agent_drop_tolltip">
-            <div class="split-sec">
-              <div class="main-title">${console.log(p[0].axisValue)}</div>
-              <div class="data-content"></div>
-            </div>    
-            <div class="indication_text">Number of total user is <b>${p[0].data}</b></div>
-            
-          </div>
+          formatter:  (params,ticket,callback) =>`
+          ${this.tooltipHover(params , busyChartArrayData , source ,dimensions)}
           
+          ${this.busyHour_dataDIV}
           `,
           position: 'top',
           padding: 0
-         
         },
+         
         //animation: false,
         grid: {
           height: '70%',
@@ -1147,9 +1135,31 @@ var valueList2 = totaldata.map(function (item) {
           itemStyle: {
             borderColor: "#fff",
             borderWidth: 2
-          }
-  
+          },
         }]
       };
+    }
+    
+    tooltipHover(e , data , source , dimensions){
+      console.log(e);
+      //console.log(data[e[0].data[0]][e[0].data[1]].totalUsers)
+      let loopDIV;
+      let dataDIV = 
+        `
+        <div class="metrics-tooltips-hover agent_drop_tolltip">
+        <div class="split-sec">
+          <div class="main-title" >${e[0].axisValue}</div>
+          <div class="data-content"></div>
+        </div> 
+        `
+        for(let i = 0 ;i<e.length ; i++){
+          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i+1]} </b> is <b>${e[i].value[2]} </b></div>`
+        }
+        
+        `
+      </div>
+        `
+        if(loopDIV)
+        this.busyHour_dataDIV = dataDIV + loopDIV;
     }
 }
