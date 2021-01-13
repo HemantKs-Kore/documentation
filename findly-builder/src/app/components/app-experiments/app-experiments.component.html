@@ -194,7 +194,7 @@
                       {{ expCol.queryPipelineName | titlecase }}
                     </div>
                     <div class="col-2 title">{{ expCol.trafficPct }}%</div>
-                    <div class="col-1 title">3200</div>
+                    <div class="col-1 title">{{ expCol.users || 0 }}</div>
                     <div class="col-2 title">{{ expCol.searches }}</div>
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
