@@ -198,9 +198,9 @@
                     <div class="col-2 title">{{ expCol.searches }}</div>
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
-                      expCol.searches > 0
-                      ? expCol.searches + "%"
-                      : expCol.searches
+                      expCol.ctr > 0
+                      ? expCol.ctr + "%"
+                      : expCol.ctr
                       }}
                     </div>
                   </div>
