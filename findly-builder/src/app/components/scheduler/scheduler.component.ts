@@ -317,7 +317,7 @@ export class SchedulerComponent implements OnInit {
           monthStr = '0'+ month;
         }
         return year + '-' + monthStr + '-' + dayStr;
-    }else if(typeof(date) == "string"){
+    }else if(date && typeof(date) == "string"){
       return date;
     }else{
       return null;
