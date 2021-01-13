@@ -926,6 +926,7 @@ var valueList2 = totaldata.map(function (item) {
       let yAxisData = [];
       let xAxisData = [];
       let heatData = [[]];
+      let toolTipData = [[]];
       let totalMaxValueArr = [];
       let start = this.lowValue; // 3
       let end= this.highValue; // 17
@@ -943,15 +944,20 @@ var valueList2 = totaldata.map(function (item) {
         if(this.group == 'hour'){
           for(let a = start; a < end; a++){
             xAxisData.push(hourConversion[a])
+           // toolTipData.push([hourConversion[a]])
           }
         }
         let checkIndex = 0;
           for(let i = 0; i< busyChartArrayData.length ; i++){
             for(let j =0 ; j< busyChartArrayData[i].length;j++){
              
-              if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
+              if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour <= end){  // for 5 am to 5 pm
                // if(this.group == 'hour') xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
-                if((this.group == 'date' || this.group == 'week' )&&  i == 0) xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
+                if((this.group == 'date' || this.group == 'week' )&&  i == 0){
+                  xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
+                  //toolTipData.push([hourConversion[busyChartArrayData[0][j].hour]])
+                } 
+                console.log(toolTipData)
                 heatData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 if(i != checkIndex){
                   checkData = [];
@@ -959,7 +965,7 @@ var valueList2 = totaldata.map(function (item) {
                 }else{
                   checkData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 }
-                secondIndex = checkData.length;
+                secondIndex = checkData.length-1;
                 checkIndex = i
               } 
               
@@ -967,11 +973,12 @@ var valueList2 = totaldata.map(function (item) {
             }
           }
       }
-      console.log(heatData)
+     
      this.maxHeatValue = Math.max(...totalMaxValueArr)
       heatData = heatData.map(function (item) {
         return [item[1], item[0], item[2] || '-'];
     });
+    console.log(heatData)
       //let hours = ["1","2"]
       //let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
     //let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
@@ -1001,14 +1008,41 @@ var valueList2 = totaldata.map(function (item) {
   //   <div class="indication_text">Number of total user is <b>2 </b></div>
     
   // </div>
+
+
+  // ${console.log( yAxisData[params[0].data[1]] , params[0].axisValue , params[0].data[2])}
   // ${params[0].value}
   // formatter: `
   // formatter:  (params) => `
     this.heatMapChartOption = {
-      tooltip: {
-        position: 'top'
-      },
-        animation: false,
+      // tooltip: {
+      //   position: 'top'
+      // },
+      dataset: {
+        source: heatData
+        },
+
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            
+            type: 'none'        
+        },
+          formatter:  (p) =>`
+            <div class="metrics-tooltips-hover agent_drop_tolltip">
+            <div class="split-sec">
+              <div class="main-title">${p[0].axisValue}</div>
+              <div class="data-content"></div>
+            </div>    
+            <div class="indication_text">Number of total user is <b>${p[0].data}</b></div>
+            
+          </div>
+          
+          `,
+          position: 'top',
+          padding: 0
+         
+        },
+        //animation: false,
         grid: {
           height: '70%',
           top: '10%',

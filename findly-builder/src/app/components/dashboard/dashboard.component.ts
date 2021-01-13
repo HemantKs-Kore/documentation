@@ -588,11 +588,28 @@ export class DashboardComponent implements OnInit {
       }
       
         this.mostClickBar  = { 
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            
+              type: 'none'        
+          },
+            formatter: `
+              <div class="metrics-tooltips-hover agent_drop_tolltip">
+              <div class="split-sec">
+                <div class="main-title">{c0}</div>
+              </div> 
+            </div>
+            
+            `,
+            position: 'top',
+            padding: 0
+           
+          },
           xAxis: {
               type: 'value',
-              axisLabel: {
-                formatter: '{value}'
-            },
+            //   axisLabel: {
+            //     formatter: '{value}'
+            // },
            // name: "Number  of  Clicks"
           },
           yAxis: {
