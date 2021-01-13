@@ -932,11 +932,15 @@ var valueList2 = totaldata.map(function (item) {
       let end= this.highValue; // 17
       let secondIndex = 0;
       let checkData = [];
+      // For Dimensions
+      let dimensions = [];
+      dimensions.push('product')
       if(this.group == 'hour' || this.group == 'date' || this.group == 'week'){
         for (const property in this.usersBusyChart) {
           busyChartArrayData.push(this.usersBusyChart[property])
            // let date =  property.split('-')[2]; 
            yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+           dimensions.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //  if(this.group == 'hour' || this.group == 'date') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //  if(this.group == 'week') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //console.log(`${property}: ${object[property]}`);
@@ -978,6 +982,18 @@ var valueList2 = totaldata.map(function (item) {
       heatData = heatData.map(function (item) {
         return [item[1], item[0], item[2] || '-'];
     });
+    
+
+    
+     // For source
+    let source= [];
+    for(let i=start;i<end;i++ ){
+      let sourceObj = {}
+      sourceObj['product'] = hourConversion[i];
+      source.push(sourceObj);
+    }
+    console.log(dimensions);
+    console.log(source);
     console.log(heatData)
       //let hours = ["1","2"]
       //let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
@@ -1030,7 +1046,7 @@ var valueList2 = totaldata.map(function (item) {
           formatter:  (p) =>`
             <div class="metrics-tooltips-hover agent_drop_tolltip">
             <div class="split-sec">
-              <div class="main-title">${p[0].axisValue}</div>
+              <div class="main-title">${console.log(p[0].axisValue)}</div>
               <div class="data-content"></div>
             </div>    
             <div class="indication_text">Number of total user is <b>${p[0].data}</b></div>
@@ -1120,7 +1136,7 @@ var valueList2 = totaldata.map(function (item) {
           }
         }],
         series: [{
-          name: 'Users',
+          name: 'Busy hours',
           type: 'heatmap',
           data: heatData,
           emphasis: {
