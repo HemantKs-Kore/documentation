@@ -20,6 +20,7 @@ export class SchedulerComponent implements OnInit {
   endsNever = true;
   endsOn = false;
   endsAt = false;
+  dateOrdinal= '';
   custFreq = 'Weeks';
   weeKDay = 'SUN';
   stz = 'Time Zone';
@@ -107,7 +108,22 @@ export class SchedulerComponent implements OnInit {
         this.endsFreq(this.crwalObject.advanceSettings.scheduleOpts.intervalValue.endsOn.endType);
       }
     } 
-    this.endsFreq('endsNever');
+    if(!this.scheduleFlag){
+      this.istStratDate = '';
+      this.startDate  ='';
+        this.timeHH ='';
+        this.timeMM = '';
+        this.meridiem = '';
+        this.stz = 'Time Zone';
+        this.rstz = 'Does not repeat';
+        this.repeatEvery = '';
+        this.custFreq = 'Weeks';
+        this.weeKDay = 'SUN';
+        this.endDate  = '';
+        this.occurence = '';
+        this.endsFreq('never');
+    }
+    this.endsFreq('never');
     //console.log(this.dateConverter('SUN'))
     //console.log(this.crwalObject);
     
@@ -123,6 +139,8 @@ export class SchedulerComponent implements OnInit {
     }else{
       this.calculateCronExpression()
     }
+   }else{
+    this.custFrequency(this.custFreq)
    }
     // if(time == 'MM'){
     //   this.calculateCronExpression()
@@ -131,17 +149,17 @@ export class SchedulerComponent implements OnInit {
   }
   timeZone(stz){
     this.stz = stz;
-    if(this.startDate){
-      if(this.stz == 'IST'){
-        this.startDate = this.istStratDate;
-      }else if(this.stz == 'UTC'){
-        this.startDate = new Date(this.startDate).toISOString();
-      }else{
-        var dt = new Date();
-        var estDate = new Date(dt.getTime() + -300*60*1000);
-        this.startDate = estDate.toString();
-      } 
-    }
+    // if(this.startDate){
+    //   if(this.stz == 'IST'){
+    //     this.startDate = this.istStratDate;
+    //   }else if(this.stz == 'UTC'){
+    //     this.startDate = new Date(this.startDate).toISOString();
+    //   }else{
+    //     var dt = new Date();
+    //     var estDate = new Date(dt.getTime() + -300*60*1000);
+    //     this.startDate = estDate.toString();
+    //   } 
+    // }
     this.calculateCronExpression()
   }
   repeatTimeZone(rstz){
@@ -168,6 +186,7 @@ export class SchedulerComponent implements OnInit {
       this.day = event.value.toString().split(" ")[0].toLocaleUpperCase();
       this.month =  event.value.toString().split(" ")[1].toLocaleUpperCase();
       this.date = event.value.toString().split(" ")[2];
+      this.dateOrdinal= this.ordinal_nth(Number(this.date));
       this.year = event.value.toString().split(" ")[3];
     }
   }
@@ -206,7 +225,7 @@ export class SchedulerComponent implements OnInit {
       this.customFrequency(timeHH);
     }
     console.log(this.cronExpression);
-    this.scheduleEmittFunc();
+    this.scheduleEmittFunc(timeHH);
   }
   customFrequency(timeHH){
     if(!this.repeatEvery){
@@ -252,17 +271,36 @@ export class SchedulerComponent implements OnInit {
     }
     return day;
   }
-  scheduleEmittFunc(){
+  lower(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1).toLowerCase();
+  }
+  dateFormatConverter(date){
+    if(date){
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let dayStr = String(day);
+        let monthStr = String(month);
+        if(day < 10) {
+          dayStr = '0'+day;
+        }
+        if(month < 10) {
+          monthStr = '0'+ month;
+        }
+        return year + '-' + monthStr + '-' + dayStr;
+    }
+  }
+  scheduleEmittFunc(timeHH){
     let scheduledObject : scheduleOpts = new scheduleOpts();
     let time : Time = new Time();
     let interVal : InterVal = new InterVal();
     let intervalValue : IntervalValue = new IntervalValue(); 
     let endsOn : EndsOn = new EndsOn();
     /**Secheduled Data */
-    scheduledObject.date = this.startDate || '';
+    scheduledObject.date = this.dateFormatConverter(this.startDate);
     scheduledObject.time = time;
     /** Time data */
-    time.hour = this.timeHH;
+    time.hour = String(timeHH);
     time.minute = this.timeMM;
     time.timeOpt = this.meridiem;
     time.timezone = this.stz;
@@ -274,13 +312,13 @@ export class SchedulerComponent implements OnInit {
     /** interVal Data */
     /** IntervalValue Data */
     intervalValue.every = Number(this.repeatEvery);
-    intervalValue.schedulePeriod = this.custFreq;
+    intervalValue.schedulePeriod = this.lower(this.custFreq);
     intervalValue.repeatOn = this.custFreq == "Weeks" ? this.weeKDay : ''; 
     intervalValue.endsOn = endsOn || new EndsOn();
     /** IntervalValue Data */
     /**  EndsOn data */
     endsOn.endType = this.endsOnSelected;
-    endsOn.endDate = this.endDate;
+    endsOn.endDate = this.dateFormatConverter(this.endDate);
     endsOn.occurrences = Number(this.occurence);
     /**  EndsOn data */
     /**Secheduled Data */
@@ -297,7 +335,7 @@ export class SchedulerComponent implements OnInit {
     this.weeKDay = 'SUN';
     this.endDate  = '';
     this.occurence = '';
-    this.endsFreq('endsNever');
+    this.endsFreq('never');
     this.closeCustomRecModal();
   }
   endsFreq(freq){
@@ -311,7 +349,7 @@ export class SchedulerComponent implements OnInit {
       this.endsOn = true;
       this.endsAt = false;
       this.endsOnSelected = freq;
-    }else if(freq == 'at'){
+    }else if(freq == 'after'){
       this.endsNever = false;
       this.endsOn = false;
       this.endsAt = true;
@@ -319,9 +357,30 @@ export class SchedulerComponent implements OnInit {
     }
     
   }
+  //
+   ordinal_nth(d) {
+    if (d > 3 && d < 21) return d +'th';
+    switch (d % 10) {
+      case 1:  return d +"st";
+      case 2:  return d +"nd";
+      case 3:  return d +"rd";
+      default: return d +"th";
+    }
+  }
   /** Custom- modal Function */
   custFrequency(freq){
     this.custFreq = freq;
+    this.dateOrdinal = this.ordinal_nth(Number(this.date));
+    if(Number(this.repeatEvery) == 1){
+      freq = freq.substring(0, freq.length - 1);
+      this.custFreq = freq;
+    }else if(Number(this.repeatEvery) > 1){
+      if(freq.charAt(freq.length-1) == 's'){
+        this.custFreq = freq;
+      }else{
+        this.custFreq = freq + 's';
+      }
+    }
     //this.calculateCronExpression();
   }
   custweeKday(wd){

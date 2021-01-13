@@ -120,7 +120,7 @@ lineStyle: {
       //this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.getQueryLevelAnalytics();
     //},5000)
-    this.getcustomizeList();
+    //this.getcustomizeList();
 
   }
   getAppDetails(){

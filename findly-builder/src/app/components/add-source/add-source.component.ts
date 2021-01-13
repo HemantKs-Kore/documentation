@@ -19,6 +19,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
+import {  DockStatusService} from '../../services/dock.status.service';
 
 @Component({
   selector: 'app-add-source',
@@ -33,6 +34,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
   blockUrl: BlockUrl = new BlockUrl();
+  sampleJsonPath:any='/home/assets/sample-data/sample.json';
+  sampleCsvPath:any='/home/assets/sample-data/sample.csv';
+  filePath;
   receivedQuaryparms: any;
   searchIndexId;
   selectedSourceType: any = null;
@@ -169,6 +173,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService
   ) { }
@@ -890,6 +895,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('PolingDistroyed');
     this.fileObj.fileAdded = false;
   }
+  
+  downloadSampleData(key){
+    let fileName;
+    let filePath;
+    if(key === 'json'){
+    fileName = 'sample.json';
+    filePath = this.sampleJsonPath;
+    }
+    else{
+    fileName = 'sample.csv';
+    filePath = this.sampleCsvPath;
+    }
+    const link : any = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName,
+    link.click();
+    link.remove();
+    }
 }
 
 

@@ -44,14 +44,14 @@
                 <div class="tab-sec-data">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#querieswithresults">{{'metrics.search_insights.Queries_with_results'| translate}}</a>
+                          <a class="nav-link" [ngClass]="{'active': querieswithresults }" data-toggle="tab" href="#querieswithresults">{{'metrics.search_insights.Queries_with_results'| translate}}</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#querieswithoutresults">{{'metrics.search_insights.Queries_without_results'| translate}}</a>
+                          <a class="nav-link" [ngClass]="{'active': !querieswithresults }" data-toggle="tab" href="#querieswithoutresults">{{'metrics.search_insights.Queries_without_results'| translate}}</a>
                         </li>              
                     </ul>
                     <div class="tab-content">           
-                        <div id="querieswithresults" class="tab-pane tab-data-content active show">
+                        <div id="querieswithresults" class="tab-pane tab-data-content " [ngClass]="{'active show': querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
                                     <div class="col-8 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Searched_Intent'| translate}} <span class=" " placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>
@@ -72,7 +72,7 @@
                             </div>
                             <span *ngIf='getQueriesWithResults'><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></span>
                         </div>
-                        <div id="querieswithoutresults" class="tab-pane fade tab-data-content">
+                        <div id="querieswithoutresults" class="tab-pane fade tab-data-content" [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
                                 <div class="table_header row m-0">
                                     <div class="col-10 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.search_insights.Searched_Intent'| translate}}  <span class="info-icon" placement="top-left" ngbTooltip="Use key board shortcuts" [container]='"body"' tooltipClass="metrics_tooltips m-0"><img src="assets/icons/Info_gray.svg"></span></div>

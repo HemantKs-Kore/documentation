@@ -12,7 +12,7 @@ export class WorkflowService {
   _seedData: any;
   selectedAppForEdit: any;
   selectedSearchIndexId: any;
-  selectedQueryPipelineId: any;
+  selectedQueryPipelineObj: any;
   appQueryPipelineIds: any = [];
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
@@ -51,14 +51,14 @@ export class WorkflowService {
       this.appQueryPipelineIds = data;
       return;
     }
-    return this.appQueryPipelineIds;
+    return this.appQueryPipelineIds || [];
   }
   selectedQueryPipeline(data?) {
     if (data) {
-      this.selectedQueryPipelineId = data;
+      this.selectedQueryPipelineObj = data;
       return;
     }
-    return this.selectedQueryPipelineId;
+    return this.selectedQueryPipelineObj || {};
   }
   seedData(data?) {
     if (data) {

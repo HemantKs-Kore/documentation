@@ -15,6 +15,8 @@ import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Observable, Subscription } from 'rxjs';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -136,6 +138,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     private notify: NotificationService,
     private faqService: FaqsService,
     public convertMDtoHTML:ConvertMDtoHTML,
+    public dialog: MatDialog,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
     ) {
@@ -792,7 +795,26 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     });
   }
   delAltQues(ques,index) {
-    this.faqData._source.alternateQuestions.splice(index,1);
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '446px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+        title: 'Confirm',
+        body: 'Do you want to delete the this alternate question',
+        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }],
+        confirmationPopUp:true
+        }
+      });
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.faqData._source.alternateQuestions.splice(index,1);
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
     // this.faqData._source.alternateQuestions = _.without(this.faqData._source.alternateQuestions, _.findWhere(this.faqData._source.alternateQuestions, { _id: ques._id }));
   }
   ngOnDestroy() {
