@@ -239,7 +239,7 @@
                   <div class="col-2 p-0 title"></div>
                   <div class="tags row m-0 col-10">
                     <div class="chip-sys-data">
-                      <mat-form-field class="example-chip-list">
+                      <mat-form-field class="example-chip-list" [ngClass]="{'date-chip': ruleObj.dataType == 'date'}">
                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
 
                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
@@ -291,21 +291,23 @@
 
                           <ng-container *ngIf="ruleObj.dataType == 'date'">
                                 <ng-container *ngIf="ruleObj.operator === 'between'" >
-                                  <label (click)="openDateTimePicker(ruleObj,ruleIndex)">Select Range </label>
+                                  <span class="select_data_placeholder w-120" (click)="openDateTimePicker(ruleObj,ruleIndex)">Select Range </span>
                                   <input class="dateRangePicker d-none" id="rangePicker_{{ruleIndex}}" ngxDaterangepickerMd #dateRangePicker  placeholder="Select range" showCancel="true"  [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}" [(ngModel)]="ruleObj.dateValue" (datesUpdated)="onDatesUpdated($event,ruleObj)"/>
                                 </ng-container>
-
                                 <ng-container *ngIf="ruleObj.operator !== 'between'">
-                                  <span (click)="openDateTimePicker(ruleObj,ruleIndex)">Select Date</span>
+                                  <span (click)="openDateTimePicker(ruleObj,ruleIndex)" class="select_data_placeholder">Select Date</span>
                                   <input class="singleDatePicker d-none" id="datePicker_{{ruleIndex}}" [singleDatePicker]="true" ngxDaterangepickerMd #datePicker  *ngIf="ruleObj.operator !== 'between'"    placeholder="Select Date"  showCancel="false" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}" [(ngModel)]="ruleObj.dateValue" (datesUpdated)="onDatesUpdated($event,ruleObj)"/>
                                 </ng-container>
                           </ng-container>
 
                           <ng-container *ngIf="ruleObj.dataType == 'number'">
-                                 <input  placeholder="Type number" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
-                          </ng-container>
+                                 <input  placeholder="Eg: 120-220" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
+                          </ng-container>                          
                         </mat-chip-list>
                       </mat-form-field>
+                      <ng-container *ngIf="ruleObj.dataType == 'number'">
+                        <div class="info-number-placeholder"><img src="assets/icons/business-rules/info.svg" class="mr-1">Range separated by ‘ - ‘</div>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
@@ -314,6 +316,12 @@
               <div class="delete-rule" (click)="removeRule(ruleIndex)">
                 <img src="assets/icons/modal-close.svg" />
               </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!rulesArrayforAddEdit.length">
+            <div class="row m-0 col-12 info-warning-container">
+              <div class="col-10 pl-0 w-text"><img src="assets/icons/business-rules/warning-info.svg">Defining a rule without condition can have unexpected impact on search relevance.</div>
+              <div class="know-more col-2 pl-0 text-right">Know More</div>
             </div>
           </ng-container>
         </div>
@@ -357,8 +365,8 @@
                 </div>
                 <div class="row m-0 response-content-sec">
                   <div class="col-2 p-0 title">Response</div>
-                  <div class="tags row m-0 col-10 dropdownDiv" [ngClass]="{activeDrop: currentEditInex === index}">
-                    <div class="kr-sg-dropdowns col-4 d-inline-block w-auto" ngbDropdown (click)="currentEditInex = index">
+                  <div class="col-10 row m-0 align-items-center right-side-sec pr-0" [ngClass]="{activeDrop: currentEditInex === index}">
+                    <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                           {{outcomeObj.fieldName? outcomeObj.fieldName: "Choose field"}}
@@ -373,7 +381,7 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="kr-sg-dropdowns col-4 d-inline-block w-auto disabled" ngbDropdown (click)="currentEditInex = index">
+                    <div class="kr-sg-dropdowns col-4 pl-0 disabled" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]='true'>
                           {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "String"}}
@@ -382,7 +390,7 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="kr-sg-dropdowns d-inline-block w-auto col-4" ngbDropdown (click)="currentEditInex = index">
+                    <div class="kr-sg-dropdowns pl-0 col-4" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeOperator | translate}}
                         </button>
@@ -396,8 +404,8 @@
                 </div>
                 <div class="row m-0 response-content-sec">
                   <div class="col-2 p-0 title">Response</div>
-                  <div class="tags row m-0 col-10">
-                    <div class="kr-sg-dropdowns d-inline-block w-auto col-4" ngbDropdown (click)="currentEditInex = index">
+                  <div class="col-10 row m-0 align-items-center right-side-sec pr-0">
+                    <div class="kr-sg-dropdowns pl-0 col-4" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeValueType | translate}}
                         </button>
@@ -407,7 +415,7 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="chip-sys-data col-8">
+                    <div class="chip-sys-data col-8 pl-0">
                       <mat-form-field class="example-chip-list" [floatLabel]="'never'">
                         <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                           <ng-container *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">

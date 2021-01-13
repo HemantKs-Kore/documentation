@@ -2137,3 +2137,9 @@ nouislider{
         }
     }
 }
+
+.mat-form-field-appearance-fill {
+    .mat-form-field-flex{
+        padding: 0 !important;
+    }
+}
