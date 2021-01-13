@@ -85,7 +85,7 @@
               <li (click) = "repeatTimeZone('Weekly')"><a>Weekly</a></li>
               <li (click) = "repeatTimeZone('Monthly')"><a>Monthly</a></li>
               <li (click) = "repeatTimeZone('Annually')"><a>Annually</a></li>
-              <li (click) = "repeatTimeZone('Every weekday(Monday to Friday)')"><a>Every weekday(Monday to Friday)</a></li>
+              <li (click) = "repeatTimeZone('Every weekday')"><a>Every weekday(Monday to Friday)</a></li>
               <li (click) = "openCustomRecModal('Custom')"><a>Custom...</a></li>
             </ul>
           </div>
@@ -150,7 +150,7 @@
             <div class="ends-never sp-on row">
               <input type="radio" name="radio" value ="endsOn" class="ends-radio" [checked] = "endsOnSelected == 'on'" (click)="endsFreq('on')"> <span class="sp">On</span>
               <div class="">       
-                <input matInput [matDatepicker]="dpCust" [min]="minDate"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEvent('input', $event,'custom')" (dateChange)="addEvent('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
+                <input matInput [matDatepicker]="dpCust" [min]="minDate"  class="input-text date-pick" placeholder="Select Date" [(ngModel)] = "endDate" (dateInput)="addEventCustom('input', $event,'custom')" (dateChange)="addEventCustom('change', $event , 'custom')" autocomplete="off" [disabled] = "!endsOn" >
                 <mat-datepicker-toggle matSuffix [for]="dpCust"></mat-datepicker-toggle>
                 <mat-datepicker #dpCust [disabled]="!endsOn"></mat-datepicker>
               </div>

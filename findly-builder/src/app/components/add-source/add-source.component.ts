@@ -581,7 +581,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if(!crawler.advanceOpts.scheduleOpts.time){
             schdVal = false;
           }else{
-            if(crawler.advanceOpts.scheduleOpts.time.hour == "") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.hour == "" ||crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
             if(crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
             if(crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
           }
