@@ -357,7 +357,7 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.getAssociatedTasks(this.streamId);
 
-        this.notificationService.notify("Bot unlinked, successfully", 'success');
+        this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
 
       },
         (err) => { console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); }
