@@ -87,13 +87,13 @@
                       exp.state | titlecase
                       }}</span>
                   </div>
-                  <div class="col-3 duration-data" *ngIf="(exp.state !== 'configured') && (exp.state !== 'completed')">
+                  <div class="col-3 duration-data d-flex align-items-start" *ngIf="(exp.state !== 'configured') && (exp.state !== 'completed')">
                     <div class="left-sec">
                       <div class="date-stamp">
-                        Start Date: {{ exp.start | date: "mediumDate" }}
+                        <span class="s-color">Start Date:</span> {{ exp.start | date: "mediumDate" }}
                       </div>
                       <div class="date-stamp">
-                        End Date: {{ exp.end | date: "mediumDate" }}
+                        <span class="s-color">End Date:</span> {{ exp.end | date: "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
@@ -118,18 +118,18 @@
                   <div class="col-4 d-flex align-items-center duration-data" *ngIf="(exp.state === 'completed')">
                     <div class="left-sec">
                       <div class="date-stamp">
-                        Start Date: {{ exp.start | date: "mediumDate" }}
+                        <span class="s-color">Start Date:</span> {{ exp.start | date: "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec">
-                      <div class="hours">
-                        End Date: {{ exp.end | date: "mediumDate" }}
+                      <div class="date-stamp">
+                        <span class="s-color">End Date:</span> {{ exp.end | date: "mediumDate" }}
                       </div>
                     </div>
                   </div>
                   <div class="col-4 d-flex align-items-center duration-data justify-content-between"
                     *ngIf="exp.state === 'configured'">
-                    <div class="left-sec border-0">
+                    <div class="left-sec border-0 col-9 before-none pl-0">
                       <div class="info-data" *ngIf="status_active">
                         <img src="assets/icons/experiment/Info.svg" />You cannot
                         run multiple experiements
