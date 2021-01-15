@@ -162,6 +162,9 @@
                   &:first-child {
                     margin: 0;
                   }
+                  &.status{
+                    margin-left: -4px;
+                  }
                 }
                 &.left {
                   padding-right: 30px;  
