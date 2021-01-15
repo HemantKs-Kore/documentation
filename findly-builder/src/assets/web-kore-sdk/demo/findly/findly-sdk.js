@@ -2569,7 +2569,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           // })
           facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
         }
-        console.log(facets);
       }
 
       totalResultsCount = selectedFacet ? _self.vars.searchObject.liveData.facets[selectedFacet] : _self.vars.searchObject.liveData.facets["all results"];
@@ -4858,6 +4857,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         pages = res.results.page;
         tasks = res.results.task;
         facets = res.facets;
+        if (res.results.task !== undefined) {
+          facets['task'] = res.results.task.length;
+        }
+        
 
         if (res.results.document !== undefined) {
           documents = res.results.document;
@@ -6068,7 +6071,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
         var facets = data;
-        
         if (config.templateId) {
           var dataHTML = $('#' + config.templateId).tmplProxy({
             facets: facets,
@@ -6140,7 +6142,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
-        console.log("yyyyyyyyyyyyyyy", data);
         if (config.container) {
           if (config.pageTemplateId) {
             var dataHTML = $('#' + config.pageTemplateId).tmplProxy(data);
