@@ -950,7 +950,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <ul class="nav nav-tabs custom-nav-panel">\
                 <li class="tabTitle">\
                   {{each(key, facet) facets}}\
-                    <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">${facet.key}\
+                    <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
                         <span class="resultCount">(${facet.value})</span>\
                     </a>\
                   {{/each}}\
@@ -2598,19 +2598,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         showingMatchedResults: showingMatchedResults,
         devMode: devMode,
 
-        getFacetDisplayName: function (key) {
-          if (key.toLowerCase() === 'faq') {
-            return "FAQ's"
-          } else if (key.toLowerCase() === 'page') {
-            return "Pages"
-          } else if (key.toLowerCase() === 'task') {
-            return "Actions"
-          } else if (key.toLowerCase() === 'document') {
-            return "Documents"
-          } else {
-            return key;
-          }
-        }
+        getFacetDisplayName: getFacetDisplayName
       }
       var searchFullData = $(_self.getSearchTemplate('searchFullData')).tmplProxy(tmplData);
 
@@ -4941,7 +4929,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         _self.pubSub.publish('sa-search-result', dataObj);
         _self.pubSub.publish('sa-search-facets', dataObj.searchFacets);
-        console.log("facets 555555555555555555555", _self.getFacetsAsArray(facets))
         _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
         // if(!_self.isDev){
         //   dataObj = {
@@ -6063,19 +6050,42 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }
+    function getFacetDisplayName (key) {
+      if (key.toLowerCase() === 'faq') {
+        return "FAQ's"
+      } else if (key.toLowerCase() === 'page') {
+        return "Pages"
+      } else if (key.toLowerCase() === 'task') {
+        return "Actions"
+      } else if (key.toLowerCase() === 'document') {
+        return "Documents"
+      } else {
+        return key;
+      }
+    }
     FindlySDK.prototype.addSourceType = function(config) {
       var _self = this;
+      
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
         var facets = data;
         
         if (config.templateId) {
-          var dataHTML = $('#' + config.templateId).tmplProxy({facets: facets});
+          var dataHTML = $('#' + config.templateId).tmplProxy({
+            facets: facets,
+            getFacetDisplayName : getFacetDisplayName
+          });
           $('#' + config.container).empty().append(dataHTML);
         } else if (config.template) {
-          var dataHTML = $(config.template).tmplProxy({facets: facets});
+          var dataHTML = $(config.template).tmplProxy({
+            facets: facets,
+            getFacetDisplayName : getFacetDisplayName
+          });
           $('#' + config.container).empty().append(dataHTML);
         } else {
-          var dataHTML = $(_self.getSourceTypeTemplate()).tmplProxy({facets : facets});
+          var dataHTML = $(_self.getSourceTypeTemplate()).tmplProxy({
+            facets : facets,
+            getFacetDisplayName : getFacetDisplayName
+          });
           $('#' + config.container).empty().append(dataHTML);
         }
         $('#openFacetFilterControl').off('click').on('click', function (event) {
