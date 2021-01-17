@@ -1,4 +1,4 @@
-import { ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { ElementRef, OnDestroy, ViewChild,QueryList, ViewChildren } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -11,11 +11,13 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import * as _ from 'underscore';
 import { relativeTimeRounding } from 'moment';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map } from 'rxjs/operators';
 import { SortPipe } from 'src/app/helpers/sortPipe/sort-pipe';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+import * as moment from 'moment';
 declare const $: any;
 @Component({
   selector: 'app-business-rules',
@@ -29,6 +31,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   indexPipelineId;
   currentEditInex;
   rules = [];
+  currentSugg:any = [];
   selectedSort;
   isAsc;
   loadingContent = true;
@@ -36,22 +39,32 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     selectAll: false,
     selectedItems: [],
   };
-  sortObj: any = {
-
-  }
+  sortObj: any = {}
   showSearch = false;
   searchRules = '';
-  conditions = ['contains', 'doesNotContain', 'equals', 'notEquals']
+  conditions = {
+    string: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    date: ['equals', 'between', 'greaterThan','lessThan'],
+    number: ['equals', 'between', 'greaterThan','lessThan'],
+    trait:['contains', 'doesNotContain', 'equals', 'notEquals'],
+    entity:['contains', 'doesNotContain', 'equals', 'notEquals'],
+    keyword:['contains', 'doesNotContain', 'equals', 'notEquals']
+  }
+  datePlaceHolders = {
+    equals:''
+  }
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
     pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
     userContext: ['userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
+    dataTypes:['string','date','number'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
   tagsArray: any = []
   defaultValuesObj: any = {
     contextType: 'searchContext',
+    dataType:'string',
     operator: 'contains',
     contextCategory: 'recentSearches',
     value: []
@@ -62,6 +75,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     fieldId: '',
     outcomeOperator: 'contains',
     outcomeType: 'boost',
+    outcomeValueType:'static',
     outcomeValue: [],
     scale: 3,
   }
@@ -80,7 +94,20 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     NOT_INDEXED: 'Associated field is not indexed',
     NOT_EXISTS: 'Associated field has been deleted'
   }
+  private contextSuggestedImput: ElementRef;
+  autoSuggestInputItems:any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
+    if(content) {
+        this.contextSuggestedImput = content;
+    }
+  }
+  @ViewChildren('contextSuggestedImput') set queries(queries: ElementRef) {
+    if(queries) {
+        this.autoSuggestInputItems = queries;
+    }
+  }
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('addBusinessRules') addBusinessRules: KRModalComponent;
   constructor(
@@ -173,6 +200,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           contextCategory: rule.contextCategory,
           contextType: rule.contextType,
           operator: rule.operator,
+          dataType:rule.dataType,
           value: rule.value,
         }
         _verifiedRules.push(tempObj);
@@ -189,8 +217,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           scale: outcome.scale,
           fieldName: outcome.fieldName,
           fieldId: outcome.fieldId,
-          // fieldDataType:outcome.fieldDataType,
+          fieldDataType:outcome.fieldDataType,
           outcomeOperator: outcome.outcomeOperator,
+          outcomeValueType:outcome.outcomeValueType,
           outcomeValue: outcome.outcomeValue
         }
         _verifiedRules.push(tempObj);
@@ -207,10 +236,112 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   removeTag(tags, index) {
     tags.splice(index, 1);
   }
+  openDateTimePicker(ruleObj,index){
+    setTimeout(()=>{
+      if(ruleObj && ruleObj.operator === 'between'){
+        $('#rangePicker_' + index).click();
+      } else {
+        $('#datePicker_' + index).click();
+      }
+    })
+  }
+  onDatesUpdated(event,ruleObj){
+    if (!ruleObj.value){
+      ruleObj.value = [];
+    }
+    if(ruleObj && ruleObj.operator === 'between'){
+      if(event.startDate){
+        moment.utc();
+        const date= [];
+        const startDate  = moment.utc(event.startDate).format();
+        const endDate  = moment.utc(event.startDate).format();
+        date.push(startDate);
+        date.push(endDate)
+        ruleObj.value.push(date)
+      }
+    } else {
+      if(event.startDate){
+        const date  = moment.utc(event.startDate).format();
+        ruleObj.value.push(date)
+      }
+    }
+  }
+  buildCurrentContextSuggetions(ruleObj){
+    const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
+    const mainContext = _ruleOptions.contextTypes;
+    this.currentSugg = [];
+    if(ruleObj && ruleObj.newValue){
+      const selectedContextSelections = ruleObj.newValue.split('.');
+      if(selectedContextSelections && selectedContextSelections.length) {
+        const selectedContext = selectedContextSelections[0];
+        if(selectedContext && _ruleOptions[selectedContext]){
+          if(selectedContextSelections.length === 3){
+            this.currentSugg = [];
+          } else if(selectedContextSelections.length === 2) {
+              let  filteredValues =  _ruleOptions[selectedContextSelections[0]] || [];
+              filteredValues = _ruleOptions[selectedContextSelections[0]].filter( it => {
+                if (selectedContextSelections[1]){
+                  return it.toLowerCase().includes(selectedContextSelections[1].toLowerCase());
+                } else {
+                  return true;
+                }
+              });
+           this.currentSugg = filteredValues;
+          } else if (selectedContextSelections.length === 1 &&  _ruleOptions[selectedContextSelections[0]]){
+            this.currentSugg = _ruleOptions[selectedContextSelections[0]];
+          } else {
+            this.currentSugg = [];
+          }
+        } else {
+          const filteredValues = mainContext.filter( it => {
+              return it.toLowerCase().includes(ruleObj.newValue.toLowerCase());
+          });
+          this.currentSugg = filteredValues;
+        }
+      } else {
+        this.currentSugg = mainContext;
+      }
+    } else {
+      this.currentSugg = mainContext;
+    }
+  }
+  selected(event: MatAutocompleteSelectedEvent,ruleObj ,index): void {
+    const newSelectedValue = event.option.viewValue;
+    const text = this.autoSuggestInputItems._results[index].nativeElement.value;
+    // const text = this.autoSuggestInputItems._re[].nativeElement.value;
+    const selectedContextValues = (text || '').split('.') || [];
+    selectedContextValues.push(newSelectedValue);
+    if(selectedContextValues && selectedContextValues.length){
+      let newVal = ''
+      selectedContextValues.forEach(element => {
+        if(element){
+          if(newVal){
+            newVal = newVal + '.' + element;
+          } else {
+            newVal = element;
+          }
+        }
+      });
+      this.autoSuggestInputItems._results[index].nativeElement.value = newVal+ '.';
+      ruleObj.newValue = newVal+ '.';
+    }
+  }
   addRules(event: MatChipInputEvent, ruleObj, i) {
     const input = event.input;
     const value = event.value;
-    if ((value || '').trim()) {
+    if(ruleObj && ruleObj.dataType === 'number'){
+      const range = value.split('-');
+      const values:any = [];
+       if(range && range.length === 2){
+         range.forEach((rang) => {
+          const numericVal = parseInt(rang.trim(),10) || 0;
+          values.push(numericVal);
+        });
+        ruleObj.value.push(values);
+       } else {
+         this.notificationService.notify('Provide range in proper format, Ex: 111-121','error')
+       }
+    } else if ((value || '').trim()) {
       if (!this.checkDuplicateTags((value || '').trim(), ruleObj.value)) {
         this.notificationService.notify('Duplicate tags are not allowed', 'warning');
         return;
@@ -223,7 +354,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.suggestedInput.nativeElement.value = '';
   }
-  addOutcome(event: MatChipInputEvent, ruleObj, i) {
+  addOutcome(event: MatChipInputEvent, ruleObj, index) {
     const input = event.input;
     const value = event.value;
     if (!ruleObj.fieldName) {
@@ -241,6 +372,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (input) {
       input.value = '';
     }
+    this.autoSuggestInputItems._results[index].nativeElement.value = '';
     this.suggestedInput.nativeElement.value = '';
   }
   selectedTag(data: MatAutocompleteSelectedEvent, outcomeObj) {
@@ -261,7 +393,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     return alltTags.every((f) => f !== suggestion);
   }
   ruleSelection(ruleObj, value, key) {
-    console.log("grt data", ruleObj, value, key);
     if (key === 'contextCategory') {
       ruleObj.contextCategory = value;
     }
@@ -272,6 +403,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (key === 'operator') {
       ruleObj.operator = value;
     }
+    if (key === 'dataType') {
+      if(ruleObj.dataType !== value){
+        ruleObj.operator = this.conditions[value][0];
+        ruleObj.value = [];
+      }
+      ruleObj.dataType = value;
+    }
   }
   outcomeSclection(outcome, value, key) {
     if (key === 'outcomeType') {
@@ -279,6 +417,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (key === 'outcomeOperator') {
       outcome.outcomeOperator = value;
+    }
+    if (key === 'outcomeValueType') {
+      outcome.outcomeValue = [];
+      outcome.outcomeValueType = value;
     }
   }
   checkUncheckfacets(rule) {

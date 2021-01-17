@@ -133,7 +133,15 @@
         "actionboost": "Boosting",
         "actionlower": "Lowering",
         "actionhide": "Hiding",
-        "actionfilter": "Filtering"
+        "actionfilter": "Filtering",
+        "string":"String",
+        "date":"Date",
+        "number":"Number",
+        "between":"Between",
+        "greaterThan":"Greater Than",
+        "lessThan":"Less Than",
+        "static":"Static",
+        "dynamic":"Dynamic"
     },
     "synonyms": {
         "please_wait": "Please Wait!",
