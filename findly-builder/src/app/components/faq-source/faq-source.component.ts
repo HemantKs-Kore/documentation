@@ -43,6 +43,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   polingObj: any = {};
   faqUpdate: Subject<void> = new Subject<void>();
   filterObject = {};
+  manualFilterSelected = false;
   faqSelectionObj:any ={
     selectAll:false,
     selectedItems:{},
@@ -194,7 +195,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.addSourceModalPopRef  = this.addSourceModalPop.open();
    }
    openAddManualFaqModal(){
-     
+    
    }
    closeAddsourceModal() {
     if (this.addSourceModalPopRef &&  this.addSourceModalPopRef.close) {
@@ -275,8 +276,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.addRemoveFaqFromSelection(faq._id,addition);
     this.singleSelectedFaq = faq;
   }
+  manualFaqsFilter(){
+        this.manualFilterSelected = true;
+        this.getfaqsBy('manual',this.selectedtab);
+        this.getStats('manual');
+  }
   selectResourceFilter(source?){
     this.loadingTab = true;
+    this.manualFilterSelected = false;
     if(source){
       if(this.selectedResource && (this.selectedResource._id === source._id)){
         this.selectedResource = null;
@@ -414,6 +421,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
      endPoint  = 'get.faqStaticsByResourceFilter';
      quaryparms.resourceId = resourceId;
     }
+    if(resourceId === 'manual'){
+      endPoint  = 'get.faqStaticsManualFilter';
+    }
     this.service.invoke(endPoint, quaryparms).subscribe(res => {
       this.faqSelectionObj.stats = res.countByState;
     }, errRes => {
@@ -513,6 +523,12 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     if(quary){
       serviceId = 'get.faqs.search';
+    }
+    if(resourceId === 'manual'){
+      serviceId = 'get.allManualFaqsByState';
+      if(quary){
+        serviceId = 'get.faqs.searchManual';
+      }
     }
     if(skip){
       quaryparms.offset = skip;
