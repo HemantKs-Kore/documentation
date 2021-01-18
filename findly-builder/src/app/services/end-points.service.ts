@@ -145,6 +145,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all&search=:searchQuary',
       method: 'get'
     };
+    this.serviceList['get.allManualFaqsByState'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=manual',
+      method: 'get'
+    };
+    this.serviceList['get.faqs.searchManual'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=manual&search=:searchQuary',
+      method: 'get'
+    };
     this.serviceList['get.allFaqsByResources'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&extractionSourceId=:resourceId&serach=:searchQuary',
       method: 'get'
@@ -191,6 +199,10 @@ export class EndPointsService {
     };
     this.serviceList['get.faqStaticsByResourceFilter'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?extractionSourceId=:resourceId',
+      method: 'get'
+    };
+    this.serviceList['get.faqStaticsManualFilter'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?source=:resourceId',
       method: 'get'
     };
     this.serviceList['get.fags'] = {
