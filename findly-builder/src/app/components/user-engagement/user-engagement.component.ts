@@ -669,6 +669,23 @@ var valueList2 = totaldata.map(function (item) {
           //   padding: 0
            
           // },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            
+              type: 'none'        
+          },
+            formatter: `
+              <div class="metrics-tooltips-hover agent_drop_tolltip">
+              <div class="split-sec">
+                <div class="main-title">{c0}</div>
+              </div> 
+            </div>
+            
+            `,
+            position: 'top',
+            padding: 0
+           
+          },
           xAxis: {
               type: 'value',
               axisLabel: {
@@ -718,7 +735,7 @@ var valueList2 = totaldata.map(function (item) {
           series: [{
             label : {
               normal: {
-                  show: true,
+                  show: false,
                   position: 'outside',
                   color : '#202124',
                   //textBorderColor: '#202124',
@@ -753,6 +770,23 @@ var valueList2 = totaldata.map(function (item) {
         
       // });
       this.mostUsedBrowserBar  = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            
+            type: 'none'        
+        },
+          formatter: `
+            <div class="metrics-tooltips-hover agent_drop_tolltip">
+            <div class="split-sec">
+              <div class="main-title">{c0}</div>
+            </div> 
+          </div>
+          
+          `,
+          position: 'top',
+          padding: 0
+         
+        },
         xAxis: {
             type: 'value',
             axisLabel: {
@@ -805,7 +839,7 @@ var valueList2 = totaldata.map(function (item) {
         series: [{
           label : {
             normal: {
-                show: true,
+                show: false,
                 position: 'outside',
                 color : '#202124',
                 //textBorderColor: '#202124',
@@ -838,6 +872,23 @@ var valueList2 = totaldata.map(function (item) {
         
       });
       this.geoBar  = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            
+            type: 'none'        
+        },
+          formatter: `
+            <div class="metrics-tooltips-hover agent_drop_tolltip">
+            <div class="split-sec">
+              <div class="main-title">{c0}</div>
+            </div> 
+          </div>
+          
+          `,
+          position: 'top',
+          padding: 0
+         
+        },
         xAxis: {
             type: 'value',
             axisLabel: {
@@ -855,7 +906,7 @@ var valueList2 = totaldata.map(function (item) {
         series: [{
           label : {
             normal: {
-                show: true,
+                show: false,
                 position: 'outside',
                 color : '#202124',
                 //textBorderColor: '#202124',
@@ -1143,8 +1194,14 @@ var valueList2 = totaldata.map(function (item) {
     ngAfterViewInit() {
       document.getElementsByClassName('ng5-slider-floor')[0]['style'].display = "none"// 00
       document.getElementsByClassName('ng5-slider-ceil')[0]['style'].display = "none"  //24
-      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].top = "12px !important";
-      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].top = "12px !important";
+
+      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].top = "12px";
+      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].fontWeight = "bold";
+      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].fontSize = "12px"
+
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].top = "12px";
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontWeight = "bold";
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontSize = "12px"
 
       $(document).on('hover','.ng5-slider-selection-bar',()=>{
         let val = (this.highValue - this.lowValue );

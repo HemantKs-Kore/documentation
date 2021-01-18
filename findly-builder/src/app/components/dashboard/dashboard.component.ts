@@ -621,7 +621,7 @@ export class DashboardComponent implements OnInit {
           series: [{
             label : {
               normal: {
-                  show: true,
+                  show: false,
                   position: 'outside',
                   color : '#202124',
                   //textBorderColor: '#202124',
@@ -644,8 +644,9 @@ export class DashboardComponent implements OnInit {
       var colorPaletteSearch = ['#28A745','#EAF6EC'];
       var colorPaletteResult = ['#FF784B','#FFF1ED'];
       this.feedbackPieSearches = {
-        
+       
         series: [{
+          
             type: 'pie',
             radius: 90,
             color: colorPaletteSearch,
