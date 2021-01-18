@@ -234,6 +234,25 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     })
   
   }
+  launch(){
+    if(this.selectedRecord){
+     let ball=  document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+     ball.click()
+     let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+     texBox.value = this.selectedRecord.searchQuery;
+     setTimeout(()=>{
+      let go  = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+      go.click();
+      setTimeout(()=>{
+        let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+        customTag.click();
+        let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+        custom.click();
+      },3000)
+      //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
+     },3000);
+    }
+  }
   resetSelected(){
     this.customizeList.forEach((element,index) => {
       element['check'] = false;
