@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>            
-                <div class="content right-content">
+                <div class="content right-content" [ngClass] = "{'disableDiv' : disableDiv }">
                     <div class="content-boxes train_your_questions">
                         <!-- <ng-container>
                             <div class="empty-questions-selected">
@@ -155,14 +155,14 @@
                                           <div class="acc-card-header">
                                             <a class="collapsed acc-card-link link-block" data-toggle="collapse" href="#collapse{{i}}">
                                                 <div class="row m-0 row_data">
-                                                    <div class="col-8 title" *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
-                                                    <div class="col-8 title" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
+                                                    <div class="col-7 title" *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
+                                                    <div class="col-7 title" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
                                                     <div class="col-1">
                                                         <img *ngIf="actLog.target.contentType == 'page'" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
                                                         <img *ngIf="actLog.target.contentType == 'faq'" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
                                                         <img *ngIf="actLog.target.contentType == 'task'" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
                                                     </div>
-                                                    <div class="col-1">
+                                                    <div class="col-2">
                                                         <img src="assets/icons/resultranking/pin.svg" *ngIf="actLog.customization.action == 'pinned'"class="cursor-pointer">
                                                         <img src="assets/icons/resultranking/eye.svg" *ngIf="actLog.customization.action == 'hidden'"class="cursor-pointer">
                                                         <div>

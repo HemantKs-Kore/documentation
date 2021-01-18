@@ -38,6 +38,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   timeLogData : any;
   lastModifiedOn : any;
   resultSelected = false;
+  disableDiv = false;
   collectedRecord = [];
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -239,6 +240,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     });
     this.collectedRecord = [];
     this.resultSelected = false;
+    this.disableDiv = false;
     this.getcustomizeList(20,0);
   }
   selectAll(){
@@ -248,6 +250,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.resetSelected();
     }else if(this.collectedRecord.length >= 0 && this.collectedRecord.length < this.customizeList.length){
       this.collectedRecord = [];
+      this.disableDiv = true;
       this.customizeList.forEach((element,index) => {
         element['check'] = true;
         this.collectedRecord.push(element);
@@ -286,8 +289,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
    }
    if(this.collectedRecord.length > 0){
     this.resultSelected = true;
+    this.disableDiv =  true;
   }else {
     this.resultSelected = false;
+    this.disableDiv =  false;
   }
   
     // let pushRecord = [];
