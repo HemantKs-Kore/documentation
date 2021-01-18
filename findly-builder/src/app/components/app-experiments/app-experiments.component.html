@@ -42,10 +42,10 @@
       <div class="table-data-content" *ngIf="listOfExperiments && listOfExperiments.length">
         <div class="row m-0 header-data col-12">
           <div class="col-3 h-title">Experiment Name</div>
-          <div class="col-2 h-title">Variants</div>
-          <div class="col-2 h-title">Winner</div>
+          <div class="col-3 h-title">Variants</div>
+          <!-- <div class="col-2 h-title">Winner</div> -->
           <div class="col-2 h-title">Status</div>
-          <div class="col-2 h-title">DURATION</div>
+          <div class="col-3 h-title">DURATION</div>
         </div>
         <div id="accordion">
           <div class="acc-card" *ngFor="
@@ -55,20 +55,23 @@
               <div class="acc-card-link collapsed" data-toggle="collapse" attr.data-target="#{{ exp._id }}">
                 <div class="row m-0 col-12 row_data">
                   <div class="col-3 ex-title">{{ exp.name }}</div>
-                  <div class="col-2 variants">
+                  <div class="col-3 variants">
                     <div class="variants-block left">
-                      <span class="v-name" *ngFor="let vari of exp.variants" [style.background-color]="vari.color">{{
-                        vari.code }}</span>
-                    </div>
-                    <!-- <div class="variants-block right">
-                      <span *ngFor="let vari of exp.variants">
-                        <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
-                        <span class="winner" *ngIf="vari.leader"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
-                        <span class="winner" *ngIf="vari.winner"><img src="assets/icons/experiment/winner.svg" alt="winner"></span>
+                      <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color">
+                        <span *ngIf="(index < 2)">{{vari.code }}</span>
+                        <span *ngIf="(index > 1) && (index === 2)"> + 1</span>
+                        <span *ngIf="(index > 1) && (index === 3)"> + 2</span>
                       </span>
-                    </div> -->
+                    </div>
+                    <div class="variants-block right">
+                      <span *ngFor="let vari of exp.variants; let index = index">
+                        <span class="v-name status" [style.background-color]="vari.color">{{ vari.code }}</span>
+                        <span class="winner" *ngIf="vari.leader && (index === exp.variants.length - 1)"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
+                        <span class="winner" *ngIf="vari.winner && (index === exp.variants.length - 1)">Winner</span>
+                      </span>
+                    </div>
                   </div>
-                  <div class="col-2 winner-block">
+                  <!-- <div class="col-2 winner-block">
                     <div class="variants-block">
                       <span *ngFor="let vari of exp.variants; let index = index" class="winner-content">
                         <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
@@ -78,19 +81,19 @@
                             src="assets/icons/experiment/winner.svg" alt="winner"></span>
                       </span>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-2 status">
                     <span class="a-status" [ngClass]="exp.state">{{
                       exp.state | titlecase
                       }}</span>
                   </div>
-                  <div class="col-3 duration-data" *ngIf="exp.state !== 'configured'">
-                    <!-- <div class="left-sec">
+                  <div class="col-3 duration-data d-flex align-items-start" *ngIf="(exp.state !== 'configured') && (exp.state !== 'completed')">
+                    <div class="left-sec">
                       <div class="date-stamp">
-                        Start Date: {{ exp.start | date: "mediumDate" }}
+                        <span class="s-color">Start Date:</span> {{ exp.start | date: "mediumDate" }}
                       </div>
                       <div class="date-stamp">
-                        End Date: {{ exp.end | date: "mediumDate" }}
+                        <span class="s-color">End Date:</span> {{ exp.end | date: "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
@@ -101,8 +104,8 @@
                         <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
                         </ngb-progressbar>
                       </div>
-                    </div> -->
-                    <div class="date-stamp m-0">{{ exp.start | date: "mediumDate" }}</div>
+                    </div>
+                    <!-- <div class="date-stamp m-0">{{ exp.start | date: "mediumDate" }}</div>
                     <div class="inline-block mb-1">
                       <div class="hour">
                         <ngb-progressbar type="secondary" [value]="exp.date_days" [max]="exp.total_days">
@@ -110,23 +113,23 @@
                       </div>
                       <span class="hours ml-2" *ngIf="exp.state !== 'completed'">{{ exp.date_days }} hrs more to go</span>
                     </div>
-                    <div class="text-right date-stamp bottom m-0">{{ exp.end | date: "mediumDate" }}</div>
+                    <div class="text-right date-stamp bottom m-0">{{ exp.end | date: "mediumDate" }}</div> -->
                   </div>
-                  <div class="col-4 d-flex align-items-center duration-data" *ngIf="exp.state === 'completed'">
-                    <!-- <div class="left-sec">
+                  <div class="col-4 d-flex align-items-center duration-data" *ngIf="(exp.state === 'completed')">
+                    <div class="left-sec">
                       <div class="date-stamp">
-                        Start Date: {{ exp.start | date: "mediumDate" }}
+                        <span class="s-color">Start Date:</span> {{ exp.start | date: "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec">
-                      <div class="hours">
-                        End Date: {{ exp.end | date: "mediumDate" }}
+                      <div class="date-stamp">
+                        <span class="s-color">End Date:</span> {{ exp.end | date: "mediumDate" }}
                       </div>
-                    </div> -->
+                    </div>
                   </div>
-                  <div class="col-3 d-flex align-items-center duration-data justify-content-between"
+                  <div class="col-4 d-flex align-items-center duration-data justify-content-between"
                     *ngIf="exp.state === 'configured'">
-                    <div class="left-sec border-0">
+                    <div class="left-sec border-0 col-9 before-none pl-0">
                       <div class="info-data" *ngIf="status_active">
                         <img src="assets/icons/experiment/Info.svg" />You cannot
                         run multiple experiements
@@ -194,13 +197,13 @@
                       {{ expCol.queryPipelineName | titlecase }}
                     </div>
                     <div class="col-2 title">{{ expCol.trafficPct }}%</div>
-                    <div class="col-1 title">3200</div>
+                    <div class="col-1 title">{{ expCol.users || 0 }}</div>
                     <div class="col-2 title">{{ expCol.searches }}</div>
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
-                      expCol.searches > 0
-                      ? expCol.searches + "%"
-                      : expCol.searches
+                      expCol.ctr > 0
+                      ? expCol.ctr + "%"
+                      : expCol.ctr
                       }}
                     </div>
                   </div>
