@@ -129,14 +129,14 @@
                   </div>
                   <div class="col-4 d-flex align-items-center duration-data justify-content-between"
                     *ngIf="exp.state === 'configured'">
-                    <div class="left-sec border-0 col-9 before-none pl-0">
+                    <div class="left-sec border-0 before-none pl-0" [class.col-9]="status_active">
                       <div class="info-data" *ngIf="status_active">
                         <img src="assets/icons/experiment/Info.svg" />You cannot
                         run multiple experiements
                       </div>
                     </div>
                     <div class="right-sec">
-                      <button class="kr-sg-button-secondary btn_lg" [disabled]="status_active"
+                      <button class="kr-sg-button-secondary btn_lg" [class.mr-2]="!status_active" [disabled]="status_active"
                         (click)="runExperiment(exp._id, 'active', $event)">
                         Run
                       </button>
