@@ -32,7 +32,7 @@ export class AppExperimentsComponent implements OnInit {
   star: any = [100];
   someRange: any;
   showSlider = false;
-  someRangeconfig:any = null;
+  someRangeconfig: any = null;
   @ViewChild('addExperiments') addExperiments: KRModalComponent;
   @ViewChild('sliderref') sliderref;
   variantList = [{ color: '#ff0000', code: 'A' }, { color: '#0000ff', code: 'B' }, { color: '#8cff1a', code: 'C' }, { color: '#ffff00', code: 'D' }];
@@ -65,7 +65,7 @@ export class AppExperimentsComponent implements OnInit {
     this.getQueryPipeline();
     this.setSliderDefaults();
   }
-  setSliderDefaults(starts?){
+  setSliderDefaults(starts?) {
     starts = starts || [...this.star];
     this.someRangeconfig = {
       behaviour: 'drag',
@@ -75,22 +75,22 @@ export class AppExperimentsComponent implements OnInit {
       step: 5,
       format: {
         from: (value) => {
-          return parseInt(value,10);
+          return parseInt(value, 10);
         },
         to: (value) => {
-          return parseInt(value,10);
+          return parseInt(value, 10);
         }
       },
       range: {
         min: 0,
-        '5%': 5,'10%': 10,'15%': 15,'20%': 20,'25%': 25,'30%': 30,'35%': 35,
-        '40%': 40,'45%': 45,'50%': 50,'55%': 55,'60%': 60,'65%': 65,'70%': 70,
-        '75%': 75,'80%': 80,'85%': 85,'90%': 90,'95%': 95,
+        '5%': 5, '10%': 10, '15%': 15, '20%': 20, '25%': 25, '30%': 30, '35%': 35,
+        '40%': 40, '45%': 45, '50%': 50, '55%': 55, '60%': 60, '65%': 65, '70%': 70,
+        '75%': 75, '80%': 80, '85%': 85, '90%': 90, '95%': 95,
         max: 100
       },
       snap: true,
     };
-   this.updateSliderConfig();
+    this.updateSliderConfig();
   }
   // close model popup method
   closeModalPopup() {
@@ -111,38 +111,38 @@ export class AppExperimentsComponent implements OnInit {
     }
     this.showSearch = !this.showSearch
   }
-  updateSliderConnects(){
-    const connects:any = [true];
+  updateSliderConnects() {
+    const connects: any = [true];
     this.someRangeconfig.start.forEach(element => {
       connects.push(true);
     });
     this.someRangeconfig.connect = connects;
   }
-  updateSliderTooltips(){
-    const tooltips:any = [];
+  updateSliderTooltips() {
+    const tooltips: any = [];
     this.someRangeconfig.start.forEach(element => {
       tooltips.push(true);
     });
     this.someRangeconfig.tooltips = tooltips;
   }
-  updateSlderModel(){
-    this.someRange =  this.someRangeconfig.start;
+  updateSlderModel() {
+    this.someRange = this.someRangeconfig.start;
     console.log('this.variantsArray = ' + this.variantsArray);
     console.log('start = ' + this.someRange + ' || ' + this.someRangeconfig.start);
     console.log('connect = ' + this.someRangeconfig.connect);
     console.log('tooltips = ' + this.someRangeconfig.tooltips);
   }
-  updateAllSliderConfigs(){
+  updateAllSliderConfigs() {
     this.updateSliderConnects();
     this.updateSliderTooltips();
     this.updateSlderModel();
   }
-  updateSliderConfig(destroy?){
+  updateSliderConfig(destroy?) {
     this.updateAllSliderConfigs();
-    if(this.sliderref && this.sliderref.slider){
+    if (this.sliderref && this.sliderref.slider) {
       this.sliderref.slider.destroy();
     }
-    if(this.sliderref &&  this.sliderref.slider){
+    if (this.sliderref && this.sliderref.slider) {
       this.sliderref.slider.updateOptions(this.someRangeconfig, true);
     }
   }
@@ -158,7 +158,7 @@ export class AppExperimentsComponent implements OnInit {
       this.setSliderDefaults();
       this.showTraffic(this.variantsArray.length, 'add');
     }
-    else{
+    else {
       this.showSlider = false;
       this.addVarient(2);
     }
@@ -167,13 +167,13 @@ export class AppExperimentsComponent implements OnInit {
   addVarient(count?) {
     if (this.variantsArray.length <= 3) {
       this.showSlider = false;
-      if(count){
+      if (count) {
         for (let i = 0; i < count; i++) {
           if (this.variantsArray.length <= 3) {
             this.variantsArray.push(this.variantList[this.variantsArray.length]);
           }
         }
-      }else{
+      } else {
         this.variantsArray.push(this.variantList[this.variantsArray.length]);
       }
       const length = this.variantsArray.length;
@@ -216,7 +216,7 @@ export class AppExperimentsComponent implements OnInit {
     else if (length === 4) {
       this.star.push(25, 50, 75, 100);
     }
-    setTimeout( () =>{
+    setTimeout(() => {
       this.showSlider = false;
       this.sliderUpdate();
     }, 500);
@@ -228,7 +228,7 @@ export class AppExperimentsComponent implements OnInit {
     this.updateSliderTooltips();
     setTimeout(() => {
       this.showSlider = false;
-     this.updateSliderConfig();
+      this.updateSliderConfig();
     })
     setTimeout(() => {
       this.updateAllSliderConfigs();
@@ -277,26 +277,26 @@ export class AppExperimentsComponent implements OnInit {
       this.variantsArray[i] = { ...this.variantsArray[i], trafficPct: setPercent[i] };
     }
   }
-  recheckSliderDrag(){
+  recheckSliderDrag() {
     // disables the right most handel to drag.
-    setTimeout( ()=>{
+    setTimeout(() => {
       const elements = document.getElementsByClassName('noUi-tooltip');
 
-      if(elements.length){
+      if (elements.length) {
         for (let i = 0; i < elements.length; i++) {
           elements[i].innerHTML = this.variantsArray[i].trafficPct + '%';
         }
       }
 
       const origins = document.getElementsByClassName('noUi-origin');
-      if(origins.length){
-        origins[origins.length-1].setAttribute('disabled', 'true');
+      if (origins.length) {
+        origins[origins.length - 1].setAttribute('disabled', 'true');
       }
 
       const classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
 
       const connect = document.querySelectorAll('.noUi-connect');
-      if(connect.length){
+      if (connect.length) {
         for (let i = 0; i < connect.length; i++) {
           connect[i].classList.add(classes[i]);
         }
@@ -345,7 +345,7 @@ export class AppExperimentsComponent implements OnInit {
         const days = today.diff(createdOn, 'hours');
         const obj = Object.assign({}, data);
 
-        let endsOn : any = new Date(data.end);
+        let endsOn: any = new Date(data.end);
         endsOn = moment(endsOn);
         const total_days = endsOn.diff(createdOn, 'hours');
         obj.date_days = days;
@@ -565,6 +565,7 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
   selectedTab(type) {
+    console.log("type", type)
     const filterArray: any = this.filterExperiments;
     this.setTab = type;
     if (type === 'all') {

@@ -7,21 +7,7 @@
     <div class="header-sec row">
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
-          <div class="tab_title" [ngClass]="{ active: setTab === 'all' }" (click)="selectedTab('all')">
-            All<span>({{ allExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'configured' }" (click)="selectedTab('configured')">
-            Configured<span>({{ confExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'active' }" (click)="selectedTab('active')">
-            Active<span>({{ actExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'paused' }" (click)="selectedTab('paused')">
-            Paused<span>({{ pauExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'completed' }" (click)="selectedTab('completed')">
-            Completed<span>({{ compExp }})</span>
-          </div>
+          <b>Experiments</b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
@@ -39,12 +25,36 @@
       </div>
     </div>
     <perfect-scrollbar class="p-scroll-data">
-      <div class="table-data-content" *ngIf="listOfExperiments && listOfExperiments.length">
+      <div class="table-data-content">
         <div class="row m-0 header-data col-12">
           <div class="col-3 h-title">Experiment Name</div>
           <div class="col-3 h-title">Variants</div>
           <!-- <div class="col-2 h-title">Winner</div> -->
-          <div class="col-2 h-title">Status</div>
+          <div class="col-2 d-flex align-items-center h-title">Status&nbsp;
+            <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
+              [autoClose]="true" [placement]="'bottom-right'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                  <!-- <img src="assets/icons/caretDown.svg"
+                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
+                    class="ml-1 sortImg"> -->
+                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                </button>
+                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                  <li><span
+                      class="list-name" [ngClass]="{ active: setTab === 'all' }" (click)="selectedTab('all')">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                      <li><span
+                        class="list-name" [ngClass]="{ active: setTab === 'configured' }" (click)="selectedTab('configured')">Configured</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                        <li><span
+                          class="list-name" [ngClass]="{ active: setTab === 'active' }" (click)="selectedTab('active')">Active</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                          <li><span
+                            class="list-name" [ngClass]="{ active: setTab === 'paused' }" (click)="selectedTab('paused')">Paused</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                            <li><span
+                              class="list-name" [ngClass]="{ active: setTab === 'completed' }" (click)="selectedTab('completed')">Completed</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
           <div class="col-3 h-title">DURATION</div>
         </div>
         <div id="accordion">
