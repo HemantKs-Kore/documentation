@@ -544,7 +544,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.queryCustomizeList'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
       method: 'get'
     }
     this.serviceList['put.restoreQueryCustomize'] = {
@@ -558,6 +558,14 @@ export class EndPointsService {
     this.serviceList['get.customisationLogs'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
       method: 'get'
+    }
+    this.serviceList['reset.bulkCustomization'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
+      method: 'put'
+    }
+    this.serviceList['delete.CustomizatioLog'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
+      method: 'delete'
     }
     /** get API for Metrics */
 

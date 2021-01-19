@@ -209,7 +209,7 @@ export class BotActionComponent implements OnInit {
         this.associatedBots = [];
         if (res.length > 0) {
           res.forEach(element => {
-            if (element.type == "default") {
+            if (element.type == "default" || element.type == "universalbot") {
               element.publishedTasksCount = 0;
               element.publishedFAQsCount = 0;
               let dialogsArr = element.taskCounts?.dialogs ?? [];
@@ -311,8 +311,11 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.notificationService.notify("Bot linked, successfully", 'success')
       },
-        (err) => { console.log(err); this.notificationService.notify("Bot linking, unsuccessful", 'error') }
+        (err) => {
+           console.log(err); this.notificationService.notify("Bot linking, unsuccessful", 'error') 
+        this.loadingContent = false;
 
+      }
       )
     }
     else {
@@ -357,15 +360,19 @@ export class BotActionComponent implements OnInit {
         this.getAssociatedBots();
         this.getAssociatedTasks(this.streamId);
 
-        this.notificationService.notify("Bot unlinked, successfully", 'success');
+        this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
 
       },
-        (err) => { console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); }
+        (err) => { 
+          console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
+          this.loadingContent = false;
+          //this.getAssociatedTasks(this.streamId);
+        }
       )
     }
   }
   getAssociatedTasks(botID) {
-    if (botID != null) {
+    //if (botID != null) {
       if (this.searchIndexId) {
         const queryParams: any = {
           searchIndexID: this.searchIndexId
@@ -406,14 +413,14 @@ export class BotActionComponent implements OnInit {
           else {
             this.linkedBotFAQs = [];
           }
-
+          
           this.loadingContent = false;
         },
           (err) => { console.log(err) },
           () => { console.log("XHR Call Completed") }
         )
       }
-    }
+    //}
     else {
       this.linkedBotTasks = [];
       this.linkedBotFAQs = [];

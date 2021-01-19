@@ -380,6 +380,16 @@ export class DashboardComponent implements OnInit {
         //splitLine: {show: true}
     }],
     yAxis: [{
+      type: 'value',
+           name: 'Count',
+           nameLocation: 'middle',
+           nameGap: 50,
+           nameTextStyle: {
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
         splitLine: {show: true}
     }],
     
@@ -578,11 +588,28 @@ export class DashboardComponent implements OnInit {
       }
       
         this.mostClickBar  = { 
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            
+              type: 'none'        
+          },
+            formatter: `
+              <div class="metrics-tooltips-hover agent_drop_tolltip">
+              <div class="split-sec">
+                <div class="main-title">{c0}</div>
+              </div> 
+            </div>
+            
+            `,
+            position: 'top',
+            padding: 0
+           
+          },
           xAxis: {
               type: 'value',
-              axisLabel: {
-                formatter: '{value}'
-            },
+            //   axisLabel: {
+            //     formatter: '{value}'
+            // },
            // name: "Number  of  Clicks"
           },
           yAxis: {
@@ -594,7 +621,7 @@ export class DashboardComponent implements OnInit {
           series: [{
             label : {
               normal: {
-                  show: true,
+                  show: false,
                   position: 'outside',
                   color : '#202124',
                   //textBorderColor: '#202124',
@@ -617,8 +644,9 @@ export class DashboardComponent implements OnInit {
       var colorPaletteSearch = ['#28A745','#EAF6EC'];
       var colorPaletteResult = ['#FF784B','#FFF1ED'];
       this.feedbackPieSearches = {
-        
+       
         series: [{
+          
             type: 'pie',
             radius: 90,
             color: colorPaletteSearch,
