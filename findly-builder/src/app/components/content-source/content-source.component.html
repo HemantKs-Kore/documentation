@@ -3,7 +3,36 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
-  <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
+  <!-- <div class="table-list-content">
+    <div class="kr-sg-data-table" *ngIf="!loadingContent">
+      <div class="header-sec col-12 row m-0">
+        <div class="col-4 p-0">Content Management</div>
+      </div>
+    </div>
+  </div> -->
+  <div  class="empty-landing-screen"
+  *ngIf="!(resources && resources.length) && !loadingContent">
+    <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/contentmanag-empty.svg"></div>
+    <ng-container >
+        <div class="empty-title">You haven’t added any content data yet!</div>
+        <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.
+        </div>
+        <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Add Content</button>                                            
+            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+            <li  class="webDomain" (click)="addNewContentSource('contentWeb')">Crawl Web Domain</li>
+            <li  class="webDomain" (click)="addNewContentSource('contentDoc')">Upload File</li>                  
+            </ul>
+        </div>                                    
+        </div>
+    </ng-container>
+    <ng-container *ngIf="noItems && emptySearchResults">
+        <div class="desc-text">Your Search Query doesn't match with any record.</div>
+    </ng-container>
+
+</div>
+  <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
     <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
       <div class="webDomain" (click)="addNewContentSource('contentWeb')">
@@ -28,7 +57,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">

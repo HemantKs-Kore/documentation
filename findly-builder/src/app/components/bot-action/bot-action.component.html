@@ -170,14 +170,31 @@
   </ng-container>
   <!-- <div class="empty-content-container" *ngIf="!(bots && bots.length) && !loadingContent"> -->
   <ng-container *ngIf="!linkedBotID && !loadingContent">
-    <div class="empty-content-container">
+    <div  class="empty-landing-screen">
+      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/botactions-empty.svg"></div>
+      <ng-container >
+          <div class="empty-title">You haven’t added any synonyms data yet!</div>
+          <div class="desc-text"> Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.
+          </div>
+          <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+              <div class="dropdown dropdown-open">
+                <button class="kr-sg-button-primary" (click)="openBotsModalElement()"> Link a Bot</button>                                            
+              </div>
+          </div>
+      </ng-container>
+      <ng-container *ngIf="noItems && emptySearchResults">
+          <div class="desc-text">Your Search Query doesn't match with any record.</div>
+      </ng-container>
+
+  </div>
+    <!-- <div class="empty-content-container">
       <img class="empty-content-indicator-image" src="assets/images/icons8-add_to_inbox 1.png" />
       <div class="empty-content-container-content">
         <p class="bold-text">You haven't linked any bot yet!</p>
         <p class="normal-text">Fortunately, it is very easy to link one by clicking on the button below</p>
       </div>
       <button class="kr-sg-button-primary" (click)="openBotsModalElement()">Link a Bot</button>
-    </div>
+    </div> -->
   </ng-container>
 </div>
 

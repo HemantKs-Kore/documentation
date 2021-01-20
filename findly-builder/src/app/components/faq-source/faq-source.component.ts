@@ -79,6 +79,18 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     document:'DOC',
     manual:'Manual'
   }
+  filterSystem : any = {
+    'typeHeader' : 'type',
+    'statusHeader' : 'status',
+    'typefilter' : 'all',
+    'statusFilter' : 'all'
+  }
+  firstFilter: any = {'header': '' , 'source' : ''};
+  statusArr = [];
+  docTypeArr = [];
+  filterResourcesBack;
+  filterTableheaderOption = "";
+  filterTableSource = "all";
   faqsObj = {
     faqs: []
   }
@@ -561,12 +573,146 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       skip: 0
     };
     this.service.invoke('get.source.list', quaryparms).subscribe(res => {
+      this.resources = res;
+      this.resources.forEach(element => {
+        if(element.advanceSettings  && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time){
+          element['schedule_title'] = 'Runs '+ element.advanceSettings.scheduleOpts.interval.intervalType + ' at ' +
+          element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
+          element.advanceSettings.scheduleOpts.time.timeOpt +' '+ element.advanceSettings.scheduleOpts.time.timezone;
+        }
+        if(element.jobInfo.createdOn){
+          element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
+        }
+        if(element.jobInfo.executionStats){
+          element['schedule_duration'] = element.jobInfo.executionStats.duration ? element.jobInfo.executionStats.duration : "00:00:00";
+          element['schedule_duration'] = this.duration(element['schedule_duration']);
+        }
+
+      });
+      if (this.resources.length) {
+        this.resources.forEach(element => {
+          this.statusArr.push(element.recentStatus);
+          this.docTypeArr.push(element.contentSource);
+        });
+        this.statusArr = [...new Set(this.statusArr)]
+        this.docTypeArr = [...new Set(this.docTypeArr)]
+
+      }
       this.resources = res.reverse();
       if (this.resources && this.resources.length) {
         this.poling()
       }
+      this.filterResourcesBack = [...this.resources];
+      this.filterTable(this.filterTableSource, this.filterTableheaderOption)
     }, errRes => {
     });
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "name": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "type": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "recentStatus": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "createdOn": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
+  }
+  filterTable(source, headerOption) {
+    console.log(this.resources, source)
+    this.filterTableSource = source;
+    this.filterTableheaderOption = headerOption;
+    let firstFilterDataBack = [];
+    //this.resources = [...this.filterResourcesBack]; // For new Filter..
+    if (headerOption == "contentSource") {
+      this.filterSystem.typeHeader = headerOption;
+      this.filterSystem.typefilter = source;
+    } else {
+      this.filterSystem.statusHeader = headerOption;
+      this.filterSystem.statusFilter = source;
+    }
+      if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
+        this.resources = [...this.filterResourcesBack];
+        this.firstFilter = { 'header': '', 'source': '' };
+      }
+      else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
+        if (!this.firstFilter['header']) {
+          this.firstFilter = { 'header': headerOption, 'source': source };
+        }
+        firstFilterDataBack = [...this.filterResourcesBack];
+        const resourceData = firstFilterDataBack.filter((data) => {
+          return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
+        })
+        if (resourceData.length) this.resources = [...resourceData];
+      }
+      else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
+        if (!this.firstFilter['header']) {
+          this.firstFilter = { 'header': headerOption, 'source': source };
+        }
+        firstFilterDataBack = [...this.filterResourcesBack];
+        const resourceData = firstFilterDataBack.filter((data) => {
+          return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
+        })
+        if (resourceData.length) this.resources = [...resourceData];
+
+    }
+    else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
+      this.resources = [...this.filterResourcesBack];
+      //firstFilter
+     // if (this.firstFilter['header'] == headerOption) {
+        if (headerOption == "contentSource") {
+          this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
+        } else {
+          this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
+        }
+        const firstResourceData = this.resources.filter((data) => {
+          console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+          return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+        })
+        const secondResourceData = firstResourceData.filter((data) => {
+          console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+          return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+        })
+        if (secondResourceData.length) this.resources = [...secondResourceData];
+      //}
+    }
   }
   confirmFAQswitch(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -1090,5 +1236,26 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
     
     });
+  }
+  duration(duration){
+    if(duration){
+      let hr = duration.split(":")[0];
+        let min = duration.split(":")[1];
+        let sec = duration.split(":")[2];
+
+
+        if(hr > 0 ){
+          if(min > 0 && sec > 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min > 0 && sec <= 0) return duration = hr + "h " + min + "m " + sec + "s";
+          if(min <= 0 && sec <= 0) return duration = hr + "h ";
+        }else if(min > 0){
+          if(sec > 0) return duration =  min + "m " + sec + "s";
+          if(sec <= 0) return duration =  min + "m ";
+        }else if(sec > 0){
+          return duration = sec + "s";
+        }else{
+          return duration = '0' + "s";
+        }
+    }
   }
 }

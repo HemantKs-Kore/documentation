@@ -471,13 +471,14 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   checkForNewFields(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '500px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Stage configuration is successfully saved',
-        text: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }]
+        newTitle: 'Stage configuration is successfully saved',
+        body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
