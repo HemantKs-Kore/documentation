@@ -164,6 +164,9 @@
                             .search-icon{
                                 cursor: pointer;
                             }
+                            .mt-8{
+                                margin-top: 8px;
+                            }
                         }
                         .reset-but{
                             cursor: pointer;
@@ -182,6 +185,7 @@
                             &.show_footer{
                                 height: calc(100vh - 325px);
                             }
+                           
                         }
                         .selected-all-questions{
                             background: #FFED96;
@@ -329,6 +333,10 @@
                             div.divBlockEmptylastChild:first-child {
                                 display: block !important;
                             }                                          
+                        }
+                        .pagination {
+                            float: right;
+                            margin: 10px 20px 0 0; 
                         }
                         .footer-btns{
                             background: #FFFFFF;

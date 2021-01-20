@@ -145,6 +145,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all&search=:searchQuary',
       method: 'get'
     };
+    this.serviceList['get.allManualFaqsByState'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=manual',
+      method: 'get'
+    };
+    this.serviceList['get.faqs.searchManual'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=manual&search=:searchQuary',
+      method: 'get'
+    };
     this.serviceList['get.allFaqsByResources'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&extractionSourceId=:resourceId&serach=:searchQuary',
       method: 'get'
@@ -191,6 +199,10 @@ export class EndPointsService {
     };
     this.serviceList['get.faqStaticsByResourceFilter'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?extractionSourceId=:resourceId',
+      method: 'get'
+    };
+    this.serviceList['get.faqStaticsManualFilter'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?source=:resourceId',
       method: 'get'
     };
     this.serviceList['get.fags'] = {
@@ -702,6 +714,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
       method: 'get'
     }
+    this.serviceList['put.dockStatus'] = {
+      endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',
+      method: 'put'
+    }
 
     this.serviceList['delete.dockById'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
@@ -712,5 +728,23 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus',
       method: 'delete'
     }
+    
+    this.serviceList['export.faq'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/export',
+      method: 'post'      
+     }
+     
+    this.serviceList['import.faq'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/import',
+      method: 'post'      
+     }
+    //  this.serviceList['export.dockstatus'] = {
+    //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
+    //   method: 'post'      
+    //  }
+    //  this.serviceList['export.url'] = {
+    //   endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
+    //   method: 'get'      
+    //  }
   }
 }

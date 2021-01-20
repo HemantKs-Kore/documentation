@@ -128,7 +128,7 @@
             .delete-table {
               display: none;
               position: absolute;
-              right: 30px;
+              right: 20px;
               img {
                 margin-left: 15px;
                 cursor: pointer;
@@ -161,6 +161,9 @@
                   line-height: 21px;
                   &:first-child {
                     margin: 0;
+                  }
+                  &.status{
+                    margin-left: -4px;
                   }
                 }
                 &.left {
@@ -224,11 +227,14 @@
               }
             }
             .date-stamp {
-              color: #5f6368;
+              color: #5F6368;
               font-weight: normal;
               font-size: 10px;
               line-height: 12px;
               margin-bottom: 4px;
+              .s-color{               
+                color: #9AA0A6;
+              }
             }
             .hours {
               color: #202124;
@@ -267,9 +273,24 @@
                 // align-items: center;
                 flex-direction: column;
                 justify-content: center;
+                position: relative;
+                width: 170px;
+                &::before{
+                  content: "";
+                  position: absolute;
+                  background: #E4E5E7;
+                  height: 34px;
+                  width: 1px;
+                  right: 12px;
+                }
+                &.before-none{
+                  &::before{
+                    display: none;
+                  }
+                }
               }
               .right-sec {
-                border-left: 1px solid #e4e5e7;
+                // border-left: 1px solid #e4e5e7;
                 padding-left: 10px;
                 position: relative;
                 // &::before{
@@ -277,7 +298,7 @@
                 //     position: absolute;
                 //     left: 0;
                 //     background: #E4E5E7;
-                //     height: 100%;
+                //     height: 34px;
                 //     width: 1px;
                 // }
                 ngb-progressbar {
@@ -294,6 +315,22 @@
                     }
                   }
                 }
+              }
+              .date-stamp{
+                color: #5F6368;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 15px;                
+                &.bottom{
+                  width: 125px;
+                }
+              }             
+              .hour{
+                width: 125px;
+                display: inline-block;                
+              }              
+              .inline-block{
+                line-height: 0;
               }
             }
           }
@@ -590,4 +627,31 @@
 }
 .disable_edit {
   background-color: #eff0f1;
+}
+.winner-block{
+  .variants-block{
+    .v-name {
+      background: #28a745;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      border-radius: 100%;
+      border: 1.5px solid #ffffff;
+      color: #fff;
+      font-weight: 500;
+      font-size: 12px;
+      margin-left: -4px;
+      line-height: 21px;
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+  .winner-content{
+    margin-left: -4px;
+    &:first-child {
+      margin: 0;
+    }
+  }
 }

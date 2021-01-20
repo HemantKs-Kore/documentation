@@ -68,7 +68,7 @@
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
                 <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
               </mat-chip>
-              <input placeholder="Type alternatives and press enter" [value]="typedQuery" [matChipInputFor]="chipList"
+              <input placeholder="Type Synonyms and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}" autocomplete="off">
@@ -177,7 +177,7 @@
                                 *ngIf="syn">{{syn}}</span>
                               <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                             </mat-chip>
-                            <input placeholder="Type Alternatives and Press Enter" [matChipInputFor]="chipList"
+                            <input placeholder="Type Synonyms and Press Enter" [matChipInputFor]="chipList"
                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                               (matChipInputTokenEnd)="addList($event,synonym._id,i)" #suggestedInput>
                           </mat-chip-list>

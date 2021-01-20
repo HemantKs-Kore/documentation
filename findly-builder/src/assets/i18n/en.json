@@ -1,6 +1,6 @@
 {
     "Hi": "Hi, ",
-    "WelcometoFindly": "Welcome to Findly.ai",
+    "WelcometoFindly": "Welcome to SearchAssist.ai",
     "Your_Applications": "Your Applications",
     "please_wait": "Please Wait..",
     "FAQs": "FAQs",
@@ -80,6 +80,8 @@
     "search": "Search",
     "status_docker" : "Status Docker",
     "clear_all" : "Clear all",
+    "array":"Array",
+    "object":"Object",
     "businessRules": {
         "rules_selected": "Rules Selected",
         "all_rules_selected": "All Rules Selected",
@@ -131,7 +133,15 @@
         "actionboost": "Boosting",
         "actionlower": "Lowering",
         "actionhide": "Hiding",
-        "actionfilter": "Filtering"
+        "actionfilter": "Filtering",
+        "string":"String",
+        "date":"Date",
+        "number":"Number",
+        "between":"Between",
+        "greaterThan":"Greater Than",
+        "lessThan":"Less Than",
+        "static":"Static",
+        "dynamic":"Dynamic"
     },
     "synonyms": {
         "please_wait": "Please Wait!",
@@ -255,7 +265,7 @@
         "Appearances" : "Appearances",
         "Clicks" :"Clicks",
         "Avg_Position" : "Avg Position",
-        "Most_Clicked_Position" : "Most Clicked Position",
+        "Most_Clicked_Position" : "Most Click Position",
         "Feedback" : "Feedback",
         "Number_of_Clicks" : "Number of Clicks",
         "Feedback_Received" :"Feedback Received",

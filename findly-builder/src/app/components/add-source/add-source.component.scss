@@ -18,6 +18,41 @@
         font-size: 12px;
     }  
 }
+.title-data{
+    color: #202124;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 500;
+}
+.back-up {
+    text-align: right;
+    top:25px;
+       .actions-data{
+           padding-right: 10px;
+        .sample-text{
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            margin-left: 8px;
+            padding-right: 10px;
+            color: #202124;
+            cursor: pointer;
+            > img{
+                margin-right: 4px;
+                position: relative;
+                top: -2px;
+            }
+        }
+    }
+    
+}
+.container-import{
+    .import{
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
 .contentContainer{
     padding-left: 65px;
     // padding-top: 30px;

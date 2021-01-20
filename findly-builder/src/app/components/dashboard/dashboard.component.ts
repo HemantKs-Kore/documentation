@@ -101,8 +101,9 @@ export class DashboardComponent implements OnInit {
     
     
   }
-  viewAll(route){
+  viewAll(route,searchType?){
     this.router.navigate([route], { skipLocationChange: true });
+    localStorage.setItem('search_Insight_Result',searchType);
   }
   openDateTimePicker(e) {
     setTimeout(() => {

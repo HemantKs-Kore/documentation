@@ -87,7 +87,7 @@ export class FieldManagementComponent implements OnInit {
     this.fetchingFieldUsage = true
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      queryPipelineId:this.workflowService.selectedQueryPipelineId,
+      queryPipelineId:this.workflowService.selectedQueryPipeline()._id,
       fieldId:record._id,
     };
     this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
