@@ -6142,28 +6142,53 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
-        if (config.container) {
-          if (config.pageTemplateId) {
-            var dataHTML = $('#' + config.pageTemplateId).tmplProxy(data);
-            $('#' + config.container).empty().append(dataHTML);
-          } else if (config.pageTemplate) {
-            var dataHTML = $(config.pageTemplate).tmplProxy(data);
-            $('#' + config.container).empty().append(dataHTML);
+          var pageContainer = ''; var faqContainer = ''; var actionContainer = '';
+          if (config.container) {
+            pageContainer = faqContainer = actionContainer = config.container;
           }
-          if (config.faqTemplateId) {
-            var dataHTML = $('#' + config.faqTemplateId).tmplProxy(data);
-            $('#' + config.container).append(dataHTML);
-          } else if (config.faqTemplate) {
-            var dataHTML = $(config.faqTemplate).tmplProxy(data);
-            $('#' + config.container).append(dataHTML);
+          if (config.pageContainer) {
+            pageContainer = config.pageContainer;
           }
-        }
+          if (config.faqContainer) {
+            faqContainer = config.faqContainer;
+          }
+          if (config.actionContainer) {
+            actionContainer = config.actionContainer;
+          }
+          if (pageContainer) {
+            if (config.pageTemplateId) {
+              var dataHTML = $('#' + config.pageTemplateId).tmplProxy(data);
+              $('#' + pageContainer).empty().append(dataHTML);
+            } else if (config.pageTemplate) {
+              var dataHTML = $(config.pageTemplate).tmplProxy(data);
+              $('#' + pageContainer).empty().append(dataHTML);
+            }
+          }
+          if (faqContainer) {
+            if (config.faqTemplateId) {
+              var dataHTML = $('#' + config.faqTemplateId).tmplProxy(data);
+              $('#' + faqContainer).append(dataHTML);
+            } else if (config.faqTemplate) {
+              var dataHTML = $(config.faqTemplate).tmplProxy(data);
+              $('#' + faqContainer).append(dataHTML);
+            }
+          }
+          
+          if (actionContainer) {
+            if (config.actionTemplateId) {
+              var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+              $('#' + actionContainer).append(dataHTML);
+            } else if (config.actionTemplate) {
+              var dataHTML = $(config.faqTemplate).tmplProxy(data);
+              $('#' + actionContainer).append(dataHTML);
+            }
+          }
 
-        if (config.searchHandler) {
-          config.searchHandler(data)
-        }
-      });
-    }
+          if (config.searchHandler) {
+            config.searchHandler(data)
+          }
+    });
+  }
     FindlySDK.prototype.addSearchText = function(config) {
       var _self = this;
       window.koreWidgetSDKInstance = _self;
