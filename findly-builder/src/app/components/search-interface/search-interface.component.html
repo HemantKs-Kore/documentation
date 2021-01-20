@@ -1,13 +1,555 @@
-<p>search-interface works!</p>
-<button (click)="openCustomModal()">Custom</button>
-
-<kr-modal modalType="center" modalClass="modal_popups_ sliderComponent" #customModal id="sourceSlider">
-    <div class="modal-header">
-      <div class="close_icon"><img (click)="closeCustomModal()" src="assets/icons/modal-close.svg"></div>
+<div class="search-interface-container">
+  <div class="header_sec">
+    <div class="title">Search Interface</div>
+    <div class="btn_sec">     
+      <button class="kr-sg-button-primary btn_lg">Preview</button>
     </div>
-  
-  <div class="modal-footer">          
-    <button type="button" class="kr-sg-button-primary btn_lg" (click)="closeCustomModal()">Save</button>        
-    <button type="button" class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
   </div>
-  </kr-modal>
+  <div class="body_content">
+    <div class="search-interface-left-sec">
+      <div class="left-tabs">
+        <div class="tab-name">Search UI</div>
+        <div class="tab-name">Search Experience</div>
+        <div class="tab-name">Live Search</div>
+        <div class="tab-name active-tab">Search</div>
+        <div class="tab-name">Full Page Result</div>
+      </div>
+    </div>
+    <perfect-scrollbar class="scroll-interface w-100">
+      <div class="search-interface-right-sec">             
+          <div class="radio-section">
+            <div class="radio-block">
+              <div class="main-title">No. of Results to be Displayed</div>
+              <div class="kr-sg-radiobutton d-block">
+                <input id="radio-17" name="radio" class="radio-custom" type="radio" checked>
+                <label for="radio-17" class="radio-custom-label">
+                  <div class="label-name">Fit to Viewport</div>          
+                </label>
+              </div>
+              <div class="label-desc">Number of results to be displayed will depend on the Viewport size</div>
+            </div>
+            <div class="radio-block mb-0">
+              <div class="kr-sg-radiobutton d-block mb-1">
+                <input id="radio-18" name="radio" class="radio-custom" type="radio" checked>
+                <label for="radio-18" class="radio-custom-label">
+                  <div class="label-name">Custom</div>          
+                </label>
+              </div>   
+              <div class="custom-input-block">
+                <div class="kr-sg-input-text">            
+                  <input type="text" value="0" class="input-text">            
+                </div>
+                <div class="custom-desc-info">Topmost results based on relevance</div>
+              </div>     
+            </div>
+          </div>
+          <div class="radio-section">
+            <div class="main-title">Results Classification</div>
+            <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user</div>
+            <label class="kr-sg-toggle">                                       
+              <input type="checkbox" checked>
+              <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+            </label>
+            <div class="kr-sg-dropdowns">        
+              <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">SourceType</button>                                            
+                  <ul class="dropdown-menu content-menu">                                                        
+                    <li><a>Option 1</a></li>
+                    <li><a>Option 2</a></li>
+                    <li><a>Option 3</a></li>
+                  </ul>
+              </div>
+            </div>
+          </div>    
+          <div class="radio-section">
+            <div class="main-title m-0">Results Appearance</div>
+            <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user.</div>
+            <div class="group-radiobutton">         
+              <div class="kr-sg-radiobutton">
+                  <input id="radio-22" name="radio" class="radio-custom" type="radio">
+                  <label for="radio-22" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
+              </div>
+              <div class="kr-sg-radiobutton">
+                  <input id="radio-23" name="radio" class="radio-custom" type="radio" checked>
+                  <label for="radio-23" class="radio-custom-label">Custom order</label>
+              </div>
+            </div>
+            <div class="result-appearences-section">
+              <div class="input-left-sec">
+                <div class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Actions</span></div>
+                <div class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
+                <div class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
+                <div class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div>
+                <div class="input-name add-new">+ Add New</div>
+              </div>
+              <div class="result-right-sec">
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="customize-button">
+                  <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
+                </div>
+              </div>
+            </div>
+          </div>      
+      </div>
+      <div class="footer-btns">
+        <button class="kr-sg-button-secondary btn_lg ml-3">Back</button>
+        <button class="kr-sg-button-primary btn_lg ml-3">Save</button>        
+      </div>
+  </perfect-scrollbar>
+  </div>
+</div>
+
+
+<kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+  <div class="modal-header">
+    <div class="title">Customize Template</div>
+    <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <div class="modal-body">
+    <div class="customize-template-data">
+      <div class="kr-sg-dropdowns template-type-dropdown">
+        <div class="label-text">Template Type</div>
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">List Template 1</button>                                            
+            <ul class="dropdown-menu content-menu">                                                         
+              <li><a>Option 1</a></li>
+              <li><a>Option 2</a></li>
+              <li><a>Option 3</a></li>
+            </ul>
+        </div>
+      </div>
+      <div class="customize-inner-content">
+
+        <perfect-scrollbar class="customize-scroll-left">
+          <div class="customize-left">
+            <div class="c-template">
+              <div class="group-radiobutton">
+                <div class="heading-title mb-2">Search Result Layout</div>
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-21" name="radio" class="radio-custom" type="radio">
+                    <label for="radio-21" class="radio-custom-label">Tile with Text</label>
+                </div> 
+                <div class="template-type">
+                  <div class="heading">Heading</div>
+                  <div class="description">Description</div>
+                </div> 
+                <div class="show-clickble-true">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox" checked>
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text">
+                    <div class="label-text">URL</div>
+                    <input type="text" placeholder="Enter Target URL" class="input-text">
+                  </div>
+                </div>                           
+              </div>
+            </div> 
+            <div class="c-template">
+              <div class="group-radiobutton">              
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-22" name="radio" class="radio-custom" type="radio" checked>
+                    <label for="radio-22" class="radio-custom-label">Tile with Image</label>
+                </div> 
+                <div class="template-type d-flex">
+                  <div class="img-block mr-2">
+                    <img src="assets/icons/search-interface/dummy-small.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="heading">Heading</div>
+                    <div class="description">Description</div>
+                  </div>
+                </div> 
+                <div class="show-clickble-true">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox" checked>
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text">
+                    <div class="label-text">URL</div>
+                    <input type="text" placeholder="Enter Target URL" class="input-text">
+                  </div>
+                </div>                                      
+              </div>
+            </div> 
+            <div class="c-template">
+              <div class="group-radiobutton">              
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-23" name="radio" class="radio-custom" type="radio">
+                    <label for="radio-23" class="radio-custom-label">Tile with Centered Content</label>
+                </div> 
+                <div class="template-type centered-content">
+                  <div class="img-block mb-3">
+                    <img src="assets/icons/search-interface/dummy-large.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="heading">Heading</div>
+                    <div class="description">Description</div>
+                  </div>
+                </div> 
+                <div class="show-clickble-true">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox" checked>
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text">
+                    <div class="label-text">URL</div>
+                    <input type="text" placeholder="Enter Target URL" class="input-text">
+                  </div>
+                </div>                                      
+              </div>
+            </div> 
+            <div class="c-template">
+              <div class="group-radiobutton">                
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-21" name="radio" class="radio-custom" type="radio">
+                    <label for="radio-21" class="radio-custom-label">Tile with Header</label>
+                </div> 
+                <div class="template-type">
+                  <div class="heading m-0">Header</div>                  
+                </div> 
+                <div class="show-clickble-true">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox" checked>
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text">
+                    <div class="label-text">URL</div>
+                    <input type="text" placeholder="Enter Target URL" class="input-text">
+                  </div>
+                </div>                           
+              </div>
+            </div>             
+          </div>
+        </perfect-scrollbar>          
+        <perfect-scrollbar  class="customize-scroll-right">
+          <div class="customize-right">
+            <div class="label-text mb-1">Search Result Mapping</div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+              <div class="label-text">Heading</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li><a>Title</a></li>
+                        <li><a>Field 2</a></li>
+                        <li><a>Field 3</a></li>
+                        <li><a>Field 4</a></li>
+                        <li><a>Field 5</a></li>
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+              <div class="label-text">Description</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li><a>Title</a></li>
+                        <li><a>Field 2</a></li>
+                        <li><a>Field 3</a></li>
+                        <li><a>Field 4</a></li>
+                        <li><a>Field 5</a></li>
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div>
+            <!-- <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+              <div class="label-text">URL</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li><a>Title</a></li>
+                        <li><a>Field 2</a></li>
+                        <li><a>Field 3</a></li>
+                        <li><a>Field 4</a></li>
+                        <li><a>Field 5</a></li>
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div> -->
+            <div class="p-selection mb-2">Preview as per above selection</div>
+
+
+            <div class="result-right-sec">
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>              
+            </div>
+
+
+            <div class="result-right-sec with-accordion-state">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapseOne" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+
+            <div class="result-right-sec with-image">
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="result-right-sec with-centered-content">             
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here.</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here.</div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="result-right-sec">
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+              </div>              
+            </div>
+
+            <div class="result-right-sec with-accordion-state with_image_tile">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">Field mapped for Description will appear here</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state tile_with_centered_content">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">Field mapped for Description will appear here</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+          </div>
+        </perfect-scrollbar>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" (click)="closeCustomModal()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+  </div>
+</kr-modal> 
