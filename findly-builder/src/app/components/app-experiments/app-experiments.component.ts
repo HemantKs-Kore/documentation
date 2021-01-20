@@ -57,7 +57,9 @@ export class AppExperimentsComponent implements OnInit {
   status_active: boolean;
   // filter list using tabs
   setTab = 'all';
-
+  totalRecord: number;
+  limitPage: number = 5;
+  skipPage: number = 0;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -183,6 +185,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   // based on variant show traffic
   showTraffic(length, type) {
+    console.log("slider lgt", length)
     this.star = [];
     if (length > 1) {
       if (type === 'add') {
@@ -331,12 +334,13 @@ export class AppExperimentsComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: 0,
-      limit: 100,
+      limit: 5,
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
+      console.log("experiment res", res);
       const date1: any = new Date();
-      const result = res.map(data => {
+      const result = res.experiments.map(data => {
         // let date2: any = new Date(data.end);
         // let sub = Math.abs(date1 - date2) / 1000;
         // let days = Math.floor(sub / 86400);
@@ -348,6 +352,7 @@ export class AppExperimentsComponent implements OnInit {
         let endsOn: any = new Date(data.end);
         endsOn = moment(endsOn);
         const total_days = endsOn.diff(createdOn, 'hours');
+        console.log("all days", days)
         obj.date_days = days;
         obj.total_days = total_days;
         return obj;
@@ -355,6 +360,7 @@ export class AppExperimentsComponent implements OnInit {
       this.listOfExperiments = result;
       this.filterExperiments = result;
       this.countExperiment(result);
+      console.log("this.listOfExperiments", this.listOfExperiments)
       this.loadingContent = false;
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -508,6 +514,7 @@ export class AppExperimentsComponent implements OnInit {
           return obj;
         })
       }
+      console.log("this.filterExperiments", this.filterExperiments)
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
       this.selectedTab(this.setTab);
@@ -579,6 +586,9 @@ export class AppExperimentsComponent implements OnInit {
     }
     else if (type === 'paused') {
       this.listOfExperiments = filterArray.filter(item => item.state === 'paused');
+    }
+    else if (type === 'stopped') {
+      this.listOfExperiments = filterArray.filter(item => item.state === 'stopped');
     }
     else if (type === 'completed') {
       this.listOfExperiments = filterArray.filter(item => item.state === 'completed');

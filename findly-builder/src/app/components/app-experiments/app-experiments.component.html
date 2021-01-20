@@ -50,6 +50,8 @@
                           <li><span
                             class="list-name" [ngClass]="{ active: setTab === 'paused' }" (click)="selectedTab('paused')">Paused</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                             <li><span
+                              class="list-name" [ngClass]="{ active: setTab === 'stopped' }" (click)="selectedTab('stopped')">Stopped</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                            <li><span
                               class="list-name" [ngClass]="{ active: setTab === 'completed' }" (click)="selectedTab('completed')">Completed</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
@@ -340,7 +342,7 @@
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
           <input type="number" autocomplete="off" class="input-text text-center" min="0" max="90"
-            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' || form_type === 'edit'"
+            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"
             [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
             }" />
