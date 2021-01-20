@@ -57,9 +57,9 @@ export class AppExperimentsComponent implements OnInit {
   status_active: boolean;
   // filter list using tabs
   setTab = 'all';
-  totalRecord: number;
-  limitPage: number = 5;
-  skipPage: number = 0;
+  exp_totalRecord: number;
+  exp_limitPage: number = 10;
+  exp_skipPage: number = 0;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -333,13 +333,13 @@ export class AppExperimentsComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 5,
+      offset: this.exp_skipPage,
+      limit: this.exp_limitPage,
       state: 'all'
     };
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
-      console.log("experiment res", res);
       const date1: any = new Date();
+      this.exp_totalRecord = res.total;
       const result = res.experiments.map(data => {
         // let date2: any = new Date(data.end);
         // let sub = Math.abs(date1 - date2) / 1000;
@@ -360,7 +360,6 @@ export class AppExperimentsComponent implements OnInit {
       this.listOfExperiments = result;
       this.filterExperiments = result;
       this.countExperiment(result);
-      console.log("this.listOfExperiments", this.listOfExperiments)
       this.loadingContent = false;
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -593,5 +592,12 @@ export class AppExperimentsComponent implements OnInit {
     else if (type === 'completed') {
       this.listOfExperiments = filterArray.filter(item => item.state === 'completed');
     }
+  }
+  //pagination for list
+  paginate(event) {
+    console.log("event changed", event)
+    this.exp_limitPage = event.limit;
+    this.exp_skipPage = event.skip;
+    this.getExperiments();
   }
 }

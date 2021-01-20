@@ -42,17 +42,17 @@
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li><span
-                      class="list-name" [ngClass]="{ active: setTab === 'all' }" (click)="selectedTab('all')">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                      class="list-name"  (click)="selectedTab('all')">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                       <li><span
-                        class="list-name" [ngClass]="{ active: setTab === 'configured' }" (click)="selectedTab('configured')">Configured</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                        class="list-name" (click)="selectedTab('configured')">Configured</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                         <li><span
-                          class="list-name" [ngClass]="{ active: setTab === 'active' }" (click)="selectedTab('active')">Active</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                          class="list-name"  (click)="selectedTab('active')">Active</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                           <li><span
-                            class="list-name" [ngClass]="{ active: setTab === 'paused' }" (click)="selectedTab('paused')">Paused</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                            class="list-name"  (click)="selectedTab('paused')">Paused</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                             <li><span
-                              class="list-name" [ngClass]="{ active: setTab === 'stopped' }" (click)="selectedTab('stopped')">Stopped</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                              class="list-name" (click)="selectedTab('stopped')">Stopped</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                             <li><span
-                              class="list-name" [ngClass]="{ active: setTab === 'completed' }" (click)="selectedTab('completed')">Completed</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                              class="list-name"  (click)="selectedTab('completed')">Completed</span><img class="hide" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
             </div>
@@ -242,6 +242,7 @@
       <div class="no-experiments" *ngIf="!(listOfExperiments && listOfExperiments.length)">
         <div>No results found</div>
       </div>
+      <span *ngIf='filterExperiments'><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
     </perfect-scrollbar>
   </div>
 </div>
