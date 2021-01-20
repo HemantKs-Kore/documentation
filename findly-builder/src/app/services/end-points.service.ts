@@ -734,9 +734,14 @@ export class EndPointsService {
 
     this.serviceList['get.searchStructuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/search?q=:searchQuery&limit=:limit&skip=:skip',
-      method: 'get'
+      method: 'post'
     };
 
+    this.serviceList['post.searchStructuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/search?q=:searchQuery&limit=:limit&skip=:skip&advanceSearch=:advanceSearch',
+      method: 'post'
+    };
+    
     this.serviceList['delete.dockById'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
       method: 'delete'

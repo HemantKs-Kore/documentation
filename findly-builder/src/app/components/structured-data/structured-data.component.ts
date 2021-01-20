@@ -8,6 +8,7 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
+import { retryWhen } from 'rxjs/operators';
 
 @Component({
   selector: 'app-structured-data',
@@ -58,7 +59,7 @@ export class StructuredDataComponent implements OnInit {
   allSelected : boolean = false;
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
-  appliedAdvancedSearch = '';
+  appliedAdvancedSearch : any = {};
   isLoading : boolean = false;
   structuredDataStatusModalRef : any;
   structuredDataDocPayload : any;
@@ -67,6 +68,10 @@ export class StructuredDataComponent implements OnInit {
   skip : any;
   page : any;
   totalCount : any;
+  defaultView : boolean = true;
+  fields : any = [];
+  searchField;
+  advancedSearch : any = {};
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -115,6 +120,7 @@ export class StructuredDataComponent implements OnInit {
           data.parsedData = JSON.stringify(data._source, null, 1);
         };
       });
+      this.designDefaultData(this.structuredDataItemsList);
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
       }
@@ -123,6 +129,53 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');
     });
+  }
+
+  designDefaultData(structuredDataItemsList){
+    this.defaultView = this.defaultView;
+    structuredDataItemsList.forEach((element : any) => {
+      element.objectValues = [];
+      Object.keys(element._source).forEach((key : any, index) => {
+        let nested = false;
+        if(key && (typeof element._source[key] === 'object')){
+          nested = true;
+        }
+        else{
+          nested = false;
+        }
+        element.objectValues.push({
+          key : key,
+          value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
+          // var str = JSON.stringify(obj, null, 2);
+          expandedValue : element._source[key],
+          nested : nested,
+          expanded : false
+        });
+      });
+    });
+    console.log("structuredDataItemsList", this.structuredDataItemsList);
+  }
+
+  getFieldAutoComplete(query){
+    if (/^\d+$/.test(this.searchField)) {
+      query = parseInt(query,10);
+    }
+    const quaryparms: any = {
+      searchIndexID:this.selectedApp.searchIndexes[0]._id,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fields = res || [];
+     }, errRes => {
+      this.notificationService.notify('Failed to get fields', 'error');
+     })
+  }
+
+  selectedField(suggesition, index){
+    console.log("test", suggesition);
+    if(this.advancedSearch.rules[index]){
+      this.advancedSearch.rules[index].fieldName = suggesition.fieldName;
+    }
   }
 
   paginate(event){
@@ -159,14 +212,68 @@ export class StructuredDataComponent implements OnInit {
       }
       else{
         // refresh the data
-        this.getStructuredDataList();
+        if(this.searchText.length){
+          this.searchItems();
+        }
+        else if(Object.keys(this.appliedAdvancedSearch).length){
+          this.applyAdvancedSearchCall();
+        }
+        else{
+          this.getStructuredDataList();
+        }
       }
     }
   }
 
   openAdvancedSearch(){
+    if(Object.values(this.advancedSearch).length){
+
+    }
+    else{
+      this.advancedSearch.operand = "and"
+      this.advancedSearch.rules = [];
+      this.advancedSearch.rules.push({
+        fieldName : '',
+        operator : '',
+        value : '',
+        type : ''
+      });
+    }
     this.adwancedSearchModalPopRef = this.advancedSearchModalPop.open();
-    this.advancedSearchInput = '';
+    // this.advancedSearchInput = '';
+  }
+
+  addRule(){
+    this.advancedSearch.rules.push({
+      fieldName : '',
+      operator : '',
+      value : '',
+      type : ''
+    });
+    console.log(this.advancedSearch);
+  }
+
+  removeRule(index){
+    this.advancedSearch.rules.splice(index, 1);
+  }
+
+  removeAdvancedSearchRule(index){
+    this.appliedAdvancedSearch.rules.splice(index, 1);
+    this.advancedSearch = this.appliedAdvancedSearch;
+    this.applyAdvancedSearchCall();
+  }
+
+  setOperator(key, index){
+    if(this.advancedSearch.rules[index]){
+      this.advancedSearch.rules[index].operator = key;
+      if((key === 'exists') || (key === 'notexists')){
+        this.advancedSearch.rules[index].type = 'field';
+        this.advancedSearch.rules[index].value = '';
+      }
+      else{
+        this.advancedSearch.rules[index].type = 'value';
+      }
+    }
   }
 
   cancleAdvansedSearch(){
@@ -174,14 +281,125 @@ export class StructuredDataComponent implements OnInit {
       this.adwancedSearchModalPopRef.close();
     }
     this.advancedSearchInput = '';
-    this.appliedAdvancedSearch = '';
+    // this.appliedAdvancedSearch = '';
   }
 
   applyAdvancedSearch(){
-    this.appliedAdvancedSearch = this.advancedSearchInput;
-    if(this.adwancedSearchModalPopRef){
-      this.adwancedSearchModalPopRef.close();
+    console.log("advanced Search", this.advancedSearch);
+    this.appliedAdvancedSearch = this.advancedSearch;
+    if(this.checkAdvancedSearchValidation()){
+      this.applyAdvancedSearchCall();
+      if(this.adwancedSearchModalPopRef){
+        this.adwancedSearchModalPopRef.close();
+      }
     }
+    else{
+      // inform user
+      this.notificationService.notify('Please fill all necessary fields', 'error');
+    }
+  }
+
+  checkAdvancedSearchValidation(){
+    if(this.advancedSearch.operand && this.advancedSearch.operand.length){
+      if(this.advancedSearch.rules.length){
+        let isPassed : any;
+        isPassed = this.advancedSearch.rules.every((rule) => {
+          if(rule.fieldName.length && rule.operator.length){
+            if((rule.operator !== 'exists') && (rule.operator !== 'notexists')){
+              if(rule.value.length){
+                return true;
+              }
+              else{
+                return false;
+              }
+            }
+            else{
+              return true;
+            }
+          }
+          else{
+            return false;
+          }
+        });
+        return isPassed;
+      }
+      else{
+        return false;
+      }
+    }
+    else{
+      return false;
+    }
+  }
+
+  applyAdvancedSearchCall(){
+    this.isLoading = true;
+    this.emptySearchResults = false;
+    this.noItems = false;
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      skip: 0,
+      limit : 20,
+      searchQuery : this.searchText,
+      advanceSearch : true
+    };
+    if(this.skip){
+      quaryparms.skip = this.skip;
+    }
+    let payload : any = {};
+    payload = this.designPayloadForAdvancedSearch();
+    if(payload.cond && !payload.cond.length){
+      // if no rules, then just refresh
+      this.appliedAdvancedSearch = {};
+      this.advancedSearch = {};
+      this.getStructuredDataList();
+      return false;
+    }
+    this.service.invoke('post.searchStructuredData', quaryparms, payload).subscribe(res => {
+      this.isLoading = false;
+      this.totalCount = res.total;
+      if(res.data){
+        this.structuredDataItemsList = res.data;
+        this.designDefaultData(this.structuredDataItemsList);
+      }
+      else{
+      this.structuredDataItemsList = [];
+      }
+      this.structuredDataItemsList.forEach(data => {
+        data.objectLength =  Object.keys(data._source).length;
+        if(data._source){
+          if(data._source.contentType){
+            delete data._source.contentType;
+          }
+          data.parsedData = JSON.stringify(data._source, null, 1);
+        };
+      });
+      if(this.structuredDataItemsList.length == 0){
+        this.noItems = true;
+        this.emptySearchResults = true;
+      }
+    }, errRes => {
+      console.log("error", errRes);
+      this.isLoading = false;
+      this.emptySearchResults = false;
+      this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');
+    });
+  }
+
+  designPayloadForAdvancedSearch(){
+    let payload : any = {};
+    payload.operand = this.advancedSearch.operand;
+    payload.cond = [];
+    this.advancedSearch.rules.forEach((rule) => {
+      payload.cond.push({
+        'type' : rule.type,
+        'key' : rule.fieldName,
+        'op' : rule.operator,
+        'value' : rule.value
+      })
+    });
+    return payload; 
   }
 
   toggleSearch(activate) {
@@ -234,12 +452,13 @@ export class StructuredDataComponent implements OnInit {
       searchIndexId: searchIndex,
       skip: 0,
       limit : 20,
-      searchQuery : this.searchText
+      searchQuery : this.searchText,
+      advanceSearch : false
     };
     if(this.skip){
       quaryparms.skip = this.skip;
     }
-    this.service.invoke('get.searchStructuredData', quaryparms).subscribe(res => {
+    this.service.invoke('get.searchStructuredData', quaryparms, null).subscribe(res => {
       this.isLoading = false;
       this.totalCount = res.total;
       if(res.data){
@@ -257,6 +476,7 @@ export class StructuredDataComponent implements OnInit {
           data.parsedData = JSON.stringify(data._source, null, 1);
         };
       });
+      this.designDefaultData(this.structuredDataItemsList);
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
         this.emptySearchResults = true;

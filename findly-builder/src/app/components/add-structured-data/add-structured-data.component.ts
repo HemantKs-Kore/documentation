@@ -21,15 +21,15 @@ export class AddStructuredDataComponent implements OnInit {
   structuredData: any = {};
   codeMirrorOptions: any = {
     theme: 'neo',
-    mode: "json",
+    mode: "application/ld+json",
     lineNumbers: true,
     lineWrapping: true,
-    foldGutter: false,
+    foldGutter: true,
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
     autoCloseBrackets: true,
     matchBrackets: true,
     lint: false,
-    indentUnit: 0
+    indentUnit: 2
   };
   selectedApp: any = {};
   selectedJsonForEdit: any;

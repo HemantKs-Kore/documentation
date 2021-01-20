@@ -345,6 +345,19 @@
     "help_text" : "Structured Data can be used to index commerce content for product search use cases. SearchAssist allows you to add structured data by either importing from a JSON/CSV file or adding manually.",
     "success_indexing" : "Successfully edited. You can index it now or later.",
     "index_data" : "Index Data",
-    "empty_search_result" : "Your Search Query doesn't match with any record."
+    "empty_search_result" : "Your Search Query doesn't match with any record.",
+    "switch_to_json" : "Switch to JSON",
+    "switch_to_default" : "Switch to Default",
+    "seeMore" : "See more",
+    "exists" : "Exists",
+    "does_not_exist" : "Does Not Exist",
+    "equals_to" : "Equals to",
+    "not_equals_to" : "Not Equals to",
+    "enter_field" : "Enter Field",
+    "selected_operator" : "Select Operator",
+    "enter_value" : "Enter Value",
+    "and" : "AND",
+    "_or" : "OR",
+    "add_rule" : "Add Rule"
  }
 }

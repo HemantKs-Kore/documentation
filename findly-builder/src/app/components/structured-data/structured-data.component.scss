@@ -272,3 +272,26 @@
     bottom: 18px;
     right: 60px;
 }
+
+::ng-deep.import-structure-data{ 
+    .search-block{
+        .kr-sg-dropdowns{
+            .search-with-dropdown{
+                position: absolute;
+                border: 0;     
+                &::before{
+                    display: none;
+                }               
+            }
+            input{                      
+                padding-left:35px;                    
+            } 
+        }
+    }  
+    .radio-custom-label.disabled{
+        pointer-events: none;
+    }
+    // .kr-sg-radiobutton .radio-custom-label.disabled::before{
+    //     border: 1px solid #0D6EFD;
+    // }
+}
