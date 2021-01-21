@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SynonymFilterPipe } from './synonym-filter'
 import * as _ from 'underscore';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { AppSelectionService } from '@kore.services/app.selection.service'
+import { Subscriber, Subscription } from 'rxjs';
 declare const $: any;
 
 @Component({
@@ -17,14 +19,16 @@ declare const $: any;
   templateUrl: './synonyms.component.html',
   styleUrls: ['./synonyms.component.scss']
 })
-export class SynonymsComponent implements OnInit {
+export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   synonymSearch;
+  showSearch;
   serachIndexId
   loadingContent = true;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
+  showFlag;
   synonymData : any[] = [];
   synonymDataBack : any[] = [];
   visible = true;
@@ -43,12 +47,14 @@ export class SynonymsComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr : any[] = [];
   synArrTemp: any[] = [];
+  subscription: Subscription;
   constructor( public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
-    public dialog: MatDialog,) {
+    public dialog: MatDialog,
+    private appSelectionService:AppSelectionService) {
     this.synonymObj = new SynonymClass();
   }
 
@@ -56,8 +62,16 @@ export class SynonymsComponent implements OnInit {
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId =  this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.getSynonyms();
+    this.loadSynonyms();
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+      this.loadSynonyms();
+    })
+  }
+  loadSynonyms(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getSynonyms();
+    }
   }
   prepareSynonyms(){
     if(this.pipeline.stages && this.pipeline.stages.length){
@@ -115,7 +129,7 @@ export class SynonymsComponent implements OnInit {
     this.synonymObj = new SynonymClass();
     this.prepareSynonyms();
   }
-  addOrUpddate(synonymData,dialogRef?) {
+  addOrUpddate(synonymData,dialogRef?,showFlag?) {
     synonymData = synonymData || this.synonymData;
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -135,9 +149,15 @@ export class SynonymsComponent implements OnInit {
     }
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
      this.pipeline=  res.pipeline || {};
+     if(this.newSynonymObj.addNew && !showFlag){
+      this.notificationService.notify('Synonyms added successfully','success');
+     }
+     else  if (!showFlag){
+      this.notificationService.notify('Synonyms updated successfully','success');
+     }
      this.prepareSynonyms();
      this.cancleAddEdit();
-     this.notificationService.notify('Synonyms added successfully','success');
+     
      if(dialogRef && dialogRef.close){
       dialogRef.close();
      }
@@ -181,13 +201,16 @@ export class SynonymsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: '236px',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Synonym',
         text: 'Are you sure you want to delete selected synonym?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected synonym?',
+        body:'Selected synonym will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -196,7 +219,10 @@ export class SynonymsComponent implements OnInit {
         if (result === 'yes') {
           const synonyms = JSON.parse(JSON.stringify(this.synonymData));
           synonyms.splice(index,1);
-          this.addOrUpddate(synonyms,dialogRef);
+          if(this.showFlag=true){
+            this.addOrUpddate(synonyms,dialogRef,this.showFlag);
+            this.notificationService.notify('Synonyms deleted successfully','error')
+          } 
         } else if (result === 'no') {
           dialogRef.close();
           console.log('deleted')
@@ -263,6 +289,15 @@ export class SynonymsComponent implements OnInit {
     if (index >= 0) {
       this.newSynonymObj.values.splice(index, 1);
     }
+  }
+  toggleSearch() {
+    if (this.showSearch && this.synonymSearch) {
+      this.synonymSearch = '';
+    }
+    this.showSearch = !this.showSearch
+  };
+  ngOnDestroy(){
+    this.subscription?this.subscription.unsubscribe(): false;
   }
 }
 class SynonymClass {

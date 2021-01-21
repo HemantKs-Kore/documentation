@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 @Component({
   selector: 'app-result-insights',
@@ -65,6 +68,21 @@ export class ResultInsightsComponent implements OnInit {
   resultQueryAnswer = '';
   searchSources : any = '';
   dateType = "hour"
+
+  totalRecord:number;
+  limitPage : number = 10;
+  skipPage:number = 0;
+
+  Q_totalRecord:number;
+  Q_limitPage : number = 10;
+  Q_skipPage:number = 0;
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  defaultSelectedDay = 7;
+  showDateRange: boolean = false;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -86,12 +104,40 @@ export class ResultInsightsComponent implements OnInit {
     
     this.getQueries("Results");
   }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    this.dateLimt('custom');
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+    }
+    else if (range === 7) {
+      this.startDate = moment().subtract({ days: 6 });
+      this.endDate = moment();
+      this.dateLimt('week')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    } else if (range === 1) {
+      this.startDate = moment().subtract({ hours: 23 });
+      this.endDate = moment();
+      this.dateLimt('hour')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    }
+  }
   dateLimt(type){
     this.dateType = type;
     this.getQueries('Results');
-  }
-  paginate(event){
-    console.log(event)
   }
   getQueries(type){
     var today = new Date();
@@ -111,15 +157,15 @@ export class ResultInsightsComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit:100
+      offset: this.skipPage,
+      limit:this.limitPage
     };
     let payload : any = {
       type : type,
       filters: {
-        from: from.toJSON(),
-        to: today.toJSON()
-      }
+        from:  this.startDate.toJSON(),//from.toJSON(),
+        to: this.endDate.toJSON()
+      },
     }
     if(type == 'SearchQueriesForResult'){
       payload.result = this.resultQueryAnswer;
@@ -127,9 +173,12 @@ export class ResultInsightsComponent implements OnInit {
     this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
       if(type == 'Results'){
         this.resultsData = res.results;
+        this.totalRecord = res.totalCount;
       }
       else if(type == 'SearchQueriesForResult'){
         this.resultsSearchData = res.results;
+        this.Q_totalRecord = res.totalCount;
+        console.log("Q_totalRecord",this.Q_totalRecord)
       }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -140,7 +189,19 @@ export class ResultInsightsComponent implements OnInit {
      });
   }
   
-  
+  //pagination method
+  paginate(event,type){
+    if(type==='Results'){
+      this.limitPage = event.limit;
+      this.skipPage = event.skip;
+      this.getQueries('Results');
+    }
+      else if(type==='QRESULT'){
+        this.Q_limitPage = event.limit;
+        this.Q_skipPage = event.skip;
+        this.getQueries('SearchQueriesForResult');
+      }
+  }
   // pagination(data,type){
   //   if(type == 'MostSearchedQuries'){
   //     if(data.length <= this.tsqlimitpage){ this.tsqlimitpage = data.length }

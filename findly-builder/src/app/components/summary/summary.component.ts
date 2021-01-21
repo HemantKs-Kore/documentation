@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
 import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -6,6 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -15,6 +16,13 @@ declare const $: any;
 })
 export class SummaryComponent implements OnInit {
   serachIndexId;
+  indices: any = [];
+  experiments: any = [];
+  variants: any = [];
+  activities: any = [];
+  channels: any = [];
+  channelsName = '';
+  // searchIndexes: any = [];
   channelExist = false;
   totalUsersStats: any = {};
   totalSearchesStats: any = {};
@@ -83,6 +91,7 @@ export class SummaryComponent implements OnInit {
     private router: Router,
   ) { }
 
+
   ngOnInit() {
     const toogleObj = {
       title: 'Summary',
@@ -94,7 +103,10 @@ export class SummaryComponent implements OnInit {
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
-    this.current_month = this.listMonths[this.date.getMonth()];
+    // this.getChannel();
+    this.getLinkedBot();
+    this.getAllOverview();
+
   }
   getSummary() {
     this.loading = false;
@@ -149,6 +161,7 @@ export class SummaryComponent implements OnInit {
       }
     });
   }
+
   getChannel() {
     const queryParams = {
       userId: this.authService.getUserId(),
@@ -156,9 +169,11 @@ export class SummaryComponent implements OnInit {
     }
     this.service.invoke('get.credential', queryParams).subscribe(
       res => {
+        console.log(res.channels[0].app.name)
         if (res.apps.length) {
           this.channelExist = true;
         }
+
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -169,7 +184,88 @@ export class SummaryComponent implements OnInit {
       }
     );
   }
-  viewAll(route) {
-    this.router.navigateByUrl(route, { skipLocationChange: true });
+  getLinkedBot() {
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+
+    this.service.invoke('get.linkedBot', queryParams).subscribe(
+      res => {
+        // console.log(res.channels[0].name)
+        if (res.channels.length) {
+          this.channelExist = true;
+          this.channelsName = res.channels[0].name;
+        }
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to get LInked BOT', 'error');
+        }
+      }
+    );
+  }
+  getAllOverview() {
+    const queryParams = {
+      searchIndexId: this.serachIndexId,
+    }
+    this.service.invoke('get.overview', queryParams).subscribe(
+      res => {
+        console.log(res);
+        this.experiments = res.experiments;
+        this.activities = res.activities;
+        this.indices = res.indices;
+        console.log(this.indices)
+        this.experiments.forEach(element => {
+          if (element.variants) {
+            element.variants.forEach(res => {
+              if (res.leader) {
+                element['winner'] = true;
+              }
+            });
+          }
+        });
+        console.log(this.experiments)
+        this.activities.forEach(element => {
+          element.date = moment(element.date).fromNow();
+          console.log(this.activities)
+        });
+
+        //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
+        //  this.getChannel();
+        //  this.channels.forEach(channel => {
+        //   if(res.apps.length > 0){
+        //     this.channelExist = true;
+        //   }
+
+        // });
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+
+
+  // viewAll(route){
+  //   this.router.navigateByUrl(route, { skipLocationChange: false });
+  // }
+  openExp() {
+    $('#experimentsTab').trigger('click')
+  }
+  openChannel() {
+    $('#channelsTab').trigger('click')
+  }
+  openDashboard() {
+    $('#dashboardTab').trigger('click')
+  }
+  openSource() {
+    $('#sourceTab').trigger('click')
   }
 }

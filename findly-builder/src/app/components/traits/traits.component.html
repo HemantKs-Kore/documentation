@@ -1,9 +1,9 @@
 <div class="traits-container row">
     <div class="mainLoadingSpinner" *ngIf="loadingTraits" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">Please Wait!</span>
+        <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
       </div>
-<ng-container *ngIf="!loadingTraits">\
+<ng-container *ngIf="!loadingTraits">
   <!-- NO DATA FOUND -->
   <div *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)" class="noTraits">
     <img src="assets/images/empty-illustration.png">
@@ -153,14 +153,14 @@
                     trait in the group from user utterances.
                     Example - 'vehicle type', 'device type'.
                 </p>
-                <input type="text" autocomplete="off" placeholder="Enter trait group" class="input-text" [(ngModel)]="traits.addEditTraits.groupName">
+                <input type="text" autocomplete="off" placeholder="Enter Trait Group" class="input-text" [(ngModel)]="traits.addEditTraits.groupName">
             </div>
             <div class="kr-sg-input-text">
                 <div class="label-text">Traits</div>
                 <p class="text">Add one or more traits and provide the required training sentences. E.g. 'car',
                     'bus', 'modem', 'router'.
                 </p>
-                <input autocomplete="off" type="text" placeholder="Type & enter to add" class="input-text" #traitValue [(ngModel)]="add.traitName"
+                <input autocomplete="off" type="text" placeholder="Type & Enter To Add" class="input-text" #traitValue [(ngModel)]="add.traitName"
                     (keyup.enter)="addTraits(add.traitName,$event)">
             </div>
             <div class="traits-group" *ngIf="traits.addEditTraits && traits.addEditTraits.traitsArray && traits.addEditTraits.traitsArray.length">
@@ -184,7 +184,7 @@
                             Add utterances or phrases
                         </div>
                         <div class="kr-sg-input-text">
-                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Add utterance" class="input-text"
+                            <input  maxlength="2048" type="text" autocomplete="off" placeholder="Add Utterance" class="input-text"
                             (keyup)='addUtterance(item.utterance,item.key,$event,traits.addEditTraits,index)' [(ngModel)]='item.utterance'
                             name='traitName'>
                         </div>

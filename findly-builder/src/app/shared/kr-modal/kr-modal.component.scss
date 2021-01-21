@@ -18,6 +18,12 @@
     &.kr-center{
         animation-name: example;
         animation-duration: 0.3s;
+        &.smallModal{
+            .modal-dialog{
+                max-width: 67% !important;
+                height: 85%;
+            }
+        }
         .modal-dialog{
             max-width: 80% !important;
             margin: 0 !important;

@@ -1,9 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter,ElementRef,ViewChild } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
+import { Moment } from 'moment';
+import * as moment from 'moment-timezone';
+import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
+
 import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
 
 @Component({
@@ -108,6 +112,16 @@ export class UserEngagementComponent implements OnInit {
   repeatUserProgress = 0;
   highValue = 24;
   lowValue = 0;
+  startDate:any = moment().subtract({ days: 7 });
+  endDate: any = moment();
+  minDate: any= moment().subtract({days: 95});
+  maxDate: any= moment();
+  defaultSelectedDay = 1;
+  showDateRange: boolean = false;
+  busyHour_dataDIV : any;
+  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
+  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -121,10 +135,10 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
-    this.getQueries("TopQuriesWithNoResults");
-    this.getQueries("MostSearchedQuries");
-    this.getQueries("QueriesWithNoClicks");
-    this.getQueries("SearchHistogram");
+    this.getuserCharts("MostUsedBrowsers");
+    this.getuserCharts("MostUsedGeoLocations");
+    this.getuserCharts("MostUsersSentiments");
+    // this.getQueries("SearchHistogram");
     
   }
   //SLider
@@ -165,6 +179,39 @@ export class UserEngagementComponent implements OnInit {
    this.highValue = event.highValue;
    this.lowValue = event.value;
    this.busyHours();
+  }
+  openDateTimePicker(e) {
+    setTimeout(() => {
+      this.pickerDirective.open(e);
+    })
+  }
+  onDatesUpdated($event){
+    this.startDate = this.selected.startDate;
+    this.endDate = this.selected.endDate;
+    this.dateLimt('custom');
+    // this.callFlowJourneyData();
+  }
+  getDateRange(range, e?) {
+    this.defaultSelectedDay = range;
+    if (range === -1) {
+      this.showDateRange = true;
+      this.datetimeTrigger.nativeElement.click();
+      // this.dateLimt('custom')
+    } else if (range === 7) {
+      this.startDate = moment().subtract({ days: 6 });
+      this.endDate = moment();
+      this.dateLimt('week')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    } else if (range === 1) {
+      this.startDate = moment().subtract({ hours: 23 });
+      this.endDate = moment();
+      this.dateLimt('hour')
+      // this.callFlowJourneyData();
+      this.showDateRange = false;
+    }
+
+    this.selected = { startDate: this.startDate, endDate: this.endDate }
   }
 
   appendToolTip(event, parentClass, multiple?) {
@@ -209,6 +256,9 @@ export class UserEngagementComponent implements OnInit {
     this.getuserCharts('UsersChart');
     this.getuserCharts('UsersBusyChart');
     this.getuserCharts('MostUsedDevices');
+    this.getuserCharts("MostUsedBrowsers");
+    this.getuserCharts("MostUsedGeoLocations");
+    this.getuserCharts("MostUsersSentiments");
   }
   getuserCharts(type){
     var today = new Date();
@@ -230,15 +280,15 @@ export class UserEngagementComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
+      searchIndexId:this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
       offset: 0,
       limit:this.pageLimit
     };
     let payload = {
       type: type,
       filters: {
-        from: from.toJSON(),
-        to: today.toJSON()
+        from:  this.startDate.toJSON(),//from.toJSON(),
+        to: this.endDate.toJSON()
       },
       group: this.group //this.group//"hour - 24 /date - 7 /week - coustom if time > 30 days"
     }
@@ -263,8 +313,15 @@ export class UserEngagementComponent implements OnInit {
       }else if(type == 'MostUsedDevices'){
         this.mostUsedDev_bro_geo_sen = res.results;
         this.mostUsedDevice();
+      }else if(type == 'MostUsedBrowsers'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.mostUsedBrowser();
+      }
+      else if(type == 'MostUsedGeoLocations'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.geo();
+      }else if(type == 'MostUsersSentiments'){
+        this.mostUsedDev_bro_geo_sen = res.results;
         this.sentiments();
       }
       
@@ -481,6 +538,15 @@ var valueList2 = totaldata.map(function (item) {
       },
       yAxis: {
            type: 'value',
+           name: 'Number of Users',
+           nameLocation: 'middle',
+           nameGap: 50,
+           nameTextStyle: {
+            color: "#9AA0A6",
+            fontWeight: "normal",
+            fontSize: 12,
+            fontFamily: "Inter"
+          },
            axisLabel:{
             //margin: 20,
             color: "#9AA0A6",
@@ -533,12 +599,74 @@ var valueList2 = totaldata.map(function (item) {
       ]
   };
   }
-  mostUsedDevice(){
-    let graphData = []
-    this.mostUsedDev_bro_geo_sen.forEach(element => {
-      graphData.push(element.percentOfUsers)
+  checkAxis(y_axis,data,graphData){
+    graphData = [];
+    data.forEach(element => {
+      if(!element.name) { element.name = "Null"}
+      y_axis.forEach((y , index )=> {
+        // if(element.name){  
+          if(y.charAt(0).toLowerCase() + y.slice(1) == element.name.charAt(0).toLowerCase() + y.slice(1)){
+            // y = element.name.charAt(0).toUpperCase() + element.name.slice(1)
+            if(graphData.length != y_axis.length){
+              graphData.push(element.percentOfUsers);
+            }
+           }else{
+            if(graphData.length != y_axis.length){
+              graphData.push('');
+            }
+           }
+        //}
+        // else{
+        //   graphData.push('')
+        // }
+       
+      });
+      
     });
+    return graphData
+  }
+  mostUsedDevice(){
+    let graphData = [];
+    let y_axis = ['Desktop','Tablet','Mobile'];
+    //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
+    //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
+    // this.mostUsedDev_bro_geo_sen.forEach(element => {
+    //   y_axis.forEach(y => {
+    //     if(y == element.name){
+    //       y = element.name;
+    //       graphData.push(element.percentOfUsers);
+    //     }else{
+    //       graphData.push('')
+    //     }
+    //   });
+      
+    // });
         this.mostUsedDeviceBar  = {
+          // tooltip: {
+          //   trigger: 'axis',
+          //   axisPointer: {            
+          //     type: 'none'        
+          // },
+          //   formatter:  (params) => `
+          //       <div class="metrics-tooltips-hover userengagment-tooltip">          
+          //       <div class="data-content">
+          //           <div class="main-title">Total Users</div>
+          //           <div class="title total">${params[0].value + params[1].value}</div>
+          //       </div>
+          //       <div class="data-content">
+          //           <div class="main-title">New Users</div>
+          //           <div class="title new">${params[1].value}</div>
+          //       </div>
+          //       <div class="data-content border-0">
+          //           <div class="main-title">Repeat Users</div>
+          //           <div class="title return">${params[0].value}</div>
+          //       </div>
+          //   </div> 
+          //   `,
+          //   position: 'top',
+          //   padding: 0
+           
+          // },
           xAxis: {
               type: 'value',
               axisLabel: {
@@ -548,7 +676,7 @@ var valueList2 = totaldata.map(function (item) {
           },
           yAxis: {
             type: 'category',
-              data: ['Desktop_Image', 'Tablet_Image', 'Mobile_Image'],
+              data: y_axis,//['Desktop_Image', 'Tablet_Image', 'Mobile_Image'],
               inverse: true,
               axisLabel: {
                 formatter: function (value) {
@@ -559,7 +687,7 @@ var valueList2 = totaldata.map(function (item) {
                     lineHeight: 30,
                     align: 'center'
                 },
-                'Desktop_Image': {
+                'Desktop': {
                   height: 40,
                   align: 'center',
                   backgroundColor: {
@@ -567,14 +695,14 @@ var valueList2 = totaldata.map(function (item) {
                   }
               },
                
-                'Tablet_Image': {
+                'Tablet': {
                     height: 40,
                     align: 'center',
                     backgroundColor: {
                         image:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAsCAMAAAAgsQpJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHUExURQAAACAgICEhISAgIGBgaCAgJSAgJCAgIyAgIyAgJV1gaF1iaGBiaCAgJCAiJF5kaCAgJCAgJCAgI15haF5jaGBjaCAgIyAiIyAiJV9jaCAgI15jaCAgJCAiJF9jZ15jZyAhJF9jaCAhJF9jZyAhIyAhJV9iaF9jaCAhJF9iZ19jZyAhJF9jaAjeyywAAAArdFJOUwAQHyAgMEBQYGBgYGBwf3+Aj5CQkJCfn5+foKCvr6+wv7/Pz9/f39/v7+/RD+HEAAABG0lEQVQ4y+2Tb1eDIBTGIdwVK5bRP3SxGJG6ze//+bpep2W2aefUm+p5AQ/w4164HBhDRdmuPqFdFjFSVNYTKlsyqyeVEfhM/okd0y2GJFO82/SZLn4peHe5mgU2JSzmgGtsylmps/P1Hyz4l8DNUfCqA2/mfoWomOKK7huutqew7SZi//o2gSOdHUYpddz266I3AF4DHEaJaSdfetDBW1AnsVlcG9mAiZGcQL6kiWDiASgqBV6ypNJx7ggMGvIHtvBKDCMKypt4tB4QjJtDVHycemlDMO0Zc4lgGvCKFYzAxAqK2ICPMYLKCNQ4osa63CNYCSb2AkEI6HCbi4egCM5bBG3wQdJlUu+CYkzt9YfKY5pB3znOf+alXwEB8Uul/UsUGwAAAABJRU5ErkJggg=='
                     }
                 },
-                'Mobile_Image': {
+                'Mobile': {
                   height: 40,
                   align: 'center',
                   backgroundColor: {
@@ -600,17 +728,28 @@ var valueList2 = totaldata.map(function (item) {
                 color: '#7027E5',
               },
             },
-              data: graphData,//[120, 200, 150],
+              data: [100, null, 50] ,//graphData,//[120, 200, 150],
               type: 'bar'
           }]
       };
     
     }
     mostUsedBrowser(){
-      let graphData = []
-      this.mostUsedDev_bro_geo_sen.forEach(element => {
-        graphData.push(element.percentOfUsers)
-      });
+      let graphData = [];
+      let y_axis = ['Chrome','IE','Safari'];
+      //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
+      //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
+      // this.mostUsedDev_bro_geo_sen.forEach(element => {
+      //   y_axis.forEach(y => {
+      //     if(y == element.name){
+      //       y = element.name;
+      //       graphData.push(element.percentOfUsers);
+      //     }else{
+      //       graphData.push('')
+      //     }
+      //   });
+        
+      // });
       this.mostUsedBrowserBar  = {
         xAxis: {
             type: 'value',
@@ -621,7 +760,7 @@ var valueList2 = totaldata.map(function (item) {
         },
         yAxis: {
           type: 'category',
-            data: ['Chrome', 'Safari', 'IE'],
+            data: y_axis,//['Chrome', 'Safari', 'IE'],
             inverse: true,
             axisLabel: {
               formatter: function (value) {
@@ -676,15 +815,25 @@ var valueList2 = totaldata.map(function (item) {
               color: '#FF784B',
             },
           },
-            data: graphData,//[120, 200, 150],
+            data: [100,35,null],//graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     geo(){
-      let graphData = []
+      let graphData = [];
+      let y_axis = ['US','India','UK','Japan'];
+      //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
       this.mostUsedDev_bro_geo_sen.forEach(element => {
-        graphData.push(element.percentOfUsers)
+        y_axis.forEach(y => {
+          if(y == element.name){
+            y = element.name;
+            graphData.push(element.percentOfUsers);
+          }else{
+            graphData.push('')
+          }
+        });
+        
       });
       this.geoBar  = {
         xAxis: {
@@ -697,7 +846,7 @@ var valueList2 = totaldata.map(function (item) {
         yAxis: {
           inverse: true,
           type: 'category',
-            data: ['US', 'India', 'UK'],
+            data: y_axis//['US', 'India', 'UK'],
             //inverse: true,
         },
         barWidth: 40,
@@ -716,15 +865,23 @@ var valueList2 = totaldata.map(function (item) {
               color: '#93D3A2',
             },
           },
-            data: graphData,//[120, 200, 150],
+            data: [55,85,null,15],//graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
     }
     sentiments(){
-      let graphData = []
+      let graphData = [];
+      let y_axis = [];
+      //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
       this.mostUsedDev_bro_geo_sen.forEach(element => {
-        graphData.push(element.percentOfUsers)
+        graphData.push(element.percentOfUsers);
+        if(element.name){
+          y_axis.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
+        }else{
+          y_axis.push('')
+        }
+        
       });
       this.sentimentsBar  = {
         xAxis: {
@@ -737,7 +894,7 @@ var valueList2 = totaldata.map(function (item) {
         yAxis: {
           inverse: true,
           type: 'category',
-            data: ['Angry', 'Disgust', 'Fear','Sad','Joy','Positive'],
+            data:['Angry', 'Disgust', 'Fear','Sad','Joy','Positive'] // y_axis, //['Angry', 'Disgust', 'Fear','Sad','Joy','Positive'],
             //inverse: true,
         },
         barWidth: 40,
@@ -770,26 +927,42 @@ var valueList2 = totaldata.map(function (item) {
       let yAxisData = [];
       let xAxisData = [];
       let heatData = [[]];
+      let toolTipData = [[]];
       let totalMaxValueArr = [];
       let start = this.lowValue; // 3
       let end= this.highValue; // 17
       let secondIndex = 0;
       let checkData = [];
+      // For Dimensions
+      let dimensions = [];
+      dimensions.push('product')
       if(this.group == 'hour' || this.group == 'date' || this.group == 'week'){
         for (const property in this.usersBusyChart) {
           busyChartArrayData.push(this.usersBusyChart[property])
            // let date =  property.split('-')[2]; 
            yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+           dimensions.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //  if(this.group == 'hour' || this.group == 'date') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //  if(this.group == 'week') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //console.log(`${property}: ${object[property]}`);
         }
+        if(this.group == 'hour'){
+          for(let a = start; a < end; a++){
+            xAxisData.push(hourConversion[a])
+           // toolTipData.push([hourConversion[a]])
+          }
+        }
         let checkIndex = 0;
           for(let i = 0; i< busyChartArrayData.length ; i++){
             for(let j =0 ; j< busyChartArrayData[i].length;j++){
-              if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour < end){  // for 5 am to 5 pm
-                if(this.group == 'hour') xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
-                if((this.group == 'date' || this.group == 'week' )&&  i == 0) xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
+             
+              if(busyChartArrayData[i][j].hour >= start && busyChartArrayData[i][j].hour <= end){  // for 5 am to 5 pm
+               // if(this.group == 'hour') xAxisData.push(hourConversion[busyChartArrayData[i][j].hour])
+                if((this.group == 'date' || this.group == 'week' )&&  i == 0){
+                  xAxisData.push(hourConversion[busyChartArrayData[0][j].hour])
+                  //toolTipData.push([hourConversion[busyChartArrayData[0][j].hour]])
+                } 
+                console.log(toolTipData)
                 heatData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 if(i != checkIndex){
                   checkData = [];
@@ -797,7 +970,7 @@ var valueList2 = totaldata.map(function (item) {
                 }else{
                   checkData.push([i,secondIndex,busyChartArrayData[i][j].totalUsers])
                 }
-                secondIndex = checkData.length;
+                secondIndex = checkData.length-1;
                 checkIndex = i
               } 
               
@@ -805,48 +978,75 @@ var valueList2 = totaldata.map(function (item) {
             }
           }
       }
-      console.log(heatData)
+     
      this.maxHeatValue = Math.max(...totalMaxValueArr)
       heatData = heatData.map(function (item) {
         return [item[1], item[0], item[2] || '-'];
     });
-      //let hours = ["1","2"]
-      //let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];
-    //let days = ["1st Aug","2nd Aug","3rd Aug","4th Aug","5th Aug","6th Aug","7th Aug"]
-    // let days = [];
-    // let data = [[0,0,1],[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,7],[1,0,1],[1,1,2],[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[2,0,1],[2,1,2],[2,2,3],[2,3,4],[2,4,5],[2,5,6],[2,6,7],[3,0,1],[3,1,2],[3,2,3],[3,3,4],[3,4,5],[3,5,6],[3,6,7],[4,0,1],[4,1,2],[4,2,3],[4,3,4],[4,4,5],[4,5,6],[4,6,7],[5,0,1],[5,1,2],[5,2,3],[5,3,4],[5,4,5],[5,5,6],[5,6,7],[6,0,1],[6,1,2],[6,2,3],[6,3,4],[6,4,5],[6,5,6],[6,6,7],[7,0,1],[7,1,2],[7,2,3],[7,3,4],[7,4,5],[7,5,6],[7,6,7],[8,0,1],[8,1,2],[8,2,3],[8,3,4],[8,4,5],[8,5,6],[8,6,7],[9,0,1],[9,1,2],[9,2,3],[9,3,4],[9,4,5],[9,5,6],[9,6,7],[10,0,1],[10,1,2],[10,2,3],[10,3,4],[10,4,5],[10,5,6],[10,6,7],[11,0,1],[11,1,2],[11,2,3],[11,3,4],[11,4,5],[11,5,6],[11,6,7],[12,0,1],[12,1,2],[12,2,3],[12,3,4],[12,4,5],[12,5,6],[12,6,7]];
-    // for(let i = 0; i<= 90; i++ ){
-    //   for(let j = 0; j<= i; j++ ){
-    //     for(let k = 1; k<= j; k++ ){
-    //       data.push([i,j,k])
-    //     }
-    //   }
-      // if(i % 2 == 0){
-      //   data.push([[i,i,i]])
-      // }else if(i % 3 == 0){
-      //   data.push([[i+1,i+4,i+5]])
-      // }else if(i % 5 == 0){
-      //   data.push([[i+3,i+4,i+2]])
-      // }
-     
-    //   days.push(i + "Aug")
-    // }  
-  //   <div class="metrics-tooltips-hover agent_drop_tolltip">
-  //   <div class="split-sec">
-  //     <div class="main-title">4th of Aug, 2020</div>
-  //     <div class="data-content"> 10am - 11am</div>
-  //   </div>    
-  //   <div class="indication_text">Number of total user is <b>2 </b></div>
     
-  // </div>
+
+    
+     // For source
+    let source= [];
+    for(let i=start;i<end;i++ ){
+      let sourceObj = {}
+      sourceObj['product'] = hourConversion[i];
+      for(let a=1;a<dimensions.length;a ++){
+        // if((this.group == 'date' || this.group == 'week' )&&  i == 0){
+        // } 
+        if(busyChartArrayData[a-1]){
+          if(busyChartArrayData[a-1][i]){
+            sourceObj[dimensions[a]] = busyChartArrayData[a-1][i].totalUsers;
+          }else{
+            sourceObj[dimensions[a]] = '-'
+          }
+        }else{
+          sourceObj[dimensions[a]] = '-'
+        }
+        
+      }
+      source.push(sourceObj);
+    }
+    console.log(dimensions);
+    console.log(source);
+    console.log(heatData)
+    
+     
+
+  // ${console.log( yAxisData[params[0].data[1]] , params[0].axisValue , params[0].data[2])}
   // ${params[0].value}
   // formatter: `
   // formatter:  (params) => `
+  // <div class="indication_text">Number of total user is <b> ${ dimensions[5]} ${params[5].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[4]}  ${params[4].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[3]}  ${params[3].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[2]}  ${params[2].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[1]}  ${params[1].value[2]}</b></div>
+  //           <div class="indication_text">Number of total user is <b>${ dimensions[0]}  ${params[0].value[2]}</b></div>
     this.heatMapChartOption = {
-      tooltip: {
-        position: 'top'
-      },
-        animation: false,
+      // tooltip: {
+      //   position: 'top'
+      // },
+      dataset: {
+        dimensions: dimensions,
+        source:source
+    },
+    
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            
+            type: 'none'        
+        },
+          formatter:  (params,ticket,callback) =>`
+          ${this.tooltipHover(params , busyChartArrayData , source ,dimensions)}
+          
+          ${this.busyHour_dataDIV}
+          `,
+          position: 'top',
+          padding: 0
+        },
+         
+        //animation: false,
         grid: {
           height: '70%',
           top: '10%',
@@ -924,7 +1124,7 @@ var valueList2 = totaldata.map(function (item) {
           }
         }],
         series: [{
-          name: 'Users',
+          name: 'Busy hours',
           type: 'heatmap',
           data: heatData,
           emphasis: {
@@ -935,9 +1135,31 @@ var valueList2 = totaldata.map(function (item) {
           itemStyle: {
             borderColor: "#fff",
             borderWidth: 2
-          }
-  
+          },
         }]
       };
+    }
+    
+    tooltipHover(e , data , source , dimensions){
+      console.log(e);
+      //console.log(data[e[0].data[0]][e[0].data[1]].totalUsers)
+      let loopDIV;
+      let dataDIV = 
+        `
+        <div class="metrics-tooltips-hover agent_drop_tolltip">
+        <div class="split-sec">
+          <div class="main-title" >${e[0].axisValue}</div>
+          <div class="data-content"></div>
+        </div> 
+        `
+        for(let i = 0 ;i<e.length ; i++){
+          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i+1]} </b> is <b>${e[i].value[2]} </b></div>`
+        }
+        
+        `
+      </div>
+        `
+        if(loopDIV)
+        this.busyHour_dataDIV = dataDIV + loopDIV;
     }
 }

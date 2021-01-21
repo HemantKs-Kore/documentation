@@ -1,16 +1,20 @@
 <div class="main-metrics-container">
     <div class="header-sec row m-0 col-12">
         <div class="bread-cum-sec col-3 p-0 d-flex align-items-center">
-            <div class="bread-name">Analytics</div>
+            <div class="bread-name">{{'metrics.analytics'| translate}}</div>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAYAAABBV8wuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAClSURBVHgBbU+xDcIwEPQ7ibIGI8AIGQNREJepYAMYAQoUkSC9U9iUFhNkFNgAWoTsByNhKQ5XnPR3uv971khtasQJi8At2X0CeR+b4KlGVSYAq4yehRDi8U14qsRCEtHlBblh/3BEtW2kwrBqaGrJOVz5qA2wu3NuGGi786ZBvRuJrdT9b049nTq9dETlp+4s/HFANc0AjCUoKjG/hVspg3UserwBA09CgWDEywYAAAAASUVORK5CYII=">
-            <div class="bread-name active-name">Results Insights</div>
+            <div class="bread-name active-name">{{'metrics.result_insights.Results_Insights'| translate}}</div>
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
+            <div class="custom_date_picker_sec">
+                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
+              </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
-                <span class="day time " [ngClass] = "{'active'  : dateType == 'hour'}" (click)="dateLimt('hour')">24 Hrs</span>
-                <span class="week time" [ngClass] = "{'active'  : dateType == 'week'}" (click)="dateLimt('week')">7 Days</span>
-                <span class="custom time" [ngClass] = "{'active'  : dateType == 'custom'}" (click)="dateLimt('custom')">Custom</span>
+                <span class="day time "  (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
+                <span class="week time"  (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
+                <span class="custom time"  (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
         </div>
@@ -20,7 +24,7 @@
         <div class="data-information-content col-12 m-0 row split-tables">
             <div class="col-12 box-content">
                 <div class="row m-0 col-12 p-0 align-items-center">                    
-                    <div class="title-card col-4 p-0">Top Search Results</div>
+                    <div class="title-card col-4 p-0">{{'metrics.result_insights.Top_Search_Results'| translate}}</div>
                     <div class="col-8 d-flex justify-content-end p-0 search-filter-block">
                         <div class="kr-sg-input-search">                               
                             <input type="text" placeholder="Search" class="input-search"  name="searchSources" [(ngModel)]="searchSources">
@@ -55,13 +59,13 @@
                 </div>       -->
                 <div class="table_data_content">
                     <div class="table_header row m-0">
-                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Search Results</div>
-                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances</div>
-                        <div class="col-1 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">No of Clicks</div>
-                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Click-Through Rate</div>
-                        <div class="col-1 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Avg Position</span></div>
-                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Positive Feedback</span></div>
-                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Negative Feedback</span></div>
+                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
+                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
+                        <div class="col-1 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
+                        <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
+                        <div class="col-1 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
+                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
+                        <div class="col-2 title d-flex"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>
                     </div>
                     <div class="table_body row m-0" *ngFor="let result of resultsData | filter: [ searchSources , 'answer']">
                         <div class="col-2 title d-flex align-items-center">
@@ -85,6 +89,7 @@
                     </div>    
                     
                 </div>
+                <span *ngIf='resultsData'><app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitPage' (pageChanged)="paginate($event,'Results')"></app-record-pagination></span>
             </div>
         </div>
     </perfect-scrollbar>  
@@ -94,7 +99,7 @@
 <kr-modal modalType="center" #viewQueries modalClass="modal_popups_ view-query-modal">
   <div class="modal-header">
     <div>
-        <div class="small-title">Search Queries for</div>
+        <div class="small-title">{{'metrics.result_insights.Search_Queries_for'| translate}}</div>
         <div class="title-small">{{resultQueryAnswer}}</div>
         <div class="response">{{searchQueryanswerType}} Response</div>
     </div>
@@ -104,13 +109,13 @@
     <div class="modal-body">
         <div class="table_data_content">
             <div class="table_header row m-0">
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Search Results</div>
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Appearances</div>
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">No of Clicks</div>
-                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">Click-Through Rate</div>
-                <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Avg Position</span></div>
-                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Positive Feedback</span></div>
-                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>Negative Feedback</span></div>
+                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Search_Results'| translate}}</div>
+                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Appearances'| translate}}</div>
+                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.No_of_Clicks'| translate}}</div>
+                <div class="col-2 title"><img src="assets/icons/sort_up_down.svg" class="mr-1">{{'metrics.result_insights.Click-Through_Rate'| translate}}</div>
+                <div class="col-2 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Avg_Position'| translate}}</span></div>
+                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Positive_Feedback'| translate}}</span></div>
+                <div class="col-1 title d-flex align-items-start"><img src="assets/icons/sort_up_down.svg" class="mr-1"><span>{{'metrics.result_insights.Negative_Feedback'| translate}}</span></div>
             </div>
             <div class="table_body row m-0" *ngFor="let result of resultsSearchData">
                 <div class="col-2 title d-flex align-items-center">
@@ -123,9 +128,9 @@
                 <div class="col-2 title data-overview">{{result.avgPosition}}</div>
                 <div class="col-1 title">{{result.positiveFeedback}}</div>                       
                 <div class="col-1 title">{{result.negativeFeedback}}</div>
-            </div>       
-            
+            </div>                   
         </div>
+        <span *ngIf='resultsSearchData'><app-record-pagination [totalRecord]='Q_totalRecord' [limitpage]='Q_limitPage' (pageChanged)="paginate($event,'QRESULT')"></app-record-pagination></span>
     </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer">

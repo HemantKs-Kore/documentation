@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ElementRef,OnInit,ViewChild } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { RouterModule, Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
+
 
 @Component({
   selector: 'app-metrics',
@@ -58,6 +59,8 @@ export class MetricsComponent implements OnInit {
   userEngagementChartData : EChartOption;
   isAsc = true;
   slider = 0;
+  
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -78,6 +81,7 @@ export class MetricsComponent implements OnInit {
     this.getQueries("SearchHistogram");
     
   }
+  
   tab(index){
     this.slider = index
     if(index == 2){

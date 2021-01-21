@@ -1,11 +1,13 @@
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <div class="krFindlyAppComponent">
     <div *ngIf="!loading">
-        <app-header (showMenu) = "showMenu($event)"></app-header>
-        <app-mainmenu [show] = "showMainMenu" class="toShowAppHeader"></app-mainmenu>
-        <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody) = "closeResultBody($event)" [query] = "queryText" [bridgeData] = "bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult" class="container-fluid appContent"  [ngClass]= "{'pl-0': !showMainMenu}"></app-body>
+        <app-header (showMenu)="showMenu($event)" (settingMenu)="settingMenu($event)"></app-header>
+        <app-mainmenu [show]="showMainMenu" [settingMainMenu]="settingMainMenu" class="toShowAppHeader"></app-mainmenu>
+        <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody)="closeResultBody($event)" [query]="queryText"
+            [bridgeData]="bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult"
+            class="container-fluid appContent" [ngClass]="{'pl-0': !showMainMenu}"></app-body>
     </div>
 </div>
-<div class="loaderContainer"  *ngIf="loading">
-    <img src="assets/images/logoIcon.png" class="loaderLogoImage" >
+<div class="loaderContainer" *ngIf="loading">
+    <img src="assets/images/logoIcon.png" class="loaderLogoImage">
 </div>

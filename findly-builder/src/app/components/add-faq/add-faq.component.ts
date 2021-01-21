@@ -15,6 +15,8 @@ import * as _ from 'underscore';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { Observable, Subscription } from 'rxjs';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -44,6 +46,20 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   externalResponsePopRef
   faqs:any = {}
   anwerPayloadObj:any = {};
+  ruleOptions = {
+    searchContext:['recentSearches','currentSearch', 'traits', 'entity','keywords'],
+    pageContext:['device', 'browser', 'currentPage' , 'recentPages','signed','timeDateDay','session','timeSpentOnThePageSession'],
+    userContext:['userType', 'userProfile', 'age', 'sex'],
+    contextTypes:['searchContext','pageContext','userContext'],
+    actions:['boost','lower','hide','filter']
+  }
+  defaultValuesObj: any = {
+    contextType:'searchContext',
+    operator:'contains',
+    contextCategory:'recentSearches',
+    value:[]
+  }
+  conditions =['contains','doesNotContain','equals','notEquals']
   codeMirrorOptions: any = {
     theme: 'neo',
     mode: 'javascript',
@@ -122,6 +138,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     private notify: NotificationService,
     private faqService: FaqsService,
     public convertMDtoHTML:ConvertMDtoHTML,
+    public dialog: MatDialog,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
     ) {
@@ -167,6 +184,48 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     }
     this.groupAddSub =  this.faqService.groupAdded.subscribe(res=>{ this.groupsAdded = res; });
   }
+  ruleSelection(ruleObj,value,key){
+    if( key === 'contextCategory' ){
+      ruleObj.contextCategory = value;
+    }
+    if( key === 'contextType' ){
+      ruleObj.contextType = value;
+      ruleObj.contextCategory = this.ruleOptions[value][0];
+    }
+    if( key === 'operator' ){
+      ruleObj.operator = value;
+    }
+  }
+  addNewRule(index,faq){
+    const ruleObj:any = JSON.parse(JSON.stringify(this.defaultValuesObj));
+    ruleObj.value = []
+    if(!faq.conditions){
+      faq.conditions  = [];
+    }
+    faq.conditions.push(ruleObj)
+  }
+  removeRule(index,rules){
+    rules.splice(index,1);
+  }
+  addRules(event: MatChipInputEvent,ruleObj,i) {
+    const input = event.input;
+    const value = event.value;
+    if ((value || '').trim()) {
+      if (!this.checkDuplicateTags1((value || '').trim(),ruleObj.value)) {
+        this.notify.notify('Duplicate tags are not allowed', 'warning');
+        return ;
+      } else {
+        ruleObj.value.push(value);
+      }
+    }
+    if (input) {
+      input.value = '';
+    }
+    this.suggestedInput.nativeElement.value = '';
+  }
+  checkDuplicateTags1(suggestion: string,alltTags): boolean {
+    return  alltTags.every((f) => f !== suggestion);
+  }
   setResponseType(type,responseObj){
     responseObj.responseType = type;
   }
@@ -209,8 +268,11 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
       faqObj.conditions.splice(index,1);
     }
   }
-  changeResponseType(faqObj){
+  changeResponseType(faqObj,index){
     faqObj.answerType = (faqObj.answerType ==='condition')?'default':'condition';
+    if(faqObj.answerType === 'condition' && !(faqObj.conditions && faqObj.conditions.length)){
+      this.addNewRule(index,faqObj)
+    }
   }
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -241,7 +303,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
  if(this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length >1){
   this.faqResponse.defaultAnswers.splice(index,1);
    } else {
-    this.notify.notify('Atlease one answer is required', 'error');
+    this.notify.notify('Atleast one answer is required', 'error');
    }
   }
   setDataforEditDelete(faqdata){
@@ -284,16 +346,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             }
             const _conditions = [];
             answer.conditions.forEach(element => {
-              const tempobj = {
-                key:'',
-                op:'exist',
-                value:element.value,
-              }
-              if(element && element.op === 'eq'){
-                tempobj.value = element.key+'='+element.value;
-                tempobj.op = 'eq';
-              }
-              _conditions.push(tempobj);
+              _conditions.push(element);
             });
             answerObj.conditions = _conditions || []
             if(answer && answer.answers && answer.answers.length){
@@ -340,7 +393,8 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj.multimedia = {
               type:'image',
               url:answer.image.url,
-              position:'horizontalSplit'
+              // position:'horizontalSplit'
+              position: answer.responseType
             }
           }
           defaultAnswers.push(answerObj);
@@ -357,23 +411,14 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
             answerObj1.multimedia = {
               type:'image',
               url:answer.image.url,
-              position:'horizontalSplit'
+              // position:'horizontalSplit'
+              position: answer.responseType
             }
           }
           const _conditions = [];
           if(answer.conditions){
             answer.conditions.forEach(element => {
-              const tempobj = {
-                key:'',
-                op:'exist',
-                value:element.value,
-              }
-              if(element.value && element.value.includes('=')){
-                tempobj.value = element.value.split('=')[1];
-                tempobj.key = element.value.split('=')[0];
-                tempobj.op = 'eq';
-              }
-              _conditions.push(tempobj);
+              _conditions.push(element);
             });
           }
           const conditionAnswerObj:any = {
@@ -454,7 +499,9 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   removeSynonym(tag, index) {
     tag.synonyms.splice(index, 1);
   }
-
+  removeTag(tags, index) {
+    tags.splice(index, 1);
+  }
   checkDuplicateTags(suggestion: string = ''): boolean {
     return this.tags.every(f => f.toLowerCase() !== suggestion.toLowerCase())
   }
@@ -748,7 +795,26 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
     });
   }
   delAltQues(ques,index) {
-    this.faqData._source.alternateQuestions.splice(index,1);
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '446px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+        title: 'Confirm',
+        body: 'Do you want to delete the this alternate question',
+        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }],
+        confirmationPopUp:true
+        }
+      });
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.faqData._source.alternateQuestions.splice(index,1);
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
     // this.faqData._source.alternateQuestions = _.without(this.faqData._source.alternateQuestions, _.findWhere(this.faqData._source.alternateQuestions, { _id: ques._id }));
   }
   ngOnDestroy() {

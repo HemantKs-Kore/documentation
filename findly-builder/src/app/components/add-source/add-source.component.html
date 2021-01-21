@@ -5,24 +5,37 @@
     <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
   </div>
   <!-- <h4 *ngIf="resourceIDToOpen" class="header-title"><img src="assets/images/closeCross.png" class="closeCross" (click)='cancleSourceAddition()'></h4> -->
-  <perfect-scrollbar
-    [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
+  <perfect-scrollbar [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
     <div class="h-100 position-relative addNewSource">
-      <div class="sources-content-box-list h-100" *ngIf="!selectedSourceType">
+      <!-- <div class="sources-content-box-list h-100 d-none" *ngIf="!selectedSourceType">
         <div class="crawlContent row m-0 mb-4" *ngFor="let sourceCatagory of availableSources">
           <div class="col-12 main-title label_text">{{sourceCatagory.title}}</div>
-          <div class="webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
-            <div class="box-block">
-              <div class="title label_text m-0">{{source.name}}</div>
-              <div class="imageDiv">
-                <img src="{{source.icon}}">
+          <div class="col-4 webDomain" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+            <div class="box-block-flat">
+              <div class="row">
+                <div class="col-3" class="imageDiv"> <img src="{{source.icon}}"></div>
+                <div class="col-9 text-div">
+                  <img src="assets/icons/gray_info.svg" class="icon-gray">
+                  <div class="title label_text m-0">{{source.name}}</div>
+                  <div >{{source.description}}</div>
+                </div>
               </div>
-              <div class="info-text">{{source.description}}</div>
+            </div>           
+          </div>
+        </div>
+      </div>     -->
+      <div class="source_content_boxes" *ngIf="!selectedSourceType">
+        <div class="crawlContent row" *ngFor="let sourceCatagory of availableSources">
+          <div class="main-title col-12 p-0">{{sourceCatagory.title}}</div>
+          <div class="card-data" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+            <div class="img-block"><img src="{{source.icon}}"></div>
+            <div class="titles-sec">
+              <div class="p-title text-truncate" title="{{source.name}}">{{source.name}}</div>
+              <div class="s-title text-truncate" title="{{source.description}}">{{source.description}}</div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- FAQ Extract Doc-->
+      </div>        
     </div>
   </perfect-scrollbar>
 </div>
@@ -95,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="closeStatusModal()">Cancel Crawling</button>
+          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>
@@ -138,34 +151,44 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">Source URL</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter domain URL"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
             <div class="kr-sg-input-text mb-4">
               <div class="label-text">Source Title</div>
-              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter name"
+              <input type="url" autocomplete="off" id="addSourceTitleInput" name="sourceTitle" placeholder="Enter Title"
                 [(ngModel)]="newSourceObj.name" class="input-text" required>
             </div>
             <div class="kr-sg-input-text-area mb-3">
               <div class="label-text">Description</div>
               <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc"
-                placeholder="Enter description" class="input-text"></textarea>
+                placeholder="Enter Description" class="input-text"></textarea>
+            </div>
+            <div class="container-import"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
+            <div class="import">IMPORT FROM FILE</div>
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
-
+           
             <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                   <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#fromfile">Extract from file</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item ">
                     <a class="nav-link" data-toggle="tab" href="#fromurl">Extract from url</a>
                   </li>             
                 </ul>
                   <!-- Tab panes -->
                 <div class="tab-content">
                   <div id="fromfile" class="tab-pane browsebyfile active">
+                    <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0"  *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id==='faqDoc')">
+                      <div class="title-data col-6 p-0">Browse File</div>
+                    <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
+                        <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
+                        <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
+                    </div>
+                    </div>
                     <div class="kr-sg-input-text-area mb-4">
                       <div class="kr-sg-file-drag-drop">
                         <div class="drag-drop-sec">
@@ -224,7 +247,7 @@
                         <div class="kr-sg-input-text">
                           <div class="label-text">Enter URL</div>
                           <input type="text"  placeholder="https://" class="input-text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter domain URL"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Domain URL"
                   [(ngModel)]="newSourceObj.url" class="input-text">
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
@@ -300,15 +323,16 @@
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()" [disabled]="fileObj.fileId || fileObj.fileName" placeholder="Enter Url" [(ngModel)]="newSourceObj.url"
                   class="input-text">
               </div> -->
-            <div class="advanced-settings-title"
+              <!-- collapse -->
+            <!-- <div class="advanced-settings-title"
               *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
-              data-toggle="collapse" data-target="#settings">Advance Settings</div>
-            <div
-              *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
-              id="settings" class="collapse advance-setttings">
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
-                  <div class="kr-sg-input-text ">
+              data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
+              
+            <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class=" advance-setttings">
+              
+              <div class="inner-content row m-0 schedule-data">
+                <div class="col-12 p-0 input-paddings">
+                  <div class="kr-sg-input-text">
                     <input type="text" class="input-text pointer-none border-no" value="Schedule">
                   </div>
                   <label class="kr-sg-toggle">
@@ -316,12 +340,203 @@
                     <div class="slider"></div>
                   </label>
                 </div>
-                <div class="scheduler-box col-12 p-0" *ngIf="crwalObject.advanceOpts.scheduleOpt">
-                  <app-scheduler [crwalObject]="crwalObject" [schedule]="'set'" (scheduleData)="scheduleData($event)"
+                <div class="scheduler-box col-12 p-0">
+                  <app-scheduler [crwalObject]="crwalObject" [scheduleFlag] = "crwalObject.advanceOpts.scheduleOpt" [schedule]="'set'" (scheduleData)="scheduleData($event)"
                     (cronExpress)="cronExpress($event)"></app-scheduler>
                 </div>
               </div>
+              
+              <!-- New Crwal everey thing-->
+              <div class="inner-content row m-0 crawl-option">
+                <div class="col-12 p-0 input-paddings">
+                  <div class="kr-sg-dropdowns">      
+                    <div class="label-text">Crawl Option</div>                                  
+                    <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
+                        <ul class="dropdown-menu content-menu">
+                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URls')"><a>Crawl Everything Except Specific URls</a></li>
+                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+              </div>
               <div class="inner-content row m-0">
+                <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
+                  <div class="allow-urls-sec row allow-urlBox padd  pl-0 pr-0" *ngIf="crwalObject.advanceOpts.allowedOpt">
+                    <div class="col-2 p-0 title">Allow URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input"
+                            data-toggle="dropdown">{{allowUrl.condition}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
+                            <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                            <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
+                            <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
+                            <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
+                            <li (click)="urlCondition('doesNotContains', 'allow')"><a>Doesn't contain</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="kr-sg-input-text">
+                        <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
+                          placeholder="Enter/Path" class="input-text">
+                      </div>
+                      <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+
+                  </div>
+
+                  <div
+                    *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
+                    class="w-100">
+                    <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
+                      <div class="col-2 p-0 title"></div>
+                        <div class="col-10 p-0 d-flex align-items-center">
+                          <div class="kr-sg-dropdowns">
+                            <div class="dropdown dropdown-open">
+                              <button class="dropdown-toggle dropdown-input"
+                                data-toggle="dropdown" disabled>{{rec.condition}}</button>
+                              
+                            </div>
+                          </div>
+                          <div class="kr-sg-input-text">
+                            <input type="text" autocomplete="off" value= "{{rec.url}}" name="allowVal"
+                              placeholder="Enter/Path" class="input-text" disabled>
+                          </div>
+                          <div class="add-urls" (click)="updateUrlRecord(i,'allow')"><img src="assets/images/close-cross.svg"></div>
+                        </div>
+                      
+                     
+                    </div>
+                  </div>
+
+                  <!--Block-->
+                  <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngIf="crwalObject.advanceOpts.blockedOpt">
+                    <div class="col-2 p-0 title">Block URLS</div>
+                    <div class="col-10 p-0 d-flex align-items-center">
+                      <div class="kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                          <button class="dropdown-toggle dropdown-input"
+                            data-toggle="dropdown">{{blockUrl.condition}}</button>
+                          <ul class="dropdown-menu content-menu">
+                            <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
+                            <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                            <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
+                            <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
+                            <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
+                            <li (click)="urlCondition('doesNotContains', 'block')"><a>Doesn't contain</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="kr-sg-input-text">
+                        <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
+                          placeholder="Enter/Path" class="input-text">
+                      </div>
+                      <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
+                    </div>
+
+                  </div>
+                  <div
+                    *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length && crwalObject.advanceOpts.blockedOpt"
+                    class="w-100">
+                    <!-- <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index"> -->
+                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
+                      <!-- <div class="alw-list alw-list-bor"
+                        [ngClass]="{'last-record' : (i + 1) == crwalObject.advanceOpts.blockedURLs.length }">
+                        {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
+                        <span class="close-path p-0 cross-right" (click)="updateUrlRecord(i,'block')"><img
+                            src="assets/images/close-cross.svg"></span>
+                      </div> -->
+                    <!-- </span> -->
+                    <div class="allow-urls-sec row allow-urlBox padd pl-0 pr-0" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
+                      <div class="col-2 p-0 title"></div>
+                        <div class="col-10 p-0 d-flex align-items-center">
+                          <div class="kr-sg-dropdowns">
+                            <div class="dropdown dropdown-open">
+                              <button class="dropdown-toggle dropdown-input"
+                                data-toggle="dropdown" disabled>{{rec.condition}}</button>
+                              
+                            </div>
+                          </div>
+                          <div class="kr-sg-input-text">
+                            <input type="text" autocomplete="off" value= "{{rec.url}}" name="blockVal"
+                              placeholder="Enter/Path" class="input-text" disabled>
+                          </div>
+                          <div class="add-urls" (click)="updateUrlRecord(i,'block')"><img src="assets/images/close-cross.svg"></div>
+                        </div>
+                      
+                     
+                    </div>
+                  </div>
+                  <!-- Block-->
+                </div>
+                <!-- Cookies -->
+                <div class="group-checkbox">
+                  <!-- <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
+                      <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
+                  </div> -->
+                  <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
+                      <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
+                  </div>
+                  <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "crawlBeyondSitemaps" [(ngModel)] = "crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
+                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
+                  </div>
+                  <div class="pl-0 kr-sg-checkbox">
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "respectRobotTxtDirectives" [(ngModel)] = "respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
+                  </div>
+                  <div class="pl-0 kr-sg-checkbox">
+                    <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name = "useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
+                    <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
+                </div>
+              </div>
+            
+              <!-- Cookies -->
+              </div>
+
+              <div class="inner-content row m-0">
+                <div class="col-3 p-0">                   
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Crawl Depth 
+                      <div class="tooltip-custom">
+                      <img src="assets/icons/info.svg">
+                      <span class="tooltiptext">
+                        <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                        <div class="v-text">Value = 0 (No limit)</div>
+                      </span>
+                    </div> 
+                    </div>
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                      [(ngModel)]="crawlDepth" class="input-text" >
+                  </div>
+                </div>
+                <div class="col-1 p-0"></div>
+                <div class="col-3 p-0"> 
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Max URL Limit
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div>                    
+                    </div>
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                      [(ngModel)]="maxUrlLimit" class="input-text">
+                  </div>
+                </div>
+              </div>
+               <!-- New Crawl everey thing-->
+
+              <!-- <div class="inner-content row m-0">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-input-text">
                     <input type="text" value="Crawl Everything" class="input-text pointer-none border-no">
@@ -332,8 +547,8 @@
                     <div class="slider"></div>
                   </label>
                 </div>
-              </div>
-              <div *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
+              </div> -->
+              <!-- <div *ngIf="crwalObject.advanceOpts && crwalObject.advanceOpts.crawlEverything">
                 <div class="allow-list-data-label label_text_dis m10">Allow List <img src="assets/icons/Info-small.svg"
                     class="ml-1">
                   <label class="kr-sg-toggle full-input list">
@@ -348,10 +563,10 @@
                     <div class="slider"></div>
                   </label>
                 </div>
-              </div>
-              <div class="inner-content row m-0">
+              </div> -->
+              <!--<div class="inner-content row m-0">
                 <div *ngIf="!crwalObject.advanceOpts.crawlEverything" class="w-100 show-allow-urls">
-                  <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg"
+                   <div class="allow-list-data-label label_text_dis">Allow List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
                     <label class="kr-sg-toggle full-input list">
                       <input type="checkbox" id="allowUrlId" name="allowUrl"
@@ -359,7 +574,7 @@
                         (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div>
+                  </div> 
                   <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
@@ -385,11 +600,10 @@
                     </div>
 
                   </div>
-                  <div
+                   <div
                     *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.allowedURLs.length && crwalObject.advanceOpts.allowedOpt"
                     class="w-100">
                     <div class="alw-data w-100" *ngFor="let rec of crwalObject.advanceOpts.allowedURLs;let i = index">
-                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
                       <div class="alw-list w-100 alw-list-bor"
                         [ngClass]="{'last-record' : (i + 1) == crwalObject.advanceOpts.allowedURLs.length }">
                         {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
@@ -397,9 +611,9 @@
                             src="assets/images/close-cross.svg"></span>
                       </div>
                     </div>
-                  </div>
-                  <!-- Block List -->
-                  <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg"
+                  </div> 
+                 
+                   <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
 
                     <label class="kr-sg-toggle full-input list">
@@ -408,8 +622,8 @@
                         (click)="restrictUrl(crwalObject.advanceOpts.blockedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div>
-                  <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
+                  </div> 
+                   <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
                       <div class="kr-sg-dropdowns">
@@ -434,11 +648,10 @@
                     </div>
 
                   </div>
-                  <div
+                   <div
                     *ngIf="crwalObject && crwalObject.advanceOpts && crwalObject.advanceOpts.blockedURLs.length && crwalObject.advanceOpts.blockedOpt"
                     class="w-100">
                     <span class="" *ngFor="let rec of crwalObject.advanceOpts.blockedURLs;let i = index">
-                      <!-- <div class="ad-pannel">{{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}  </div> -->
                       <div class="alw-list alw-list-bor"
                         [ngClass]="{'last-record' : (i + 1) == crwalObject.advanceOpts.blockedURLs.length }">
                         {{(i + 1)  + ' :' + rec.condition + ' ' + rec.url  }}
@@ -446,29 +659,10 @@
                             src="assets/images/close-cross.svg"></span>
                       </div>
                     </span>
-                  </div>
+                  </div> 
                 </div>
-              </div>
-              <!-- Cookies -->
-              <div class="">
-                <div class="heading-title" style="margin-top: 1rem; margin-left: 8px;font-weight: 500;font-size: 12px;">Crawl Settings</div>
-              </div>
-            <div class="group-checkbox" style="margin-top: -1rem; float: right">
-              <!-- <div class="heading-title">Label</div> -->
-              <div class="kr-sg-checkbox">
-                  <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">JavaScript-rendered</label>
-              </div>
-              <div class="kr-sg-checkbox">
-                  <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
-              </div>
-              <div class="kr-sg-checkbox">
-                  <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
-                  <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt</label>
-              </div>
-          </div>
-              <!-- Cookies -->
+              </div>-->
+              
             </div>
 
             <div class="kr-sg-input-text-area mb-4 radio-pad"
@@ -484,6 +678,7 @@
               </div>
             </div>
           </div>
+          
         </div>
         </div>
       </perfect-scrollbar>
@@ -496,30 +691,30 @@
     </form>
   </ng-container>
 </kr-modal>
-<kr-modal modalType="center" modalClass="botsModal" #linkBotsModalPop>
+
+<kr-modal modalType="center" modalClass="botsModal modal_popups_" #linkBotsModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
-    <div class="bots-modal-modal-header">
-      <span class="bots-modal-header-title">Link Bots</span>
-      <button class="button-close" (click)="cancleSourceAddition()"><img class="ng-tns-c11-2"
-          src="assets/icons/modal-close.svg"></button>
+    <div class="modal-header">
+      <div class="title">Link Bots</div>
+      <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
     </div>
-    <div class="bots-modal-modal-body">
-      <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
-        <img src="assets/images/icons/empty_ill.svg">
-        <h2>No Bots</h2>
-        <h4>Please add bots</h4>
-      </div>
-      <ng-container *ngIf="!noAssociatedBots">
-        <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
-          only link bots
-          that you have the rights to access.</p>
-        <div class="bots-modal-search-input-container">
-          <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
-            name="searchAssociatedBots">
-          <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+    <perfect-scrollbar class="perfect-scroll-modal-body">
+      <div class="modal-body bots-modal-modal-body">
+        <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
+          <img src="assets/images/icons/empty_ill.svg">
+          <h2>No Bots</h2>
+          <h4>Please add bots</h4>
         </div>
-        <ng-container>
-          <perfect-scrollbar>
+        <ng-container *ngIf="!noAssociatedBots">
+          <p class="bots-modal-list-text">Choose any one bot from the list below to link into your Findly app. You can
+            only link bots
+            that you have the rights to access.</p>
+          <div class="bots-modal-search-input-container">
+            <input class="bots-modal-search-input" type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots"
+              name="searchAssociatedBots">
+            <img class="bots-modal-search-icon" src="assets/images/search_gray.svg">
+          </div>
+          <ng-container>
             <div class="bots-modal-list-container">
               <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
                 <ng-container
@@ -550,9 +745,17 @@
                 </ng-container>
               </ngb-accordion>
             </div>
-          </perfect-scrollbar>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
-  </ng-container>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>  
+</kr-modal> 
+
+<kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
+  <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
+</kr-modal>
+
+<kr-modal modalType="default" #structuredDataStatusModalPop>
+  <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()" [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
 </kr-modal>

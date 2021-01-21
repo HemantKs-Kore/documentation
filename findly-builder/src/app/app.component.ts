@@ -7,6 +7,7 @@ import { SideBarService } from './services/header.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 
 // import {TranslateService} from '@ngx-translate/core';
 declare const $: any;
@@ -17,6 +18,7 @@ declare const FindlySDK: any;
 declare let window:any;
 declare let self:any;
 import * as _ from 'underscore';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,6 +28,7 @@ export class AppComponent implements OnInit , OnDestroy {
   loading = true;
   userInfo:any = {};
   showMainMenu = true;
+  settingMainMenu=false;
   previousState;
   appsData: any;
   searchInstance:any;
@@ -34,6 +37,7 @@ export class AppComponent implements OnInit , OnDestroy {
   addNewResult = true;
   showInsightFull = false;
   queryText ;
+  subscription:Subscription;
   pathsObj: any = {
    '/faq':'Faqs',
    '/content':'Contnet',
@@ -47,7 +51,8 @@ export class AppComponent implements OnInit , OnDestroy {
               private activatedRoute: ActivatedRoute,
               private headerService: SideBarService,
               private service: ServiceInvokerService,
-              private endpointservice: EndPointsService
+              private endpointservice: EndPointsService,
+              private appSelectionService : AppSelectionService
               // private translate: TranslateService
   ) {
 
@@ -60,12 +65,18 @@ export class AppComponent implements OnInit , OnDestroy {
   ngOnInit() {
     self = this;
     this.onResize();
-    this.previousState = this.getPreviousState();
+    this.previousState = this.appSelectionService.getPreviousState();
     this.showHideSearch(false);
     this.userInfo = this.authService.getUserInfo() || {};
+    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res =>{
+     this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    })
   }
   showMenu(event){
     this.showMainMenu = event
+  }
+  settingMenu(event){
+    this.settingMainMenu = event
   }
    restorepreviousState(){
     let route = '/apps';
@@ -77,8 +88,7 @@ export class AppComponent implements OnInit , OnDestroy {
           return (app._id === this.previousState.selectedApp)
         })
         if(selectedApp && selectedApp.length){
-          this.workflowService.selectedApp(selectedApp[0]);
-          // debugger;
+          this.appSelectionService.setAppWorkFlowData(selectedApp[0],this.previousState.selectedQueryPipeline);
           this.resetFindlySearchSDK(this.workflowService.selectedApp());
           route = '/source';
         if(this.previousState.route){
@@ -92,6 +102,10 @@ export class AppComponent implements OnInit , OnDestroy {
             setTimeout(()=>{
               this.preview(this.pathsObj[route]);
             },200);
+          } else {
+            setTimeout(()=>{
+              this.preview('');
+            },200);
           }
          } catch (e) {
          }
@@ -102,38 +116,13 @@ export class AppComponent implements OnInit , OnDestroy {
       this.router.navigate(['/apps'], { skipLocationChange: true });
      }
    }
-   setPreviousState(route?){
-     const path: any = {
-       selectedApp: '',
-       route:''
-     };
-     if(route){
-       const selectedAccount = this.localstore.getSelectedAccount() || this.authService.getSelectedAccount();
-       if(this.workflowService.selectedApp && this.workflowService.selectedApp() && this.workflowService.selectedApp()._id){
-         this.resetFindlySearchSDK(this.workflowService.selectedApp());
-         path.selectedApp = this.workflowService.selectedApp()._id;
-         path.selectedAccountId = selectedAccount.accountId || null;
-         path.route = route
-         window.localStorage.setItem('krPreviousState',JSON.stringify(path));
-       }
-     } else {
-      window.localStorage.removeItem('krPreviousState');
-     }
-   }
+  
    preview(selection): void {
     const toogleObj = {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
   }
-   getPreviousState(){
-     let previOusState :any = null;
-     try {
-       previOusState = JSON.parse(window.localStorage.getItem('krPreviousState'));
-     } catch (e) {
-     }
-     return previOusState;
-   }
     assertion(options, callback) {
       self.service.invoke('bt.post.sts', {}).subscribe( (res) => {
                 const data = res;
@@ -163,7 +152,7 @@ export class AppComponent implements OnInit , OnDestroy {
       if(appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id){
         const searchData = {
           _id:appData.searchIndexes[0]._id,
-          pipelineId:appData.searchIndexes[0].queryPipelineId
+          pipelineId:this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:''
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();
@@ -180,7 +169,6 @@ export class AppComponent implements OnInit , OnDestroy {
     }
   }
   navigationInterceptor(event: RouterEvent): void {
-    const self = this;
     if (event instanceof NavigationStart) {
       this.showHideSearch(false);
       this.authService.findlyApps.subscribe( (res) => {
@@ -193,14 +181,16 @@ export class AppComponent implements OnInit , OnDestroy {
         this.showHideSearch(false);
       }
       if (event && event.url === '/apps') {
-        this.setPreviousState();
+        this.appSelectionService.setPreviousState();
+        this.resetFindlySearchSDK(this.workflowService.selectedApp());
         this.showHideSearch(false);
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
         const path = event.url.split('?')[0];
         if(path && (path !=='/')){
-          this.setPreviousState(path);
+          this.appSelectionService.setPreviousState(path);
+          this.resetFindlySearchSDK(this.workflowService.selectedApp());
           this.selectApp(true);
           console.log('navigated to path throught navigator and shown preview ball');
         } else {
@@ -231,6 +221,7 @@ export class AppComponent implements OnInit , OnDestroy {
   }
   ngOnDestroy(){
     this.authService.findlyApps.unsubscribe();
+    this.subscription.unsubscribe();
   }
   distroySearch(){
     if(this.searchInstance && this.searchInstance.destroy) {
@@ -298,7 +289,7 @@ export class AppComponent implements OnInit , OnDestroy {
       if(parms.type === 'showInsightFull' && parms.data === true && _self.bridgeDataInsights){
         _self.bridgeDataInsights = false;
         _self.showInsightFull = true;
-        $('.ksa-resultsContainer').css({width:'50%'});
+        // $('.ksa-resultsContainer').css({width:'50%'});
       }else{
         _self.bridgeDataInsights = true;
         _self.showInsightFull = false;
