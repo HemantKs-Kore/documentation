@@ -142,27 +142,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       ]
     },
-    {
-      title: 'Add Structured data by uploading a file or adding manually',
-      sources: [
-        {
-          name: 'Import Structured Data',
-          description: 'Import from JSON or CSV',
-          icon: 'assets/icons/content/database-Import.svg',
-          id: 'contentStucturedDataImport',
-          sourceType: 'object',
-          resourceType: 'structuredData'
-        },
-        {
-          name: 'Import Structured Data',
-          description: 'Add structured data manually',
-          icon: 'assets/icons/content/database-add.svg',
-          id: 'contentStucturedDataAdd',
-          sourceType: 'object',
-          resourceType: 'structuredDataManual'
-        }
-      ]
-    },
+    // {
+    //   title: 'Add Structured data by uploading a file or adding manually',
+    //   sources: [
+    //     {
+    //       name: 'Import Structured Data',
+    //       description: 'Import from JSON or CSV',
+    //       icon: 'assets/icons/content/database-Import.svg',
+    //       id: 'contentStucturedDataImport',
+    //       sourceType: 'object',
+    //       resourceType: 'structuredData'
+    //     },
+    //     {
+    //       name: 'Import Structured Data',
+    //       description: 'Add structured data manually',
+    //       icon: 'assets/icons/content/database-add.svg',
+    //       id: 'contentStucturedDataAdd',
+    //       sourceType: 'object',
+    //       resourceType: 'structuredDataManual'
+    //     }
+    //   ]
+    // },
     {
       title: 'Connect & add actions from virtual assistants',
       sources: [
