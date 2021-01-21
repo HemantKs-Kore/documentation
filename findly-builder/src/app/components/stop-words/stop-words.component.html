@@ -67,9 +67,18 @@
             <img *ngIf="!showSearch" class="search-icon" src="assets/icons/search_black.svg">
             <span *ngIf="!showSearch" class="label_txt">{{'stopWords.Search'| translate}}</span>
           </div>  
-          <div class="restoreDefaults" (click)="restoreStopWords($event)">
-              <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">{{'stopWords.restore_to_default' | translate}}</span>              
-          </div> 
+          <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
+                <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                  <li class="restoreDefaults" (click)="restoreStopWords($event)">
+                    <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">{{'stopWords.restore_to_default' | translate}}</span>              
+                  </li> 
+                  <li (click)='deleteAllStopWords(event)' >Delete All</li>                         
+                </ul>
+            </div>
+        </div>
+         
         </div>                     
     </div>
     <perfect-scrollbar class="table-scroll-perfect-synonyms">
