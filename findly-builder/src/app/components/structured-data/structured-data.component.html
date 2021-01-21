@@ -1,4 +1,4 @@
-<div class="structured-data-container">
+<div class="structured-data-container" [ngClass]="{'disableContainer' : disableContainer}">
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
         <div class="d-flex align-items-center">
@@ -9,8 +9,7 @@
                 <span [ngClass]="{'d-none': searchActive}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
                 <img [ngClass]="{'d-none': !searchActive}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)">
             </div>   
-            <!-- Commented for now -->
-            <!-- <div class="adv-search" id="btn_toggle__advanced_search_structured_data" (click)="openAdvancedSearch()"><img src="assets/icons/content/indent.svg">{{'structuredData.advancedSearch' | translate}}</div> -->
+            <div class="adv-search" id="btn_toggle__advanced_search_structured_data" (click)="openAdvancedSearch()"><img src="assets/icons/content/indent.svg">{{'structuredData.advancedSearch' | translate}}</div>
             <div class="kr-sg-dropdowns w-auto add_data" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="btn_toggle_add_file_structured_data" ngbDropdownToggle><img src="assets/icons/add_plus.svg">{{'structuredData.addField' | translate}}</button>                                            
@@ -35,54 +34,78 @@
                         <div class="col-3 p-0 text-right"><img class="close-icon" src="assets/icons/modal-close.svg"></div>                                                                                                                              
                     </div> -->
                     <div class="row align-items-center m-0 position-relative">
-                        <div class="filter-sec text-left mb-1 col-7 p-0" *ngIf="appliedAdvancedSearch.length">
-                            <span class="filter_text">{{advancedSearchInput}} <img src="assets/icons/structured-data/close-filter.svg" class="ml-3"></span> <span class="ml-3 filter-title">{{'structuredData.editFilter' | translate}}</span>
+                        <div class="filter-sec text-left mb-1 col-7 p-0" *ngIf="(appliedAdvancedSearch.rules && appliedAdvancedSearch.rules.length)">
+                            <ng-container *ngFor="let rule of appliedAdvancedSearch.rules; let index = index">
+                                <span class="filter_text mr-2">
+                                    IF <span class="mr-2 ml-2">{{rule.fieldName}}</span> {{rule.operator}} <span *ngIf="rule.value" class="mr-2 ml-2">{{rule.value}}</span> <span  class="mr-2 ml-2" *ngIf="index !== appliedAdvancedSearch.rules.length">AND</span>
+                                    <img (click)="removeAdvancedSearchRule(index)" src="assets/icons/structured-data/close-filter.svg" class="ml-3">
+                                </span> 
+                            </ng-container>
+                            <span class="ml-3 filter-title" (click)="openAdvancedSearch()">{{'structuredData.editFilter' | translate}}</span>
                         </div>
                         <div class="filter-sec text-right mb-1 col-5 p-0" [ngClass]="{'col-12' : !appliedAdvancedSearch.length}">
+                            <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg mr-2" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>
                             <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
                         </div>                        
                     </div>
                     <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
-                        <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
-                            <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
-                            <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
-                        </div>
-                        <div class="data-content">
-                            <!-- <pre>{{data._source.parsedData}}</pre> -->
-                            <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
-                            <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
-                        </div>
-                        <!-- Commented for now -->
-                        <!-- <div class="toast-block">
-                            <img src="assets/icons/green-check-circle.svg" class="successfullyIndex mr-2">
-                            <span class="info-text">{{'structuredData.success_indexing' | translate}} </span>
-                            <span class="index_data ml-2">{{'structuredData.index_data' | translate}}</span>
-                            <img class="close-icon" src="assets/icons/modal-close.svg">
-                        </div> -->
-                        <div class="action-links">
-                            <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                        </div>
-                        <!-- Commented for now -->
-                        <!-- <div class="info-link"><img src="assets/icons/info.svg"></div> -->
-                        <!-- <div class="indexing">
-                            <button class="kr-sg-button-secondary btn_md">Index</button>
+                            <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
+                                <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
+                                <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
+                            </div>
+                            <ng-container *ngIf="!defaultView">
+                                <div class="data-content">
+                                    <!-- <pre>{{data._source.parsedData}}</pre> -->
+                                    <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="data.parsedData"></ngx-codemirror>
+                                    <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.viewJson' | translate}}</span>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="defaultView">
+                                <div class="data-content">
+                                    <span *ngFor="let objectValue of data.objectValues; let v_index = index" class="row">
+                                        <span class="mr-2">{{ objectValue.key }}</span>
+                                        <span *ngIf="!objectValue.nested">
+                                            {{ objectValue.value }}
+                                        </span>
+                                        <img class="pointer" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/images/carrot-thin-right.svg">
+                                        <img class="pointer" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/images/carrot-down.svg">
+                                        <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
+                                        <span *ngIf="objectValue.nested && !objectValue.expanded">{{ objectValue.value }}</span>
+                                    </span>
+                                    <span class="ml-3 view-json" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.seeMore' | translate}}</span>
+                                </div>
+                            </ng-container>
+                            <!-- Commented for now -->
+                            <!-- <div class="toast-block">
+                                <img src="assets/icons/green-check-circle.svg" class="successfullyIndex mr-2">
+                                <span class="info-text">{{'structuredData.success_indexing' | translate}} </span>
+                                <span class="index_data ml-2">{{'structuredData.index_data' | translate}}</span>
+                                <img class="close-icon" src="assets/icons/modal-close.svg">
+                            </div> -->
+                            <div class="action-links">
+                                <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                                <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            </div>
+                            <!-- Commented for now -->
+                            <!-- <div class="info-link"><img src="assets/icons/info.svg"></div> -->
+                            <!-- <div class="indexing">
+                                <button class="kr-sg-button-secondary btn_md">Index</button>
+                            </div> -->
+                            <!-- <div class="structured-data">
+                            <div class="kr-sg-checkbox d-block">
+                                <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
+                                <label for="checkbox_drp2" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="data-content">
+                                To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
+                            </div>
+                            <div class="action-links">
+                                <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                                <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            </div>
+                            <div class="info-link"><img src="assets/icons/info.svg"></div>
                         </div> -->
                     </div>
-                    <!-- <div class="structured-data">
-                        <div class="kr-sg-checkbox d-block">
-                            <input id="checkbox_drp2" class="checkbox-custom" type="checkbox">
-                            <label for="checkbox_drp2" class="checkbox-custom-label"></label>
-                        </div>
-                        <div class="data-content">
-                            To access Citibank Online as a first time user, you will need to create a User ID and Internet Password. You can create a User ID and Internet Password using the Debit Card for your Rupee Checking Account and the ATM Personal Identification Number.
-                        </div>
-                        <div class="action-links">
-                            <img src="assets/icons/edit-pencil.svg" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            <img src="assets/icons/delete-table.svg" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                        </div>
-                        <div class="info-link"><img src="assets/icons/info.svg"></div>
-                    </div> -->
                 </div>
                 <app-record-pagination id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='20' (pageChanged)="paginate($event)"></app-record-pagination>
             </ng-container>
@@ -136,25 +159,76 @@
     </perfect-scrollbar>
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #addStructuredDataModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ import-structure-data" #addStructuredDataModalPop>
     <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
 </kr-modal>
 
-<kr-modal modalType="center" modalClass="modal_popups_ imort-structure-data" #advancedSearchModalPop>
+<kr-modal modalType="center" modalClass="modal_popups_ import-structure-data" #advancedSearchModalPop>
     <div class="modal-header">
         <div class="title">{{'structuredData.advancedSearch' | translate }}</div>
         <div class="close_icon"><img id="btn_close_advanced_search" (click)="cancleAdvansedSearch()" src="assets/icons/modal-close.svg"></div>
       </div>
         <div class="modal-body">
-            <div class="kr-sg-input-text text">
+            <!-- <div class="kr-sg-input-text text">
                 <div class="label-text">{{'structuredData.searchFilter' | translate}}</div>
                 <input type="text" [(ngModel)]="advancedSearchInput" placeholder="Placeholder text" class="input-text">
                 <div class="desc">{{'structuredData.searchFilterDesc' | translate}}</div>
+            </div> -->
+            <ng-container *ngFor="let rule of advancedSearch.rules; let index = index">
+                <div class="row">
+                    <div class="row col-4 m-0 align-items-center search-block">
+                        <div class="kr-sg-dropdowns col-12 p-0">
+                            <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
+                                <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                                <input type="text" placeholder="{{'structuredData.enter_field' | translate}}" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName">
+                                <img src="assets/images/search_gray.svg" class="search-icon">                                                         
+                                <ul class="dropdown-menu content-menu">
+                                    <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)"><a>{{suggesition.fieldName}}</a></li>
+                                </ul>
+                            </div>                        
+                        </div>
+                    </div>
+        
+                    <div class="col-3 kr-sg-dropdowns">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ rule.operator ? (rule.operator) : ('structuredData.selected_operator' | translate)}}</button>                                            
+                            <ul class="dropdown-menu content-menu">
+                              <li><a (click)="setOperator('exists', index)">{{'structuredData.exists' | translate}}</a></li>
+                              <li><a (click)="setOperator('notexists', index)">{{'structuredData.does_not_exist' | translate}}</a></li>
+                              <li><a (click)="setOperator('equals', index)">{{'structuredData.equals_to' | translate}}</a></li>
+                              <li><a (click)="setOperator('notequals', index)">{{'structuredData.not_equals_to' | translate}}</a></li>
+                            </ul>
+                          </div>
+                    </div>
+        
+                    <div class="col-4 kr-sg-input-text">
+                        <input type="text" [disabled]="(rule.operator === 'exists') || (rule.operator === 'notexists')" placeholder="{{'structuredData.enter_value' | translate}}" class="input-text" [(ngModel)]="rule.value">
+                    </div>
+
+                    <div class="col-1">
+                        <img class="pointer" id="btn_remove_row{{index}}" *ngIf="advancedSearch.rules.length > 1" src="assets/images/minus.svg" (click)="removeRule(index)">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="group-radiobutton">
+                        <div class="kr-sg-radiobutton">
+                            <input id="radio-and" [disabled]="index != 0" [(ngModel)]="advancedSearch.operand" name="radio{{index}}" value="and" class="radio-custom" type="radio">
+                            <label for="radio-and" class="radio-custom-label" [class.disabled]="index != 0">{{'structuredData.and' | translate}}</label>
+                        </div>
+                        <div class="kr-sg-radiobutton">
+                            <input id="radio-or" [disabled]="index != 0" [(ngModel)]="advancedSearch.operand" name="radio{{index}}" value="or" class="radio-custom" type="radio">
+                            <label for="radio-or" class="radio-custom-label" [class.disabled]="index != 0">{{'structuredData._or' | translate}}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="row add-rule">
+                <span class="pointer" (click)="addRule()"><img src="assets/images/add-cross.svg" alt="add-rule">{{'structuredData.add_rule' | translate}}</span>
             </div>
         </div>
         <div class="modal-footer">
             <button class="kr-sg-button-secondary backbtn btn_md mr-2" id="btn_cancel_advanced_search" (click)="cancleAdvansedSearch()">{{'structuredData.cancel' | translate}}</button>
-            <button class="kr-sg-button-primary btn_lg mr-3" id="btn_apply_advanced_search" [disabled]="!advancedSearchInput.length" (click)="applyAdvancedSearch()">{{ 'structuredData.apply' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" id="btn_apply_advanced_search" (click)="applyAdvancedSearch()">{{ 'structuredData.apply' | translate}}</button>
         </div>
 </kr-modal>
 
