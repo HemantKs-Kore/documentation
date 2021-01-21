@@ -16,50 +16,55 @@ declare const $: any;
 export class SummaryComponent implements OnInit {
   serachIndexId;
   channelExist = false;
-  totalUsersStats : any = {};
+  totalUsersStats: any = {};
   totalSearchesStats: any = {};
   selectedApp: any;
   loading = true;
-  summary:any;
+  summary: any;
   showError = false;
   btLogs: any[] = [];
-  summaryObj:any ={
+  summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
     faqWebDomains: [],
     faqDocuments: []
   }
+  listMonths = ['January', 'February', 'March',
+    'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'];
+  date = new Date();
+  current_month: string;
   emptySummaryBlocks: any = [
-  {
-   stepCount: 1,
-   stepName: 'Add Source',
-   stepDiscription: 'You need to add source such as web pages, documents, FAQs, bot actions'
-  },
-  {
-   stepCount: 2,
-   stepName: 'Manage Content',
-   stepDiscription: 'You can then review and moidify the added sources if required'
-  },
-  {
-   stepCount: 3,
-   stepName: 'Test & Preview',
-   stepDiscription: 'You can then check how the serach results or bot actions will be displayed to the end-user'
-  },
-  {
-   stepCount: 4,
-   stepName: 'Training',
-   stepDiscription: 'You can now train Findly.ai to address the user\'s quaries more effectively'
-  },
-  {
-    stepCount: 5,
-    stepName: 'Puublish and Deploy',
-   stepDiscription: 'You can now deploye app and allow users to intract  with the searchbot'
-  },
-  {
-    stepCount: 6,
-    stepName: 'Analytics and Insignts',
-   stepDiscription: 'You can now track real realtime performance, operational, usage metrics of your app'
-  }
+    {
+      stepCount: 1,
+      stepName: 'Add Source',
+      stepDiscription: 'You need to add source such as web pages, documents, FAQs, bot actions'
+    },
+    {
+      stepCount: 2,
+      stepName: 'Manage Content',
+      stepDiscription: 'You can then review and moidify the added sources if required'
+    },
+    {
+      stepCount: 3,
+      stepName: 'Test & Preview',
+      stepDiscription: 'You can then check how the serach results or bot actions will be displayed to the end-user'
+    },
+    {
+      stepCount: 4,
+      stepName: 'Training',
+      stepDiscription: 'You can now train Findly.ai to address the user\'s quaries more effectively'
+    },
+    {
+      stepCount: 5,
+      stepName: 'Puublish and Deploy',
+      stepDiscription: 'You can now deploye app and allow users to intract  with the searchbot'
+    },
+    {
+      stepCount: 6,
+      stepName: 'Analytics and Insignts',
+      stepDiscription: 'You can now track real realtime performance, operational, usage metrics of your app'
+    }
   ];
   tooltipObj: any = {
     'Total Users': 'Total number of calls received by the app today.',
@@ -89,6 +94,7 @@ export class SummaryComponent implements OnInit {
     this.getSummary();
     this.getQueries("TotalUsersStats");
     this.getQueries("TotalSearchesStats");
+    this.current_month = this.listMonths[this.date.getMonth()];
   }
   getSummary() {
     this.loading = false;
@@ -107,50 +113,50 @@ export class SummaryComponent implements OnInit {
     //     this.notificationService.notify('Unable to get summary details', 'error');
     //   });
   }
-  getQueries(type){
+  getQueries(type) {
     var today = new Date();
     let from = new Date(Date.now() - (29 * 864e5));
-    
-    const header : any= {
+
+    const header: any = {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: 0,
-      limit:100
+      limit: 100
     };
-    let payload : any = {
-      type : type,
+    let payload: any = {
+      type: type,
       filters: {
         from: from.toJSON(),
         to: today.toJSON()
       },
-     
+
     }
-    
-   
-    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
-      if(type == "TotalUsersStats"){
+
+
+    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
+      if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
-      }else if(type == "TotalSearchesStats"){
+      } else if (type == "TotalSearchesStats") {
         this.totalSearchesStats = res;
       }
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed ', 'error');
-       }
-     });
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
-  getChannel(){
+  getChannel() {
     const queryParams = {
-      userId:this.authService.getUserId(),
-      streamId:this.selectedApp._id
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
     }
-    this.service.invoke('get.credential',queryParams).subscribe(
+    this.service.invoke('get.credential', queryParams).subscribe(
       res => {
-        if(res.apps.length){
+        if (res.apps.length) {
           this.channelExist = true;
         }
       },
@@ -163,7 +169,7 @@ export class SummaryComponent implements OnInit {
       }
     );
   }
-  viewAll(route){
+  viewAll(route) {
     this.router.navigateByUrl(route, { skipLocationChange: true });
   }
 }
