@@ -372,7 +372,7 @@ export class BotActionComponent implements OnInit {
     }
   }
   getAssociatedTasks(botID) {
-    //if (botID != null) {
+    if (botID != null) {
       if (this.searchIndexId) {
         const queryParams: any = {
           searchIndexID: this.searchIndexId
@@ -420,7 +420,7 @@ export class BotActionComponent implements OnInit {
           () => { console.log("XHR Call Completed") }
         )
       }
-    //}
+    }
     else {
       this.linkedBotTasks = [];
       this.linkedBotFAQs = [];
