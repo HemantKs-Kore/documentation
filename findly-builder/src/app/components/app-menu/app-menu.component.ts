@@ -7,6 +7,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '@kore.services/notification.service';
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -52,7 +53,9 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       private workflowService: WorkflowService,
       private router: Router, private activetedRoute:ActivatedRoute,
       private notify: NotificationService,
-      private appSelectionService:AppSelectionService) { }
+      private appSelectionService:AppSelectionService,
+      private dockService: DockStatusService,
+      ) { }
   goHome(){
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -205,7 +208,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
 
   // Controlling the Status Docker Opening
   openStatusDocker(){
-    if(this.showStatusDocker){
+    if(this.dockService.showStatusDocker){
       this.statusDockerLoading = true;
       // this.getDockerData();
     }

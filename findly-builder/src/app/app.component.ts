@@ -19,6 +19,7 @@ declare let window:any;
 declare let self:any;
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
+import { DockStatusService } from './services/dockstatusService/dock-status.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -52,7 +53,8 @@ export class AppComponent implements OnInit , OnDestroy {
               private headerService: SideBarService,
               private service: ServiceInvokerService,
               private endpointservice: EndPointsService,
-              private appSelectionService : AppSelectionService
+              private appSelectionService : AppSelectionService,
+              private dockService: DockStatusService
               // private translate: TranslateService
   ) {
 
@@ -335,5 +337,15 @@ export class AppComponent implements OnInit , OnDestroy {
           $('.search-container').addClass('advanced-mode');
         }
     });
+  }
+
+  // click event on whole body. For now, using for Status Docker
+  globalHandler(event){
+    // console.log("evnt", event);
+    if(!$(event.target).closest('.statusDockerBody').length && !$(event.target).closest('.status-docker').length && !$(event.target).is('.status-docker')){
+      if(this.dockService.showStatusDocker){
+        this.dockService.showStatusDocker = false;
+      }
+    }
   }
 }

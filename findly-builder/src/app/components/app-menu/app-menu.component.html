@@ -213,7 +213,7 @@
 			</div>
 		</div>
 
-		<div class="status-docker" (click)="(showStatusDocker = !showStatusDocker); openStatusDocker()">
+		<div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">
 			<div class="circles">
 				<div class="inner-clrcle"></div>
 			</div>
@@ -295,6 +295,6 @@
     </div>    
 </kr-modal>
 
-<div class="statusDockerContent" [ngClass]="{'d-none': !showStatusDocker}">
+<div class="statusDockerContent" *ngIf="dockService.showStatusDocker">
 	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
 </div>
