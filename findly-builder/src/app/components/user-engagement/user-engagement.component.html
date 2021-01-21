@@ -104,14 +104,16 @@
                             <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">
+                                    <!-- <span>00</span> -->
                                     <ng5-slider class = "col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider>
+                                    <!-- <span>24</span> -->
                                 </div>
                                 <div class="legend-sec col-6 p-0">
                                     <div class="title">{{'metrics.user_engagement.Volume_Of_Users'| translate}}</div>
                                     <div class="legends-info">
                                         <div class="one">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">200 -250</div> -->
+                                            <div class="numbers">{{maxHeatValue}}</div>
                                         </div>
                                         <div class="two">
                                             <div class="bg-color"></div>
@@ -127,7 +129,7 @@
                                         </div>
                                         <div class="five">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">0 -50</div> -->
+                                            <div class="numbers">{{minHeatValue}}</div>
                                         </div>
                                     </div>
                                 </div>

@@ -9,7 +9,8 @@ import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
-
+import { style } from '@angular/animations';
+declare const $: any;
 @Component({
   selector: 'app-user-engagement',
   templateUrl: './user-engagement.component.html',
@@ -83,8 +84,9 @@ export class UserEngagementComponent implements OnInit {
   @Output() updatedRanges = new EventEmitter();
   /**slider */
   maxHeatValue = 0;
-  group = "week"; // hour , date , week
-  dateType ="hour"
+  minHeatValue= 0;
+  group = "hour"; // hour , date , week
+  dateType ="week"
   usersBusyChart : any;
   usersChart : any;
   mostUsedDev_bro_geo_sen : any;
@@ -116,9 +118,9 @@ export class UserEngagementComponent implements OnInit {
   endDate: any = moment();
   minDate: any= moment().subtract({days: 95});
   maxDate: any= moment();
-  defaultSelectedDay = 1;
+  defaultSelectedDay = 7;
   showDateRange: boolean = false;
-  busyHour_dataDIV : any;
+  busyHour_dataDIV : any= '';
   selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
   @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
@@ -186,9 +188,11 @@ export class UserEngagementComponent implements OnInit {
     })
   }
   onDatesUpdated($event){
-    this.startDate = this.selected.startDate;
+    if($event.startDate || $event.endDate){
+      this.startDate = this.selected.startDate;
     this.endDate = this.selected.endDate;
     this.dateLimt('custom');
+    }
     // this.callFlowJourneyData();
   }
   getDateRange(range, e?) {
@@ -667,6 +671,23 @@ var valueList2 = totaldata.map(function (item) {
           //   padding: 0
            
           // },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            
+              type: 'none'        
+          },
+            formatter: `
+              <div class="metrics-tooltips-hover agent_drop_tolltip">
+              <div class="split-sec">
+                <div class="main-title">{c0} Users are using {b0} to search</div>
+              </div> 
+            </div>
+            
+            `,
+            position: 'top',
+            padding: 0
+           
+          },
           xAxis: {
               type: 'value',
               axisLabel: {
@@ -716,7 +737,7 @@ var valueList2 = totaldata.map(function (item) {
           series: [{
             label : {
               normal: {
-                  show: true,
+                  show: false,
                   position: 'outside',
                   color : '#202124',
                   //textBorderColor: '#202124',
@@ -728,7 +749,7 @@ var valueList2 = totaldata.map(function (item) {
                 color: '#7027E5',
               },
             },
-              data: [100, null, 50] ,//graphData,//[120, 200, 150],
+              data: [100, 0, 50] ,//graphData,//[120, 200, 150],
               type: 'bar'
           }]
       };
@@ -751,6 +772,23 @@ var valueList2 = totaldata.map(function (item) {
         
       // });
       this.mostUsedBrowserBar  = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            
+            type: 'none'        
+        },
+          formatter: `
+            <div class="metrics-tooltips-hover agent_drop_tolltip">
+            <div class="split-sec">
+              <div class="main-title">{c0} Users are using {b0} to search</div>
+            </div> 
+          </div>
+          
+          `,
+          position: 'top',
+          padding: 0
+         
+        },
         xAxis: {
             type: 'value',
             axisLabel: {
@@ -803,7 +841,7 @@ var valueList2 = totaldata.map(function (item) {
         series: [{
           label : {
             normal: {
-                show: true,
+                show: false,
                 position: 'outside',
                 color : '#202124',
                 //textBorderColor: '#202124',
@@ -815,7 +853,7 @@ var valueList2 = totaldata.map(function (item) {
               color: '#FF784B',
             },
           },
-            data: [100,35,null],//graphData,//[120, 200, 150],
+            data: [100,35,0],//graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
@@ -836,6 +874,23 @@ var valueList2 = totaldata.map(function (item) {
         
       });
       this.geoBar  = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            
+            type: 'none'        
+        },
+          formatter: `
+            <div class="metrics-tooltips-hover agent_drop_tolltip">
+            <div class="split-sec">
+              <div class="main-title">{c0} Users in {b0}</div>
+            </div> 
+          </div>
+          
+          `,
+          position: 'top',
+          padding: 0
+         
+        },
         xAxis: {
             type: 'value',
             axisLabel: {
@@ -853,7 +908,7 @@ var valueList2 = totaldata.map(function (item) {
         series: [{
           label : {
             normal: {
-                show: true,
+                show: false,
                 position: 'outside',
                 color : '#202124',
                 //textBorderColor: '#202124',
@@ -865,7 +920,7 @@ var valueList2 = totaldata.map(function (item) {
               color: '#93D3A2',
             },
           },
-            data: [55,85,null,15],//graphData,//[120, 200, 150],
+            data: [55,85,0,15],//graphData,//[120, 200, 150],
             type: 'bar'
         }]
     };
@@ -940,8 +995,14 @@ var valueList2 = totaldata.map(function (item) {
         for (const property in this.usersBusyChart) {
           busyChartArrayData.push(this.usersBusyChart[property])
            // let date =  property.split('-')[2]; 
-           yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+           if(property.split('T').length > 1){
+            let splitData = property.split('T')[0];
+            yAxisData.push(splitData.split('-')[2] + " " + monthNames[Number(splitData.split('-')[1]) - 1 ])
+            dimensions.push(splitData.split('-')[2] + " " + monthNames[Number(splitData.split('-')[1]) - 1 ])
+           }else{
+            yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
            dimensions.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
+           }
           //  if(this.group == 'hour' || this.group == 'date') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //  if(this.group == 'week') yAxisData.push(property.split('-')[2] + " " + monthNames[Number(property.split('-')[1]) - 1 ])
           //console.log(`${property}: ${object[property]}`);
@@ -979,7 +1040,8 @@ var valueList2 = totaldata.map(function (item) {
           }
       }
      
-     this.maxHeatValue = Math.max(...totalMaxValueArr)
+     this.maxHeatValue = Math.max(...totalMaxValueArr);
+     //this.minHeatValue = //Math.min(...totalMaxValueArr)
       heatData = heatData.map(function (item) {
         return [item[1], item[0], item[2] || '-'];
     });
@@ -998,10 +1060,10 @@ var valueList2 = totaldata.map(function (item) {
           if(busyChartArrayData[a-1][i]){
             sourceObj[dimensions[a]] = busyChartArrayData[a-1][i].totalUsers;
           }else{
-            sourceObj[dimensions[a]] = '-'
+            sourceObj[dimensions[a]] = 0;//'-'
           }
         }else{
-          sourceObj[dimensions[a]] = '-'
+          sourceObj[dimensions[a]] = 0;//'-'
         }
         
       }
@@ -1039,8 +1101,6 @@ var valueList2 = totaldata.map(function (item) {
         },
           formatter:  (params,ticket,callback) =>`
           ${this.tooltipHover(params , busyChartArrayData , source ,dimensions)}
-          
-          ${this.busyHour_dataDIV}
           `,
           position: 'top',
           padding: 0
@@ -1139,27 +1199,53 @@ var valueList2 = totaldata.map(function (item) {
         }]
       };
     }
-    
-    tooltipHover(e , data , source , dimensions){
-      console.log(e);
-      //console.log(data[e[0].data[0]][e[0].data[1]].totalUsers)
-      let loopDIV;
-      let dataDIV = 
+    ngAfterViewInit() {
+      document.getElementsByClassName('ng5-slider-floor')[0]['style'].display = "none"// 00
+      document.getElementsByClassName('ng5-slider-ceil')[0]['style'].display = "none"  //24
+
+      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].top = "12px";
+      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].fontWeight = "bold";
+      document.getElementsByClassName('ng5-slider-model-value')[0]['style'].fontSize = "12px"
+
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].top = "12px";
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontWeight = "bold";
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontSize = "12px"
+
+      $(document).on('hover','.ng5-slider-selection-bar',()=>{
+        let val = (this.highValue - this.lowValue );
+        val > 1 ? val + " hrs" : val + " hr";
+        var div = 
+        `<div>${val}</div>
         `
-        <div class="metrics-tooltips-hover agent_drop_tolltip">
+        return div
+        //document.getElementsByClassName('ng5-slider-selection-bar')[0].classList.add('ng5-slider ng5-slider-span')
+      })
+    }
+    tooltipHover(e , data , source , dimensions){
+     // console.log(e);
+      //console.log(data[e[0].data[0]][e[0].data[1]].totalUsers)
+      let loopDIV : any = '';
+      let dataDIV = 
+        `<div class="metrics-tooltips-hover agent_drop_tolltip">
         <div class="split-sec">
           <div class="main-title" >${e[0].axisValue}</div>
           <div class="data-content"></div>
         </div> 
         `
-        for(let i = 0 ;i<e.length ; i++){
-          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i+1]} </b> is <b>${e[i].value[2]} </b></div>`
+        // for(let i = 0 ;i<e.length ; i++){
+        //   if(dimensions[i+1]) // && e[i].value[2] > 0
+        //   loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i+1]} </b> is <b>${e[i].value[2]} </b></div>`
+        // }
+        for(let i = 1 ;i<dimensions.length; i++){
+          //if(e[i]) // && e[i].value[2] > 0
+          if(e[i]){
+            e[i].value[2] == '-' ? e[i].value[2] = 0 : e[i].value[2]
+          } 
+          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i]} </b> is <b>${e[i] ? e[i].value[2] : 0} </b></div>`
         }
-        
-        `
-      </div>
+        `</div>
         `
         if(loopDIV)
-        this.busyHour_dataDIV = dataDIV + loopDIV;
+        return this.busyHour_dataDIV = dataDIV + loopDIV;
     }
 }

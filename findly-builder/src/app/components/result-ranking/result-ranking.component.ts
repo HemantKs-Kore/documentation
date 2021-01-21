@@ -38,7 +38,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   timeLogData : any;
   lastModifiedOn : any;
   resultSelected = false;
+  disableDiv = false;
   collectedRecord = [];
+  permisionView = false; 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
@@ -233,12 +235,32 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     })
   
   }
+  launch(){
+    if(this.selectedRecord){
+     let ball=  document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+     ball.click()
+     let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+     texBox.value = this.selectedRecord.searchQuery;
+     setTimeout(()=>{
+      let go  = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+      go.click();
+      setTimeout(()=>{
+        let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+        customTag.click();
+        let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+        custom.click();
+      },3000)
+      //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
+     },3000);
+    }
+  }
   resetSelected(){
     this.customizeList.forEach((element,index) => {
       element['check'] = false;
     });
     this.collectedRecord = [];
     this.resultSelected = false;
+    this.disableDiv = false;
     this.getcustomizeList(20,0);
   }
   selectAll(){
@@ -248,6 +270,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.resetSelected();
     }else if(this.collectedRecord.length >= 0 && this.collectedRecord.length < this.customizeList.length){
       this.collectedRecord = [];
+      this.disableDiv = true;
       this.customizeList.forEach((element,index) => {
         element['check'] = true;
         this.collectedRecord.push(element);
@@ -286,8 +309,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
    }
    if(this.collectedRecord.length > 0){
     this.resultSelected = true;
+    this.disableDiv =  true;
   }else {
     this.resultSelected = false;
+    this.disableDiv =  false;
   }
   
     // let pushRecord = [];
