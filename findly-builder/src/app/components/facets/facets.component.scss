@@ -431,6 +431,52 @@
     }
   }
 }
+.seach_add_feild{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 17px 18px;
+  margin: 22px 24px 12px 24px;
+  background: #F5F8FA;
+  border-radius: 4px;
+  .kr-sg-input-search{
+      display: inline-block;
+      width: 0px;
+      display: none;  
+      width: 300px;
+      height: 20px;
+      position: relative;
+      bottom: 6px;
+      right: 10px;               
+      &.active{
+          display: block;
+          width: 300px;
+      }
+  } 
+  .seach-block{
+      color: #202124;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      // line-height: 14px;
+      margin-right: 30px;
+      img{
+          margin-right: 7px;
+          cursor: pointer;
+      }
+  }
+  .add_feild{
+      color: #202124;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      cursor: pointer;
+      img{
+          margin-right: 7px;
+      }
+  }
+}
 ::ng-deep perfect-scrollbar .ps--active-y {
   .ps__thumb-y {
     width: 3px !important;

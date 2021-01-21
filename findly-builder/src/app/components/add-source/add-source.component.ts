@@ -439,21 +439,33 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.fileObj.fileUploadInProgress = true;
       this.fileObj.fileName = fileName;
+      this.fileObj.file_ext = _ext;
     }
     this.onFileSelect(event.target, _ext);
   }
   onFileSelect(input: HTMLInputElement, ext) {
     const files = input.files;
     const content = this.csvContent;
+    let resourceType = this.selectedSourceType.resourceType;
+    let resourceType_import = resourceType;
     if (files && files.length) {
       const fileToRead = files[0];
       const onFileLoad = (fileLoadedEvent) => {
         const data = new FormData();
+        if( resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc'){
+          data.append('file', fileToRead);
+          data.append('fileContext', 'bulkImport' );
+          data.append('Content-Type', fileToRead.type);
+          data.append('fileExtension', ext.replace('.', ''));
+          this.fileupload(data);
+        }
+        else{
         data.append('file', fileToRead);
         data.append('fileContext', 'findly');
         data.append('Content-Type', fileToRead.type);
         data.append('fileExtension', ext.replace('.', ''));
         this.fileupload(data);
+        }
       };
       const fileReader = new FileReader();
       fileReader.onload = onFileLoad;
@@ -543,7 +555,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
-    if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq') {
+    let resourceType_import = resourceType;
+    if( resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc'){
+      this.importFaq();
+    }
+    if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq' && resourceType != 'importfaq' && this.selectedSourceType.id != 'faqDoc') {
       quaryparms.faqType = 'document';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
@@ -1001,6 +1017,32 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     link.click();
     link.remove();
     }
+    importFaq(){
+      const quaryparms: any = {
+        searchIndexId: this.searchIndexId,
+      };
+      const payload = {   
+        fileId: this.fileObj.fileId,
+        fileType:this.fileObj.file_ext,
+        // streamId: this.streamId,
+      }
+      this.service.invoke('import.faq',quaryparms,payload).subscribe(res => {
+       this.dock.trigger()
+        },
+         errRes => {
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
+      
+      });
+      this.service.invoke('get.dockStatus',quaryparms,payload).subscribe(res1=>{
+    
+      });
+
+    }
+
 }
 
 
