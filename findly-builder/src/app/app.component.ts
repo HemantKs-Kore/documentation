@@ -239,10 +239,17 @@ export class AppComponent implements OnInit , OnDestroy {
     botOptionsFindly.assertionFn = this.assertion;
     botOptionsFindly.koreAPIUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
     // To modify the web socket url use the following option
-    botOptionsFindly.reWriteSocketURL = {
+    if (window.appConfig.API_SERVER_URL.indexOf('localhost') !== -1) {
+      botOptionsFindly.reWriteSocketURL = {
         protocol: 'ws',
         hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
-    };
+      }
+    } else {
+      botOptionsFindly.reWriteSocketURL = {
+        protocol: 'wss',
+        hostname:  window.appConfig.API_SERVER_URL.replace('https://','')
+      }
+    }
     const findlyConfig:any = {
       botOptionsFindly,
         viaSocket: true
