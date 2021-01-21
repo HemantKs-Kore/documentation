@@ -1,4 +1,4 @@
-<div class="structured-data-container">
+<div class="structured-data-container" [ngClass]="{'disableContainer' : disableContainer}">
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
         <div class="d-flex align-items-center">
@@ -206,7 +206,7 @@
                     </div>
 
                     <div class="col-1">
-                        <img class="pointer" id="btn_remove_row{{index}}" *ngIf="advancedSearch.rules.length > 1" src="assets/images/close.svg" (click)="removeRule(index)">
+                        <img class="pointer" id="btn_remove_row{{index}}" *ngIf="advancedSearch.rules.length > 1" src="assets/images/minus.svg" (click)="removeRule(index)">
                     </div>
                 </div>
                 <div class="row mt-3">

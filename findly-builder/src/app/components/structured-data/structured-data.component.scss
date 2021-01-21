@@ -295,3 +295,11 @@
     //     border: 1px solid #0D6EFD;
     // }
 }
+
+.disableContainer{
+    #btn_toggle_add_file_structured_data, #btn_delete_all_structured_data,
+    #btn_edit_structured_data, #btn_delete_structured_data {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}

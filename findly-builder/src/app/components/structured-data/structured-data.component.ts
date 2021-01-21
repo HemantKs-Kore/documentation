@@ -72,6 +72,7 @@ export class StructuredDataComponent implements OnInit {
   fields : any = [];
   searchField;
   advancedSearch : any = {};
+  disableContainer : any = false;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
