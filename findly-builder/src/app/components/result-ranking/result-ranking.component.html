@@ -22,7 +22,7 @@
                                 <div class="col-3 mt-8">
                                     {{collectedRecord.length}} Selected
                                 </div> 
-                                <div class="col-8">
+                                <div class="col-8" [ngClass] = "{'disableDiv' : permisionView }">
                                     <button class="reset-but" (click)="resetCustomization()">Reset</button>
                                 </div> 
                             </div>
@@ -83,8 +83,8 @@
                                                         <div class="title">{{list.searchQuery}}</div>
                                                         <div class="desc">{{list.numberOfCustomisations}} customization</div>
                                                     </div>
-                                                    <div class="title-desc-sec col-1">
-                                                        <div class="restore-icon" (click) = "restore(list)" ><img class="action-icon" src="assets/icons/restore.svg"></div>
+                                                    <div class="title-desc-sec col-1" [ngClass] = "{'disableDiv' : permisionView }">
+                                                        <div class="restore-icon" (click) = "restore(list)" ><img class="action-icon" src="assets/icons/restore.svg" ngbTooltip='Restore' placement="top"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -124,8 +124,8 @@
                                     </div>
                                     <div class="col-4 p-0 actions-sec">
                                         <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
-                                            <div class="dropdown dropdown-open">                                        
-                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img class="cursor" (click) = "launch()" src="assets/icons/play.svg"></button>                                            
+                                            <div class="dropdown dropdown-open" [ngClass] = "{'disableDiv' : permisionView }">                                        
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle  ngbTooltip='Launch' placement="top"><img class="cursor" (click) = "launch()" src="assets/icons/play.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
                                                     
                                                 </ul>
@@ -133,13 +133,13 @@
                                         </div>
                                         <div class="kr-sg-dropdowns comments_header_dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                                             <div class="dropdown dropdown-open">                                        
-                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="showLogs()"><img class="cursor" src="assets/icons/Timer.svg"></button>                                            
+                                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="showLogs()"  ngbTooltip='TimeLog' placement="top"><img class="cursor" src="assets/icons/Timer.svg"></button>                                            
                                                 <ul class="dropdown-menu content-menu comments_header_dropdown_content d-none" ngbDropdownMenu>
                                                     
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="d-flex align-items-center justify-content-end">
+                                        <div class="d-flex align-items-center justify-content-end" [ngClass] = "{'disableDiv' : permisionView }">
                                             <button class="kr-sg-button-secondary btn_lg text-danger pl-2 pr-2" (click) = "restore(selectedRecord)"> <span><img src="assets/icons/restore.svg"></span> {{'resultRanking.restore' | translate}} </button>
                                         </div>
                                     </div>                                    
@@ -158,16 +158,16 @@
                                                     <div class="col-7 title" *ngIf ="actLog.target.contentInfo._source">{{actLog.target.contentInfo._source.pageTitle || actLog.target.contentInfo._source.question}}</div>
                                                     <div class="col-7 title" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'" >{{actLog.target.contentInfo.lname}}</div>
                                                     <div class="col-1">
-                                                        <img *ngIf="actLog.target.contentType == 'page'" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
-                                                        <img *ngIf="actLog.target.contentType == 'faq'" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
-                                                        <img *ngIf="actLog.target.contentType == 'task'" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
+                                                        <img *ngIf="actLog.target.contentType == 'page'" ngbTooltip='page' placement="top" src="assets/icons/resultranking/copy.svg" class="cursor-pointer">
+                                                        <img *ngIf="actLog.target.contentType == 'faq'" ngbTooltip='faq' placement="top" src="assets/icons/resultranking/faq.svg" class="cursor-pointer">
+                                                        <img *ngIf="actLog.target.contentType == 'task'" ngbTooltip='task' placement="top" src="assets/icons/resultranking/task.svg" class="cursor-pointer">
                                                     </div>
                                                     <div class="col-2">
-                                                        <img src="assets/icons/resultranking/pin.svg" *ngIf="actLog.customization.action == 'pinned'"class="cursor-pointer">
-                                                        <img src="assets/icons/resultranking/eye.svg" *ngIf="actLog.customization.action == 'hidden'"class="cursor-pointer">
+                                                        <img src="assets/icons/resultranking/pin.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'pinned'"class="cursor-pointer">
+                                                        <img src="assets/icons/resultranking/eye.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'hidden'"class="cursor-pointer">
                                                         <div>
-                                                        <img src="assets/icons/resultranking/export-up.svg" *ngIf="actLog.customization.action == 'burried'"class="cursor-pointer boost-trans">
-                                                        <img src="assets/icons/resultranking/export-up.svg" *ngIf="actLog.customization.action == 'boosted'"class="cursor-pointer">
+                                                        <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'burried'"class="cursor-pointer boost-trans">
+                                                        <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'boosted'"class="cursor-pointer">
                                                         <span *ngIf="actLog.customization.action == 'boosted' || actLog.customization.action == 'burried'" class="boost-font">{{actLog.customization.value}}</span>
                                                         </div>
                                                         
@@ -178,10 +178,10 @@
                                             </a>
                                           </div>
                                           <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <div class="info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </div>
-                                                <div class="info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
-                                                <div class="text-right mt-3">
+                                            <div class="row card-body">
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
+                                                <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
                                                   <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
                                                 </div>
                                                 <!-- <div id="accordion" class="inside-acc">

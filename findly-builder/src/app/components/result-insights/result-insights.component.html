@@ -76,8 +76,8 @@
                         </div>
                         <div class="col-2 title">{{result.appearances}}</div>
                         <div class="col-1 title">{{result.clicks}}</div>
-                        <div class="col-2 title">{{result.clickThroughRate}}%</div>
-                        <div class="col-1 title data-overview">{{result.avgPosition}}</div>
+                        <div class="col-2 title">{{result.clickThroughRate | number : '1.2-2'}}%</div>
+                        <div class="col-1 title data-overview">{{result.avgPosition | number : '1.2-2'}}</div>
                         <div class="col-2 title">{{result.positiveFeedback}}</div>                       
                         <div class="col-2 title">
                             <span class="count">{{result.negativeFeedback}}</span>
