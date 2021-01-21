@@ -97,6 +97,7 @@ export class SummaryComponent implements OnInit {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
     };
+    this.current_month = this.listMonths[this.date.getMonth()];
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);

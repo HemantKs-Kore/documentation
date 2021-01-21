@@ -4,7 +4,7 @@
     <div class="top-cards-section row m-0 col-12">
       <div class="col-3 cards-data">
         <div class="content">
-            <div class="title-info">Total Users in October<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+            <div class="title-info">Total Users in {{current_month}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
             <div class="bottom-sec">
                 <div class="left-sec">
                     <div class="count">{{ totalUsersStats.totalUsers}}</div>
@@ -44,7 +44,7 @@
       </div>
       <div class="col-3 cards-data">
         <div class="content">
-            <div class="title-info">Result Rate for October<img src="assets/icons/gray_info.svg" class="pl-1"></div>
+            <div class="title-info">Result Rate for {{current_month}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
             <div class="bottom-sec">
                 <div class="left-sec">
                     <div class="count">{{totalSearchesStats.resultRate }}%</div>
