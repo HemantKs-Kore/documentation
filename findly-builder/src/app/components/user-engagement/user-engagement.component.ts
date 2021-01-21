@@ -1060,10 +1060,10 @@ var valueList2 = totaldata.map(function (item) {
           if(busyChartArrayData[a-1][i]){
             sourceObj[dimensions[a]] = busyChartArrayData[a-1][i].totalUsers;
           }else{
-            sourceObj[dimensions[a]] = '-'
+            sourceObj[dimensions[a]] = 0;//'-'
           }
         }else{
-          sourceObj[dimensions[a]] = '-'
+          sourceObj[dimensions[a]] = 0;//'-'
         }
         
       }
@@ -1238,7 +1238,10 @@ var valueList2 = totaldata.map(function (item) {
         // }
         for(let i = 1 ;i<dimensions.length; i++){
           //if(e[i]) // && e[i].value[2] > 0
-          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i]} </b> is <b>${e[i] ? e[i].value[2] : '-'} </b></div>`
+          if(e[i]){
+            e[i].value[2] == '-' ? e[i].value[2] = 0 : e[i].value[2]
+          } 
+          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i]} </b> is <b>${e[i] ? e[i].value[2] : 0} </b></div>`
         }
         `</div>
         `
