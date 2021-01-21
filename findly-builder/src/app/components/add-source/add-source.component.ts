@@ -142,7 +142,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       ]
     },
-    // {
+    {
       title: 'Add Structured data by uploading a file or adding manually',
       sources: [
         {
