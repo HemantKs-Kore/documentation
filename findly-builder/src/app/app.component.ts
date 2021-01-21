@@ -175,6 +175,7 @@ export class AppComponent implements OnInit , OnDestroy {
         self.loading = true;
         this.appsData = res;
       });
+      
     }
     if (event instanceof NavigationEnd) {
       if(event && event.url === '/apps'){
@@ -187,6 +188,9 @@ export class AppComponent implements OnInit , OnDestroy {
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
+        if(this.workflowService.selectedApp()){
+          this.appSelectionService.getStreamData(this.workflowService.selectedApp())
+        }
         const path = event.url.split('?')[0];
         if(path && (path !=='/')){
           this.appSelectionService.setPreviousState(path);

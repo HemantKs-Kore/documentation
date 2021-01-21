@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit {
   isAsc = true;
   slider = 0;
   dateType= "hour";
-  group = "hour";
+  group = "week";
   startDate:any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
@@ -652,7 +652,7 @@ export class DashboardComponent implements OnInit {
             color: colorPaletteSearch,
             hoverAnimation: false,
             center: ['50%', '50%'],
-            data: [30,70],
+            data: [30,70],//[this.feedbackStats.thumbsDownCount + this.feedbackStats.thumbsUpCount,this.feedbackStats.totalSearches],//[30,70],
             label: {
                 show: true,
                 position: 'inner',
@@ -672,7 +672,7 @@ export class DashboardComponent implements OnInit {
                 color: colorPaletteResult,
                 hoverAnimation: false,
                 center: ['50%', '50%'],
-                data: [30,70],
+                data: [30,70],//[this.feedbackStats.feedBackReceived,this.feedbackStats.notUsefulResult], //[30,70]
                 label: {
                     show: true,
                     position: 'inner',

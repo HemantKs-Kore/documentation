@@ -40,6 +40,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   resultSelected = false;
   disableDiv = false;
   collectedRecord = [];
+  permisionView = false; 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,

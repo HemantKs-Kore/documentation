@@ -142,6 +142,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       ]
     },
+    // {
+    //   title: 'Add Structured data by uploading a file or adding manually',
+    //   sources: [
+    //     {
+    //       name: 'Import Structured Data',
+    //       description: 'Import from JSON or CSV',
+    //       icon: 'assets/icons/content/database-Import.svg',
+    //       id: 'contentStucturedDataImport',
+    //       sourceType: 'object',
+    //       resourceType: 'structuredData'
+    //     },
+    //     {
+    //       name: 'Import Structured Data',
+    //       description: 'Add structured data manually',
+    //       icon: 'assets/icons/content/database-add.svg',
+    //       id: 'contentStucturedDataAdd',
+    //       sourceType: 'object',
+    //       resourceType: 'structuredDataManual'
+    //     }
+    //   ]
+    // },
     {
       title: 'Connect & add actions from virtual assistants',
       sources: [
@@ -166,6 +187,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   associatedBots: any = [];
   streamID: any;
   searchAssociatedBots: any;
+  addStructuredDataModalPopRef : any;
+  structuredData : any = {};
+  structuredDataStatusModalRef : any;
+  structuredDataDocPayload : any;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -183,6 +208,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
+  @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
+  @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -356,7 +383,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  cancleSourceAddition() {
+  cancleSourceAddition(event?) {
     if (this.resourceIDToOpen) {
       const event: any = {}
       this.cancleEvent.emit(event);
@@ -368,6 +395,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     this.closeLinkBotsModal();
+    this.closeStructuredDataModal(event);
   }
   selectSource(selectedCrawlMethod) {
     console.log(selectedCrawlMethod);
@@ -378,6 +406,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && selectedCrawlMethod.id === 'botActions') {
       this.selectedSourceType = selectedCrawlMethod;
       this.openLinkBotsModal();
+    }
+    else if(selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')){
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddStructuredData();
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
@@ -913,6 +945,36 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.crwalObject.advanceOpts.crawlEverything = true;
     }
   }
+
+  // Code for Structured Data Starts
+
+  openAddStructuredData(){
+    this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+  }
+
+  closeStructuredDataModal(event?){
+    if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
+      this.addStructuredDataModalPopRef.close();
+      if(event && event.showStatusModal){
+        this.structuredDataDocPayload = event.payload;
+        this.openStructuredDataStatusModal();
+      }
+    }
+  }
+
+  openStructuredDataStatusModal(){
+    this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
+  }
+
+  closeStructuredDataStatusModal(){
+    if(this.structuredDataStatusModalRef){
+      this.router.navigate(['/structuredData'], { skipLocationChange: true });
+      this.structuredDataStatusModalRef.close();
+    }
+  }
+
+  // Code for Structured Data Ends
+
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {

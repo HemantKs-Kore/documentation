@@ -262,8 +262,8 @@
                                 <div class="col-1 header-title text-right"></div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.appearances}}</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.clicks}}</div>
-                                <div class="col-2 body-title text-center">{{topSearchResult.clickThroughRate}}%</div>
-                                <div class="col-1 body-title text-center">{{topSearchResult.avgPosition}}</div>
+                                <div class="col-2 body-title text-center">{{topSearchResult.clickThroughRate | number : '1.2-2'}}%</div>
+                                <div class="col-1 body-title text-center">{{topSearchResult.avgPosition | number : '1.2-2'}}</div>
                                 <!-- <div class="col-1 body-title text-center">{{topSearchResult.positiveFeedback}}</div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.negativeFeedback}}</div> -->
                             </div>
