@@ -6167,9 +6167,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (faqContainer) {
             if (config.faqTemplateId) {
               var dataHTML = $('#' + config.faqTemplateId).tmplProxy(data);
+              if (faqContainer !== pageContainer && faqContainer !== actionContainer) {
+                $('#' + faqContainer).empty()  
+              }
               $('#' + faqContainer).append(dataHTML);
             } else if (config.faqTemplate) {
               var dataHTML = $(config.faqTemplate).tmplProxy(data);
+              if (faqContainer !== pageContainer && faqContainer !== actionContainer) {
+                $('#' + faqContainer).empty()  
+              }
               $('#' + faqContainer).append(dataHTML);
             }
           }
@@ -6177,9 +6183,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (actionContainer) {
             if (config.actionTemplateId) {
               var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+              if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                $('#' + actionContainer).empty()  
+              }
               $('#' + actionContainer).append(dataHTML);
             } else if (config.actionTemplate) {
-              var dataHTML = $(config.faqTemplate).tmplProxy(data);
+              var dataHTML = $(config.actionTemplate).tmplProxy(data);
+              if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                $('#' + actionContainer).empty()  
+              }
               $('#' + actionContainer).append(dataHTML);
             }
           }
