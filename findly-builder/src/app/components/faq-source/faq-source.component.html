@@ -643,9 +643,9 @@
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
-                        <div class="col" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="col">{{contentTypes[source.contentSource] | titlecase}}</div>
-                        <div class="col">
+                        <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                        <div class="col_ col-1">{{contentTypes[source.contentSource] | titlecase}}</div>
+                        <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                                 <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
@@ -654,9 +654,9 @@
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                         </div>
 
-                        <div class="col">{{source.extractedFaqsCount || '0'}}</div>
-                        <div class="col" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
-                        <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                        <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
+                        <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
+                        <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child">
                             <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                             <!-- <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span> -->
