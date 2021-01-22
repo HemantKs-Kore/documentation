@@ -22,13 +22,16 @@ export class BotActionComponent implements OnInit {
   streamId: any;
   currentView: any;
   bots: any = [];
-
+  refId: any ='';
+  allBotArray : any = [];
   sortedBy: string;
   sortInAscending: boolean = false;
   associatedBotsExist: boolean = true;
   linkedBotID: any;
   linkedBotName: any;
   linkedBotDescription: any;
+  islinked = false;
+  botToBeUnlinked = '';
   // associatedBotArr = [];
   userInfo: any;
   botsModalRef: any;
@@ -72,9 +75,62 @@ export class BotActionComponent implements OnInit {
 
     this.getAssociatedBots();
     this.getAssociatedTasks(this.streamId);
-
+    //this.getdialog();
+    //this.getLinkedBot();
   }
+  getdialog() {
+    const queryParams = {
+      streamId: this.selectedApp._id
+    }
 
+    this.service.invoke('get.dialog', queryParams).subscribe(
+      res => {
+        this.refId = res[0]._id;
+        //this.notificationService.notify('Credential Configuered', 'success');
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed get DialogID', 'error');
+        }
+      }
+    );
+  }
+  getLinkedBot() {
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+
+    this.service.invoke('get.linkedBot', queryParams).subscribe(
+      res => {
+        //if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
+        console.log(res);
+        // res.configuredBots.forEach(element => {
+        //   let obj = {
+        //     "_id": element._id,
+        //     "state": "new"
+        //   }
+        //   this.allBotArray.push(obj);
+        // });
+        // res.unpublishedBots.forEach(element => {
+        //   let obj = {
+        //     "_id": element._id,
+        //     "state": "delete"
+        //   }
+        //   this.allBotArray.push(obj);
+        // });
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to get LInked BOT', 'error');
+        }
+      }
+    );
+  }
   getBots() {
     if (this.streamId) {
       const quaryparms: any = {
@@ -262,13 +318,11 @@ export class BotActionComponent implements OnInit {
       console.log("Invalid UserID")
     }
   }
-
-  linkBot(botID: any) {
+  linkAfterUnlink(botID){
     event.stopPropagation();
 
     let requestBody: any = {};
     let selectedApp: any;
-
     console.log(botID);
 
     if (this.searchIndexId) {
@@ -281,6 +335,26 @@ export class BotActionComponent implements OnInit {
       requestBody['linkBotId'] = botID;
       console.log(requestBody);
       this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
+        // Universal Bot Publish here.
+        this.allBotArray =[];
+        res.configuredBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "new"
+          }
+          this.allBotArray.push(obj);
+        });
+        res.unpublishedBots.forEach(element => {
+          let obj = {
+            "_id": element._id,
+            "state": "delete"
+          }
+          this.allBotArray.push(obj);
+        });
+        if(this.allBotArray.length > 0){
+          this.universalPublish();
+        }
+         // Universal Bot Publish here.
         console.log(res);
         selectedApp = this.workflowService.selectedApp();
         console.log("Selected APP", selectedApp);
@@ -322,27 +396,175 @@ export class BotActionComponent implements OnInit {
       this.notificationService.notify('Failed', 'Error in linking bot');
     }
   }
-  unlinkBot(botID: any) {
-    event.stopPropagation();
+  linkBot(botID: any) {
+    if(this.botToBeUnlinked && this.islinked){
+      this.unlinkBotWhithPublish(botID);
+    }else{
+      this.linkAfterUnlink(botID);
+      this.islinked = true;
+    }
 
+    // OLD LOGIC
+    // event.stopPropagation();
+
+    // let requestBody: any = {};
+    // let selectedApp: any;
+    // console.log(botID);
+
+    // if (this.searchIndexId) {
+
+    //   this.loadingContent = true;
+
+    //   const queryParams: any = {
+    //     searchIndexID: this.searchIndexId
+    //   };
+    //   requestBody['linkBotId'] = botID;
+    //   console.log(requestBody);
+    //   this.service.invoke('put.LinkBot', queryParams, requestBody).subscribe(res => {
+    //     // Universal Bot Publish here.
+    //     this.allBotArray =[];
+    //     res.configuredBots.forEach(element => {
+    //       let obj = {
+    //         "_id": element._id,
+    //         "state": "new"
+    //       }
+    //       this.allBotArray.push(obj);
+    //     });
+    //     res.unpublishedBots.forEach(element => {
+    //       let obj = {
+    //         "_id": element._id,
+    //         "state": "delete"
+    //       }
+    //       this.allBotArray.push(obj);
+    //     });
+    //     if(this.allBotArray.length > 0){
+    //       this.universalPublish();
+    //     }
+    //      // Universal Bot Publish here.
+    //     console.log(res);
+    //     selectedApp = this.workflowService.selectedApp();
+    //     console.log("Selected APP", selectedApp);
+    //     if (res.configuredBots[0]) {
+    //       selectedApp.configuredBots[0] = {};
+    //       selectedApp.configuredBots[0]._id = res.configuredBots[0]._id;
+    //       this.linkedBotID = res.configuredBots[0]._id;
+    //       this.linkedBotName = res.configuredBots[0].botName;
+    //     }
+    //     else {
+    //       selectedApp.publishedBots[0] = {};
+    //       selectedApp.publishedBots[0]._id = res.publishedBots[0]._id;
+    //       this.linkedBotID = res.publishedBots[0]._id
+    //       this.linkedBotName = res.publishedBots[0].botName;
+    //     }
+
+    //     this.linkedBotDescription = res.description;
+    //     console.log("Linked Bot ID, Linked Bot Name, Linked Bot Description", this.linkedBotID, this.linkedBotName, this.linkedBotDescription);
+    //     this.workflowService.selectedApp(selectedApp);
+    //     console.log(res.status);
+    //     if (selectedApp.configuredBots[0]) {
+    //       this.streamId = selectedApp.configuredBots[0]._id;
+    //     }
+    //     else {
+    //       this.streamId = selectedApp.publishedBots[0]._id;
+    //     }
+    //     this.getAssociatedTasks(this.streamId)
+    //     this.getAssociatedBots();
+    //     this.notificationService.notify("Bot linked, successfully", 'success')
+    //   },
+    //     (err) => {
+    //        console.log(err); this.notificationService.notify("Bot linking, unsuccessful", 'error') 
+    //     this.loadingContent = false;
+
+    //   }
+    //   )
+    // }
+    // else {
+    //   this.notificationService.notify('Failed', 'Error in linking bot');
+    // }
+  }
+  universalPublish(){
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
+    }
+    let payload = {
+      "bots": this.allBotArray,
+        // [
+        //   {
+        //     "_id": this.configuredBot_streamId,
+        //     "state": "new"
+        //   }
+        // ],
+      "publishAllComponents": true,
+      "versionComment": "publishing",
+      "linkedBotCount": 1
+    }
+
+    this.service.invoke('universal.publish', queryParams, payload).subscribe(
+      res => {
+        this.notificationService.notify('Universal Published', 'success');
+       // console.log(res);
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
+  }
+  standardPublish() {
+    const queryParams = {
+      streamId: this.selectedApp._id
+    }
+    let payload = {
+      "resources":
+        [
+          {
+            "namespace": "enterprise",
+            "resourceId": this.refId,
+            "namespaceIds": [],
+            "resourceType": "dialog",
+            "approvalRequestedLanguages": ["en"]
+          },
+          { "resourceId": "smalltalk", "resourceType": "smalltalk", "approvalRequestedLanguages": ["en"] },
+          { "resourceId": "NL", "resourceType": "NL", "modules": ["linked_bot_training", "bot_synonyms", "thresholds_and_configurations", "standard_responses", "default_dialog", "settings"] },
+          { "resourceId": "CHANNELS", "resourceType": "CHANNELS", "modules": ["rtm"] }, { "resourceId": "EXTENSIONS", "resourceType": "EXTENSIONS", "modules": ["botkit", "websdk", "events"] },
+          { "resourceId": "SETTINGS", "resourceType": "SETTINGS", "modules": ["general", "pii", "ivr", "hold_resume", "custom_script", "advanced", "bot_variables"] },
+          { "resourceId": "BOTLANGUAGES", "resourceType": "BOTLANGUAGES", "modules": { "enabledLanguages": ["en"] } }], "publishAllComponents": true, "versionComment": "publishing", "linkedBotCount": 1
+    }
+
+    this.service.invoke('standard.publish', queryParams, payload).subscribe(
+      res => {
+        //this.notificationService.notify('Standard Published', 'success');
+        if(this.allBotArray.length > 0){
+          this.universalPublish();
+        }
+      },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed Standard Publish', 'error');
+        }
+      }
+    );
+  }
+  unlinkBotWhithPublish(linkingBotID){
     let requestBody: any = {};
     let selectedApp: any;
-
-    console.log(botID);
-
     if (this.searchIndexId) {
-      
       this.loadingContent = true;
-
       const queryParams = {
         searchIndexID: this.searchIndexId
       }
-      requestBody['linkedBotId'] = botID;
+      requestBody['linkedBotId'] = this.botToBeUnlinked;
       console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
         console.log(res);
-
+        this.linkAfterUnlink(linkingBotID);
         selectedApp = this.workflowService.selectedApp();
         if (selectedApp.configuredBots[0]) {
           selectedApp.configuredBots[0]._id = null;
@@ -357,22 +579,98 @@ export class BotActionComponent implements OnInit {
         this.workflowService.selectedApp(selectedApp);
         this.streamId = null;
 
-        this.getAssociatedBots();
-        this.getAssociatedTasks(this.streamId);
-
+        //this.getAssociatedBots();
+        //this.getAssociatedTasks(this.streamId);
         this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
-
+        
       },
         (err) => { 
           console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
           this.loadingContent = false;
           //this.getAssociatedTasks(this.streamId);
         }
-      )
+       )
+     }
+  }
+  unlinkBot(botID: any,linkType?) {
+    if(!linkType){
+      this.openBotsModalElement();
+      this.notificationService.notify('Please link other Bots to ulink the current Bot', 'warning');
+      this.botToBeUnlinked = botID;
+    }else{
+      this.notificationService.notify('Please link other Bots to ulink the current Bot', 'warning');
+     // OLD LOGIC
+  //     event.stopPropagation();
+
+  //   let requestBody: any = {};
+  //   let selectedApp: any;
+
+  //   console.log(botID);
+
+  //   if (this.searchIndexId) {
+      
+  //     this.loadingContent = true;
+
+  //     const queryParams = {
+  //       searchIndexID: this.searchIndexId
+  //     }
+  //     requestBody['linkedBotId'] = botID;
+  //     console.log(requestBody);
+
+  //     this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
+  //       console.log(res);
+  //      // Universal Bot Publish here.
+  //      this.allBotArray =[];
+  //      res.configuredBots.forEach(element => {
+  //       let obj = {
+  //         "_id": element._id,
+  //         "state": "new"
+  //       }
+  //       this.allBotArray.push(obj);
+  //     });
+  //     res.unpublishedBots.forEach(element => {
+  //       let obj = {
+  //         "_id": element._id,
+  //         "state": "delete"
+  //       }
+  //       this.allBotArray.push(obj);
+  //     });
+  //     if(this.allBotArray.length > 0){
+  //       this.universalPublish();
+  //     }
+  //      // Universal Bot Publish here.
+  //       selectedApp = this.workflowService.selectedApp();
+  //       if (selectedApp.configuredBots[0]) {
+  //         selectedApp.configuredBots[0]._id = null;
+  //       }
+  //       else {
+  //         selectedApp.publishedBots[0]._id = null;
+  //       }
+  //       this.linkedBotID = null;
+  //       this.linkedBotName = null;
+  //       this.linkedBotDescription = null;
+
+  //       this.workflowService.selectedApp(selectedApp);
+  //       this.streamId = null;
+
+  //       this.getAssociatedBots();
+  //       this.getAssociatedTasks(this.streamId);
+
+  //       this.notificationService.notify("Bot unlinked, successfully. Please publish to reflect", 'success');
+        
+  //     },
+  //       (err) => { 
+  //         console.log(err); this.notificationService.notify("Bot unlinking, successfully", 'error'); 
+  //         this.loadingContent = false;
+  //         //this.getAssociatedTasks(this.streamId);
+  //       }
+  //      )
+  //    }
     }
   }
   getAssociatedTasks(botID) {
     if (botID != null) {
+      this.islinked = true;
       if (this.searchIndexId) {
         const queryParams: any = {
           searchIndexID: this.searchIndexId
@@ -416,7 +714,10 @@ export class BotActionComponent implements OnInit {
           
           this.loadingContent = false;
         },
-          (err) => { console.log(err) },
+          (err) => { 
+            this.loadingContent = false;
+            console.log(err) 
+          },
           () => { console.log("XHR Call Completed") }
         )
       }
@@ -425,6 +726,7 @@ export class BotActionComponent implements OnInit {
       this.linkedBotTasks = [];
       this.linkedBotFAQs = [];
       this.loadingContent = false;
+      this.islinked = false;
     }
   }
 
