@@ -401,6 +401,7 @@ export class BotActionComponent implements OnInit {
       this.unlinkBotWhithPublish(botID);
     }else{
       this.linkAfterUnlink(botID);
+      this.botToBeUnlinked = botID;
       this.islinked = true;
     }
 
@@ -559,7 +560,7 @@ export class BotActionComponent implements OnInit {
       const queryParams = {
         searchIndexID: this.searchIndexId
       }
-      requestBody['linkedBotId'] = this.botToBeUnlinked;
+      requestBody['linkedBotId'] = this.streamId//this.botToBeUnlinked;
       console.log(requestBody);
 
       this.service.invoke('put.UnlinkBot', queryParams, requestBody).subscribe(res => {
@@ -599,6 +600,7 @@ export class BotActionComponent implements OnInit {
       this.botToBeUnlinked = botID;
     }else{
       this.notificationService.notify('Please link other Bots to ulink the current Bot', 'warning');
+      this.botToBeUnlinked = botID;
      // OLD LOGIC
   //     event.stopPropagation();
 

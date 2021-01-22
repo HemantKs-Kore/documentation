@@ -246,7 +246,7 @@
                 <div class="col_ col-2"></div>
                 <div class="col_ col-2"><button *ngIf="streamId != bot._id" class="button-bot-link"
                     (click)="linkBot(bot._id)"><img src="assets/icons/iconLink.svg">&nbsp;Link</button><button
-                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id)"><img
+                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id,'bulk_unlink')"><img
                       src="assets/icons/iconUnlink.svg">&nbsp;Unlink</button><img class="col-content-ellipse-icon"
                     src="assets/icons/elipse.svg"></div>
               </div>
