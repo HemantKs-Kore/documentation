@@ -54,7 +54,7 @@ export class AppComponent implements OnInit , OnDestroy {
               private service: ServiceInvokerService,
               private endpointservice: EndPointsService,
               private appSelectionService : AppSelectionService,
-              private dockService: DockStatusService
+              public dockService: DockStatusService
               // private translate: TranslateService
   ) {
 
