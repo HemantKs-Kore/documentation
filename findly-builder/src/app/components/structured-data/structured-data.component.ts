@@ -231,7 +231,7 @@ export class StructuredDataComponent implements OnInit {
 
   openAdvancedSearch(){
     if(Object.values(this.advancedSearch).length){
-      this.tempAdvancedSearch = this.advancedSearch;
+      this.tempAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
     }
     else{
       this.advancedSearch.operand = "and"
@@ -259,7 +259,17 @@ export class StructuredDataComponent implements OnInit {
   }
 
   removeRule(index){
-    this.advancedSearch.rules.splice(index, 1);
+    if(index === 0 && this.advancedSearch.rules.length === 1){
+      this.advancedSearch.rules[0] ={
+        fieldName : '',
+        operator : '',
+        value : '',
+        type : ''
+      }
+    }
+    else{
+      this.advancedSearch.rules.splice(index, 1);
+    }
   }
 
   removeAdvancedSearchRule(index){
@@ -289,7 +299,8 @@ export class StructuredDataComponent implements OnInit {
     // this.appliedAdvancedSearch = '';
     if(!this.checkAdvancedSearchValidation()){
       if(this.tempAdvancedSearch.rules && this.tempAdvancedSearch.rules.length){
-        this.advancedSearch = this.tempAdvancedSearch;
+        this.advancedSearch = JSON.parse(JSON.stringify(this.tempAdvancedSearch));
+        this.appliedAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
       }
       else{
         this.advancedSearch = {};
@@ -297,8 +308,8 @@ export class StructuredDataComponent implements OnInit {
       }
     }
     else{
-      this.advancedSearch = this.tempAdvancedSearch;
-      this.appliedAdvancedSearch = this.advancedSearch;
+      this.advancedSearch = JSON.parse(JSON.stringify(this.tempAdvancedSearch));
+      this.appliedAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
     }
   }
 
@@ -429,7 +440,12 @@ export class StructuredDataComponent implements OnInit {
     if (!activate) {
       if(this.searchText.length){
         this.searchText = '';
-        this.getStructuredDataList();
+        if(this.appliedAdvancedSearch.rules.length){
+          this.applyAdvancedSearchCall();
+        }
+        else{
+          this.getStructuredDataList();
+        }
       }
     }
     else {
@@ -469,6 +485,7 @@ export class StructuredDataComponent implements OnInit {
     this.isLoading = true;
     this.emptySearchResults = false;
     this.noItems = false;
+    let payload;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
@@ -480,7 +497,10 @@ export class StructuredDataComponent implements OnInit {
     if(this.skip){
       quaryparms.skip = this.skip;
     }
-    this.service.invoke('get.searchStructuredData', quaryparms, null).subscribe(res => {
+    if(this.appliedAdvancedSearch.rules.length){
+      payload = this.appliedAdvancedSearch;
+    }
+    this.service.invoke('get.searchStructuredData', quaryparms, payload).subscribe(res => {
       this.isLoading = false;
       this.totalCount = res.total;
       if(res.data){
