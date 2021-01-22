@@ -1236,12 +1236,12 @@ var valueList2 = totaldata.map(function (item) {
         //   if(dimensions[i+1]) // && e[i].value[2] > 0
         //   loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i+1]} </b> is <b>${e[i].value[2]} </b></div>`
         // }
-        for(let i = 1 ;i<dimensions.length; i++){
+        for(let i = 0 ;i<=dimensions.length; i++){
           //if(e[i]) // && e[i].value[2] > 0
           if(e[i]){
             e[i].value[2] == '-' ? e[i].value[2] = 0 : e[i].value[2]
           } 
-          loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i]} </b> is <b>${e[i] ? e[i].value[2] : 0} </b></div>`
+         if(dimensions[i+1]) loopDIV = loopDIV + `<div class="indication_text" >total user on <b> ${dimensions[i+1]} </b> is <b>${e[i] ? e[i].value[2] : 0} </b></div>`
         }
         `</div>
         `

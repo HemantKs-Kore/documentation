@@ -44,7 +44,7 @@
                                         <span class="rule-value" *ngIf="rule.value" >{{rule.value}}</span>                                     
                                         <img (click)="removeAdvancedSearchRule(index)" src="assets/icons/structured-data/close-filter.svg">
                                     </span> 
-                                    <span class="and" *ngIf="index !== appliedAdvancedSearch.rules.length">AND</span>
+                                    <span class="and" *ngIf="index !== (appliedAdvancedSearch.rules.length - 1)">AND</span>
                                 </ng-container>
                                 <span class="ml-3 filter-title" (click)="openAdvancedSearch()">{{'structuredData.editFilter' | translate}}</span>
                             </ng-container>
@@ -209,7 +209,7 @@
                     <div class="kr-sg-input-text">                  
                         <input type="text" [disabled]="(rule.operator === 'exists') || (rule.operator === 'notexists')" placeholder="{{'structuredData.enter_value' | translate}}" class="input-text" [(ngModel)]="rule.value">                    
                     </div> 
-                    <div class="delete-row pointer" id="btn_remove_row{{index}}" *ngIf="advancedSearch.rules.length > 1" (click)="removeRule(index)"><img src="assets/images/minus.svg"></div>               
+                    <div class="delete-row pointer" id="btn_remove_row{{index}}" (click)="removeRule(index)"><img src="assets/images/minus.svg"></div>               
                 </div>
             
                 <div class="group-radiobutton mt-3 mb-3">               
