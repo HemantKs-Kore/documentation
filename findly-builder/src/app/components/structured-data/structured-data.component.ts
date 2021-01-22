@@ -72,6 +72,7 @@ export class StructuredDataComponent implements OnInit {
   fields : any = [];
   searchField;
   advancedSearch : any = {};
+  tempAdvancedSearch : any = {};
   disableContainer : any = false;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
@@ -220,7 +221,9 @@ export class StructuredDataComponent implements OnInit {
           this.applyAdvancedSearchCall();
         }
         else{
-          this.getStructuredDataList();
+          if(!event || !(event && event.cancel)){
+            this.getStructuredDataList();
+          }
         }
       }
     }
@@ -228,7 +231,7 @@ export class StructuredDataComponent implements OnInit {
 
   openAdvancedSearch(){
     if(Object.values(this.advancedSearch).length){
-
+      this.tempAdvancedSearch = this.advancedSearch;
     }
     else{
       this.advancedSearch.operand = "and"
@@ -239,6 +242,7 @@ export class StructuredDataComponent implements OnInit {
         value : '',
         type : ''
       });
+      this.tempAdvancedSearch = [];
     }
     this.adwancedSearchModalPopRef = this.advancedSearchModalPop.open();
     // this.advancedSearchInput = '';
@@ -283,6 +287,19 @@ export class StructuredDataComponent implements OnInit {
     }
     this.advancedSearchInput = '';
     // this.appliedAdvancedSearch = '';
+    if(!this.checkAdvancedSearchValidation()){
+      if(this.tempAdvancedSearch.rules && this.tempAdvancedSearch.rules.length){
+        this.advancedSearch = this.tempAdvancedSearch;
+      }
+      else{
+        this.advancedSearch = {};
+        this.appliedAdvancedSearch = {};
+      }
+    }
+    else{
+      this.advancedSearch = this.tempAdvancedSearch;
+      this.appliedAdvancedSearch = this.advancedSearch;
+    }
   }
 
   applyAdvancedSearch(){
@@ -290,9 +307,9 @@ export class StructuredDataComponent implements OnInit {
     this.appliedAdvancedSearch = this.advancedSearch;
     if(this.checkAdvancedSearchValidation()){
       this.applyAdvancedSearchCall();
-      if(this.adwancedSearchModalPopRef){
-        this.adwancedSearchModalPopRef.close();
-      }
+      // if(this.adwancedSearchModalPopRef){
+      //   this.adwancedSearchModalPopRef.close();
+      // }
     }
     else{
       // inform user
@@ -360,6 +377,9 @@ export class StructuredDataComponent implements OnInit {
     this.service.invoke('post.searchStructuredData', quaryparms, payload).subscribe(res => {
       this.isLoading = false;
       this.totalCount = res.total;
+      if(this.adwancedSearchModalPopRef){
+        this.adwancedSearchModalPopRef.close();
+      }
       if(res.data){
         this.structuredDataItemsList = res.data;
         this.designDefaultData(this.structuredDataItemsList);
@@ -382,6 +402,7 @@ export class StructuredDataComponent implements OnInit {
       }
     }, errRes => {
       console.log("error", errRes);
+      this.tempAdvancedSearch = {};
       this.isLoading = false;
       this.emptySearchResults = false;
       this.notificationService.notify('Fetching Structured Data has gone wrong.', 'error');

@@ -92,18 +92,69 @@
         padding: 0 20px 0 45px;
         position: relative;
         .filter-sec{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            .if-text{
+                color: #3C4043;
+                font-weight: 600;
+                font-size: 10px;
+                line-height: 12px;
+            }
             .filter_text{
                 background: #EFF0F1;
                 border-radius: 2.5px;
-                padding: 6px 10px;
+                padding: 5px 5px;
+                display: flex;
+                align-items: center;
+                margin: 0 6px 3px 0;
                 color: #202124;
                 font-weight: normal;
                 font-size: 14px;
                 line-height: 20px;
-                display: inline-flex;
+                .rule-fieldname{
+                    border: 1px solid #BDC1C6;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    padding: 3px 6px;
+                    font-weight: 500;
+                    font-size: 10px;
+                    line-height: 12px;
+                    color: #3C4043;
+                    text-transform: uppercase;
+                    display: inline-block;
+                    margin-right: 6px;
+                }
+                .rule-operator{
+                    font-size: 12px;
+                    line-height: 14px;
+                    color: #3C4043;
+                    text-transform: capitalize;
+                }
+                .rule-value{
+                    border: 1px solid #BDC1C6;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    padding: 3px 6px;
+                    font-weight: 500;
+                    font-size: 10px;
+                    line-height: 12px;
+                    color: #3C4043;
+                    // text-transform: uppercase;
+                    display: inline-block;
+                    margin-left: 6px;
+                }
                 img{
                     cursor: pointer;
+                    margin-left: 10px;
                 }
+            }
+            .and{
+                color: #3C4043;
+                font-weight: 600;
+                font-size: 10px;
+                line-height: 12px;
+                margin-right: 6px;
             }
             .filter-title{
                 color: #0D6EFD;
@@ -134,11 +185,12 @@
         .structured-data{
             display: flex;         
             position: relative;            
-            padding: 10px;
+            padding: 5px 10px;
             color: #393939;         
             border-top: 1px solid #E4E5E7;           
             border-radius: 0;           
             transition: 0.4s all ease; 
+            height : auto !important;
             // &:nth-child(1){
             //     border-top: 1px solid #E4E5E7;
             // }
@@ -171,6 +223,7 @@
                 left: -26px;
                 top: 8px;
                 visibility: hidden;
+                height: calc(100% - 26px);
                 .checkbox-custom{
                     height: auto;
                 }
@@ -188,6 +241,38 @@
                 .view-json{
                     color: #0D6EFD;
                     cursor: pointer;
+                }
+                .default-row{
+                    align-items: center;
+                    padding: 7px 0;
+                    .default-key{
+                        color: #9AA0A6;
+                        text-transform: uppercase;
+                        font-weight: 500;
+                        font-size: 12px;
+                        // line-height: 14px;
+                    }
+                    .default-value{
+                        color: #202124;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 17px;
+                        pre{
+                            padding: 0;
+                            color: #202124;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 17px;
+                            border: 0;
+                            background: transparent;
+                        }
+                    }
+                }
+                &.defaultView{
+                    .default-body{
+                        max-height:120px !important;
+                        overflow: hidden !important;
+                    }
                 }
             }
             .action-links{
