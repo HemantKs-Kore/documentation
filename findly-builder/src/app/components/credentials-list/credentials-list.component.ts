@@ -165,7 +165,7 @@ createCredential() {
       //   this.slider = 3
       // }
 
-      this.notificationService.notify('Credential Created', 'success');
+      this.notificationService.notify('Credential Created Successfully', 'success');
       this.closeModalPopup();
       this. getCredential();
 
@@ -243,13 +243,14 @@ configureCredential() {
 }
 deleteCredential(data){
   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    width: '446px',
-    height: '306px',
+    width: '530px',
+    height: 'autox',
     panelClass: 'delete-popup',
     data: {
-      title: 'Delete Credential',
-      text: 'Are you sure you want to delete Credential?',
-      buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }]
+      newTitle: 'Delete Credential',
+      body: 'Are you sure you want to delete Credential?',
+      buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp:true
     }
   });
   dialogRef.componentInstance.onSelect
@@ -263,7 +264,7 @@ deleteCredential(data){
         this.service.invoke('delete.credential', quaryparms).subscribe(res => {
           this.getCredential();
           dialogRef.close();
-            this.notificationService.notify('Succesful to delete credential', 'success');
+            this.notificationService.notify('Credential deleted successfully', 'success');
           
         }, (errors) => {
           if (errors && errors.error && errors.error.errors.length && errors.error.errors[0] && errors.error.errors[0].code && errors.error.errors[0].code == 409) {
@@ -271,7 +272,7 @@ deleteCredential(data){
             dialogRef.close();
           }
           else {
-            this.notificationService.notify('Failed to delete credential', 'error');
+            this.notificationService.notify('Credential deleted successfully', 'error');
           }
         });
       } else if (result === 'no') {

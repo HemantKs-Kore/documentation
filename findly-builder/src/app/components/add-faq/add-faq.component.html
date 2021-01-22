@@ -317,7 +317,7 @@
             <span *ngIf="faqData">{{faqData._source.alternateQuestions?.length>0?'('+faqData._source.alternateQuestions?.length+')':''}}</span>
             <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
         </div>
-        <div class="added-tags text-truncate">Add alternate forms of the question, key terms.</div>
+        <div class="added-tags text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
     </div>
     <div class="col-2 p-0 text-right" *ngIf="!isAdd">
         <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">Add</button>
