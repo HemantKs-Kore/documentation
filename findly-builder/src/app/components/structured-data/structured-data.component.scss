@@ -190,6 +190,7 @@
             border-top: 1px solid #E4E5E7;           
             border-radius: 0;           
             transition: 0.4s all ease; 
+            height : auto !important;
             // &:nth-child(1){
             //     border-top: 1px solid #E4E5E7;
             // }
@@ -265,6 +266,12 @@
                             border: 0;
                             background: transparent;
                         }
+                    }
+                }
+                &.defaultView{
+                    .default-body{
+                        max-height:120px !important;
+                        overflow: hidden !important;
                     }
                 }
             }

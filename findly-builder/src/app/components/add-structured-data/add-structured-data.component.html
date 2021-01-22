@@ -2,7 +2,7 @@
     <form #sourceCreation="ngForm">
         <div class="modal-header">
             <div class="title">{{selectedSourceType.name}}</div>
-            <div class="close_icon" (click)="cancleSourceAddition()" id="btn_close_add_structured_modal"><img class="ng-tns-c11-2"
+            <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img class="ng-tns-c11-2"
                     src="assets/icons/modal-close.svg"></div>
         </div>
         <perfect-scrollbar class="addSourceModalBody addNewSource structuredData">
@@ -114,7 +114,7 @@
         </perfect-scrollbar>
         <div class="modal-footer">
             <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
-            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()" id="btn_cancel_structure_data">{{'structuredData.back' | translate}}</button>
+            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.back' | translate}}</button>
         </div>
     </form>
 </ng-container>

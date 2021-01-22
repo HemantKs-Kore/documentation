@@ -67,19 +67,20 @@
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="defaultView">
-                                <div class="data-content">                                    
-
-                                    <div class="row m-0 default-row col-12" [ngClass]="{'align-items-start':objectValue.nested}" *ngFor="let objectValue of data.objectValues; let v_index = index">
-                                        <div class="col-2 pl-0 default-key">{{ objectValue.key }}</div>
-                                        <div class="col-10 p-0 default-value" *ngIf="!objectValue.nested">{{ objectValue.value }}</div>
-                                        <div class="col-9 p-0 default-value align-items-start" *ngIf="objectValue.nested">                                                                                   
-                                           <div class="d-flex align-items-start">
-                                            <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
-                                            <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
-                                            <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
-                                            <div *ngIf="objectValue.nested && !objectValue.expanded">{{ objectValue.value }}</div>
-                                           </div>                                            
-                                        </div>                                        
+                                <div class="data-content defaultView">                                    
+                                    <div class="default-body">
+                                        <div class="row m-0 default-row col-12" [ngClass]="{'align-items-start':objectValue.nested}" *ngFor="let objectValue of data.objectValues; let v_index = index">
+                                            <div class="col-2 pl-0 default-key">{{ objectValue.key }}</div>
+                                            <div class="col-10 p-0 default-value" *ngIf="!objectValue.nested">{{ objectValue.value }}</div>
+                                            <div class="col-9 p-0 default-value align-items-start" *ngIf="objectValue.nested">                                                                                   
+                                               <div class="d-flex align-items-start">
+                                                <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
+                                                <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
+                                                <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
+                                                <div *ngIf="objectValue.nested && !objectValue.expanded">{{ objectValue.value }}</div>
+                                               </div>                                            
+                                            </div>                                        
+                                        </div>
                                     </div>
                                     <div class="mt-2 view-json col-12 p-0" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.seeMore' | translate}}</div>
                                    
