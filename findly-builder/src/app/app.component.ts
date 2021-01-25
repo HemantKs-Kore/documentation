@@ -20,6 +20,7 @@ declare let window:any;
 declare let self:any;
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
+import { DockStatusService } from './services/dockstatusService/dock-status.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -53,7 +54,8 @@ export class AppComponent implements OnInit , OnDestroy {
               private headerService: SideBarService,
               private service: ServiceInvokerService,
               private endpointservice: EndPointsService,
-              private appSelectionService : AppSelectionService
+              private appSelectionService : AppSelectionService,
+              public dockService: DockStatusService
               // private translate: TranslateService
   ) {
 
@@ -177,6 +179,7 @@ export class AppComponent implements OnInit , OnDestroy {
         self.loading = true;
         this.appsData = res;
       });
+      
     }
     if (event instanceof NavigationEnd) {
       if(event && event.url === '/apps'){
@@ -189,6 +192,9 @@ export class AppComponent implements OnInit , OnDestroy {
         this.selectApp(false);
         console.log('navigated to apps throught navigator and closed preview ball');
       } else {
+        if(this.workflowService.selectedApp()){
+          this.appSelectionService.getStreamData(this.workflowService.selectedApp())
+        }
         const path = event.url.split('?')[0];
         if(path && (path !=='/')){
           this.appSelectionService.setPreviousState(path);
@@ -359,5 +365,15 @@ export class AppComponent implements OnInit , OnDestroy {
           $('.search-container').addClass('advanced-mode');
         }
     });
+  }
+
+  // click event on whole body. For now, using for Status Docker
+  globalHandler(event){
+    // console.log("evnt", event);
+    if(!$(event.target).closest('.statusDockerBody').length && !$(event.target).closest('.status-docker').length && !$(event.target).is('.status-docker')){
+      if(this.dockService.showStatusDocker){
+        this.dockService.showStatusDocker = false;
+      }
+    }
   }
 }

@@ -3,7 +3,36 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
-  <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
+  <!-- <div class="table-list-content">
+    <div class="kr-sg-data-table" *ngIf="!loadingContent">
+      <div class="header-sec col-12 row m-0">
+        <div class="col-4 p-0">Content Management</div>
+      </div>
+    </div>
+  </div> -->
+  <div  class="empty-landing-screen"
+  *ngIf="!(resources && resources.length) && !loadingContent">
+    <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/contentmanag-empty.svg"></div>
+    <ng-container >
+        <div class="empty-title">You haven’t added any content data yet!</div>
+        <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.
+        </div>
+        <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Add Content</button>                                            
+            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+            <li  class="webDomain" (click)="addNewContentSource('contentWeb')">Crawl Web Domain</li>
+            <li  class="webDomain" (click)="addNewContentSource('contentDoc')">Upload File</li>                  
+            </ul>
+        </div>                                    
+        </div>
+    </ng-container>
+    <ng-container *ngIf="noItems && emptySearchResults">
+        <div class="desc-text">Your Search Query doesn't match with any record.</div>
+    </ng-container>
+
+</div>
+  <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
     <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
       <div class="webDomain" (click)="addNewContentSource('contentWeb')">
@@ -28,7 +57,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -164,7 +193,7 @@
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                 <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'" class="run-percentageDone" >{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].executionStats) ? resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>  <!-- {{source.jobInfo.executionStats.percentageDone}} -->
-                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'">({{ source.schedule_createdOn }})</span> 
+                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'"><span *ngIf="source.schedule_createdOn">({{ source.schedule_createdOn }})</span></span> 
                 <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
@@ -492,7 +521,7 @@
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
                           <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
-                          <li (click)="crawlOption('block','Crawl Everything Except Specific URls')"><a>Crawl Everything Except Specific URls</a></li>
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything Except Specific URLs</a></li>
                           <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
                         </ul>
                       </div>
@@ -801,8 +830,8 @@
                           {{page._source.url || selectedSource.url}}</div>
                         <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
                         <div class="col-2 actions p-0">
-                          <img src="assets/icons/refresh-table.svg" ngbTooltip='recrwal' (click)="reCrwalingWeb('pages',page ,$event)">
-                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
+                          <img src="assets/icons/refresh-table.svg" ngbTooltip='recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
+                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left">
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
                         </div>

@@ -8,7 +8,7 @@
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length)">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -36,6 +36,29 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
+        <div  class="empty-landing-screen"
+        *ngIf="!(faqs && faqs.length) ">
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
+          <ng-container >
+              <div class="empty-title">You haven’t added any FAQ's yet!</div>
+              <div class="desc-text"> FAQs is  a form of source documents that contain solutions for the frequently asked questions. SearchAssist allows you to add FAQs in multiple ways to assist search users with their queries.
+              </div>
+              <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
+                <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Add FAQs</button>                                            
+                  <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+                    <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')">Extract FAQs</li>
+                    <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">Import FAQs</li>
+                    <li (click)="selectSourceDrop.close();addFaqSource('manual')">Add Manually</li>
+                  </ul>
+              </div>                                    
+              </div>
+          </ng-container>
+          <ng-container *ngIf="noItems && emptySearchResults">
+              <div class="desc-text">Your Search Query doesn't match with any record.</div>
+          </ng-container>
+      
+      </div>
         <div class="faq-content-boxes">
             <div class="content left-content">
                 <div class="content-boxes faq_tasks_list">
@@ -466,7 +489,7 @@
                                         <span>{{selectedFaq._source.alternateQuestions?.length>0?'('+selectedFaq._source.alternateQuestions?.length+')':''}}</span>
                                         <!-- ({{(selectedFaq.alternateQuestions?selectedFaq.alternateQuestions.length:0)}}) -->
                                     </div>
-                                    <div class="que-desc text-truncate">Add alternate forms of the question, key terms.</div>
+                                    <div class="que-desc text-truncate">Add alternate forms of the question, key tags and add synonyms.</div>
                                 </div>
                                 <!-- <div class="col-2 p-0 text-right">
                                     <button class="kr-sg-button-primary btn_lg" (click)="addAlternate()">Add</button>
@@ -557,19 +580,72 @@
                 <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
                 <section class="table-content">
                     <header class="table-header">
-                        <div class="col" (click)="sortBy('name')">Source Title<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('type')">Type <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('recentStatus')">Status <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('extrated')">No. Of FAQS <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('createdOn')">Triggered By<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
-                        <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span> SOURCE TITLE
+                            </div>
+                        <div class="col_ col-1 d-flex align-items-center" (click)="sortBy('type')">
+                            <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span> TYPE  
+                              <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown 
+                              [autoClose]="true" [placement]="'bottom-right'">
+                              <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                               <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                </button>
+                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                    <li (click)="sourceFilter.close();filterTable('all','contentSource')"><span class="list-name">All</span><img
+                                        [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                    <li *ngFor="let docType of docTypeArr" 
+                                    (click)="sourceFilter.close();filterTable(docType,'contentSource')">
+                                      <span
+                                        class="list-name">{{ docType == 'webdomain' ? 'WEB' : 'DOC' }}</span><img
+                                        [ngClass]="{'hide': filterSystem.typefilter !== docType}"  src="assets/icons/check-blue.svg">
+                                    </li>
+                                  </ul>
+                              </div>
+                              </div>
+                            </div>
+                        <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('recentStatus')">
+                            <span class="selected-length-doc-web hide">({{this.filterSystem.statusFilter}})</span>
+                            <span class="d-flex align-items-center flex-column mr-1">
+                                <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+                                <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+                              </span> 
+                              STATUS 
+                              <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown 
+                              [autoClose]="true" [placement]="'bottom-right'">
+                              <div class="dropdown dropdown-open">
+                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                               <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                                </button>
+                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu >
+                                    <li (click)="sourceFilter.close();filterTable('all','recentStatus')"><span
+                                        class="list-name">All</span><img   [ngClass]="{'hide': filterSystem.typefilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
+                                    <li *ngFor="let status of statusArr"
+                                      (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
+                                        class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
+                                          class="hide" src="assets/icons/check-blue.svg"></span>
+                                    </li>
+                                  </ul>
+                              </div>
+                              </div>
+                        </div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('extrated')">No. Of FAQS <img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('createdOn')">TRIGGERED BY<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div>
+                        <!-- <div class="col" (click)="sortBy('createdOn')">Created On<img src="assets/icons/caretDown.svg" class="ml-1 hide"></div> -->
                         <div class="col last-child" (click)="sortBy('name')"></div>
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
-                        <div class="col" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="col">{{contentTypes[source.contentSource] | titlecase}}</div>
-                        <div class="col">
+                        <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                        <div class="col_ col-1">{{contentTypes[source.contentSource] | titlecase}}</div>
+                        <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
                                 <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
@@ -578,9 +654,9 @@
                             <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                         </div>
 
-                        <div class="col">{{source.extractedFaqsCount || '0'}}</div>
-                        <div class="col" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
-                        <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
+                        <div class="col_ col-2">{{source.extractedFaqsCount || '0'}}</div>
+                        <div class="col_ col-2" *ngIf="source && source.userDetails" >{{source.userDetails.fullName || source.userDetails.firstName + ' ' + source.userDetails.lastName }}</div>
+                        <!-- <div class="col" title="{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}">{{source.createdOn | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div> -->
                         <div class="col text-right last-child">
                             <span class="actions-links" (click)="deleteSource(source,$event)" title="Delete"><img class="action_icon" src="assets/icons/sidemenu/delete-table.svg"></span>
                             <!-- <span class="actions-links" (click)="reAnnotateDocument(source)"  ngbTooltip='Re-Annotate'><img class="action_icon" src="assets/images/list.svg"></span> -->
