@@ -282,7 +282,7 @@
                     <span class="status-title">In-progress</span>
                   </div>
                   <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus].name == 'Success'">
-                      <span class="count">12</span>Pages
+                      <span class="count">{{source.numPages}}</span>Pages
                   </div>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
                     <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
