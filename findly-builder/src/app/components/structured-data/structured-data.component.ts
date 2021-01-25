@@ -316,6 +316,15 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
+  returnOperator(operator){
+    switch (operator) {
+      case 'exists' : return 'Exists';
+      case 'notexists': return 'Does Not Exist';
+      case 'equals': return 'Equals To';
+      case 'notequals' : return 'Not Equals To'
+    }
+  }
+
   applyAdvancedSearch(){
     console.log("advanced Search", this.advancedSearch);
     this.appliedAdvancedSearch = this.advancedSearch;
@@ -397,20 +406,20 @@ export class StructuredDataComponent implements OnInit {
       }
       if(res.data){
         this.structuredDataItemsList = res.data;
+        this.structuredDataItemsList.forEach(data => {
+          data.objectLength =  Object.keys(data._source).length;
+          if(data._source){
+            if(data._source.contentType){
+              delete data._source.contentType;
+            }
+            data.parsedData = JSON.stringify(data._source, null, 1);
+          };
+        });
         this.designDefaultData(this.structuredDataItemsList);
       }
       else{
       this.structuredDataItemsList = [];
       }
-      this.structuredDataItemsList.forEach(data => {
-        data.objectLength =  Object.keys(data._source).length;
-        if(data._source){
-          if(data._source.contentType){
-            delete data._source.contentType;
-          }
-          data.parsedData = JSON.stringify(data._source, null, 1);
-        };
-      });
       if(this.structuredDataItemsList.length == 0){
         this.noItems = true;
         this.emptySearchResults = true;
