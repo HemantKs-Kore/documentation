@@ -107,6 +107,7 @@ export class StructuredDataComponent implements OnInit {
     this.service.invoke('get.structuredData', quaryparms).subscribe((res : any) => {
       this.isLoading = false;
       this.totalCount = res.total;
+      this.selectedStructuredData = [];
       if(res.data){
         this.structuredDataItemsList = res.data;
       }
@@ -135,7 +136,7 @@ export class StructuredDataComponent implements OnInit {
 
   designDefaultData(structuredDataItemsList){
     this.defaultView = this.defaultView;
-    structuredDataItemsList.forEach((element : any) => {
+    structuredDataItemsList.forEach((element : any, index) => {
       element.objectValues = [];
       Object.keys(element._source).forEach((key : any, index) => {
         let nested = false;
@@ -145,14 +146,16 @@ export class StructuredDataComponent implements OnInit {
         else{
           nested = false;
         }
-        element.objectValues.push({
-          key : key,
-          value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
-          // var str = JSON.stringify(obj, null, 2);
-          expandedValue : element._source[key],
-          nested : nested,
-          expanded : false
-        });
+        if(index < 4){
+          element.objectValues.push({
+            key : key,
+            value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
+            // var str = JSON.stringify(obj, null, 2);
+            expandedValue : element._source[key],
+            nested : nested,
+            expanded : false
+          });
+        }
       });
     });
     console.log("structuredDataItemsList", this.structuredDataItemsList);
@@ -388,6 +391,7 @@ export class StructuredDataComponent implements OnInit {
     this.service.invoke('post.searchStructuredData', quaryparms, payload).subscribe(res => {
       this.isLoading = false;
       this.totalCount = res.total;
+      this.selectedStructuredData = [];
       if(this.adwancedSearchModalPopRef){
         this.adwancedSearchModalPopRef.close();
       }
@@ -440,7 +444,7 @@ export class StructuredDataComponent implements OnInit {
     if (!activate) {
       if(this.searchText.length){
         this.searchText = '';
-        if(this.appliedAdvancedSearch.rules.length){
+        if(this.appliedAdvancedSearch && (this.appliedAdvancedSearch.rules && this.appliedAdvancedSearch.rules.length)){
           this.applyAdvancedSearchCall();
         }
         else{
@@ -497,18 +501,20 @@ export class StructuredDataComponent implements OnInit {
     if(this.skip){
       quaryparms.skip = this.skip;
     }
-    if(this.appliedAdvancedSearch.rules.length){
+    if(this.appliedAdvancedSearch && this.appliedAdvancedSearch.rows && this.appliedAdvancedSearch.rules.length){
       payload = this.appliedAdvancedSearch;
     }
     this.service.invoke('get.searchStructuredData', quaryparms, payload).subscribe(res => {
       this.isLoading = false;
       this.totalCount = res.total;
+      this.selectedStructuredData = [];
       if(res.data){
         this.structuredDataItemsList = res.data;
       }
       else{
       this.structuredDataItemsList = [];
       }
+      this.selectedStructuredData = [];
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
         if(data._source){

@@ -1,7 +1,7 @@
 <div class="structured-data-container" [ngClass]="{'disableContainer' : disableContainer}">
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !searchActive}">                               
                 <input type="text" id="direct-search" [(ngModel)]="searchText" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
             </div> 
@@ -70,9 +70,9 @@
                                 <div class="data-content defaultView">                                                                    
                                     <div class="default-body">
                                         <div class="row m-0 default-row col-12" [ngClass]="{'align-items-start':objectValue.nested}" *ngFor="let objectValue of data.objectValues; let v_index = index">
-                                            <div class="col-2 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
-                                            <div class="col-10 pr-0 default-value text-truncate" *ngIf="!objectValue.nested" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
-                                            <div class="col-10 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">                                                                                   
+                                            <div class="col-1 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
+                                            <div class="col-11 pr-0 default-value text-truncate" *ngIf="!objectValue.nested" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
+                                            <div class="col-11 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">                                                                                   
                                                <div class="d-flex align-items-start text-truncate">
                                                 <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
                                                 <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
