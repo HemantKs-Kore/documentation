@@ -34,7 +34,7 @@
                         <div class="col-3 p-0 text-right"><img class="close-icon" src="assets/icons/modal-close.svg"></div>                                                                                                                              
                     </div> -->
                     <div class="d-flex align-items-center m-0 position-relative">
-                        <div class="filter-sec text-left mb-1 col-9 p-0">
+                        <div class="filter-sec text-left mb-1 col-8 p-0">
                             <ng-container *ngIf="(appliedAdvancedSearch.rules && appliedAdvancedSearch.rules.length)">
                                 <ng-container *ngFor="let rule of appliedAdvancedSearch.rules; let index = index">
                                     <span class="if-text">IF</span> 
@@ -49,7 +49,7 @@
                                 <span class="ml-3 filter-title" (click)="openAdvancedSearch()">{{'structuredData.editFilter' | translate}}</span>
                             </ng-container>
                         </div>
-                        <div class="text-right mb-1 col-3 p-0">
+                        <div class="text-right mb-1 col-4 p-0">
                             <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg ml-2" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
                             <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                            
                         </div>                        
@@ -67,17 +67,17 @@
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="defaultView">
-                                <div class="data-content defaultView">                                    
+                                <div class="data-content defaultView">                                                                    
                                     <div class="default-body">
                                         <div class="row m-0 default-row col-12" [ngClass]="{'align-items-start':objectValue.nested}" *ngFor="let objectValue of data.objectValues; let v_index = index">
-                                            <div class="col-2 pl-0 default-key">{{ objectValue.key }}</div>
-                                            <div class="col-10 p-0 default-value" *ngIf="!objectValue.nested">{{ objectValue.value }}</div>
-                                            <div class="col-9 p-0 default-value align-items-start" *ngIf="objectValue.nested">                                                                                   
-                                               <div class="d-flex align-items-start">
+                                            <div class="col-2 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
+                                            <div class="col-10 pr-0 default-value text-truncate" *ngIf="!objectValue.nested" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
+                                            <div class="col-10 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">                                                                                   
+                                               <div class="d-flex align-items-start text-truncate">
                                                 <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
                                                 <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
                                                 <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
-                                                <div *ngIf="objectValue.nested && !objectValue.expanded">{{ objectValue.value }}</div>
+                                                <div *ngIf="objectValue.nested && !objectValue.expanded" class="text-truncate">{{ objectValue.value }}</div>
                                                </div>                                            
                                             </div>                                        
                                         </div>

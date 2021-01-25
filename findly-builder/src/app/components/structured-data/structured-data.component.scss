@@ -2,19 +2,17 @@
     .header-sec{
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
         padding: 9px 18px 9px 45px;
         margin: 0px 0px 20px 0px;
         background: #F5F8FA;
         border-radius: 4px;
-        .title{
-            left: 277px;
+        min-height: 52px;
+        .title{            
             font-weight: 500;
             font-size: 18px;
             line-height: 22px;
-            color: #000000;
-            position: absolute;
-            display: block;     
+            color: #000000;            
         }  
         .kr-sg-input-search{
             display: inline-block;
@@ -107,7 +105,7 @@
                 padding: 5px 5px;
                 display: flex;
                 align-items: center;
-                margin: 0 6px 3px 0;
+                margin: 0 6px 3px 6px;
                 color: #202124;
                 font-weight: normal;
                 font-size: 14px;
@@ -247,9 +245,10 @@
                     padding: 7px 0;
                     .default-key{
                         color: #9AA0A6;
-                        // text-transform: uppercase;
+                        // text-transform: capitalize;
                         font-weight: 500;
                         font-size: 12px;
+                        word-break: break-word;
                         // line-height: 14px;
                     }
                     .default-value{
