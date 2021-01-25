@@ -145,11 +145,13 @@
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li (click)="sourceFilter.close();filterTable('all','recentStatus')"><span
-                      class="list-name">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                      class="list-name">All</span><img
+                      [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
-                        class="hide" src="assets/icons/check-blue.svg"></span>
+                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}</span>
+                      <img
+                      [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                   </li>
                 </ul>
               </div>
