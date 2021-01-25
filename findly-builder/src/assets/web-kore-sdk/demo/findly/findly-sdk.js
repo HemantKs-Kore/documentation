@@ -224,7 +224,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     FindlySDK.prototype.initVariables = function () {
       this.vars = {}; //use this vars to store any local data variable for sdk developers. Will be avaiable as "koreWidgetSDKInstance.vars"
-
+      this.customSearchResult = false;
       var vars = this.vars;
       vars.timezone //= jstz.determine();
       vars.latitude = '';
@@ -879,6 +879,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }; //********************original widget.js end */
     //********************original widgetTemplate.js start */
+    FindlySDK.prototype.addConversationContainer = function(config) {
+      console.log("this.customSearchResult", this.customSearchResult);
+      var searchContainer = '<script type="text/x-jqury-tmpl">\
+        <div class="search-container conversation">\
+          <div id="searchBox" >\
+              </div>\
+            <div id="searchChatContainer" class="search-chat-container"></div>\
+              <div class="search-body">\
+            </div>\
+          </div>\
+          <div class="search-modal-body hide">\
+          </div>\
+          <div class="confirmationModal hide">\
+          </div>\
+          <div class="search-body-full hide">\
+          </div>\
+        </div>\
+        </script>';
+        var parentContainer = $('#' + config.container);
+        var dataHTML = $(searchContainer).tmplProxy();
+        parentContainer.append(dataHTML);
+    }
     FindlySDK.prototype.addSearchContainer = function(config) {
       if (config.templateId) {
         $('#' + config.templateId).addClass("search-container conversation");
@@ -1151,12 +1173,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var liveSearchData = '<script type="text/x-jqury-tmpl">\
       <div class="finalResults">\
           <div class="resultsOfSearch">\
-          {{if showAllResults}}\
+          {{if showAllResults && !customSearchResult}}\
                 <div class="display-none">\
                   <span class="pointer show-all-results" >See all results<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBlZDBDYUwDEOdin/+sEGkMhBMACOwCSuwASMwAwMglQ3YICTAAQ6lwpdUkV9lB4iImXPmsrd537sYEELYAClA2XiHosAJLS1EVrhfjy9i9gN739ibNGenM09SJA3E1RqJNqT1t7+1U0Up51GYskm7zNaJvpht595zP83JKNdBHtoBNXcrtgi1OOQAAAAASUVORK5CYII="></span>\
                 </div>\
           {{/if}}\
-          {{if faqs && faqs.length}}\
+          {{if faqs && faqs.length && !customSearchResult}}\
               <div class="matched-faq-containers">\
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
@@ -1253,7 +1275,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     </div>\
               </div>\
               {{/if}}\
-              {{if pages && pages.length}}\
+              {{if pages && pages.length && !customSearchResult}}\
               <div class="matched-faq-containers matched-pages-container">\
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
@@ -1340,7 +1362,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               </div>\
               </div>\
               {{/if}}\
-              {{if tasks && tasks.length}}\
+              {{if tasks && tasks.length && !customSearchResult}}\
               <div class="resultsButtons asstTask" >\
                   <span class="search-heads">${taskPrefix} ACTIONS</span>\
                   <div class="faqBtnContainer suggestion_actions_container">\
@@ -1384,7 +1406,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               </div>\
               {{/if}}\
               {{if noResults}} <span class="text-center">No results found</span> {{/if}}\
-              {{if showAllResults}}\
+              {{if showAllResults && !customSearchResult}}\
                 <div>\
                   <span class="pointer show-all-results" >See all results<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACHSURBVHgBlZDBDYUwDEOdin/+sEGkMhBMACOwCSuwASMwAwMglQ3YICTAAQ6lwpdUkV9lB4iImXPmsrd537sYEELYAClA2XiHosAJLS1EVrhfjy9i9gN739ibNGenM09SJA3E1RqJNqT1t7+1U0Up51GYskm7zNaJvpht595zP83JKNdBHtoBNXcrtgi1OOQAAAAASUVORK5CYII="></span>\
                 </div>\
@@ -2035,22 +2057,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var messageBubbles = '<script>\
         <div class="messageBubble">\
           {{if msgData && msgData.from==="user"}}\
-            <div class="userMessage"><span>${msgData.text}</span>\
-            {{if devMode=="true"}}\
+            <div class="userMessage"><span>${msgData.text}</span>';
+            if (!this.customSearchResult) {
+              messageBubbles += '{{if devMode=="true"}}\
               <div class="query-analytics-control-container {{if viewType=="Customize"}}display-block{{/if}}">\
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgBlVDbTcNAEJzZjQSfoQOX4A6gA8QvEtgkgMwX7iDQQfgz4nVUEKUCTAd0QNIBfxFSfMsdERGgRIpXOq1uZ0Y7s8SGlednqakMuBosu7E7N/xYkkVH9M0BV5Gt8/kC7xMQtTd7FchlJDt39yaHQf1bYDp7Imz8/Hi7Q/KGlPSHHHEe9wsX1ux6w7WETsHU3VdXa6KACxtF4hWlRN8PVYm2lZ8We/H9nx/1zss/oWMeFU3DMPnOA0zUo3aumsR/1ivemfUvRmxmJ9bZGjRzjlWRmWG6uAASUTgD9zsmw7k1dbBt4UrbXRjTtR7NlpigZbUWfAEi/12gzLS2XQAAAABJRU5ErkJggg==">\
                 Query Analytics\
               </div>\
-            {{/if}}\
-            </div>\
+              {{/if}}';
+            }
+            
+            messageBubbles += '</div>\
           {{/if}}\
           {{if msgData && msgData.from==="bot"}}\
-          <div class="messageBubble-content">\
-            <div class="botImg">\
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJkSURBVHgBXVK7bhNBFD1zd7z2moisCQQlQsgWRUiBZP6AdLRp0zj8Dj8AHbGQaJOSLj1NLChSgRaKJBJ5rB/Zxzy5syIoYeSrO96559xzZq7Af+t459cuyIycsMMoFqlst3OyclLPMd78tLZ3u1bcbI5en/Ylmf2yKoZKzaB0CecMiCJ0uvex3HuIThxnqnJbmwdr2T/w8avTvmiJw8uraX/BLUozg3UKFg5StBCJDiS18ai3ggfLaUZWbQ0+r2UygKmiw/xq1p8ycGEKKG9hvYfjEExBokYsLKozBT3T/cfpyj7DXoqvL4JH8eGk/I2pWeCaOypvoJlAe9dY8hxdijlaSOU9DJJ1dGXyRpKXo4t6hnNTY2odKgbU3NF6Ac2wCMQRQTNPwWdWGKwbjZZrj6QXNDzjP2fOYsZhGGgasINB2OtGeoe7xoKguMGAz7pwQ5k7l57YACRcWMMA23gNS3EOrsOtls4jIbACj9x69CJ2oH2UzzzSwhPKII9ZAzR0DtLR/BjFRJoPNOecv1855JRQPDEiRgEJzfk6dPERE0lUQqIOmUkrJlgEMFqsMmKbfkIQ0Time1zY4stIuDhGGbxxkWKyinP1d+/4vVu0jHPuXNho3AzJ+43Loy/V5TC3BeZuwZ5d45NfmqVbBPVt0UYapc1zrUZJ9vbHkwEF8EaSbD+Ne5mmLkvvomC5c4bPWW7BIE1LsJTynlWIdqZctHVntt89L/vftDr8acv+1F1DNePpeX6i5q1jlp0KOSGhtg+yQXYHfLN2ni12+SZHFeyw9i4VwuVLoMkqYfzxe2/vdu0fKeFQ9OdIXHoAAAAASUVORK5CYII=">\
-            </div>\
-            <div class="botMessage"><span class="bot_Img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJkSURBVHgBXVK7bhNBFD1zd7z2moisCQQlQsgWRUiBZP6AdLRp0zj8Dj8AHbGQaJOSLj1NLChSgRaKJBJ5rB/Zxzy5syIoYeSrO96559xzZq7Af+t459cuyIycsMMoFqlst3OyclLPMd78tLZ3u1bcbI5en/Ylmf2yKoZKzaB0CecMiCJ0uvex3HuIThxnqnJbmwdr2T/w8avTvmiJw8uraX/BLUozg3UKFg5StBCJDiS18ai3ggfLaUZWbQ0+r2UygKmiw/xq1p8ycGEKKG9hvYfjEExBokYsLKozBT3T/cfpyj7DXoqvL4JH8eGk/I2pWeCaOypvoJlAe9dY8hxdijlaSOU9DJJ1dGXyRpKXo4t6hnNTY2odKgbU3NF6Ac2wCMQRQTNPwWdWGKwbjZZrj6QXNDzjP2fOYsZhGGgasINB2OtGeoe7xoKguMGAz7pwQ5k7l57YACRcWMMA23gNS3EOrsOtls4jIbACj9x69CJ2oH2UzzzSwhPKII9ZAzR0DtLR/BjFRJoPNOecv1855JRQPDEiRgEJzfk6dPERE0lUQqIOmUkrJlgEMFqsMmKbfkIQ0Time1zY4stIuDhGGbxxkWKyinP1d+/4vVu0jHPuXNho3AzJ+43Loy/V5TC3BeZuwZ5d45NfmqVbBPVt0UYapc1zrUZJ9vbHkwEF8EaSbD+Ne5mmLkvvomC5c4bPWW7BIE1LsJTynlWIdqZctHVntt89L/vftDr8acv+1F1DNePpeX6i5q1jlp0KOSGhtg+yQXYHfLN2ni12+SZHFeyw9i4VwuVLoMkqYfzxe2/vdu0fKeFQ9OdIXHoAAAAASUVORK5CYII="></span>\
-            <span>${msgData.text}</span></div>\
+          <div class="messageBubble-content">';
+              if (!this.customSearchResult) {
+                messageBubbles +=  '<div class="botImg">\
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJkSURBVHgBXVK7bhNBFD1zd7z2moisCQQlQsgWRUiBZP6AdLRp0zj8Dj8AHbGQaJOSLj1NLChSgRaKJBJ5rB/Zxzy5syIoYeSrO96559xzZq7Af+t459cuyIycsMMoFqlst3OyclLPMd78tLZ3u1bcbI5en/Ylmf2yKoZKzaB0CecMiCJ0uvex3HuIThxnqnJbmwdr2T/w8avTvmiJw8uraX/BLUozg3UKFg5StBCJDiS18ai3ggfLaUZWbQ0+r2UygKmiw/xq1p8ycGEKKG9hvYfjEExBokYsLKozBT3T/cfpyj7DXoqvL4JH8eGk/I2pWeCaOypvoJlAe9dY8hxdijlaSOU9DJJ1dGXyRpKXo4t6hnNTY2odKgbU3NF6Ac2wCMQRQTNPwWdWGKwbjZZrj6QXNDzjP2fOYsZhGGgasINB2OtGeoe7xoKguMGAz7pwQ5k7l57YACRcWMMA23gNS3EOrsOtls4jIbACj9x69CJ2oH2UzzzSwhPKII9ZAzR0DtLR/BjFRJoPNOecv1855JRQPDEiRgEJzfk6dPERE0lUQqIOmUkrJlgEMFqsMmKbfkIQ0Time1zY4stIuDhGGbxxkWKyinP1d+/4vVu0jHPuXNho3AzJ+43Loy/V5TC3BeZuwZ5d45NfmqVbBPVt0UYapc1zrUZJ9vbHkwEF8EaSbD+Ne5mmLkvvomC5c4bPWW7BIE1LsJTynlWIdqZctHVntt89L/vftDr8acv+1F1DNePpeX6i5q1jlp0KOSGhtg+yQXYHfLN2ni12+SZHFeyw9i4VwuVLoMkqYfzxe2/vdu0fKeFQ9OdIXHoAAAAASUVORK5CYII=">\
+                  </div>';
+              }
+              messageBubbles +=  '<div class="botMessage">';
+              if (!this.customSearchResult) {
+                messageBubbles += '<span class="bot_Img">\
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJkSURBVHgBXVK7bhNBFD1zd7z2moisCQQlQsgWRUiBZP6AdLRp0zj8Dj8AHbGQaJOSLj1NLChSgRaKJBJ5rB/Zxzy5syIoYeSrO96559xzZq7Af+t459cuyIycsMMoFqlst3OyclLPMd78tLZ3u1bcbI5en/Ylmf2yKoZKzaB0CecMiCJ0uvex3HuIThxnqnJbmwdr2T/w8avTvmiJw8uraX/BLUozg3UKFg5StBCJDiS18ai3ggfLaUZWbQ0+r2UygKmiw/xq1p8ycGEKKG9hvYfjEExBokYsLKozBT3T/cfpyj7DXoqvL4JH8eGk/I2pWeCaOypvoJlAe9dY8hxdijlaSOU9DJJ1dGXyRpKXo4t6hnNTY2odKgbU3NF6Ac2wCMQRQTNPwWdWGKwbjZZrj6QXNDzjP2fOYsZhGGgasINB2OtGeoe7xoKguMGAz7pwQ5k7l57YACRcWMMA23gNS3EOrsOtls4jIbACj9x69CJ2oH2UzzzSwhPKII9ZAzR0DtLR/BjFRJoPNOecv1855JRQPDEiRgEJzfk6dPERE0lUQqIOmUkrJlgEMFqsMmKbfkIQ0Time1zY4stIuDhGGbxxkWKyinP1d+/4vVu0jHPuXNho3AzJ+43Loy/V5TC3BeZuwZ5d45NfmqVbBPVt0UYapc1zrUZJ9vbHkwEF8EaSbD+Ne5mmLkvvomC5c4bPWW7BIE1LsJTynlWIdqZctHVntt89L/vftDr8acv+1F1DNePpeX6i5q1jlp0KOSGhtg+yQXYHfLN2ni12+SZHFeyw9i4VwuVLoMkqYfzxe2/vdu0fKeFQ9OdIXHoAAAAASUVORK5CYII=">\
+                </span>';
+              }
+              messageBubbles += '<span>${msgData.text}</span></div>\
           </div>\
           {{/if}}\
           {{if msgData && msgData.from==="searchResult"}}\
@@ -2596,6 +2628,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         showingMatchedResults: showingMatchedResults,
         devMode: devMode,
+        customSearchResult : _self.customSearchResult,
 
         getFacetDisplayName: getFacetDisplayName
       }
@@ -3982,6 +4015,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             facets: facets,
             documents: documents,
             originalQuery: response.template.originalQuery || '',
+            customSearchResult : _self.customSearchResult
             // searchFacets: searchFacets,
           }
           console.log(_self.vars.searchObject.liveData);
@@ -4122,6 +4156,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
+          if (!self.customSearchResult) {
+            $('.search-chat-container').empty();
+          }
           var code = e.keyCode || e.which;
           if (code == '9' || code == '39') {
             $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
@@ -4306,6 +4343,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         documents: documents,
                         facets: facets,
                         originalQuery: res.originalQuery,
+                        customSearchResult : _self.customSearchResult
                       }
                       //livesearch
                       var tmplData = {
@@ -4316,7 +4354,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         showAllResults: true,
                         noResults: false,
                         taskPrefix: 'SUGGESTED',
-                        viewType: viewType
+                        viewType: viewType,
+                        customSearchResult : _self.customSearchResult
                       };
                       
                       searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
@@ -4357,7 +4396,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           pages: pages,
                           tasks: tasks,
                           documents: documents,
-                          facets: facets
+                          facets: facets,
+                          customSearchResult : _self.customSearchResult
                         }
                         var tmplData =  {
                           faqs: faqs,
@@ -4367,7 +4407,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           showAllResults: false,
                           noResults: true,
                           taskPrefix: 'MATCHED',
-                          viewType: viewType
+                          viewType: viewType,
+                          customSearchResult : _self.customSearchResult
                         }
                         
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
@@ -4929,6 +4970,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           searchFacets: searchFacets,
 
           originalQuery: res.originalQuery || '',
+          customSearchResult : _self.customSearchResult
         }
         _self.pubSub.publish('sa-search-result', dataObj);
         _self.pubSub.publish('sa-search-facets', dataObj.searchFacets);
@@ -4973,9 +5015,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               noResults: false,
               taskPrefix: 'MATCHED',
               viewType: viewType,
+              customSearchResult : _self.customSearchResult
             });
             $(searchData).data(dataObj);
-            if (!topMatchTask) {
+            if (!topMatchTask && !_self.customSearchResult) {
               _self.sendMessageToSearch('bot', _botMessage);
             }
             if (_self.vars.customizeView == true) {
@@ -5142,7 +5185,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (type === 'user' && ($('#search').val() !== null) && ($('#search').val() !== undefined)) {
         messageData.text = $('#search').val();
-        if (messageData.text && messageData.text.trim()) {
+        if (messageData.text && messageData.text.trim() && !_self.customSearchResult) {
+          var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
+            msgData: messageData,
+            devMode: devMode,
+            viewType: viewType
+          });
+          $('#searchChatContainer').append(template);
+        }
+      }
+      if (type === 'user-conversation' && ($('#sa-conversation-box').val() !== null) && ($('#sa-conversation-box').val() !== undefined)) {
+        messageData.text = $('#sa-conversation-box').val();
+        messageData.from = 'user';
+        if (messageData.text && messageData.text.trim() && _self.customSearchResult) {
           var template = $(_self.getSearchTemplate('messageBubbles')).tmplProxy({
             msgData: messageData,
             devMode: devMode,
@@ -6141,7 +6196,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
+      _self.customSearchResult = true;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
+          console.trace("1111111111111", data);
+          //data.tasks = [{"contentType":"task","childBotId":"st-40e3a0c6-569d-56d9-a142-967ffc3a7192","childBotName":"BookAppointment","taskId":"dg-c835cfbc-871d-5415-b6db-7a3f7af24a2a","name":"Book Appointment","text":"Book Appointment","titleText":"Book Appointment","payload":"RXhlY3V0ZV9Cb29rIEFwcG9pbnRtZW50","config":{"boost":0,"pinIndex":0,"visible":"true"},"feedback":{"appearance":0,"click":0},"taskName":"Book Appointment"}];
           var pageContainer = ''; var faqContainer = ''; var actionContainer = '';
           if (config.container) {
             pageContainer = faqContainer = actionContainer = config.container;
@@ -6184,13 +6242,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (config.actionTemplateId) {
               var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
               if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                $('#' + actionContainer).empty()  
+                $('#' + actionContainer).empty();
               }
               $('#' + actionContainer).append(dataHTML);
             } else if (config.actionTemplate) {
               var dataHTML = $(config.actionTemplate).tmplProxy(data);
               if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                $('#' + actionContainer).empty()  
+                $('#' + actionContainer).empty();
               }
               $('#' + actionContainer).append(dataHTML);
             }
@@ -6199,6 +6257,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (config.searchHandler) {
             config.searchHandler(data)
           }
+    });
+  }
+  FindlySDK.prototype.addConversationBox = function(config) {
+    var _self = this;
+    $('#' + config.container).addClass('conversation-box');
+    var conversationBox = '<input type="text" class="conversation-box-input" id="sa-conversation-box"/>';
+    $('#' + config.container).empty().append(conversationBox);
+    var ccBox = '#sa-conversation-box';
+    $(ccBox).off('keydown').on('keydown', function(event) {
+      var code = event.keyCode || event.which;
+      if (code === '13' || code === 13 ) {
+        var msg = $(ccBox).val();
+        _self.sendMessageToSearch('user-conversation');
+        if (_self.config.viaSocket) {
+          _self.sendMessage(msg);
+        } else {
+          _self.bindLiveDataToChat();
+        }
+        $(ccBox).val('');
+      }
     });
   }
     FindlySDK.prototype.addSearchText = function(config) {
