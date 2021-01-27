@@ -18,6 +18,7 @@
                     <div class="kr-sg-input-text-area mb-0 mt-3">
                         <div class="kr-sg-file-drag-drop">
                             <div class="drag-drop-sec">
+                                <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
                                 <ng-container *ngIf="!fileObj.fileName">
                                     <div class="imageDiv mb-3">
                                         <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
@@ -25,7 +26,7 @@
                                     <div class="info_text mb-3">Drag and drop file anywhere in this section</div>
                                     <div class="or-divider mb-3">{{'structuredData.or' | translate}}</div>
                                     <div class="custom-file">
-                                        <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
+                                        <!-- <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json"> -->
                                     </div>
                                     <label for="sourceFileUploader_add_structured_data" class="drag-label">
                                         <span class="btn btn-default browse">{{'structuredData.browse' | translate}}</span>
@@ -114,7 +115,7 @@
         </perfect-scrollbar>
         <div class="modal-footer">
             <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
-            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.back' | translate}}</button>
+            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.cancel' | translate}}</button>
         </div>
     </form>
 </ng-container>
