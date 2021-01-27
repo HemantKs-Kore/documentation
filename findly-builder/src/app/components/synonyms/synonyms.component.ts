@@ -21,7 +21,7 @@ declare const $: any;
 })
 export class SynonymsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
-  synonymSearch;
+  synonymSearch:any = '';
   showSearch;
   serachIndexId
   loadingContent = true;
