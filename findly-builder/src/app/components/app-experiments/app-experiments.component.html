@@ -11,11 +11,11 @@
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left">
+        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0">
           <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="searchSources"
             placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields" />
         </div>
-        <div class="seach-block" (click)="toggleSearch()">
+        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0">
           <img *ngIf="!showSearch" src="assets/icons/search.svg" /><img *ngIf="showSearch"
             src="assets/images/close.svg" />Search
         </div>
@@ -26,7 +26,7 @@
     </div>
     <perfect-scrollbar class="p-scroll-data">
       <div class="table-data-content">
-        <div class="row m-0 header-data col-12">
+        <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
           <div class="col-3 h-title">Experiment Name</div>
           <div class="col-3 h-title">Variants</div>
           <!-- <div class="col-2 h-title">Winner</div> -->
@@ -69,10 +69,9 @@
                   <div class="col-3 ex-title">{{ exp.name }}</div>
                   <div class="col-3 variants">
                     <div class="variants-block left">
-                      <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color">
+                      <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color" [hidden]="index === 3">
                         <span *ngIf="(index < 2)">{{vari.code }}</span>
-                        <span *ngIf="(index > 1) && (index === 2)"> + 1</span>
-                        <span *ngIf="(index > 1) && (index === 3)"> + 2</span>
+                        <span *ngIf="(index > 1) && (index === 2)"> + 2</span>
                       </span>
                     </div>
                     <div class="variants-block right">
@@ -195,7 +194,8 @@
                     <div class="col-2 title">SEARCH CONFIGURATION</div>
                     <div class="col-2 title">Traffic</div>
                     <div class="col-1 title">users</div>
-                    <div class="col-2 title">SearchES</div>
+                    <div class="col-1 title">Searches</div>
+                    <div class="col-1 title">Clicks</div>
                     <div class="col-2 title">CTR (goal)</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
@@ -210,11 +210,12 @@
                     </div>
                     <div class="col-2 title">{{ expCol.trafficPct }}%</div>
                     <div class="col-1 title">{{ expCol.users || 0 }}</div>
-                    <div class="col-2 title">{{ expCol.searches }}</div>
+                    <div class="col-1 title">{{ expCol.searches }}</div>
+                    <div class="col-1 title">{{ expCol.clicks }}</div>
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
-                      ? expCol.ctr + "%"
+                      ? (expCol.ctr| number : '2.0-0') + "%"
                       : expCol.ctr
                       }}
                     </div>
@@ -231,7 +232,7 @@
       <!-- <div class="no-experiments">
         <div class="desc">No search results found</div>
       </div> -->
-      <div class="no-experiments" *ngIf="!(filterExperiments && filterExperiments.length)">
+      <div class="no-experiments" *ngIf="filterExperiments.length===0">
         <img src="assets/icons/experiment/empty_experiments.svg" />
         <div class="title">You haven't added any Experiment yet</div>
         <div class="dec">
@@ -239,10 +240,10 @@
           experiments
         </div>
       </div>
-      <div class="no-experiments" *ngIf="!(listOfExperiments && listOfExperiments.length)">
+      <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
-      <span *ngIf='filterExperiments'><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
+      <span *ngIf='listOfExperiments.length>0'><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
     </perfect-scrollbar>
   </div>
 </div>
