@@ -68,7 +68,7 @@ export class AddStructuredDataComponent implements OnInit {
           this.structuredData.payload = this.selectedJsonForEdit.parsedData;
           setTimeout( () => {
             this.indentObj();
-          },100)
+          },200)
         }
         else{
           this.structuredData.payload = JSON.stringify({});
