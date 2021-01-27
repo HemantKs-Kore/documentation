@@ -60,6 +60,7 @@ export class AppExperimentsComponent implements OnInit {
   exp_totalRecord: number;
   exp_limitPage: number = 10;
   exp_skipPage: number = 0;
+  test = 33.33;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -326,6 +327,7 @@ export class AppExperimentsComponent implements OnInit {
       }
     });
   }
+
   getExperiments() {
     this.loadingContent = true;
     const header: any = {
@@ -530,16 +532,16 @@ export class AppExperimentsComponent implements OnInit {
   deleteExperimentPopup(record, event) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Experiment',
-        text: 'Are you sure you want to delete selected Experiment?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        title: 'Do you really want to delete?',
+        body: 'Selected Experiment will be permanently deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
       }
     });
-
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
