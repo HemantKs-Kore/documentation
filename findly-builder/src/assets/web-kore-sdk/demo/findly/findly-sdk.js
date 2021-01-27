@@ -2835,6 +2835,138 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 500);
     }
+    FindlySDK.prototype.invokeSearch = function() {
+      var _self = this;
+        var url = _self.API.searchUrl;
+        var currentDate = new Date();
+
+        var dateTime = currentDate.getDate() + "/"
+          + (currentDate.getMonth() + 1) + "/"
+          + currentDate.getFullYear() + ", "
+          + currentDate.getHours() + ":"
+          + currentDate.getMinutes() + ":"
+          + currentDate.getSeconds();
+
+        var payload = {
+          "query": _self.vars.searchObject.searchText,
+          // "maxNumOfResults": 9,
+          "maxNumOfResults": 16,
+          "userId": _self.API.uuid,
+          "streamId": _self.API.streamId,
+          "lang": "en",
+          // "isDev": true,
+          "isDev": _self.isDev,
+          /*"messagePayload": {
+            "clientMessageId": new Date().getTime(),
+            "message": {
+              "body": _self.vars.searchObject.searchText,
+            }
+          },
+          "resourceId": '/bot.message',
+          "timeDateDay": dateTime,
+          "currentPage": window.location.href,
+          "meta": {
+            "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
+            "locale": window.navigator.userLanguage || window.navigator.language,
+          },*/
+        }
+
+        /*if (_self.bot.options) {
+          payload["client"] = _self.bot.options.client || "sdk";
+          payload["botInfo"] = {};
+          payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
+          payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
+        }*/
+
+        if (_self.vars.filterObject.length > 0) {
+          payload.filters = _self.vars.filterObject;
+        }
+
+        console.log(payload);
+
+        if (_self.vars.resultRankingActionPerformed == true) {
+          _self.vars.resultRankingActionPerformed = false;
+        }
+
+        if (_self.vars.showingMatchedResults == true) {
+          _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
+            if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+              var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+              console.log(responseObject);
+              _self.parentEvent(responseObject);
+            }
+
+            $(".custom-insights-control-container").hide();
+            var faqs = [], pages = [], tasks = [], documents = [], facets = {};
+
+            console.log(response.template);
+
+            if (response.template) {
+              faqs = response.template.results.faq;
+              pages = response.template.results.page;
+              tasks = response.template.results.task;
+              documents = response.template.results.document;
+              facets = response.template.facets;
+
+              _self.vars.searchObject.liveData = {
+                faqs: faqs,
+                pages: pages,
+                tasks: tasks,
+                facets: facets,
+                documents: documents,
+                originalQuery: response.template.originalQuery || '',
+                // searchFacets: searchFacets,
+              }
+              console.log(_self.vars.searchObject.liveData);
+              _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
+              _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+    
+
+              _self.prepAllSearchData();
+              _self.bindAllResultsView();
+              _self.bindSearchActionEvents();
+            }
+          })
+        }
+        else {
+          if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+            var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
+            console.log(responseObject);
+            _self.parentEvent(responseObject);
+          }
+
+          $(".custom-insights-control-container").hide();
+
+          _self.prepAllSearchData();
+          _self.bindAllResultsView();
+          _self.bindSearchActionEvents();
+        }
+        // var topMatchFAQ;
+        // if(data && data.faqs){
+        //   var faqs=data.faqs;
+        //   topMatchFAQ=faqs.filter(function(faq){
+        //     return faq.bestMatch
+        //   });
+        //   if(topMatchFAQ.length){
+        //     //highlight faq;
+        //     topMatchFAQ=topMatchFAQ[0];
+        //   }else{
+        //     topMatchFAQ=false;
+        //   }
+        // }
+        // setTimeout(function(){
+        //   debugger;
+        //   if (topMatchFAQ) {
+        //     var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
+
+        //     var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
+        //     bestFAQDiv.addClass('faq-highlight');
+        //     bestFAQTitleDiv.find(".accordion").trigger('click');
+        //   }
+        // },500);
+
+      
+    }
     FindlySDK.prototype.bindAllResultsView = function () {
       var _self = this;
 
@@ -2933,144 +3065,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.show-all-results').off('click').on('click', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        /*var data = $(e.currentTarget).closest('.finalResults').data() || {};
-        _self.vars.searchObject.liveData = data
-        console.log(data);*/
-
-        /*var url = _self.API.searchUrl;
-        var payload = {
-          "query": _self.vars.searchObject.searchText,
-          // "maxNumOfResults": 9,
-          "maxNumOfResults": 16,
-          "userId": _self.API.uuid,
-          "streamId": _self.API.streamId,
-          "lang": "en",
-        }*/
-        var url = _self.API.searchUrl;
-        var currentDate = new Date();
-
-        var dateTime = currentDate.getDate() + "/"
-          + (currentDate.getMonth() + 1) + "/"
-          + currentDate.getFullYear() + ", "
-          + currentDate.getHours() + ":"
-          + currentDate.getMinutes() + ":"
-          + currentDate.getSeconds();
-
-        var payload = {
-          "query": _self.vars.searchObject.searchText,
-          // "maxNumOfResults": 9,
-          "maxNumOfResults": 16,
-          "userId": _self.API.uuid,
-          "streamId": _self.API.streamId,
-          "lang": "en",
-          // "isDev": true,
-          "isDev": _self.isDev,
-          /*"messagePayload": {
-            "clientMessageId": new Date().getTime(),
-            "message": {
-              "body": _self.vars.searchObject.searchText,
-            }
-          },
-          "resourceId": '/bot.message',
-          "timeDateDay": dateTime,
-          "currentPage": window.location.href,
-          "meta": {
-            "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-            "locale": window.navigator.userLanguage || window.navigator.language,
-          },*/
-        }
-
-        /*if (_self.bot.options) {
-          payload["client"] = _self.bot.options.client || "sdk";
-          payload["botInfo"] = {};
-          payload["botInfo"].chatBot = _self.bot.options.botInfo.chatBot;
-          payload["botInfo"].taskBotId = _self.bot.options.botInfo.taskBotId;
-        }*/
-
-        if (_self.vars.filterObject.length > 0) {
-          payload.filters = _self.vars.filterObject;
-        }
-
-        console.log(payload);
-
-        if (_self.vars.resultRankingActionPerformed == true) {
-          _self.vars.resultRankingActionPerformed = false;
-        }
-
-        if (_self.vars.showingMatchedResults == true) {
-          _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (response) {
-            if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-              var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
-              console.log(responseObject);
-              _self.parentEvent(responseObject);
-            }
-
-            $(".custom-insights-control-container").hide();
-            var faqs = [], pages = [], tasks = [], documents = [], facets = {};
-
-            console.log(response.template);
-
-            if (response.template) {
-              faqs = response.template.results.faq;
-              pages = response.template.results.page;
-              tasks = response.template.results.task;
-              documents = response.template.results.document;
-              facets = response.template.facets;
-
-              _self.vars.searchObject.liveData = {
-                faqs: faqs,
-                pages: pages,
-                tasks: tasks,
-                facets: facets,
-                documents: documents,
-                originalQuery: response.template.originalQuery || '',
-                // searchFacets: searchFacets,
-              }
-              console.log(_self.vars.searchObject.liveData);
-
-
-              _self.prepAllSearchData();
-              _self.bindAllResultsView();
-              _self.bindSearchActionEvents();
-            }
-          })
-        }
-        else {
-          if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
-            var responseObject = { 'type': 'fullResult', data: true, query: _self.vars.searchObject.searchText }
-            console.log(responseObject);
-            _self.parentEvent(responseObject);
-          }
-
-          $(".custom-insights-control-container").hide();
-
-          _self.prepAllSearchData();
-          _self.bindAllResultsView();
-          _self.bindSearchActionEvents();
-        }
-        // var topMatchFAQ;
-        // if(data && data.faqs){
-        //   var faqs=data.faqs;
-        //   topMatchFAQ=faqs.filter(function(faq){
-        //     return faq.bestMatch
-        //   });
-        //   if(topMatchFAQ.length){
-        //     //highlight faq;
-        //     topMatchFAQ=topMatchFAQ[0];
-        //   }else{
-        //     topMatchFAQ=false;
-        //   }
-        // }
-        // setTimeout(function(){
-        //   debugger;
-        //   if (topMatchFAQ) {
-        //     var bestFAQTitleDiv=$(".search-body-full .faqs-wrp-content .title[contentid='" + topMatchFAQ.contentId + "']:last");
-
-        //     var bestFAQDiv=$(bestFAQTitleDiv).closest('.faqs-wrp-content');
-        //     bestFAQDiv.addClass('faq-highlight');
-        //     bestFAQTitleDiv.find(".accordion").trigger('click');
-        //   }
-        // },500);
+        _self.invokeSearch();
 
       })
       // $('.full-search-close').off('click').on('click', function (e)
@@ -3275,10 +3270,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
           popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
         };
-        // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-        // $('.search-body').html(freqData);
-        _self.pubSub.publish('sa-freq-data', tmplData);
-        _self.pubSub.publish('sa-show-freq-data', tmplData);
+        if (!_self.customSearchResult) {
+          var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+          $('.search-body').html(freqData);
+        } else {
+          _self.pubSub.publish('sa-freq-data', tmplData);
+          _self.pubSub.publish('sa-show-freq-data', tmplData);
+        }
         setTimeout(function () {
           $('.search-body').scrollTop(2);
         }, 100);
@@ -3296,9 +3294,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return;
         }
       }
-
-    }
-    FindlySDK.prototype.getLiveSearchResulta = function () {
 
     }
     FindlySDK.prototype.closeGreetingMsg = function () {
@@ -3351,7 +3346,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } else if ((e.target.title.toLowerCase() === 'pay bill') || (e.target.title.toLowerCase() === 'pay credit card bill')) {
           _self.userLogin(e.target.title.toLowerCase());
         } else {
-          _self.userLogin(e.target.title.toLowerCase());
+          //_self.userLogin(e.target.title.toLowerCase());
         }
 
       })
@@ -4238,13 +4233,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
             popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
           };
-          // var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-          // $('.search-body').html(freqData);
-          // freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
-          // _self.pubSub.publish('sa-freq-data', tmplData);
-
-          _self.pubSub.publish('sa-freq-data', tmplData);
-          _self.pubSub.publish('sa-show-freq-data', tmplData);
+          if (!_self.customSearchResult) {
+            var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+            $('.search-body').html(freqData);
+          } else {
+            _self.pubSub.publish('sa-freq-data', tmplData);
+            _self.pubSub.publish('sa-show-freq-data', tmplData);
+          }
 
           _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
             _self.vars.searchObject.popularSearches = response;
@@ -4254,10 +4249,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
               popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
             };
-          _self.pubSub.publish('sa-freq-data', tmplData);
-          _self.pubSub.publish('sa-show-freq-data', tmplData);
-
-
+            if (!_self.customSearchResult) {
+              var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
+              $('.search-body').html(freqData);
+            } else {
+              _self.pubSub.publish('sa-freq-data', tmplData);
+              _self.pubSub.publish('sa-show-freq-data', tmplData);
+            }
           })
         }
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
@@ -4480,13 +4478,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.sendMessageToSearch('bot', '&#128075; Hello! How can I help you today?');
             }
             _self.closeGreetingMsg();
-            var tmplData = {
-              searchResults: searchResults,
-              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-            };
-            _self.pubSub.publish('sa-show-freq-data', tmplData);
+            if (_self.customSearchResult) {
+              var tmplData = {
+                searchResults: searchResults,
+                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+              };
+              _self.pubSub.publish('sa-show-freq-data', tmplData);
+            } else {
+              var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+                searchResults: searchResults,
+                recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+                recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+                popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+              });
+              $('.search-body').html(freqData);
+            }
+            
             setTimeout(function () {
               $('.search-body').scrollTop(2);
             }, 100);
@@ -5127,15 +5136,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.bindFrequentData = function () {
       var _self = this;
       $('#suggestion').val('');
-      var tmplData = {
-        // searchResults: _self.vars.searchObject.recentAPIResponse,
-        recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
-        recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
-        popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
-      };
-      _self.pubSub.publish('sa-freq-data', tmplData);
-      _self.pubSub.publish('sa-show-freq-data', tmplData);
+      if (_self.customSearchResult) {
+        var tmplData = {
+          // searchResults: _self.vars.searchObject.recentAPIResponse,
+          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+        };
+        _self.pubSub.publish('sa-freq-data', tmplData);
+        _self.pubSub.publish('sa-show-freq-data', tmplData);
   
+      } else {
+        var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+          // searchResults: _self.vars.searchObject.recentAPIResponse,
+          recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+          recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+          popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+        });
+        $('.search-body').html(freqData);
+      }
       
       setTimeout(function () {
         $('.search-body').scrollTop(2);
@@ -6063,9 +6082,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       
 
-      if (!$('body').hasClass('demo')) {
+      /*if (!$('body').hasClass('demo')) {
         _self.isDev = true;
-      }
+      }*/
       _self.initWebKitSpeech();
       _self.setAPIDetails();
       _self.initKoreSDK(_findlyConfig);
@@ -6198,7 +6217,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       _self.customSearchResult = true;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
-          console.trace("1111111111111", data);
+          console.log("1111111111111", data);
           //data.tasks = [{"contentType":"task","childBotId":"st-40e3a0c6-569d-56d9-a142-967ffc3a7192","childBotName":"BookAppointment","taskId":"dg-c835cfbc-871d-5415-b6db-7a3f7af24a2a","name":"Book Appointment","text":"Book Appointment","titleText":"Book Appointment","payload":"RXhlY3V0ZV9Cb29rIEFwcG9pbnRtZW50","config":{"boost":0,"pinIndex":0,"visible":"true"},"feedback":{"appearance":0,"click":0},"taskName":"Book Appointment"}];
           var pageContainer = ''; var faqContainer = ''; var actionContainer = '';
           if (config.container) {
