@@ -22,11 +22,46 @@
         font-size: 12px;
     }  
 }
+
 .contentContainer{
    padding: 30px 65px 0 70px;
     height: calc(100vh - 62px);
     overflow: hidden;    
     background: #fff;
+    .table-list-content{
+        .kr-sg-data-table{
+            // margin: 0 0 10px 0;
+            .header-sec {
+                background: #F8F9FA;
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 22px;
+                color: #000000;
+                padding: 15px 30px;
+            }
+            .right-sec {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                
+                .clock{
+                    cursor: pointer;
+                    img{
+                        position: relative;
+                        top: -1px;
+                    }
+                    
+                }
+                .modal-control-text {
+                    font-weight: 500;
+                    font-style: normal;
+                    font-size: 12px;
+                    cursor: pointer;
+                    margin-right: 25px;
+                }
+            }
+        }
+    }
     .empty-case-showing-cotent{
         margin: 0 -5px;
     }

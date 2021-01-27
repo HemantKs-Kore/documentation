@@ -4,8 +4,19 @@
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <div *ngIf="!loadingContent">
-    <div class="header-sec">{{'facets.facets'| translate}}</div>
-    <div class="search-input-block">
+        <div class="header-sec col-12 row m-0">
+            <div class="col-4 p-0">{{'facets.facets'| translate}}</div>
+    <!-- <div class="seach_add_feild"> -->
+        <div class="col-8 right-sec p-0" *ngIf="facets && facets.length">
+        <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">                               
+            <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="serachFacet">           
+          </div> 
+          <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+        <div class="add_feild" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg"> Add Facet</div>
+        <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
+    </div>
+</div>
+    <!-- <div class="search-input-block">
         <div class="kr-sg-input-search">                               
             <input type="text" placeholder="Search" class="input-search pl-4" [(ngModel)]="searchfacet">
             <img src="assets/icons/search_gray.svg" class="search-icon">
@@ -16,7 +27,22 @@
             <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
             <img src="assets/icons/clock.svg">
         </div>
-    </div>
+    </div> -->
+    <div  class="empty-landing-screen"
+    *ngIf="!(facets && facets.length) && !loadingContent">
+      <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/facets-empty.svg"></div>
+      <ng-container >
+          <div class="empty-title">You haven’t added any Facets yet!</div>
+          <div class="desc-text">Facets allow search users to refine their search results by selecting appropriate filters. SearchAssist allows you to add value and range facets, and you can configure any indexed fields as facets.
+          </div>
+          <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+              <button class="kr-sg-button-primary"  (click)="createNewFacet()">Add Facet</button>                                            
+          </div>
+      </ng-container>
+      <ng-container *ngIf="noItems && emptySearchResults">
+          <div class="desc-text">Your Search Query doesn't match with any record.</div>
+      </ng-container>
+  </div>
     <div class="table_section">
         <div class="header_sec row m-0">
             <div class="col-4 content withcheckbox">

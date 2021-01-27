@@ -3,7 +3,36 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
-  <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
+  <!-- <div class="table-list-content">
+    <div class="kr-sg-data-table" *ngIf="!loadingContent">
+      <div class="header-sec col-12 row m-0">
+        <div class="col-4 p-0">Content Management</div>
+      </div>
+    </div>
+  </div> -->
+  <div  class="empty-landing-screen"
+  *ngIf="!(resources && resources.length) && !loadingContent">
+    <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/contentmanag-empty.svg"></div>
+    <ng-container >
+        <div class="empty-title">You haven’t added any content data yet!</div>
+        <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.
+        </div>
+        <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+          <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle>Add Content</button>                                            
+            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
+            <li  class="webDomain" (click)="addNewContentSource('contentWeb')">Crawl Web Domain</li>
+            <li  class="webDomain" (click)="addNewContentSource('contentDoc')">Upload File</li>                  
+            </ul>
+        </div>                                    
+        </div>
+    </ng-container>
+    <ng-container *ngIf="noItems && emptySearchResults">
+        <div class="desc-text">Your Search Query doesn't match with any record.</div>
+    </ng-container>
+
+</div>
+  <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
     <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
       <div class="webDomain" (click)="addNewContentSource('contentWeb')">
@@ -28,7 +57,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="table-list-content" *ngIf="resources && resources.length && !loadingContent">
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -116,11 +145,13 @@
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                   <li (click)="sourceFilter.close();filterTable('all','recentStatus')"><span
-                      class="list-name">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                      class="list-name">All</span><img
+                      [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
                     (click)="statusFilter.close();filterTable(status,'recentStatus')"><span
-                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}<img
-                        class="hide" src="assets/icons/check-blue.svg"></span>
+                      class="list-name">{{status == 'success' ? 'Success' : (status == 'failed' ? 'Fail' : (status == 'queued' ? 'Queued' :'In Progress'))}}</span>
+                      <img
+                      [ngClass]="{'hide': filterSystem.statusFilter !== status}" src="assets/icons/check-blue.svg">
                   </li>
                 </ul>
               </div>
@@ -164,7 +195,7 @@
                     ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
                 <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'" class="run-percentageDone" >{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].executionStats) ? resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>  <!-- {{source.jobInfo.executionStats.percentageDone}} -->
-                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'">({{ source.schedule_createdOn }})</span> 
+                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'"><span *ngIf="source.schedule_createdOn">({{ source.schedule_createdOn }})</span></span> 
                 <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
@@ -253,7 +284,7 @@
                     <span class="status-title">In-progress</span>
                   </div>
                   <div class="pages-count text-right" *ngIf="statusObj[source.recentStatus].name == 'Success'">
-                      <span class="count">12</span>Pages
+                      <span class="count">{{source.numPages}}</span>Pages
                   </div>
                   <div class="status text-right" *ngIf="statusObj[source.recentStatus].name == 'Failed'">
                     <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
@@ -426,22 +457,23 @@
                     </section>
                   </div>
                 </div>
-
-                <div *ngIf="selectedSource.sitemaps.length > 0; else noSiteMap" class="site-map-url-sec">
-                  <div class="label_text">Sitemap URLS</div>
-                  <div class="urls_">
-                    <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div>
-                    <!-- <div class="site-url">https://finshots.in /path/sample</div> -->
-                  </div>
-                </div>
-                <ng-template #noSiteMap>
-                  <div class="site-map-url-sec">
+                <div *ngIf="selectedSource.sitemaps">
+                  <div *ngIf="selectedSource.sitemaps.length > 0; else noSiteMap" class="site-map-url-sec">
                     <div class="label_text">Sitemap URLS</div>
                     <div class="urls_">
-                      <div class="site-url">No Sitemaps</div>
+                      <div class="site-url" *ngFor ="let site of selectedSource.sitemaps">{{site}}</div>
+                      <!-- <div class="site-url">https://finshots.in /path/sample</div> -->
                     </div>
                   </div>
-                </ng-template>
+                  <ng-template #noSiteMap>
+                    <div class="site-map-url-sec">
+                      <div class="label_text">Sitemap URLS</div>
+                      <div class="urls_">
+                        <div class="site-url">No Sitemaps</div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
                 <div class="toggle-swich-row">
                   <div class="row m-0 row_data">
                     <div class="col-10 title pl-pr-10">Schedule</div>
@@ -492,7 +524,7 @@
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
                           <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
-                          <li (click)="crawlOption('block','Crawl Everything Except Specific URls')"><a>Crawl Everything Except Specific URls</a></li>
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything Except Specific URLs</a></li>
                           <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
                         </ul>
                       </div>
@@ -801,8 +833,8 @@
                           {{page._source.url || selectedSource.url}}</div>
                         <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
                         <div class="col-2 actions p-0">
-                          <img src="assets/icons/refresh-table.svg" ngbTooltip='recrwal' (click)="reCrwalingWeb('pages',page ,$event)">
-                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
+                          <img src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
+                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left">
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
                         </div>
@@ -1076,7 +1108,7 @@
             [ngStyle]="{color: (selectedSource.recentStatus && statusObj[selectedSource.recentStatus])?statusObj[selectedSource.recentStatus].color:'black'}">
             {{statusObj[selectedSource.recentStatus].name}}</div>
           <div class="col-1">{{selectedSource.numPages}}</div>
-          <div class="col-1" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size|| '--'}}</div>
+          <div class="col-1" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size ? (selectedSource.fileMeta.size / (1024 * 1024)).toFixed(2) + 'MB': '--'|| '--'}}</div>
           <div class="col_ col-1  p-0 text-left actions-images">
             <img src="assets/images/edit-pencil.svg"  (click) = "editDoc()" title="Edit">
             <img src="assets/images/downloadIcon.svg" title="Download">

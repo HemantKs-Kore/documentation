@@ -10,22 +10,20 @@
         <div class="col-4 p-0">Synonyms</div>
 
         <div class="col-8 right-sec p-0">
-          <!-- <div class="seach_add_feild"> -->
           <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">
             <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources'
-              placeholder="Search" id="fieldSearchId" [(ngModel)]="searchfacet">
+              placeholder="Search" id="fieldSearchId" [(ngModel)]="synonymSearch">
           </div>
-          <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img
+          <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img
               *ngIf="showSearch" src="assets/images/close.svg">Search
           </div>
-          <div class="add_feild" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
+          <div class="add_feild" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent" (click)='enableAddNewSynonymBtn()'><img src="assets/icons/add_plus.svg">Add Synonym
           </div>
           <div class="clock d-none"> <img src="assets/icons/clock.svg"></div>
 
-          <!-- </div> -->
-
+     
         </div>
-        <!-- <div class="kr-sg-input-search m-0">                                -->
+        <!-- <div class="kr-sg-input-search m-0">-->
         <!-- <input type="text" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="synonymSearch" autocomplete="off">            -->
         <!-- <img *ngIf="searchSources" (click)="applyFilter('')" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!searchSources" class="search-icon"src="assets/images/search_gray.svg"> -->
@@ -90,12 +88,33 @@
   </div>
   <ng-container *ngIf="!loadingContent">
     <perfect-scrollbar class="table-scroll-perfect-synonyms" [ngClass]="{newRecoredActive: newSynonymObj.addNew}">
-      <div class="empty-questions-selected"
+      <div  class="empty-landing-screen"
+      *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
+      <!-- <img src="assets/images/icons/empty_ill.svg">
+      <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
+      <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div> -->
+
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/synonyms.empty-svg.svg"></div>
+        <ng-container>
+            <div class="empty-title">You haven’t added any synonyms data yet!</div>
+            <div class="desc-text"> Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.
+            </div>
+            <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+               
+              <button class="kr-sg-button-primary" (click)='enableAddNewSynonymBtn()'> Add Synonym</button>                                            
+            </div>
+        </ng-container>
+        <ng-container *ngIf="noItems && emptySearchResults">
+            <div class="desc-text">Your Search Query doesn't match with any record.</div>
+        </ng-container>
+
+    </div>
+      <!-- <div class="empty-questions-selected"
         *ngIf="!(synonymData && synonymData.length) && !newSynonymObj.addNew && !loadingContent">
         <img src="assets/images/icons/empty_ill.svg">
         <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
         <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div>
-      </div>
+      </div> -->
       <div class="kr-sg-data-table" *ngIf="(synonymData && synonymData.length) && !loadingContent">
         <section class="table-content">
           <!-- <header class="table-header">
