@@ -144,6 +144,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addNewRule();
     this.addNewOutcome();
     this.openModalPopup();
+    this.getFieldAutoComplete(null, null);
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
@@ -168,6 +169,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addEditRuleObj = rule;
     this.setDataForEdit(this.addEditRuleObj);
     this.openModalPopup();
+    this.getFieldAutoComplete(null, null);
   }
   closeModalPopup() {
     this.rulesArrayforAddEdit = [];
@@ -500,10 +502,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
       outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
     }
-    if (!payload.rules.length) {
-      this.errorToaster(null, 'Atleast one condition is required');
-      return;
-    }
+    // if (!payload.rules.length) {
+    //   this.errorToaster(null, 'Atleast one condition is required');
+    //   return;
+    // }
     if (!payload.outcomes.length) {
       this.errorToaster(null, 'Atleast one outcome is required');
       return;
