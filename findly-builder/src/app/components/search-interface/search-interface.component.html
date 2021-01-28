@@ -2,7 +2,7 @@
   <div class="header_sec">
     <div class="title">Search Interface</div>
     <div class="btn_sec">     
-      <button class="kr-sg-button-primary btn_lg">Preview</button>
+      <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preview</button>
     </div>
   </div>
   <div class="body_content">
@@ -75,11 +75,12 @@
               </div>
             </div>
             <div class="result-appearences-section">
-              <div class="input-left-sec">
-                <div class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Actions</span></div>
-                <div class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
-                <div class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
-                <div class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div>
+              <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec">
+                <div cdkDrag *ngFor="let list of list" class="input-name" [ngClass]="{'active-input' : list == 'Structured Data'}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list}}</span></div>
+                <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Actions</span></div>
+                <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
+                <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
+                <div cdkDrag class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div> -->
                 <div class="input-name add-new">+ Add New</div>
               </div>
               <div class="result-right-sec">
@@ -125,11 +126,11 @@
       <div class="kr-sg-dropdowns template-type-dropdown">
         <div class="label-text">Template Type</div>
         <div class="dropdown dropdown-open">
-            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">List Template 1</button>                                            
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{customizeTemplateObj.template.type}}</button>                                            
             <ul class="dropdown-menu content-menu">                                                         
-              <li><a>Option 1</a></li>
-              <li><a>Option 2</a></li>
-              <li><a>Option 3</a></li>
+              <li (click)="template('list')"><a>Option 1</a></li>
+              <li (click)="template('list')"><a>Option 2</a></li>
+              <li (click)="template('list')"><a>Option 3</a></li>
             </ul>
         </div>
       </div>
@@ -137,24 +138,25 @@
 
         <perfect-scrollbar class="customize-scroll-left">
           <div class="customize-left">
+            <!-- Title with Text-->
             <div class="c-template">
               <div class="group-radiobutton">
                 <div class="heading-title mb-2">Search Result Layout</div>
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-21" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-21" class="radio-custom-label">Tile with Text</label>
+                    <input id="radio-TT" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('titleWithText')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText'">
+                    <label for="radio-TT" class="radio-custom-label">Tile with Text</label>
                 </div> 
-                <div class="template-type">
+                <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText'">
                   <div class="heading">Heading</div>
                   <div class="description">Description</div>
                 </div> 
-                <div class="show-clickble-true">
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" checked>
+                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3">
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !customizeTemplateObj.template.searchResultlayout.clickable }">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
@@ -165,20 +167,22 @@
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
-                  <div class="kr-sg-input-text">
+                  <div class="kr-sg-input-text" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !customizeTemplateObj.template.searchResultlayout.clickable }">
                     <div class="label-text">URL</div>
                     <input type="text" placeholder="Enter Target URL" class="input-text">
                   </div>
                 </div>                           
               </div>
             </div> 
+            <!-- Title with Text-->
+            <!-- Title with Image-->
             <div class="c-template">
               <div class="group-radiobutton">              
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-22" name="radio" class="radio-custom" type="radio" checked>
-                    <label for="radio-22" class="radio-custom-label">Tile with Image</label>
+                    <input id="radio-TI" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('titleWithImage')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage'">
+                    <label for="radio-TI" class="radio-custom-label">Tile with Image</label>
                 </div> 
-                <div class="template-type d-flex">
+                <div class="template-type d-flex" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage'">
                   <div class="img-block mr-2">
                     <img src="assets/icons/search-interface/dummy-small.svg">
                   </div>
@@ -187,13 +191,13 @@
                     <div class="description">Description</div>
                   </div>
                 </div> 
-                <div class="show-clickble-true">
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" checked>
+                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3">
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
@@ -204,20 +208,22 @@
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
-                  <div class="kr-sg-input-text">
+                  <div class="kr-sg-input-text" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text">URL</div>
                     <input type="text" placeholder="Enter Target URL" class="input-text">
                   </div>
                 </div>                                      
               </div>
             </div> 
+            <!-- Title with Image-->
+            <!-- Title with Centered Content-->
             <div class="c-template">
               <div class="group-radiobutton">              
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-23" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-23" class="radio-custom-label">Tile with Centered Content</label>
+                    <input id="radio-TCC" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('titleWithCenteredContent')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent'">
+                    <label for="radio-TCC" class="radio-custom-label">Tile with Centered Content</label>
                 </div> 
-                <div class="template-type centered-content">
+                <div class="template-type centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent'">
                   <div class="img-block mb-3">
                     <img src="assets/icons/search-interface/dummy-large.svg">
                   </div>
@@ -226,16 +232,16 @@
                     <div class="description">Description</div>
                   </div>
                 </div> 
-                <div class="show-clickble-true">
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" checked>
+                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3">
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio">
                         <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
                     </div> 
                     <div class="kr-sg-radiobutton">
@@ -243,29 +249,31 @@
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
-                  <div class="kr-sg-input-text">
+                  <div class="kr-sg-input-text" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text">URL</div>
                     <input type="text" placeholder="Enter Target URL" class="input-text">
                   </div>
                 </div>                                      
               </div>
             </div> 
+             <!-- Title with Centered Content-->
+              <!-- Title with Header-->
             <div class="c-template">
               <div class="group-radiobutton">                
                 <div class="kr-sg-radiobutton">
-                    <input id="radio-21" name="radio" class="radio-custom" type="radio">
-                    <label for="radio-21" class="radio-custom-label">Tile with Header</label>
+                    <input id="radio-TH" name="resultLayout" class="radio-custom" type="radio"  (change)= "resultLayoutChange('titleWithHeader')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
+                    <label for="radio-TH" class="radio-custom-label">Tile with Header</label>
                 </div> 
-                <div class="template-type">
+                <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
                   <div class="heading m-0">Header</div>                  
                 </div> 
-                <div class="show-clickble-true">
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" checked>
+                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3">
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
@@ -276,13 +284,14 @@
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
-                  <div class="kr-sg-input-text">
+                  <div class="kr-sg-input-text" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text">URL</div>
                     <input type="text" placeholder="Enter Target URL" class="input-text">
                   </div>
                 </div>                           
               </div>
-            </div>             
+            </div> 
+            <!-- Title with Header-->            
           </div>
         </perfect-scrollbar>          
         <perfect-scrollbar  class="customize-scroll-right">
@@ -305,7 +314,7 @@
                   </ul>
               </div>                        
             </div>
-            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="showDescription">
               <div class="label-text">Description</div>
               <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
                   <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
@@ -318,6 +327,23 @@
                         <li><a>Field 3</a></li>
                         <li><a>Field 4</a></li>
                         <li><a>Field 5</a></li>
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="showImage">
+              <div class="label-text">Image</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li><a>Title</a></li>
+                        <li><a>URL 2</a></li>
+                        <li><a>URL 3</a></li>
+                        <li><a>URL 4</a></li>
+                        <li><a>URL 5</a></li>
                       </perfect-scrollbar>
                   </ul>
               </div>                        
@@ -341,8 +367,8 @@
             </div> -->
             <div class="p-selection mb-2">Preview as per above selection</div>
 
-
-            <div class="result-right-sec">
+            <!-- Preview For Title with Text ClickAble-->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
               <div class="result-card">
                 <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
                 <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
@@ -360,9 +386,9 @@
                 <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
               </div>              
             </div>
-
-
-            <div class="result-right-sec with-accordion-state">             
+            <!-- Preview For Title with Text ClickAble-->
+            <!-- Preview For Title with Text Expandable-->
+            <div class="result-right-sec with-accordion-state" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && !customizeTemplateObj.template.searchResultlayout.clickable">             
               <div id="accordion">
                 <div class="info-title">Collapsed state</div>
                 <div class="card-acc">
@@ -394,9 +420,9 @@
                 </div>               
               </div>               
             </div>
-
-
-            <div class="result-right-sec with-image">
+            <!-- Preview For Title with Text Expandable-->
+            <!-- Preview For Title with Image ClickAble-->
+            <div class="result-right-sec with-image" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && customizeTemplateObj.template.searchResultlayout.clickable">
               <div class="result-card">
                 <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
                 <div class="content-sec">
@@ -426,9 +452,49 @@
                 </div>
               </div>
             </div>
-
-
-            <div class="result-right-sec with-centered-content">             
+           <!-- Preview For Title with Image ClickAble-->
+           <!-- Preview For Title with Image Expandable-->
+           <div class="result-right-sec with-accordion-state with_image_tile" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+            <div id="accordion">
+              <div class="info-title">Collapsed state</div>
+              <div class="card-acc">
+                <div class="card_header">
+                  <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                    <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                    <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                  </div>
+                </div>
+                <div id="collapse1" class="collapse" data-parent="#accordion">
+                  <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">Field mapped for Description will appear here</div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="info-title">Expanded state</div>
+              <div class="card-acc">
+                <div class="card_header">
+                  <div class="card_link" data-toggle="collapse" href="#collapse2">
+                    <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                    <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                  </div>
+                </div>
+                <div id="collapse2" class="collapse show" data-parent="#accordion">
+                  <div class="card-body">
+                    <div class="with-image-tile">
+                      <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                      <div class="r-desc">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                </div>
+              </div>               
+            </div>               
+          </div>
+          <!-- Preview For Title with Image Expandable-->
+           <!-- Preview For Title with Centered Content Clickable-->
+            <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable">             
               <div class="result-card">
                 <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
                 <div class="content-sec">
@@ -444,9 +510,49 @@
                 </div>
               </div>
             </div>
-
-
-            <div class="result-right-sec">
+            <!-- Preview For Title with Centered Content Clickable-->
+            <!-- Preview For Title with Centered Content Expandable-->
+            <div class="result-right-sec with-accordion-state tile_with_centered_content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">Field mapped for Description will appear here</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+            <!-- Preview For Title with Centered Content Expandable-->
+            <!-- Preview For Title with Header-->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
               <div class="result-card">
                 <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
               </div>
@@ -463,85 +569,7 @@
                 <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
               </div>              
             </div>
-
-            <div class="result-right-sec with-accordion-state with_image_tile">             
-              <div id="accordion">
-                <div class="info-title">Collapsed state</div>
-                <div class="card-acc">
-                  <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
-                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-                    </div>
-                  </div>
-                  <div id="collapse1" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                        <div class="with-image-tile">
-                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
-                          <div class="r-desc">Field mapped for Description will appear here</div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="info-title">Expanded state</div>
-                <div class="card-acc">
-                  <div class="card_header">
-                    <div class="card_link" data-toggle="collapse" href="#collapse2">
-                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-                    </div>
-                  </div>
-                  <div id="collapse2" class="collapse show" data-parent="#accordion">
-                    <div class="card-body">
-                      <div class="with-image-tile">
-                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
-                        <div class="r-desc">Field mapped for Description will appear here</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>               
-              </div>               
-            </div>
-
-            <div class="result-right-sec with-accordion-state tile_with_centered_content">             
-              <div id="accordion">
-                <div class="info-title">Collapsed state</div>
-                <div class="card-acc">
-                  <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
-                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-                    </div>
-                  </div>
-                  <div id="collapse1" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                        <div class="with-image-tile">
-                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
-                          <div class="r-desc">Field mapped for Description will appear here</div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="info-title">Expanded state</div>
-                <div class="card-acc">
-                  <div class="card_header">
-                    <div class="card_link" data-toggle="collapse" href="#collapse2">
-                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-                    </div>
-                  </div>
-                  <div id="collapse2" class="collapse show" data-parent="#accordion">
-                    <div class="card-body">
-                      <div class="with-image-tile">
-                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
-                        <div class="r-desc">Field mapped for Description will appear here</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>               
-              </div>               
-            </div>
-
+            <!-- Preview For Title with Header-->
           </div>
         </perfect-scrollbar>
 
@@ -551,5 +579,17 @@
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg" (click)="closeCustomModal()">Save</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+  </div>
+</kr-modal> 
+
+<kr-modal modalType="center" #previewModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+  <div class="modal-header">
+    <div class="title">Preview Template</div>
+    <div class="close_icon" (click)="closePreviewModal()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" (click)="closePreviewModal()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closePreviewModal()">Cancel</button>
   </div>
 </kr-modal> 
