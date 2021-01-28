@@ -28,7 +28,12 @@
     height: calc(100vh - 62px);
     overflow: hidden;    
     background: #fff;
+    .scoll-empty-screen{
+        height: calc(100vh - 115px);
+        padding-right: 65px;
+    }
     .table-list-content{
+        padding-right: 65px;
         .kr-sg-data-table{
             // margin: 0 0 10px 0;
             .header-sec {
@@ -235,7 +240,7 @@
             }                     
         }
         .table-scroll-perfect{
-            height: calc(100vh - 214px);
+            height: calc(100vh - 220px);
             &.list{
                 height: calc(100vh - 136px);
             }
@@ -1109,10 +1114,7 @@
         margin-left: -8px;
     }
     .upArrow {
-        transform: rotate(180deg) !important;
-        top: -4px !important;
-        left: -12px !important;
-        margin-left: -8px;
+        transform: rotate(180deg) !important;       
     }
     .display-none {
         visibility: hidden;
