@@ -74,6 +74,10 @@
                     width: 55%;
                 }
             }
+            .disableDiv {
+                opacity: 0.5;
+                pointer-events: none;
+            }
             .info-div {
                 p{ 
                 margin: 10px 45px;

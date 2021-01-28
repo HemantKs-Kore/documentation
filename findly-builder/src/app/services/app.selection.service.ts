@@ -111,9 +111,21 @@ export class AppSelectionService {
        this.headerService.toggle(toogleObj);
     }
     setAppWorkFlowData(app,queryPipeline?) {
+      this.getStreamData(app);
       this.workflowService.selectedApp(app);
       const searchIndex  = app.searchIndexes[0]._id;
       this.workflowService.selectedSearchIndex(searchIndex);
       this.getQureryPipelineIds(queryPipeline);
     }
+    getStreamData(app){
+    //   const queryParams = {
+    //     streamId:app._id
+    //   };
+    //   const appObserver = this.service.invoke('get.streamData', queryParams);
+    //   appObserver.subscribe(res => {
+    //     this.workflowService.selectedApp(res);
+    //   }, errRes => {
+    //     this.queryList = null;
+    //   });
+     }
 }

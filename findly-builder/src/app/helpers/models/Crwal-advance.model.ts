@@ -36,7 +36,7 @@ export class InterVal {
 export class Time{
         hour:String ="";
         minute:String ="";
-        timeOpt:String ="";
+        timeOpt= null;
         timezone:String ="";
 }
 export class IntervalValue {

@@ -59,12 +59,13 @@ export class StatusDockerComponent implements OnInit {
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
-            this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
-
+            if(record.action === 'EXPORT'){
+              this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
+            }
           }
         })
         const queuedJobs = _.filter(res.dockStatuses, (source) => {
-          return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED'));
+          return ((source.status === 'IN_PROGRESS') || (source.status === 'QUEUED') || (source.status === 'validation'));
         });
        
         if (queuedJobs && queuedJobs.length) {
@@ -92,7 +93,7 @@ export class StatusDockerComponent implements OnInit {
       else if(status === 'QUEUED'){
         return 'In-queue';
       }
-      else if(status === 'IN_PROGRESS'){
+      else if(status === 'IN_PROGRESS' || status === 'validation' ){
         return 'In-progress';
       }
     }
@@ -116,7 +117,7 @@ export class StatusDockerComponent implements OnInit {
 
   removeRecord(task, index){
     if(task._id){
-      this.statusDockerLoading = true;
+      // this.statusDockerLoading = true;
       const queryParms ={
         searchIndexId:this.workflowService.selectedSearchIndexId,
         id : task._id,
@@ -124,9 +125,10 @@ export class StatusDockerComponent implements OnInit {
       }
       this.service.invoke('delete.dockById', queryParms).subscribe(
         res => {
-          this.statusDockerLoading = false;
+          this.statusDockerLoading = true;
           this.dockersList.splice(index, 1);
-          this.notify.notify(res.msg, 'success');
+          // this.notify.notify(res.msg, 'success');
+          this.statusDockerLoading = false;
         },
         errRes => {
           this.statusDockerLoading = false;
@@ -140,16 +142,15 @@ export class StatusDockerComponent implements OnInit {
   }
 
   clearAllRecords(){
-    this.statusDockerLoading = true;
     const queryParms ={
       searchIndexId:this.workflowService.selectedSearchIndexId,
     }
     this.service.invoke('delete.clearAllDocs', queryParms).subscribe(
       res => {
-        this.statusDockerLoading = false;
+        this.statusDockerLoading = true;
         // this.dockersList = [];
         this.poling();
-        this.notify.notify(res.msg, 'success');
+        // this.notify.notify(res.msg, 'success');
       },
       errRes => {
         this.statusDockerLoading = false;

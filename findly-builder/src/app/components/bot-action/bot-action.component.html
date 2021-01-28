@@ -174,8 +174,8 @@
     <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/botactions-empty.svg"></div>
       <ng-container >
-          <div class="empty-title">You haven’t added any synonyms data yet!</div>
-          <div class="desc-text"> Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.
+          <div class="empty-title">You haven’t linked any bot yet!</div>
+          <div class="desc-text"> Bot Actions are a list of tasks that are performed by the bots. SearchAssist allows you to link bots that can perform tasks for the search user.
           </div>
           <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
               <div class="dropdown dropdown-open">
@@ -249,7 +249,7 @@
                 <div class="col_ col-2"></div>
                 <div class="col_ col-2"><button *ngIf="streamId != bot._id" class="button-bot-link"
                     (click)="linkBot(bot._id)"><img src="assets/icons/iconLink.svg">&nbsp;Link</button><button
-                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id)"><img
+                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id,'bulk_unlink')"><img
                       src="assets/icons/iconUnlink.svg">&nbsp;Unlink</button><img class="col-content-ellipse-icon"
                     src="assets/icons/elipse.svg"></div>
               </div>

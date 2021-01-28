@@ -143,6 +143,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     },
     {
+      title: 'Add Structured data by uploading a file or adding manually',
+      sources: [
+        {
+          name: 'Import Structured Data',
+          description: 'Import from JSON or CSV',
+          icon: 'assets/icons/content/database-Import.svg',
+          id: 'contentStucturedDataImport',
+          sourceType: 'object',
+          resourceType: 'structuredData'
+        },
+        {
+          name: 'Import Structured Data',
+          description: 'Add structured data manually',
+          icon: 'assets/icons/content/database-add.svg',
+          id: 'contentStucturedDataAdd',
+          sourceType: 'object',
+          resourceType: 'structuredDataManual'
+        }
+      ]
+    },
+    {
       title: 'Connect & add actions from virtual assistants',
       sources: [
         {
@@ -166,6 +187,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   associatedBots: any = [];
   streamID: any;
   searchAssociatedBots: any;
+  addStructuredDataModalPopRef : any;
+  structuredData : any = {};
+  structuredDataStatusModalRef : any;
+  structuredDataDocPayload : any;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -183,6 +208,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('addManualFaqModalPop') addManualFaqModalPop: KRModalComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
+  @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
+  @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -356,7 +383,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  cancleSourceAddition() {
+  cancleSourceAddition(event?) {
     if (this.resourceIDToOpen) {
       const event: any = {}
       this.cancleEvent.emit(event);
@@ -368,6 +395,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     this.closeLinkBotsModal();
+    this.closeStructuredDataModal(event);
   }
   selectSource(selectedCrawlMethod) {
     console.log(selectedCrawlMethod);
@@ -378,6 +406,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     else if (selectedCrawlMethod && selectedCrawlMethod.id === 'botActions') {
       this.selectedSourceType = selectedCrawlMethod;
       this.openLinkBotsModal();
+    }
+    else if(selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')){
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddStructuredData();
     }
     else {
       this.selectedSourceType = selectedCrawlMethod;
@@ -407,8 +439,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.fileObj.fileUploadInProgress = true;
       this.fileObj.fileName = fileName;
-      this.fileObj.file_ext = _ext;
+      this.fileObj.file_ext = _ext.replace(".", "");
+
     }
+   
     this.onFileSelect(event.target, _ext);
   }
   onFileSelect(input: HTMLInputElement, ext) {
@@ -513,6 +547,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   proceedSource() {
     let payload: any = {};
+    let schdVal =  true;
     const crawler = this.crwalObject;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -531,6 +566,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
      this.faqAnotate(payload,endPoint,quaryparms);
+     schdVal = true;
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
@@ -562,6 +598,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }else{
           delete crawler.advanceOpts.maxUrlLimit;
         }
+        
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         crawler.resourceType = this.selectedSourceType.resourceType;
@@ -569,8 +606,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = {...crawler};
         delete payload.resourceType;
-        if(!payload.advanceOpts.scheduleOpt){
-          delete payload.advanceOpts.scheduleOpts;
+        if(payload.advanceOpts){
+          if(!payload.advanceOpts.scheduleOpt){
+            delete payload.advanceOpts.scheduleOpts;
+            if(payload.advanceOpts.repeatInterval){
+              delete payload.advanceOpts.repeatInterval;
+            }
+          }
         }
         quaryparms.resourceType = resourceType;
       }
@@ -581,17 +623,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
-      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-        this.openStatusModal();
-        this.poling(res._id,'scheduler');
-        this.crwal_jobId = res._id
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed to add sources ', 'error');
+      if(crawler.advanceOpts.scheduleOpt){
+        if(crawler.advanceOpts.scheduleOpts){
+          if(!crawler.advanceOpts.scheduleOpts.date){
+            schdVal = false;
+          }
+          if(!crawler.advanceOpts.scheduleOpts.time){
+            schdVal = false;
+          }else{
+            if(crawler.advanceOpts.scheduleOpts.time.hour == "" ||crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+          }
         }
-      });
+      }
+      if(schdVal){
+        this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+          this.openStatusModal();
+          this.poling(res._id,'scheduler');
+          this.crwal_jobId = res._id
+        }, errRes => {
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed to add sources ', 'error');
+          }
+        });
+      }else{
+        this.notificationService.notify('Please fill Date and Time fields', 'error');
+      }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
 
@@ -903,6 +963,36 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.crwalObject.advanceOpts.crawlEverything = true;
     }
   }
+
+  // Code for Structured Data Starts
+
+  openAddStructuredData(){
+    this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+  }
+
+  closeStructuredDataModal(event?){
+    if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
+      this.addStructuredDataModalPopRef.close();
+      if(event && event.showStatusModal){
+        this.structuredDataDocPayload = event.payload;
+        this.openStructuredDataStatusModal();
+      }
+    }
+  }
+
+  openStructuredDataStatusModal(){
+    this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
+  }
+
+  closeStructuredDataStatusModal(){
+    if(this.structuredDataStatusModalRef){
+      this.router.navigate(['/structuredData'], { skipLocationChange: true });
+      this.structuredDataStatusModalRef.close();
+    }
+  }
+
+  // Code for Structured Data Ends
+
   ngOnDestroy() {
     const self = this;
     if (this.pollingSubscriber) {
