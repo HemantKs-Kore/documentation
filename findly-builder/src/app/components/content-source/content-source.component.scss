@@ -28,6 +28,9 @@
     height: calc(100vh - 62px);
     overflow: hidden;    
     background: #fff;
+    .empty-scrollbar{
+        height: calc(100vh - 162px);
+    }
     .table-list-content{
         .kr-sg-data-table{
             // margin: 0 0 10px 0;
@@ -1298,4 +1301,6 @@
                 }
             }            
         }
+    
     }
+   

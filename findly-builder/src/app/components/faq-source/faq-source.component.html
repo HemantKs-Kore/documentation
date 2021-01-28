@@ -36,8 +36,9 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
-        <div  class="empty-landing-screen"
-        *ngIf="!(faqs && faqs.length) ">
+        <ng-container *ngIf="!(faqs && faqs.length) && !loadingFaqs && !loadingTab">
+        <perfect-scrollbar class="empty-scroll">
+        <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
           <ng-container >
               <div class="empty-title">You haven’t added any FAQ's yet!</div>
@@ -57,9 +58,10 @@
           <ng-container *ngIf="noItems && emptySearchResults">
               <div class="desc-text">Your Search Query doesn't match with any record.</div>
           </ng-container>
-      
       </div>
-        <div class="faq-content-boxes">
+    </perfect-scrollbar>
+</ng-container>
+        <div class="faq-content-boxes"  *ngIf="(faqs && faqs.length)">
             <div class="content left-content">
                 <div class="content-boxes faq_tasks_list">
                     <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">

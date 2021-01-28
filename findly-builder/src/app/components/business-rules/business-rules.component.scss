@@ -334,6 +334,7 @@
                     }
                 }
             }
+            
             &:hover{
                 background: #F8F9FA;     
                 transition: 0.3s all ease-in;
@@ -345,8 +346,10 @@
                     }
                 }                                          
             }
+
         }
     }
+    
 }
 .activeDrop{
     z-index: 9999999 !important;
@@ -616,4 +619,7 @@
         line-height: 14px;
         cursor: pointer;
     }
+}
+.empty-scroll{
+    height: calc(100vh - 162px);
 }

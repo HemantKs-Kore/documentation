@@ -10,8 +10,9 @@
       </div>
     </div>
   </div> -->
-  <div  class="empty-landing-screen"
-  *ngIf="!(resources && resources.length) && !loadingContent">
+  <ng-container *ngIf="!(resources && resources.length) && !loadingContent">
+  <perfect-scrollbar class="empty-scrollbar">
+  <div  class="empty-landing-screen">
     <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/contentmanag-empty.svg"></div>
     <ng-container >
         <div class="empty-title">You haven’t added any content data yet!</div>
@@ -30,8 +31,9 @@
     <ng-container *ngIf="noItems && emptySearchResults">
         <div class="desc-text">Your Search Query doesn't match with any record.</div>
     </ng-container>
-
 </div>
+</perfect-scrollbar>
+</ng-container>
   <!-- <div class="empty-case-showing-cotent" *ngIf="!(resources && resources.length) && !loadingContent">
     <div class="crawlContent row m-0 mb-4">
       <div class="col-12 main-title label_text">Add Content</div>
