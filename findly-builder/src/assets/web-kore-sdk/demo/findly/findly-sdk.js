@@ -42,7 +42,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     */
     function FindlySDK(config) {
       this.config = config;
-      this.pubSub = window["PubSub"];
       // this.config.container=this.config.container || "body";
       // if(typeof this.config.container==="string"){
       //     this.config.container=$(this.config.container);
@@ -1218,8 +1217,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   </div>\
               </div>\
               {{/if}}\
-              <div class="structured-data-container">\
-              </div>\
               {{if noResults}} <span class="text-center">No results found</span> {{/if}}\
               {{if showAllResults}}\
                 <div>\
@@ -1523,8 +1520,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{/if}}\
               </div>\
               {{/if}}\
-              <div class="structured-data-full-search-container matched-structured-data-contaniers">\
-              </div>\
               {{if documents.length && (selectedFacet === "document" || selectedFacet === "all results")}}\
                 <div class="matched-faq-containers matched-pages-container ksa-relatedPages fullAsstPage">\
                   <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
@@ -2474,11 +2469,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             return key;
           }
         }
-      });
-      // _self.bindLatest('#resultsContainerDIV');
-      _self.pubSub.publish('sa-st-data-search', {
-        container : '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/
-        data : {}
       });
 
       $('.search-container').addClass('full-page');
@@ -4179,11 +4169,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         taskPrefix: 'SUGGESTED',
                         viewType: viewType
                       });
-                      // _self.bindLatest(searchData);
-                      _self.pubSub.publish('sa-st-data-search', {
-                        container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/
-                        data : {}
-                      });
                       $(searchData).data(dataObj);
                       $('.search-body').html(searchData);
                       setTimeout(function () {
@@ -4229,11 +4214,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                           noResults: true,
                           taskPrefix: 'MATCHED',
                           viewType: viewType
-                        });
-                        // _self.bindLatest(searchData);
-                        _self.pubSub.publish('sa-st-data-search', {
-                          container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/
-                          data : {}
                         });
                         $(searchData).data(dataObj);
                         console.log("no results found");
@@ -4828,11 +4808,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               noResults: false,
               taskPrefix: 'MATCHED',
               viewType: viewType,
-            });
-            // _self.bindLatest(searchData);
-            _self.pubSub.publish('sa-st-data-search', {
-              container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/
-              data : {}
             });
             $(searchData).data(dataObj);
             if (!topMatchTask) {
@@ -11417,309 +11392,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         };
       }
     };
-    
-    FindlySDK.prototype.initialize = function (findlyConfig) {
-      var _self = this;
-      var _findlyConfig = findlyConfig;
-      if (findlyConfig.botOptions) {
-        _findlyConfig = findlyConfig.botOptions;
-      }
-      _self.isDev = false;
-      window["KoreSDK"].findlyConfig.botOptions.assertionFn=this.getJWT;
-      if (_findlyConfig.searchIndexID) {
-        const searchData = {
-          _id: _findlyConfig.searchIndexID,
-          pipelineId : _findlyConfig.queryPipelineId,
-        }
-        window["selectedFindlyApp"] = searchData;
-        window.appConfig ||= {};
-        window.appConfig.API_SERVER_URL = _findlyConfig.koreAPIUrl;  
-        window.appConfig.API_SERVER_URL = window.appConfig.API_SERVER_URL.replace('/api', '');
-      }
-      
-
-      if (!$('body').hasClass('demo')) {
-        _self.isDev = true;
-      }
-      // _self.initWebKitSpeech();
-      // _self.setAPIDetails();
-      // _self.initKoreSDK(_findlyConfig);
-      // _self.initWebKitSpeech();
-      // _self.setAPIDetails();
-
-      window.koreWidgetSDKInstance = _self;
-      
-    }
-
-    FindlySDK.prototype.initializeStructureDataTemplates = function (customTemplateConfig){
-      var _self = this;
-      var selectedTemplateId = '';
-      var searchTemplate = '';
-      var templates = { 
-        // tpt = template
-        // tle = tilt
-        // wt = with
-        // txt = text
-        // img = image
-        // cent = Centered
-        // cont = Content
-        // hdr = Header
-
-        'structuredData': [
-          {
-            "id" : 1,
-            "template": `
-              <div class="tpt-1-tle-wt-txt">
-                <div class="tile">
-                  <h2>Assembly</h2>
-                  <p class="tile_description">Manage Product Assembly and Maintenance</p>
-                </div>
-                <div class="tile">
-                  <h2>Design</h2>
-                  <p class="tile_description">Manage Product Designs</p>
-                </div>
-                <div class="tile">
-                  <h2>Document Generator</h2>
-                  <p class="tile_description">Generate documents from recorded data</p>
-                </div>
-              </div>
-              `,
-            "templateId": "list-tpt-1-tle-wt-txt",
-            "templateGroup": "list-template-1"
-          },
-          {
-            "id" : 2,
-            "template": `
-
-              `,
-            "templateId": "list-tpt-1-tle-wt-img",
-            "templateGroup": "list-template-1"
-          },
-          {
-            "id" : 3,
-            "template": `
-
-              `,
-            "templateId": "list-tpt-1-tle-wt-cent-cont",
-            "templateGroup": "list-template-1"
-          },
-          {
-            "id" : 4,
-            "template": `
-
-              `,
-            "templateId": "list-tpt-1-tle-wt-hdr",
-            "templateGroup": "list-template-1"
-          },
-          {
-            "id" : 5,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-2-tle-wt-txt",
-            "templateGroup": "list-template-2"
-          },
-          {
-            "id" : 6,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-2-tle-wt-img",
-            "templateGroup": "list-template-2"
-          },
-          {
-            "id" : 7,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-2-tle-wt-cent-cont",
-            "templateGroup": "list-template-2"
-          },
-          {
-            "id" : 8,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-2-tle-wt-hdr",
-            "templateGroup": "list-template-2"
-          },
-          {
-            "id" : 9,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-3-tle-wt-txt",
-            "templateGroup": "list-template-3"
-          },
-          {
-            "id" : 10,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-3-tle-wt-img",
-            "templateGroup": "list-template-3"
-          },
-          {
-            "id" : 11,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-3-tle-wt-cent-cont",
-            "templateGroup": "list-template-3"
-          },
-          {
-            "id" : 12,
-            "template": `
-
-            `,
-            "templateId": "list-tpt-3-tle-wt-hdr",
-            "templateGroup": "list-template-3"
-          },
-          {
-            "id" : 13,
-            "template": `
-            <div class="container">
-              <div class="grid-container">
-                <div class="grid-tiles">
-                  <div class="grid-tile"></div>
-                  <div class="grid-tile"></div>
-                  <div class="grid-tile"></div>
-                  <div class="grid-tile"></div>
-                </div>
-              </div>
-            </div>
-            `,
-            "templateId": "grid-tpt-tle-wt-txt",
-            "templateGroup": "grid"
-          },
-          {
-            "id" : 14,
-            "template": `
-
-            `,
-            "templateId": "grid-tpt-tle-wt-img",
-            "templateGroup": "grid"
-          },
-          {
-            "id" : 15,
-            "template": `
-
-            `,
-            "templateId": "grid-tpt-tle-wt-cent-cont",
-            "templateGroup": "grid"
-          },
-          {
-            "id" : 16,
-            "template": `
-
-            `,
-            "templateId": "grid-tpt-tle-wt-hdr",
-            "templateGroup": "grid"
-          },
-          {
-            "id" : 17,
-            "template": `
-
-            `,
-            "templateId": "carousel-tpt-tle-wt-txt",
-            "templateGroup": "carousel"
-          },
-          {
-            "id" : 18,
-            "template": `
-
-            `,
-            "templateId": "carousel-tpt-tle-wt-img",
-            "templateGroup": "carousel"
-          },
-          {
-            "id" : 19,
-            "template": `
-
-            `,
-            "templateId": "carousel-tpt-tle-wt-cent-cont",
-            "templateGroup": "carousel"
-          },
-          {
-            "id" : 20,
-            "template": `
-
-            `,
-            "templateId": "carousel-tpt-tle-wt-hdr",
-            "templateGroup": "carousel"
-          }
-        ]
-      };
-
-      // AJAX call if required to override static Templates
-      // Skipped AJAX for now
-
-      // Custom templateId by user from index.html
-      if(customTemplateConfig){
-        // will override the templateId
-        if(customTemplateConfig.templateId && customTemplateConfig.templateId.length){
-          selectedTemplateId = customTemplateConfig.templateId;
-        }
-
-        if(customTemplateConfig.template && customTemplateConfig.templateId.length){
-          templates.structuredData.forEach((item) => {
-            console.log("item", item);
-            if(item.templateId === selectedTemplateId){
-              item.template = customTemplateConfig.template;
-            }
-          });
-        }
-      }
-
-      if(!selectedTemplateId || !selectedTemplateId.length){
-        // default case
-        selectedTemplateId = 'list-tpt-1-tle-wt-txt';
-      }
-
-      // MATCH TEMPLATE 
-      var templates = templates.structuredData;
-      for(let i =0; i<templates.length; i++){
-        if(templates[i].templateId === selectedTemplateId){
-          searchTemplate = templates[i].template;
-        }
-      }
-
-      _self.pubSub.subscribe('sa-st-data-search', (msg, data) => {
-        console.log("msg, data", msg, data);
-        let container;
-        if(!searchTemplate || searchTemplate.length){
-          // missed template or default template should be managed here
-        }
-        var dataHTML = $(searchTemplate).tmplProxy(/* results can be passed here */);
-        if(data && data.container && data.container.length){
-          container = data.container;
-        }
-        if(customTemplateConfig && customTemplateConfig.container && customTemplateConfig.container.length){
-          container = customTemplateConfig.container;
-        }
-        $(data.container).empty().append(dataHTML);
-      });
-
-      _self.vars.customizeTemplates = templates;
-      console.log("self", _self.vars);
-      console.log("pubsub", _self.pubSub)
-    }
-
-    FindlySDK.prototype.bindLatest = function (parentTemplate) {
-      $.getJSON("findly/templates.json", function(json) {
-        console.log(json);
-        // subs
-        for(let i =0; i<json.length; i++){
-          if(json[i].templateId === 'testFaq'){
-            let pageTemplate = json[i].template;
-            var dataHTML = $(pageTemplate).tmplProxy();
-            $(parentTemplate).append(dataHTML);
-          }
-        }
-        // end subs
-      });
-    }
-
     return FindlySDK;
   }(koreJquery, korejstz, KRPerfectScrollbar);
 });
