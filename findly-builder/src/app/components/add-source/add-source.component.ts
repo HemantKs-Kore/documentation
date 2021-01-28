@@ -19,6 +19,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
+import {  DockStatusService} from '../../services/dock.status.service';
 
 @Component({
   selector: 'app-add-source',
@@ -29,9 +30,13 @@ import { RangySelectionService } from '../annotool/services/rangy-selection.serv
 export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   fileObj: any = {};
   crwalEvery = false;
+  crawlOkDisable = false;
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
   blockUrl: BlockUrl = new BlockUrl();
+  sampleJsonPath:any='/home/assets/sample-data/sample.json';
+  sampleCsvPath:any='/home/assets/sample-data/sample.csv';
+  filePath;
   receivedQuaryparms: any;
   searchIndexId;
   selectedSourceType: any = null;
@@ -44,6 +49,15 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   doesntContains = 'Doesn\'t Contains';
   dataFromScheduler: scheduleOpts
   loadFullComponent = true;
+
+  useCookies = true;
+  respectRobotTxtDirectives = true;
+  crawlBeyondSitemaps= false;
+  isJavaScriptRendered = false;
+  blockHttpsMsgs = false;
+  crwalOptionLabel = "Crawl Everything";
+  crawlDepth :number;
+  maxUrlLimit: number;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -65,6 +79,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     _id: 'job-2745cd21-98f0-580e-926c-6f6bf41593fa',
   };
   currentStatusFailed: any = false;
+  crwal_jobId : any;
   userInfo: any = {};
   csvContent: any = '';
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
@@ -75,7 +90,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Crawl Web Domain',
           description: 'Extract and index web pages',
-          icon: 'assets/images/source-icos/crawlwebdomain.svg',
+          icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
           resourceType: 'webdomain'
@@ -83,7 +98,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Upload File',
           description: 'Index file content',
-          icon: 'assets/images/source-icos/file_upload.svg',
+          icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
           resourceType: 'document'
@@ -91,7 +106,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Others',
           description: 'Extract content from other',
-          icon: 'assets/images/source-icos/others.svg',
+          icon: 'assets/icons/content/othersuccess.svg',
           id: 'contentothers',
           sourceType: 'content',
           resourceType: 'document'
@@ -104,7 +119,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Extract FAQs ',
           description: 'Extract FAQs from web pages and documents',
-          icon: 'assets/images/source-icos/globe.svg',
+          icon: 'assets/icons/content/extractfaq.svg',
           id: 'faqWeb',
           sourceType: 'faq',
           resourceType: ''
@@ -112,7 +127,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Import FAQs',
           description: 'Import FAQs from CSV, Json',
-          icon: 'assets/images/source-icos/importfaq.svg',
+          icon: 'assets/icons/content/importfaq.svg',
           id: 'faqDoc',
           sourceType: 'faq',
           resourceType: 'importfaq'
@@ -120,7 +135,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Add FAQs Manually',
           description: 'Manually Input FAQs',
-          icon: 'assets/images/source-icos/addfaqmanually.svg',
+          icon: 'assets/icons/content/addfaq.svg',
           id: 'manual',
           sourceType: 'faq',
           resourceType: 'manual'
@@ -133,7 +148,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Link Virtual Assistant',
           description: 'Add Bot Actions',
-          icon: 'assets/images/source-icos/addBotActions.svg',
+          icon: 'assets/icons/content/linkvirtual.svg',
           id: 'botActions',
           sourceType: 'action',
           resourceType: 'linkBot'
@@ -158,6 +173,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService
   ) { }
@@ -248,12 +264,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
+          if(queuedJobs[0].validation.urlValidation){
+            this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
+          }
+          
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
             this.pollingSubscriber.unsubscribe();
+            //this.crawlOkDisable = true;
           }
+          // if((queuedJobs[0].status == 'queued')){
+          //   this.crawlOkDisable = true;
+          // }else{
+          //   this.crawlOkDisable = false;
+          // }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
           if(!schedule) this.statusObject.status = 'failed';
+          this.crawlOkDisable = false;
         }
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
@@ -302,6 +329,32 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.redirectTo();
     this.cancleSourceAddition();
+  }
+  stopCrwaling(source,event){
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      jobId :   this.crwal_jobId
+
+    }
+    this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
+      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.closeStatusModal();
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to Stop Cwraling');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
   cancleSourceAddition() {
     if (this.resourceIDToOpen) {
@@ -448,6 +501,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   proceedSource() {
     let payload: any = {};
+    let schdVal =  true;
     const crawler = this.crwalObject;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -462,6 +516,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
      this.faqAnotate(payload,endPoint,quaryparms);
+     schdVal = true;
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
@@ -478,13 +533,36 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.name = this.newSourceObj.name;
         crawler.url = this.newSourceObj.url;
         crawler.desc = this.newSourceObj.desc || '';
+        crawler.advanceOpts.useCookies = this.useCookies;
+        crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
+        crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
+        crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
+        crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
+        if(Number(this.crawlDepth)){
+          crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
+        }else{
+          delete crawler.advanceOpts.crawlDepth;
+        }
+        if(Number(this.maxUrlLimit)){
+          crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
+        }else{
+          delete crawler.advanceOpts.maxUrlLimit;
+        }
+        
+        // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
+        // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
         payload = {...crawler};
         delete payload.resourceType;
-        if(!payload.advanceOpts.scheduleOpt){
-          delete payload.advanceOpts.scheduleOpts;
+        if(payload.advanceOpts){
+          if(!payload.advanceOpts.scheduleOpt){
+            delete payload.advanceOpts.scheduleOpts;
+            if(payload.advanceOpts.repeatInterval){
+              delete payload.advanceOpts.repeatInterval;
+            }
+          }
         }
         quaryparms.resourceType = resourceType;
       }
@@ -495,16 +573,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
-      this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-        this.openStatusModal();
-        this.poling(res._id,'scheduler');
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed to add sources ', 'error');
+      if(crawler.advanceOpts.scheduleOpt){
+        if(crawler.advanceOpts.scheduleOpts){
+          if(!crawler.advanceOpts.scheduleOpts.date){
+            schdVal = false;
+          }
+          if(!crawler.advanceOpts.scheduleOpts.time){
+            schdVal = false;
+          }else{
+            if(crawler.advanceOpts.scheduleOpts.time.hour == "" ||crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if(crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+          }
         }
-      });
+      }
+      if(schdVal){
+        this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
+          this.openStatusModal();
+          this.poling(res._id,'scheduler');
+          this.crwal_jobId = res._id
+        }, errRes => {
+          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify('Failed to add sources ', 'error');
+          }
+        });
+      }else{
+        this.notificationService.notify('Please fill Date and Time fields', 'error');
+      }
       // this.callWebCraller(this.crwalObject,searchIndex)
     }
 
@@ -801,7 +898,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-  crawlOption(opt){
+  crawlOption(opt,label){
+    this.crwalOptionLabel =  label;
     if(opt != 'any'){
       this.crwalObject.advanceOpts.crawlEverything = false;
       if(opt == 'allow'){
@@ -823,6 +921,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('PolingDistroyed');
     this.fileObj.fileAdded = false;
   }
+  
+  downloadSampleData(key){
+    let fileName;
+    let filePath;
+    if(key === 'json'){
+    fileName = 'sample.json';
+    filePath = this.sampleJsonPath;
+    }
+    else{
+    fileName = 'sample.csv';
+    filePath = this.sampleCsvPath;
+    }
+    const link : any = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName,
+    link.click();
+    link.remove();
+    }
 }
 
 

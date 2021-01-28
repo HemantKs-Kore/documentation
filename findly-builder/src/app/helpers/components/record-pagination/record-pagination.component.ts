@@ -29,7 +29,7 @@ export class RecordPaginationComponent implements OnInit {
     // if(this.remainder > 0){
     //   this.endPage = this.endPage - 1;
     // }
-    if(this.endPage < 0){
+    if(this.endPage <= 0){
       this.inputPage = 1;
       this.endPage = 1;
     }

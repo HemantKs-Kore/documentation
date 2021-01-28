@@ -8,6 +8,13 @@ export class CrwalObj{
 export class AdvanceOpts{
     scheduleOpt:boolean = false;
     scheduleOpts:scheduleOpts = new scheduleOpts();
+    useCookies = false;
+    respectRobotTxtDirectives = false;
+    crawlBeyondSitemaps= false;
+    isJavaScriptRendered = false;
+    blockHttpsMsgs = false;
+    crawlDepth : number;
+    maxUrlLimit  : number;
     //schedulePeriod: String ="";
     repeatInterval: String ="";
     crawlEverything: boolean = true;
@@ -29,7 +36,7 @@ export class InterVal {
 export class Time{
         hour:String ="";
         minute:String ="";
-        timeOpt:String ="";
+        timeOpt= null;
         timezone:String ="";
 }
 export class IntervalValue {
@@ -45,11 +52,11 @@ export class EndsOn {
       
 }
 export class AllowUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 export class BlockUrl {
-    condition:String = 'Contains';
+    condition:String = 'contains';
     url: String = '';
 }
 

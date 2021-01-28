@@ -4,6 +4,11 @@
   background-color: #F3F8FF !important;
   color: black;
 }
+::ng-deep.content-menu{
+  .active{
+    background-color: #F3F8FF !important;
+  }
+}
 .findlyHeader{
    box-shadow: 0px 1px 5px rgba(32, 33, 36, 0.2);;
    background: $whiteColor;
@@ -106,6 +111,11 @@
                     border-radius: 4px;
                     border: 0;
                     min-width: 175px;
+                    .active{
+                      a{
+                        font-weight: bold !important;
+                      }
+                    }
                     li{
                       a{
                         text-transform: capitalize;
@@ -118,6 +128,7 @@
                   }
                 }
               }
+              
           }
         }
       }
@@ -153,12 +164,12 @@
           top: 19px;
           color: #26344A;
           font-weight: 500;
-          font-size: 12px;
-          line-height: 15px;
-          border: 1px solid #BDC1C6;
+          font-size: 14px;
+          line-height: 17px;
+          //border: 1px solid #BDC1C6;
           box-sizing: border-box;
           border-radius: 4px;
-          padding: 1px 10px;
+          //padding: 1px 10px;
           margin-left: 30px;
           max-width: 160px;
           overflow: hidden;

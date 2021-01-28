@@ -6,24 +6,25 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FilterPipe} from './helpers/filters/filter.pipe';
-import { DateFormatPipe} from './helpers/filters/dateformat.pipe';
+import { FilterPipe } from './helpers/filters/filter.pipe';
+import { DateFormatPipe } from './helpers/filters/dateformat.pipe';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppBodyComponent } from './components/app-body/app-body.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMenuComponent } from './components/app-menu/app-menu.component';
-
-import {HTTP_INTERCEPTORS } from '@angular/common/http';
-import {AuthGuard} from '@kore.services/auth.guard';
-import {AuthInterceptor } from '@kore.services/inteceptors/auth-interceptor';
+import { AppSelectionService } from '@kore.services/app.selection.service'
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthGuard } from '@kore.services/auth.guard';
+import { AuthInterceptor } from '@kore.services/inteceptors/auth-interceptor';
 import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
-import { AppDataResolver} from '@kore.services/resolvers/app.data.resolve';
+import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
+import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { SideBarService } from '@kore.services/header.service';
 import { ToastrModule } from 'ngx-toastr';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppsListingComponent } from './components/apps-home/apps-home';
 import { ScrollSpyDirective } from './helpers/directives/scroll-spy.directive';
@@ -32,9 +33,9 @@ import { SharedModule } from './shared/shared.module';
 import { SummaryComponent } from './components/summary/summary.component';
 import { KRModalComponent } from './shared/kr-modal/kr-modal.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
-import { MatMenuModule} from '@angular/material/menu';
-import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
@@ -72,6 +73,7 @@ import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
 import { SortPipe } from './helpers/sortPipe/sort-pipe';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NouisliderModule } from 'ng2-nouislider';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { WeightsComponent } from './components/weights/weights.component';
@@ -89,8 +91,13 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
 import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { ExperimentsComponent } from './components/experiments/experiments.component';
+import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
+import { StatusDockerComponent } from './components/status-docker/status-docker.component';
+import {  DockStatusService} from './services/dock.status.service';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -154,7 +161,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DateRangePickerComponent,
     RecordPaginationComponent,
     FieldManagementComponent,
-    ExperimentsComponent
+    ExperimentsComponent,
+    FieldManagementComponent,
+    AppExperimentsComponent,
+    StatusDockerComponent
     ],
   imports: [
     BrowserModule,
@@ -178,22 +188,24 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatNativeDateModule,
     AnnotoolModule,
     Ng5SliderModule,
+    NouisliderModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init }
     }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
       }
-   }),
+    }),
     ToastrModule.forRoot({
       timeOut: 5000,
-      autoDismiss	: false,
-      closeButton : true
-    })
+      autoDismiss: false,
+      closeButton: true
+    }),
+    NgxDaterangepickerMd.forRoot()
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],
@@ -203,9 +215,21 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useClass: AuthInterceptor,
       multi: true,
     },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     SortPipe,
-    AuthGuard, AppDataResolver, AccountsDataService, SideBarService, NgbActiveModal , MatSnackBar , ConvertMDtoHTML, MatDatepickerModule
+    AuthGuard,
+    AppDataResolver,
+    QueryPipelineResolver,
+    AccountsDataService,
+    SideBarService,
+    NgbActiveModal,
+    MatSnackBar,
+    ConvertMDtoHTML,
+    MatDatepickerModule,
+    AppSelectionService,
+    DockStatusService
   ],
+  // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

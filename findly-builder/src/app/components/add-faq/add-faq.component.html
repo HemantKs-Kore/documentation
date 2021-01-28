@@ -99,7 +99,7 @@
       <div class="label-text">Question</div>
       <input type="text" placeholder="Enter your question" class="input-text" formControlName="question" autocomplete="off">             
     </div>
-    <div for="tagInput" class="label-text">Key Terms</div>
+    <!-- <div for="tagInput" class="label-text">Key Terms</div>
     <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
       <mat-chip-list #chipList aria-label="tag selection">
         <mat-chip *ngFor="let tag of tags; let index = index;" (removed)="remove(tag)">
@@ -121,13 +121,13 @@
           </mat-option>
         </ng-container>
       </mat-autocomplete>
-    </mat-form-field>
-    <div class="mb-15">
+    </mat-form-field> -->
+    <!-- <div class="mb-15">
       <div class="label-text">Groups</div>
       <app-group-input></app-group-input>
-    </div>
+    </div> -->
   </form>
-  <hr>
+  <!-- <hr> -->
   <div class="text">
     <div class="heading">Answer(s)</div>
     <div class="desc">Reorder the conditioned responses to execute in specific order</div>
@@ -268,7 +268,7 @@
                     <img *ngIf="(faqObj.responseType !== 'horizontalSplit')" src="assets/icons/editor/image-horizantal.svg">
                     <img *ngIf="(faqObj.responseType === 'horizontalSplit')" src="assets/icons/editor/image-horizantal-active.svg" >
                   </div>
-                  <div class="img-block d-none" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
+                  <div class="img-block" (click)="setResponseType('verticalSplit',faqObj)"  [ngClass]="{'active': (faqObj.responseType === 'verticalSplit')}">
                     <img *ngIf="(faqObj.responseType !== 'verticalSplit')" src="assets/icons/editor/image-vertical.svg">
                     <img *ngIf="(faqObj.responseType == 'verticalSplit')" src="assets/icons/editor/image-vertical-active.svg" >
                   </div>

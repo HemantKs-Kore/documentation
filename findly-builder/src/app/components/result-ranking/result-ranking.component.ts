@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+declare const $: any;
 
 @Component({
   selector: 'app-result-ranking',
   templateUrl: './result-ranking.component.html',
   styleUrls: ['./result-ranking.component.scss']
 })
-export class ResultRankingComponent implements OnInit {
+export class ResultRankingComponent implements OnInit, OnDestroy {
   actionLogData : any;
   time;
- 
   iconIndex;
   actionIndex;
   selectedApp;
@@ -23,116 +27,132 @@ export class ResultRankingComponent implements OnInit {
   selectedRecord : any = {};
   resultLogs : boolean = false;
   customizeList : any;
+  totalRecord = 0;
+  limitpage = 10;
+  customizeListBack : any;
   loadingContent : boolean = false;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
-  
+  subscription: Subscription;
   timeLogData : any;
+  lastModifiedOn : any;
+  resultSelected = false;
+  disableDiv = false;
+  collectedRecord = [];
+  permisionView = false; 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
-   
-
+    public dialog: MatDialog,
+    private notificationService: NotificationService,
+    private appSelectionService:AppSelectionService) { }
+    sdk_evenBind(){
+      $(document).off('click','.start-search-icon-div').on('click','.start-search-icon-div',() =>{
+        this.getcustomizeList(20,0);
+      })
+      // $(document).on('click','.start-search-icon-div.active',() =>{
+      //   this.getcustomizeList();
+      // })
+    }
   ngOnInit(): void {
-
+    this.sdk_evenBind();
 
     
-    this.actionLogData = [{
-      "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "New",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "help",
-      "status": "Boosted",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "bot",
-      "status": "Hidden",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },
-    {
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    },{
-      "header" : "Can I make credit card payament via savings account",
-      "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
-      "option": "doc",
-      "status": "Pinned",
-      "time" : "3h ago",
-      "selected" : false,
-      "drop":false
-    }
-  ]
+  //   this.actionLogData = [{
+  //     "header" : "Can I make credit card payament via savings account", // and get notifiaction once done?
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "New",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "help",
+  //     "status": "Boosted",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "bot",
+  //     "status": "Hidden",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },
+  //   {
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   },{
+  //     "header" : "Can I make credit card payament via savings account",
+  //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
+  //     "option": "doc",
+  //     "status": "Pinned",
+  //     "time" : "3h ago",
+  //     "selected" : false,
+  //     "drop":false
+  //   }
+  // ]
   // this.customizeLog = [{
   //     "header" : "Credit card payament",
   //     "description" : "You can setup standard instruction to debit your credit card payement easily via phone or laptopas per your convienece",
@@ -149,15 +169,190 @@ export class ResultRankingComponent implements OnInit {
   //   }]
   this.selectedApp = this.workflowService.selectedApp();
   this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-  this.getcustomizeList();
-  
+  this.loadCustomRankingList();
+  this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
+    this.loadCustomRankingList();
+  })
+  }
+  loadCustomRankingList(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getcustomizeList(20,0);
+    }
   }
   showLogs(){
     this.resultLogs = true;
   }
- 
-  clickCustomizeRecord(record){
+  paginate(event){
+    this.getcustomizeList(event.limit,event.skip);
+    //event.limit;
+    //event.skip;
+  }
+  resetCustomization(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId
+    };
+    let ids = []
+    this.collectedRecord.forEach(element => {
+      ids.push(element._id);
+    });
+    let payload = {
+      ids: ids
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        newTitle : 'Are you sure you want to Restore?',
+        body : 'Selected customiztion will be Restore once you proceed.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.service.invoke('reset.bulkCustomization', quaryparms,payload).subscribe(res => {
+              this.resetSelected();
+              this.selectedRecord= {};
+              this.customizeLog = [];
+              this.notificationService.notify('Bulk reset successfull', 'success');
+             }, errRes => {
+               if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                 this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+               } else {
+                 this.notificationService.notify('Failed', 'error');
+               }
+             });
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+    })
+  
+  }
+  launch(){
+    if(this.selectedRecord){
+     let ball=  document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+     ball.click()
+     let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+     texBox.value = this.selectedRecord.searchQuery;
+     setTimeout(()=>{
+      let go  = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+      go.click();
+      setTimeout(()=>{
+        let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+        customTag.click();
+        let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+        custom.click();
+      },3000)
+      //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
+     },3000);
+    }
+  }
+  resetSelected(){
+    this.customizeList.forEach((element,index) => {
+      element['check'] = false;
+    });
+    this.collectedRecord = [];
+    this.resultSelected = false;
+    this.disableDiv = false;
+    this.getcustomizeList(20,0);
+  }
+  selectAll(){
+    //this.collectedRecord = [];
+    let selected = false;
+    if(this.collectedRecord.length == this.customizeList.length){
+      this.resetSelected();
+    }else if(this.collectedRecord.length >= 0 && this.collectedRecord.length < this.customizeList.length){
+      this.collectedRecord = [];
+      this.disableDiv = true;
+      this.customizeList.forEach((element,index) => {
+        element['check'] = true;
+        this.collectedRecord.push(element);
+      });
+      this.resultSelected = true;
+    }else{
+      this.resetSelected();
+    }
+    // if(this.customizeList.length){
+    //   let selected = this.customizeList.find(element=> {
+    //     return element['check'] == false ? true : false;
+    //   });
+    //   if(!selected){
+    //     this.resetSelected();
+    //   }else{
+    //     this.customizeList.forEach((element,index) => {
+    //       element['check'] = true;
+    //       this.collectedRecord.push(element);
+    //     });
+    //     this.resultSelected = true;
+    //   }
+    // }
+  }
+  multiSelect(record,opt,event){
+   if(event){
+
+   }
+   if(event.target.checked){
+    this.collectedRecord.push(record)
+   }else{
+    this.collectedRecord.forEach((element,index) => {
+      if(element._id == record._id){
+        this.collectedRecord.splice(index,1);
+      }
+    });
+   }
+   if(this.collectedRecord.length > 0){
+    this.resultSelected = true;
+    this.disableDiv =  true;
+  }else {
+    this.resultSelected = false;
+    this.disableDiv =  false;
+  }
+  
+    // let pushRecord = [];
+    // //this.collectedRecord  = [];
+    // if(event.target.checked){
+    //   this.resultSelected = opt;
+    //   // this.collectedRecord.forEach(element => {
+        
+    //   // });
+    //   this.collectedRecord.push(record)
+    // }else {
+    //   let selecetd = false;
+    //   this.customizeList.forEach((element,index) => {
+    //     if(element._id != record._id){
+    //       if(element['check'] == true){
+    //         pushRecord.push(element)
+    //       }
+    //     }
+    //     if(element._id == record._id){
+    //       this.collectedRecord.splice(index,1);
+    //     }
+    //   });
+      
+    //   if(pushRecord.length > 0){
+    //     this.resultSelected = true;
+    //   }else {
+    //     this.resultSelected = false;
+    //     this.collectedRecord = [];
+    //   }
+    // }
+    console.log(this.collectedRecord)
+  }
+  clickCustomizeRecord(record,event?){
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    //opt == 'default' ?  this.resultSelected = false : this.resultSelected = true;
+    //this.multiSelect(record,opt)
+   
     this.selectedRecord = record;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -168,12 +363,13 @@ export class ResultRankingComponent implements OnInit {
   
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;
-      this.actionLogData = res;
+      this.lastModifiedOn = res.lMod;
+      this.actionLogData = res.customizations;
       for(let i =0; i<this.actionLogData.length; i++){
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
-        this.actionLogData[i].target.contentInfo.createdOn = moment(this.actionLogData[i].target.contentInfo.createdOn).fromNow()
-        this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
+        this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
+        //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
         // if(this.actionLogData[i].target.contentType == 'faq'){
         //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
         // }
@@ -187,6 +383,94 @@ export class ResultRankingComponent implements OnInit {
          this.notificationService.notify('Failed', 'error');
        }
      });
+  }
+  removeRecord(actLog){
+    const searchIndex = this.serachIndexId;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      queryPipelineId: this.queryPipelineId,
+      rankingAndPinningId: this.selectedRecord._id,
+      contentId : actLog.target.contentId
+    };
+   this.remove_Record(quaryparms)
+  }
+  remove_Record(quaryparms){
+    // const searchIndex = this.serachIndexId;
+    // const quaryparms: any = {
+    //   searchIndexId: searchIndex,
+    //   queryPipelineId: this.queryPipelineId
+    // };
+    // let result: any = [];
+    // var obj: any = {};
+    // obj.config = {};
+    // obj.contentType = actLog.target.contentType;
+    // //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
+    // obj.contentId = actLog.target.contentId;
+    // if (actLog.customization.action == 'pinned') obj.config['pinIndex'] = -1;
+    // if (actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;
+    // if (actLog.customization.action == 'hidden') obj.config['hidden'] = true;
+    // // obj.config = {
+    // //    pinIndex : -1,
+    // //   //boost: 1.0,
+    // //   //visible: true,
+    // //burried
+    // // }
+    // result.push(obj);
+
+    // let payload: any = {};
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        newTitle : 'Do you want to remove?',
+        body : 'Selected customiztion will be removed once you proceed.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
+              dialogRef.close();
+              this.notificationService.notify('Record Removed', 'success');
+              this.getcustomizeList(20,0);
+              this.actionLogData = [];
+              this.customizeList = [];
+              //console.log(res);
+            }, errRes =>  {
+              if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+              } else {
+                this.notificationService.notify('Failed remove record', 'error');
+              }
+            });
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+    })
+    
+  
+  }
+  
+  applyFilter(value){
+    let list = [...this.customizeListBack];
+    let listPush = [];
+    if(value){
+      list.forEach(element => {
+        if(element.searchQuery.includes(value)){
+          listPush.push(element);
+        }
+      });
+      this.customizeList = [...listPush]
+    }else{
+      //listPush = [...list]
+      this.customizeList = [...this.customizeListBack];
+    }
+   
   }
   timeLog(record){
     // this.selectedRecord = record;
@@ -213,32 +497,76 @@ export class ResultRankingComponent implements OnInit {
        }
      });
   }
- 
+  
   restore(record){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : record._id
     };
-    this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
-      //this.customizeList = res;
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed', 'error');
-       }
-     });
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        newTitle : 'Do you really want to reset?',
+        body : 'Selected queries will be set to Reset once you proceed',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
+              //this.customizeList = res;
+              this.getcustomizeList(20,0);
+              this.actionLogData = [];
+              this.customizeList = [];
+              dialogRef.close();
+             }, errRes => {
+               if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                 this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+               } else {
+                 this.notificationService.notify('Failed', 'error');
+               }
+             });
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
+    
+    
   }
-  getcustomizeList(){
-   
+  getcustomizeList(limit?,skip?){
+   limit ? limit : 20;
+   skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      limit : limit,
+      skip : skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.customizeList = res;
+      this.customizeListBack = [...res];
+      this.totalRecord = res.length
+      this.customizeList.forEach((element,index) => {
+        
+      if(index == 0) {
+        element['check'] = false;
+        this.clickCustomizeRecord(element)
+      }else{
+        element['check'] = false;
+      }
       
+    });
+    if(!this.customizeList.length){
+      this.selectedRecord= {};
+      this.customizeLog = [];
+    }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -266,6 +594,8 @@ export class ResultRankingComponent implements OnInit {
   }
   closeLogs(){
     this.resultLogs = false;
-
+}
+ngOnDestroy(){
+  this.subscription?this.subscription.unsubscribe(): false;
 }
 }

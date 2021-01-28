@@ -19,7 +19,7 @@ app-mainmenu{
 			z-index: 2;
 			.perfect-scroll{
 				.list-group{
-					padding: 15px;	
+					padding: 15px 15px 42px 15px;	
 				}
 				.kr-sg-dropdowns{
 					width: auto;
@@ -27,7 +27,7 @@ app-mainmenu{
 			
 					.faq-filter-add{
 						max-height: 200px;
-						overflow: hidden;;
+						overflow: hidden;
 						width: 100%;
 						padding: 0;
 					}
@@ -161,5 +161,248 @@ app-mainmenu{
 		.sub-menu {
 			padding-left: 10px;
 		}
+		.queryPipelineConfig{
+			.dropdown-open{
+				margin-bottom: 0px !important;
+				.dropdown-input{
+					border: none !important;					
+					border-radius: 0 !important;
+					padding: 0 13px !important;
+					font-weight: bold;
+					font-size: 10px !important;
+					line-height: 14px;
+					color: #0D6EFD !important;
+					background: none !important;
+					font-weight: 700;
+					letter-spacing: 1px;
+					text-transform: uppercase;
+					&::before{
+						display: none;
+					}
+				}
+			}		
+			.content-menu{
+				max-height: 200px;
+				overflow: auto;
+				width: 100%;
+				padding: 0;
+				background: #FFFFFF;
+				box-shadow: 0px 10px 30px rgba(32, 33, 36, 0.3);
+				border-radius: 4px;
+				margin: 0 0 0 12px;
+				.list-name{					
+					padding: 10px 30px 10px 33px !important;
+					position: relative;
+					color: #202124;
+					font-weight: 500;
+					font-size: 14px;
+					line-height: 16px;
+					border-radius: 2px;
+					transition: 0.2s all ease;
+					&.nostars{
+						&:hover{
+							background: #EFF0F1;
+							img{
+								&.star{
+									display: none;
+								}
+								&.star-black{
+									display: block;
+								}
+								&.filter{
+									display: none;
+								}
+								&.edit-black{
+									display: block;
+								}
+							}
+						}
+					}
+					&:hover{
+						background: #EFF0F1;
+						// img{
+						// 	&.star{
+						// 		display: none;
+						// 	}
+						// 	&.star-black{
+						// 		display: block;
+						// 	}
+						// 	&.filter{
+						// 		display: none;
+						// 	}
+						// 	&.edit-black{
+						// 		display: block;
+						// 	}
+						// }
+					}
+					img{
+						cursor: pointer;
+						&.star{
+							position: absolute;
+							left: 12px;
+							top: 10px;
+						}
+						&.star-black{
+							position: absolute;
+							left: 12px;
+							top: 10px;
+							display: none;
+						}
+						&.filter{
+							position: absolute;
+							right: 10px;
+							top: 10px;
+						}
+						&.edit-black{
+							position: absolute;
+							right: 10px;
+							top: 10px;
+							display: none;
+						}
+					}
+				}
+				.create-new{
+					background: #FFFFFF;
+					border-radius: 2px;
+					margin-top: 2px;
+					padding: 10px;
+					color: #0D6EFD;
+					font-weight: normal;
+					font-size: 12px;
+					line-height: 16px;
+					cursor: pointer;
+					border-top: 1px solid #EFF0F1;
+				}
+			}
+			.edit-name{
+				width: 100%;
+			}				
+		}
+		.status-docker{
+			position: absolute;
+			background: #F8F9FA;
+			bottom: 6px;
+			right: 0;
+			width: 100%;
+			padding: 8px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			// justify-content: center;
+			padding-left: 29px;
+			cursor: pointer;
+			.circles{
+				width: 14px;
+				height: 14px;
+				border: 1px solid #0D6EFD;
+				border-radius: 100%;
+				.inner-clrcle{
+					width: 10px;
+					height: 10px;
+					border: 0.5px solid #85B7FE;
+					border-radius: 100%;
+					margin: 0 auto;
+					top: 1px;
+					position: relative;
+				}
+			}	
+			.docker-title{
+				color: #202124;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 17px;
+				margin-left: 10px;
+			}					
+		}
+	}
+}
+.add-experment-popup{
+    .modal-dialog{
+		max-width: 46% !important;
+		width: 46% !important;
+		height: 78% !important;
+        .modal-content{
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 8px !important;
+            .modal-header{
+                .title{
+                    color: #202124;
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 22px;
+                }
+            }
+            .modal-body{
+                .group-radiobutton{
+					&.in-clone{
+						.kr-sg-radiobutton{
+							padding: 14px 0;
+							border-bottom: 1px solid #E4E5E7;
+						}
+					}
+				}
+				.kr-sg-dropdowns{
+					.label-text{
+						font-size: 14px !important;
+						font-weight: 500 !important;
+						line-height: 14px;
+						margin-bottom: 5px;
+					}
+					.dropdown-open {
+						.dropdown-input{
+							&::before{
+								display: none !important;
+							}
+						}
+					}
+					.kr-sg-input-inline-search{
+						.search-with-dropdown{
+							position: absolute;
+							border: 0;
+						}
+						input{
+							height: 34px;
+							padding-right: 10px;
+							padding-left: 30px;                        
+						}
+						.search-icon{
+							top: 10px;
+							width: auto;
+							height: auto;
+							left: 10px;
+							right: auto;
+						}
+					}                            
+					ul{             
+						li{
+							position: relative;                                                                                                      
+						}
+					}
+				}
+            }
+        }
+    }
+}
+
+.statusDockerContent{
+	position: absolute;
+    left: 152px;
+    bottom: 37px;
+    z-index: 9999 !important;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 2px solid #E7F1FF;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.07);
+    border-radius: 4px;
+    width: 320px;
+	.statusDockerLoadingSpinner{
+		background: transparent;
+		width: 223px;
+		height: 40px;
+		padding-top: 10px;
+		border-radius: 4px;
+		opacity: 0.95;
+		padding-left: 7% !important;
 	}
 }

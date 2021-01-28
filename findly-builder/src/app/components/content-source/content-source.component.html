@@ -150,24 +150,27 @@
               <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
               <div class="col_ col-1 pr-0">
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
-              <div class="col_ col-3">
+              <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
-                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">{{statusObj[source.recentStatus].name}} <img
+                  [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}"> {{statusObj[source.recentStatus].name}}
+                  <!-- <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'"> {{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].status) ? statusObj[resourcesStatusObj[source.jobId].status].name : 'In Progress'}}</span>
+                  <span *ngIf="statusObj[source.recentStatus].name != 'In Progress'">{{statusObj[source.recentStatus].name}}</span> -->
+                  <img
                     src="assets/icons/failed-status.svg" class="" placement="top"
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}"
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:''}}"
                     container="body" *ngIf="statusObj[source.recentStatus].name == 'Failed'"><img
                     src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
                     *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
-                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}"></span>
+                    ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus].name}}"></span>
                 <span *ngIf="!(source.recentStatus && statusObj[source.recentStatus])">---</span>
-                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress' && source.jobInfo.executionStats" class="run-percentageDone" >{{ (resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].executionStats) ? resourcesStatusObj[source._id].executionStats.percentageDone : source.jobInfo.executionStats.percentageDone }} </span>  <!-- {{source.jobInfo.executionStats.percentageDone}} -->
-                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'">({{ source.schedule_createdOn }})</span> 
+                <span *ngIf="statusObj[source.recentStatus].name == 'In Progress'" class="run-percentageDone" >{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].executionStats) ? resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>  <!-- {{source.jobInfo.executionStats.percentageDone}} -->
+                <span class="sch-createdOn ml-2"  *ngIf="statusObj[source.recentStatus].name != 'In Progress'"><span *ngIf="source.schedule_createdOn">({{ source.schedule_createdOn }})</span></span> 
                 <span class ="ml-2" *ngIf= "source.recentStatus == 'success' || source.recentStatus == 'failed'" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'success'" class="search-icon" src="assets/icons/succes_duration.svg">
                   <img class ="ml-2" *ngIf="source.recentStatus == 'failed'" class="search-icon" src="assets/icons/failed_duration.svg">
                   {{source.schedule_duration}}</span>
               </div>
-              <div class="col_ col-2">
+              <div class="col_ col-1">
                 <span  >{{source.numPages}}</span>
               </div>
               <div class="col_ col-2" *ngIf="source.advanceSettings">
@@ -179,9 +182,12 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="stopCrwaling(source,$event)"><img class="action_icon"
+                  src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip='Delete' container="body"></span>
+                  
               </div>
             </div>
           </ng-container>
@@ -206,11 +212,11 @@
                       [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'#202124'}">
                       <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'"
                         placement="top"
-                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:''}}"
+                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:''}}"
                         container="body">
                       <img class="inprogressLoader" src="assets/icons/ringLoading.svg"
                         *ngIf="statusObj[source.recentStatus].name == 'In Progress'" placement="top" container='body'
-                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">
+                        ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].statusMessage)?resourcesStatusObj[source.jobId].statusMessage:statusObj[source.recentStatus].name}}">
                       <div class="status-name" *ngIf="statusObj[source.recentStatus].name !== 'Success'">
                         {{statusObj[source.recentStatus].name}}</div>
                     </div>
@@ -334,6 +340,9 @@
                   autocomplete="off" >
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
+              <div class="" *ngIf="!page && !execution">
+                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Recrawl</button>
+              </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
           </div>
@@ -388,7 +397,7 @@
                         <div class="content-body">
                           <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.name}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.title"></div>
-                          <div class="col_ col-3" >{{selectedSource.url}}</div>
+                          <div class="col_ col-3" title="{{selectedSource.url}}">{{selectedSource.url}}</div>
                           <!-- <div class="col_ col-3" *ngIf="editTitleFlag"><input type="text" class="wid" [(ngModel)] = "editConfObj.url"></div> -->
                           <div class="col_ col-2" *ngIf="!editTitleFlag">{{selectedSource.desc}}</div>
                           <div class="col_ col-2" *ngIf="editTitleFlag">
@@ -409,8 +418,8 @@
                           </div>
                           <div class="col_ col-1 p-0 text-right actions-images">
                             <img src="assets/icons/return.svg" *ngIf="selectedSource.extractionType == 'webdomain'" (click)="recrwal('config',selectedSource,$event)" title="Recrawl">
-                            <img src="assets/icons/edit-rule.svg" (click)="editTitle($event)" title="Edit">
-                            <img src="assets/icons/delete-table.svg" (click)="deletePages('source',page ,$event)" title="Delete">
+                            <img src="assets/icons/content/edit_black.svg" (click)="editTitle($event)" title="Edit">
+                            <img src="assets/icons/content/delete.svg" (click)="deletePages('source',page ,$event)" title="Delete">
                           </div>
                         </div>
                       </ng-container>
@@ -475,16 +484,16 @@
                 </div>
 
                 <!-- New Crwal everey thing-->
-              <div class="inner-content row m-0">
-                <div class="col-12 p-0 input-paddings ">
+              <div class="inner-content row m-0 crawl-option">
+                <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crwal Option</div>                                  
+                    <div class="label-text">Crawl Option</div>                                  
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">Choose an option</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any')"><a>Crawl Everything</a></li>                                              
-                          <li (click)="crawlOption('block')"><a>Crawl Everything Except Specific URls</a></li>
-                          <li (click)="crawlOption('allow')"><a >Crawl Only Specific URLs</a></li>
+                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
+                          <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything Except Specific URLs</a></li>
+                          <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
                         </ul>
                       </div>
                   </div>
@@ -502,12 +511,12 @@
                         <button class="dropdown-toggle dropdown-input"
                           data-toggle="dropdown">{{allowUrl.condition}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('Is' , 'allow')"><a>Is</a></li>
-                          <li (click)="urlCondition('Is not', 'allow')"><a>Is not</a></li>
-                          <li (click)="urlCondition('Begins with', 'allow')"><a>Begins with</a></li>
-                          <li (click)="urlCondition('Ends with', 'allow')"><a>Ends with</a></li>
-                          <li (click)="urlCondition('Contains', 'allow')"><a>Contains</a></li>
-                          <li (click)="urlCondition(doesntContains, 'allow')"><a>Doesn't contain</a></li>
+                          <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
+                          <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                          <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
+                          <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
+                          <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
+                          <li (click)="urlCondition('doesNotContains', 'allow')"><a>Doesn't contain</a></li>
                         </ul>
                       </div>
                     </div>
@@ -555,12 +564,12 @@
                         <button class="dropdown-toggle dropdown-input"
                           data-toggle="dropdown">{{blockUrl.condition}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('Is' , 'block')"><a>Is</a></li>
-                          <li (click)="urlCondition('Is not', 'block')"><a>Is not</a></li>
-                          <li (click)="urlCondition('Begins with', 'block')"><a>Begins with</a></li>
-                          <li (click)="urlCondition('Ends with', 'block')"><a>Ends with</a></li>
-                          <li (click)="urlCondition('Contains', 'block')"><a>Contains</a></li>
-                          <li (click)="urlCondition(doesntContains, 'block')"><a>Doesn't contain</a></li>
+                          <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
+                          <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                          <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
+                          <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
+                          <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
+                          <li (click)="urlCondition('doesNotContains', 'block')"><a>Doesn't contain</a></li>
                         </ul>
                       </div>
                     </div>
@@ -599,31 +608,64 @@
 
               <!-- Cookies -->
                 <div class=" group-checkbox">
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox">
+                  <!-- <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grpg" class="checkbox-custom" type="checkbox" name = "blockHttpsMsgs" [checked]="blockHttpsMsgs" [(ngModel)] = "blockHttpsMsgs" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grpg" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Block HTTPS Pages</label>
-                  </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox">
+                  </div> -->
+                  <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grph" class="checkbox-custom" type="checkbox" name = "isJavaScriptRendered" [checked]="isJavaScriptRendered" [(ngModel)] = "isJavaScriptRendered" [ngModelOptions]="{standalone: true}">
                       <label for="checkbox_grph" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Java Script Rendered</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
-                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Restrict Crawling to Sitemaps</label>
+                  <div class="pl-0 kr-sg-checkbox">
+                      <input id="checkbox_grpi" class="checkbox-custom" type="checkbox" name = "crawlBeyondSitemaps" [checked]="crawlBeyondSitemaps" [(ngModel)] = "crawlBeyondSitemaps" [ngModelOptions]="{standalone: true}">
+                      <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Crawl Beyond Sitemap</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
-                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
+                  <div class="pl-0 kr-sg-checkbox">
+                    <input id="checkbox_robot" class="checkbox-custom" type="checkbox" name = "respectRobotTxtDirectives" [checked]="respectRobotTxtDirectives" [(ngModel)] = "respectRobotTxtDirectives" [ngModelOptions]="{standalone: true}">
+                    <label for="checkbox_robot" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Respect robots.txt directives</label>
                   </div>
-                  <div class="col-3 pl-0 kr-sg-checkbox">
-                    <input id="checkbox_grpi" class="checkbox-custom" type="checkbox">
-                    <label for="checkbox_grpi" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
+                  <div class="pl-0 kr-sg-checkbox">
+                    <input id="checkbox_cook" class="checkbox-custom" type="checkbox" name = "useCookies" [checked]="useCookies" [(ngModel)] = "useCookies" [ngModelOptions]="{standalone: true}">
+                    <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
               </div> 
             
+              <div class="inner-content row m-0">
+                <div class="col-3 p-0">                   
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Crawl Depth 
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div> 
+                    </div>
+                    <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
+                      [(ngModel)]="crawlDepth" class="input-text" >
+                  </div>
+                </div>
+                <div class="col-1 p-0"></div>
+                <div class="col-3 p-0"> 
+                  <div class="kr-sg-input-text mb-4">
+                    <div class="label-text">Max URL Limit 
+                      <div class="tooltip-custom">
+                        <img src="assets/icons/info.svg">
+                        <span class="tooltiptext">
+                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="v-text">Value = 0 (No limit)</div>
+                        </span>
+                      </div> 
+                    </div>
+                    <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
+                      [(ngModel)]="maxUrlLimit" class="input-text">
+                  </div>
+                </div>
+              </div>
               <!-- Cookies -->
-               <!-- New Crwal everey thing-->
-                <!-- Old  Crwal Design-->
+               <!-- New Crawl everey thing-->
+                <!-- Old  Crawl Design-->
                 
                 <!-- <div class="col-12 p-0"
                   *ngIf="selectedSource.advanceSettings && selectedSource.advanceSettings.crawlEverything">
@@ -737,13 +779,13 @@
                 </div> -->
                
           <!-- Cookies -->
-           <!-- Old  Crwal Design-->
+           <!-- Old  Crawl Design-->
               </div>
             </perfect-scrollbar>
             <!-- Conf Configuration-->
 
           </div>
-          <div class="accordion-content-info text-left" *ngIf="page">
+          <div class="accordion-content-info text-left" *ngIf="page && sourceStatus == 'success'">
             <div class="header-sec row m-0">
               <div class="col-8 label_text m-0 p-0">Pages</div>
               <div class="col-3 label_text m-0">Last Updated <img src="assets/icons/caretDown.svg" class="ml-1"></div>
@@ -751,15 +793,16 @@
             <div id="accordion" class="accordion-section">
               <perfect-scrollbar [disabled]="workflowService.disablePerfectScroll" class="scroll-table" #perfectScroll
                 [scrollIndicators]="true">
-                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url'];let i = index">
+                <div class="card_content" *ngFor="let page of pagingData | filter: [ pagesSearch, 'url_display'];let i = index">
                   <div class="card_header">
                     <a class="card_link collapsed" data-toggle="collapse" href="#collapseOne{{page._id}}">
                       <div class="row m-0 content" (click)="viewPageDetails();selectedPage=page">
                         <div class="col-8 link-name p-0" title="{{page._source.url || selectedSource.url}}">
                           {{page._source.url || selectedSource.url}}</div>
-                        <div class="col-3 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
-                        <div class="col-1 actions p-0">
-                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh'>
+                        <div class="col-2 date pr-0">{{page.createdOn | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
+                        <div class="col-2 actions p-0">
+                          <img src="assets/icons/refresh-table.svg" ngbTooltip='recrawl' (click)="reCrwalingWeb('pages',page ,$event)" placement="left">
+                          <img src="assets/icons/sidemenu/table-refresh.svg" ngbTooltip='Refresh' placement="left">
                           <img src="assets/icons/sidemenu/delete-table.svg" (click)="deletePages('pages',page ,$event)"
                             ngbTooltip='Delete' placement="left">
                         </div>
@@ -827,10 +870,10 @@
 
           </div>
           <!-- Execution -->
-          <div *ngIf = "execution">
-            <div class="accordion-content-info text-left ">
+          <div *ngIf="execution" class="execution-table-data">
+            <div class="accordion-content-info text-left">
               <div class="table-list-content execution">
-                <div class="kr-sg-data-table with-checkbox"  >
+                <div class="kr-sg-data-table with-checkbox">
                   <section class="table-content">
                     <header class="table-header">
                       <div class="col_ col-3">EXECUTION STATUS</div>
@@ -838,26 +881,85 @@
                       <div class="col_ col-3">TRIGGERED BY</div>
                       <div class="col_ col-3">EXECUTED ON</div>
                     </header>
-                    <ng-container>
-                      <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
-                        <div class="col_ col-3" ><span class="execute-success"></span>
-                          {{history.executionStats.executionStatusMessage}}</div>
-                        <div class="col_ col-3" >{{history.executionStats.duration}}</div>
-                        <div class="col_ col-3" >{{history.executionStats.triggeredBy}}</div>
-                        <div class="col_ col-3">{{history.createdOn}}</div>
-                      </div>
-                      <!-- <div class="content-body">
-                        <div class="col_ col-3" ><span class="execute-failed"></span> 
-                          Execution Failed</div>
-                        <div class="col_ col-3" >1m 35s</div>
-                        <div class="col_ col-3" >Sunil Singh</div>
-                        <div class="col_ col-3">28 Jul 2020</div>
-                      </div> -->
-                    </ng-container>
+                    <perfect-scrollbar class="scroll-table" #perfectScroll>
+                      <ng-container>
+                        <div class="content-body" *ngFor="let history of executionHistoryData; let i = index;">
+                          <div class="eye-img">
+                            <img src="assets/icons/content/eye.svg" (mouseover)="executionLogStatus = true">
+                            <div class="execute-log" *ngIf="executionLogStatus">
+                              <div class="header-title">
+                                <div class="title">EXECUTION LOG</div>
+                            <div class="close-log"><img src="assets/images/close.svg" (click)="executionLogStatus = false"></div>
+                              </div>
+                              <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
+                                <div class="log-details" *ngIf="statlog.stageName">
+                                  <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
+                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                                </div>
+                              </ng-container>
+                              
+                              <!-- <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">URL Validation <span class="time">(5s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">Network Validation <span class="time">(3s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">Indexing Restrictions <span class="time">(2s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/info-sitemap.svg">
+                                <span class="log-name">Content Verification <span class="time">(1m 9s)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/failed-circle.svg">
+                                <span class="log-name">Sitemap Validation <span class="time">(1m)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/icons/content/success.svg">
+                                <span class="log-name">Process in Queue <span class="time">(4m)</span></span>
+                              </div>
+                              <div class="log-details">
+                                <img src="assets/images/success-circle.svg">
+                                <span class="log-name">Successfull</span>
+                              </div> -->
+                            </div>
+                          </div>
+                          <div class="col_ col-3 d-flex">
+                            <span class="execute-success mr-2" ngbTooltip='{{executionObj[history.executionStats.executionStatusMessage].tooltip}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                              <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                            </span>
+                            <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Failed'" src="assets/icons/content/failed.svg">
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
+                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
+                            </span> -->
+                            <div class="text-truncate w-100 pr-4">{{history.executionStats.executionStatusMessage}} </div>
+                            <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
+                            </div>
+                            <div *ngIf = "i == executionPop"> 
+                              HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                              {{executionObj[history.executionStats.executionStatusMessage]}}
+                            </div> -->                            
+                          </div>
+                          <div class="col_ col-3">{{history.executionStats.duration}}</div>
+                          <div class="col_ col-3">{{history.executionStats.triggeredBy}}</div>
+                          <div class="col_ col-3">{{history.createdOn}}</div>
+                        </div> 
+                        <!-- test   (mouseleave) = "mouseleave()" -->
+                        
+                        <!-- test -->                     
+                      </ng-container>
+                    </perfect-scrollbar>                    
                   </section>
                 </div>
               </div>
             </div>
+            <app-record-pagination [totalRecord]='executionHistoryData.length' [limitpage]='25' (pageChanged)="paginate($event,'history')"></app-record-pagination>
           </div>
           <!-- Execution -->
         </ng-container>
@@ -890,17 +992,24 @@
     </div>
 
   </div>
-  <div class="modal-footer moadal-footer-config" *ngIf="isConfig">
+  <div class="modal-footer moadal-footer-config footer-btns" *ngIf="isConfig">
+   
     <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal"
     (click)="proceedWithConfigUpdate()">Save</button>
     <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal"
       (click)="closeStatusModal()">Cancel</button>
-     
+      <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"
+      (click)="deletePages('source',selectedSource,null)">Delete</button>
   </div>
   <div class="footer-btns" *ngIf="sliderStep === 1 && selectedPage">
     <button class="kr-sg-button-secondary-two btn_lg" (click)="deletePages('pages',selectedPage ,null)">Delete</button>
-    <button class="kr-sg-button-primary btn_lg">Check for Update</button>
-    <button class="kr-sg-button-secondary btn_lg">Recrawl</button>
+    <button class="kr-sg-button-primary btn_lg" [disabled] = "loadingcheckForUpdate" (click) = "checkForUpdate(selectedPage)">Check for Update</button>
+    <button class="kr-sg-button-secondary btn_lg" (click) = "reCrwalingWeb('pages',selectedPage ,null)">Recrawl</button>
+    <div class="parentloader">
+      <div class="mainLoadingSpinner" *ngIf="loadingcheckForUpdate" [@fadeInOutAnimation]>
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      </div>
+    </div>
   </div>
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">

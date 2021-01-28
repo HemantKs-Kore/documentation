@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
@@ -6,8 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 @Component({
@@ -15,7 +16,7 @@ import { of } from 'rxjs/internal/observable/of';
   templateUrl: './weights.component.html',
   styleUrls: ['./weights.component.scss']
 })
-export class WeightsComponent implements OnInit {
+export class WeightsComponent implements OnInit, OnDestroy {
   addEditWeighObj:any= null;
   loadingContent = true;
   addDditWeightPopRef:any;
@@ -29,6 +30,10 @@ export class WeightsComponent implements OnInit {
   indexPipelineId;
   searching;
   searchField
+  fieldWarnings:any = {
+    NOT_INDEXED:'Associated field is not indexed',
+    NOT_EXISTS:'Associated field has been deleted'
+  }
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
   constructor(
@@ -36,6 +41,7 @@ export class WeightsComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
+    private appSelectionService:AppSelectionService
   ) { }
   selectedApp: any = {};
   serachIndexId;
@@ -46,15 +52,24 @@ export class WeightsComponent implements OnInit {
   searchFailed;
   weightsObj:any = {};
   currentEditDesc = '';
+  subscription: Subscription;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
-    this.getWeights();
+    this.loadWeights();
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+      this.loadWeights();
+    })
+  }
+  loadWeights(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.getWeights();
+    }
   }
   selectedField(event){
       this.addEditWeighObj.fieldName = event.fieldName;
+      this.addEditWeighObj.fieldId = event._id;
       this.addEditWeighObj.name = event.fieldName;
   }
    getFieldAutoComplete(query){
@@ -81,6 +96,8 @@ export class WeightsComponent implements OnInit {
           name : element.name,
           desc : element.desc,
           isField:element.isField,
+          fieldId:  element.fieldId,
+          showFieldWarning: element.showFieldWarning,
           sliderObj :new RangeSlider(0, 10, 1, element.value,name + i)
          }
          this.weights.push(obj);
@@ -94,6 +111,7 @@ export class WeightsComponent implements OnInit {
       queryPipelineId:this.queryPipelineId,
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
+      this.notificationService.notify('Weights restored successfully','success');
       this.pipeline=  res.pipeline || {};
       this.prepereWeights();
       if(dialogRef && dialogRef.close){
@@ -109,13 +127,16 @@ export class WeightsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to restore weights?',
+        body:'Weights will be restored.',
+        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
 
@@ -207,7 +228,8 @@ export class WeightsComponent implements OnInit {
       name: weight.name,
       value:weight.sliderObj.default,
       desc:weight.desc,
-      isField: weight.isField
+      isField: weight.isField,
+      fieldId: weight.fieldId
      }
      tempweights.push(obj);
    });
@@ -251,13 +273,16 @@ export class WeightsComponent implements OnInit {
       event.preventDefault();
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete selected rankable field?',
+        body:'Selected rankable field will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -271,5 +296,8 @@ export class WeightsComponent implements OnInit {
           console.log('deleted')
         }
       })
+  }
+  ngOnDestroy(){
+    this.subscription?this.subscription.unsubscribe(): false;
   }
 }

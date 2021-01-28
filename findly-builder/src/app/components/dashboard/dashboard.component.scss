@@ -57,6 +57,10 @@
                     background: #0D6EFD;
                     color: #ffffff;
                 }
+                &.selected{
+                    background: #0D6EFD;
+                    color: #ffffff;
+                }
             }
         }
         .export{
@@ -94,6 +98,27 @@
                             font-weight: bold;
                             font-size: 25px;
                             padding: 11px 0;
+                            .ctr{
+                                color: #9AA0A6;
+                                font-weight: normal;
+                                font-size: 14px;
+                                line-height: 17px;
+                                padding-left: 30px;
+                                display: inline-block;
+                                position: relative;
+                                &::before{
+                                    content: "";
+                                    position: absolute;
+                                    width: 1px;
+                                    height: 100%;
+                                    background: #9AA0A6;
+                                    top: 0;
+                                    left: 15px;
+                                }
+                                .ctr-count{
+                                    font-weight: 600;
+                                }
+                            }
                         }
                         .data-percentage{
                             display: flex;
@@ -317,6 +342,17 @@
     .text-center{
         text-align: center!important;
     }
+    .create_new_link{
+        color: #0D6EFD;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+        display: inline-block;
+        cursor: pointer;
+        padding: 12px 0px 0 0px;
+        float: right;
+    }   
+    
 }
 
 ::ng-deep perfect-scrollbar .ps--active-y{
