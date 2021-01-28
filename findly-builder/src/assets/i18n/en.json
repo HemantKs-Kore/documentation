@@ -368,6 +368,7 @@
     "enter_value" : "Enter Value",
     "and" : "AND",
     "_or" : "OR",
-    "add_rule" : "Add Rule"
+    "add_rule" : "Add Rule",
+    "edit_structured_data" : "Edit Structured Data"
  }
 }
