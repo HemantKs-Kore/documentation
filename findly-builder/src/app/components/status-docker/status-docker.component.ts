@@ -127,7 +127,7 @@ export class StatusDockerComponent implements OnInit {
         res => {
           this.statusDockerLoading = true;
           this.dockersList.splice(index, 1);
-          this.notify.notify(res.msg, 'success');
+          // this.notify.notify(res.msg, 'success');
           this.statusDockerLoading = false;
         },
         errRes => {
@@ -150,7 +150,7 @@ export class StatusDockerComponent implements OnInit {
         this.statusDockerLoading = true;
         // this.dockersList = [];
         this.poling();
-        this.notify.notify(res.msg, 'success');
+        // this.notify.notify(res.msg, 'success');
       },
       errRes => {
         this.statusDockerLoading = false;
