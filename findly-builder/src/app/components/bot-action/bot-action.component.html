@@ -170,6 +170,7 @@
   </ng-container>
   <!-- <div class="empty-content-container" *ngIf="!(bots && bots.length) && !loadingContent"> -->
   <ng-container *ngIf="!linkedBotID && !loadingContent">
+    <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/botactions-empty.svg"></div>
       <ng-container >
@@ -195,7 +196,9 @@
       </div>
       <button class="kr-sg-button-primary" (click)="openBotsModalElement()">Link a Bot</button>
     </div> -->
+  </perfect-scrollbar>
   </ng-container>
+
 </div>
 
 <kr-modal modalType="center" modalClass="linkExistingBotsModal" #botsModalElement>

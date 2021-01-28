@@ -48,8 +48,9 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
-  <div  class="empty-landing-screen"
-  *ngIf="!loadingContent && !(rules && rules.length)">
+  <ng-container *ngIf="!loadingContent && !(rules && rules.length)">
+  <perfect-scrollbar class="empty-scroll">
+  <div  class="empty-landing-screen">
     <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/businessrules-empty.svg"></div>
     <ng-container >
         <div class="empty-title">You haven’t added any rules yet!</div>
@@ -63,6 +64,8 @@
         <div class="desc-text">Your Search Query doesn't match with any record.</div>
     </ng-container>
 </div>
+</perfect-scrollbar>
+</ng-container>
   <div class="table_section" *ngIf="!loadingContent && rules && rules.length">
     <div class="header_sec row m-0">
       <div class="col-3 content withcheckbox">
