@@ -28,8 +28,9 @@
             <img src="assets/icons/clock.svg">
         </div>
     </div> -->
-    <div  class="empty-landing-screen"
-    *ngIf="!(facets && facets.length) && !loadingContent">
+    <ng-container  *ngIf="!(facets && facets.length) && !loadingContent">
+    <perfect-scrollbar class="empty-scroll">
+    <div  class="empty-landing-screen">
       <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/facets-empty.svg"></div>
       <ng-container >
           <div class="empty-title">You haven’t added any Facets yet!</div>
@@ -43,7 +44,9 @@
           <div class="desc-text">Your Search Query doesn't match with any record.</div>
       </ng-container>
   </div>
-    <div class="table_section">
+</perfect-scrollbar>
+</ng-container>
+    <div class="table_section" *ngIf="(facets && facets.length)">
         <div class="header_sec row m-0">
             <div class="col-4 content withcheckbox">
                 <div class="kr-sg-checkbox p-0 m-0">

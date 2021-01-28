@@ -439,8 +439,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.fileObj.fileUploadInProgress = true;
       this.fileObj.fileName = fileName;
-      this.fileObj.file_ext = _ext;
+      this.fileObj.file_ext = _ext.replace(".", "");
+
     }
+   
     this.onFileSelect(event.target, _ext);
   }
   onFileSelect(input: HTMLInputElement, ext) {

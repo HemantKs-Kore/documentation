@@ -48,7 +48,7 @@
                                 <span class="ml-3 filter-title" (click)="openAdvancedSearch()">{{'structuredData.editFilter' | translate}}</span>
                             </ng-container>
                         </div>
-                        <div class="text-right mb-1 col-4 p-0">
+                        <div class="text-right mb-1 col-4 p-0" *ngIf="!noItems || emptySearchResults">
                             <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg ml-2" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
                             <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                            
                         </div>                        
