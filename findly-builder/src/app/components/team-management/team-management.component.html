@@ -1,4 +1,4 @@
-<div class="facets-main-container">
+<div class="facets-main-container d-none">
     <div class="mainLoadingSpinner" *ngIf="loadingContent" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
@@ -17,85 +17,137 @@
                     </div>
              </div>
         </div>
-    <div class="table_section">
-        <div class="header_sec row m-0">
-            <div class="col-4 content withcheckbox">
-                <div class="kr-sg-checkbox p-0 m-0">
-                    <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
-                    <label for="selectAllFacets" class="checkbox-custom-label"></label>
+        <div class="table_section">
+            <div class="header_sec row m-0">
+                <div class="col-4 content withcheckbox">
+                    <div class="kr-sg-checkbox p-0 m-0">
+                        <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
+                        <label for="selectAllFacets" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="title">MEMBERS</div>
                 </div>
-                <div class="title">MEMBERS</div>
+                <div class="col-2 content">ROLE</div>
+                <div class="col-6 content"><button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Delete</button>
+                </div>
             </div>
-            <div class="col-2 content">ROLE</div>
-            <div class="col-6 content"><button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Delete</button>
+            <perfect-scrollbar class="scroll_table">       
+                <ng-container *ngIf="(membersList && membersList.length)">
+                    <div class="body_sec row m-0" *ngFor="let member of membersList" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
+                        <div class="col-4 content withcheckbox">
+                            <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
+                                <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(member)" type="checkbox">
+                                <label for="{{member._id}}" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title">
+                                <img class="pr-1" *ngIf="member.showFieldWarning && (member.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[member.showFieldWarning] || member.showFieldWarning}}'>
+                            {{member.emailId}}</div>
+                        </div>
+                        <div class="col-2 content">{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}</div>
+                        <div class="col-2 content actions" *ngIf="member.roleInfo[0].role!=='Owner'">
+                            <img id='btn_delete_facet_tab' class="action_icon" (click)="deleteFacets(member)" src="assets/icons/cross-cancel.svg">
+                        </div>
+                    </div> 
+
+                </ng-container>    
+                <div class="divBlockEmptylastChild text-center">         
+                    <div class="desc">{{'facets.no_search_results_found'| translate}}</div>
+                </div>     
+            </perfect-scrollbar>
+        </div>          
+    </div>
+</div>
+
+
+<div class="team-managment-main-container">
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'please_wait'| translate}}</span>
+    </div>
+    <div *ngIf="!loadingContent">
+        <div class="seach_add_feild">
+            <div class="title col-4 p-0">Team Management</div>
+            <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0">
+                <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
+                </div> 
+                <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                <div class="add_feild" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">Add Members</div>
             </div>
         </div>
-        <perfect-scrollbar class="scroll_table">       
+        <div class="table-container-data-teams">
+            <div class="table-header row">
+                <div class="col-4 with-checkbox title">
+                    <div class="kr-sg-checkbox p-0 m-0">
+                        <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
+                        <label for="selectAllFacets" class="checkbox-custom-label"></label>
+                    </div>
+                    <div class="title p-0">MEMBERS</div>
+                </div>
+                <div class="col-5 title">ROLE</div>  
+                <div class="col-3 title text-right delete-action">
+                    <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">Delete</button>
+                </div>              
+            </div>
             <ng-container *ngIf="(membersList && membersList.length)">
-                <div class="body_sec row m-0" *ngFor="let member of membersList" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
-                    <div class="col-4 content withcheckbox">
-                        <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
-                            <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(member)" type="checkbox">
-                            <label for="{{member._id}}" class="checkbox-custom-label"></label>
+                <perfect-scrollbar class="scroll-table-data">
+                    <div class="table-body row" *ngFor="let member of membersList" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
+                        <div class="col-4 withcheckbox title">
+                            <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
+                                <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(member)" type="checkbox">
+                                <label for="{{member._id}}" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="title p-0 text-truncate" title="{{member.emailId}}">{{member.emailId}}</div>
                         </div>
-                        <div class="title">
-                            <img class="pr-1" *ngIf="member.showFieldWarning && (member.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[member.showFieldWarning] || member.showFieldWarning}}'>
-                        {{member.emailId}}</div>
+                        <div class="col-5 title text-truncate" title="{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}">{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}</div>
+                        <div class="col-3 title text-right action-close" *ngIf="member.roleInfo[0].role!=='Owner'">
+                            <img id='btn_delete_facet_tab' class="action_icon" (click)="deleteFacets(member)" src="assets/icons/cross-cancel.svg">
+                        </div>
                     </div>
-                    <div class="col-2 content">{{member.roleInfo[0].role===''?'-':member.roleInfo[0].role}}</div>
-                    <div class="col-2 content actions" *ngIf="member.roleInfo[0].role!=='Owner'">
-                        <img id='btn_delete_facet_tab' class="action_icon" (click)="deleteFacets(member)" src="assets/icons/cross-cancel.svg">
-                    </div>
-                </div> 
-
-            </ng-container>    
+                </perfect-scrollbar>
+            </ng-container>
             <div class="divBlockEmptylastChild text-center">         
                 <div class="desc">{{'facets.no_search_results_found'| translate}}</div>
-            </div>     
-        </perfect-scrollbar>
-    </div>
-          
-</div>
+            </div>
+        </div> 
+    </div>    
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal"  #facetModalPouup>   
+<kr-modal modalType="center" modalClass="modal_popups_ smallModal add-members-modal-popup"  #facetModalPouup>   
     <div class="modal-header">
-        <div class="title"><b>Add Members</b></div>
+        <div class="title">Add Members</div>
         <div class="close_icon" (click)="closeModal()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <ng-container>
     <perfect-scrollbar class="perfect-scroll-modal-body">
     <div class="modal-body textAlignLeft">
-        <div class="top_sec" >
-            <div class="row m-0 mb-20">
-                <div class="kr-sg-input-text col-12 p-0">
-                    <div class="label-text">App Members</div>
-                    <mat-form-field class="example-chip-list">
-                        <mat-chip-list #chipList aria-label="Fruit selection">
-                          <mat-chip
-                            *ngFor="let member of members"
-                            [selectable]="selectable"
-                            [removable]="removable"
-                            (removed)="remove(member)">
-                            {{member}}
-                            <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
-                          </mat-chip>
-                          <input
-                            placeholder="Type and enter to add"
-                            #fruitInput
-                            [formControl]="fruitCtrl"
-                            
-                            [matChipInputFor]="chipList"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (matChipInputTokenEnd)="add($event)">
-                        </mat-chip-list>
-                        <!--[matAutocomplete]="auto" <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                          <mat-option *ngFor="let membersug of filteredFruits | async" [value]="membersug">
-                            {{membersug}}
-                          </mat-option>
-                        </mat-autocomplete> -->
-                      </mat-form-field>
-                </div>
+        <div class="row m-0 mb-20">
+            <div class="kr-sg-input-text col-12 p-0">
+                <div class="label-text">App Members</div>
+                <mat-form-field class="example-chip-list">
+                    <mat-chip-list #chipList aria-label="Fruit selection">
+                      <mat-chip
+                        *ngFor="let member of members"
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        (removed)="remove(member)">
+                        {{member}}
+                        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+                      </mat-chip>
+                      <input
+                        placeholder="Type and enter to add"
+                        #fruitInput
+                        [formControl]="fruitCtrl"
+                        
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <!--[matAutocomplete]="auto" <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let membersug of filteredFruits | async" [value]="membersug">
+                        {{membersug}}
+                      </mat-option>
+                    </mat-autocomplete> -->
+                </mat-form-field>
             </div>
         </div>
     </div>
