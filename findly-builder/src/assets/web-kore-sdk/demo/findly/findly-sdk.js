@@ -359,6 +359,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.isDev) {
         baseAPIServer = window.appConfig.API_SERVER_URL;
       }
+
+      if (_self.baseAPIServer) {
+        baseAPIServer = _self.baseAPIServer;
+      }
       var baseUrl = baseAPIServer + "/searchAssistant";
       var searchAPIURL = baseAPIServer + "/api/1.1/findly/";
       var liveSearchAPIURL = baseAPIServer + "/api/1.1/searchAssist/";
@@ -991,7 +995,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               ${classes}"\
             {{/if}}\
             {{if hideSearchIcon}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; width:88% !important;">\
+              style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
               style="position: absolute; bottom: 0px; color:#8a959f; padding-left:46px!important;"> \
             {{/if}}\
@@ -1006,7 +1010,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               ${classes}"\
             {{/if}}\
             {{if hideSearchIcon}}\
-              style="position: absolute; bottom: 0px;  width:88% !important; \
+              style="position: absolute; bottom: 0px;  \
             {{else}}\
               style="position: absolute; bottom: 0px; padding-left:46px!important; \
             {{/if}}\
@@ -1023,6 +1027,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div id="textFromServer"></div> \
               </div> \
             {{/if}}\
+            {{if showButton}}\
             <button class="search-button">\
             {{if buttonText}}\
               ${buttonText}\
@@ -1030,6 +1035,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               Go\
             {{/if}}\
             </button>\
+            {{/if}}\
           </div>\
         </script>';
 
@@ -3242,6 +3248,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var selectedFacet = $(this).attr('id');
 
         _self.prepAllSearchData(selectedFacet);
+        _self.pubSub.publish('facet-selected', {selectedFacet : selectedFacet});
       })
     }
     FindlySDK.prototype.recentClick = function () {
@@ -6085,6 +6092,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       /*if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }*/
+      _self.baseAPIServer = findlyConfig.baseAPIServer;
       _self.initWebKitSpeech();
       _self.setAPIDetails();
       _self.initKoreSDK(_findlyConfig);
@@ -6142,7 +6150,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.addSourceType = function(config) {
       var _self = this;
-      
+      _self.pubSub.subscribe('facet-selected', (topic, data) => {
+        var facets = _self.getFacetsAsArray(_self.vars.searchObject.liveData.facets);
+        facets.forEach(function(facet) {
+          $('#' + facet.key).removeClass(config.selectedClass).addClass(config.unSelectedClass);
+        })
+        $('#' + data.selectedFacet).removeClass(config.unSelectedClass).addClass(config.selectedClass);
+        if (!data.selectedFacet || data.selectedFacet === "all results") {
+          $('.facet:first').removeClass(config.unSelectedClass);
+          $('.facet:first').addClass(config.selectedClass);
+        }
+
+      });
+
       _self.pubSub.subscribe('sa-source-type', (msg, data) => {
         var facets = data;
         if (config.templateId) {
@@ -6218,7 +6238,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.customSearchResult = true;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
           console.log("1111111111111", data);
-          //data.tasks = [{"contentType":"task","childBotId":"st-40e3a0c6-569d-56d9-a142-967ffc3a7192","childBotName":"BookAppointment","taskId":"dg-c835cfbc-871d-5415-b6db-7a3f7af24a2a","name":"Book Appointment","text":"Book Appointment","titleText":"Book Appointment","payload":"RXhlY3V0ZV9Cb29rIEFwcG9pbnRtZW50","config":{"boost":0,"pinIndex":0,"visible":"true"},"feedback":{"appearance":0,"click":0},"taskName":"Book Appointment"}];
+          if (!data.selectedFacet) {
+            _self.pubSub.publish('facet-selected', {selectedFacet : 'all results'});
+          }
+          if (data.selectedFacet && data.selectedFacet === 'faq') {
+            data.pages = [];
+            data.documents = [];
+            data.tasks = [];
+          }
+          if (data.selectedFacet && data.selectedFacet === 'page') {
+            data.faqs = [];
+            data.documents = [];
+            data.tasks = [];
+          }
+          if (data.selectedFacet && data.selectedFacet === 'document') {
+            data.faqs = [];
+            data.pages = [];
+            data.tasks = [];
+          }
+          if (data.selectedFacet && data.selectedFacet === 'task') {
+            data.faqs = [];
+            data.pages = [];
+            data.documents = [];
+          }
           var pageContainer = ''; var faqContainer = ''; var actionContainer = '';
           if (config.container) {
             pageContainer = faqContainer = actionContainer = config.container;

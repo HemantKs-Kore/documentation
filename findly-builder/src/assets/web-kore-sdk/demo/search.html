@@ -5,7 +5,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="css/search.css" rel="stylesheet">
+    
 </head>
+
 <body>
 
     <div class="main">
@@ -14,8 +16,7 @@
                 <img src="images/future1.png"/>
             </div>
 
-            <div class="search">
-                <input type="text" class="search-input" placeholder="Search Here"/>
+            <div id="search-box-container" class="search">
                 <div class="cancel-search">
                     <img src="images/cancel.png"/>
                 </div>
@@ -34,51 +35,12 @@
             
         </div>
 
-        <div class="types-container">
-            <div class="un-selected-type">ALL 
-                
-                <div class="type-count-container">
-                    <p class="type-count">12</p>
-                    
-                </div>
-                
-            </div>
-
-            <div class="un-selected-type">Pages 
-                
-                <div class="type-count-container">
-                    <p class="type-count">5</p>
-                  
-                </div>
-                
-            </div>
-
-            <div class="un-selected-type">FAQs 
-                <div class="type-count-container">
-                    <p class="type-count">25</p>
-                </div>
-                
-            </div>
-
-            <div class="selected-type">Documents 
-                <div class="type-selected"></div>
-                <div class="type-count-container">
-                    <p class="type-count">105</p>
-                    <div class="type-selected-count"></div>
-                </div>
-                
-            </div>
-
-            <div class="filter"> 
-                <div class="filter-icon">
-                    <img src="images/filter.png"/>
-                </div>
-                <div class="filter-title">
-                    Filters
-                </div>
-                
-            </div>
+        <div id="types-container" class="types-container">
             
+            
+        </div>
+        <div class="filler">
+
         </div>
         <div class="show-result">
             Showing 12 results for "apply new credit card"
@@ -87,94 +49,14 @@
             Near by Branch/ATM
         </div>
         <div class="map"></div>
-        <div class="type-section quick-actions">
-            Quick Actions
-        </div>
-        <div class="actions">
-            <div class="actions-container">
-                <div class="action-icon">
-                    <img src="images/action-icon.png"/>
-                </div>
-                <div class="action">
-                    <div class="action-text">Book Appointment</div>
-                </div>
-            </div>
-            <div class="actions-container">
-                <div class="action-icon">
-                    <img src="images/action-icon.png"/>
-                </div>
-                <div class="action">
-                    <div class="action-text">Compare Credit Cards</div>
-                </div>
-            </div>
-        </div>
-        <div class="type-section related-pages">
-            Related Pages
-        </div>
-        <div class="pages">
-            <div class="page">
-                test page1
-                <div class="arrow">
-                    <img src="images/arrow.png"/>
-                </div>
-            </div>
-            
-            <div class="page">
-                test page2
-                <div class="arrow">
-                    <img src="images/arrow.png"/>
-                </div>
-            </div>
-            <div class="page">
-                test page3
-                <div class="arrow">
-                    <img src="images/arrow.png"/>
-                </div>
-            </div>
-            
-            <div class="page">
-                test page4
-                <div class="arrow">
-                    <img src="images/arrow.png"/>
-                </div>
-            </div>
-            <div class="page">
-                test page5
-                <div class="arrow">
-                    <img src="images/arrow.png"/>
-                </div>
-            </div>
-            <div class="more">
-                Show More
-            </div>
+        
+        <div id="actions-container" class="quick-actions-container">
             
         </div>
+        <div id="pages-container" class="pages-container">
 
-        <div class="type-section mostly-asked">
-            Mostly Asked
         </div>
-        <div class="faqs">
-            <div class="page">
-                <div class="expand">
-                    <img src="images/expand.png"/>
-                </div>
-                test faq1
-            </div>
-            <div class="page">
-                <div class="expand">
-                    <img src="images/expand.png"/>
-                </div>
-                test faq2
-            </div>
-            <div class="page">
-                <div class="expand">
-                    <img src="images/expand.png"/>
-                </div>
-                test faq3
-            </div>
-            <div class="more">
-                Show All
-            </div>
+        <div id="mostly-asked-container" class="mostly-asked-container">
         </div>
     </div>
     <div class="conversation-container">
@@ -192,4 +74,144 @@
         </div>
     </div>
 </body>
+    
+    <script src="libs/kore-no-conflict-start.js" type="text/javascript"></script>
+    <script src="/assets/web-kore-sdk/libs/uuid.min.js"></script>
+    <script src="/assets/web-kore-sdk/demo/libs/jquery.js" type="text/javascript"></script>
+    <script src="/assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js" type="text/javascript"></script>
+    <script src="/assets/web-kore-sdk/demo/libs/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="/assets/web-kore-sdk/demo/libs/jquery-ui.min.css" rel="stylesheet"></link>
+    <script src="/assets/web-kore-sdk/kore-bot-sdk-client.js"></script>
+    <script src="findly/findly-sdk.js" type="text/javascript"></script><!--findly sdk file-->
+    <script src="/assets/web-kore-sdk/libs/pubsub.js" type="text/javascript"></script>
+    <script src="/assets/web-kore-sdk/libs/lodash.min.js" type="text/javascript"></script>
+    <script src="/assets/web-kore-sdk/demo/findly/findly-config.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var findlyConfig=window["KoreSDK"].findlyConfig;
+        findlyConfig.baseAPIServer = 'http://localhost:4200';
+        var findlySdk = new FindlySDK(findlyConfig);
+        
+        findlySdk.initialize(findlyConfig);
+
+        findlySdk.addSearchText({
+            container : "search-box-container",
+            classes : 'search-input',
+            placeholder : "Search here",
+            showGreeting : false,
+            microphone : false,
+            hideSearchIcon : true,
+            autoSuggest : true,
+            showButton : false
+        });
+
+        findlySdk.addSearchResult({
+            pageContainer : 'pages-container',
+            pageTemplateId : 'page-template',
+            faqContainer : 'mostly-asked-container',
+            faqTemplateId : 'faq-template',
+            actionContainer : 'actions-container',
+            actionTemplateId : 'actions-template'
+        })
+
+        findlySdk.addSourceType({
+            container : 'types-container',
+            templateId : 'source-type-template',
+            selectedClass : 'type-selected',
+            unSelectedClass : 'un-selected-type'
+        })
+    
+    </script>
+    <script id="source-type-template" type="text/x-jqury-tmpl">
+            {{each(key, facet) facets }}
+                <a class="capital un-selected-type facet" id="{{= facet.key}}" href="#home" data-toggle="tab">
+                    {{= getFacetDisplayName(facet.key)}} ({{= facet.value}})
+                </a>
+            {{/each}}
+
+
+
+            <div class="filter"> 
+                <div class="filter-icon">
+                    <img src="images/filter.png"/>
+                </div>
+                <div class="filter-title">
+                    Filters
+                </div>
+                
+            </div>
+    </script>
+    <script id="page-template" type="text/x-jqury-tmpl">
+        {{if pages.length > 0 }}
+            <div class="type-section related-pages">
+                Related Pages
+            </div>
+            <div class="pages">
+                {{each(key, result) pages }}
+                    {{if (key < 5) }}
+                        <div class="page">
+                            ${result.pageTitle}
+                            <div class="arrow">
+                                <img src="images/arrow.png"/>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+                {{if pages.length > 5 }}
+                    <div class="more">
+                        Show More
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
+</script>
+<script id="faq-template" type="text/x-jqury-tmpl">
+    {{if faqs.length > 0 }}
+        <div class="type-section mostly-asked">
+            Mostly Asked
+        </div>
+        <div class="faqs">
+            {{each(key, result) faqs }}
+                {{if (key < 5) }}
+                    <div class="page">
+                        <div class="expand">
+                            <img src="images/expand.png"/>
+                        </div>
+                        ${result.question}
+                    </div>
+                {{/if}}
+            {{/each}}
+            
+            {{if faqs.length > 5 }}
+                <div class="more">
+                    Show All
+                </div>
+            {{/if}}
+        </div>
+    {{/if}}
+</script>
+<script id="actions-template" type="text/x-jqury-tmpl">
+    {{if tasks.length > 0 }}
+        <div class="type-section quick-actions">
+            Quick Actions
+        </div>
+        <div class="actions">
+            {{each(key, task) tasks}}
+            <div class="actions-container">
+                <div class="action-icon">
+                    <img src="images/action-icon.png"/>
+                </div>
+                <div class="action">
+                    <div class="action-text creditCardDetails search-task bot-action" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">
+                        ${task.taskName}
+                    </div>
+                    <div class="task-text">
+                        ${task.taskText}
+                    </div>
+                </div>
+            </div>
+          {{/each}}\
+        </div>
+    {{/if}}
+</script>
 </html>

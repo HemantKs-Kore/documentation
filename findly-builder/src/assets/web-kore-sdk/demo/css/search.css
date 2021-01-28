@@ -9,7 +9,8 @@ body {
     margin-left: 6.8%;
     margin-right: 6.8%;
     top: 0px;
-    position: absolute;
+    position: relative;
+    display: inline-block;
 }
 .heading {
     position: relative;
@@ -21,12 +22,39 @@ body {
     background: #056DAE;
 }
 .type-selected {
+    position: relative;
+    top: calc(50% - 17px/2);
+    margin-right: 5.5%;
+    font-style: normal;
+    font-weight: 700 !important;
+    font-size: 14px;
+    line-height: 17px;
+    color: #4E4E4E !important;
+    text-decoration-line: none;
+    text-decoration-color: #056DAE;
+    text-decoration-thickness: 2px;
+    
+}
+.type-selected:after {
+    content: '';
+    width: 120%;
+    position: absolute;
+    left: -10%;
+    bottom: 14px;
+    border-width: 0 0 2px;
+    border-style: solid;
+    border-color: #056DAE;
+}
+.facetActive {
     position: absolute;
     width: 114%;
     height: 2px;
     margin-top: 13px;
     background: #056DAE;
     left: -5px;
+}
+.capital {
+    text-transform: uppercase;
 }
 .type-selected-count {
     position: absolute;
@@ -45,6 +73,7 @@ body {
     font-size: 14px;
     line-height: 17px;
     color: #4E4E4E !important;
+    text-decoration-line: none;
 }
 .search {
     position: absolute;
@@ -55,6 +84,7 @@ body {
 
 }
 .search-input {
+    padding-right: 26px;
     position: absolute;
     width: 750px;
     height: 34px;
@@ -78,6 +108,7 @@ body {
     position: absolute;
     left: 726px;
     top: 17px;
+    z-index : 1;
 }
 .mic {
     position: absolute;
@@ -107,14 +138,14 @@ body {
 }
 
 .types-container {
-    position: absolute;
+    position: relative;
     display: flex;
     float: left;
     left: 77px;
-    top: 50px;
+    /* top: 50px; */
     padding-left: 5%;
     height: 48px;
-    width: 100%;
+    width: 79%;
     z-index: 2;
 }
 
@@ -174,7 +205,7 @@ body {
     width: 305px;
     height: 14px;
     left: 142px;
-    top: 119px;
+    top: 115px;
 
     font-style: normal;
     font-weight: normal;
@@ -188,9 +219,12 @@ body {
     mix-blend-mode: normal;
     opacity: 0.5;
 }
-
+.filler {
+    position: relative;
+    margin-bottom: 100px;
+}
 .type-section {
-    position: absolute;
+    position: relative;
     width: 20%;
     height: 15px;
     left: 142px;
@@ -203,21 +237,27 @@ body {
 
     color: rgba(0, 0, 0, 0.38);
 }
-.quick-actions {
-    top: 161px;
-
+.quick-actions-container {
+    position: relative !important;
+    margin-top:10px;
 }
+.quick-actions {
+    
+}
+.pages-container {
+    position: relative !important;
+    margin-top: 10px;
+}
+
 .related-pages {
-    top : 320px;
+    margin-top : 20px;
 }
 .pages {
     position: relative;
-    top: 197px;
     left: 10.4%;
 }
 .page {
     position: relative;
-    height: 17px;
     left: 0%;
     right: 10.04%;
     display:flex;
@@ -225,8 +265,7 @@ body {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-
-    padding-top:10px;
+    width:50%;
     padding-top:10px;
     color: #161928;
 }
@@ -250,7 +289,7 @@ body {
 }
 .filter {
     position: relative;
-    left: 42%;
+    left: 15%;
     width: 54px;
 }
 .filter-icon {
@@ -265,12 +304,14 @@ body {
     top: 13px;
     font-family: Lato;
 }
+.mostly-asked-container {
+    position: relative !important;
+    margin-top: 10px;
+}
 .mostly-asked {
-    top : 620px;
 }
 .faqs {
     position: relative;
-    top: 307px;
     left: 10.4%;
 }
 .expand {
@@ -282,11 +323,11 @@ body {
 }
 .actions-container {
     position: relative;
-    top: 137px;
     width: 25%;
     height: 100px;
     left: 10.3%;
     margin-right:10px;
+    margin-top: 20px;
 }
 .action {
     position: absolute;
@@ -347,7 +388,7 @@ body {
     height: 266px;
     left: 934px;
     top: 144px;
-    background: url(/web-kore-sdk/demo/images/map.png);
+    background: url(/assets/web-kore-sdk/demo/images/map.png);
 }
 
 .conversation-container {
@@ -428,4 +469,22 @@ body {
     margin-top: 0px;
     margin-bottom : 2px;
     padding-left:5px;
+}
+
+.task-text {
+    position: absolute;
+    height: 23px;
+    left: 15.95%;
+    right: 11.62%;
+    top: calc(50% - 23px/2 + 18.5px);
+
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 23px;
+    /* identical to box height, or 164% */
+
+
+    color: #161928;
 }
