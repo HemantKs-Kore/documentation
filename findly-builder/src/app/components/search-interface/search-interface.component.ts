@@ -1,5 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NotificationService } from '@kore.services/notification.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
 @Component({
@@ -10,15 +13,24 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 export class SearchInterfaceComponent implements OnInit {
   customModalRef:any;
   previewModalRef:any;
+  selectedApp : any;
+  serachIndexId:any;
+  indexPipelineId : any;
+  fieldData : any;
   list : any = ['Actions','FAQs','Pages','Structured Data']
   showDescription: boolean = true;
   showImage : boolean = false;
   customizeTemplateObj : customizeTemplate = new customizeTemplate();
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
-  constructor() { }
+  constructor(public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.customizeTemplateObj.template.type = "list";
     this.customizeTemplateObj.template.searchResultlayout.layout = "titleWithText";
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
@@ -65,6 +77,28 @@ export class SearchInterfaceComponent implements OnInit {
   }
   drop(event: CdkDragDrop<string[]>,list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
+  }
+  getFieldAutoComplete() {
+    let query: any = '';
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      query
+    };
+    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      this.fieldData =  res;
+    }, errRes => {
+      this.errorToaster(errRes, 'Failed to get fields');
+    });
+  }
+  errorToaster(errRes, message) {
+    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else if (message) {
+      this.notificationService.notify(message, 'error');
+    } else {
+      this.notificationService.notify('Somthing went worng', 'error');
+    }
   }
 }
 
