@@ -801,7 +801,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         panelClass: 'delete-popup',
         data: {
         title: 'Delete Alternate Question',
-        body: 'Do you want to delete the this alternate question',
+        body: 'Do you want to delete the alternate question',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
         }
