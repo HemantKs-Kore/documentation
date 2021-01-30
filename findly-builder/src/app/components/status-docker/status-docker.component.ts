@@ -59,8 +59,9 @@ export class StatusDockerComponent implements OnInit {
         this.dockersList.forEach((record : any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
           if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){
-            this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
-
+            if(record.action === 'EXPORT'){
+              this.downloadDockFile(record.fileId, record.store.urlParams,record.streamId,record._id);
+            }
           }
         })
         const queuedJobs = _.filter(res.dockStatuses, (source) => {
@@ -126,7 +127,7 @@ export class StatusDockerComponent implements OnInit {
         res => {
           this.statusDockerLoading = true;
           this.dockersList.splice(index, 1);
-          this.notify.notify(res.msg, 'success');
+          // this.notify.notify(res.msg, 'success');
           this.statusDockerLoading = false;
         },
         errRes => {
@@ -149,7 +150,7 @@ export class StatusDockerComponent implements OnInit {
         this.statusDockerLoading = true;
         // this.dockersList = [];
         this.poling();
-        this.notify.notify(res.msg, 'success');
+        // this.notify.notify(res.msg, 'success');
       },
       errRes => {
         this.statusDockerLoading = false;

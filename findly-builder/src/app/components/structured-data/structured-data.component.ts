@@ -88,6 +88,7 @@ export class StructuredDataComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.getStructuredDataList();
+    this.getFieldAutoComplete('');
   }
 
   getStructuredDataList(skip?){

@@ -236,7 +236,7 @@
  },
  "resultRanking":{
      "no_search_results":"No search results",
-     "no._of_customizations_caps":"NO. OF CUSTOMISATIONS",
+     "no._of_customizations_caps":"NO. OF CUSTOMIZATIONS",
      "last_changes_caps":"LAST CHANGES",
      "restore":"Reset",
      "pinned":"pinned",
@@ -265,7 +265,7 @@
         "Appearances" : "Appearances",
         "Clicks" :"Clicks",
         "Avg_Position" : "Avg Position",
-        "Most_Clicked_Position" : "Most Click Position",
+        "Most_Clicked_Position" : "Most Clicked Position",
         "Feedback" : "Feedback",
         "Number_of_Clicks" : "Number of Clicks",
         "Feedback_Received" :"Feedback Received",
@@ -368,6 +368,7 @@
     "enter_value" : "Enter Value",
     "and" : "AND",
     "_or" : "OR",
-    "add_rule" : "Add Rule"
+    "add_rule" : "Add Rule",
+    "edit_structured_data" : "Edit Structured Data"
  }
 }

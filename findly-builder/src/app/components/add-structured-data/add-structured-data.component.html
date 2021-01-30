@@ -1,7 +1,7 @@
 <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
         <div class="modal-header">
-            <div class="title">{{selectedSourceType.name}}</div>
+            <div class="title">{{ selectedJsonForEdit ? ('structuredData.edit_structured_data' | translate) : selectedSourceType.name}}</div>
             <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img class="ng-tns-c11-2"
                     src="assets/icons/modal-close.svg"></div>
         </div>
@@ -18,6 +18,7 @@
                     <div class="kr-sg-input-text-area mb-0 mt-3">
                         <div class="kr-sg-file-drag-drop">
                             <div class="drag-drop-sec">
+                                <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
                                 <ng-container *ngIf="!fileObj.fileName">
                                     <div class="imageDiv mb-3">
                                         <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
@@ -25,7 +26,7 @@
                                     <div class="info_text mb-3">Drag and drop file anywhere in this section</div>
                                     <div class="or-divider mb-3">{{'structuredData.or' | translate}}</div>
                                     <div class="custom-file">
-                                        <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
+                                        <!-- <input type="file" id="sourceFileUploader_add_structured_data" class="custom-file-input " (change)="fileChangeJsonListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.json"> -->
                                     </div>
                                     <label for="sourceFileUploader_add_structured_data" class="drag-label">
                                         <span class="btn btn-default browse">{{'structuredData.browse' | translate}}</span>
@@ -64,14 +65,14 @@
                 <ng-container *ngIf="selectedSourceType.resourceType === 'structuredDataManual'">
                     <div class="manual-structure-data">
                         <div class="col-12 row ml-0 mr-0 p-0 mb-3 align-items-center justify-content-between">
-                            <div class="title">Add Manually</div>
+                            <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData.add_manually' | translate)}}</div>
                             <div class="indent" placement="top-center" container='body' ngbTooltip="Indent" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
                         </div>
                         <div class="editor">
                             <div class="left-sec">
                                 <ngx-codemirror #codemirror name="jsonEditor" [options]="codeMirrorOptions" [(ngModel)]="structuredData.payload" (ngModelChange)="setEditorContent($event)" id="ngx_codemirror_add_structured_data"></ngx-codemirror>
                             </div>                                                     
-                            <div class="sample-json">                              
+                            <div class="sample-json" *ngIf="!selectedJsonForEdit">                              
                                 <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-right'">
                                     <div class="dropdown dropdown-open">
                                         <button class="dropdown-toggle dropdown-input p-0" id="btn_toggle_sample_json_add_structured_data" ngbDropdownToggle placement="top-right" container='body' ngbTooltip="Sample JSON" tooltipClass="ngb_tooltip_custom_class sampleJson">                 
@@ -114,7 +115,7 @@
         </perfect-scrollbar>
         <div class="modal-footer">
             <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
-            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.back' | translate}}</button>
+            <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.cancel' | translate}}</button>
         </div>
     </form>
 </ng-container>
