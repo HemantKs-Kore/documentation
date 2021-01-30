@@ -24,12 +24,64 @@
   position: relative;
   height: 100vh;
   .header-sec {
-    background: #f8f9fa;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    color: #000000;
-    padding: 15px 30px;
+    // background: #f8f9fa;
+    // font-weight: 500;
+    // font-size: 18px;
+    // line-height: 22px;
+    // color: #000000;
+    // padding: 15px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 18px 9px 45px;
+    margin: 0px 0px 20px 0px;
+    background: #F5F8FA;
+    border-radius: 4px;
+    min-height: 52px;
+    .title{            
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        color: #000000;            
+    }  
+    .kr-sg-input-search{
+        display: inline-block;
+        width: 0px;
+        width: 215px;
+        height: 20px;
+        position: relative;
+        bottom: 6px;
+        right: 10px;               
+        &.active{
+            display: block;
+            width: 300px;
+        }
+    } 
+    .seach-block{
+        color: #202124;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;           
+        margin-right: 30px;
+        img{
+            margin-right: 7px;
+            cursor: pointer;
+        }
+    }
+    .kr-sg-button-primary{
+      border: 1px solid #F5F8FA;
+      box-sizing: border-box;
+      border-radius: 4px;
+      color: #202124;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      background: #F5F8FA;
+      img{
+        margin-right: 5px;
+      }
+    }
   }
   .right-sec {
     display: flex;
@@ -95,7 +147,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px;
+  // padding: 30px;
   .kr-sg-input-search {
     width: 252px;
     input {
@@ -140,7 +192,7 @@
           }
         }
         .title {
-          padding-left: 28px;
+          // padding-left: 28px;
         }
       }
     }
@@ -157,7 +209,7 @@
     margin-bottom: 1px !important;
     .drag_drop_icon {
       position: absolute;
-      left: -6px;
+      left: 14px;
       display: none;
     }
     &.selected {
@@ -207,6 +259,44 @@
         img {
           margin-left: 25px;
           cursor: pointer;
+        }
+      }
+      .inActive{
+        height: 24px;
+        width: 79px;
+        left: 1037px;
+        top: 253px;
+        border-radius: 5px;
+        padding: 5px 10px 5px 22px;
+        background: #EFF0F1;
+        &::before{
+          content: '';
+          height: 7px;
+          width: 7px;
+          left: 24px;
+          top: 4.5px;
+          border-radius: 5px;
+          position: absolute;
+          background: #9AA0A6;
+        }
+      }
+      .active{
+        height: 24px;
+        width: 79px;
+        left: 1037px;
+        top: 253px;
+        border-radius: 5px;
+        padding: 5px 10px 5px 22px;
+        background: #EAF6EC;
+        &::before{
+          content: '';
+          height: 7px;
+          width: 7px;
+          left: 24px;
+          top: 4.5px;
+          border-radius: 5px;
+          position: absolute;
+          background: #28A745;
         }
       }
     }
@@ -429,6 +519,11 @@
         }
       }
     }
+    .kr-sg-input-text{
+      &.box-content{
+        background-color: #ffffff;
+      }
+    }
   }
 }
 ::ng-deep perfect-scrollbar .ps--active-y {
@@ -443,5 +538,48 @@
   }
   .ps__rail-x {
     display: none !important;
+  }
+}
+.downArrow {
+  top: 2.3px !important;
+  margin-right: 0px !important;
+  margin-left: -8px;
+}
+.upArrow {
+  transform: rotate(180deg) !important;       
+}
+
+.header_sec{
+  .content{
+      font-weight: 500;                       
+      color: #9AA0A6;
+      font-size: 12px;   
+      cursor: pointer; 
+      &.d-flex{
+        align-items: center; 
+      }
+      .selectall-title{
+        padding-left : 28px;
+      }       
+      .sortImg{                                                       
+          position: static;
+          &.upArrow {
+              transform: none !important;
+          }
+          &.downArrow {
+              transform: rotate(180deg) !important;
+              top: -1px !important;
+              position: relative;
+          }
+          &.assending{
+              transform: rotate(180deg);
+          }
+          &.decending{
+              transform: rotate(0deg);
+          }
+      }     
+      .type_sort_dropdown .dropdown-open .dropdown-input img{
+        top: unset;
+      }       
   }
 }
