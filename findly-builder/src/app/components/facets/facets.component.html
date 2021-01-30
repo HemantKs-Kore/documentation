@@ -29,7 +29,7 @@
             <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
             <!-- <img src="assets/icons/clock.svg"> -->
         </div>
-    </div> -->
+    </div>
     <ng-container  *ngIf="!(facets && facets.length) && !loadingContent">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
