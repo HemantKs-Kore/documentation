@@ -2168,7 +2168,7 @@ nouislider{
         .customize-scroll-left{
             width: 360px;
             flex-shrink: 0;
-            height: calc(100vh - 170px);
+            height: calc(100vh - 170px);            
         }
         .customize-scroll-right{
             height: calc(100vh - 170px);
@@ -2182,10 +2182,11 @@ nouislider{
         .customize-inner-content{
             display: flex;
             .customize-left{
-                width: 360px;
-                border-right: 1px solid #E4E5E7;
+                width: 360px;                
                 flex-shrink: 0;
                 padding-right: 30px;
+                border-right: 1px solid #E4E5E7;
+                height: calc(100vh - 170px);
                 .c-template{
                     margin-bottom: 30px;
                     .heading-title{
@@ -2292,8 +2293,106 @@ nouislider{
                     z-index: 1;
                     transition: 0.4s all ease;
                     position: relative;   
+                    margin-bottom: 20px;
+                    .list_gridview_template{
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin: 0 -4px;
+                        .result-card{
+                            width: 48%;
+                            margin: 4px !important;
+                        }
+                    }
+                    &.list-template-2{
+                        background: #FFFFFF;
+                        border: 1px solid #E7F1FF;
+                        border-radius: 4px;
+                        box-shadow: none;
+                        .result-card{
+                            box-shadow: none;
+                            box-shadow: inset 0px -1px 0px #E4E5E7;
+                            border-radius: 0;
+                            &:last-child{
+                                box-shadow: none;
+                            }
+                        }
+                    }
+                    &.list-template-3{                        
+                        .list-template_3_parent{
+                            box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
+                            border-radius: 8px;
+                            padding: 0 10px;
+                            .result-card{
+                                box-shadow: inset 0px -1px 0px #e4e5e7;
+                                border-radius: 0;
+                                margin: 0;
+                                &:last-child{
+                                    box-shadow: none;
+                                }
+                            }
+                        }                        
+
+                    }
                     &.with-accordion-state{
                         padding: 20px 15px;
+                        &.list-template-2{
+                            .info-title{
+                                margin-bottom: 0;
+                            }
+                            .card-acc{
+                                box-shadow: inset 0px -1px 0px #e4e5e7;
+                                border-radius: 0;
+                                padding-left: 15px;
+                                margin-bottom: 0;
+                            }
+                        }
+                        &.list-template-3{
+                            .template-3-box-shadow{
+                                background: #FFFFFF;
+                                box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
+                                border-radius: 8px;
+                                padding: 6px 16px;
+                                margin-bottom: 10px;
+                                .card-acc{
+                                    box-shadow: inset 0px -1px 0px #e4e5e7;
+                                    border-radius: 0;
+                                    padding-left: 15px;
+                                    margin-bottom: 0;
+                                    &:last-child{
+                                        box-shadow: none;
+                                    }
+                                }
+                            }
+                        }
+                        &.img-acc-template-2{
+                            .info-title{
+                                margin-bottom: 0;
+                            }
+                            .card-acc{
+                                box-shadow: inset 0px -1px 0px #e4e5e7;
+                                border-radius: 0;
+                                padding-left: 15px;
+                                margin-bottom: 0;
+                            }
+                        }
+                        &.img-acc-template-3{
+                            .template-3-box-shadow{
+                                background: #FFFFFF;
+                                box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
+                                border-radius: 8px;
+                                padding: 6px 16px;
+                                margin-bottom: 10px;
+                                .card-acc{
+                                    box-shadow: inset 0px -1px 0px #e4e5e7;
+                                    border-radius: 0;
+                                    padding-left: 15px;
+                                    margin-bottom: 0;
+                                    &:last-child{
+                                        box-shadow: none;
+                                    }
+                                }
+                            }
+                        }
                         .card-acc{
                             background: #FFFFFF;
                             box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
@@ -2429,6 +2528,53 @@ nouislider{
                         }                     
                     }
                     &.with-image{
+                        &.image-tmplate-type-2{
+                            padding: 5px 15px;
+                            .result-card{
+                                box-shadow: inset 0px -1px 0px #e4e5e7;
+                                border-radius: 0;
+                                margin: 0;
+                                &:last-child{
+                                    box-shadow: none;
+                                }
+                            }
+                        }
+                        &.image-tmplate-type-3{
+                           .with-image-template-3-shadow{
+                                box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
+                                border-radius: 8px;
+                                .result-card{
+                                    box-shadow: inset 0px -1px 0px #e4e5e7;
+                                    border-radius: 0;
+                                    margin: 0;
+                                    &:last-child{
+                                        box-shadow: none;
+                                    }
+                                }
+                           }                            
+                        }
+                        .with-image-grid-view{
+                            display: flex;
+                            flex-wrap: wrap;
+                            margin: 0 -4px;
+                            .result-card{
+                                display: block !important;
+                                width: 48%;
+                                margin: 4px;
+                                padding: 12px 11px;
+                                .img-block{
+                                    margin-right: 10px;
+                                }
+                                .content-sec{
+                                    .r-title{
+                                        margin-bottom: 0 !important;
+                                    }
+                                }
+                                .r-desc{
+                                    margin-top: 7px;
+                                }
+                            }
+                        }
                         .result-card{
                             display: flex;
                             align-items: center;
@@ -2444,6 +2590,29 @@ nouislider{
                         border: 1px solid #E7F1FF;
                         border-radius: 4px;
                         padding: 10px 15px;
+                        .grid-view-centered-content{
+                            display: flex;
+                            flex-wrap: wrap;
+                            margin: 0 -4px;
+                            .result-card{
+                                width: 48%;
+                                margin: 4px;
+                                box-shadow: 0px 0px 80px rgb(0 0 0 / 7%), 0px 0px 10.0172px rgb(0 0 0 / 4%);
+                                border-radius: 8px;
+                                .img-block{
+                                    border-radius: 8px 8px 0px 0px;
+                                }
+                                .content-sec{
+                                    text-align: left;
+                                    .r-title{
+                                        margin-bottom: 8px;
+                                    }
+                                    .r-desc{
+                                        padding: 10px 0;
+                                    }
+                                }
+                            }
+                        }
                         .result-card{
                             box-shadow: 0px 0px 80px rgb(0 0 0 / 7%), 0px 0px 10.0172px rgb(0 0 0 / 4%);
                             border-radius: 8px;

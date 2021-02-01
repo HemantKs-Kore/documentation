@@ -367,45 +367,9 @@
               </div>                        
             </div> -->
             <div class="p-selection mb-2">Preview as per above selection</div>
-            <!-- New List SUNIL start-->
-            <div class="result-right-sec list-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>              
-            </div>
-            <div class="result-right-sec list-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>
-              <div class="result-card">
-                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
-              </div>              
-            </div>
-             <!-- New List SUNIL end-->
-            <!-- Preview For Title with Text ClickAble-->
+
+
+          <!-- Tile with Text -->
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
               <div class="result-card">
                 <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
@@ -424,19 +388,81 @@
                 <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
               </div>              
             </div>
-            <!-- Preview For Title with Text ClickAble-->
-            <!-- Preview For Title with Text Expandable-->
+
+            <div class="result-right-sec list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>              
+            </div>
+
+            <div class="result-right-sec list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="list-template_3_parent">
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>              
+            </div>
+
+            <!-- Grid View Template -->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="list_gridview_template">
+                <div class="result-card">
+                  <div class="r-title">Field Mapped for heading will appear here</div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title">Field Mapped for heading will appear here</div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title">Field Mapped for heading will appear here</div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title">Field Mapped for heading will appear here</div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+              </div>              
+            </div>      
+
+            <!-- Preview For Title with Text ClickAble-->                       
             <div class="result-right-sec with-accordion-state" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && !customizeTemplateObj.template.searchResultlayout.clickable">             
               <div id="accordion">
                 <div class="info-title">Collapsed state</div>
                 <div class="card-acc">
                   <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne111">
                       <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
                       <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
                     </div>
                   </div>
-                  <div id="collapseOne" class="collapse" data-parent="#accordion">
+                  <div id="collapseOne111" class="collapse" data-parent="#accordion">
                     <div class="card-body">
                       
                     </div>
@@ -445,12 +471,12 @@
                 <div class="info-title">Expanded state</div>
                 <div class="card-acc">
                   <div class="card_header">
-                    <div class="card_link" data-toggle="collapse" href="#collapseTwo">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo222">
                       <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
                       <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
                     </div>
                   </div>
-                  <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+                  <div id="collapseTwo222" class="collapse show" data-parent="#accordion">
                     <div class="card-body">
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </div>
@@ -458,8 +484,91 @@
                 </div>               
               </div>               
             </div>
-            <!-- Preview For Title with Text Expandable-->
-            <!-- Preview For Title with Image ClickAble-->
+
+            <div class="result-right-sec with-accordion-state list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne11">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapseOne11" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo22">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapseTwo22" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion" class="accordion-template">
+                <div class="info-title">Collapsed state</div>
+                <div class="template-3-box-shadow">
+                  <div class="card-acc mb-0">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne1">
+                        <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                        <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                    <div id="collapseOne1" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-acc">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapsethree3">
+                        <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                        <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                    <div id="collapsethree3" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo2">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapseTwo2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+          <!-- Tile with Text End -->           
+
+          <!-- Tile with Image -->
             <div class="result-right-sec with-image" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && customizeTemplateObj.template.searchResultlayout.clickable">
               <div class="result-card">
                 <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
@@ -490,48 +599,268 @@
                 </div>
               </div>
             </div>
-           <!-- Preview For Title with Image ClickAble-->
-           <!-- Preview For Title with Image Expandable-->
-           <div class="result-right-sec with-accordion-state with_image_tile" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable">             
-            <div id="accordion">
-              <div class="info-title">Collapsed state</div>
-              <div class="card-acc">
-                <div class="card_header">
-                  <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+
+            <div class="result-right-sec with-image image-tmplate-type-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                  <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-right-sec with-image image-tmplate-type-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="with-image-template-3-shadow">
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
                     <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
                     <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
                   </div>
                 </div>
-                <div id="collapse1" class="collapse" data-parent="#accordion">
-                  <div class="card-body">
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                    <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                  </div>
+                </div>
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                    <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                  </div>
+                </div>
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                    <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid View -->
+            <div class="result-right-sec with-image image-tmplate-type-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="with-image-grid-view">
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">Field mapped for Description will appear here</div>
+                </div>
+              </div>
+            </div>        
+
+            <!-- Preview For Title with Image ClickAble-->
+            <div class="result-right-sec with-accordion-state with_image_tile " *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">Field mapped for Description will appear here</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
                       <div class="with-image-tile">
                         <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
                         <div class="r-desc">Field mapped for Description will appear here</div>
                       </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="info-title">Expanded state</div>
-              <div class="card-acc">
-                <div class="card_header">
-                  <div class="card_link" data-toggle="collapse" href="#collapse2">
-                    <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
-                    <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state with_image_tile img-acc-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse01">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
                   </div>
-                </div>
-                <div id="collapse2" class="collapse show" data-parent="#accordion">
-                  <div class="card-body">
-                    <div class="with-image-tile">
-                      <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
-                      <div class="r-desc">Field mapped for Description will appear here</div>
+                  <div id="collapse01" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">Field mapped for Description will appear here</div>
+                        </div>
                     </div>
                   </div>
                 </div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse110">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse110" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">Field mapped for Description will appear here</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title mt-3">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
               </div>               
-            </div>               
-          </div>
-          <!-- Preview For Title with Image Expandable-->
-           <!-- Preview For Title with Centered Content Clickable-->
+            </div>
+
+            <div class="result-right-sec with-accordion-state with_image_tile img-acc-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="template-3-box-shadow">
+                  <div class="card-acc">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapse1111">
+                        <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                        <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                    <div id="collapse1111" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                          <div class="with-image-tile">
+                            <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                            <div class="r-desc">Field mapped for Description will appear here</div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-acc">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapse1112">
+                        <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                        <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                    <div id="collapse1112" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                          <div class="with-image-tile">
+                            <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                            <div class="r-desc">Field mapped for Description will appear here</div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>              
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse22">
+                      <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                      <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+                    </div>
+                  </div>
+                  <div id="collapse22" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">Field mapped for Description will appear here</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+          <!-- Tile with Image End -->
+         
+          <!-- Tile with Centered Content -->
             <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable">             
               <div class="result-card">
                 <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
@@ -548,8 +877,42 @@
                 </div>
               </div>
             </div>
-            <!-- Preview For Title with Centered Content Clickable-->
-            <!-- Preview For Title with Centered Content Expandable-->
+
+            <!-- Grid View -->
+            <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable">             
+                <div class="grid-view-centered-content">
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>
+                      <div class="r-desc">Field mapped for Description will appear here.</div>
+                    </div>
+                  </div>
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>
+                      <div class="r-desc">Field mapped for Description will appear here.</div>
+                    </div>
+                  </div>
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>
+                      <div class="r-desc">Field mapped for Description will appear here.</div>
+                    </div>
+                  </div>
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">Field Mapped for heading will appear here</div>
+                      <div class="r-desc">Field mapped for Description will appear here.</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Preview For Title with Centered Content Clickable-->            
             <div class="result-right-sec with-accordion-state tile_with_centered_content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithCenteredContent' && !customizeTemplateObj.template.searchResultlayout.clickable">             
               <div id="accordion">
                 <div class="info-title">Collapsed state</div>
@@ -588,26 +951,78 @@
                 </div>               
               </div>               
             </div>
-            <!-- Preview For Title with Centered Content Expandable-->
-            <!-- Preview For Title with Header-->
+
+          <!-- Tile with Centered Content End -->
+
+
+          <!-- Tile with Header -->
+
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
               <div class="result-card">
-                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+              </div>           
+            </div>
+
+            <div class="result-right-sec list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
               </div>
               <div class="result-card">
-                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+              </div>             
+            </div>
+
+            <div class="result-right-sec list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
+              <div class="list-template_3_parent">
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">Field Mapped for heading will appear here</div>                 
+                </div>
               </div>              
             </div>
-            <!-- Preview For Title with Header-->
+
+            <!-- Grid View -->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithHeader'">
+              <div class="list_gridview_template">
+                <div class="result-card">
+                  <div class="r-title m-0">Field Mapped for heading will appear here</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title m-0">Field Mapped for heading will appear here</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title m-0">Field Mapped for heading will appear here</div>                  
+                </div>
+                <div class="result-card">
+                  <div class="r-title m-0">Field Mapped for heading will appear here</div>                  
+                </div>
+              </div>              
+            </div>
+            
+          <!-- Tile with Header End -->
           </div>
         </perfect-scrollbar>
 
@@ -625,7 +1040,11 @@
     <div class="title">Preview Template</div>
     <div class="close_icon" (click)="closePreviewModal()"><img src="assets/icons/modal-close.svg"></div>
   </div>
-  
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+
+    </div>
+  </perfect-scrollbar>
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg" (click)="closePreviewModal()">Save</button>
       <button class="kr-sg-button-secondary btn_lg" (click)="closePreviewModal()">Cancel</button>
