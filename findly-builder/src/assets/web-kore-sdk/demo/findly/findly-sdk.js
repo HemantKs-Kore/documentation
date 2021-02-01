@@ -6434,7 +6434,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.initKoreSDK(config);
       _self.initWebKitSpeech();
       _self.setAPIDetails();
-
+      if (!_self.customSearchResult) {
+        _self.addSourceType({
+          container : 'sa-custom-nav-panel-container'
+        });
+        _self.addSearchFacets({
+          container : 'sa-facets-container'
+        });
+      }
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
       var left = ((windowWidth / 2) - 250) + 'px';
