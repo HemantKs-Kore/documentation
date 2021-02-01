@@ -1,6 +1,6 @@
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <div class="krFindlyAppComponent">
-    <div *ngIf="!loading">
+    <div *ngIf="!loading" (click)="globalHandler($event)">
         <app-header (showMenu)="showMenu($event)" (settingMenu)="settingMenu($event)"></app-header>
         <app-mainmenu [show]="showMainMenu" [settingMainMenu]="settingMainMenu" class="toShowAppHeader"></app-mainmenu>
         <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody)="closeResultBody($event)" [query]="queryText"

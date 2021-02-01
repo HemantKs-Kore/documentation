@@ -28,6 +28,7 @@ import { ExperimentsComponent } from './components/experiments/experiments.compo
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
+import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 const routes: Routes = [
   {
     path: '',
@@ -62,6 +63,7 @@ const routes: Routes = [
       { path: 'FieldManagementComponent', component: FieldManagementComponent},
       { path: 'experiments', component: ExperimentsComponent},
       { path: 'searchInterface', component: SearchInterfaceComponent},
+      { path: 'structuredData', component: StructuredDataComponent},
       { path: '**', component: AppsListingComponent},
     ]
   }

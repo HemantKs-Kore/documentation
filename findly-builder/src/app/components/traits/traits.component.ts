@@ -364,8 +364,8 @@ export class TraitsComponent implements OnInit {
       this.traits.addEditTraits.matchStrategy = 'probability';
       this.notificationService.notify('Trait created successfully', 'success');
     }, (err) => {
-      if (err && err.data && err.data.errors && err.data.errors[0]) {
-        this.notificationService.notify(err.data.errors[0].msg, 'error');
+      if (err && err.error && err.error.errors && err.error.errors[0]) {
+        this.notificationService.notify(err.error.errors[0].msg, 'error');
       } else {
         this.notificationService.notify('Failed to create trait', 'error');
       }

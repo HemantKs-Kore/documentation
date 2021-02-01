@@ -6,11 +6,13 @@
     <div class="table_sec" *ngIf="!loadingContent" >
             <div class="seach_add_feild">
                 <div class="title">Fields</div>
-                <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
-                  </div> 
-                  <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
-                <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>
+                <div class="d-flex align-items-center">
+                    <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
+                        <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
+                    </div> 
+                    <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                    <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">Add Field</div>
+                </div>
             </div> 
             <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
                 <ng-container>
@@ -81,6 +83,8 @@
                           <li  (click)="selectFieldType('dense_vector')"><a>Dense Vector</a></li>
                           <li  (click)="selectFieldType('entity')"><a>Entity</a></li>
                           <li  (click)="selectFieldType('keyword')"><a>Keyword</a></li>
+                          <li  (click)="selectFieldType('array')"><a>Array</a></li>
+                          <li  (click)="selectFieldType('object')"><a>Object</a></li>
                         </ul>
                     </div>
                 </div>

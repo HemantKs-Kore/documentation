@@ -471,13 +471,14 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   checkForNewFields(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '500px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Stage configuration is successfully saved',
-        text: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }]
+        newTitle: 'Stage configuration is successfully saved',
+        body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect
@@ -509,7 +510,20 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
        this.currentEditIndex = -1
       }
       if(res && res.targetFields && res.targetFields.length){
-        this.newfieldsData =  res.targetFields || [];
+        const newFileds:any = [];
+        res.targetFields.forEach(field => {
+          const tempPayload:any = {
+            fieldName: field.fieldName,
+            fieldDataType: field.fieldDataType,
+            isMultiValued: field.isMultiValued || true, // can use hasobjectket property if required to take server values in furture //
+            isActive: field.isActive || true,
+            isRequired: field.isRequired || false,
+            isStored: field.isStored || true,
+            isIndexed: field.isIndexed || true,
+          }
+          newFileds.push(tempPayload);
+        });
+        this.newfieldsData =  newFileds || [];
         this.checkForNewFields();
       }
       this.clearDirtyObj();
@@ -596,6 +610,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.simulateJson= JSON.stringify(data, null, ' ');
     }
   simulate(){
+    this.simulteObj.showSimulation =  true;
     const self = this;
     this.simulating = true;
     this.simulteObj.simulating =  true;
@@ -622,7 +637,6 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       indexPipelineId:this.indexPipelineId
     };
     this.service.invoke('post.simulate', quaryparms,payload).subscribe(res => {
-      this.simulteObj.showSimulation =  true;
       this.simulteObj.simulating =  false;
       this.addcode(res);
       this.notificationService.notify('Simulated successfully','success')

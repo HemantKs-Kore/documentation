@@ -72,7 +72,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     queued: {name : 'Queued', color: '#0D6EFD'},
     running: {name : 'In Progress', color: '#0D6EFD'},
     inprogress: {name :'In Progress', color: '#0D6EFD'},
-    scheduled :{name :'In Progress', color: '#0D6EFD'},
+    validation: {name :'Queued', color: '#0D6EFD'},
+    scheduled :{name :'Queued', color: '#0D6EFD'},
     halted : {name : 'Stopped', color: '#DD3646'}
   };
   executionObj : any = {
@@ -251,7 +252,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           element.advanceSettings.scheduleOpts.time.hour + ':' + element.advanceSettings.scheduleOpts.time.minute + ' ' +
           element.advanceSettings.scheduleOpts.time.timeOpt +' '+ element.advanceSettings.scheduleOpts.time.timezone;
         }
-        if(element.jobInfo.createdOn){
+        if(element.jobInfo.createdOn && element.jobInfo.createdOn != "--" ){
           element['schedule_createdOn'] = moment(element.jobInfo.createdOn).fromNow();
         }
         if(element.jobInfo.executionStats){
@@ -354,7 +355,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         //this.resourcesStatusObj[source.resourceId] = source;
         
         if(this.resourcesStatusObj[source._id]){
-          if(this.resourcesStatusObj[source._id].status == 'running'){
+          if(this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued'){
             if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
             this.getJobDetails(source._id)
             this.getSourceList();
@@ -840,7 +841,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       jobId : source.jobId
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
-      this.notificationService.notify('Stoped Crwaling', 'success');
+      this.notificationService.notify('Stoped Crawling', 'success');
       this.getSourceList();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
@@ -1260,7 +1261,8 @@ keyPress(event){
     this.selectedSource.advanceSettings.allowedOpt = bool;
   }
   proceedWithConfigUpdate(){
-    let payload = {}
+    let payload = {};
+    let schdVal = true;
     let resourceType = this.selectedSource.extractionType;
     let crawler = new CrwalObj()
     const quaryparms: any = {
@@ -1323,19 +1325,37 @@ keyPress(event){
     crawler.resourceType = resourceType;
     payload = crawler;
     //console.log(payload);
-
-    this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Crawler Updated', 'success');
-      this.editTitleFlag = false;
-      this.getSourceList();
-      this.closeStatusModal();
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed ', 'error');
-       }
-     });
+    if(crawler.advanceOpts.scheduleOpt){
+      if(crawler.advanceOpts.scheduleOpts){
+        if(!crawler.advanceOpts.scheduleOpts.date){
+          schdVal = false;
+        }
+        if(!crawler.advanceOpts.scheduleOpts.time){
+          schdVal = false;
+        }else{
+          if(crawler.advanceOpts.scheduleOpts.time.hour == "" ||crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
+          if(crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+          if(crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+        }
+      }
+    }
+    if(schdVal){
+      this.service.invoke('update.contentPageSource', quaryparms, payload).subscribe(res => {
+        this.notificationService.notify('Crawler Updated', 'success');
+        this.editTitleFlag = false;
+        this.getSourceList();
+        this.closeStatusModal();
+       }, errRes => {
+         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+         } else {
+           this.notificationService.notify('Failed ', 'error');
+         }
+       });
+    }else{
+      this.notificationService.notify('Please fill Date and Time fields', 'error');
+    }
+    
   }
   
   getSortIconVisibility(sortingField: string, type: string) {

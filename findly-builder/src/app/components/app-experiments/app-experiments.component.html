@@ -7,29 +7,15 @@
     <div class="header-sec row">
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
-          <div class="tab_title" [ngClass]="{ active: setTab === 'all' }" (click)="selectedTab('all')">
-            All<span>({{ allExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'configured' }" (click)="selectedTab('configured')">
-            Configured<span>({{ confExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'active' }" (click)="selectedTab('active')">
-            Active<span>({{ actExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'paused' }" (click)="selectedTab('paused')">
-            Paused<span>({{ pauExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'completed' }" (click)="selectedTab('completed')">
-            Completed<span>({{ compExp }})</span>
-          </div>
+          <b>Experiments</b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left">
+        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0">
           <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="searchSources"
             placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields" />
         </div>
-        <div class="seach-block" (click)="toggleSearch()">
+        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0">
           <img *ngIf="!showSearch" src="assets/icons/search.svg" /><img *ngIf="showSearch"
             src="assets/images/close.svg" />Search
         </div>
@@ -39,13 +25,39 @@
       </div>
     </div>
     <perfect-scrollbar class="p-scroll-data">
-      <div class="table-data-content" *ngIf="listOfExperiments && listOfExperiments.length">
-        <div class="row m-0 header-data col-12">
+      <div class="table-data-content">
+        <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
           <div class="col-3 h-title">Experiment Name</div>
-          <div class="col-2 h-title">Variants</div>
-          <div class="col-2 h-title">Winner</div>
-          <div class="col-2 h-title">Status</div>
-          <div class="col-2 h-title">DURATION</div>
+          <div class="col-3 h-title">Variants</div>
+          <!-- <div class="col-2 h-title">Winner</div> -->
+          <div class="col-2 d-flex align-items-center h-title">Status&nbsp;
+            <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
+              [autoClose]="true" [placement]="'bottom-right'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                  <!-- <img src="assets/icons/caretDown.svg"
+                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
+                    class="ml-1 sortImg"> -->
+                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                </button>
+                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                  <li><span
+                      class="list-name"  (click)="selectedTab('all')">All</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                      <li><span
+                        class="list-name" (click)="selectedTab('configured')">Configured</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                        <li><span
+                          class="list-name"  (click)="selectedTab('active')">Active</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                          <li><span
+                            class="list-name"  (click)="selectedTab('paused')">Paused</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                            <li><span
+                              class="list-name" (click)="selectedTab('stopped')">Stopped</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                            <li><span
+                              class="list-name"  (click)="selectedTab('completed')">Completed</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 h-title">DURATION</div>
         </div>
         <div id="accordion">
           <div class="acc-card" *ngFor="
@@ -55,20 +67,22 @@
               <div class="acc-card-link collapsed" data-toggle="collapse" attr.data-target="#{{ exp._id }}">
                 <div class="row m-0 col-12 row_data">
                   <div class="col-3 ex-title">{{ exp.name }}</div>
-                  <div class="col-2 variants">
+                  <div class="col-3 variants">
                     <div class="variants-block left">
-                      <span class="v-name" *ngFor="let vari of exp.variants" [style.background-color]="vari.color">{{
-                        vari.code }}</span>
-                    </div>
-                    <!-- <div class="variants-block right">
-                      <span *ngFor="let vari of exp.variants">
-                        <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
-                        <span class="winner" *ngIf="vari.leader"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
-                        <span class="winner" *ngIf="vari.winner"><img src="assets/icons/experiment/winner.svg" alt="winner"></span>
+                      <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color" [hidden]="index === 3">
+                        <span *ngIf="(index < 2)">{{vari.code }}</span>
+                        <span *ngIf="(index > 1) && (index === 2)"> + 2</span>
                       </span>
-                    </div> -->
+                    </div>
+                    <div class="variants-block right">
+                      <span *ngFor="let vari of exp.variants; let index = index">
+                        <span class="v-name status" [style.background-color]="vari.color">{{ vari.code }}</span>
+                        <span class="winner" *ngIf="vari.leader && (index === exp.variants.length - 1)"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
+                        <span class="winner" *ngIf="vari.winner && (index === exp.variants.length - 1)">Winner</span>
+                      </span>
+                    </div>
                   </div>
-                  <div class="col-2 winner-block">
+                  <!-- <div class="col-2 winner-block">
                     <div class="variants-block">
                       <span *ngFor="let vari of exp.variants; let index = index" class="winner-content">
                         <span class="v-name" [style.background-color]="vari.color">{{ vari.code }}</span>
@@ -78,19 +92,19 @@
                             src="assets/icons/experiment/winner.svg" alt="winner"></span>
                       </span>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-2 status">
                     <span class="a-status" [ngClass]="exp.state">{{
                       exp.state | titlecase
                       }}</span>
                   </div>
-                  <div class="col-3 duration-data" *ngIf="exp.state !== 'configured'">
-                    <!-- <div class="left-sec">
+                  <div class="col-3 duration-data d-flex align-items-start" *ngIf="(exp.state !== 'configured') && (exp.state !== 'completed')">
+                    <div class="left-sec">
                       <div class="date-stamp">
-                        Start Date: {{ exp.start | date: "mediumDate" }}
+                        <span class="s-color">Start Date:</span> {{ exp.start | date: "mediumDate" }}
                       </div>
                       <div class="date-stamp">
-                        End Date: {{ exp.end | date: "mediumDate" }}
+                        <span class="s-color">End Date:</span> {{ exp.end | date: "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
@@ -101,8 +115,8 @@
                         <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
                         </ngb-progressbar>
                       </div>
-                    </div> -->
-                    <div class="date-stamp m-0">{{ exp.start | date: "mediumDate" }}</div>
+                    </div>
+                    <!-- <div class="date-stamp m-0">{{ exp.start | date: "mediumDate" }}</div>
                     <div class="inline-block mb-1">
                       <div class="hour">
                         <ngb-progressbar type="secondary" [value]="exp.date_days" [max]="exp.total_days">
@@ -110,30 +124,30 @@
                       </div>
                       <span class="hours ml-2" *ngIf="exp.state !== 'completed'">{{ exp.date_days }} hrs more to go</span>
                     </div>
-                    <div class="text-right date-stamp bottom m-0">{{ exp.end | date: "mediumDate" }}</div>
+                    <div class="text-right date-stamp bottom m-0">{{ exp.end | date: "mediumDate" }}</div> -->
                   </div>
-                  <div class="col-4 d-flex align-items-center duration-data" *ngIf="exp.state === 'completed'">
-                    <!-- <div class="left-sec">
+                  <div class="col-4 d-flex align-items-center duration-data" *ngIf="(exp.state === 'completed')">
+                    <div class="left-sec">
                       <div class="date-stamp">
-                        Start Date: {{ exp.start | date: "mediumDate" }}
+                        <span class="s-color">Start Date:</span> {{ exp.start | date: "mediumDate" }}
                       </div>
                     </div>
                     <div class="right-sec">
-                      <div class="hours">
-                        End Date: {{ exp.end | date: "mediumDate" }}
+                      <div class="date-stamp">
+                        <span class="s-color">End Date:</span> {{ exp.end | date: "mediumDate" }}
                       </div>
-                    </div> -->
+                    </div>
                   </div>
-                  <div class="col-3 d-flex align-items-center duration-data justify-content-between"
+                  <div class="col-4 d-flex align-items-center duration-data justify-content-between"
                     *ngIf="exp.state === 'configured'">
-                    <div class="left-sec border-0">
+                    <div class="left-sec border-0 before-none pl-0" [class.col-9]="status_active">
                       <div class="info-data" *ngIf="status_active">
                         <img src="assets/icons/experiment/Info.svg" />You cannot
                         run multiple experiements
                       </div>
                     </div>
                     <div class="right-sec">
-                      <button class="kr-sg-button-secondary btn_lg" [disabled]="status_active"
+                      <button class="kr-sg-button-secondary btn_lg" [class.mr-2]="!status_active" [disabled]="status_active"
                         (click)="runExperiment(exp._id, 'active', $event)">
                         Run
                       </button>
@@ -180,7 +194,8 @@
                     <div class="col-2 title">SEARCH CONFIGURATION</div>
                     <div class="col-2 title">Traffic</div>
                     <div class="col-1 title">users</div>
-                    <div class="col-2 title">SearchES</div>
+                    <div class="col-1 title">Searches</div>
+                    <div class="col-1 title">Clicks</div>
                     <div class="col-2 title">CTR (goal)</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
@@ -194,13 +209,14 @@
                       {{ expCol.queryPipelineName | titlecase }}
                     </div>
                     <div class="col-2 title">{{ expCol.trafficPct }}%</div>
-                    <div class="col-1 title">3200</div>
-                    <div class="col-2 title">{{ expCol.searches }}</div>
+                    <div class="col-1 title">{{ expCol.users || 0 }}</div>
+                    <div class="col-1 title">{{ expCol.searches }}</div>
+                    <div class="col-1 title">{{ expCol.clicks }}</div>
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
-                      expCol.searches > 0
-                      ? expCol.searches + "%"
-                      : expCol.searches
+                      expCol.ctr > 0
+                      ? (expCol.ctr| number : '2.0-0') + "%"
+                      : expCol.ctr
                       }}
                     </div>
                   </div>
@@ -216,7 +232,7 @@
       <!-- <div class="no-experiments">
         <div class="desc">No search results found</div>
       </div> -->
-      <div class="no-experiments" *ngIf="!(filterExperiments && filterExperiments.length)">
+      <div class="no-experiments" *ngIf="filterExperiments.length===0">
         <img src="assets/icons/experiment/empty_experiments.svg" />
         <div class="title">You haven't added any Experiment yet</div>
         <div class="dec">
@@ -224,9 +240,10 @@
           experiments
         </div>
       </div>
-      <div class="no-experiments" *ngIf="!(listOfExperiments && listOfExperiments.length)">
+      <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
+      <span *ngIf='listOfExperiments.length>0'><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
     </perfect-scrollbar>
   </div>
 </div>
@@ -327,7 +344,7 @@
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
           <input type="number" autocomplete="off" class="input-text text-center" min="0" max="90"
-            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' || form_type === 'edit'"
+            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"
             [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
             }" />

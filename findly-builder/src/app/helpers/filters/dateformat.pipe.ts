@@ -8,7 +8,7 @@ export class DateFormatPipe  implements PipeTransform {
    transform(date: string , format: string): any {
     const dateValue = new Date(date);
     if (dateValue.toString() === 'Invalid Date') {
-        return '-';
+        return date;
     } else {
         if (format) {
             return moment(dateValue).format(format);

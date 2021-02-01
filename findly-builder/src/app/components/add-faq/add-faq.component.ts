@@ -796,13 +796,13 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   }
   delAltQues(ques,index) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
+        width: '530px',
         height: 'auto',
         panelClass: 'delete-popup',
         data: {
-        title: 'Confirm',
-        body: 'Do you want to delete the this alternate question',
-        buttons: [{ key: 'yes', label: 'Yes',secondaryBtn:true }, { key: 'no', label: 'No', type: 'danger' }],
+        title: 'Delete Alternate Question',
+        body: 'Do you want to delete the alternate question',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
         }
       });
