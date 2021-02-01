@@ -12,7 +12,7 @@
         <div class="col-8 right-sec p-0">
           <div class="kr-sg-input-text m-0" [ngClass]="{'active': showSearch}">
             <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources'
-              placeholder="Search" id="fieldSearchId" [(ngModel)]="searchsynonym">
+              placeholder="Search" id="fieldSearchId" [(ngModel)]="synonymSearch">
           </div>
           <div class="seach-block" *ngIf="!emptyItems && (synonymData && synonymData.length) && !loadingContent"  (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img
               *ngIf="showSearch" src="assets/images/close.svg">Search

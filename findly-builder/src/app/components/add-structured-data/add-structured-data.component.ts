@@ -68,7 +68,7 @@ export class AddStructuredDataComponent implements OnInit {
           this.structuredData.payload = this.selectedJsonForEdit.parsedData;
           setTimeout( () => {
             this.indentObj();
-          },100)
+          },200)
         }
         else{
           this.structuredData.payload = JSON.stringify({});
@@ -146,7 +146,7 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   removeFile() {
-    $('#sourceFileUploader').val('');
+    $('#sourceFileUploader_add_structured_data').val('');
     // $('#sourceFileUploader').replaceWith($('#sourceFileUploader').val('').clone(true));
     this.resetfileSource();
     // this.service.invoke('post.fileupload').subscribe().unsubscribe();
@@ -246,7 +246,7 @@ export class AddStructuredDataComponent implements OnInit {
   }
   
   setEditorContent(event) {
-    console.log("parse", event);
+    // console.log("parse", event);
     try{
       let payload_temp = JSON.parse(this.structuredData.payload);
       if(payload_temp){
