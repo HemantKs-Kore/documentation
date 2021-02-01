@@ -264,6 +264,12 @@ export class AppComponent implements OnInit , OnDestroy {
     this.searchInstance = new FindlySDK(findlyConfig);
     this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    this.searchInstance.addSourceType({
+      container : 'sa-custom-nav-panel-container'
+    });
+    this.searchInstance.addSearchFacets({
+      container : 'sa-facets-container'
+    });
   }
   showHideSearch(show,disabelInstanceDistroy?){
     const _self = this;

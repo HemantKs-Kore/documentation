@@ -353,7 +353,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = 'https://app.findly.ai';
 
       var baseAPIServer = 'https://dev.findly.ai'; // For XHR calls in DEV
-      // var baseAPIServer = 'https://pilot.findly.ai'; // For XHR calls in PILOT
+      //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in PILOT
 
 
       if (_self.isDev) {
@@ -883,6 +883,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }; //********************original widget.js end */
     //********************original widgetTemplate.js start */
+    FindlySDK.prototype.addConversationTitle = function(config) {
+      $('#' + config.container)
+    }
     FindlySDK.prototype.addConversationContainer = function(config) {
       console.log("this.customSearchResult", this.customSearchResult);
       var searchContainer = '<script type="text/x-jqury-tmpl">\
@@ -3313,9 +3316,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     FindlySDK.prototype.bindSearchActionEvents = function () {
       var _self = this;
-      $('.search-container').off('click', '.search-task').on('click', '.search-task', function (e) {
+      $('.search-task').off('click').on('click', function (e) {
         //console.log("faq", e.target.title);
         e.stopPropagation();
+        _self.pubSub.publish('sa-action-clicked', e);
         var taskName = e.target.title.toLowerCase();
         var payload = $(e.target).attr('payload');
         if (!_self.vars.searchObject.recentTasks.length || (_self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.indexOf(taskName.toLowerCase()) == -1)) {
@@ -4461,6 +4465,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
+          _self.pubSub.publish('sa-search-focus', {});
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
           // _self.closeGreetingMsg();
@@ -5200,6 +5205,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       });
     }();
+    FindlySDK.prototype.setActionTitle = function (title, container) {
+      var actionTitleTmpl = '<div><div class="action-chat-title">${title}</div></div>';
+      var template = $(actionTitleTmpl).tmplProxy({
+        title: title
+      });
+      $('#' + container).append(template);
+    }
     FindlySDK.prototype.sendMessageToSearch = function (type, mesageData, data) {
       var _self = this;
       var messageData = {
@@ -6092,7 +6104,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       /*if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }*/
-      _self.baseAPIServer = findlyConfig.baseAPIServer;
+      if (window.appConfig.API_SERVER_URL) {
+      _self.baseAPIServer = window.appConfig.API_SERVER_URL;
+      }
       _self.initWebKitSpeech();
       _self.setAPIDetails();
       _self.initKoreSDK(_findlyConfig);
@@ -6237,7 +6251,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       _self.customSearchResult = true;
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
-          console.log("1111111111111", data);
           if (!data.selectedFacet) {
             _self.pubSub.publish('facet-selected', {selectedFacet : 'all results'});
           }
@@ -6300,24 +6313,35 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           
           if (actionContainer) {
-            if (config.actionTemplateId) {
-              var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
-              if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                $('#' + actionContainer).empty();
+            if (data.tasks && data.tasks.length  > 0) {
+              if (config.actionTemplateId) {
+                var dataHTML = $('#' + config.actionTemplateId).tmplProxy(data);
+                if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                  $('#' + actionContainer).empty();
+                }
+                $('#' + actionContainer).append(dataHTML);
+              } else if (config.actionTemplate) {
+                var dataHTML = $(config.actionTemplate).tmplProxy(data);
+                if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
+                  $('#' + actionContainer).empty();
+                }
+                $('#' + actionContainer).append(dataHTML);
               }
-              $('#' + actionContainer).append(dataHTML);
-            } else if (config.actionTemplate) {
-              var dataHTML = $(config.actionTemplate).tmplProxy(data);
-              if (actionContainer !== pageContainer && actionContainer !== faqContainer) {
-                $('#' + actionContainer).empty();
+              if (config.actionHandler) {
+                _self.pubSub.subscribe('sa-action-clicked', (topic, data) => {
+                  config.actionHandler(data);
+                })
               }
-              $('#' + actionContainer).append(dataHTML);
+              _self.bindSearchActionEvents();
+            } else {
+              $('#' + actionContainer).empty();
             }
           }
 
           if (config.searchHandler) {
             config.searchHandler(data)
           }
+
     });
   }
   FindlySDK.prototype.addConversationBox = function(config) {
@@ -6325,6 +6349,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     $('#' + config.container).addClass('conversation-box');
     var conversationBox = '<input type="text" class="conversation-box-input" id="sa-conversation-box"/>';
     $('#' + config.container).empty().append(conversationBox);
+    if (config.classes) {
+      $('.conversation-box-input').addClass(config.classes);
+    }
     var ccBox = '#sa-conversation-box';
     $(ccBox).off('keydown').on('keydown', function(event) {
       var code = event.keyCode || event.which;
@@ -6342,6 +6369,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
     FindlySDK.prototype.addSearchText = function(config) {
       var _self = this;
+      _self.customSearchResult = true;
       window.koreWidgetSDKInstance = _self;
       
       if (config && config.autoSuggest === true) {
@@ -6352,6 +6380,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (config && config.showRecentSearches === true) {
         _self.enableRecent();
+      }
+
+      if (config && config.focusHandler) {
+        _self.pubSub.subscribe('sa-search-focus', data => {
+          config.focusHandler();
+        });
       }
 
       var dataHTML = $(_self.getSearchControl()).tmplProxy(config);
@@ -6385,7 +6419,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, 1000);
       }
       
-
       _self.searchEventBinding(dataHTML, 'search-container',{}, config);
     }
     // FindlySDK.prototype.showSearch = function () {
@@ -6432,7 +6465,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $(dataHTML).css('left', left);
       // debugger;
       var container = $('.search-background-div');
-      if (!container.length) {
+      if (!container.length && !_self.customSearchResult) {
         container = $('body')
       }
       $(container).append(dataHTML);
