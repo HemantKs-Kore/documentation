@@ -17,7 +17,27 @@ export class SearchInterfaceComponent implements OnInit {
   serachIndexId:any;
   indexPipelineId : any;
   fieldData : any;
-  list : any = ['Actions','FAQs','Pages','Structured Data']
+  list : any = ['Actions','FAQs','Pages','Structured Data'];
+  templateTypeList : any = [{
+    'id' : 'listTemp1',
+    'value': 'List Templte 1'
+  },
+  {
+    'id' : 'listTemp2',
+    'value': 'List Templte 2'
+  },
+  {
+    'id' : 'listTemp3',
+    'value': 'List Templte 3'
+  },
+  {
+    'id' : 'grid',
+    'value': 'Grid'
+  },
+  {
+    'id' : 'carousel',
+    'value': 'Carousel'
+  }]
   showDescription: boolean = true;
   showImage : boolean = false;
   customizeTemplateObj : customizeTemplate = new customizeTemplate();
@@ -38,6 +58,7 @@ export class SearchInterfaceComponent implements OnInit {
   }
   template(type){
     this.customizeTemplateObj.template.type = type;
+    //this.
   }
   resultLayoutChange(layout){
     this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();

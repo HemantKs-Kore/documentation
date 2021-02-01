@@ -53,7 +53,7 @@
             <div class="kr-sg-dropdowns">        
               <div class="dropdown dropdown-open">
                   <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">SourceType</button>                                            
-                  <ul class="dropdown-menu content-menu">                                                        
+                  <ul class="dropdown-menu content-menu">                                                   
                     <li><a>Option 1</a></li>
                     <li><a>Option 2</a></li>
                     <li><a>Option 3</a></li>
@@ -127,10 +127,11 @@
         <div class="label-text">Template Type</div>
         <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{customizeTemplateObj.template.type}}</button>                                            
-            <ul class="dropdown-menu content-menu">                                                         
-              <li (click)="template('list')"><a>Option 1</a></li>
+            <ul class="dropdown-menu content-menu">  
+              <li *ngFor="let list of templateTypeList"  (click)="template(list.id)"><a>{{list.value}}</a></li>                                                          
+              <!-- <li (click)="template('list')"><a>Option 1</a></li>
               <li (click)="template('list')"><a>Option 2</a></li>
-              <li (click)="template('list')"><a>Option 3</a></li>
+              <li (click)="template('list')"><a>Option 3</a></li> -->
             </ul>
         </div>
       </div>
@@ -366,7 +367,44 @@
               </div>                        
             </div> -->
             <div class="p-selection mb-2">Preview as per above selection</div>
-
+            <!-- New List SUNIL start-->
+            <div class="result-right-sec list-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>              
+            </div>
+            <div class="result-right-sec list-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">Field Mapped for heading will appear here</div>
+                <div class="r-desc text-truncate">Field mapped for Description will appear here</div>
+              </div>              
+            </div>
+             <!-- New List SUNIL end-->
             <!-- Preview For Title with Text ClickAble-->
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'titleWithText' && customizeTemplateObj.template.searchResultlayout.clickable">
               <div class="result-card">
