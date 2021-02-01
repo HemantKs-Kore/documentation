@@ -16,6 +16,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { ThemePalette } from '@angular/material/core';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -74,7 +75,7 @@ export class TeamManagementComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  members: string[] = [];
+  members: any[] = [];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
@@ -172,9 +173,6 @@ export class TeamManagementComponent implements OnInit {
     this.addEditFacetObj = JSON.parse(JSON.stringify(this.facetDefaultValueObj.facet));
     if (this.selectedField && this.selectedField.fieldDataType) {
       this.selectedField.fieldDataType = null;
-    }
-    if (this.rolesList.length === 0) {
-      this.getRoles();
     }
     this.openModal();
   }
@@ -404,6 +402,7 @@ export class TeamManagementComponent implements OnInit {
     this.service.invoke('get.members', quaryparms).subscribe(res => {
       console.log("res teamRole", res)
       this.membersList = res.users;
+      this.getRoles();
     }, errRes => {
     });
   }
@@ -430,10 +429,14 @@ export class TeamManagementComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
     // Add our fruit
     if ((value || '').trim()) {
-      this.members.push(value.trim());
+      if (this.validateEmail(value)) {
+        this.members.push({ value: value.trim(), invalid: false });
+      }
+      else {
+        this.members.push({ value: value.trim(), invalid: true });
+      }
     }
 
     // Reset the input value
@@ -465,14 +468,21 @@ export class TeamManagementComponent implements OnInit {
   }
   //add member
   addMember() {
+    console.log("this.members", this.members)
     let users = [];
     for (let i in this.membersList) {
       users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
     }
-    for (let i in this.members) {
-      users.push({ emailId: this.members[i], roleId: this.member_roleId[0]._id })
+    const validateEmail = this.members.every(e => e.invalid === false);
+    if (validateEmail) {
+      for (let i in this.members) {
+        users.push({ emailId: this.members[i].value, roleId: this.member_roleId[0]._id })
+      }
+      this.updateMember(users);
     }
-    this.updateMember(users);
+    else {
+      this.notificationService.notify("Please correct the email address and try again.", 'error');
+    }
   }
   //update member method
   updateMember(users) {
@@ -495,5 +505,10 @@ export class TeamManagementComponent implements OnInit {
       this.notificationService.notify("Share app link sent to email successfully", 'success');
     }, errRes => {
     });
+  }
+  //validate email in mat-chip
+  private validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
 }

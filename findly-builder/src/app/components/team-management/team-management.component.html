@@ -1,4 +1,4 @@
-<div class="facets-main-container d-none">
+<!-- <div class="facets-main-container d-none">
     <div class="mainLoadingSpinner" *ngIf="loadingContent" >
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
@@ -9,7 +9,7 @@
              <div class="col-8 right-sec p-0">            
                     <div class="kr-sg-input-text m-0" [ngClass]="{ active: showSearch }" style="float: left">
                         <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="searchSources"
-                        placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">
+                        placeholder="Search" id="fieldSearchId" [(ngModel)]="searchfacet">
                     </div>
                     <div class="seach-block" (click)="toggleSearch()"><img src="assets/icons/search.svg" *ngIf="!showSearch"><img src="assets/images/close.svg" class="d-none" *ngIf="showSearch">Search
                     </div>
@@ -32,11 +32,11 @@
             </div>
             <perfect-scrollbar class="scroll_table">       
                 <ng-container *ngIf="(membersList && membersList.length)">
-                    <div class="body_sec row m-0" *ngFor="let member of membersList" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
+                    <div class="body_sec row m-0" *ngFor="let member of membersList| filter : [searchfacet, 'emailId']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
                         <div class="col-4 content withcheckbox">
-                            <div class="kr-sg-checkbox p-0 m-0" [hidden]="member.roleInfo[0].role==='Owner'">
+                            <div class="kr-sg-checkbox p-0 m-0">
                                 <input id="{{member._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(member)" type="checkbox">
-                                <label for="{{member._id}}" class="checkbox-custom-label"></label>
+                                <label class="checkbox-custom-label" for="{{member._id}}" ></label>                               
                             </div>
                             <div class="title">
                                 <img class="pr-1" *ngIf="member.showFieldWarning && (member.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[member.showFieldWarning] || member.showFieldWarning}}'>
@@ -55,7 +55,7 @@
             </perfect-scrollbar>
         </div>          
     </div>
-</div>
+</div> -->
 
 
 <div class="team-managment-main-container">
@@ -68,7 +68,7 @@
             <div class="title col-4 p-0">Team Management</div>
             <div class="col-8 p-0 d-flex align-items-center justify-content-end p-0">
                 <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
-                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields">           
+                    <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="fieldSearchId" [(ngModel)]="searchfacet">           
                 </div> 
                 <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
                 <div class="add_feild" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">Add Members</div>
@@ -129,8 +129,10 @@
                         *ngFor="let member of members"
                         [selectable]="selectable"
                         [removable]="removable"
-                        (removed)="remove(member)">
-                        {{member}}
+                        (removed)="remove(member)"  
+                        [color]="(member.invalid)?'warn':''"                
+                        >
+                        {{member.value}}
                         <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
                       </mat-chip>
                       <input
