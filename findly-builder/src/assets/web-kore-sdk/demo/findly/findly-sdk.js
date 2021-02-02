@@ -1018,7 +1018,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               style="position: absolute; bottom: 0px; padding-left:46px!important; \
             {{/if}}\
                background:transparent;">\
-            {{if microphone}}\
+            {{if microphone && defaultMicrophone}}\
               <div class="sdkFooterIcon microphoneBtn"> \
                   <button class="notRecordingMicrophone" title="Microphone On"> \
                       <i class="microphone"></i> \
@@ -2386,7 +2386,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       return listTemplate;
     }
-
+    FindlySDK.prototype.enableAutoSuggest = function() {
+      var _self = this;
+      _self.pubSub.subscribe('sa-auto-suggest', (msg, data) => {
+        _self.getSuggestion(data);
+      })
+    }
     FindlySDK.prototype.getSuggestion = function (suggestions) {
       var _self = this;
       var $suggest = $('#suggestion');
@@ -6110,7 +6115,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.initWebKitSpeech();
       _self.setAPIDetails();
       _self.initKoreSDK(_findlyConfig);
-      _self.initWebKitSpeech();
+      setTimeout(() => {
+        _self.initWebKitSpeech();
+      }, 1000);
       _self.setAPIDetails();
 
       window.koreWidgetSDKInstance = _self;
@@ -6390,10 +6397,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var dataHTML = $(_self.getSearchControl()).tmplProxy(config);
       if (config.microphone) {
-        $(dataHTML).off('click', '.notRecordingMicrophone').on('click', '.notRecordingMicrophone', function (event) {
+        $('.notRecordingMicrophone').off('click').on('click',  function (event) {
           getSIDToken();
         });
-        $(dataHTML).off('click', '.recordingMicrophone').on('click', '.recordingMicrophone', function (event) {
+        $('.recordingMicrophone').off('click').on('click', function (event) {
           stop();
         });
       }
@@ -6418,7 +6425,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.bindCloseGreeting();
         }, 1000);
       }
-      
+      $('.cancel-search').off('click').on('click',  function (event) {
+        $('#search').val('');$('#suggestion').val('')
+      });
       _self.searchEventBinding(dataHTML, 'search-container',{}, config);
     }
     // FindlySDK.prototype.showSearch = function () {
@@ -6441,6 +6450,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.addSearchFacets({
           container : 'sa-facets-container'
         });
+        _self.enableAutoSuggest();
       }
       window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
