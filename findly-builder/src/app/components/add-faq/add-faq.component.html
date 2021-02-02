@@ -247,6 +247,7 @@
             <span class="tab-title d-none" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
           </div>
         </div>
+      
         <div class="col-6 right-sec">
           <div class="tabs-sec border-0">
             <span class="tab-title pl-0">Response Preview</span>
@@ -256,7 +257,7 @@
       <div class="bottom_sec d-flex">
         <div class="col-6 left_sec">        
           <div class="content-data">
-            <div class="bot_rsponse_advance_mode">
+            <!-- <div class="bot_rsponse_advance_mode">
               <div class="layout-select">
                 <div class="d-flex align-items-center m-0 col-10 p-0">
                   <div class="title">Select Layout</div>
@@ -275,10 +276,30 @@
                 </div>
               </div>
               <img src="assets/icons/sidemenu/delete-table.svg" class="delete-response hide">
-            </div>    
+            </div>     -->
             <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
           </div>
+          <div class="label_text">Upload Image</div>
+          <!-- <div class="push-notify"> </div> -->
+          <div class="multi-select">
+            <!-- {{uploadImage.slide | json}} -->
+            <div class="row">
+                <label class="kr-sg-toggle">                                           
+                    <input type="checkbox" [(ngModel)]="uploadImage.slide">
+                    <div class="slider"></div>
+                </label>  
+                <div>
+                    <span *ngIf="!uploadImage.slide">No</span>
+                    <span *ngIf="uploadImage.slide">Yes</span>
+                </div>
+            </div>
         </div>
+        <div class="kr-sg-input-text mb-3" *ngIf="uploadImage.slide"> 
+          <div class="label-text">URL</div>
+          <input maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName">
+        </div>
+        </div>
+       
         <div class="col-6 right_sec">        
           <div class="content-data">
             <div class="responsePreviewBlock">

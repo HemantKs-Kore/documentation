@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </div>            
-            <div class="content right-content">
+            <div class="content right-content" [ngClass]="{'blur-content':(faqSelectionObj.selectedCount > 1) }">
                 <div class="content-boxes train_your_questions">
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">

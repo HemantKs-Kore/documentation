@@ -345,10 +345,10 @@
             <div class="label_text">{{'facets.multi_select' | translate}}</div>
             <div class="row">
                 <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" [(ngModel)]="addEditFacetObj.isMultiSelect">
-                    <div class="slider"></div>
-                </label>
-                <div>
+                    <input type="checkbox" [(ngModel)]="addEditFacetObj.isMultiSelect"> 
+                    <div class="slider"></div> 
+                </label> 
+                <div> 
                     <span *ngIf="addEditFacetObj.isMultiSelect">{{'facets.allow' | translate}}</span>
                     <span *ngIf="!addEditFacetObj.isMultiSelect">{{'facets.do_not_allow' | translate}}</span>
                     {{'facets.multip_select_info' | translate}}
