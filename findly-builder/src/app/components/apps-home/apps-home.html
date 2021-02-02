@@ -63,22 +63,125 @@
         </div>
           </div>
       </div>      
-        <div class="body-sec">
-          <div class="row m-0 appsListingContainer">
-            <div class="cards-content" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
-              <div class="box">
-                <div class="img-block">
-                  <img src="assets/icons/user-gray.svg">
-                </div>
-                <div class="content-sec">
-                  <div class="name"><span>{{app.name}}</span></div>
-                  <div class="info-text" *ngIf="app.description !==''">{{app.description}}</div>
-                </div>
+      <div class="body-sec">
+        <div class="row m-0 appsListingContainer">
+          <div class="m-title col-12">Recently Visited</div>
+
+          <div class="cards-content d-none" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
+            <div class="box">
+              <div class="img-block">
+                <img src="assets/icons/user-gray.svg">
+              </div>
+              <div class="content-sec">
+                <div class="name"><span>{{app.name}}</span></div>
+                <div class="info-text" *ngIf="app.description !==''">{{app.description}}</div>
               </div>
             </div>
-            <div class="empty">No apps found that matches with {{searchApp}}</div>
           </div>
+          
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+            </div>             
+          </div>
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+              <div class="user-name">Abhilasha Tripathi</div>
+            </div>             
+          </div>
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+            </div>             
+          </div>
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+            </div>             
+          </div> 
+          
+          
+          <div class="row m-0 col-12 filters-dropdown">
+              <div class="col-6 d-flex align-items-center p-0 left">                  
+                <div class="kr-sg-dropdowns">                    
+                  <div class="dropdown dropdown-open">
+                      <span class="m-title m-0">All Apps</span>
+                      <button class="dropdown-toggle dropdown-input border-0 w-auto" data-toggle="dropdown"><img src="assets/icons/dashboard/dropdown-apps.svg"></button>                                            
+                      <ul class="dropdown-menu content-menu w-auto">                                          
+                        <li><a>My Apps</a></li>
+                        <li><a>Shared Apps</a></li>
+                        <li><a class="selected">All Apps</a></li>
+                        <li><a>In development Apps</a></li>
+                        <li><a>Published Apps</a></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 right">
+                <div class="sort-by">Sort by:</div>
+                <div class="kr-sg-dropdowns w-auto">                    
+                  <div class="dropdown dropdown-open">                        
+                      <button class="dropdown-toggle dropdown-input pl-3 pr-5" data-toggle="dropdown">Created Date</button>                                            
+                      <ul class="dropdown-menu content-menu">                                          
+                        <li><a class="selected">Created Date</a></li>
+                        <li><a>Alphabetical Order</a></li>                         
+                      </ul>
+                  </div>
+                </div>
+                <div class="filter-up-down"><img src="assets/icons/dashboard/filter.svg"></div>
+              </div>                   
+          </div>
+          
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+              <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div>
+            </div>             
+          </div>
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+              <div class="user-name">Abhilasha Tripathi</div>
+            </div>             
+          </div>
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+            </div>             
+          </div>
+          <div class="cards-content">
+            <div class="box">                
+              <div class="content-sec">
+                <div class="name"><span>My Smart Assistant</span></div>
+                <div class="info-text">HR tasks</div>
+              </div>
+            </div>             
+          </div>          
+          <div class="empty">No apps found that matches with {{searchApp}}</div>
         </div>
+      </div>
     </div>
   </div>
 </perfect-scrollbar>
