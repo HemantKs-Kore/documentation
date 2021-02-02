@@ -214,25 +214,25 @@ export class SummaryComponent implements OnInit {
     }
     this.service.invoke('get.overview', queryParams).subscribe(
       res => {
-        console.log(res);
+        console.log("res latest", res);
         this.experiments = res.experiments;
         this.activities = res.activities;
         this.indices = res.indices;
         console.log(this.indices)
-        this.experiments.forEach(element => {
-          if (element.variants) {
-            element.variants.forEach(res => {
-              if (res.leader) {
-                element['winner'] = true;
-              }
-            });
-          }
-        });
+        // this.experiments.forEach(element => {
+        //   if (element.variants) {
+        //     element.variants.forEach(res => {
+        //       if (res.leader) {
+        //         element['winner'] = true;
+        //       }
+        //     });
+        //   }
+        // });
         console.log(this.experiments)
-        this.activities.forEach(element => {
-          element.date = moment(element.date).fromNow();
-          console.log(this.activities)
-        });
+        // this.activities.forEach(element => {
+        //   element.date = moment(element.date).fromNow();
+        //   console.log(this.activities)
+        // });
 
         //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
         //  this.getChannel();
