@@ -4,7 +4,7 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div *ngIf="!loadingContent">
-    <div class="header-sec row" >
+    <div class="header-sec row"  *ngIf='listOfExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
           <b>Experiments</b>

@@ -36,7 +36,7 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
-        <ng-container *ngIf="!((faqs && faqs.length) || (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)) && !loadingFaqs && !loadingTab ">
+        <ng-container *ngIf="!((faqs && faqs.length) || (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved))">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>

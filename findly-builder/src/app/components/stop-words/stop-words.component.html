@@ -26,12 +26,12 @@
      </div> 
 
       <div class="empty_screen_data" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
-          <perfect-scrollbar class="scoll-empty-screen">
+          <perfect-scrollbar class="scoll-empty-screen" *ngIf="!showAddStopWordsContainer">
             <div class="empty-landing-screen">
-              <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/contentmanag-empty.svg"></div>   
-              <div class="empty-title">You haven’t added any content data yet!</div>
-              <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.</div>
-              <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+              <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/stopwords-empty.svg"></div>   
+              <div class="empty-title">You haven’t added any Stop words yet!</div>
+              <div class="desc-text"> Stop words are a set of common words (such as the, a, to, all) that dilutes the importance of keywords in a search query. SearchAssist allows you to use either the default set of stop words or add a custom set as per your need.</div>
+              <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          
                 <div class="dropdown dropdown-open">
                   <button class="kr-sg-button-primary btn_lg px-2"  (click)="showAddStopWordsContainer=true">Add Stop Words</button>                                            
                 </div>                                    
@@ -78,12 +78,12 @@
           <div class="kr-sg-input-search m-0" [ngClass]="{'active': showSearch}">                               
             <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='searchSources' placeholder="Search" id="searchSynonymsId" [(ngModel)]="searchStopwords" maxlength="50">           
           </div> 
-          <div class="searchBlock" (click)="toggleSearch()">
+          <div class="searchBlock" (click)="toggleSearch()" *ngIf="(stopwords && stopwords.length)">
             <img *ngIf="showSearch" class="search-icon" src="assets/images/close.svg">
             <img *ngIf="!showSearch" class="search-icon" src="assets/icons/search_black.svg">
             <span *ngIf="!showSearch" class="label_txt">{{'stopWords.Search'| translate}}</span>
           </div>  
-          <div class="restoreDefaults" (click)="restoreStopWords($event)">
+          <div class="restoreDefaults" (click)="restoreStopWords($event)" *ngIf="(stopwords && stopwords.length)" >
               <img class="label-icon" src="assets/icons/return_black.svg"><span class="label_txt">{{'stopWords.restore_to_default' | translate}}</span>              
           </div> 
         </div>                     
