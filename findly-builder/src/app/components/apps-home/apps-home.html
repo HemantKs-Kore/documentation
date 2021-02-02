@@ -79,36 +79,11 @@
             </div>
           </div>
           
-          <div class="cards-content">
+          <div class="cards-content" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
             <div class="box">                
               <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
-              </div>
-            </div>             
-          </div>
-          <div class="cards-content">
-            <div class="box">                
-              <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
-              </div>
-              <div class="user-name">Abhilasha Tripathi</div>
-            </div>             
-          </div>
-          <div class="cards-content">
-            <div class="box">                
-              <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
-              </div>
-            </div>             
-          </div>
-          <div class="cards-content">
-            <div class="box">                
-              <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
+                <div class="name"><span>{{app.name}}</span></div>
+                <div class="info-text" *ngIf="app.description !==''">{{app.description}}</div>
               </div>
             </div>             
           </div> 
@@ -118,14 +93,11 @@
               <div class="col-6 d-flex align-items-center p-0 left">                  
                 <div class="kr-sg-dropdowns">                    
                   <div class="dropdown dropdown-open">
-                      <span class="m-title m-0">All Apps</span>
+                      <span class="m-title m-0">{{app_type}} Apps</span>
                       <button class="dropdown-toggle dropdown-input border-0 w-auto" data-toggle="dropdown"><img src="assets/icons/dashboard/dropdown-apps.svg"></button>                                            
                       <ul class="dropdown-menu content-menu w-auto">                                          
-                        <li><a>My Apps</a></li>
-                        <li><a>Shared Apps</a></li>
-                        <li><a class="selected">All Apps</a></li>
-                        <li><a>In development Apps</a></li>
-                        <li><a>Published Apps</a></li>
+                        <li *ngFor='let app of appTypes' (click)="selectedAppType(app)" [class.selected]="app == app_type"><a>{{app}} Apps</a></li>
+                        <!-- <li><a class="selected">All Apps</a></li> -->
                       </ul>
                   </div>
                 </div>
@@ -136,25 +108,24 @@
                   <div class="dropdown dropdown-open">                        
                       <button class="dropdown-toggle dropdown-input pl-3 pr-5" data-toggle="dropdown">Created Date</button>                                            
                       <ul class="dropdown-menu content-menu">                                          
-                        <li><a class="selected">Created Date</a></li>
-                        <li><a>Alphabetical Order</a></li>                         
+                        <li *ngFor="let sort of sortBy" (click)="sortApp(sort)"><a [class.selected]="sort==sort_type">{{sort}}</a></li>
                       </ul>
                   </div>
                 </div>
-                <div class="filter-up-down"><img src="assets/icons/dashboard/filter.svg"></div>
+                <div class="filter-up-down" (click)="sortApp('Icon filter')"><img src="assets/icons/dashboard/filter.svg"></div>
               </div>                   
           </div>
           
-          <div class="cards-content">
+          <div class="cards-content" *ngFor="let filter of filteredApps" (click)="openApp(filter)">
             <div class="box">                
               <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
+                <div class="name"><span>{{filter.name}}</span></div>
+                <div class="info-text" *ngIf="filter.description !==''">{{filter.description}}</div>
               </div>
               <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div>
             </div>             
           </div>
-          <div class="cards-content">
+          <!-- <div class="cards-content">
             <div class="box">                
               <div class="content-sec">
                 <div class="name"><span>My Smart Assistant</span></div>
@@ -162,23 +133,7 @@
               </div>
               <div class="user-name">Abhilasha Tripathi</div>
             </div>             
-          </div>
-          <div class="cards-content">
-            <div class="box">                
-              <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
-              </div>
-            </div>             
-          </div>
-          <div class="cards-content">
-            <div class="box">                
-              <div class="content-sec">
-                <div class="name"><span>My Smart Assistant</span></div>
-                <div class="info-text">HR tasks</div>
-              </div>
-            </div>             
-          </div>          
+          </div> -->
           <div class="empty">No apps found that matches with {{searchApp}}</div>
         </div>
       </div>
