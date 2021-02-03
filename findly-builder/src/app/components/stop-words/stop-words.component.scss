@@ -251,3 +251,7 @@
         display: none !important;
     }
 }
+
+.kr-sg-dropdowns.exportdropdown .dropdown-open .dropdown-input::before{
+    background-image: unset;
+}
