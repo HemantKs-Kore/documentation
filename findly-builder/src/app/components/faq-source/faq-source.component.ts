@@ -48,7 +48,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     selectAll:false,
     selectedItems:{},
     selectedCount:0,
-    stats:{}
+    stats:{},
+    loadingStats:true
   }
   newCommentObj = {
     comment:''
@@ -438,6 +439,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.service.invoke(endPoint, quaryparms).subscribe(res => {
       this.faqSelectionObj.stats = res.countByState;
+      this.faqSelectionObj.loadingStats=false;
     }, errRes => {
     });
   }

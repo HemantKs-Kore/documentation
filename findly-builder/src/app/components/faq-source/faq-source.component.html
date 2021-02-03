@@ -36,7 +36,7 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
-        <ng-container *ngIf="!((faqs && faqs.length) || (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved))">
+        <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats)">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </div>            
-            <div class="content right-content" [ngClass]="{'blur-content':(faqSelectionObj.selectedCount > 1) }">
+            <div class="content right-content">
                 <div class="content-boxes train_your_questions">
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">
