@@ -4,7 +4,7 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div *ngIf="!loadingContent">
-    <div class="header-sec row">
+    <div class="header-sec row"  *ngIf='listOfExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
           <b>Experiments</b>
@@ -239,21 +239,36 @@
       <!-- <div class="no-experiments">
         <div class="desc">No search results found</div>
       </div> -->
-      <div class="no-experiments" *ngIf="filterExperiments.length===0">
+      <!-- <div class="no-experiments" *ngIf="filterExperiments.length===0">
         <img src="assets/icons/experiment/empty_experiments.svg" />
         <div class="title">You haven't added any Experiment yet</div>
         <div class="dec">
           Fortunately , it is very easy to add one by clicking on the Add
           experiments
         </div>
-      </div>
-      <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
+      </div> --> 
+      <ng-container *ngIf="filterExperiments.length===0">
+        <perfect-scrollbar class="empty-scroll">
+        <div  class="empty-landing-screen" >
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/experiments-empty.svg"></div>
+          <ng-container>
+              <div class="empty-title">You haven’t added any experiments yet!</div>
+              <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
+              </div>
+              <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
+                <button class="kr-sg-button-primary" (click)="addExperiment('add')">Add Experiments</button>                                            
+              <!-- </div> -->
+          </ng-container>
+          </div>
+    </perfect-scrollbar>  
+  </ng-container>
+<div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
       <span *ngIf='listOfExperiments.length>0' style="float: left;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
     </perfect-scrollbar>
   </div>
-</div>
+</div> 
 <!---add popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal" #addExperiments>
   <div class="modal-header">
@@ -287,7 +302,7 @@
       </div>
 
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
-        <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
+        <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant"> 
           <div class="label-text">Variant Name</div>
           <input type="text" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"
             [(ngModel)]="vari.name" (blur)="fetchVariant(varIndex, varName.value, 'name')"
