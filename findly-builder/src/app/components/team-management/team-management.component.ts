@@ -101,22 +101,11 @@ export class TeamManagementComponent implements OnInit {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadfacets();
     })
-    this.getFieldAutoComplete('');
     this.getUserInfo();
     this.getRoleMembers();
   }
   loadfacets() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.getFacts();
-    }
-  }
-  getType(name) {
-    if (typeof name === 'number') {
-      return 'Number';
-    } else {
-      return 'String';
-    }
   }
   checkUncheckfacets(facet) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
@@ -176,123 +165,6 @@ export class TeamManagementComponent implements OnInit {
     }
     this.openModal();
   }
-  resetDefaults() {
-    this.facetDefaultValueObj = {
-      facet: {
-        fieldId: '',
-        facetName: '',
-        facetType: 'value',
-        isMultiSelect: false,
-        facetValue: {},
-      },
-      range: {
-        rangeName: '',
-        from: '',
-        to: ''
-      },
-      value: {
-        size: 0,
-        orderKey: 'count',
-        asc: true
-      }
-    }
-  }
-  getFieldAutoComplete(query) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      query
-    };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = res || [];
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get fields');
-    });
-    if (!query) {
-      this.fieldDataType = 'number';
-      this.filedTypeShow = false;
-    } else {
-      this.filedTypeShow = true;
-    }
-  }
-  switchType(type) {
-    if (type === 'value') {
-      if (this.addEditFacetObj.facetRange) {
-        delete this.addEditFacetObj.facetRange;
-      }
-      this.addEditFacetObj.facetValue = {};
-    } else {
-      if (this.addEditFacetObj.facetValue) {
-        delete this.addEditFacetObj.facetValue;
-      }
-      this.addEditFacetObj.facetRange = [];
-    }
-    this.addEditFacetObj.facetType = type;
-  }
-  removeRange(index) {
-    this.addEditFacetObj.facetRange.splice(index, 1);
-  }
-  addFiled(facet?) {
-    if (this.addEditFacetObj.facetType === 'value') {
-      if (this.addEditFacetObj.facetRange) {
-        delete this.addEditFacetObj.facetRange;
-      }
-      if (!this.addEditFacetObj.facetValue) {
-        this.addEditFacetObj.facetValue = {};
-      }
-    } else {
-      if (this.addEditFacetObj.facetValue) {
-        delete this.addEditFacetObj.facetValue;
-      }
-      if (!this.addEditFacetObj.facetRange) {
-        this.addEditFacetObj.facetRange = [];
-      }
-      if (this.facetDefaultValueObj.range.rangeName) {
-        this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
-      }
-    }
-    this.resetDefaults();
-  }
-  getFieldData(fieldId) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      fieldId,
-    };
-    this.service.invoke('get.getFieldById', quaryparms).subscribe(res => {
-      this.addEditFacetObj.fieldName = res.name;
-    }, errRes => {
-    });
-  }
-  getFacts(offset?) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
-      offset: offset || 0,
-      limit: 100
-    };
-    this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
-      this.facets = res || [];
-      this.loadingContent = false;
-      this.addRemovefacetFromSelection(null, null, true);
-    }, errRes => {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to get facets');
-    });
-  }
-  selectField(suggesition) {
-    this.selectedField = suggesition;
-    this.fieldDataType = suggesition.fieldDataType;
-    this.filedTypeShow = true;
-    if (suggesition.fieldId) {
-      this.addEditFacetObj.fieldId = suggesition.fieldId;
-      this.selectedField.fieldId = suggesition.fieldId;
-    } else {
-      this.addEditFacetObj.fieldId = suggesition._id;
-      this.selectedField.fieldId = suggesition._id;
-    }
-    this.addEditFacetObj.fieldName = suggesition.fieldName
-  }
   deleteFacets(member?, bulk?) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -349,12 +221,6 @@ export class TeamManagementComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-  addOrUpdate() {
-    this.addFiled();
-    if (this.addEditFacetObj && this.addEditFacetObj._id) {
-
-    }
-  }
   openModal() {
     this.facetModalRef = this.facetModalPouup.open();
   }
@@ -362,7 +228,7 @@ export class TeamManagementComponent implements OnInit {
     if (this.facetModalRef && this.facetModalRef.close) {
       this.facetModalRef.close();
     }
-    this.resetDefaults();
+
     this.addEditFacetObj = null;
     this.members = [];
   }
@@ -422,6 +288,7 @@ export class TeamManagementComponent implements OnInit {
       this.rolesList = res;
       this.member_roleId = this.rolesList.filter(data => data.role === "Member");
       this.member_ownerId = this.rolesList.filter(data => data.role === "Owner");
+      this.loadingContent = false;
       console.log("member_roleId", this.member_roleId[0]._id)
     }, errRes => {
     });
