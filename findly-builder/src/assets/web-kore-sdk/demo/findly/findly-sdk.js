@@ -351,8 +351,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       // var baseAPIServer = ''
       // var baseAPIServer = 'https://app.findly.ai';
-
-      var baseAPIServer = 'https://dev.findly.ai'; // For XHR calls in DEV
+    
+      var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
+      //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in DEV
       //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in PILOT
 
 
@@ -6437,12 +6438,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      // _self.initKoreSDK();
-      _self.initKoreSDK(config);
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
+      if (!window.koreWidgetSDKInstance) {
+        _self.initWebKitSpeech();
+        _self.setAPIDetails();
+        // _self.initKoreSDK();
+        _self.initKoreSDK(config);
+        _self.initWebKitSpeech();
+        _self.setAPIDetails();
+        
+        window.koreWidgetSDKInstance = _self;
+      }
       if (!_self.customSearchResult) {
         _self.addSourceType({
           container : 'sa-custom-nav-panel-container'
@@ -6452,7 +6457,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
         _self.enableAutoSuggest();
       }
-      window.koreWidgetSDKInstance = _self;
       var windowWidth = window.innerWidth;
       var left = ((windowWidth / 2) - 250) + 'px';
       var dataHTML = $(_self.getSearchTemplate('searchContainer')).tmplProxy({
