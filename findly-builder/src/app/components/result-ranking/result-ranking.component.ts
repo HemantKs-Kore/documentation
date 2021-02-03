@@ -31,6 +31,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   limitpage = 10;
   customizeListBack : any;
   loadingContent : boolean = false;
+  nextPage: boolean = false;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;

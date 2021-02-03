@@ -794,6 +794,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   faqUpdateEvent(){
     this.faqUpdate.next();
+    this.selectTab('draft');
+
   }
   editThisQa(){
     this.showSourceAddition = false

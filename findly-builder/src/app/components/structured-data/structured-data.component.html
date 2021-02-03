@@ -9,7 +9,7 @@
                 <span [ngClass]="{'d-none': searchActive}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': searchActive}">{{'search' | translate}}</span>
                 <img [ngClass]="{'d-none': !searchActive}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)">
             </div>   
-            <div class="adv-search" id="btn_toggle__advanced_search_structured_data" (click)="openAdvancedSearch()"><img src="assets/icons/content/indent.svg">{{'structuredData.advancedSearch' | translate}}</div>
+            <div class="adv-search" id="btn_toggle__advanced_search_structured_data" (click)="openAdvancedSearch()"><img src="assets/icons/content/advanced_filter.svg">{{'structuredData.advancedSearch' | translate}}</div>
             <div class="kr-sg-dropdowns w-auto add_data" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="btn_toggle_add_file_structured_data" ngbDropdownToggle><img src="assets/icons/add_plus.svg">{{'structuredData.addField' | translate}}</button>                                            
@@ -50,7 +50,7 @@
                         </div>
                         <div class="text-right mb-1 col-4 p-0" *ngIf="!noItems || emptySearchResults">
                             <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg ml-2" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
-                            <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                            
+                            <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                            
                         </div>                        
                     </div>
                 <ng-container *ngIf="structuredDataItemsList.length">
