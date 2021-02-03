@@ -178,9 +178,13 @@ export class UserEngagementComponent implements OnInit {
   onUserChange(event, parentClass, multiple?) {
    // this.appendToolTip(event, parentClass, multiple);
    //console.log(multiple,event,parentClass)
+   const hourConversion = ['1 am','2 am','3 am','4 am','5 am','6 am','7 am','8 am','9 am','10 am','11 am','12 pm',
+      '1 pm','2 pm','3 pm','4 pm','5 pm','6 pm','7 pm','8 pm','9pm','10 pm','11 pm','0 am'];
    this.highValue = event.highValue;
    this.lowValue = event.value;
    this.busyHours();
+  // document.getElementsByClassName('ng5-slider-model-value')[0].innerHTML = hourConversion[event.value];
+  // document.getElementsByClassName('ng5-slider-model-high')[0].innerHTML = hourConversion[event.highValue];
   }
   openDateTimePicker(e) {
     setTimeout(() => {
@@ -1089,18 +1093,20 @@ var valueList2 = totaldata.map(function (item) {
       // tooltip: {
       //   position: 'top'
       // },
-      dataset: {
-        dimensions: dimensions,
-        source:source
-    },
+    //   dataset: {
+    //     dimensions: dimensions,
+    //     source:source
+    // },
     
         tooltip: {
-          trigger: 'axis',
-          axisPointer: {            
-            type: 'none'        
-        },
+        //   trigger: 'axis',
+        //   axisPointer: {            
+        //     type: 'none'        
+        // },
+        //${this.tooltipHover(params , busyChartArrayData , source ,dimensions)}
           formatter:  (params,ticket,callback) =>`
-          ${this.tooltipHover(params , busyChartArrayData , source ,dimensions)}
+          
+          ${this.tooltipHoverN(params ,xAxisData,yAxisData)}
           `,
           position: 'top',
           padding: 0
@@ -1171,18 +1177,22 @@ var valueList2 = totaldata.map(function (item) {
           boundaryGap: true
         },
   
-        visualMap: [{
+        visualMap: {
           show: false,
+          // min: 0,
+          // max: this.maxHeatValue,
+          // calculable: true,
+          // orient: 'horizontal',
+          // right: 'right',
+          // bottom: '0',
           min: 0,
           max: this.maxHeatValue,
-          calculable: true,
-          orient: 'horizontal',
-          right: 'right',
-          bottom: '0',
-          inRange : {   
-            color: ['#E7F1FF', '#07377F' ] //From smaller to bigger value ->
-          }
-        }],
+        splitNumber: 5,
+        color: ['#07377F', '#F3F8FF' ],
+          // inRange : {   
+          //   color: ['#E7F1FF', '#07377F' ] //From smaller to bigger value ->
+          // }
+        },
         series: [{
           name: 'Busy hours',
           type: 'heatmap',
@@ -1209,7 +1219,12 @@ var valueList2 = totaldata.map(function (item) {
 
       document.getElementsByClassName('ng5-slider-model-high')[0]['style'].top = "12px";
       document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontWeight = "bold";
-      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontSize = "12px"
+      document.getElementsByClassName('ng5-slider-model-high')[0]['style'].fontSize = "12px";
+
+      document.getElementsByClassName('ng5-slider-combined')[0]['style'].top = "12px";
+      document.getElementsByClassName('ng5-slider-combined')[0]['style'].fontWeight = "bold";
+      document.getElementsByClassName('ng5-slider-combined')[0]['style'].fontSize = "12px";
+      
 
       $(document).on('hover','.ng5-slider-selection-bar',()=>{
         let val = (this.highValue - this.lowValue );
@@ -1246,5 +1261,19 @@ var valueList2 = totaldata.map(function (item) {
         `
         if(loopDIV)
         return this.busyHour_dataDIV = dataDIV + loopDIV;
+    }
+    tooltipHoverN(e , x,y){
+      let loopDIV : any = '';
+      let dataDIV = 
+        `
+        <div class="metrics-tooltips-hover agent_drop_tolltip">
+        <div class="split-sec">
+          <div class="main-title">${y[e.value[1]]}</div>
+          <div class="data-content"><span class="main-title">${x[e.value[0]]}</span></div>
+        </div>    
+        <div class="indication_text">Number of Total Users <b>${e.value[2]}</b></div>
+      </div> 
+        `
+        return dataDIV;
     }
 }

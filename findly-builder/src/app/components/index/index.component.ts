@@ -471,7 +471,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   checkForNewFields(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '500px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {

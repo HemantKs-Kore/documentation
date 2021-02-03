@@ -234,8 +234,6 @@
               <div class="variants-block right">
                 <span class="v-name" *ngFor="let variant of experiment.variants">{{ variant.code }}</span>
                 <span class="success" *ngIf="experiment.winner">WINNER</span>
-            
-                <!-- <img src="assets/icons/overview/prize.svg" class="prize">             -->
                </div>  
             </div> 
             <div class="col-3 status">
@@ -278,7 +276,7 @@
               <span class=""><img src="assets/icons/overview/Info.svg"></span>
             </div>          
           </div> -->
-          <div class="create_new_link">View all</div>
+          <div class="create_new_link" (click)="openExp()">View all</div>
         </div>       
       </div>
     </div>
