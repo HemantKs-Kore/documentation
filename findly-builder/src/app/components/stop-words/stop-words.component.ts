@@ -247,7 +247,42 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         }
       })
   }
-  updateStopWords(dialogRef?,enableOrDisable?) {
+  deleteAllStopWords(event){
+    if(event){
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete  All StopWords',
+        newTitle:'Are you sure you want to delete all StopWords ?',
+        body:'All stopwords will be deleted',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
+      }
+    });
+    dialogRef.componentInstance.onSelect
+    .subscribe(result => {
+      if (result === 'yes') {
+        this.loadingWords=true;
+        // let deleteStopWords = this.stopwords
+        // if(deleteStopWords >= this.stopwords.length ){
+        //   this.stopwords.splice(1,deleteStopWords)
+        //   dialogRef.close();
+        // }
+        this.updateStopWords(dialogRef,null,true);
+      } else if (result === 'no') {
+        dialogRef.close();
+        console.log('deleted')
+      }
+    })
+
+
+  }
+  updateStopWords(dialogRef?,enableOrDisable?,deleteAll?) {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
@@ -261,6 +296,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           }
         });
       }
+    }
+    if(deleteAll){
+      this.stopwords=[]
     }
     const payload: any = {
       pipeline:{
