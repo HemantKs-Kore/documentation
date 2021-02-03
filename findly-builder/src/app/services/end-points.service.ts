@@ -145,6 +145,14 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&extractionSource=all&search=:searchQuary',
       method: 'get'
     };
+    this.serviceList['get.allManualFaqsByState'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=manual',
+      method: 'get'
+    };
+    this.serviceList['get.faqs.searchManual'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&state=:state&limit=:limit&source=manual&search=:searchQuary',
+      method: 'get'
+    };
     this.serviceList['get.allFaqsByResources'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/list?skip=:offset&limit=:limit&state=:state&extractionSourceId=:resourceId&serach=:searchQuary',
       method: 'get'
@@ -191,6 +199,10 @@ export class EndPointsService {
     };
     this.serviceList['get.faqStaticsByResourceFilter'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?extractionSourceId=:resourceId',
+      method: 'get'
+    };
+    this.serviceList['get.faqStaticsManualFilter'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faq/stats?source=:resourceId',
       method: 'get'
     };
     this.serviceList['get.fags'] = {
@@ -532,7 +544,7 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.queryCustomizeList'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
       method: 'get'
     }
     this.serviceList['put.restoreQueryCustomize'] = {
@@ -546,6 +558,14 @@ export class EndPointsService {
     this.serviceList['get.customisationLogs'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
       method: 'get'
+    }
+    this.serviceList['reset.bulkCustomization'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
+      method: 'put'
+    }
+    this.serviceList['delete.CustomizatioLog'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
+      method: 'delete'
     }
     /** get API for Metrics */
 
@@ -678,7 +698,7 @@ export class EndPointsService {
     }
     //APIs for experiments
     this.serviceList['get.experiment'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/experiments?state=:state&offset=:offset&limit=:limit',
       method: 'get'
     }
     this.serviceList['create.experiment'] = {
@@ -706,6 +726,41 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',
       method: 'put'
     }
+
+    this.serviceList['add.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:type&contentSource=:file',
+      method: 'post'
+    };
+
+    this.serviceList['get.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData?limit=:limit&skip=:skip',
+      method: 'get'
+    };
+
+    this.serviceList['delete.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
+      method: 'delete'
+    }
+
+    this.serviceList['delete.clearAllStructureData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData',
+      method: 'delete'
+    }
+
+    this.serviceList['update.structuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
+      method: 'put'
+    }
+
+    this.serviceList['get.searchStructuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/search?q=:searchQuery&limit=:limit&skip=:skip',
+      method: 'post'
+    };
+
+    this.serviceList['post.searchStructuredData'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/search?q=:searchQuery&limit=:limit&skip=:skip&advanceSearch=:advanceSearch',
+      method: 'post'
+    };
 
     this.serviceList['delete.dockById'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
@@ -741,6 +796,10 @@ export class EndPointsService {
     this.serviceList['put.members'] = {
       endpoint: this.API_SERVER_URL + '/findly/users/:userId/streams/:streamId/shareApp',
       method: 'put'
+    }
+    this.serviceList['get.streamData'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
     }
     //  this.serviceList['export.dockstatus'] = {
     //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',

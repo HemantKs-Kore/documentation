@@ -28,6 +28,7 @@ import { ExperimentsComponent } from './components/experiments/experiments.compo
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
+import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 const routes: Routes = [
   {
     path: '',
@@ -61,6 +62,7 @@ const routes: Routes = [
       { path: 'credentials-list', component: CredentialsListComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'experiments', component: ExperimentsComponent },
+      { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
       { path: '**', component: AppsListingComponent },
     ]

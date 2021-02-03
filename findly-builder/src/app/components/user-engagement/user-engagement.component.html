@@ -104,30 +104,32 @@
                             <!-- <ng5-slider [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider> -->
                             <div class="row m-0 bottom-row col-12 ">
                                 <div class="slider-sec col-6 p-0">
+                                    <span class="span00">00</span>
                                     <ng5-slider class = "col-3" [(value)]="durationRange1" [(highValue)]="durationRange2" [options]="durationOptions" class="double_slider slider1" (userChangeEnd)="onUserChangeEnd('duration', $event, 'slider1')" (userChange)="onUserChange($event, 'slider1', true)"></ng5-slider>
+                                    <span class="span24">24</span>
                                 </div>
                                 <div class="legend-sec col-6 p-0">
                                     <div class="title">{{'metrics.user_engagement.Volume_Of_Users'| translate}}</div>
                                     <div class="legends-info">
                                         <div class="one">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">200 -250</div> -->
+                                            <div class="numbers">{{4* maxHeatValue/5}} - {{maxHeatValue}}</div>
                                         </div>
                                         <div class="two">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">150 -200</div> -->
+                                            <div class="numbers">{{3*maxHeatValue/5}} - {{4*maxHeatValue/5}}</div>
                                         </div>
                                         <div class="three">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">100 -150</div> -->
+                                            <div class="numbers">{{2*maxHeatValue/5}} - {{3*maxHeatValue/5}}</div>
                                         </div>
                                         <div class="four">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">50 -100</div> -->
+                                            <div class="numbers">{{maxHeatValue/5}} - {{2*maxHeatValue/5}}</div>
                                         </div>
                                         <div class="five">
                                             <div class="bg-color"></div>
-                                            <!-- <div class="numbers">0 -50</div> -->
+                                            <div class="numbers">{{minHeatValue}} - {{maxHeatValue/5}}</div>
                                         </div>
                                     </div>
                                 </div>

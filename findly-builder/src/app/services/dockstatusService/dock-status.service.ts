@@ -10,6 +10,7 @@ import * as _ from 'underscore';
 export class DockStatusService {
 
     selectedApp: any;
+    showStatusDocker : boolean = false;
 
     constructor(
         private service: ServiceInvokerService,

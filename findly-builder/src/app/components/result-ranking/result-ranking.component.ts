@@ -31,6 +31,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   limitpage = 10;
   customizeListBack : any;
   loadingContent : boolean = false;
+  nextPage: boolean = false;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
@@ -38,14 +39,24 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   timeLogData : any;
   lastModifiedOn : any;
   resultSelected = false;
+  disableDiv = false;
   collectedRecord = [];
+  permisionView = false; 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService:AppSelectionService) { }
+    sdk_evenBind(){
+      $(document).off('click','.start-search-icon-div').on('click','.start-search-icon-div',() =>{
+        this.getcustomizeList(20,0);
+      })
+      // $(document).on('click','.start-search-icon-div.active',() =>{
+      //   this.getcustomizeList();
+      // })
+    }
   ngOnInit(): void {
-
+    this.sdk_evenBind();
 
     
   //   this.actionLogData = [{
@@ -167,16 +178,82 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   loadCustomRankingList(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){
-      this.getcustomizeList();
+      this.getcustomizeList(20,0);
     }
   }
   showLogs(){
     this.resultLogs = true;
   }
   paginate(event){
-    this.getcustomizeList();
+    this.getcustomizeList(event.limit,event.skip);
     //event.limit;
     //event.skip;
+  }
+  resetCustomization(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      queryPipelineId : this.queryPipelineId
+    };
+    let ids = []
+    this.collectedRecord.forEach(element => {
+      ids.push(element._id);
+    });
+    let payload = {
+      ids: ids
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Restore Customization',
+        text: 'Are you sure you want to Restore',
+        newTitle : 'Are you sure you want to Restore?',
+        body : 'Selected customizations will be Restore once you proceed.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp : true,
+      }
+    });
+    dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.service.invoke('reset.bulkCustomization', quaryparms,payload).subscribe(res => {
+              this.resetSelected();
+              this.selectedRecord= {};
+              this.customizeLog = [];
+              this.notificationService.notify('Bulk reset successfull', 'success');
+             }, errRes => {
+               if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+                 this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+               } else {
+                 this.notificationService.notify('Failed', 'error');
+               }
+             });
+            dialogRef.close();
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+    })
+  
+  }
+  launch(){
+    if(this.selectedRecord && this.selectedRecord.searchQuery){
+     let ball=  document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
+     ball.click()
+     let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
+     texBox.value = this.selectedRecord.searchQuery;
+     setTimeout(()=>{
+      let go  = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
+      go.click();
+      setTimeout(()=>{
+        let customTag = document.getElementsByClassName('faqs-wrp-content')[0] as HTMLBaseElement;
+        customTag.click();
+        let custom = document.getElementsByClassName('custom-header-nav-link-item')[1] as HTMLBaseElement;
+        custom.click();
+      },3000)
+      //document.getElementById('viewTypeCustomize').click(); //viewTypeCustomize
+     },3000);
+    }
   }
   resetSelected(){
     this.customizeList.forEach((element,index) => {
@@ -184,7 +261,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     });
     this.collectedRecord = [];
     this.resultSelected = false;
-    this.getcustomizeList();
+    this.disableDiv = false;
+    this.getcustomizeList(20,0);
   }
   selectAll(){
     //this.collectedRecord = [];
@@ -193,6 +271,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.resetSelected();
     }else if(this.collectedRecord.length >= 0 && this.collectedRecord.length < this.customizeList.length){
       this.collectedRecord = [];
+      this.disableDiv = true;
       this.customizeList.forEach((element,index) => {
         element['check'] = true;
         this.collectedRecord.push(element);
@@ -231,8 +310,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
    }
    if(this.collectedRecord.length > 0){
     this.resultSelected = true;
+    this.disableDiv =  true;
   }else {
     this.resultSelected = false;
+    this.disableDiv =  false;
   }
   
     // let pushRecord = [];
@@ -304,31 +385,40 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
        }
      });
   }
-  
   removeRecord(actLog){
     const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
+      rankingAndPinningId: this.selectedRecord._id,
+      contentId : actLog.target.contentId
     };
-    let result: any = [];
-    var obj: any = {};
-    obj.config = {};
-    obj.contentType = actLog.target.contentType;
-    //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
-    obj.contentId = actLog.target.contentId;
-    if (actLog.customization.action == 'pinned') obj.config['pinIndex'] = -1;
-    if (actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;
-    if (actLog.customization.action == 'hidden') obj.config['hidden'] = true;
-    // obj.config = {
-    //    pinIndex : -1,
-    //   //boost: 1.0,
-    //   //visible: true,
-    //burried
-    // }
-    result.push(obj);
+   this.remove_Record(quaryparms)
+  }
+  remove_Record(quaryparms){
+    // const searchIndex = this.serachIndexId;
+    // const quaryparms: any = {
+    //   searchIndexId: searchIndex,
+    //   queryPipelineId: this.queryPipelineId
+    // };
+    // let result: any = [];
+    // var obj: any = {};
+    // obj.config = {};
+    // obj.contentType = actLog.target.contentType;
+    // //obj.contentType = contentTaskFlag ? contentType : element._source.contentType ;
+    // obj.contentId = actLog.target.contentId;
+    // if (actLog.customization.action == 'pinned') obj.config['pinIndex'] = -1;
+    // if (actLog.customization.action == 'boosted' || actLog.customization.action == 'burried') obj.config['boost'] = 1;
+    // if (actLog.customization.action == 'hidden') obj.config['hidden'] = true;
+    // // obj.config = {
+    // //    pinIndex : -1,
+    // //   //boost: 1.0,
+    // //   //visible: true,
+    // //burried
+    // // }
+    // result.push(obj);
 
-    let payload: any = {};
+    // let payload: any = {};
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -337,20 +427,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
         newTitle : 'Do you want to remove?',
-        body : 'Selected customiztion will be removed once you procced.',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        body : 'Selected customizations will be removed once you proceed.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
     dialogRef.componentInstance.onSelect
         .subscribe(result => {
           if (result === 'yes') {
-            payload.searchQuery = this.selectedRecord.searchQuery;//this.query;
-            payload.results = result;
-            this.service.invoke('update.rankingPinning', quaryparms,payload).subscribe(res => {
+            this.service.invoke('delete.CustomizatioLog', quaryparms).subscribe(res => {
               dialogRef.close();
               this.notificationService.notify('Record Removed', 'success');
-              this.getcustomizeList();
+              this.getcustomizeList(20,0);
               this.actionLogData = [];
               this.customizeList = [];
               //console.log(res);
@@ -368,6 +456,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     
   
   }
+  
   applyFilter(value){
     let list = [...this.customizeListBack];
     let listPush = [];
@@ -424,8 +513,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
         newTitle : 'Do you really want to reset?',
-        body : 'Selected queries will be set to Reset once you procced',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        body : 'Selected queries will be set to Reset once you proceed',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
@@ -434,7 +523,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           if (result === 'yes') {
             this.service.invoke('put.restoreQueryCustomize', quaryparms).subscribe(res => {
               //this.customizeList = res;
-              this.getcustomizeList();
+              this.getcustomizeList(20,0);
               this.actionLogData = [];
               this.customizeList = [];
               dialogRef.close();
@@ -452,11 +541,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     
     
   }
-  getcustomizeList(){
-   
+  getcustomizeList(limit?,skip?){
+   limit ? limit : 20;
+   skip ? skip : 0;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      limit : limit,
+      skip : skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       this.customizeList = res;
@@ -472,6 +564,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
       
     });
+    if(!this.customizeList.length){
+      this.selectedRecord= {};
+      this.customizeLog = [];
+      this.actionLogData =[];
+    }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
          this.notificationService.notify(errRes.error.errors[0].msg, 'error');

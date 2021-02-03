@@ -170,15 +170,35 @@
   </ng-container>
   <!-- <div class="empty-content-container" *ngIf="!(bots && bots.length) && !loadingContent"> -->
   <ng-container *ngIf="!linkedBotID && !loadingContent">
-    <div class="empty-content-container">
+    <perfect-scrollbar class="empty-scroll">
+    <div  class="empty-landing-screen">
+      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/botactions-empty.svg"></div>
+      <ng-container >
+          <div class="empty-title">You haven’t linked any bot yet!</div>
+          <div class="desc-text"> Bot Actions are a list of tasks that are performed by the bots. SearchAssist allows you to link bots that can perform tasks for the search user.
+          </div>
+          <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+              <div class="dropdown dropdown-open">
+                <button class="kr-sg-button-primary" (click)="openBotsModalElement()"> Link a Bot</button>                                            
+              </div>
+          </div>
+      </ng-container>
+      <ng-container *ngIf="noItems && emptySearchResults">
+          <div class="desc-text">Your Search Query doesn't match with any record.</div>
+      </ng-container>
+
+  </div>
+    <!-- <div class="empty-content-container">
       <img class="empty-content-indicator-image" src="assets/images/icons8-add_to_inbox 1.png" />
       <div class="empty-content-container-content">
         <p class="bold-text">You haven't linked any bot yet!</p>
         <p class="normal-text">Fortunately, it is very easy to link one by clicking on the button below</p>
       </div>
       <button class="kr-sg-button-primary" (click)="openBotsModalElement()">Link a Bot</button>
-    </div>
+    </div> -->
+  </perfect-scrollbar>
   </ng-container>
+
 </div>
 
 <kr-modal modalType="center" modalClass="linkExistingBotsModal" #botsModalElement>
@@ -229,7 +249,7 @@
                 <div class="col_ col-2"></div>
                 <div class="col_ col-2"><button *ngIf="streamId != bot._id" class="button-bot-link"
                     (click)="linkBot(bot._id)"><img src="assets/icons/iconLink.svg">&nbsp;Link</button><button
-                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id)"><img
+                    *ngIf="streamId == bot._id" class="button-bot-unlink" (click)="unlinkBot(bot._id,'bulk_unlink')"><img
                       src="assets/icons/iconUnlink.svg">&nbsp;Unlink</button><img class="col-content-ellipse-icon"
                     src="assets/icons/elipse.svg"></div>
               </div>
