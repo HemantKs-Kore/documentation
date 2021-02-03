@@ -51,8 +51,8 @@
         // align-items: center;
         .title {
             color: #202124;
-            font-weight: normal;
-            font-size: 22px;
+            font-weight: 600;
+            font-size: 18px;
             line-height: 34px;
         }
         .close-popup{
@@ -84,7 +84,7 @@
         align-items: flex-end;
         flex-direction: row-reverse;
         button{
-             margin-right: 10px;
+             margin-left: 10px;
         }
     }
 }
