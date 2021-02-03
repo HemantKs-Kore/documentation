@@ -51,7 +51,7 @@
     <div class="table_section" *ngIf="(facets && facets.length)">
         <div class="header_sec row m-0">
             <div class="col-4 content withcheckbox">
-                <div class="kr-sg-checkbox p-0 m-0 pl-5 select-all-checkbox">
+                <div class="kr-sg-checkbox p-0 ml-1 mb-0 pl-5 select-all-checkbox">
                     <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
                     <label for="selectAllFacets" class="checkbox-custom-label"></label>
                 </div>
@@ -202,7 +202,7 @@
     <div class="modal-header">
         <div class="title">{{((addEditFacetObj && addEditFacetObj._id)? 'facets.edit_facet':'facets.add_facet') | translate}}</div>
         <!-- <div class="title">{{'facets.add_facet'| translate}}</div> -->
-        <div class="close_icon"><img id='btn_close_tab' (click)="closeModal()" src="assets/icons/modal-close.svg"></div>
+        <div class="close_icon" (click)="closeModal()"><img id='btn_close_tab' src="assets/icons/modal-close.svg"></div>
         <div class="toggle_switch">
             <label class="kr-sg-toggle" *ngIf="addEditFacetObj">                                       
               <input id='input_facetActive' type="checkbox" checked [(ngModel)]="addEditFacetObj.isFacetActive">
@@ -219,10 +219,12 @@
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                         <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
-                        <img src="assets/images/search_gray.svg" class="search-icon">                                                         
-                        <ul class="dropdown-menu content-menu">
-                            <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
-                        </ul>
+                        <img src="assets/images/search_gray.svg" class="search-icon">     
+                            <ul class="dropdown-menu content-menu">
+                                <perfect-scrollbar class="scroll-search-field">
+                                    <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                                </perfect-scrollbar>
+                            </ul>                                                                       
                     </div>                        
                 </div>
                     <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
@@ -293,15 +295,15 @@
             </div>
         </div>
         <ng-container *ngIf="(addEditFacetObj.facetType === 'value') && addEditFacetObj.facetValue">
-        <div class="row">
+        <div class="row m-0">
             <div class="box-content adjust_padding col-8">
-                <div class="row row_inputs">
+                <div class="row row_inputs m-0">
                     <!-- <div class="kr-sg-input-text col-6 pl-0">
                         <div class="label-text">{{'facets.size'| translate}}</div>
                         <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
                     </div> -->
-                    <div class="kr-sg-dropdowns col-4 pl-2">
-                        <div class="label-text">{{'facets.sort_by'| translate}}</div>
+                    <div class="label-text col-12 pl-2">{{'facets.sort_by'| translate}}</div>
+                    <div class="kr-sg-dropdowns col-4 pl-2">                        
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?'facets.' + addEditFacetObj.facetValue.orderKey:'Choose an option') | translate}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                                                   
@@ -341,18 +343,16 @@
                 <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
             </div>
         </div>
-        <div class="multi-select">
-            <div class="label_text">{{'facets.multi_select' | translate}}</div>
-            <div class="row">
+        <div class="multi-select mt-3">
+            <div class="label_text">{{'facets.multi_select' | translate}}</div>          
+            <div class="row m-0">
                 <label class="kr-sg-toggle">                                       
                     <input type="checkbox" [(ngModel)]="addEditFacetObj.isMultiSelect">
-                    <div class="slider"></div>
-                </label>
-                <div>
-                    <span *ngIf="addEditFacetObj.isMultiSelect">{{'facets.allow' | translate}}</span>
-                    <span *ngIf="!addEditFacetObj.isMultiSelect">{{'facets.do_not_allow' | translate}}</span>
-                    {{'facets.multip_select_info' | translate}}
-                </div>
+                    <div class="slider">
+                        <span class="enabled w-400" *ngIf="addEditFacetObj.isMultiSelect"><b>{{'facets.allow' | translate}}</b> {{'facets.multip_select_info' | translate}}</span>
+                        <span class="disabled w-400" *ngIf="!addEditFacetObj.isMultiSelect"><b>{{'facets.do_not_allow' | translate}}</b> {{'facets.multip_select_info' | translate}}</span>
+                    </div>                   
+                </label>                
             </div>
         </div>
         </ng-container>  
