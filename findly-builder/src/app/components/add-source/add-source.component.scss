@@ -1520,3 +1520,27 @@
         }
     }
 }
+
+.kr-sg-file-drag-drop{
+    position: relative;
+    z-index: 99;
+    .drag-drop-sec{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .custom-file-input{
+        // display: none;
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+    }
+    .adjust_z_index{
+        position: relative;
+        z-index: 99 !important;
+    }
+}
