@@ -36,7 +36,7 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
-        <ng-container *ngIf="!((faqs && faqs.length) || (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved))">
+        <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
@@ -169,7 +169,7 @@
                     </div>
                 </div>
             </div>            
-            <div class="content right-content" [ngClass]="{'blur-content':(faqSelectionObj.selectedCount > 1) }">
+            <div class="content right-content">
                 <div class="content-boxes train_your_questions">
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">
@@ -561,11 +561,12 @@
                         </ul>
                     </div>
                   </div>
+                  <div class="close-modal ml-2 pl-1">
+                    <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
+                  </div>
                   <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
                   <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
-                 <div class="close-modal ml-2 pl-1">
-                  <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
-                </div>
+                
             </div>
         </div> 
      
