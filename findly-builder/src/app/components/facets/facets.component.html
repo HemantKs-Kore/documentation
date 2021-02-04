@@ -245,7 +245,7 @@
             </div>
             <div class="kr-sg-dropdowns col-4 pl-2">
                 <div class="label-text">{{'facets.facet_type'| translate}}</div>
-                <div class="dropdown dropdown-open" [ngClass]="{'disabled': (selectedField && selectedField.fieldDataType)}">
+                <div class="dropdown dropdown-open"  [ngClass]="{'disabled': (selectedField && selectedField.fieldDataType == 'string')}"> <!-- -->
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetType?addEditFacetObj.facetType:'Choose an option') | translate}}</button>                                          
                     <ul class="dropdown-menu content-menu">                                                                   
                       <li (click)="switchType('value')"><a>{{'facets.value'| translate}}</a></li>
@@ -305,7 +305,7 @@
                     <div class="label-text col-12 pl-2">{{'facets.sort_by'| translate}}</div>
                     <div class="kr-sg-dropdowns col-4 pl-2">                        
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?'facets.' + addEditFacetObj.facetValue.orderKey:'Choose an option') | translate}}</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?'facets.' + addEditFacetObj.facetValue.orderKey:'count') | translate}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                                                   
                               <li (click)="addEditFacetObj.facetValue.orderKey = 'count'"><a>{{'facets.count'| translate}}</a></li>
                               <li (click)="addEditFacetObj.facetValue.orderKey = 'label'"><a>{{'facets.label'| translate}}</a></li>
