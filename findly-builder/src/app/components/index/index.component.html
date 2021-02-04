@@ -770,7 +770,15 @@
         <div class="kr-sg-data-table">
           <section class="table-content">
             <header class="table-header">
-              <div class="col">Field Name</div>
+              <div class="col">
+                <div class="kr-sg-checkbox">
+                  <input id="fieldIsActiveAll" class="checkbox-custom" [(ngModel)]="isActiveAll" (change)="selectAll()"
+                    type="checkbox" />
+                    <label for="fieldIsActiveAll" class="checkbox-custom-label px-0">
+                Field Name
+              </label>
+            </div>
+              </div>
               <div class="col">Type</div>
               <div class="col">Multi-Value</div>
               <div class="col">Required</div>
@@ -780,7 +788,7 @@
             <div class="content-body" *ngFor="let field of newfieldsData; let i = index">
               <div class="col">
                 <div class="kr-sg-checkbox">
-                  <input id="fieldIsActive{{ i }}" class="checkbox-custom" [(ngModel)]="field.isActive"
+                  <input id="fieldIsActive{{ i }}" class="checkbox-custom" [(ngModel)]="field.isActive" (change)="selectSingle(field.isActive)"
                     type="checkbox" />
                   <label for="fieldIsActive{{ i }}" class="checkbox-custom-label">{{ field.fieldName }}</label>
                 </div>
@@ -788,30 +796,30 @@
               <div class="col">{{ field.fieldDataType | translate }}</div>
               <div class="col">
                 <div class="kr-sg-checkbox">
-                  <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"
+                  <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"  [disabled]='!field.isActive'
                     type="checkbox" />
-                  <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label"></label>
+                  <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
               <div class="col">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"
+                  <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"  [disabled]='!field.isActive'
                     type="checkbox" />
-                  <label for="field.isRequired{{ i }}" class="checkbox-custom-label"></label>
+                  <label for="field.isRequired{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
               <div class="col">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isStored{{ i }}" class="checkbox-custom" [disabled]='field.isIndexed' [(ngModel)]="field.isStored"
+                  <input id="field.isStored{{ i }}" class="checkbox-custom" [disabled]='field.isIndexed || !field.isActive' [(ngModel)]="field.isStored"
                     type="checkbox" />
-                  <label for="field.isStored{{ i }}" class="checkbox-custom-label"></label>
+                  <label for="field.isStored{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
               <div class="col">
                 <div class="kr-sg-checkbox">
-                  <input id="field.isIndexed{{ i }}" class="checkbox-custom" (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
+                  <input id="field.isIndexed{{ i }}" class="checkbox-custom"  [disabled]='!field.isActive' (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
                     type="checkbox" />
-                  <label for="field.isIndexed{{ i }}" class="checkbox-custom-label"></label>
+                  <label for="field.isIndexed{{ i }}" class="checkbox-custom-label" [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>
             </div>

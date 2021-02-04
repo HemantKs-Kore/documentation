@@ -36,11 +36,11 @@
         </div>
         <div class="card_data row m-0">
             <div class="card-content active" *ngFor=" let channel of channels">
-                <div class="dropdown kr-sg-overflow-menu d-none">
+                <div class="dropdown kr-sg-overflow-menu" *ngIf="channel.enable">
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li><a>Disable Configutation</a></li>
+                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}} Configutation</a></li>
                         <li><a>Delete Configuration</a></li>
                     </ul>
                 </div>

@@ -156,6 +156,7 @@
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
                            </ng-container>
                         </perfect-scrollbar>
+                       
                         <app-record-pagination *ngIf="!loadingTab && !searchFaq && faqSelectionObj.stats[selectedtab]" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
                        <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
