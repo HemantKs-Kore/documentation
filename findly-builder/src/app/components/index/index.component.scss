@@ -649,9 +649,17 @@
                 }
               }
             }           
-          }                  
+          }
+          
+          
         }
       }
     }
+  }
+}
+
+::ng-deep .checkbox-custom-label.gray-checkbox{
+  &::before{
+    background-color: gainsboro !important;
   }
 }
