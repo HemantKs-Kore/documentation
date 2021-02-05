@@ -4,32 +4,18 @@
     <span class="please-wait-message">Please Wait!</span>
   </div>
   <div *ngIf="!loadingContent">
-    <div class="header-sec row">
+    <div class="header-sec row"  *ngIf='listOfExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
-          <div class="tab_title" [ngClass]="{ active: setTab === 'all' }" (click)="selectedTab('all')">
-            All<span>({{ allExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'configured' }" (click)="selectedTab('configured')">
-            Configured<span>({{ confExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'active' }" (click)="selectedTab('active')">
-            Active<span>({{ actExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'paused' }" (click)="selectedTab('paused')">
-            Paused<span>({{ pauExp }})</span>
-          </div>
-          <div class="tab_title" [ngClass]="{ active: setTab === 'completed' }" (click)="selectedTab('completed')">
-            Completed<span>({{ compExp }})</span>
-          </div>
+          <b>Experiments</b>
         </div>
       </div>
       <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left">
+        <div class="kr-sg-input-search m-0" [ngClass]="{ active: showSearch }" style="float: left" *ngIf="listOfExperiments.length>0">
           <input type="text" placeholder="Search" autocomplete="off" class="input-search" name="searchSources"
             placeholder="Search" id="fieldSearchId" [(ngModel)]="searchFields" />
         </div>
-        <div class="seach-block" (click)="toggleSearch()">
+        <div class="seach-block" (click)="toggleSearch()" *ngIf="listOfExperiments.length>0">
           <img *ngIf="!showSearch" src="assets/icons/search.svg" /><img *ngIf="showSearch"
             src="assets/images/close.svg" />Search
         </div>
@@ -39,13 +25,45 @@
       </div>
     </div>
     <perfect-scrollbar class="p-scroll-data">
-      <div class="table-data-content" *ngIf="listOfExperiments && listOfExperiments.length">
-        <div class="row m-0 header-data col-12">
-          <div class="col-3 h-title">Experiment Name</div>
-          <div class="col-3 h-title">Variants</div>
+      <div class="table-data-content">
+        <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
+          <div class="col-3 h-title d-flex align-items-center" (click)="sortBy('name')">
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+              <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            </span>
+            Experiment Name</div>
+          <div class="col-3 h-title">
+            Variants</div>
           <!-- <div class="col-2 h-title">Winner</div> -->
-          <div class="col-2 h-title">Status</div>
-          <div class="col-3 h-title">DURATION</div>
+          <div class="col-2 d-flex align-items-center h-title" (click)="sortBy('state')">
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img [ngClass]="getSortIconVisibility('state', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+              <img [ngClass]="getSortIconVisibility('state', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            </span>
+            Status&nbsp;
+            <div class="kr-sg-dropdowns type_sort_dropdown" #statusFilter="ngbDropdown" ngbDropdown [container]="'body'"
+              [autoClose]="true" [placement]="'bottom-right'">
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle (click)="$event.stopPropagation()">
+                  <!-- <img src="assets/icons/caretDown.svg"
+                    [ngClass]="{'assending': (selectedSort==='recentStatus') && isAsc,'decending':(selectedSort==='recentStatus') && !isAsc}"
+                    class="ml-1 sortImg"> -->
+                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
+                </button>
+                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                  <li *ngFor="let status of dynamicStatus"><span
+                      class="list-name"  (click)="selectedTab(status);statusFilter.close()">{{status|titlecase}}</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 h-title d-flex align-items-center" (click)="sortBy('duration')">
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img [ngClass]="getSortIconVisibility('duration', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
+              <img [ngClass]="getSortIconVisibility('duration', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
+            </span>
+            DURATION</div>
         </div>
         <div id="accordion">
           <div class="acc-card" *ngFor="
@@ -57,10 +75,9 @@
                   <div class="col-3 ex-title">{{ exp.name }}</div>
                   <div class="col-3 variants">
                     <div class="variants-block left">
-                      <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color">
+                      <span class="v-name" *ngFor="let vari of exp.variants; let index = index" [style.background-color]="vari.color" [hidden]="index === 3">
                         <span *ngIf="(index < 2)">{{vari.code }}</span>
-                        <span *ngIf="(index > 1) && (index === 2)"> + 1</span>
-                        <span *ngIf="(index > 1) && (index === 3)"> + 2</span>
+                        <span *ngIf="(index > 1) && (index === 2)"> + 2</span>
                       </span>
                     </div>
                     <div class="variants-block right">
@@ -183,7 +200,8 @@
                     <div class="col-2 title">SEARCH CONFIGURATION</div>
                     <div class="col-2 title">Traffic</div>
                     <div class="col-1 title">users</div>
-                    <div class="col-2 title">SearchES</div>
+                    <div class="col-1 title">Searches</div>
+                    <div class="col-1 title">Clicks</div>
                     <div class="col-2 title">CTR (goal)</div>
                   </div>
                   <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
@@ -191,18 +209,20 @@
                       <div class="name-letter" [style.background-color]="expCol.color">
                         {{ expCol.code }}
                       </div>
-                      <div class="name">{{ expCol.name | titlecase }}</div>
+                      <div class="name">
+                        {{ expCol.name | titlecase }}</div>
                     </div>
                     <div class="col-2 title">
                       {{ expCol.queryPipelineName | titlecase }}
                     </div>
                     <div class="col-2 title">{{ expCol.trafficPct }}%</div>
                     <div class="col-1 title">{{ expCol.users || 0 }}</div>
-                    <div class="col-2 title">{{ expCol.searches }}</div>
+                    <div class="col-1 title">{{ expCol.searches }}</div>
+                    <div class="col-1 title">{{ expCol.clicks }}</div>
                     <div class="col-2 title" [class.leader_percent]="(expCol.searches > 0) && (expCol.leader)">
                       {{
                       expCol.ctr > 0
-                      ? expCol.ctr + "%"
+                      ? (expCol.ctr| number : '2.0-0') + "%"
                       : expCol.ctr
                       }}
                     </div>
@@ -219,20 +239,36 @@
       <!-- <div class="no-experiments">
         <div class="desc">No search results found</div>
       </div> -->
-      <div class="no-experiments" *ngIf="!(filterExperiments && filterExperiments.length)">
+      <!-- <div class="no-experiments" *ngIf="filterExperiments.length===0">
         <img src="assets/icons/experiment/empty_experiments.svg" />
         <div class="title">You haven't added any Experiment yet</div>
         <div class="dec">
           Fortunately , it is very easy to add one by clicking on the Add
           experiments
         </div>
-      </div>
-      <div class="no-experiments" *ngIf="!(listOfExperiments && listOfExperiments.length)">
+      </div> --> 
+      <ng-container *ngIf="filterExperiments.length===0">
+        <perfect-scrollbar class="empty-scroll">
+        <div  class="empty-landing-screen" >
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/experiments-empty.svg"></div>
+          <ng-container>
+              <div class="empty-title">You haven’t added any experiments yet!</div>
+              <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
+              </div>
+              <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
+                <button class="kr-sg-button-primary" (click)="addExperiment('add')">Add Experiments</button>                                            
+              <!-- </div> -->
+          </ng-container>
+          </div>
+    </perfect-scrollbar>  
+  </ng-container>
+<div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
+      <span *ngIf='listOfExperiments.length>0' style="float: left;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
     </perfect-scrollbar>
   </div>
-</div>
+</div> 
 <!---add popup-->
 <kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop smallModal" #addExperiments>
   <div class="modal-header">
@@ -266,7 +302,7 @@
       </div>
 
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
-        <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant">
+        <div class="kr-sg-input-text col-6 pl-pr-5 ifvariant"> 
           <div class="label-text">Variant Name</div>
           <input type="text" autocomplete="off" #varName placeholder="Enter Variant Name" class="input-text"
             [(ngModel)]="vari.name" (blur)="fetchVariant(varIndex, varName.value, 'name')"
@@ -330,7 +366,7 @@
         <div class="kr-sg-input-text">
           <div class="label-text">Duration</div>
           <input type="number" autocomplete="off" class="input-text text-center" min="0" max="90"
-            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' || form_type === 'edit'"
+            [(ngModel)]="experimentObj?.duration.days" [disabled]="exp_status !== 'configured' && form_type === 'edit'"
             [ngClass]="{
               disable_edit: exp_status !== 'configured' && form_type === 'edit'
             }" />

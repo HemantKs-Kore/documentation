@@ -27,6 +27,7 @@
     height: calc(100vh - 63px);
     overflow: hidden;    
     background: #fff;
+     
     .noTraits {
         text-align: center;
         display: flex;
@@ -1608,3 +1609,6 @@
             border-radius: 5px !important;
         }
     }
+    .empty-scroll{
+        height: calc(100vh - 162px);
+    }   

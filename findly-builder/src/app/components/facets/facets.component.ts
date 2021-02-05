@@ -34,9 +34,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
       fieldId: '',
       facetName: '',
       facetType: 'value',
-      isMultiSelect: false,
+      isMultiSelect: true,
       isFacetActive: true,
-      facetValue: {},
+      facetValue: { asc : true },
     },
     range:{
       rangeName:'',
@@ -61,6 +61,18 @@ export class FacetsComponent implements OnInit , OnDestroy{
   selectedField;
   queryPipelineId;
   subscription: Subscription;
+  isAsc = true;
+  selectedSort = '';
+  filterSystem : any = {
+    typefilter : 'all',
+    selectFilter : 'all',
+    statusFilter : 'all'
+  };
+  beforeFilterFacets : any = [];
+  docTypeArr : any = [];
+  statusArr : any = [];
+  selectTypeArr : any = [];
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -96,8 +108,31 @@ export class FacetsComponent implements OnInit , OnDestroy{
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');
     if(selectedElements.length === allElements.length){
+      let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+      if(partialElement.length){
+        partialElement[0].classList.add('d-none');
+      }
+      let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+      if(selectAllElement.length){
+        selectAllElement[0].classList.remove('d-none');
+      }
       $('#selectAllFacets')[0].checked = true;
     } else {
+      let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+      let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+
+      if(partialElement && (selectedElements.length != 0)){
+        partialElement[0].classList.remove('d-none');
+        if(selectAllElement.length){
+          selectAllElement[0].classList.add('d-none');
+        }
+      }
+      else{
+        partialElement[0].classList.add('d-none');
+        if(selectAllElement.length){
+          selectAllElement[0].classList.remove('d-none');
+        }
+      }
       $('#selectAllFacets')[0].checked = false;
     }
     const element = $('#' + facet._id);
@@ -115,10 +150,38 @@ export class FacetsComponent implements OnInit , OnDestroy{
         }
       });
     };
+    let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+    if(partialElement.length){
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+    if(selectAllElement.length){
+      selectAllElement[0].classList.remove('d-none');
+    }
     if(unselectAll){
       $('#selectAllFacets')[0].checked = false;
     }
   }
+
+  selectAllFromPartial(){
+    this.selcectionObj.selectAll = true;
+    $('#selectAllFacets')[0].checked = true;
+    this.selectAll();
+  }
+
+  resetPartial(){
+    this.selcectionObj.selectAll = false;
+    $('#selectAllFacets')[0].checked = false;
+    let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
+    if(partialElement.length){
+      partialElement[0].classList.add('d-none');
+    }
+    let selectAllElement : any = document.getElementsByClassName("select-all-checkbox");
+    if(selectAllElement.length){
+      selectAllElement[0].classList.remove('d-none');
+    }
+  }
+
   drop(event: CdkDragDrop<string[]>,list) {
     moveItemInArray(list, event.previousIndex, event.currentIndex);
     this.saveSortedList();
@@ -138,8 +201,10 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.errorToaster(errRes,'Failed to update words');
     });
   }
+  addRemovefacet
   addRemovefacetFromSelection(facetId?,addtion?,clear?){
     if(clear){
+      this.resetPartial();
       const allfacets = $('.selectEachfacetInput');
       $.each(allfacets, (index,element) => {
         if($(element) && $(element).length){
@@ -199,8 +264,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
         fieldId: '',
         facetName: '',
         facetType: 'value',
-        isMultiSelect: false,
-        facetValue: {},
+        isMultiSelect: true,
+        isFacetActive: true,
+        facetValue: { asc : true },
       },
       range:{
         rangeName:'',
@@ -290,6 +356,14 @@ export class FacetsComponent implements OnInit , OnDestroy{
     };
     this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
       this.facets =  res || [];
+      this.facets.forEach(element => {
+        this.statusArr.push(element.isFacetActive);
+        this.docTypeArr.push(element.facetType);
+        this.selectTypeArr.push(element.isMultiSelect);
+      });
+      this.statusArr = [...new Set(this.statusArr)];
+      this.docTypeArr = [...new Set(this.docTypeArr)];
+      this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
       this.addRemovefacetFromSelection(null,null,true);
     }, errRes => {
@@ -472,6 +546,127 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
     this.showSearch = !this.showSearch
   };
+
+  changeFacetSorting(value){
+    this.addEditFacetObj.facetValue.asc = value;
+  }
+
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case "name": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "type": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "recentStatus": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+      case "createdOn": {
+        if (this.selectedSort == sortingField) {
+          if (this.isAsc == false && type == 'down') {
+            return "display-block";
+          }
+          if (this.isAsc == true && type == 'up') {
+            return "display-block";
+          }
+          return "display-none"
+        }
+      }
+    }
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortBy(sort) {
+    const data = this.facets.slice();
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    const sortedData = data.sort((a, b) => {
+      const isAsc = this.isAsc;
+      switch (sort) {
+        case 'type': return this.compare(a.facetType, b.facetType, isAsc);
+        case 'status': return this.compare(a.isFacetActive, b.isFacetActive, isAsc);
+        case 'name': return this.compare(a.facetName, b.facetName, isAsc);
+        case 'select': return this.compare(a.isMultiSelect, b.isMultiSelect, isAsc);
+        default: return 0;
+      }
+    });
+    this.facets = sortedData;
+  }
+
+  filterTable(source, headerOption) {
+    console.log(this.facets, source, headerOption);
+    this.filterSystem.typefilter = 'all';
+    this.filterSystem.selectFilter = 'all';
+    this.filterSystem.statusFilter = 'all';
+    this.filterFacets(source, headerOption);
+    switch (headerOption) {
+      case 'facetType' : { this.filterSystem.typefilter = source; return;};
+      case 'isMultiSelect' : { this.filterSystem.selectFilter = source; return;};
+      case 'statusType' : { this.filterSystem.statusFilter = source; return;};
+    };
+  }
+
+  filterFacets(source, headerOption){
+    if(!this.beforeFilterFacets.length){
+      this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
+    }
+    let tempFacets = this.beforeFilterFacets.filter( (facet : any) => {
+      if(source !== 'all'){
+        if(headerOption === 'facetType'){
+          if(facet.facetType === source){
+            return facet;
+          }
+        }
+        if(headerOption === 'isMultiSelect'){
+          if(facet.isMultiSelect === source){
+            return facet;
+          }
+        }
+        if(headerOption === 'statusType'){
+          if(facet.isFacetActive === source){
+            return facet;
+          }
+        }
+      }
+      else{
+        return facet;
+      }
+    });
+
+    this.facets = JSON.parse(JSON.stringify(tempFacets));
+  }
+
   ngOnDestroy(){
     if(this.subscription){
       this.subscription.unsubscribe();

@@ -75,6 +75,23 @@
     .header-data {
       padding: 10px 0;
       border-bottom: 1px solid #e4e5e7;
+      .sortImg{                                                       
+        position: static;
+        &.upArrow {
+            transform: none !important;
+        }
+        &.downArrow {
+            transform: rotate(180deg) !important;
+            top: -1px !important;
+            position: relative;
+        }
+        &.assending{
+            transform: rotate(180deg);
+        }
+        &.decending{
+            transform: rotate(0deg);
+        }
+    }            
       .h-title {
         color: #5f6368;
         letter-spacing: 1px;
@@ -655,3 +672,4 @@
     }
   }
 }
+

@@ -31,6 +31,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   limitpage = 10;
   customizeListBack : any;
   loadingContent : boolean = false;
+  nextPage: boolean = false;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
@@ -208,7 +209,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
         newTitle : 'Are you sure you want to Restore?',
-        body : 'Selected customiztion will be Restore once you proceed.',
+        body : 'Selected customizations will be Restore once you proceed.',
         buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
@@ -236,7 +237,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   
   }
   launch(){
-    if(this.selectedRecord){
+    if(this.selectedRecord && this.selectedRecord.searchQuery){
      let ball=  document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
      ball.click()
      let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
@@ -426,7 +427,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
         newTitle : 'Do you want to remove?',
-        body : 'Selected customiztion will be removed once you proceed.',
+        body : 'Selected customizations will be removed once you proceed.',
         buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
@@ -566,6 +567,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     if(!this.customizeList.length){
       this.selectedRecord= {};
       this.customizeLog = [];
+      this.actionLogData =[];
     }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

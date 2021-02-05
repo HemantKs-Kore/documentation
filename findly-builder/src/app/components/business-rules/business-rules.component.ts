@@ -144,6 +144,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addNewRule();
     this.addNewOutcome();
     this.openModalPopup();
+    this.getFieldAutoComplete(null, null);
   }
   openModalPopup() {
     this.addBusinessRulesRef = this.addBusinessRules.open();
@@ -168,6 +169,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.addEditRuleObj = rule;
     this.setDataForEdit(this.addEditRuleObj);
     this.openModalPopup();
+    this.getFieldAutoComplete(null, null);
   }
   closeModalPopup() {
     this.rulesArrayforAddEdit = [];
@@ -250,11 +252,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       ruleObj.value = [];
     }
     if(ruleObj && ruleObj.operator === 'between'){
-      if(event.startDate){
+      if(event.startDate && event.endDate){
         moment.utc();
         const date= [];
         const startDate  = moment.utc(event.startDate).format();
-        const endDate  = moment.utc(event.startDate).format();
+        const endDate  = moment.utc(event.endDate).format();
         date.push(startDate);
         date.push(endDate)
         ruleObj.value.push(date)
@@ -269,6 +271,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   buildCurrentContextSuggetions(ruleObj){
     const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
     const mainContext = _ruleOptions.contextTypes;
+    if($('.mat_autofocus_dropdown').length){
+      if(ruleObj.outcomeValueType == 'static'){
+        $('.mat_autofocus_dropdown')[0].style.display = 'none'
+      }
+    }
     this.currentSugg = [];
     if(ruleObj && ruleObj.newValue){
       const selectedContextSelections = ruleObj.newValue.split('.');
@@ -322,6 +329,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           }
         }
       });
+      if(newVal.split('.').length > 1){
+        newVal = newVal.split('.')[1];
+      }
       this.autoSuggestInputItems._results[index].nativeElement.value = newVal+ '.';
       ruleObj.newValue = newVal+ '.';
     }
@@ -330,17 +340,24 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const input = event.input;
     const value = event.value;
     if(ruleObj && ruleObj.dataType === 'number'){
-      const range = value.split('-');
-      const values:any = [];
-       if(range && range.length === 2){
-         range.forEach((rang) => {
-          const numericVal = parseInt(rang.trim(),10) || 0;
-          values.push(numericVal);
-        });
-        ruleObj.value.push(values);
-       } else {
-         this.notificationService.notify('Provide range in proper format, Ex: 111-121','error')
-       }
+      if(ruleObj.operator == 'between'){
+        const range = value.split('-');
+        const values:any = [];
+         if(range && range.length === 2){
+           range.forEach((rang) => {
+            const numericVal = parseInt(rang.trim(),10) || 0;
+            values.push(numericVal);
+          });
+          ruleObj.value.push(values);
+         } else {
+           this.notificationService.notify('Provide range in proper format, Ex: 111-121','error')
+         }
+      }else{
+        if(value){
+          ruleObj.value.push(parseInt(value.trim(),10) || 0);
+        }
+        
+      }
     } else if ((value || '').trim()) {
       if (!this.checkDuplicateTags((value || '').trim(), ruleObj.value)) {
         this.notificationService.notify('Duplicate tags are not allowed', 'warning');
@@ -485,10 +502,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       rules: this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [],
       outcomes: this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []
     }
-    if (!payload.rules.length) {
-      this.errorToaster(null, 'Atleast one condition is required');
-      return;
-    }
+    // if (!payload.rules.length) {
+    //   this.errorToaster(null, 'Atleast one condition is required');
+    //   return;
+    // }
     if (!payload.outcomes.length) {
       this.errorToaster(null, 'Atleast one outcome is required');
       return;

@@ -74,7 +74,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     inprogress: {name :'In Progress', color: '#0D6EFD'},
     validation: {name :'Queued', color: '#0D6EFD'},
     scheduled :{name :'Queued', color: '#0D6EFD'},
-    halted : {name : 'Stopped', color: '#DD3646'}
+    halted : {name : 'Stopped', color: '#DD3646'},
+    configured : {name : 'Configured', color: '#DD3646'}
   };
   executionObj : any = {
     'Execution Successful' : {
@@ -355,7 +356,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         //this.resourcesStatusObj[source.resourceId] = source;
         
         if(this.resourcesStatusObj[source._id]){
-          if(this.resourcesStatusObj[source._id].status == 'running'){
+          if(this.resourcesStatusObj[source._id].status == 'running' || this.resourcesStatusObj[source._id].status == 'queued'){
             if(source.executionStats.percentageDone && source.executionStats.percentageDone == 100){
             this.getJobDetails(source._id)
             this.getSourceList();

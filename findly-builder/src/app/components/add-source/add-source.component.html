@@ -266,7 +266,7 @@
                   </div>
                   <div class="custom-file">
                     <input type="file" id="sourceFileUploader" class="custom-file-input "
-                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
+                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                   </div>
                   <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span>
                    
@@ -751,3 +751,11 @@
     </perfect-scrollbar>
   </ng-container>  
 </kr-modal> 
+
+<kr-modal modalType="center" modalClass="modal_popups_ import-structure-data" #addStructuredDataModalPop>
+  <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
+</kr-modal>
+
+<kr-modal modalType="default" #structuredDataStatusModalPop>
+  <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()" [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
+</kr-modal>

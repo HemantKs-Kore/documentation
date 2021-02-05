@@ -17,57 +17,62 @@ declare const $: any;
 export class SummaryComponent implements OnInit {
   serachIndexId;
   indices: any = [];
-  experiments : any = [];
-  variants : any = [];
+  experiments: any = [];
+  variants: any = [];
   activities: any = [];
-  channels: any =[];
+  channels: any = [];
   channelsName = '';
   // searchIndexes: any = [];
   channelExist = false;
-  totalUsersStats : any = {};
+  totalUsersStats: any = {};
   totalSearchesStats: any = {};
   selectedApp: any;
   loading = true;
-  summary:any;
+  summary: any;
   showError = false;
   btLogs: any[] = [];
-  summaryObj:any ={
+  summaryObj: any = {
     contentDocuments: [],
     contentWebDomains: [],
     faqWebDomains: [],
     faqDocuments: []
   }
+  listMonths = ['January', 'February', 'March',
+    'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'];
+  date = new Date();
+  current_month: string;
   emptySummaryBlocks: any = [
-  {
-   stepCount: 1,
-   stepName: 'Add Source',
-   stepDiscription: 'You need to add source such as web pages, documents, FAQs, bot actions'
-  },
-  {
-   stepCount: 2,
-   stepName: 'Manage Content',
-   stepDiscription: 'You can then review and moidify the added sources if required'
-  },
-  {
-   stepCount: 3,
-   stepName: 'Test & Preview',
-   stepDiscription: 'You can then check how the serach results or bot actions will be displayed to the end-user'
-  },
-  {
-   stepCount: 4,
-   stepName: 'Training',
-   stepDiscription: 'You can now train Findly.ai to address the user\'s quaries more effectively'
-  },
-  {
-    stepCount: 5,
-    stepName: 'Puublish and Deploy',
-   stepDiscription: 'You can now deploye app and allow users to intract  with the searchbot'
-  },
-  {
-    stepCount: 6,
-    stepName: 'Analytics and Insignts',
-   stepDiscription: 'You can now track real realtime performance, operational, usage metrics of your app'
-  }
+    {
+      stepCount: 1,
+      stepName: 'Add Source',
+      stepDiscription: 'You need to add source such as web pages, documents, FAQs, bot actions'
+    },
+    {
+      stepCount: 2,
+      stepName: 'Manage Content',
+      stepDiscription: 'You can then review and moidify the added sources if required'
+    },
+    {
+      stepCount: 3,
+      stepName: 'Test & Preview',
+      stepDiscription: 'You can then check how the serach results or bot actions will be displayed to the end-user'
+    },
+    {
+      stepCount: 4,
+      stepName: 'Training',
+      stepDiscription: 'You can now train Findly.ai to address the user\'s quaries more effectively'
+    },
+    {
+      stepCount: 5,
+      stepName: 'Puublish and Deploy',
+      stepDiscription: 'You can now deploye app and allow users to intract  with the searchbot'
+    },
+    {
+      stepCount: 6,
+      stepName: 'Analytics and Insignts',
+      stepDiscription: 'You can now track real realtime performance, operational, usage metrics of your app'
+    }
   ];
   tooltipObj: any = {
     'Total Users': 'Total number of calls received by the app today.',
@@ -85,13 +90,14 @@ export class SummaryComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
   ) { }
-  
+
 
   ngOnInit() {
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
     };
+    this.current_month = this.listMonths[this.date.getMonth()];
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
@@ -120,55 +126,55 @@ export class SummaryComponent implements OnInit {
     //     this.notificationService.notify('Unable to get summary details', 'error');
     //   });
   }
-  getQueries(type){
+  getQueries(type) {
     var today = new Date();
     let from = new Date(Date.now() - (29 * 864e5));
-    
-    const header : any= {
+
+    const header: any = {
       'x-timezone-offset': '-330'
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: 0,
-      limit:100
+      limit: 100
     };
-    let payload : any = {
-      type : type,
+    let payload: any = {
+      type: type,
       filters: {
         from: from.toJSON(),
         to: today.toJSON()
       },
-     
+
     }
-    
-   
-    this.service.invoke('get.queries', quaryparms,payload,header).subscribe(res => {
-      if(type == "TotalUsersStats"){
+
+
+    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
+      if (type == "TotalUsersStats") {
         this.totalUsersStats = res;
-      }else if(type == "TotalSearchesStats"){
+      } else if (type == "TotalSearchesStats") {
         this.totalSearchesStats = res;
       }
-     }, errRes => {
-       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-       } else {
-         this.notificationService.notify('Failed ', 'error');
-       }
-     });
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
   }
 
-  getChannel(){
+  getChannel() {
     const queryParams = {
-      userId:this.authService.getUserId(),
-      streamId:this.selectedApp._id
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id
     }
-    this.service.invoke('get.credential',queryParams).subscribe(
+    this.service.invoke('get.credential', queryParams).subscribe(
       res => {
-       console.log(res.channels[0].app.name)
-        if(res.apps.length){
+        console.log(res.channels[0].app.name)
+        if (res.apps.length) {
           this.channelExist = true;
         }
-       
+
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -188,7 +194,7 @@ export class SummaryComponent implements OnInit {
     this.service.invoke('get.linkedBot', queryParams).subscribe(
       res => {
         // console.log(res.channels[0].name)
-        if(res.channels.length){
+        if (res.channels.length) {
           this.channelExist = true;
           this.channelsName = res.channels[0].name;
         }
@@ -202,41 +208,41 @@ export class SummaryComponent implements OnInit {
       }
     );
   }
-  getAllOverview(){
+  getAllOverview() {
     const queryParams = {
-      searchIndexId:this.serachIndexId,
+      searchIndexId: this.serachIndexId,
     }
-    this.service.invoke('get.overview',queryParams).subscribe(
+    this.service.invoke('get.overview', queryParams).subscribe(
       res => {
-        console.log(res);
+        console.log("res latest", res);
         this.experiments = res.experiments;
-        this.activities =  res.activities;
+        this.activities = res.activities;
         this.indices = res.indices;
         console.log(this.indices)
-        this.experiments.forEach(element => {
-          if(element.variants){
-            element.variants.forEach(res => {
-              if(res.leader){
-                element['winner'] = true;
-              }
-            });  
-          }
-        });
-       console.log(this.experiments)
-        this.activities.forEach(element => {
-          element.date = moment(element.date).fromNow();
-          console.log(this.activities) 
-        });
-     
-      //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
-      //  this.getChannel();
-      //  this.channels.forEach(channel => {
-      //   if(res.apps.length > 0){
-      //     this.channelExist = true;
-      //   }
-        
-      // });
-    },
+        // this.experiments.forEach(element => {
+        //   if (element.variants) {
+        //     element.variants.forEach(res => {
+        //       if (res.leader) {
+        //         element['winner'] = true;
+        //       }
+        //     });
+        //   }
+        // });
+        console.log(this.experiments)
+        // this.activities.forEach(element => {
+        //   element.date = moment(element.date).fromNow();
+        //   console.log(this.activities)
+        // });
+
+        //  this.activities.createdOn = moment(this.activities.createdOn).fromNow();
+        //  this.getChannel();
+        //  this.channels.forEach(channel => {
+        //   if(res.apps.length > 0){
+        //     this.channelExist = true;
+        //   }
+
+        // });
+      },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -247,20 +253,20 @@ export class SummaryComponent implements OnInit {
     );
   }
 
-  
+
   // viewAll(route){
   //   this.router.navigateByUrl(route, { skipLocationChange: false });
   // }
-  openExp(){
-   $('#experimentsTab').trigger('click')
+  openExp() {
+    $('#experimentsTab').trigger('click')
   }
-  openChannel(){
+  openChannel() {
     $('#channelsTab').trigger('click')
   }
-  openDashboard(){
+  openDashboard() {
     $('#dashboardTab').trigger('click')
   }
-  openSource(){
+  openSource() {
     $('#sourceTab').trigger('click')
   }
 }

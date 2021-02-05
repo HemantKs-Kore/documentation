@@ -9,15 +9,15 @@
                     <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
                 </div>
                 <div class="col-3 d-flex p-0 align-items-center justify-content-end">
-                    <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' ))">
+                    <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' ))">
                         <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
                         <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                         <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
-                        <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
+                        <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
                     </div>
                     <div class="status-blcok">                        
-                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status == 'IN_PROGRESS'" placement="top" container='body'>
+                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation'" placement="top" container='body'>
                         <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
                         <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">
                     </div>

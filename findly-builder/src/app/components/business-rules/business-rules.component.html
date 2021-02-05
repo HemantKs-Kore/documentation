@@ -31,7 +31,7 @@
           src="assets/images/close.svg"
         />{{ "search" | translate }}
       </div>
-      <div class="add_feild" (click)="createNewRule()">
+      <div class="add_feild" (click)="createNewRule()" *ngIf=" rules && rules.length">
         <img src="assets/icons/add_plus.svg" />{{
           "businessRules.add_rule" | translate
         }}
@@ -48,6 +48,24 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
+  <ng-container *ngIf="!loadingContent && !(rules && rules.length)">
+  <perfect-scrollbar class="empty-scroll">
+  <div  class="empty-landing-screen">
+    <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/businessrules-empty.svg"></div>
+    <ng-container >
+        <div class="empty-title">You haven’t added any rules yet!</div>
+        <div class="desc-text"> Rule is powerful tool to personalize and fine-tue search results. Search Assistant allows you to define rules based on Search , Page and User-contexts. Rules can also be used for merchandising and promotions. 
+        </div>
+        <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+            <button class="kr-sg-button-primary" (click)="createNewRule()">Add Rule</button>                                            
+        </div>
+    </ng-container>
+    <ng-container *ngIf="noItems && emptySearchResults">
+        <div class="desc-text">Your Search Query doesn't match with any record.</div>
+    </ng-container>
+</div>
+</perfect-scrollbar>
+</ng-container>
   <div class="table_section" *ngIf="!loadingContent && rules && rules.length">
     <div class="header_sec row m-0">
       <div class="col-3 content withcheckbox">
@@ -148,7 +166,7 @@
 <kr-modal  modalType="center" #addBusinessRules modalClass="modal_popups_ business-rules-popup">
 
   <div class="modal-header">
-    <div class="title font-weight-bold">{{ "businessRules.add_rule" | translate }}</div>
+    <div class="title font-weight-bold" >{{ "businessRules.add_rule" | translate }}</div>
     <label class="kr-sg-toggle toggle-switch">
       <input type="checkbox" [(ngModel)]="addEditRuleObj.isRuleActive" />
       <div class="slider">
@@ -254,8 +272,11 @@
                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
                             <ng-container *ngFor="let value of ruleObj.value; let index = index">
                               <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
-                                <span class="mat-val" *ngIf="value && value.length">
+                                <span class="mat-val" *ngIf="value && value.length && ruleObj.operator == 'between'">
                                   <span *ngFor="let num of value; let numIndex = index">{{num}}<span *ngIf="!numIndex"> - </span></span>
+                                </span>
+                                <span class="mat-val" *ngIf="value && ruleObj.operator !== 'between'">
+                                  <span >{{value}}</span>
                                 </span>
                                 <mat-icon matChipRemove><img src="assets/images/close.svg"/></mat-icon>
                               </mat-chip>
@@ -276,8 +297,9 @@
                           <ng-container *ngFor="let value of ruleObj.value; let index = index">
                             <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
                               <span class="mat-val" *ngIf="value && value.length">
-                                <span *ngFor="let date of value; let dateIndex = index"></span>
-                                {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span> 
+                                <span *ngFor="let date of value; let dateIndex = index">
+                                  {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span> 
+                                </span>
                               </span>
                               <mat-icon matChipRemove><img src="assets/images/close.svg"/></mat-icon>
                             </mat-chip>
@@ -301,11 +323,11 @@
                           </ng-container>
 
                           <ng-container *ngIf="ruleObj.dataType == 'number'">
-                                 <input  placeholder="Eg: 120-220" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
-                          </ng-container>                          
+                              <input  [placeholder]="ruleObj.operator == 'between' ? 'Eg: 120-220' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
+                          </ng-container>                       
                         </mat-chip-list>
                       </mat-form-field>
-                      <ng-container *ngIf="ruleObj.dataType == 'number'">
+                      <ng-container *ngIf="ruleObj.dataType == 'number'  && ruleObj.operator == 'between'">
                         <div class="info-number-placeholder"><img src="assets/icons/business-rules/info.svg" class="mr-1">Range separated by ‘ - ‘</div>
                       </ng-container>
                     </div>
@@ -425,11 +447,11 @@
                           </ng-container>
                           <input #contextSuggestedImput [placeholder]="'Type and Press Enter'" (click)='buildCurrentContextSuggetions(outcomeObj)' [(ngModel)]="outcomeObj.newValue"  (keyup)='buildCurrentContextSuggetions(outcomeObj)' [matChipInputFor]="chipList"  [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOutcome($event, outcomeObj, i)"/>
                         </mat-chip-list>
-                        <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
-                          <mat-option *ngFor="let suggesion of currentSugg">
-                            {{suggesion}}
-                          </mat-option>
-                        </mat-autocomplete>
+                          <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown" (optionSelected)="selected($event,outcomeObj,index)">
+                              <mat-option *ngFor="let suggesion of currentSugg">
+                                {{suggesion}}
+                              </mat-option>
+                          </mat-autocomplete>
                       </mat-form-field>
                     </div>
                   </div>
