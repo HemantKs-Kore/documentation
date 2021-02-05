@@ -737,7 +737,7 @@ export class EndPointsService {
       method: 'get'
     };
 
-    this.serviceList['delete.structuredData'] ={
+    this.serviceList['delete.structuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
       method: 'delete'
     }
@@ -747,7 +747,7 @@ export class EndPointsService {
       method: 'delete'
     }
 
-    this.serviceList['update.structuredData'] ={
+    this.serviceList['update.structuredData'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:sourceId/content/:contentId',
       method: 'put'
     }
@@ -761,7 +761,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/search?q=:searchQuery&limit=:limit&skip=:skip&advanceSearch=:advanceSearch',
       method: 'post'
     };
-    
+
     this.serviceList['delete.dockById'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/dockStatus/:id?statusType=:statusType',
       method: 'delete'
@@ -783,6 +783,10 @@ export class EndPointsService {
     }
     this.serviceList['get.streamData'] = {
       endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      method: 'get'
+    }
+    this.serviceList['get.crawljobOndemand'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/extract/sources/:sourceId/init',
       method: 'get'
     }
     //  this.serviceList['export.dockstatus'] = {
