@@ -274,7 +274,7 @@
                 display: none;
                 text-align: center;
                 width: 100%;
-                padding: 10%;
+                //padding: 10%;
                 white-space: break-spaces;
             }
             div.empty:first-child {
@@ -483,4 +483,10 @@
 .selected{
     font-weight: bold;
     background-color: transparent;
+}
+.empty_filter{
+    text-align: center;
+    width: 100%;
+    padding: 10%;
+    white-space: break-spaces;
 }

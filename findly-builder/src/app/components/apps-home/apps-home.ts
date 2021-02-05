@@ -33,6 +33,7 @@ export class AppsListingComponent implements OnInit {
   appTypes = ['All', 'My', 'Shared'];
   sortBy = ['Created Date', 'Alphabetical Order'];
   userId: any;
+  recentApps: any;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   constructor(
     public localstore: LocalStoreService,
@@ -57,6 +58,7 @@ export class AppsListingComponent implements OnInit {
       $('#serachInputBox').focus();
     }, 100);
     this.selectedAppType('All');
+    this.sortApp('Created Date');
   }
   prepareApps(apps) {
     apps.sort((a, b) => {
@@ -65,6 +67,7 @@ export class AppsListingComponent implements OnInit {
       return bDate - aDate;
     });
     this.apps = apps;
+    this.recentApps = apps.sort((a, b) => a.lastAccessedOn.localeCompare(b.lastAccessedOn)).slice(0, 4);
   }
   openApp(app) {
     this.appSelectionService.openApp(app);
@@ -162,20 +165,24 @@ export class AppsListingComponent implements OnInit {
   }
   //sort app
   sort_type: string;
+  order: boolean = false;
   sortApp(type) {
     this.sort_type = type;
+    this.order = !this.order;
     if (type == 'Created Date') {
       this.filteredApps = this.filteredApps.sort((a, b) => {
         const D2: any = new Date(b.lastModifiedOn);
         const D1: any = new Date(a.lastModifiedOn);
-        return D1 - D2;
+        return D2 - D1;
       });
     }
     else if (type == 'Alphabetical Order') {
       this.filteredApps = this.filteredApps.sort((a, b) => a.name.localeCompare(b.name))
     }
     else if (type == 'Icon filter') {
-      this.filteredApps = this.filteredApps.sort((a, b) => b.name.localeCompare(a.name))
+      this.filteredApps = this.filteredApps.sort((a, b) => {
+        return (this.order) ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      });
     }
   }
 }

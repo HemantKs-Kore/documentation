@@ -200,8 +200,7 @@ export class TeamManagementComponent implements OnInit {
         users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
       }
     }
-    console.log("users", users)
-    this.updateMember(users);
+    this.updateMember(users, dialogRef, 'delete');
   }
   //delete single member
   deleteFacet(member, dialogRef) {
@@ -210,7 +209,7 @@ export class TeamManagementComponent implements OnInit {
       if (this.membersList[i]._id !== member._id)
         users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
     }
-    this.updateMember(users);
+    this.updateMember(users, dialogRef, 'delete');
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -336,23 +335,28 @@ export class TeamManagementComponent implements OnInit {
   //add member
   addMember() {
     console.log("this.members", this.members)
-    let users = [];
-    for (let i in this.membersList) {
-      users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
-    }
-    const validateEmail = this.members.every(e => e.invalid === false);
-    if (validateEmail) {
-      for (let i in this.members) {
-        users.push({ emailId: this.members[i].value, roleId: this.member_roleId[0]._id })
+    if (this.members.length !== 0) {
+      let users = [];
+      for (let i in this.membersList) {
+        users.push({ userId: this.membersList[i]._id, roleId: this.membersList[i].roleInfo[0].role === 'Member' ? this.membersList[i].roleInfo[0]._id : this.member_ownerId[0]._id });
       }
-      this.updateMember(users);
+      const validateEmail = this.members.every(e => e.invalid === false);
+      if (validateEmail) {
+        for (let i in this.members) {
+          users.push({ emailId: this.members[i].value, roleId: this.member_roleId[0]._id })
+        }
+        this.updateMember(users);
+      }
+      else {
+        this.notificationService.notify("Please correct the email address and try again.", 'error');
+      }
     }
     else {
-      this.notificationService.notify("Please correct the email address and try again.", 'error');
+      this.notificationService.notify("Please enter the email address and try again.", 'error');
     }
   }
   //update member method
-  updateMember(users) {
+  updateMember(users, dialogref?, type?) {
     let payload = {
       "codevelopers": {
         "users": users,
@@ -364,12 +368,16 @@ export class TeamManagementComponent implements OnInit {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
     };
-    console.log("queryparms", payload);
     this.service.invoke('put.members', quaryparms, payload, Headers).subscribe(res => {
-      console.log("res", res);
-      this.closeModal();
+      if (type !== 'delete') {
+        this.closeModal();
+        this.notificationService.notify("Share app link sent to email successfully", 'success');
+      }
+      else {
+        dialogref.close();
+        this.notificationService.notify("Member deleted successfully", 'success');
+      }
       this.getRoleMembers();
-      this.notificationService.notify("Share app link sent to email successfully", 'success');
     }, errRes => {
     });
   }

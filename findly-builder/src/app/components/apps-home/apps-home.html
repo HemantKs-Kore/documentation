@@ -67,7 +67,7 @@
         <div class="row m-0 appsListingContainer">
           <div class="m-title col-12">Recently Visited</div>
 
-          <div class="cards-content d-none" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
+          <div class="cards-content d-none" (click)="openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']">
             <div class="box">
               <div class="img-block">
                 <img src="assets/icons/user-gray.svg">
@@ -79,12 +79,13 @@
             </div>
           </div>
           
-          <div class="cards-content" (click)="openApp(app)" *ngFor="let app of apps | filter: [ searchApp, 'name']">
+          <div class="cards-content" (click)="openApp(app)" *ngFor="let app of recentApps | filter: [ searchApp, 'name']">
             <div class="box">                
               <div class="content-sec">
                 <div class="name"><span>{{app.name}}</span></div>
                 <div class="info-text" *ngIf="app.description !==''">{{app.description}}</div>
               </div>
+              <div class="user-name" *ngIf="app.createdBy!==userId">{{app.userDetails.fullName}}</div>
             </div>             
           </div> 
           
@@ -106,7 +107,7 @@
                 <div class="sort-by">Sort by:</div>
                 <div class="kr-sg-dropdowns w-auto">                    
                   <div class="dropdown dropdown-open">                        
-                      <button class="dropdown-toggle dropdown-input pl-3 pr-5" data-toggle="dropdown">Created Date</button>                                            
+                      <button class="dropdown-toggle dropdown-input pl-3 pr-5" data-toggle="dropdown">{{sort_type}}</button>                                            
                       <ul class="dropdown-menu content-menu">                                          
                         <li *ngFor="let sort of sortBy" (click)="sortApp(sort)"><a [class.selected]="sort==sort_type">{{sort}}</a></li>
                       </ul>
@@ -116,15 +117,17 @@
               </div>                   
           </div>
           
-          <div class="cards-content" *ngFor="let filter of filteredApps" (click)="openApp(filter)">
+          <div class="cards-content" *ngFor="let filter of filteredApps | filter: [ searchApp, 'name']" (click)="openApp(filter)">
             <div class="box">                
               <div class="content-sec">
                 <div class="name"><span>{{filter.name}}</span></div>
                 <div class="info-text" *ngIf="filter.description !==''">{{filter.description}}</div>
               </div>
-              <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div>
+              <div class="user-name" *ngIf="filter.createdBy!==userId">{{filter.userDetails.fullName}}</div>
+              <!-- <div class="flag"><img src="assets/icons/dashboard/publish.svg"></div> -->
             </div>             
           </div>
+          <div *ngIf="filteredApps.length===0" class="empty_filter">{{app_type}} apps not available</div>
           <!-- <div class="cards-content">
             <div class="box">                
               <div class="content-sec">
