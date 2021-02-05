@@ -196,7 +196,7 @@
 
         <div class="input-conditions col-9">
           <ng-container *ngFor="let ruleObj of rulesArrayforAddEdit; let ruleIndex = index">
-            <div class="d-flex align-items-center w-100 mb-13">
+            <div class="d-flex align-items-center w-100 mb-13 position-relative">
               <div class="input-bg-sec">
                 <div class="row m-0 search-content-sec">
                   <div class="col-2 p-0 title">Select Context</div>
@@ -205,7 +205,7 @@
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)="currentEditInex = null">{{"businessRules." + ruleObj.contextType | translate}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj, contextType, 'contextType')">
+                          <li *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj, contextType, 'contextType')" [ngClass]="{'active':ruleObj.contextType===contextType}">
                             <a>{{"businessRules." + contextType | translate}}</a>
                           </li>
                         </ul>
@@ -216,25 +216,28 @@
                 <div class="row m-0 search-content-sec">
                   <div class="col-2 p-0 title">Select Parameters</div>
                   <div class="col-4 pr-0">
-                    <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index">
+                    <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" *ngIf="ruleObj.contextType !=='userContext'">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"  id="dropdownBasic1" ngbDropdownToggle>
-                          {{"businessRules." + ruleObj.contextCategory | translate}}
+                         {{"businessRules." + ruleObj.contextCategory | translate}}
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li ngbDropdownItem *ngFor=" let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')">
+                          <li ngbDropdownItem *ngFor=" let contextCategory of ruleOptions[ruleObj.contextType]" (click)="ruleSelection(ruleObj,contextCategory,'contextCategory')" [ngClass]="{'active':ruleObj.contextCategory===contextCategory}">
                             {{"businessRules." + contextCategory | translate}}
                           </li>
                         </ul>
                       </div>
                     </div>
+                    <div  *ngIf="ruleObj.contextType ==='userContext'">
+                      <input  type="text"  id="userType"  [(ngModel)]="ruleObj.contextCategory" />
+                       </div>
                   </div>
                   <div class="col-3 pr-0">
                     <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li ngbDropdownItem *ngFor="let dataType of ruleOptions.dataTypes" (click)="ruleSelection(ruleObj,dataType,'dataType')">{{"businessRules." + dataType | translate}}
+                          <li ngbDropdownItem *ngFor="let dataType of ruleOptions.dataTypes" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
                           </li>
                         </ul>
                       </div>
@@ -246,7 +249,7 @@
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." + ruleObj.operator):'choose_an_option')  | translate}}</button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                           <ng-container *ngIf="ruleObj.dataType && conditions[ruleObj.dataType]">
-                            <li  ngbDropdownItem *ngFor="let operator of conditions[ruleObj.dataType]" (click)="ruleSelection(ruleObj,operator,'operator')">{{"businessRules." + operator | translate}} </li>
+                            <li  ngbDropdownItem *ngFor="let operator of conditions[ruleObj.dataType]" (click)="ruleSelection(ruleObj,operator,'operator')" [ngClass]="{'active':ruleObj.operator===operator}">{{"businessRules." + operator | translate}} </li>
                           </ng-container>
                         </ul>
                       </div>
@@ -258,7 +261,7 @@
                   <div class="tags row m-0 col-10">
                     <div class="chip-sys-data">
                       <mat-form-field class="example-chip-list" [ngClass]="{'date-chip': ruleObj.dataType == 'date'}">
-                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
+                        <mat-chip-list #chipList [attr.aria-label]="'tag selection'" class="date-range-picker-right-d-none">
 
                           <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                               <ng-container *ngFor="let value of ruleObj.value; let index = index">
@@ -312,18 +315,18 @@
                           </ng-container>
 
                           <ng-container *ngIf="ruleObj.dataType == 'date'">
-                                <ng-container *ngIf="ruleObj.operator === 'between'" >
-                                  <span class="select_data_placeholder w-120" (click)="openDateTimePicker(ruleObj,ruleIndex)">Select Range </span>
+                                <ng-container *ngIf="ruleObj.operator === 'between'"  >
+                                  <span class="select_data_placeholder w-120 py-1" (click)="openDateTimePicker(ruleObj,ruleIndex)">Select Range </span>
                                   <input class="dateRangePicker d-none" id="rangePicker_{{ruleIndex}}" ngxDaterangepickerMd #dateRangePicker  placeholder="Select range" showCancel="true"  [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}" [(ngModel)]="ruleObj.dateValue" (datesUpdated)="onDatesUpdated($event,ruleObj)"/>
                                 </ng-container>
                                 <ng-container *ngIf="ruleObj.operator !== 'between'">
-                                  <span (click)="openDateTimePicker(ruleObj,ruleIndex)" class="select_data_placeholder">Select Date</span>
+                                  <span (click)="openDateTimePicker(ruleObj,ruleIndex)" class="select_data_placeholder py-1">Select Date</span>
                                   <input class="singleDatePicker d-none" id="datePicker_{{ruleIndex}}" [singleDatePicker]="true" ngxDaterangepickerMd #datePicker  *ngIf="ruleObj.operator !== 'between'"    placeholder="Select Date"  showCancel="false" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}" [(ngModel)]="ruleObj.dateValue" (datesUpdated)="onDatesUpdated($event,ruleObj)"/>
                                 </ng-container>
                           </ng-container>
 
                           <ng-container *ngIf="ruleObj.dataType == 'number'">
-                              <input  [placeholder]="ruleObj.operator == 'between' ? 'Eg: 120-220' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
+                              <input  [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)"/>
                           </ng-container>                       
                         </mat-chip-list>
                       </mat-form-field>
@@ -339,6 +342,7 @@
                 <img src="assets/icons/modal-close.svg" />
               </div>
             </div>
+            <div class="position-absolute" style="left: -33px !important;color:#9AA0A6;" *ngIf="rulesArrayforAddEdit && rulesArrayforAddEdit.length-1 !==ruleIndex">AND</div>
           </ng-container>
           <ng-container *ngIf="!rulesArrayforAddEdit.length">
             <div class="row m-0 col-12 info-warning-container">
@@ -356,7 +360,7 @@
         </div>
         <div class="input-conditions col-9">
           <ng-container *ngFor="let outcomeObj of outcomeArrayforAddEdit; let index = index">
-            <div class="d-flex align-items-center w-100 mb-13">
+            <div class="d-flex align-items-center w-100 mb-13 position-relative">
               <div class="input-bg-sec">
                 <div class="row m-0 action-scontent-sec">
                   <div class="col-2 p-0 title">Action</div>
@@ -367,7 +371,7 @@
                           {{ "businessRules." + outcomeObj.outcomeType | translate }}
                         </button>
                         <ul class="dropdown-menu content-menu">
-                          <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')">
+                          <li *ngFor="let outcomeType of ruleOptions.actions" (click)="outcomeSclection(outcomeObj,outcomeType,'outcomeType')" [ngClass]="{'active':outcomeObj.outcomeType===outcomeType}">
                             <a>{{"businessRules." + outcomeType | translate}}</a>
                           </li>
                         </ul>
@@ -391,21 +395,21 @@
                     <div class="kr-sg-dropdowns col-4 pl-0" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
-                          {{outcomeObj.fieldName? outcomeObj.fieldName: "Choose field"}}
+                          {{outcomeObj.fieldName? outcomeObj.fieldName : "Choose field"}}
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                           <li class="search-box">
                             <input type="text" (keydown)="$event.stopPropagation()" (keyup)="getFieldAutoComplete($event,outcomeObj)" placeholder="Search" class="seach-input"/>
                           </li>
                           <ng-container *ngIf="fieldAutoSuggestion && fieldAutoSuggestion.length">
-                            <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)">{{ suggestion.fieldName }}</li>
+                            <li ngbDropdownItem *ngFor="let suggestion of fieldAutoSuggestion" (click)="selectField(suggestion, outcomeObj)" [ngClass]="{'active':outcomeObj.fieldName===suggestion.fieldName}">{{ suggestion.fieldName }}</li>
                           </ng-container>
                         </ul>
                       </div>
                     </div>
                     <div class="kr-sg-dropdowns col-4 pl-0 disabled" ngbDropdown (click)="currentEditInex = index">
                       <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]='true'>
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle [disabled]="true">
                           {{outcomeObj.fieldDataType? outcomeObj.fieldDataType: "String"}}
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -417,7 +421,7 @@
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeOperator | translate}}
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li ngbDropdownItem *ngFor="let operator of conditions.string" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')">{{"businessRules." + operator | translate}}
+                          <li ngbDropdownItem *ngFor="let operator of conditions.string" (click)="outcomeSclection(outcomeObj,operator,'outcomeOperator')" [ngClass]="{'active':outcomeObj.outcomeOperator===operator}">{{"businessRules." + operator | translate}}
                           </li>
                         </ul>
                       </div>
@@ -432,8 +436,8 @@
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{"businessRules." + outcomeObj.outcomeValueType | translate}}
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                          <li ngbDropdownItem  (click)="outcomeSclection(outcomeObj,'static','outcomeValueType')">{{"businessRules.static" | translate}}</li>
-                          <li ngbDropdownItem  (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType')">{{"businessRules.dynamic"  | translate}}</li>
+                          <li ngbDropdownItem  (click)="outcomeSclection(outcomeObj,'static','outcomeValueType')"  [ngClass]="{'active':outcomeObj.outcomeValueType==='static'}">{{"businessRules.static" | translate}}</li>
+                          <li ngbDropdownItem  (click)="outcomeSclection(outcomeObj,'dynamic','outcomeValueType')"  [ngClass]="{'active':outcomeObj.outcomeValueType==='dynamic'}">{{"businessRules.dynamic"  | translate}}</li>
                         </ul>
                       </div>
                     </div>
@@ -461,6 +465,7 @@
                 <img src="assets/icons/modal-close.svg" />
               </div>
             </div>
+            <div class=" position-absolute" style="left: -33px !important; color:#9AA0A6" *ngIf="outcomeArrayforAddEdit && outcomeArrayforAddEdit.length-1 !==index">AND</div>
           </ng-container>
         </div>
       </div>
@@ -468,7 +473,7 @@
   </perfect-scrollbar>
   <div class="modal-footer">
     <button class="kr-sg-button-primary btn_lg" *ngIf="addEditRuleObj._id"  [disabled]="!addEditRuleObj.ruleName" (click)="updateRule(addEditRuleObj)"> Proceed</button>
-    <button  class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">Proceed</button>
+    <button  class="kr-sg-button-primary btn_lg" *ngIf="!addEditRuleObj._id" [disabled]="!addEditRuleObj.ruleName" (click)="createRule()">ADD</button>
     <button class="kr-sg-button-secondary btn_lg" (click)="closeModalPopup()">Back</button>
   </div>
 </kr-modal>
