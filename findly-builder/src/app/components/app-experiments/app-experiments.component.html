@@ -115,7 +115,7 @@
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
-                        {{ 24 * exp.date_days }} hrs more to go
+                        {{ 24 * exp.date_days }} hrs more to go 
                       </div>
                       <div class="hours">
                         <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
@@ -265,7 +265,7 @@
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
-      <span *ngIf='listOfExperiments.length>0' style="float: left;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
+      <div *ngIf='listOfExperiments.length>0' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div>
     </perfect-scrollbar>
   </div>
 </div> 

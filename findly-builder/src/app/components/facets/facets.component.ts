@@ -171,7 +171,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
 
   resetPartial(){
     this.selcectionObj.selectAll = false;
-    $('#selectAllFacets')[0].checked = false;
+    if($('#selectAllFacets').length){
+      $('#selectAllFacets')[0].checked = false;
+    }
     let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
     if(partialElement.length){
       partialElement[0].classList.add('d-none');
@@ -384,6 +386,11 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
     this.addEditFacetObj.fieldName = suggesition.fieldName
   }
+
+  setFaceName(suggesition){
+    this.addEditFacetObj.facetName = suggesition.fieldName;
+  }
+  
   createFacet() {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,

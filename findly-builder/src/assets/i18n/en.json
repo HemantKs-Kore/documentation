@@ -216,7 +216,7 @@
         "value":"Value",
         "range":"Range",
         "multi_select":"Multi Select",
-        "multip_select_info" : "to select muliple facets values",
+        "multip_select_info" : "to select multiple facets values",
         "range_name":"Range Name (Optional)",
         "from":"From",
         "to":"To",
@@ -241,7 +241,8 @@
         "do_not_allow" : "Do Not Allow",
         "sort_by" : "Sort by",
         "facet_size" : "Facet Size",
-        "facet_size_info" : "Maximum number of facet values to be displayed."
+        "facet_size_info" : "Maximum number of facet values to be displayed.",
+        "selected" : "Selected"
  },
  "resultRanking":{
      "no_search_results":"No search results",
