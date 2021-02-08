@@ -17,7 +17,7 @@
     <div class="stage_sec">
       <div class="stage_header">
         <div class="title">Stages</div>
-        <div class="add" (click)="createNewMap()" placement="bottom-right"
+        <div class="add" (click)="showNewStageType=true;selectedStage={};" placement="bottom-right" 
           [disableTooltip]="pipeline && pipeline.length" #tleft="ngbTooltip" triggers="manual"
           (mouseenter)="tleft.open()" ngbTooltip="Click here to get started by adding a stage" [container]="'body'"
           tooltipClass="custom_tooltip_class">
@@ -26,7 +26,23 @@
         </div>
       </div>
       <perfect-scrollbar class="scroll_stage_content">
-        <ng-container *ngIf="pipeline && pipeline.length">
+        <ng-container>
+          <div *ngIf="showNewStageType">
+            <div class="field_data active cdk-drag"  >
+              <div class="drag_drop_icon">
+                <img src="assets/icons/drog_drop.svg" />
+              </div>
+              <div class="stateIcon" >
+                <img src="assets/images/activeStage.svg" />
+              </div>
+              <div class="title text-truncate">Choose Stage Type</div>
+              <div class="close_icon" (click)="showNewStageType=false">
+                <img src="assets/icons/close_field.svg" />
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="pipeline && pipeline.length && !showNewStageType">
           <div cdkDropList (cdkDropListDropped)="drop($event, pipeline)">
             <div (click)="selectStage(pipe, i)" class="field_data" *ngFor="let pipe of pipeline; let i = index" cdkDrag
               [ngClass]="{
@@ -54,7 +70,7 @@
                 <img src="assets/images/inActiveStage.svg" />
               </div>
               <div class="title text-truncate">{{ pipe.name }}</div>
-              <div class="close_icon" (click)="removeStage(i)">
+              <div class="close_icon" (click)="removeStage(i,pipe.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
             </div>
@@ -62,7 +78,7 @@
         </ng-container>
       </perfect-scrollbar>
     </div>
-    <div class="table_sec" *ngIf="!(selectedStage && selectedStage.type)">
+    <div class="table_sec" *ngIf="!(selectedStage && selectedStage.type) && !showNewStageType">
       <div class="empty-list">
         <ng-container>
           <img src="assets/images/icons/empty_ill.svg" />
@@ -71,7 +87,42 @@
         </ng-container>
       </div>
     </div>
-    <div class="form_sec" *ngIf="selectedStage && selectedStage.type">
+    <div class="form_sec"  *ngIf="showNewStageType">
+      <perfect-scrollbar class="scroll_form">
+        <div class="form_edit_content">
+          <div class="d-flex m-0 col-12 p-0">
+            <div class="kr-sg-dropdowns mb-20 pr-4 pl-0">
+              <div class="label-text">
+                Stage Type
+              </div>
+              <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
+                  {{
+                  (selectedStage.type
+                  ? selectedStage.type
+                  : "choose_an_option"
+                  ) | translate
+                  }}
+                </button>
+                <ul class="dropdown-menu content-menu">
+                  <li *ngFor="
+                      let systemStage of defaultStageTypes;
+                      let index = index
+                    " (click)="switchStage(systemStage, index);showNewStageType=false;">
+                    <a *ngIf="newMappingObj[systemStage.type]">{{
+                      systemStage.type | translate
+                      }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          
+          </div>
+         
+        </div>
+      </perfect-scrollbar>
+    </div>
+    <div class="form_sec" *ngIf="selectedStage && selectedStage.type && !showNewStageType">
       <perfect-scrollbar class="scroll_form">
         <div class="form_edit_content">
           <div class="d-flex m-0 col-12 p-0">
@@ -683,7 +734,7 @@
           Cancel
         </button>
       </div>
-    </div>
+    </div> 
   </div>
   <div class="simulator-div" *ngIf="simulteObj && simulteObj.showSimulation">
     <div class="header">

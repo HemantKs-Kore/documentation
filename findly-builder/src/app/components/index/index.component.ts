@@ -40,6 +40,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   newfieldsData:any = [];
   loadingFields = true;
   isActiveAll= true;
+  showStageType= false;
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
@@ -662,16 +663,19 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
-  removeStage(i){
+  removeStage(i,stageType){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Stage',
-        text: 'Are you sure you want to delete selected stage?',
-        newTitle: 'Are you sure you want to delete selected stage?',
-        body:'Selected stage will be deleted.',
+        // text: 'Are you sure you want to delete selected stage?',
+        // newTitle: 'Are you sure you want to delete selected stage?',
+        // body:'Selected stage will be deleted.',
+        text: 'Do you want to discard this stage?',
+        newTitle: 'Do you want to discard this stage?',
+        body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -719,7 +723,8 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       api = 'put.updateField'
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
-      this.notificationService.notify('Fields added successfully','success');
+      // this.notificationService.notify('Fields added successfully','success');
+      this.notificationService.notify('ⓘ New Fields have been added. Please train to re-index the configuration','info');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to create field');
@@ -998,6 +1003,16 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.setResetNewMappingsObj(true,true);
   }
   switchStage(systemStage,i){
+    const obj :any = new StageClass();
+    const newArray = [];
+    obj.name = this.defaultStageTypes[i].name;
+    obj.enable = true;
+    obj.type = this.defaultStageTypes[i].type;
+    obj.catagory = this.defaultStageTypes[i].category;
+    newArray.push(obj)
+    this.pipeline = newArray.concat(this.pipeline);
+    this.selectedStage = this.pipeline[0];
+
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.catagory = this.defaultStageTypes[i].category;
     this.selectedStage.name  =this.defaultStageTypesObj[systemStage.type].name;
