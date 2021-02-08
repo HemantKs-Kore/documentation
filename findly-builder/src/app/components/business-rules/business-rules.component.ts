@@ -55,10 +55,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
-    pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
+    // pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
+    pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
     userContext: ['userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
-    dataTypes:['string','date','number'],
+    dataTypes:['string','date','number','trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
   tagsArray: any = []
@@ -272,8 +273,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
     const mainContext = _ruleOptions.contextTypes;
     if($('.mat_autofocus_dropdown').length){
-      if(ruleObj.outcomeValueType == 'static'){
-        $('.mat_autofocus_dropdown')[0].style.display = 'none'
+      if(ruleObj.outcomeValueType == 'static' || (ruleObj.outcomeValueType == 'dynamic' && ruleObj.newValue && (ruleObj.newValue.search(/\./)!==-1))){
+        if($('.mat_autofocus_dropdown')[0]){
+          $('.mat_autofocus_dropdown')[0].style.display = 'none';
+        }
+      }else{
+        if($('.mat_autofocus_dropdown')[0]){
+        $('.mat_autofocus_dropdown')[0].style.display = 'block';
+        }
       }
     }
     this.currentSugg = [];
@@ -334,6 +341,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       this.autoSuggestInputItems._results[index].nativeElement.value = newVal+ '.';
       ruleObj.newValue = newVal+ '.';
+      if($('.mat_autofocus_dropdown')[0]){
+        $('.mat_autofocus_dropdown')[0].style.display = 'none';
+      }
     }
   }
   addRules(event: MatChipInputEvent, ruleObj, i) {

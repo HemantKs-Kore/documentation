@@ -92,7 +92,7 @@
                                 </div>
                             </div> -->
                             <div class="left-sec col-12 p-0">
-                                <div class="count">{{totalSearchesStats.clicks }}%<span class="ctr">CTR: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span></div>
+                                <div class="count">{{totalSearchesStats.clicks }}<span class="ctr">CTR: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span></div>
                                 <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.clickRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.clickRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.clickRate < 0">

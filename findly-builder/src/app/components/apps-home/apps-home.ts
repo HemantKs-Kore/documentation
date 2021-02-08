@@ -146,7 +146,7 @@ export class AppsListingComponent implements OnInit {
         this.headerService.toggle(toogleObj);
         self.creatingInProgress = false;
         $('.toShowAppHeader').removeClass('d-none');
-        this.callStream();
+        // this.callStream();
       },
       errRes => {
         this.errorToaster(errRes, 'Error in creating app');
@@ -203,4 +203,13 @@ export class AppsListingComponent implements OnInit {
       });
     }
   }
+  // callStream(){
+  //   this.service.invoke('get.credential').subscribe(
+  //     res => {
+  //     },
+  //     errRes => {
+  //       this.errorToaster(errRes,'Error in creating app');
+  //     }
+  //   );
+  // }
 }

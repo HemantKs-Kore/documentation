@@ -186,7 +186,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   // based on variant show traffic
   showTraffic(length, type) {
-    console.log("slider lgt", length)
+
     this.star = [];
     if (length > 1) {
       if (type === 'add') {
@@ -354,7 +354,6 @@ export class AppExperimentsComponent implements OnInit {
         let endsOn: any = new Date(data.end);
         endsOn = moment(endsOn);
         const total_days = endsOn.diff(createdOn, 'hours');
-        console.log("all days", days)
         obj.date_days = days;
         obj.total_days = total_days;
         return obj;
@@ -375,13 +374,13 @@ export class AppExperimentsComponent implements OnInit {
   //dynamically show status
   dynamicStatus: any = [];
   statusList(result) {
-    console.log("staus data", result);
+    console.log("result", result);
     this.dynamicStatus = new Set();
     this.dynamicStatus.add("all");
     for (let i in result) {
       this.dynamicStatus.add(result[i].state)
     }
-    console.log("set1", this.dynamicStatus)
+    console.log("dynamicStatus", this.dynamicStatus)
   }
   // filter count of list of experiments
   countExperiment(res) {
@@ -527,10 +526,10 @@ export class AppExperimentsComponent implements OnInit {
           return obj;
         })
       }
-      console.log("this.filterExperiments", this.filterExperiments)
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
       this.selectedTab(this.setTab);
+      this.statusList(this.listOfExperiments);
       this.notificationService.notify(`Experiment ${status} successfully`, 'success');
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -585,7 +584,6 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
   selectedTab(type) {
-    console.log("type", type)
     const filterArray: any = this.filterExperiments;
     this.setTab = type;
     if (type === 'all') {
@@ -609,7 +607,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   //pagination for list
   paginate(event) {
-    console.log("event changed", event)
     this.exp_limitPage = event.limit;
     this.exp_skipPage = event.skip;
     this.getExperiments();
