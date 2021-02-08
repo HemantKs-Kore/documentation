@@ -99,8 +99,9 @@ import { StructuredDataComponent } from './components/structured-data/structured
 import { AddStructuredDataComponent } from './components/add-structured-data/add-structured-data.component';
 import { StructuredDataStatusModalComponent } from './components/structured-data-status-modal/structured-data-status-modal.component';
 import { StatusDockerComponent } from './components/status-docker/status-docker.component';
-import {  DockStatusService} from './services/dock.status.service';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { DockStatusService } from './services/dock.status.service';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { TeamManagementComponent } from './components/team-management/team-management.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -167,11 +168,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ExperimentsComponent,
     FieldManagementComponent,
     AppExperimentsComponent,
+    StatusDockerComponent,
+    TeamManagementComponent,
     StructuredDataComponent,
     AddStructuredDataComponent,
     StructuredDataStatusModalComponent,
     StatusDockerComponent
-    ],
+  ],
   imports: [
     BrowserModule,
     FormsModule,
