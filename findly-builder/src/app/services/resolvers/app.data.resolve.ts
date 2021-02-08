@@ -20,10 +20,10 @@ export class AppDataResolver implements Resolve<any> {
     return Observable.create(observer => {
       const promise1 = this.authService.getApplictionControlsFromServer();
       promise1.subscribe(res => {
-          observer.next(res);
-          this.authService.seedData();
-          this.authService.getfindlyApps();
-          observer.complete();
+        observer.next(res);
+        this.authService.seedData();
+        this.authService.getfindlyApps();
+        observer.complete();
       }, errRes => {
         observer.end();
       });
