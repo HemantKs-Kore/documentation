@@ -793,5 +793,36 @@ export class EndPointsService {
     //   endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
     //   method: 'get'      
     //  }
+
+    /** APIs for Search Interface */
+    this.serviceList['get.SI_setting'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resultviewsettings',
+      method: 'get'
+    }
+    this.serviceList['get.SI_settingInterface'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resultviewsettings?interface=:interface',
+      method: 'get'
+    }
+    this.serviceList['get.SI_searchResultTemplate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resulttemplates/:templateId',
+      method: 'get'
+    }
+    this.serviceList['post.SI_saveTemplate'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resulttemplates/:interface/resultviewsettings',
+      method: 'post'
+    }
+    this.serviceList['put.SI_saveTemplate_Id'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resulttemplates/:templateId',
+      method: 'put'
+    }
+    this.serviceList['put.SI_saveResultSettings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/resultviewsettings',
+      method: 'put'
+    }
+    this.serviceList['get.SI_allResultSettings'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/getresultviewsettings',
+      method: 'get'
+    }
+    /** APIs for Search Interface */
   }
 }

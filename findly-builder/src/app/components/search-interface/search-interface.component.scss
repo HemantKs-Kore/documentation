@@ -1,5 +1,10 @@
 
 .search-interface-container{
+    .group-radiobutton{
+        .pad-0{
+            padding: 0 !important;
+        }
+    }
     .header_sec {
         display: flex;
         align-items: center;
