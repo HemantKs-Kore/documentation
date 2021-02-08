@@ -247,8 +247,8 @@ deleteCredential(data){
     height: 'autox',
     panelClass: 'delete-popup',
     data: {
-      newTitle: 'Delete Credential',
-      body: 'Are you sure you want to delete Credential?',
+      newTitle: 'Are you sure you want to delete?',
+      body: ' Selected credential will be deleted.',
       buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
       confirmationPopUp:true
     }

@@ -56,6 +56,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   faqComments:any = [];
   pollingSubscriber;
+  showSearch;
+  serachFaq: any = '';
   faqs:any = [];
   faqsAvailable = false;
   selectedtab = 'draft';
@@ -718,7 +720,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   confirmFAQswitch(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
@@ -1018,10 +1020,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete FAQ',
-        text: 'Are you sure you want to delete selected question?',
-        newTitle: 'Are you sure you want to delete selected question?',
-        body:'The selected question will be deleted.',
+        newTitle: 'Are you sure you want to delete?',
+        body:'Selected question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1049,7 +1049,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         title: 'Delete Resource',
         text: 'Are you sure you want to delete ?',
         newTitle: 'Are you sure you want to delete ?',
-        body:'Resource will be deleted.',
+        body:'Selected resource will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1070,10 +1070,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete FAQ',
-        text: 'Are you sure you want to delete selected question?',
-        newTitle: 'Are you sure you want to delete selected question?',
-        body:'The selected question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1098,10 +1096,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Alternate Question',
-        text: 'Are you sure you want to delete selected alternate question?',
-        newTitle: 'Are you sure you want to delete selected  alternate question?',
-        body:'The selected alternate question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected alternate question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1144,10 +1140,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Alternate Question',
-        text: 'Are you sure you want to delete this alternate question?',
-        newTitle: 'Are you sure you want to delete selected  alternate question?',
-        body:'The selected alternate question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected alternate question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         // confirmationPopUp:true
       }
@@ -1171,10 +1165,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Followup Question',
-        text: 'Are you sure you want to delete this followup question?',
-        newTitle: 'Are you sure you want to delete this followup question?',
-        body:'The selected followup question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected followup question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1262,4 +1254,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
     }
   }
+  toggleSearch() {
+    if (this.showSearch && this.serachFaq) {
+      this.serachFaq = '';
+    }
+    this.showSearch = !this.showSearch
+  };
+  
 }

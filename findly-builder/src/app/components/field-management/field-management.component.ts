@@ -145,9 +145,7 @@ export class FieldManagementComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Field',
-        text: 'Are you sure you want to delete selected field?',
-        newTitle:'Do you really want to delete?',
+        newTitle:'Are you sure you want to delete?',
         body:usageText,
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true

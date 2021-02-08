@@ -4,7 +4,8 @@
      padding: 0px;
      height: calc(100vh - 62px);
      overflow: hidden;    
-     background: #fff;  
+     background: #fff; 
+    
      .mainLoadingSpinner{
         position: absolute;
         top: 40%;
@@ -87,6 +88,10 @@
     .stop-words-wrapper{
         padding: 40px 30px;
         height: calc(100% - 52px);
+        .scoll-empty-screen{
+            height: calc(100vh - 115px);
+            padding-right: 65px;
+        } 
         .addStopWordsBlock{     
             margin-bottom: 8px;       
            .kr-sg-input-text{

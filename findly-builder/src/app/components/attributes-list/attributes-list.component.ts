@@ -117,13 +117,14 @@ export class AttributesListComponent implements OnInit {
 
   deleteField (fieldData) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Field',
-        text: 'Are you sure you want to delete "'+ fieldData.name +'" field?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }]
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected "'+ fieldData.name +'" will be deleted.',
+        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
     });
     dialogRef.componentInstance.onSelect

@@ -6,9 +6,9 @@
     <div class="header-sec-stopwords">
       <div class="title">{{'stopWords.stop_words'| translate}}</div>
       <div class="toggle_switch">
-        <label class="kr-sg-toggle">                                       
+        <label class="kr-sg-toggle" *ngIf="(stopwords && stopwords.length)">                                       
           <input type="checkbox" (change)="enableStopWords($event)" checked [(ngModel)]="enabled">
-          <div class="slider"><span class="enabled">{{'stopWords.enable_stop_word_removal'| translate}}</span><span class="disabled">{{'stopWords.stop_word_removal_disabled'| translate}}</span></div>
+          <div class="slider" ><span class="enabled">{{'stopWords.enable_stop_word_removal'| translate}}</span><span class="disabled">{{'stopWords.stop_word_removal_disabled'| translate}}</span></div>
         </label>
       </div>     
     </div>    
@@ -24,10 +24,10 @@
             <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()" [disabled]="validation.duplicate || validation.spaceFound || !newStopWord">{{'stopWords.add'| translate}}</button>
         </div>
      </div> 
-
       <div class="empty_screen_data" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
-          <perfect-scrollbar class="scoll-empty-screen" *ngIf="!showAddStopWordsContainer">
-            <div class="empty-landing-screen">
+        <ng-container>
+          <perfect-scrollbar class="scoll-empty-screen">
+            <div class="empty-landing-screen" *ngIf="!showAddStopWordsContainer">
               <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/stopwords-empty.svg"></div>   
               <div class="empty-title">You haven’t added any Stop words yet!</div>
               <div class="desc-text"> Stop words are a set of common words (such as the, a, to, all) that dilutes the importance of keywords in a search query. SearchAssist allows you to use either the default set of stop words or add a custom set as per your need.</div>
@@ -41,6 +41,7 @@
               </ng-container>
             </div>
           </perfect-scrollbar>  
+          </ng-container>
         <div class="empty-stopwords" *ngIf="showAddStopWordsContainer">
           <div class="main_heading">{{'stopWords.lets_start_by_adding_stop_words'| translate}}</div>
           <div class="desc_info">{{'stopWords.select_on_how_would_you_like_to_add_stop_words'| translate}}</div>
@@ -83,7 +84,7 @@
             <img *ngIf="!showSearch" class="search-icon" src="assets/icons/search_black.svg">
             <span *ngIf="!showSearch" class="label_txt">{{'stopWords.Search'| translate}}</span>
           </div>  
-          <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+          <div class="kr-sg-dropdowns w-auto exportdropdown" *ngIf="(stopwords && stopwords.length)" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
             <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>

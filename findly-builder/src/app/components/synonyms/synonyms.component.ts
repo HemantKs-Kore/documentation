@@ -202,12 +202,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
-      height: '236px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Synonym',
-        text: 'Are you sure you want to delete selected synonym?',
-        newTitle: 'Are you sure you want to delete selected synonym?',
+        newTitle: 'Are you sure you want to delete ?',
         body:'Selected synonym will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
