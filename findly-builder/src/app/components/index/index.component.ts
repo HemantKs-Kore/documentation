@@ -723,8 +723,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       api = 'put.updateField'
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
-      // this.notificationService.notify('Fields added successfully','success');
-      this.notificationService.notify('ⓘ New Fields have been added. Please train to re-index the configuration','info');
+     this.notificationService.notify('Fields added successfully','success');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to create field');
