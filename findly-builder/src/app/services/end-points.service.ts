@@ -798,7 +798,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.streamData'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
     }
     //  this.serviceList['export.dockstatus'] = {

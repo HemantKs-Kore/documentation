@@ -51,23 +51,22 @@ export class AppsListingComponent implements OnInit {
 
   ngOnInit() {
     $('.krFindlyAppComponent').removeClass('appSelected');
-    const apps = this.workflowService.findlyApps();
-    console.log("latest apps", apps)
-    this.prepareApps(apps);
+    //const apps = this.workflowService.findlyApps();
+    //this.prepareApps(apps);
+    this.getAllApps();
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
-    this.selectedAppType('All');
-    this.sortApp('Created Date');
   }
   prepareApps(apps) {
+    this.recentApps = apps.slice(0, 4);
     apps.sort((a, b) => {
       const bDate: any = new Date(b.lastModifiedOn);
       const aDate: any = new Date(a.lastModifiedOn);
       return bDate - aDate;
     });
     this.apps = apps;
-    this.recentApps = apps.sort((a, b) => a.lastAccessedOn.localeCompare(b.lastAccessedOn)).slice(0, 4);
+    //this.recentApps = apps.sort((a, b) => b.lastAccessedOn.localeCompare(a.lastAccessedOn)).slice(0, 4);
   }
   openApp(app) {
     this.appSelectionService.openApp(app);
@@ -95,6 +94,23 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
+  }
+  //get all apps
+  emptyApp: boolean = false;
+  public getAllApps() {
+    this.service.invoke('get.apps').subscribe(res => {
+      this.prepareApps(res);
+      if (res && res.length) {
+        this.workflowService.showAppCreationHeader(false);
+        this.selectedAppType('All');
+        this.sortApp('Created Date');
+      }
+      else {
+        this.emptyApp = true;
+      }
+    }, errRes => {
+      console.log(errRes);
+    });
   }
   createFindlyApp() {
     const self = this;
@@ -167,7 +183,9 @@ export class AppsListingComponent implements OnInit {
   sort_type: string;
   order: boolean = false;
   sortApp(type) {
-    this.sort_type = type;
+    if (type !== 'Icon filter') {
+      this.sort_type = type;
+    }
     this.order = !this.order;
     if (type == 'Created Date') {
       this.filteredApps = this.filteredApps.sort((a, b) => {

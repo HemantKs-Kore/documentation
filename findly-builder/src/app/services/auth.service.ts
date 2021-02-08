@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { LocalStoreService } from '@kore.services/localstore.service';
-import {ServiceInvokerService} from '@kore.services/service-invoker.service';
-import {AppUrlsService} from '@kore.services/app.urls.service';
-import {WorkflowService} from '@kore.services/workflow.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { AppUrlsService } from '@kore.services/app.urls.service';
+import { WorkflowService } from '@kore.services/workflow.service';
 import { Observer, from, Subject } from 'rxjs';
 import { Observable } from 'rxjs';
-import {ReplaySubject} from 'rxjs';
-declare let window:any;
+import { ReplaySubject } from 'rxjs';
+declare let window: any;
 
 
 @Injectable({
@@ -55,7 +55,7 @@ export class AuthService {
       } catch (error) {
         return false;
       }
-      window.findlyAccessToken=_accessToken;
+      window.findlyAccessToken = _accessToken;
       return _accessToken;
     } else {
       return false;
@@ -166,7 +166,8 @@ export class AuthService {
 
   public getfindlyApps() {
     this.service.invoke('get.apps').subscribe(res => {
-      // res = [];
+      // res = [];\
+      console.log("latest get apps", res)
       if (res && res.length) {
         this.workflowService.showAppCreationHeader(false);
       }
