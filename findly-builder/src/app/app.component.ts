@@ -255,14 +255,14 @@ export class AppComponent implements OnInit, OnDestroy {
         };
     }
     const findlyConfig: any = {
-      botOptionsFindly,
+      botOptions: botOptionsFindly,
       viaSocket: true
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
+    this.searchInstance.showSearch(findlyConfig.botOptions);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
 
   }
