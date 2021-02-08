@@ -6438,16 +6438,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }
-      if (!window.koreWidgetSDKInstance) {
-        _self.initWebKitSpeech();
-        _self.setAPIDetails();
-        // _self.initKoreSDK();
-        _self.initKoreSDK(config);
-        _self.initWebKitSpeech();
-        _self.setAPIDetails();
-        
-        window.koreWidgetSDKInstance = _self;
-      }
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+      // _self.initKoreSDK();
+      _self.initKoreSDK(config);
+      _self.initWebKitSpeech();
+      _self.setAPIDetails();
+      
+      window.koreWidgetSDKInstance = _self;
       if (!_self.customSearchResult) {
         _self.addSourceType({
           container : 'sa-custom-nav-panel-container'

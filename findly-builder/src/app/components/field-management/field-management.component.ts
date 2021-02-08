@@ -119,7 +119,7 @@ export class FieldManagementComponent implements OnInit {
        weights:false
      }
      if(res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)){
-      usageText = 'Deleting ' + record.fieldName + 'field will remove the associated '
+      usageText = 'Deleting ' + record.fieldName + ' field will remove the associated '
       if(res && res.facets && res.facets.used){
         deps.facets = true;
         usageText = usageText + 'Facets '
@@ -134,9 +134,9 @@ export class FieldManagementComponent implements OnInit {
        }
        if(res && res.rules && res.rules.used){
         if(deps.facets ||deps.weights ){
-          usageText = usageText + 'and will impact ' + res.records.length +' Business Rules.'
+          usageText = usageText + 'and will impact ' + res.rules.records.length +' Business Rules.'
         } else {
-          usageText = usageText  + 'will impact ' + res.records.length +' Business Rules.'
+          usageText = usageText  + 'and will impact ' + res.rules.records.length +' Business Rules.'
         }
        }
      }

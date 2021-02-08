@@ -376,7 +376,7 @@
                 .mat-form-field-infix {
                     .mat-chip-list {
                         .mat-chip-list-wrapper{
-                            height: 34px;
+                            min-height: 34px;
                         }
                     }
                 }
@@ -622,4 +622,42 @@
 }
 .empty-scroll{
     height: calc(100vh - 162px);
+}
+
+::ng-deep .dateRangePicker + ngx-daterangepicker-material .md-drppicker .calendar.right{
+        display: none !important;
+    }
+
+.dropdown-menu.content-menu li.active{
+font-weight: 800;
+background-color: transparent !important;
+}
+
+::ng-deep ngx-daterangepicker-material .md-drppicker .buttons .buttons_input{
+button.btn.btn-default{
+    display: none !important;
+}
+button.btn{
+    float: left !important;
+    background: transparent !important;
+    color:#0D6EFD;
+    box-shadow: none !important;
+    position: relative;
+    border: 0px !important;
+}
+  button.btn:after {
+    content: "Done";
+    text-transform: capitalize !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color:#0D6EFD;
+    background: white;
+  }
+}
+::ng-deep ngx-daterangepicker-material{
+position: absolute;
+    bottom: -11px !important;
 }
