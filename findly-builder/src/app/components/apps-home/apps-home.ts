@@ -112,6 +112,7 @@ export class AppsListingComponent implements OnInit {
       console.log(errRes);
     });
   }
+  //create app
   createFindlyApp() {
     const self = this;
     self.creatingInProgress = true;
