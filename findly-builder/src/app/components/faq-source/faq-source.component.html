@@ -548,7 +548,7 @@
       </div>
     
     <div class="modal-header modal-table-actions">              
-        <div class="table-action-header row m-0 justify-content-between"> 
+        <div class="table-action-header row m-0 justify-content-end"> 
             <div class="d-flex align-items-center">
                 <!-- <div class="kr-sg-input-search ">                               
                     <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources" autocomplete="off">
@@ -559,7 +559,7 @@
                     <div class="kr-sg-input-text ml-2" [ngClass]="{'active':showSearch}">                               
                         <input type="text" placeholder="Search" autocomplete="off" class="input-search" name='faqsSearch' placeholder="Search" id="searchFaqs" [(ngModel)]="serachFaq">           
                       </div> 
-                      <div class="seach-block" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
+                      <div class="seach-block" style="margin-right: 700px" (click)="toggleSearch()"><img *ngIf="!showSearch" src="assets/icons/search.svg"><img *ngIf="showSearch" src="assets/images/close.svg">Search</div>
                 <!-- </div> -->
                               
                   <div class="kr-sg-dropdowns d-none">            
@@ -575,7 +575,7 @@
 
             </div>
             <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
-            <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
+           <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
         </div> 
      
     </div>
