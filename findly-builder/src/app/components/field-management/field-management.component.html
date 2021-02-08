@@ -223,7 +223,7 @@
                     <label for="checkbox_grpf" class="checkbox-custom-label">Required</label>
                 </div>
                 <div class="kr-sg-checkbox">
-                    <input id="checkbox_grpd" [disabled]="newFieldObj.isIndexed" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored">
+                    <input id="checkbox_grpd"  class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored" (change)="newFieldObj.isIndexed = newFieldObj.isStored;">
                     <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label>
                 </div>
                 <div class="kr-sg-checkbox">
@@ -237,7 +237,7 @@
             </div>
             <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">Indexed Property has been set to False. This will impact facet and Business Rules.</div>                                   
+                <div class="tost-text">Indexed Property has been set to False. This will impact facet and 3 Business Rules.</div>                                   
             </div>
             <div class="kr-sg-inline-notification" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>

@@ -484,6 +484,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       }
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      if(this.selcectionObj.selectedCount === this.rules.length){
+        this.selcectionObj.selectAll = true;
+      }
     }
   }
   selectAll(unselectAll?) {
