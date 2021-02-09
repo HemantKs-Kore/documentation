@@ -45,6 +45,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   changesDetected;
   currentEditIndex :any= -1;
   pollingSubscriber: any = null;
+  showNewStageType:boolean=false;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -74,6 +75,9 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     },
     semantic_meaning:{
       name:'Semantic Meaning'
+    },
+    exclude_document:{
+      name:'Remove Document'
     },
   }
   entityNlp = [
@@ -157,8 +161,10 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    if((this.selectedApp ||{}).searchIndexes && (this.selectedApp ||{}).searchIndexes.length){
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    }
     this.getSystemStages();
     this.getIndexPipline();
     this.getFileds();
@@ -186,7 +192,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   getTraitGroups(initial?) {
     const quaryparms :any = {
       userId:this.authService.getUserId(),
-      streamId:this.selectedApp._id
+      streamId:(this.selectedApp ||{})._id
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
         const allTraitskeys :any=[];
@@ -268,7 +274,14 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
         defaultValue : {
          script:''
         }
-      }
+      },
+      exclude_document:{
+        defaultValue : {
+          operation:'set',
+          target_field:'',
+          value:'',
+        }
+      },
     }
     if(saveConfig && this.selectedStage && this.selectedStage.type === 'custom_script' && this.selectedStage.config && this.selectedStage.config.mappings && this.selectedStage.config.mappings.length){
       if(!this.newMappingObj.custom_script){
@@ -321,6 +334,13 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   if(this.newMappingObj.custom_script && this.newMappingObj.custom_script.defaultValue) {
      if(this.newMappingObj.custom_script.defaultValue.script){
       this.addFiledmappings(this.newMappingObj.custom_script.defaultValue);
+     }
+  }
+}
+if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
+  if(this.newMappingObj.exclude_document && this.newMappingObj.exclude_document.defaultValue) {
+     if(this.newMappingObj.exclude_document.defaultValue.script){
+      this.addFiledmappings(this.newMappingObj.exclude_document.defaultValue);
      }
   }
 }
@@ -810,7 +830,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
     // removing Duplicate value - temporary
     for (let index = 0; index <  res.stages.length; index++) {
-      if(index < 9)
+      if(index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
       this.defaultStageTypes.push(res.stages[index])
       }
      setTimeout(() => {
@@ -1003,16 +1023,18 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.setResetNewMappingsObj(true,true);
   }
   switchStage(systemStage,i){
-    const obj :any = new StageClass();
-    const newArray = [];
-    obj.name = this.defaultStageTypes[i].name;
-    obj.enable = true;
-    obj.type = this.defaultStageTypes[i].type;
-    obj.catagory = this.defaultStageTypes[i].category;
-    newArray.push(obj)
-    this.pipeline = newArray.concat(this.pipeline);
-    this.selectedStage = this.pipeline[0];
-
+    if(this.showNewStageType){
+      const obj :any = new StageClass();
+      const newArray = [];
+      obj.name = this.defaultStageTypes[i].name;
+      obj.enable = true;
+      obj.type = this.defaultStageTypes[i].type;
+      obj.catagory = this.defaultStageTypes[i].category;
+      newArray.push(obj)
+      this.pipeline = newArray.concat(this.pipeline||[]);
+      this.selectedStage = this.pipeline[0];
+      this.showNewStageType =false;
+    }
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.catagory = this.defaultStageTypes[i].category;
     this.selectedStage.name  =this.defaultStageTypesObj[systemStage.type].name;

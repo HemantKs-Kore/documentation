@@ -46,7 +46,7 @@
           <div cdkDropList (cdkDropListDropped)="drop($event, pipeline)">
             <div (click)="selectStage(pipe, i)" class="field_data" *ngFor="let pipe of pipeline; let i = index" cdkDrag
               [ngClass]="{
-                active: selectedStage && selectedStage.name === pipe.name,
+                active: selectedStage && selectedStage?.name === pipe?.name,
                 runningActive:
                   simulteObj &&
                   simulteObj.simulationInprogress &&
@@ -58,19 +58,19 @@
                 allRunningActive: simulteObj && i < simulteObj.totalStages
               }">
               <div class="field_data" *cdkDragPreview>
-                <div class="title text-truncate">{{ pipe.name }}</div>
+                <div class="title text-truncate">{{ pipe?.name }}</div>
               </div>
               <div class="drag_drop_icon">
                 <img src="assets/icons/drog_drop.svg" />
               </div>
-              <div class="stateIcon" *ngIf="pipe.enable">
+              <div class="stateIcon" *ngIf="pipe?.enable">
                 <img src="assets/images/activeStage.svg" />
               </div>
-              <div class="stateIcon" *ngIf="!pipe.enable">
+              <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe.name }}</div>
-              <div class="close_icon" (click)="removeStage(i,pipe.name)">
+              <div class="title text-truncate">{{ pipe?.name }}</div>
+              <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
             </div>
@@ -108,7 +108,7 @@
                   <li *ngFor="
                       let systemStage of defaultStageTypes;
                       let index = index
-                    " (click)="switchStage(systemStage, index);showNewStageType=false;">
+                    " (click)="switchStage(systemStage, index);">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage.type | translate
                       }}</a>
@@ -174,13 +174,15 @@
           </div>
           <div class="kr-sg-input-text mb-20">
             <div class="label-text">
-              Condition
+              Add Condition
               <img container="body" ngbTooltip="Condition evaluates to false will skip the stage execution"
                 tooltipClass="metrics_tooltips m-0" class="pl-1" src="assets/icons/help.svg" />
             </div>
-            <input type="text" placeholder="Specify Condition" (keyup)="changesDetected = true" autocomplete="off"
+            <input type="text" placeholder="Define Painless Rule" (keyup)="changesDetected = true" autocomplete="off"
               class="input-text" [(ngModel)]="selectedStage.condition" />
+              <div class="text-primary py-2" *ngIf="selectedStage.type === 'exclude_document'"><img class="pl-1 pr-2" src="assets/icons/info-blue.svg" /> It is mandatory to add conditions for defining the Exclude Document stage.</div>
           </div>
+
         </div>
         <div class="form_inputs_data" *ngIf="selectedStage.type === 'field_mapping'">
           <ng-container *ngIf="
