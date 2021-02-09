@@ -254,7 +254,7 @@ export class AppExperimentsComponent implements OnInit {
     this.variantsArray.splice(index, 1);
     this.trafficData.splice(index, 1);
     this.showTraffic(this.variantsArray.length, 'remove');
-    // this.showSliderPercentage(this.variantsArray.length);
+    this.showSliderPercentage(this.variantsArray.length);
   }
   // slider changed
   sliderChanged() {
@@ -343,19 +343,29 @@ export class AppExperimentsComponent implements OnInit {
       const date1: any = new Date();
       this.exp_totalRecord = res.total;
       const result = res.experiments.map(data => {
-        // let date2: any = new Date(data.end);
-        // let sub = Math.abs(date1 - date2) / 1000;
-        // let days = Math.floor(sub / 86400);
-        const createdOn = new Date(data.createdOn);
-        const today = moment();
-        const days = today.diff(createdOn, 'hours');
+        let date2: any = new Date(data.end);
+        let sub = Math.abs(date1 - date2) / 1000;
+        let days = Math.floor(sub / 86400);
+        let date3: any = new Date(data.start);
+        let sub1 = Math.abs(date1 - date3) / 1000;
+        let days1 = Math.floor(sub1 / 86400);
+        // const createdOn = new Date(data.createdOn);
+        // const today = moment();
+        // const days = today.diff(createdOn, 'hours');
         const obj = Object.assign({}, data);
 
-        let endsOn: any = new Date(data.end);
-        endsOn = moment(endsOn);
-        const total_days = endsOn.diff(createdOn, 'hours');
-        obj.date_days = days;
-        obj.total_days = total_days;
+        // let endsOn: any = new Date(data.end);
+        // endsOn = moment(endsOn);
+        // const total_days = endsOn.diff(createdOn, 'hours');
+        if (days1 < 1) {
+          obj.date_days = days * 24;
+          console.log("current days", obj.name, days * 24)
+        }
+        else {
+          obj.date_days = days;
+          console.log("current days", obj.name, days)
+        }
+        obj.total_days = sub;
         return obj;
       });
       this.listOfExperiments = result;
