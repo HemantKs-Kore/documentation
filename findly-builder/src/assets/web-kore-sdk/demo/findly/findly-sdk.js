@@ -6136,15 +6136,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (window.appConfig.API_SERVER_URL) {
       _self.baseAPIServer = window.appConfig.API_SERVER_URL;
       }
-      if (!window.koreWidgetSDKInstance) {
+      if (findlyConfig.autoConnect) {
         _self.initWebKitSpeech();
         _self.setAPIDetails();
         _self.initKoreSDK(_findlyConfig);
         setTimeout(() => {
           _self.initWebKitSpeech();
         }, 1000);
-        _self.setAPIDetails();
       }
+      _self.setAPIDetails();
       
       window.koreWidgetSDKInstance = _self;
       
@@ -6477,14 +6477,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }
-      if (!window.koreWidgetSDKInstance ) {
-        _self.initWebKitSpeech();
-        _self.setAPIDetails();
-        // _self.initKoreSDK();
-        _self.initKoreSDK(config);
-        _self.initWebKitSpeech();
-        _self.setAPIDetails();
-      }
+      _self.initWebKitSpeech();
+      // _self.initKoreSDK();
+      _self.initKoreSDK(config);
+      _self.setAPIDetails();
       _self.pubSub.subscribe('sa-register-template', (msg, data) => {
         console.log("register-template", msg, data);
         _self.registerTemplateConfig(mockData.settings, _self.customConfig);
@@ -6567,7 +6563,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       _self.showGreetingMsg = true;
       _self.vars.searchObject.clearGreetingTimeOut = setTimeout(function () {
-        var greetingMsg = $(_self.getGreetingMsgTemplate).tmplProxy({
+        var greetingMsg = $(_self.getGreetingMsgTemplate()).tmplProxy({
         });
         $('.greetingMsg').removeClass('hide');
         $('.greetingMsg').html(greetingMsg);
