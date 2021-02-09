@@ -193,16 +193,18 @@
                       <div class="kr-sg-file-drag-drop">
                         <div class="drag-drop-sec">
                           <ng-container *ngIf="!fileObj.fileName">
+                            <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
                             <div class="imageDiv">
                               <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
                             </div>
                             <div class="info_text">Drag and drop file anywhere on this screen</div>
                             <div class="or-divider">- or -</div>
                             <div class="custom-file">
-                              <input type="file" id="sourceFileUploader" class="custom-file-input "
-                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
+                              <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf"> -->
                             </div>
-                            <label for="sourceFileUploader" class="drag-label">
+                            <label for="sourceFileUploader" class="drag-label adjust_z_index">
                               <span class="browse">Browse</span>                    
                             </label>
                           </ng-container>   
@@ -215,7 +217,7 @@
                                     <img class="type_img" src="assets/icons/file_type_image.svg">
                                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                   </div>
-                                  <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                                  <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
                                 </div>
                                 <div class="progress-status">
                                   <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
@@ -261,16 +263,18 @@
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
               <div class="kr-sg-file-drag-drop">
                 <div class="drag-drop-sec">
+                  <input type="file" id="sourceFileUploader" class="custom-file-input"
+                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                   <div _ngcontent-gpv-c11="" class="imageDiv">
                     <img _ngcontent-gpv-c11="" class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
                   </div>
                   <div class="custom-file">
-                    <input type="file" id="sourceFileUploader" class="custom-file-input "
-                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
+                    <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
+                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json"> -->
                   </div>
                   <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span>
                    
-                    <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse">Browse</span></button>
+                    <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse adjust_z_index">Browse</span></button>
                     <mat-menu #browse="matMenu">
                       <li mat-menu-item > <img class="pr-3" src="assets/images/icons/Urlicon.svg">URL</li>
                       <li mat-menu-item (click)="gotoFileUpload()"><img class="pr-3" src="assets/images/icons/localfileupload.svg">Local File Upload</li>
@@ -293,7 +297,7 @@
                   [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                   <div class="file-close-text">
                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
-                    <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                    <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
                   </div>
                   <div class="progress-status">
                     <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">

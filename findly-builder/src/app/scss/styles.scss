@@ -2825,3 +2825,23 @@ nouislider{
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+.kr-modal{
+    &.kr-center{
+        &.smallModal{
+            &.add-members-modal-popup{
+                .modal-dialog{
+                    max-width: 625px !important;
+                    height: 67% !important;
+                    .modal-content{
+                        border-radius: 8px !important;
+                    }
+                }
+            }
+        }
+    }
+
+}
+>>>>>>> c3db674dcc5c2fd098912ae0c1832f7968669526
