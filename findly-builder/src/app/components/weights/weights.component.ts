@@ -31,7 +31,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   searching;
   searchField
   fieldWarnings:any = {
-    NOT_INDEXED:'Associated field is not indexed',
+    NOT_INDEXED:'Indexed property has been set to False for this field',
     NOT_EXISTS:'Associated field has been deleted'
   }
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
