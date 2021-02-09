@@ -2667,6 +2667,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
       _self.pubSub.publish('sa-search-result', tmplData);
       _self.pubSub.publish('sa-source-type', facets);
+      
       if (!selectedFacet || selectedFacet === "all results") {
         $('.facet:first').addClass('facetActive');
 
@@ -5017,6 +5018,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.pubSub.publish('sa-search-result', dataObj);
         _self.pubSub.publish('sa-search-facets', dataObj.searchFacets);
         _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+        _self.pubSub.publish('sa-st-data-search', {dataObj : dataObj});
+
         // if(!_self.isDev){
         //   dataObj = {
         //     faqs: faqs.slice(0,2),
@@ -6133,14 +6136,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (window.appConfig.API_SERVER_URL) {
       _self.baseAPIServer = window.appConfig.API_SERVER_URL;
       }
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      _self.initKoreSDK(_findlyConfig);
-      setTimeout(() => {
+      if (!window.koreWidgetSDKInstance) {
         _self.initWebKitSpeech();
-      }, 1000);
-      _self.setAPIDetails();
-
+        _self.setAPIDetails();
+        _self.initKoreSDK(_findlyConfig);
+        setTimeout(() => {
+          _self.initWebKitSpeech();
+        }, 1000);
+        _self.setAPIDetails();
+      }
+      
       window.koreWidgetSDKInstance = _self;
       
     }
@@ -6278,6 +6283,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
       _self.customSearchResult = true;
+      var structuredDataContainer = '';
       _self.pubSub.subscribe('sa-search-result', (msg, data) => {
           if (!data.selectedFacet) {
             _self.pubSub.publish('facet-selected', {selectedFacet : 'all results'});
@@ -6302,7 +6308,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             data.pages = [];
             data.documents = [];
           }
-          var pageContainer = ''; var faqContainer = ''; var actionContainer = ''; var structuredDataContainer = '';
+          var pageContainer = ''; var faqContainer = ''; var actionContainer = ''; 
           if (config.container) {
             pageContainer = faqContainer = actionContainer = config.container;
           }
@@ -6365,18 +6371,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('#' + actionContainer).empty();
             }
           }
-          if (config.structuredDataContainer) {
-            structuredDataContainer = config.structuredDataContainer;
-          }
-          if (structuredDataContainer) {
-            _self.pubSub.publish('sa-st-data-search', {
-              container : structuredDataContainer, dataObj : data});
-          }
+          
           if (config.searchHandler) {
             config.searchHandler(data)
           }
-
-    });
+          
+      });
+      if (config.structuredDataContainer) {
+        structuredDataContainer = config.structuredDataContainer;
+      }
+      if (structuredDataContainer) {
+        _self.pubSub.subscribe('sa-register-template', (msg, data) => {
+          console.log("register-template", msg, data);
+          _self.registerTemplateConfig(mockData.settings, _self.customConfig);
+        });
+      }
+      // For now calling direct SearchResults.
+      setTimeout(function () {
+        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
+      }, 2000);
   }
   FindlySDK.prototype.addConversationBox = function(config) {
     var _self = this;
@@ -6464,13 +6477,22 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (!$('body').hasClass('demo')) {
         _self.isDev = true;
       }
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      // _self.initKoreSDK();
-      _self.initKoreSDK(config);
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      
+      if (!window.koreWidgetSDKInstance ) {
+        _self.initWebKitSpeech();
+        _self.setAPIDetails();
+        // _self.initKoreSDK();
+        _self.initKoreSDK(config);
+        _self.initWebKitSpeech();
+        _self.setAPIDetails();
+      }
+      _self.pubSub.subscribe('sa-register-template', (msg, data) => {
+        console.log("register-template", msg, data);
+        _self.registerTemplateConfig(mockData.settings, _self.customConfig);
+      });
+      // For now calling direct SearchResults.
+      setTimeout(function () {
+        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
+      }, 2000);
       window.koreWidgetSDKInstance = _self;
       if (!_self.customSearchResult) {
         _self.addSourceType({
@@ -12082,43 +12104,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
     
-    FindlySDK.prototype.initialize = function (findlyConfig, customConfig) {
-      var _self = this;
-      var _findlyConfig = findlyConfig;
-      if (findlyConfig.botOptions) {
-        _findlyConfig = findlyConfig.botOptions;
-      }
-      _self.isDev = false;
-      window["KoreSDK"].findlyConfig.botOptions.assertionFn=this.getJWT;
-      if (_findlyConfig.searchIndexID) {
-        const searchData = {
-          _id: _findlyConfig.searchIndexID,
-          pipelineId : _findlyConfig.queryPipelineId,
-        }
-        window["selectedFindlyApp"] = searchData;
-        window.appConfig ||= {};
-        window.appConfig.API_SERVER_URL = _findlyConfig.koreAPIUrl;  
-        window.appConfig.API_SERVER_URL = window.appConfig.API_SERVER_URL.replace('/api', '');
-      }
-      
-
-      if (!$('body').hasClass('demo')) {
-        _self.isDev = true;
-      }
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      _self.initKoreSDK(_findlyConfig);
-      _self.initWebKitSpeech();
-      _self.setAPIDetails();
-      
-      // For now calling direct SearchResults.
-      /*setTimeout(function () {
-        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
-      }, 2000);*/
-      window.koreWidgetSDKInstance = _self;
-      
-    }
-
     var mockData = {
       "settings": [
         {
@@ -12199,6 +12184,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var maxSearchResultsAllowed = 10;
     var structuredDataConfig = {};
     var customConfig;
+    var searchInterfaceConfig;
 
     FindlySDK.prototype.getSearchResultsConfig = function (url, type) {
       var _self = this;
@@ -12215,13 +12201,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         headers: headers,
         success: function (data) {
           console.log(data);
+          _self.vars.searchInterfaceConfig = data;
           _self.pubSub.publish('sa-register-template', data);
         },
         error: function (err) {
           console.log(err);
           // getting 401 Hence continuing process with mockData
           // _self.registerTemplateConfig(mockData.settings, _self.customConfig);
-         // _self.pubSub.publish('sa-register-template', mockData.settings);
+          //_self.vars.searchInterfaceConfig = mockData.settings;
+          //_self.pubSub.publish('sa-register-template', mockData.settings);
         }
       });
     };
@@ -12233,11 +12221,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.customConfig = customConfig;
         _self.vars.customConfig = customConfig;
       }
-
-      _self.pubSub.subscribe('sa-register-template', (msg, data) => {
-        console.log("register-template", msg, data);
-        _self.registerTemplateConfig(mockData.settings, _self.customConfig);
-      });
     }
 
     FindlySDK.prototype.registerTemplateConfig = function(data, customConfig) {
@@ -13600,7 +13583,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if(templateConfig && templateConfig.layout && templateConfig.layout.container && templateConfig.layout.container.length){
           container = templateConfig.layout.container;
         }
-        $(data.container).empty().append(dataHTML);
+        if (!container) {
+          container = '.structured-data-container';
+        }
+        $(container).empty().append(dataHTML);
         _self.bindCarouselActions();
       });
 
