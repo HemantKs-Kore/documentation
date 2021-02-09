@@ -47,18 +47,31 @@
                                 </ng-container>
                                 <span class="ml-3 filter-title" (click)="openAdvancedSearch()">{{'structuredData.editFilter' | translate}}</span>
                             </ng-container>
-                        </div>
-                        <div class="text-right mb-1 col-4 p-0" *ngIf="!noItems || emptySearchResults">
-                            <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg ml-2" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
-                            <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                            
-                        </div>                        
+                        </div>                      
                     </div>
                 <ng-container *ngIf="structuredDataItemsList.length">
+                        <div class="structure-data-list header d-flex">
+                            <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding" *ngIf="(selectedStructuredData.length == structuredDataItemsList.length) || (selectedStructuredData.length == 0)">
+                                <input id="selectAllStructuredData" class="checkbox-custom" type="checkbox" (change)="selectAll(allSelected)"  [(ngModel)]="allSelected">
+                                <label for="selectAllStructuredData" class="checkbox-custom-label"></label>
+                            </div>
+                            <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox" *ngIf="(selectedStructuredData.length > 0) && (selectedStructuredData.length != structuredDataItemsList.length)">
+                                <img (click)="selectAll(true)" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
+                            </div> 
+                            <span class="col-1">{{'structuredData.key_caps' | translate}}</span>
+                            <span class="col-7">{{'structuredData.value_caps' | translate}}</span>
+                            <div class="text-right mb-1 col-4 p-0" *ngIf="!noItems || emptySearchResults">
+                                <span *ngIf="selectedStructuredData.length">{{selectedStructuredData.length}} {{'structuredData.selected' | translate}}</span>
+                                <button id="btn_delete_all_structured_data" class="kr-sg-button-danger btn_lg ml-2" *ngIf="selectedStructuredData.length" (click)="deleteStructuredDataPopup()">{{'structuredData.delete' | translate}}</button>
+                                <!-- <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData.switch_to_json' | translate) : ('structuredData.switch_to_default' | translate)}}</button>                             -->
+                            </div>
+                        </div>
                         <div class="structured-data" *ngFor="let data of structuredDataItemsList;let d_index = index">
                                 <div class="kr-sg-checkbox d-block" [ngClass]="{'isChecked' : data.isChecked}">
                                     <input id="checkbox_drp{{d_index}}" (click)="selectData(data, d_index)" [checked]="data.isChecked" class="checkbox-custom" type="checkbox">
                                     <label for="checkbox_drp{{d_index}}" class="checkbox-custom-label"></label>
                                 </div>
+                                <!-- Not using JSON view fornow. -->
                                 <ng-container *ngIf="!defaultView">
                                     <div class="data-content">
                                         <!-- <pre>{{data._source.parsedData}}</pre> -->
@@ -67,22 +80,50 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="defaultView">
-                                    <div class="data-content defaultView">                                                                    
+                                    <div class="data-content defaultView" (click)="viewJson(data, d_index)">                                                                    
                                         <div class="default-body">
                                             <div class="row m-0 default-row col-12" [ngClass]="{'align-items-start':objectValue.nested}" *ngFor="let objectValue of data.objectValues; let v_index = index">
-                                                <div class="col-1 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
-                                                <div class="col-11 pr-0 default-value text-truncate" *ngIf="!objectValue.nested" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
-                                                <div class="col-11 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">                                                                                   
-                                                <div class="d-flex align-items-start text-truncate">
-                                                    <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
-                                                    <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
-                                                    <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
-                                                    <div *ngIf="objectValue.nested && !objectValue.expanded" class="text-truncate">{{ objectValue.value }}</div>
-                                                </div>                                            
-                                                </div>                                        
+                                                <ng-container *ngIf="objectValue.nested">
+                                                    <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/accordian-close.svg">
+                                                    <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/accordian-collapse.svg">
+                                                    <div class="col-11 p-0 default-key" title="{{ objectValue.key }}">{{ objectValue.key }} ({{objectValue.valuesLength}} {{'structuredData.fields' | translate}})</div>
+                                                    <ng-container *ngIf="objectValue.expanded">
+                                                        <div class="children-expanded col-12 row ml-2" *ngFor="let childObject of objectValue.value">
+                                                            <ng-container *ngIf="!childObject.nested">
+                                                                <div class="col-1 p-0 default-key text-truncate" title="{{ childObject.key }}">{{ childObject.key }}</div>
+                                                                <div class="col-11 pr-0 default-value text-truncate" title="{{ childObject.value }}">{{ childObject.value }}</div>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="childObject.nested">
+                                                                <img class="pointer mr-2 mt-1" (click)="childObject.expanded = !childObject.expanded" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-close.svg">
+                                                                <img class="pointer mr-2 mt-1" *ngIf="childObject.nested && childObject.expanded" (click)="childObject.expanded = !childObject.expanded" src="assets/icons/accordian-collapse.svg">
+                                                                <div class="col-11 p-0 default-key" title="{{ childObject.key }}">{{ childObject.key }} ({{childObject.valuesLength}} {{'structuredData.fields' | translate}})</div>
+                                                                <ng-container *ngIf="childObject.expanded">
+                                                                    <div class="children-expanded col-12 row ml-2" *ngFor="let childObject of childObject.value">
+                                                                        <div class="col-1 p-0 default-key text-truncate" title="{{ childObject.key }}">{{ childObject.key }}</div>
+                                                                        <div class="col-11 pr-0 default-value text-truncate" title="{{ childObject.value }}">{{ childObject.value }}</div>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </ng-container>
+                                                <ng-container *ngIf="!objectValue.nested">
+                                                    <div class="col-1 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
+                                                    <div class="col-11 pr-0 default-value text-truncate" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
+                                                </ng-container>
+                                                <!-- <div class="col-1 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
+                                                    <div class="col-11 pr-0 default-value text-truncate" *ngIf="!objectValue.nested" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
+                                                    <div class="col-11 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">                                                                                   
+                                                    <div class="d-flex align-items-start text-truncate">
+                                                        <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
+                                                        <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
+                                                        <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
+                                                        <div *ngIf="objectValue.nested && !objectValue.expanded" class="text-truncate">{{ objectValue.value }}</div>
+                                                    </div>                                            
+                                                </div>                                         -->
                                             </div>
                                         </div>
-                                        <div class="mt-2 view-json col-12 p-0" *ngIf="data.objectLength > 5" (click)="editJson(data)">{{'structuredData.seeMore' | translate}}</div>
+                                        <div class="mt-2 view-json col-12 p-0" *ngIf="data.objectLength > 3" (click)="editJson(data)">{{'structuredData.seeMore' | translate}}</div>
                                     
                                     </div>
                                 </ng-container>
@@ -97,8 +138,8 @@
                                     <img src="assets/icons/edit-pencil.svg" (click)="editJson(data)" id="btn_edit_structured_data" placement="top-center" container='body' ngbTooltip="Edit" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                     <img src="assets/icons/delete-table.svg" (click)="deleteStructuredDataPopup(data)"  id="btn_delete_structured_data" placement="top-center" container='body' ngbTooltip="Delete" tooltipClass="ngb_tooltip_custom_class sampleJson">
                                 </div>
+                                <div class="info-link"><img src="assets/icons/info.svg"></div>
                                 <!-- Commented for now -->
-                                <!-- <div class="info-link"><img src="assets/icons/info.svg"></div> -->
                                 <!-- <div class="indexing">
                                     <button class="kr-sg-button-secondary btn_md">Index</button>
                                 </div> -->

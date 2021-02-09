@@ -380,6 +380,10 @@
     "and" : "AND",
     "_or" : "OR",
     "add_rule" : "Add Rule",
-    "edit_structured_data" : "Edit Structured Data"
+    "edit_structured_data" : "Edit Structured Data",
+    "key_caps" : "KEY",
+    "value_caps" : "VALUE",
+    "selected" : "Selected",
+    "fields" : "Fields"
  }
 }

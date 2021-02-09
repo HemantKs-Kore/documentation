@@ -211,7 +211,7 @@
                     display: block;
                 }
                 .info-link{
-                    display: none;
+                    display: block;
                 }   
                 .indexing{
                     display: block;
@@ -237,6 +237,7 @@
                 line-height: 17px;
                 width: 100%;
                 padding-right: 65px;
+                cursor: pointer;
                 .view-json{
                     color: #0D6EFD;
                     cursor: pointer;
@@ -289,6 +290,7 @@
                 bottom: 8px;
                 right: 22px;
                 cursor: pointer;
+                display: none;
             }
             .toast-block{                              
                 background-color: #EAF6EC;

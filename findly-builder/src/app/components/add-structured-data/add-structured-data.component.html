@@ -66,6 +66,8 @@
                     <div class="manual-structure-data">
                         <div class="col-12 row ml-0 mr-0 p-0 mb-3 align-items-center justify-content-between">
                             <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData.add_manually' | translate)}}</div>
+                            <img src="assets/icons/arrow-previous.svg" (click)="navigateToPrevious()" alt="prevoius" placement="top-center" container='body' ngbTooltip="Previous" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <img src="assets/icons/arrow-next.svg" (click)="navigateToNext()" alt="next" placement="top-center" container='body' ngbTooltip="Next" tooltipClass="ngb_tooltip_custom_class sampleJson">
                             <div class="indent" placement="top-center" container='body' ngbTooltip="Indent" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
                         </div>
                         <div class="editor">
