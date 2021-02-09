@@ -557,7 +557,7 @@ export class AppExperimentsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Do you really want to delete?',
+        newTitle: 'Are you sure you want to delete?',
         body: 'Selected Experiment will be permanently deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true

@@ -119,7 +119,7 @@ export class FieldManagementComponent implements OnInit {
        weights:false
      }
      if(res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)){
-      usageText = 'Deleting ' + record.fieldName + ' field will remove the associated '
+      usageText = 'Deleting ' + record.fieldName + ' field will impact the associated '
       if(res && res.facets && res.facets.used){
         deps.facets = true;
         usageText = usageText + 'Facets '
@@ -145,9 +145,7 @@ export class FieldManagementComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Field',
-        text: 'Are you sure you want to delete selected field?',
-        newTitle:'Do you really want to delete?',
+        newTitle:'Are you sure you want to delete?',
         body:usageText,
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
