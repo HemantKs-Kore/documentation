@@ -92,7 +92,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   queryPipelineId
   fieldWarnings: any = {
-    NOT_INDEXED: 'Associated field is not indexed',
+    NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
   private contextSuggestedImput: ElementRef;
@@ -484,6 +484,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       }
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      if(this.selcectionObj.selectedCount === this.rules.length){
+        this.selcectionObj.selectAll = true;
+      }
     }
   }
   selectAll(unselectAll?) {
