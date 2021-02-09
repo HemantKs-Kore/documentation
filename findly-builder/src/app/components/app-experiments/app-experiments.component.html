@@ -115,7 +115,7 @@
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
-                        {{ 24 * exp.date_days }} hrs more to go 
+                        {{ exp.date_days}} more to go 
                       </div>
                       <div class="hours">
                         <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
