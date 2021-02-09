@@ -119,7 +119,7 @@ export class FieldManagementComponent implements OnInit {
        weights:false
      }
      if(res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)){
-      usageText = 'Deleting ' + record.fieldName + ' field will remove the associated '
+      usageText = 'Deleting ' + record.fieldName + ' field will impact the associated '
       if(res && res.facets && res.facets.used){
         deps.facets = true;
         usageText = usageText + 'Facets '
