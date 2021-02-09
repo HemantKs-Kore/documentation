@@ -55,7 +55,7 @@
             </div>
             <label class="kr-sg-toggle">                                       
               <input type="checkbox"  >
-              <div class="slider"><span class="enabled">Yes</span><span class="disabled">No, i will Configure this separately</span></div>
+              <div class="slider"><span class="enabled">Yes</span><span class="disabled w-400">No, i will Configure this separately</span></div>
             </label>  
           </div>
           <!-- fullPageResult -->
@@ -123,7 +123,41 @@
             </div>
           </div>  
           <!-- Full results Facet--> 
-            <div *ngIf="selectedSetting == 'fullPageResult'">Facet</div>   
+            <ng-container *ngIf="selectedSetting == 'fullPageResult'">
+                <div class="ful-page-facet">
+                    <div class="label-text">Facets</div>
+                    <div class="helper-text">Helper Text here</div>
+                    <label class="kr-sg-toggle">                                       
+                      <input type="checkbox">
+                      <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
+                    </label> 
+
+                    <div class="group-radiobutton mt-4">                  
+                      <div class="kr-sg-radiobutton">
+                          <input id="radio-24" name="radio" class="radio-custom" type="radio" checked>
+                          <label for="radio-24" class="radio-custom-label">Left Aligned</label>
+                      </div>
+                      <div class="kr-sg-radiobutton">
+                          <input id="radio-25" name="radio" class="radio-custom" type="radio">
+                          <label for="radio-25" class="radio-custom-label">Right Aligned</label>
+                      </div>
+                      <div class="kr-sg-radiobutton">
+                          <input id="radio-26" name="radio" class="radio-custom" type="radio">
+                          <label for="radio-26" class="radio-custom-label">Top Aligned</label>
+                      </div>
+                    </div>
+
+                    <div class="left-aligned mt-3">
+                      <img src="assets/icons/search-interface/left-aligned.svg">
+                    </div>
+                    <div class="right-aligned mt-3">
+                      <img src="assets/icons/search-interface/right-aligned.svg">
+                    </div>
+                    <div class="left-aligned mt-3">
+                      <img src="assets/icons/search-interface/top-aligned.svg">
+                    </div>
+                </div>
+            </ng-container>   
           <!-- Full results Facet-->
       </div>
       <div class="footer-btns">
