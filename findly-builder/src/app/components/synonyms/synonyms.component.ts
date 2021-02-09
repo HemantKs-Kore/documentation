@@ -214,7 +214,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
-        if (result === 'yes') {
+        if (result === 'yes') {   
           const synonyms = JSON.parse(JSON.stringify(this.synonymData));
           synonyms.splice(index, 1);
           if (this.showFlag = true) {
