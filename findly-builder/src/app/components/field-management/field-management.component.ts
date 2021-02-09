@@ -28,6 +28,25 @@ export class FieldManagementComponent implements OnInit {
   loadingContent = true;
   currentfieldUsage:any
   fetchingFieldUsage = false
+  selectedSort = '';
+  isAsc = true;
+  fieldDataTypeArr: any  = [];
+  isMultiValuedArr: any  = [];
+  isRequiredArr: any  = [];
+  isStoredArr: any  = [];
+  isIndexedArr: any  = [];
+  filterSystem : any = {
+    'typefilter' : 'all',
+    'isMultiValuedFilter' : 'all',
+    'isRequiredFilter' : 'all',
+    'isStoredFilter' : 'all',
+    'isIndexedFilter' : 'all'
+  }
+  beforeFilterFields : any = [];
+  filterTableheaderOption = "";
+  filterResourcesBack:any;
+  filterTableSource = "all";
+  firstFilter: any = {'header': '' , 'source' : ''};
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   constructor(
     public workflowService: WorkflowService,
@@ -100,7 +119,7 @@ export class FieldManagementComponent implements OnInit {
        weights:false
      }
      if(res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used)){
-      usageText = 'Deleting ' + record.fieldName + 'field will remove the associated '
+      usageText = 'Deleting ' + record.fieldName + ' field will remove the associated '
       if(res && res.facets && res.facets.used){
         deps.facets = true;
         usageText = usageText + 'Facets '
@@ -115,9 +134,9 @@ export class FieldManagementComponent implements OnInit {
        }
        if(res && res.rules && res.rules.used){
         if(deps.facets ||deps.weights ){
-          usageText = usageText + 'and will impact ' + res.records.length +' Business Rules.'
+          usageText = usageText + 'and will impact ' + res.rules.records.length +' Business Rules.'
         } else {
-          usageText = usageText  + 'will impact ' + res.records.length +' Business Rules.'
+          usageText = usageText  + 'and will impact ' + res.rules.records.length +' Business Rules.'
         }
        }
      }
@@ -194,6 +213,21 @@ export class FieldManagementComponent implements OnInit {
     this.service.invoke('get.allField', quaryparms).subscribe(res => {
       this.filelds=  res.fields || [];
       this.loadingContent = false;
+      if (this.filelds.length) {
+        this.filelds.forEach(element => {
+          this.fieldDataTypeArr.push(element.fieldDataType);
+          this.isMultiValuedArr.push(element.isMultiValued);
+          this.isRequiredArr.push(element.isRequired);
+          this.isStoredArr.push(element.isStored);
+          this.isIndexedArr.push(element.isIndexed);
+        });
+        this.fieldDataTypeArr = [...new Set(this.fieldDataTypeArr)];
+        this.isMultiValuedArr = [...new Set(this.isMultiValuedArr)];
+        this.isRequiredArr = [...new Set(this.isRequiredArr)];
+        this.isStoredArr = [...new Set(this.isStoredArr)];
+        this.isIndexedArr = [...new Set(this.isIndexedArr)];
+
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get index  stages');
@@ -226,4 +260,217 @@ export class FieldManagementComponent implements OnInit {
       this.notificationService.notify('Somthing went wrong', 'error');
   }
  }
+
+ getSortIconVisibility(sortingField: string, type: string) {
+  switch (this.selectedSort) {
+    case "fieldName": {
+      if (this.selectedSort == sortingField) {
+        if (this.isAsc == false && type == 'down') {
+          return "display-block";
+        }
+        if (this.isAsc == true && type == 'up') {
+          return "display-block";
+        }
+        return "display-none"
+      }
+    }
+    case "fieldDataType": {
+      if (this.selectedSort == sortingField) {
+        if (this.isAsc == false && type == 'down') {
+          return "display-block";
+        }
+        if (this.isAsc == true && type == 'up') {
+          return "display-block";
+        }
+        return "display-none"
+      }
+    }
+    case "isMultiValued": {
+      if (this.selectedSort == sortingField) {
+        if (this.isAsc == false && type == 'down') {
+          return "display-block";
+        }
+        if (this.isAsc == true && type == 'up') {
+          return "display-block";
+        }
+        return "display-none"
+      }
+    }
+    case "isRequired": {
+      if (this.selectedSort == sortingField) {
+        if (this.isAsc == false && type == 'down') {
+          return "display-block";
+        }
+        if (this.isAsc == true && type == 'up') {
+          return "display-block";
+        }
+        return "display-none"
+      }
+    }
+    case "isStored": {
+      if (this.selectedSort == sortingField) {
+        if (this.isAsc == false && type == 'down') {
+          return "display-block";
+        }
+        if (this.isAsc == true && type == 'up') {
+          return "display-block";
+        }
+        return "display-none"
+      }
+    }
+    case "isIndexed": {
+      if (this.selectedSort == sortingField) {
+        if (this.isAsc == false && type == 'down') {
+          return "display-block";
+        }
+        if (this.isAsc == true && type == 'up') {
+          return "display-block";
+        }
+        return "display-none"
+      }
+    }
+  }
+}
+compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+sortBy(sort) {
+  const data = this.filelds.slice();
+  this.selectedSort = sort;
+  if (this.selectedSort !== sort) {
+    this.isAsc = true;
+  } else {
+    this.isAsc = !this.isAsc;
+  }
+  const sortedData = data.sort((a, b) => {
+    const isAsc = this.isAsc;
+    switch (sort) {
+      case 'fieldDataType': return this.compare(a.fieldDataType, b.fieldDataType, isAsc);
+      case 'isMultiValued': return this.compare(a.isMultiValued, b.isMultiValued, isAsc);
+      case 'fieldName': return this.compare(a.fieldName, b.fieldName, isAsc);
+      case 'isRequired': return this.compare(a.isRequired, b.isRequired, isAsc);
+      case 'isStored': return this.compare(a.isStored, b.isStored, isAsc);
+      case 'isIndexed': return this.compare(a.isIndexed, b.isIndexed, isAsc);
+      default: return 0;
+    }
+  });
+  this.filelds = sortedData;
+}
+
+// filterTable(source, headerOption) {
+//   console.log(this.filelds, source)
+//   this.filterTableSource = source;
+//   this.filterTableheaderOption = headerOption;
+//   let firstFilterDataBack = [];
+//   //this.resources = [...this.filterResourcesBack]; // For new Filter..
+//   if (headerOption == "extractionType") {
+//     this.filterSystem.typeHeader = headerOption;
+//     this.filterSystem.typefilter = source;
+//   } else {
+//     this.filterSystem.statusHeader = headerOption;
+//     this.filterSystem.statusFilter = source;
+//   }
+
+//     if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
+//       this.filelds = [...this.filterResourcesBack];
+//       this.firstFilter = { 'header': '', 'source': '' };
+//     }
+//     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
+//       if (!this.firstFilter['header']) {
+//         this.firstFilter = { 'header': headerOption, 'source': source };
+//       }
+//       firstFilterDataBack = [...this.filterResourcesBack];
+//       const resourceData = firstFilterDataBack.filter((data) => {
+//         return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
+//       })
+//       if (resourceData.length) this.filelds = [...resourceData];
+//     }
+//     else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
+//       if (!this.firstFilter['header']) {
+//         this.firstFilter = { 'header': headerOption, 'source': source };
+//       }
+//       firstFilterDataBack = [...this.filterResourcesBack];
+//       const resourceData = firstFilterDataBack.filter((data) => {
+//         return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
+//       })
+//       if (resourceData.length) this.filelds = [...resourceData];
+
+//   }
+//   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
+//     this.filelds = [...this.filterResourcesBack];
+//     //firstFilter
+//    // if (this.firstFilter['header'] == headerOption) {
+//       if (headerOption == "extractionType") {
+//         this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
+//       } else {
+//         this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
+//       }
+//       const firstResourceData = this.filelds.filter((data) => {
+//         console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
+//         return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
+//       })
+//       const secondResourceData = firstResourceData.filter((data) => {
+//         console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
+//         return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
+//       })
+//       if (secondResourceData.length) this.filelds = [...secondResourceData];
+//     //}
+//   }
+// }
+filterTable(source, headerOption) {
+  console.log(this.filelds, source, headerOption);
+  this.filterSystem.typefilter = 'all';
+  this.filterSystem.isMultiValuedFilter = 'all';
+  this.filterSystem.isRequiredFilter = 'all';
+  this.filterSystem.isStoredFilter = 'all';
+  this.filterSystem.isIndexedFilter = 'all';
+
+  this.filterFields(source, headerOption);
+  switch (headerOption) {
+    case 'fieldDataType' : { this.filterSystem.typefilter = source; return;};
+    case 'isMultiValued' : { this.filterSystem.isMultiValuedFilter = source; return;};
+    case 'isRequired' : { this.filterSystem.isRequiredFilter = source; return;};
+    case 'isStored' : { this.filterSystem.isStoredFilter = source; return;};
+    case 'isIndexed' : { this.filterSystem.isIndexedFilter = source; return;};
+  };
+}
+filterFields(source, headerOption){
+  if(!this.beforeFilterFields.length){
+    this.beforeFilterFields = JSON.parse(JSON.stringify(this.filelds));
+  }
+  let tempFields = this.beforeFilterFields.filter( (field : any) => {
+    if(source !== 'all'){
+      if(headerOption === 'fieldDataType'){
+        if(field.fieldDataType  === source){
+          return field;
+        }
+      }
+      if(headerOption === 'isMultiValued'){
+        if(field.isMultiValued === source){
+          return field;
+        }
+      }
+      if(headerOption === 'isRequired'){
+        if(field.isRequired === source){
+          return field;
+        }
+      }
+      if(headerOption === 'isStored'){
+        if(field.isStored === source){
+          return field;
+        }
+      }
+      if(headerOption === 'isIndexed'){
+        if(field.isIndexed === source){
+          return field;
+        }
+      }
+    }
+    else{
+      return field;
+    }
+  });
+
+  this.filelds = JSON.parse(JSON.stringify(tempFields));
+}
 }

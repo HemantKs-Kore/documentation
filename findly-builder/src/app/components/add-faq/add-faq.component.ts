@@ -90,6 +90,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
   responseType:any= 'default'
   isFocused = false;
   synonyms = [];
+  uploadImage:any={};
   newSynonym = ''
   suggestionTags = [];
   typedQuery = '';

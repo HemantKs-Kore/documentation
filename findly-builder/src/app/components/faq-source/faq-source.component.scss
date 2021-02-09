@@ -21,6 +21,10 @@
 }
 
 .faqmain-container{
+    .blur-content{
+        opacity: 0.6;
+        pointer-events: none;
+    }
     .cursor-pointer {
         cursor: pointer;
     }

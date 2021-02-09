@@ -3,6 +3,22 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
+    <ng-container *ngIf="collectedRecord.length===0 && !nextPage">
+        <perfect-scrollbar class="empty-scroll">
+        <div  class="empty-landing-screen" >
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/experiments-empty.svg"></div>
+          <ng-container>
+              <div class="empty-title">You haven’t added any experiments yet!</div>
+              <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
+              </div>
+              <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
+                <button class="kr-sg-button-primary" (click)="nextPage=true">Let's Start</button>                                            
+              <!-- </div> -->
+          </ng-container>
+          </div>
+    </perfect-scrollbar>  
+  </ng-container>
+  <div *ngIf="nextPage">
     <div *ngIf="!loadingContent">
         <div class="faqsListContainer">
             <div class="faq-content-boxes">
@@ -241,6 +257,7 @@
             
         </div> -->
     </div>
+
     <div class="log_section_data" [ngClass] ="{'d-none' : !resultLogs}">
         <div class="header-sec">
             <div class="h-title">LOG ({{customizeLog.length || 0}})</div>
@@ -315,4 +332,5 @@
             </div>
         </perfect-scrollbar>        
     </div>
+</div>
 </div>

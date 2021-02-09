@@ -155,6 +155,10 @@
     }
   }
   .actions {
+    .selected_count{
+      color: #5F6368;
+      font-size: 14px;
+    }
     button {
       margin-right: 12px;
     }
@@ -175,6 +179,7 @@
       font-weight: 500;
       font-size: 12px;
       line-height: 14px;
+      padding: 0 11px;
       &.withcheckbox {
         display: flex;
         align-items: center;
@@ -261,39 +266,43 @@
           cursor: pointer;
         }
       }
-      .inActive{
-        height: 24px;
-        width: 79px;
-        left: 1037px;
-        top: 253px;
-        border-radius: 5px;
-        padding: 5px 10px 5px 22px;
+      .inActive{        
         background: #EFF0F1;
+        border-radius: 5px;
+        padding: 5px 10px 5px 25px;
+        position: relative;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        min-height: 24px;
+        display: inline-block;
         &::before{
-          content: '';
+          content: "";
           height: 7px;
           width: 7px;
-          left: 24px;
-          top: 4.5px;
+          left: 10px;
+          top: 8px;
           border-radius: 5px;
           position: absolute;
           background: #9AA0A6;
         }
       }
       .active{
-        height: 24px;
-        width: 79px;
-        left: 1037px;
-        top: 253px;
-        border-radius: 5px;
-        padding: 5px 10px 5px 22px;
         background: #EAF6EC;
+        border-radius: 5px;
+        padding: 5px 10px 5px 25px;
+        position: relative;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+        min-height: 24px;
+        display: inline-block;
         &::before{
-          content: '';
+          content: "";
           height: 7px;
           width: 7px;
-          left: 24px;
-          top: 4.5px;
+          left: 10px;
+          top: 8px;
           border-radius: 5px;
           position: absolute;
           background: #28A745;
@@ -402,9 +411,20 @@
     font-size: 14px;
   }
 }
+.w-400{
+  width: 400px;
+}
 ::ng-deep .facetModalPouup {
+  .modal-dialog{
+    width: 810px !important;
+    max-width: 810px !important;
+    height: 81% !important;
+    .modal-content{
+      border-radius: 8px !important;
+    }
+  }
   .toggle_switch {
-    margin-right: 175px;
+    margin-right: 116px;
     line-height: normal;
     float: right;
     position: relative;
@@ -440,7 +460,7 @@
         }
         .enabled,
         .disabled {
-          width: 214px;
+          width: 136px;
           font-size: 12px;
           color: #202124;
           padding-left: 50px;
@@ -458,6 +478,10 @@
     .search_block {
       padding-bottom: 25px;
       border-bottom: 1px solid #f5f5f5;
+      .scroll-search-field{
+        height: 300px;
+        max-height: 300px;
+      }
       .title {
         color: #9aa0a6;
         font-weight: 500;
@@ -493,15 +517,18 @@
       }
     }
     .box-content {
-      padding: 25px;
+      padding: 15px 10px;
       background: #f8f9fa;
       border-radius: 4px;
       &.adjust_padding {
-        padding: 25px 28px;
+        padding: 15px 10px;
       }
       .row_inputs {
         margin: 0 0px 20px 0;
         align-items: center;
+        &:last-child{
+          margin-bottom: 0;
+        }
         .add {
           position: relative;
           top: 12px;
@@ -630,5 +657,10 @@
       .type_sort_dropdown .dropdown-open .dropdown-input img{
         top: unset;
       }       
+  }
+}
+.kr-sg-checkbox{
+  &.adjust-checkbox-padding {
+    padding-left: 40px !important;
   }
 }

@@ -39,6 +39,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   fields:any = [];
   newfieldsData:any = [];
   loadingFields = true;
+  isActiveAll= true;
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
@@ -471,7 +472,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   }
   checkForNewFields(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '500px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
@@ -1040,6 +1041,29 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
+ selectAll(){
+this.newfieldsData.forEach(element => {
+  element.isActive=this.isActiveAll;
+});
+ }
+
+ selectSingle(isActive){
+   if(isActive){
+     let fieldActive=false;
+    this.newfieldsData.forEach(element => {
+      if(element.isActive && !fieldActive){
+        this.isActiveAll=true;
+      }else{
+        fieldActive = true;
+        this.isActiveAll=false;
+      }
+    });
+   } else {
+    this.isActiveAll=false;
+  }
+
+ }
+
  ngOnDestroy() {
   const self = this;
   if (this.pollingSubscriber) {

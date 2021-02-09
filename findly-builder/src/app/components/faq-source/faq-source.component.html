@@ -36,7 +36,7 @@
                 <div class="close-notification"><img src="assets/icons/close.svg"></div>
             </div>
         </div>
-        <ng-container *ngIf="!(faqs && faqs.length) && !loadingFaqs && !loadingTab">
+        <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
@@ -61,7 +61,7 @@
       </div>
     </perfect-scrollbar>
 </ng-container>
-        <div class="faq-content-boxes"  *ngIf="(faqs && faqs.length)">
+        <div class="faq-content-boxes"  *ngIf="(faqs && faqs.length || faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">
             <div class="content left-content">
                 <div class="content-boxes faq_tasks_list">
                     <div class="tab-sec d-flex" *ngIf="faqSelectionObj.selectedCount == 0">
@@ -113,7 +113,7 @@
                                 <div class="heading">{{'please_wait' | translate}}</div>
                             </div>
                         </div>
-                        <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)">
+                        <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer': faqSelectionObj.selectedCount}" (psYReachEnd)="onScrolledEnd($event)" *ngIf="faqSelectionObj.stats[selectedtab]">
                             <ng-container  *ngIf="(faqs && faqs.length) && !loadingTab" >
                             <div class="selected-all-questions" *ngIf="faqSelectionObj.selectAll">Do you want to select all {{faqSelectionObj.totalFaqsCount || ''}} questions?</div>
                             <div id="accordion" class="accordion-content">
@@ -156,6 +156,7 @@
                             <div class="text-center p-4" [ngClass]="{'hide': !moreLoading.loading}">{{moreLoading.loading?moreLoading.loadingText:'Loading.........'}}</div>
                            </ng-container>
                         </perfect-scrollbar>
+                       
                         <app-record-pagination *ngIf="!loadingTab && !searchFaq && faqSelectionObj.stats[selectedtab]" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' (pageChanged)="paginate($event)"></app-record-pagination>
                        <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length) && !searchFaq">
@@ -560,11 +561,12 @@
                         </ul>
                     </div>
                   </div>
+                  <div class="close-modal ml-2 pl-1">
+                    <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
+                  </div>
                   <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
                   <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
-                 <div class="close-modal ml-2 pl-1">
-                  <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
-                </div>
+                
             </div>
         </div> 
      
