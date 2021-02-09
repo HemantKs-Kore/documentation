@@ -924,6 +924,10 @@
         align-items: center;     
         .kr-sg-input-search{
             margin-right: 12px;
+            &.active{
+                display: block;
+                width: 300px;
+            }
         }  
         .seach-block{
             color: #202124;

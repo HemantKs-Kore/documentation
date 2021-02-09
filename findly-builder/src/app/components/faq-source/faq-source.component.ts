@@ -57,7 +57,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   faqComments:any = [];
   pollingSubscriber;
   showSearch;
-  serachFaq: any = '';
+  searchallFaq: any= '';
   faqs:any = [];
   faqsAvailable = false;
   selectedtab = 'draft';
@@ -1255,8 +1255,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
   }
   toggleSearch() {
-    if (this.showSearch && this.serachFaq) {
-      this.serachFaq = '';
+    if (this.showSearch && this.searchSources) {
+      this.searchSources = '';
     }
     this.showSearch = !this.showSearch
   };

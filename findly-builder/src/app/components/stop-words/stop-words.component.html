@@ -25,7 +25,7 @@
         </div>
      </div> 
 
-     <div class="empty-stopwords" *ngIf="showAddStopWordsContainer">
+     <div class="empty-stopwords" *ngIf="showAddStopWordsContainer && !(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
       <div class="main_heading">{{'stopWords.lets_start_by_adding_stop_words'| translate}}</div>
       <div class="desc_info">{{'stopWords.select_on_how_would_you_like_to_add_stop_words'| translate}}</div>
       <div class="radio-sec">
@@ -112,6 +112,6 @@
           </div>
         </ng-container>
       </perfect-scrollbar> 
-      </ng-container>  
+      </ng-container>
     </div>
 </div>

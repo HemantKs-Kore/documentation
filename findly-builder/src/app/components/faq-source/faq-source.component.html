@@ -87,10 +87,20 @@
                                 </ul>
                             </div>
                         </div> 
-                        <div class="kr-sg-input-search">                               
+                        <!-- <div class="seach_add_feild"> -->
+                            <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
+                                <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">                                  
+                            </div>
+                            <div class="seach-block" (click)="toggleSearch()">
+                                <img *ngIf="!showSearch" src="assets/icons/search.svg">
+                                <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                            </div>
+                        <!-- </div> -->
+
+                        <!-- <div class="kr-sg-input-search">                               
                             <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">
                             <img src="assets/icons/search-gray.svg" class="search-icon">
-                        </div>                      
+                        </div>                       -->
                     </div>
                     <div class="footer-sec-btns row m-0 col-12" *ngIf="faqSelectionObj.selectedCount">
                         <div class="col-4 p-0 d-flex align-items-center">
@@ -551,12 +561,12 @@
         <div class="table-action-header d-flex justify-content-between align-items-center">                           
             <div>                            
                 <div class="seach_add_feild">
-                    <div class="kr-sg-input-search">                               
-                        <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search pl-2" [(ngModel)]="searchSources" autocomplete="off">                                   
+                    <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
+                        <input type="text" name='searchSources' placeholder="Search" id="searchFaqSources" class="input-search pl-2" [(ngModel)]="searchSources" autocomplete="off">                                   
                     </div>
                     <div class="seach-block" (click)="toggleSearch()">
-                        <img *ngIf="!searchSources" src="assets/icons/search.svg">
-                        <img *ngIf="searchSources" src="assets/images/close.svg">Search
+                        <img *ngIf="!showSearch" src="assets/icons/search.svg">
+                        <img *ngIf="showSearch" src="assets/images/close.svg">Search
                     </div>
                 </div>
 
