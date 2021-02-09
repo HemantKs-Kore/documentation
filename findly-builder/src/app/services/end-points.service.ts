@@ -840,5 +840,16 @@ export class EndPointsService {
       method: 'get'
     }
     /** APIs for Search Interface */
+
+    /** APIs for multiple Index */
+    this.serviceList['get.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
+      method: 'get'
+    }
+    this.serviceList['post.newIndexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
+      method: 'post'
+    }
+    /** APIs for multiple Index */
   }
 }

@@ -23,6 +23,58 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   statusDockerModalPopRef : any;
   loadingQueryPipelines:any = true;
   queryConfigs:any = [];
+  indexConfigs:any = [
+    {
+      "_id": "fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a",
+      "stages": [
+          {
+              "name": "amazing stage",
+              "type": "field_mapping"
+          }
+      ],
+      "default": true,
+      "createdBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
+      "name": "Default",
+      "searchIndexId": "sidx-14f596e8-9e10-59cc-8fcf-515e16eab654",
+      "lModBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
+      "lModOn": "2021-02-08T08:35:46.050Z",
+      "streamId": "st-03fe1a81-cf78-53ea-94ea-bfc3918d20cb",
+      "__v": 0
+  },{
+    "_id": "fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965b",
+    "stages": [
+        {
+            "name": "amazing stage",
+            "type": "field_mapping"
+        }
+    ],
+    "default": false,
+    "createdBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
+    "name": "pipeline",
+    "searchIndexId": "sidx-14f596e8-9e10-59cc-8fcf-515e16eab654",
+    "lModBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
+    "lModOn": "2021-02-08T08:35:46.050Z",
+    "streamId": "st-03fe1a81-cf78-53ea-94ea-bfc3918d20cb",
+    "__v": 0
+},
+{
+  "_id": "fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965c",
+  "stages": [
+      {
+          "name": "amazing stage",
+          "type": "field_mapping"
+      }
+  ],
+  "default": false,
+  "createdBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
+  "name": "pipeline1",
+  "searchIndexId": "sidx-14f596e8-9e10-59cc-8fcf-515e16eab654",
+  "lModBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
+  "lModOn": "2021-02-08T08:35:46.050Z",
+  "streamId": "st-03fe1a81-cf78-53ea-94ea-bfc3918d20cb",
+  "__v": 0
+},
+];
   newConfigObj:any = {
     method:'default',
     name:''
@@ -35,8 +87,11 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     '/facets':true,
     '/resultranking':true,
   }
+
   configObj:any = {};
   selectedConfig:any ={};
+  indexConfigObj : any = {};
+  selectedIndexConfig : any = {};
   subscription:Subscription;
   editName : boolean = false;
   editNameVal : String = "";
@@ -183,6 +238,11 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       });
       this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
     })
+    // Multiple INdex hardcoded
+    this.indexConfigs.forEach(element => {
+      this.indexConfigObj[element._id] = element;
+    });
+    this.selectedConfig = 'fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a';
   }
   // toggle sub-menu
   switchToTerminal(){

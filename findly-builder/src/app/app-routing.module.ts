@@ -27,11 +27,8 @@ import { FieldManagementComponent } from './components/field-management/field-ma
 import { ExperimentsComponent } from './components/experiments/experiments.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
 import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
-<<<<<<< HEAD
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
-=======
 import { TeamManagementComponent } from './components/team-management/team-management.component';
->>>>>>> c3db674dcc5c2fd098912ae0c1832f7968669526
 import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 const routes: Routes = [
   {
@@ -50,27 +47,6 @@ const routes: Routes = [
       { path: 'botActions', component: BotActionComponent },
       { path: 'synonyms', component: SynonymsComponent },
       { path: 'traits', component: TraitsComponent },
-<<<<<<< HEAD
-      { path: 'rules', component: BusinessRulesComponent},
-      { path: 'facets', component: FacetsComponent},
-      { path: 'index', component: IndexComponent},
-      { path: 'experiments', component: AppExperimentsComponent},
-      { path: 'stopWords', component: StopWordsComponent},
-      { path: 'weights', component: WeightsComponent},
-      { path: 'resultranking', component: ResultRankingComponent},
-      { path: 'metrics', component: MetricsComponent},
-      { path: 'dashboard', component: DashboardComponent},
-      { path: 'userEngagement', component: UserEngagementComponent},
-      { path: 'searchInsights', component: SearchInsightsComponent},
-      { path: 'resultInsights', component: ResultInsightsComponent},
-      { path: 'settings', component: SettingsComponent},
-      { path: 'credentials-list', component: CredentialsListComponent},
-      { path: 'FieldManagementComponent', component: FieldManagementComponent},
-      { path: 'experiments', component: ExperimentsComponent},
-      { path: 'searchInterface', component: SearchInterfaceComponent},
-      { path: 'structuredData', component: StructuredDataComponent},
-      { path: '**', component: AppsListingComponent},
-=======
       { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent },
@@ -87,10 +63,10 @@ const routes: Routes = [
       { path: 'credentials-list', component: CredentialsListComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'experiments', component: ExperimentsComponent },
+      { path: 'searchInterface', component: SearchInterfaceComponent},
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
       { path: '**', component: AppsListingComponent },
->>>>>>> c3db674dcc5c2fd098912ae0c1832f7968669526
     ]
   }
 ];

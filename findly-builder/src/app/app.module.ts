@@ -99,15 +99,10 @@ import { StructuredDataComponent } from './components/structured-data/structured
 import { AddStructuredDataComponent } from './components/add-structured-data/add-structured-data.component';
 import { StructuredDataStatusModalComponent } from './components/structured-data-status-modal/structured-data-status-modal.component';
 import { StatusDockerComponent } from './components/status-docker/status-docker.component';
-<<<<<<< HEAD
-import {  DockStatusService} from './services/dock.status.service';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
-import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
-=======
 import { DockStatusService } from './services/dock.status.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
->>>>>>> c3db674dcc5c2fd098912ae0c1832f7968669526
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -175,11 +170,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FieldManagementComponent,
     AppExperimentsComponent,
     StatusDockerComponent,
-<<<<<<< HEAD
     SearchInterfaceComponent,
-=======
     TeamManagementComponent,
->>>>>>> c3db674dcc5c2fd098912ae0c1832f7968669526
     StructuredDataComponent,
     AddStructuredDataComponent,
     StructuredDataStatusModalComponent,

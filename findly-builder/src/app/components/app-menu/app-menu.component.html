@@ -61,6 +61,26 @@
 		</button> -->
 
 			<div class="sub-title marginTop15">Index Configuration</div>
+			<div class="kr-sg-dropdowns queryPipelineConfig" #selectConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
+				<div class="dropdown dropdown-open">
+					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{configObj[selectedConfig]?configObj[selectedConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
+					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
+						<li class="list-name text-truncate" [ngClass]="{'nostars': !config.default}" (click)="selectQueryPipelineId(config,selectConfigDrop)" *ngFor="let config of indexConfigs">
+							<img src="assets/icons/star.svg" *ngIf="config.default" class="star" ngbTooltip='Default' placement="top-center" [container]="'body'">
+							<img src="assets/icons/start-black.svg" (click)="$event.stopPropagation();markAsDefault(config)" *ngIf="!config.default && !editName" class="star-black" ngbTooltip='Make as Default' placement="top-left" [container]="'body'">
+							<span *ngIf="selectedConfig == config._id && editName; else name">
+								<input type ="text" class="edit-name" name="editName" [(ngModel)]="editNameVal" id="editNameID" (click)="$event.stopPropagation()" (keypress)="onKeypressEvent($event,config)">
+							</span>
+							<ng-template #name>
+								<span >{{config.name}}</span>
+							</ng-template>
+							<!-- <img src="assets/icons/filter_cup.svg" class="filter"> -->
+							<img src="assets/icons/edit-pencil.svg" *ngIf="!editName" (click)="$event.stopPropagation();editConfig(config,'edit')" class="edit-black">
+						</li>
+						<div class="create-new" (click)="openModalPopup();selectConfigDrop.close();">+ Create New</div>
+					</ul>
+				</div>
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active"
 				(click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
@@ -211,7 +231,6 @@
 				</span>
 				<span class="linkTitle">Credentials</span>
 			</div>
-<<<<<<< HEAD
 			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active"
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
@@ -219,7 +238,7 @@
 					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Search Interface</span>
-=======
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active"
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
@@ -227,7 +246,6 @@
 					<img src="assets/icons/sidemenu/new-icons/credentials.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Team Management</span>
->>>>>>> c3db674dcc5c2fd098912ae0c1832f7968669526
 			</div>
 		</div>
 
