@@ -397,9 +397,7 @@ readonly separatorKeysCodes: number[] = [ENTER, COMMA];
         height: 'auto',
         panelClass: 'delete-popup',
         data: {
-          title: 'Delete Rule',
-          text: 'Are you sure you want to delete this rule?',
-          newTitle: 'Are you sure you want to delete this rule?',
+          newTitle: 'Are you sure you want to delete ?',
           body:'Selected rule will be deleted.',
           buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp:true

@@ -616,10 +616,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete rule',
-        text: 'Are you sure you want to delete selected rule?',
-        newTitle: 'Delete rule',
-        body: 'Are you sure you want to delete selected rule?',
+        // title: 'Delete rule',
+        // text: 'Are you sure you want to delete selected rule?',
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected rule will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -641,10 +641,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete selected rules',
-        text: 'Are you sure you want to delete selected rules?',
-        newTitle: 'Are you sure you want to delete selected rules?',
-        body: 'Selected rules will be deleted',
+        // title: 'Delete selected rules',
+        // text: 'Are you sure you want to delete selected rules?',
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected rules will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

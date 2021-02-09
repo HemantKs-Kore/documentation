@@ -32,7 +32,7 @@
         .faq-header-sec{
             background: #F8F9FA;
             box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.07);
-            padding: 9px 20px;            
+            padding: 16px 21px;            
             align-items: center;     
             position: relative;
             .export-success-notification{
@@ -918,20 +918,27 @@
 }
 
 
-::ng-deep.addSourceModalComponent{
-    .modal-header {
-        padding: 0 !important;
-        height: auto !important;
-        background-color: transparent !important;
-        .header-title{     
-            margin: 0;
-            position: absolute;            
-            top: 13px;
-            left: 30px;
-            .closeCross{
+::ng-deep.addSourceModalComponent{  
+    .seach_add_feild{
+        display: flex;
+        align-items: center;     
+        .kr-sg-input-search{
+            margin-right: 12px;
+            &.active{
+                display: block;
+                width: 300px;
+            }
+        }  
+        .seach-block{
+            color: #202124;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;                 
+            img{
+                margin-right: 7px;
                 cursor: pointer;
             }
-        }         
+        }
     }
     .empty-source-modal{
         height: 100%;
