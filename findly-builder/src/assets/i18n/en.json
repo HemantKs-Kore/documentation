@@ -144,7 +144,8 @@
         "greaterThan":"Greater Than",
         "lessThan":"Less Than",
         "static":"Static",
-        "dynamic":"Dynamic"
+        "dynamic":"Dynamic",
+        "delete":"Delete"
     },
     "synonyms": {
         "please_wait": "Please Wait!",

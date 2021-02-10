@@ -247,16 +247,24 @@ export class AppComponent implements OnInit, OnDestroy {
       protocol: 'wss',
       hostname: window.appConfig.API_SERVER_URL.replace('https://', '')
     };
+    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
+    if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
+          botOptionsFindly.reWriteSocketURL = {
+            protocol: 'ws',
+            hostname:  window.appConfig.API_SERVER_URL.replace('http://','')
+        };
+    }
     const findlyConfig: any = {
-      botOptionsFindly,
+      botOptions: botOptionsFindly,
       viaSocket: true
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroySearch();
     this.searchInstance = new FindlySDK(findlyConfig);
-    this.searchInstance.showSearch(findlyConfig.botOptionsFindly);
+    this.searchInstance.showSearch(findlyConfig.botOptions);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
+
   }
   showHideSearch(show, disabelInstanceDistroy?) {
     const _self = this;

@@ -497,9 +497,9 @@ if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Stage configuration is successfully saved',
+        newTitle: 'Are you sure you want to save ?',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
+        buttons: [{ key: 'yes', label: 'Save' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
         confirmationPopUp:true
       }
     });
@@ -789,7 +789,7 @@ if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
       data: {
         title: 'Delete Field',
         text: 'Are you sure you want to delete selected field?',
-        newTitle: 'Are you sure you want to delete selected field?',
+        newTitle: 'Are you sure you want to delete?',
         body:'Selected field will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -848,7 +848,7 @@ if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
       data: {
         title: 'Discard current changes',
         text: 'Are you sure you want to discard current?',
-        newTitle: 'Are you sure you want to discard current?',
+        newTitle: 'Are you sure you want to discard?',
         body:'Current changes will be discarded.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true

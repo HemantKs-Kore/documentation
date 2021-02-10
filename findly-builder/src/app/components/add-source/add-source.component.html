@@ -108,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        (click)="stopCrwaling()">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
-          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>
@@ -354,7 +354,7 @@
               <div class="inner-content row m-0 crawl-option">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crawl Option</div>                                  
+                    <div class="label-text">Crawl Options</div>                                  
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
@@ -376,8 +376,8 @@
                           <button class="dropdown-toggle dropdown-input"
                             data-toggle="dropdown">{{allowUrl.condition}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
-                            <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                            <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
+                            <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
                             <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
                             <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
                             <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
@@ -427,8 +427,8 @@
                           <button class="dropdown-toggle dropdown-input"
                             data-toggle="dropdown">{{blockUrl.condition}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
-                            <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                            <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
+                            <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
                             <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
                             <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
                             <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
@@ -690,7 +690,7 @@
         <button class="kr-sg-button-primary btn_lg mr-3"
           [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
           (click)="proceedSource()">Proceed</button>
-        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Back</button>
+        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>
   </ng-container>
