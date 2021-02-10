@@ -21,7 +21,7 @@
             <div class="radio-block">
               <div class="main-title">No. of Results to be Displayed</div>
               <div class="kr-sg-radiobutton d-block">
-                <input id="radio-17" name="radio-result" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.view == 'fit'">
+                <input id="radio-17" name="radio-result" class="radio-custom" type="radio" (click)="selectedSettingResultsObj.view = 'fit'" [checked] = "selectedSettingResultsObj.view == 'fit'">
                 <label for="radio-17" class="radio-custom-label">
                   <div class="label-name">Fit to Viewport</div>          
                 </label>
@@ -30,7 +30,7 @@
             </div>
             <div class="radio-block mb-0">
               <div class="kr-sg-radiobutton d-block mb-1">
-                <input id="radio-18" name="radio-result" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.view != 'fit'">
+                <input id="radio-18" name="radio-result" class="radio-custom" type="radio"(click)="selectedSettingResultsObj.view = 'custom'"  [checked] = "selectedSettingResultsObj.view != 'fit'">
                 <label for="radio-18" class="radio-custom-label">
                   <div class="label-name">Custom</div>          
                 </label>
@@ -208,17 +208,17 @@
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable" [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !customizeTemplateObj.template.searchResultlayout.clickable }">
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !switchActive }">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
                         <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
                     </div> 
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('postback')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'postback'">
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
@@ -260,17 +260,17 @@
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable"  [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
                   <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
                         <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
                     </div> 
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('postback')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'postback'">
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
@@ -312,17 +312,17 @@
                 <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable"  [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
                   <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-32" name="radio" class="radio-custom" type="radio">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
                         <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
                     </div> 
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('postback')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'postback'">
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  
@@ -355,20 +355,20 @@
                 <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
                   <div class="heading m-0">Header</div>                  
                 </div> 
-                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'" >
                   <div class="label-text mb-1">Clickable</div>
                   <label class="kr-sg-toggle">                                       
-                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable" [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
                   <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
                         <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
                     </div> 
                     <div class="kr-sg-radiobutton">
-                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('postback')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'postback'">
                         <label for="radio-33" class="radio-custom-label">Postback</label>
                     </div> 
                   </div>  

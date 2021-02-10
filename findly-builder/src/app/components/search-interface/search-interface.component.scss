@@ -311,10 +311,10 @@
             }
         }
     }
-    // .disable-url {
-    //     background: #eff0f1;
-    //     pointer-events: none;
-    // }
+    .disable-url {
+        opacity: 0.3 !important;
+        pointer-events: none !important;
+    }
 }
 
 .ful-page-facet{

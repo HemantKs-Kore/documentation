@@ -86,6 +86,8 @@ export class SearchInterfaceComponent implements OnInit {
   }]
   showDescription: boolean = true;
   showImage : boolean = false;
+  clickableDisabled : boolean = false;
+  switchActive : boolean = true;
   customizeTemplateObj : customizeTemplate = new customizeTemplate();
   customizeTemplate : templateResponse = new templateResponse();
   @ViewChild('customModal') customModal: KRModalComponent;
@@ -236,6 +238,16 @@ export class SearchInterfaceComponent implements OnInit {
   template(id,type){
     this.customizeTemplateObj.template.type = type;
     this.customizeTemplateObj.template.typeId = id;
+
+    if(id == 'grid' || id == 'carousel'){
+      this.clickableDisabled = true;
+      this.customizeTemplateObj.template.searchResultlayout.clickable = true;
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = '';
+    }else{
+      this.clickableDisabled = false;
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
+    }
+    
     //this.
   }
   resultLayoutChange(layout){
@@ -255,9 +267,17 @@ export class SearchInterfaceComponent implements OnInit {
       this.showImage = true;
     }
   }
+  resultLayoutclickBehavior(type){
+    this.customizeTemplateObj.template.searchResultlayout.behaviour = type;
+  }
   clickableChange(event){
     if(event){
-      this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked;
+      this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked; 
+      this.switchActive= event.target.checked;
+      if(event.target.checked){
+        this.customizeTemplateObj.template.searchResultlayout.behaviour ="";
+        this.customizeTemplateObj.template.searchResultlayout.url = "";
+      }
     }
   }
   openCustomModal() {
@@ -351,7 +371,7 @@ export class SearchInterfaceComponent implements OnInit {
             },
           "view": this.selectedSettingResultsObj.view,
           "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
-          "interface": this.selectedSettingResultsObj.interface,
+          "interface": this.selectedSetting,
           "appearance": this.selectedSettingResultsObj.appearance
           // [
           //       {
@@ -509,7 +529,7 @@ class template {
 class searchResultlayout{
   layout :string = '';                // title with text / image / Centered Content
     clickable : boolean = true;
-    behaviour : string = '';          // 'webpage' or 'postback'
+    behaviour : string = 'webpage';          // 'webpage' or 'postback'
     url : string = '';
 }
 class resultMapping{
