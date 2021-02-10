@@ -352,8 +352,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = ''
       // var baseAPIServer = 'https://app.findly.ai';
     
-      //var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
-      var baseAPIServer = 'https://dev.findly.ai'; // For XHR calls in DEV
+      var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
+     // var baseAPIServer = 'https://dev.findly.ai'; // For XHR calls in DEV
       //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in PILOT
 
 

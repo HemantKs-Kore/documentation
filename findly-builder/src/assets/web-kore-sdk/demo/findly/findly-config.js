@@ -4,8 +4,9 @@
 
     var botOptionsFindly = {};
     botOptionsFindly.logLevel = 'debug';
-    botOptionsFindly.koreAPIUrl = "https://dev.findly.ai/api/";
+    //botOptionsFindly.koreAPIUrl = "https://dev.findly.ai/api/";
     // botOptionsFindly.koreAPIUrl = "https://pilot.findly.ai/api/";
+    botOptionsFindly.baseAPIServer = "https://qa.findly.ai";
     function koreGenerateUUID() {
         console.info("generating UUID");
         var d = new Date().getTime();
@@ -36,10 +37,10 @@
     botOptionsFindly.userIdentity = koreGenerateUUID();// Provide users email id here
 
     // DEV Bot
-    botOptionsFindly.botInfo = { chatBot: "test dec 3", "taskBotId": "st-7ef118e7-a43f-5bed-97a7-f2b4727587fc" }; // bot name is case sensitive
+    /*botOptionsFindly.botInfo = { chatBot: "test dec 3", "taskBotId": "st-7ef118e7-a43f-5bed-97a7-f2b4727587fc" }; // bot name is case sensitive
     botOptionsFindly.clientId = "cs-f5a88d48-db4d-5763-9ec8-fe2aa66ae39f";
     botOptionsFindly.clientSecret = "wJ2Gu/nL54XJmT4dNIc3X74jsXuEoxl78SQFA4aoa3I=";
-    botOptionsFindly.searchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83';
+    botOptionsFindly.searchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83';*/
 
     // PILOT Bot
     /*botOptionsFindly.botInfo = { chatBot: "Future Bank Copy", "taskBotId": "st-c877d8bd-8383-5472-ab69-8410ac17cd4d" };
@@ -49,17 +50,28 @@
 
     // To modify the web socket url use the following option
 
+    // QA Bot
+    botOptionsFindly.botInfo = { chatBot: "Banking", "taskBotId": "st-d5c37122-f0c3-5333-8589-edf28f72cdf2" }; // bot name is case sensitive
+    botOptionsFindly.clientId = "cs-ad613458-d1b9-5769-8cef-5cbe59736275";
+    botOptionsFindly.clientSecret = "hosn1S33tpQa0IYdSSCwKCC0oMcapBUscFe8sqD/kUk=";
+    botOptionsFindly.searchIndexID = 'sidx-c663e4eb-7f90-5ce3-b96e-1b55640d96f1'; 
+
     // For Socket Connection in DEV
-    botOptionsFindly.reWriteSocketURL = {
+    /*botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
         hostname: 'dev.findly.ai'
-    };
+    };*/
 
     // For Socket Connection in PILOT
     /*botOptionsFindly.reWriteSocketURL = {
         protocol: 'wss',
         hostname: 'pilot.findly.ai'
     };*/
+    // For Socket Connection in QA
+    botOptionsFindly.reWriteSocketURL = {
+        protocol: 'wss',
+        hostname: 'qa.findly.ai'
+    };
     // CVS Caremark configs //
     if (window.location && window.location.href && window.location.href.includes('#cvs')) {
         botOptionsFindly.botInfo = { chatBot: "careMark", "taskBotId": "st-bd231a03-1ab7-58fb-8862-c19416471cdb" };
