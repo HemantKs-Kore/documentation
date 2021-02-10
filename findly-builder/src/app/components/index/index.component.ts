@@ -1022,6 +1022,13 @@ if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
     this.selectedStage.config.mappings.push(map);
     this.setResetNewMappingsObj(true,true);
   }
+  closeNewStage(){
+    this.showNewStageType=false;
+    if(this.pipeline && this.pipeline.length){
+      this.selectedStage = this.pipeline[0];
+    }
+
+  }
   switchStage(systemStage,i){
     if(this.showNewStageType){
       const obj :any = new StageClass();
