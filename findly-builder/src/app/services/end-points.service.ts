@@ -18,7 +18,8 @@ export class EndPointsService {
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
-      this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      //this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      this.API_SERVER_URL = "http://957ea163d7ce.ngrok.io" + "/api/1.1"
     }
     this.init();
   }

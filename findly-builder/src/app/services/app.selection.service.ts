@@ -11,6 +11,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 export class AppSelectionService {
   queryList: any = []
   public queryConfigs = new Subject<any>();
+  public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public resumingApp = false;
@@ -22,7 +23,9 @@ export class AppSelectionService {
     private authService: AuthService,
     public localstore: LocalStoreService,
   ) { }
-
+  // public getIndexPipelineIds(setPipline?): ReplaySubject<any> {
+  //   return ;
+  // }
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex()
