@@ -128,6 +128,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.layout = "tileWithText";
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
     this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
+    this.clickableDisabled = false;
   }
   getSettings(interfaceType){
     const quaryparms: any = {
@@ -149,6 +150,7 @@ export class SearchInterfaceComponent implements OnInit {
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
+      this.list = [];
       res.settings.forEach(element => {
         if(element.interface ==this.selectedSetting){
           this.selectedSettingResultsObj = element;
@@ -171,6 +173,12 @@ export class SearchInterfaceComponent implements OnInit {
     });
   }
   templateBind(res : any){
+    if(res.type == 'grid' || res.type == 'carousel'){
+      this.clickableDisabled = true;
+    }else{
+      this.clickableDisabled = false;
+    }
+    
     this.customizeTemplateObj.template.typeId = res.type;
     this.templateTypeList.forEach(element => {
       if(element.id == res.type){
@@ -205,6 +213,8 @@ export class SearchInterfaceComponent implements OnInit {
         this.customizeTemplateObj.template.resultMapping.url = element.fieldName;
        }
     });
+    
+    this.customModalRef = this.customModal.open();
   }
   sourcelist(settingObj){
     settingObj.appearance.forEach(element => {
@@ -281,7 +291,6 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
   openCustomModal() {
-    this.customModalRef = this.customModal.open();
     let templateId;
     this.list.forEach(element => {
       if(element.type == this.selectedSourceType){
@@ -294,6 +303,7 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
+      this.customModalRef = this.customModal.open();
     }
   }
   closeCustomModal(){
@@ -423,7 +433,7 @@ export class SearchInterfaceComponent implements OnInit {
         "heading":this.customizeTemplateObj.template.resultMapping.headingId,
         "description": this.customizeTemplateObj.template.resultMapping.descriptionId,
         "img":this.customizeTemplateObj.template.resultMapping.imageId,
-        "url":""
+        "url":this.customizeTemplateObj.template.resultMapping.urlId
         },
         "appearanceType":appearnce
     }
@@ -446,6 +456,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke(url, queryparams , payload).subscribe(res => {
       this.notificationService.notify(message, 'success');
       this.selectedTemplatedId = "";
+      this.getSettings(this.selectedSetting);
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
