@@ -60,7 +60,7 @@ export class SearchInterfaceComponent implements OnInit {
     id:"search",
     text : "Search"
   },{
-    id:"fullPageResult",
+    id:"fullSearch",
     text : "Full Page Result"
   }
 ]
