@@ -384,6 +384,8 @@
     "key_caps" : "KEY",
     "value_caps" : "VALUE",
     "selected" : "Selected",
-    "fields" : "Fields"
+    "fields" : "Fields",
+    "view_structured_data" : "View Structured Data",
+    "edit" : "Edit"
  }
 }

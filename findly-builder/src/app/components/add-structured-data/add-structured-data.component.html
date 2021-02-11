@@ -1,7 +1,7 @@
 <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
         <div class="modal-header">
-            <div class="title">{{ selectedJsonForEdit ? ('structuredData.edit_structured_data' | translate) : selectedSourceType.name}}</div>
+            <div class="title">{{ selectedJsonForEdit ? ( selectedSourceType.viewMode ? ('structuredData.view_structured_data' | translate) : ('structuredData.edit_structured_data' | translate) ) : selectedSourceType.name}}</div>
             <div class="close_icon" (click)="cancleSourceAddition({cancel : true})" id="btn_close_add_structured_modal"><img class="ng-tns-c11-2"
                     src="assets/icons/modal-close.svg"></div>
         </div>
@@ -66,8 +66,10 @@
                     <div class="manual-structure-data">
                         <div class="col-12 row ml-0 mr-0 p-0 mb-3 align-items-center justify-content-between">
                             <div class="title">{{ selectedJsonForEdit ? '' : ('structuredData.add_manually' | translate)}}</div>
-                            <img src="assets/icons/arrow-previous.svg" (click)="navigateToPrevious()" alt="prevoius" placement="top-center" container='body' ngbTooltip="Previous" tooltipClass="ngb_tooltip_custom_class sampleJson">
-                            <img src="assets/icons/arrow-next.svg" (click)="navigateToNext()" alt="next" placement="top-center" container='body' ngbTooltip="Next" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <div class="navigation-block" *ngIf="selectedJsonForEdit" [class.disabled]="!selectedSourceType.viewMode">
+                                <img src="assets/icons/arrow-previous.svg" class="navigation-btn" [class.disabled]="(!previousDataIndex && (previousDataIndex != 0))" (click)="navigateToRecord(false)" alt="prevoius" placement="top-center" container='body' ngbTooltip="Previous" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                                <img src="assets/icons/arrow-next.svg" (click)="navigateToRecord(true)" class="navigation-btn" [class.disabled]="(!nextDataIndex && (nextDataIndex != 0))" alt="next" placement="top-center" container='body' ngbTooltip="Next" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            </div>
                             <div class="indent" placement="top-center" container='body' ngbTooltip="Indent" tooltipClass="ngb_tooltip_custom_class sampleJson" id="btn_indent_add_structured_data" (click)="indentObj()"><img src="assets/icons/content/indent.svg"></div>                        
                         </div>
                         <div class="editor">
@@ -116,8 +118,10 @@
             </div>
         </perfect-scrollbar>
         <div class="modal-footer">
-            <button class="kr-sg-button-primary btn_lg mr-3" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="selectedSourceType && selectedSourceType.viewMode" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="editRecord()" id="btn_edit_structure_data">{{ 'structuredData.edit' | translate}}</button>
+            <button class="kr-sg-button-primary btn_lg mr-3" *ngIf="!selectedSourceType || (selectedSourceType && !selectedSourceType.viewMode)" [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" (click)="proceedSource()" id="btn_save_structure_data">{{ selectedJsonForEdit ? ('structuredData.save' | translate) : ('structuredData.proceed' | translate)}}</button>
             <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition({cancel : true})" id="btn_cancel_structure_data">{{'structuredData.cancel' | translate}}</button>
+            <button class="kr-sg-button-danger float-left btn_lg mr-3" *ngIf="selectedJsonForEdit" [disabled]="selectedSourceType && !selectedSourceType.viewMode" (click)="deleteStructuredDataPopup(selectedJsonForEdit)" id="btn_delete_structure_data">{{ 'structuredData.delete' | translate}}</button>
         </div>
     </form>
 </ng-container>

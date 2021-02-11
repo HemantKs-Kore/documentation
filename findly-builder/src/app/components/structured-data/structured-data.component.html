@@ -1,4 +1,4 @@
-<div class="structured-data-container" [ngClass]="{'disableContainer' : disableContainer}">
+<div class="structured-data-container-web" [ngClass]="{'disableContainer' : disableContainer}">
     <div class="header-sec">
         <div class="title">{{'structuredData.structuredData' | translate}}</div>
         <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
@@ -50,7 +50,7 @@
                         </div>                      
                     </div>
                 <ng-container *ngIf="structuredDataItemsList.length">
-                        <div class="structure-data-list header d-flex">
+                        <div class="structure-data-list header">
                             <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding" *ngIf="(selectedStructuredData.length == structuredDataItemsList.length) || (selectedStructuredData.length == 0)">
                                 <input id="selectAllStructuredData" class="checkbox-custom" type="checkbox" (change)="selectAll(allSelected)"  [(ngModel)]="allSelected">
                                 <label for="selectAllStructuredData" class="checkbox-custom-label"></label>
@@ -84,8 +84,8 @@
                                         <div class="default-body">
                                             <div class="row m-0 default-row col-12" [ngClass]="{'align-items-start':objectValue.nested}" *ngFor="let objectValue of data.objectValues; let v_index = index">
                                                 <ng-container *ngIf="objectValue.nested">
-                                                    <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/accordian-close.svg">
-                                                    <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/accordian-collapse.svg">
+                                                    <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded;$event.stopPropagation();" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/accordian-collapse.svg">
+                                                    <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded;" (click)="objectValue.expanded = !objectValue.expanded;$event.stopPropagation();" src="assets/icons/accordian-expand.svg">
                                                     <div class="col-11 p-0 default-key" title="{{ objectValue.key }}">{{ objectValue.key }} ({{objectValue.valuesLength}} {{'structuredData.fields' | translate}})</div>
                                                     <ng-container *ngIf="objectValue.expanded">
                                                         <div class="children-expanded col-12 row ml-2" *ngFor="let childObject of objectValue.value">
@@ -94,8 +94,8 @@
                                                                 <div class="col-11 pr-0 default-value text-truncate" title="{{ childObject.value }}">{{ childObject.value }}</div>
                                                             </ng-container>
                                                             <ng-container *ngIf="childObject.nested">
-                                                                <img class="pointer mr-2 mt-1" (click)="childObject.expanded = !childObject.expanded" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-close.svg">
-                                                                <img class="pointer mr-2 mt-1" *ngIf="childObject.nested && childObject.expanded" (click)="childObject.expanded = !childObject.expanded" src="assets/icons/accordian-collapse.svg">
+                                                                <img class="pointer mr-2 mt-1" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" *ngIf="childObject.nested && !childObject.expanded" src="assets/icons/accordian-collapse.svg">
+                                                                <img class="pointer mr-2 mt-1" *ngIf="childObject.nested && childObject.expanded" (click)="childObject.expanded = !childObject.expanded;$event.stopPropagation();" src="assets/icons/accordian-expand.svg">
                                                                 <div class="col-11 p-0 default-key" title="{{ childObject.key }}">{{ childObject.key }} ({{childObject.valuesLength}} {{'structuredData.fields' | translate}})</div>
                                                                 <ng-container *ngIf="childObject.expanded">
                                                                     <div class="children-expanded col-12 row ml-2" *ngFor="let childObject of childObject.value">
