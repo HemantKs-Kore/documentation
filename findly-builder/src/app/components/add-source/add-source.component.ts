@@ -559,12 +559,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
+      payload.extractionType = "basic"
       this.importFaq();
     }
     else if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
+      payload.extractionType = "annotation"
       this.faqAnotate(payload, endPoint, quaryparms);
       schdVal = true;
     }
