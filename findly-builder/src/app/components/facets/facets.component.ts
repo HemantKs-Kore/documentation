@@ -54,7 +54,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
     selectedItems:[],
   };
   fieldWarnings:any = {
-    NOT_INDEXED:'Associated field is not indexed',
+    NOT_INDEXED:'Indexed property has been set to False for this field',
     NOT_EXISTS:'Associated field has been deleted'
   }
   dummyCount =0;
@@ -171,7 +171,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
 
   resetPartial(){
     this.selcectionObj.selectAll = false;
-    $('#selectAllFacets')[0].checked = false;
+    if($('#selectAllFacets').length){
+      $('#selectAllFacets')[0].checked = false;
+    }
     let partialElement : any = document.getElementsByClassName("partial-select-checkbox");
     if(partialElement.length){
       partialElement[0].classList.add('d-none');
@@ -384,6 +386,11 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
     this.addEditFacetObj.fieldName = suggesition.fieldName
   }
+
+  setFaceName(suggesition){
+    this.addEditFacetObj.facetName = suggesition.fieldName;
+  }
+  
   createFacet() {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
@@ -440,10 +447,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete facet',
-        text: 'Are you sure you want to delete selected facet?',
-        newTitle: 'Are you sure you want to delete selected facet?',
-        body:'Selected facet will be deleted',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected facet will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }

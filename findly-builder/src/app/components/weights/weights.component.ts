@@ -31,7 +31,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   searching;
   searchField
   fieldWarnings:any = {
-    NOT_INDEXED:'Associated field is not indexed',
+    NOT_INDEXED:'Indexed property has been set to False for this field',
     NOT_EXISTS:'Associated field has been deleted'
   }
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
@@ -133,8 +133,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
-        newTitle: 'Are you sure you want to restore weights?',
-        body:'Weights will be restored.',
+        newTitle: 'Are you sure you want to restore ?',
+        body:'Selected weights will be restored.',
         buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -279,7 +279,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
-        newTitle: 'Are you sure you want to delete selected rankable field?',
+        newTitle: 'Are you sure you want to delete ?',
         body:'Selected rankable field will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true

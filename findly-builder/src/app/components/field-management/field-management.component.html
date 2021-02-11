@@ -154,7 +154,7 @@
                             <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
                             <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div>
                             <div class="col-2 title">{{field.isIndexed?'Yes':'No'}}
-                                <div class=" action_links text-right">
+                                <div class=" action_links text-right" style="margin-top:-15px;">
                                     <img src="assets/images/edit-pencil.svg" (click)="addEditFiled(field)">
                                     <img src="assets/icons/delete-table.svg" class="ml-3" (click)="deleteFieldPop(field)">
                                 </div>
@@ -185,15 +185,15 @@
                 <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
                     <!-- <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
-                    <input type="text" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text" placeholder="Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
             <div class="row m-0 align-items-center">                         
                 <div class="kr-sg-dropdowns col-12 p-0">                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
-                        <ul class="dropdown-menu content-menu">                                                                    
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                             
+                        <ul class="dropdown-menu content-menu dropdown_overflow">                                                                  
                           <li  (click)="selectFieldType('string')"><a>String</a></li>
                           <li  (click)="selectFieldType('number')"><a>Number</a></li>
                           <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
@@ -223,7 +223,7 @@
                     <label for="checkbox_grpf" class="checkbox-custom-label">Required</label>
                 </div>
                 <div class="kr-sg-checkbox">
-                    <input id="checkbox_grpd" [disabled]="newFieldObj.isIndexed" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored">
+                    <input id="checkbox_grpd"  class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isStored" (change)="newFieldObj.isIndexed = newFieldObj.isStored;">
                     <label for="checkbox_grpd" class="checkbox-custom-label">Stored</label>
                 </div>
                 <div class="kr-sg-checkbox">
@@ -233,11 +233,11 @@
             </div>
             <div class="kr-sg-input-text col-10 p-0  d-none">
                 <div class="label-text">Default Value (Optional)</div>
-                <input type="text" placeholder="Add value here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
+                <input type="text" placeholder="Add Value Here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
             </div>
             <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">Indexed Property has been set to False. This will impact facet and Business Rules.</div>                                   
+                <div class="tost-text">Indexed Property has been set to False. This will impact facet and 3 Business Rules.</div>                                   
             </div>
             <div class="kr-sg-inline-notification" *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>

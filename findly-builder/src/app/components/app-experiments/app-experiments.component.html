@@ -27,11 +27,7 @@
     <perfect-scrollbar class="p-scroll-data">
       <div class="table-data-content">
         <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
-          <div class="col-3 h-title d-flex align-items-center" (click)="sortBy('name')">
-            <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-            </span>
+          <div class="col-3 h-title d-flex align-items-center">
             Experiment Name</div>
           <div class="col-3 h-title">
             Variants</div>
@@ -52,17 +48,13 @@
                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li *ngFor="let status of dynamicStatus"><span
-                      class="list-name"  (click)="selectedTab(status);statusFilter.close()">{{status|titlecase}}</span><img class="hide" src="assets/icons/check-blue.svg"></li>
+                  <li *ngFor="let status of dynamicStatus" (click)="selectedTab(status);statusFilter.close()"><span
+                      class="list-name">{{status|titlecase}}</span><img [ngClass]="{'hide': status !== setTab}" src="assets/icons/check-blue.svg"></li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="col-3 h-title d-flex align-items-center" (click)="sortBy('duration')">
-            <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('duration', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('duration', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-            </span>
+          <div class="col-3 h-title d-flex align-items-center">  
             DURATION</div>
         </div>
         <div id="accordion">
@@ -115,7 +107,7 @@
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
-                        {{ 24 * exp.date_days }} hrs more to go
+                        {{ exp.date_days}} more to go 
                       </div>
                       <div class="hours">
                         <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
@@ -157,7 +149,7 @@
                         (click)="runExperiment(exp._id, 'active', $event)">
                         Run
                       </button>
-                      <span (click)="addExperiment('edit', exp)" style="padding-left: 2px; font-size: 10px"
+                      <span (click)="addExperiment('edit', exp)" style="padding-left: 2px; font-size: 9px"
                         *ngIf="!status_active">View search configuration</span>
                     </div>
                   </div>
@@ -265,7 +257,7 @@
 <div class="no-experiments" *ngIf="filterExperiments.length!=0&&listOfExperiments.length===0">
         <div>No results found</div>
       </div>
-      <span *ngIf='listOfExperiments.length>0' style="float: left;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></span>
+      <div *ngIf='listOfExperiments.length>0' style="margin-right:45px;"><app-record-pagination [totalRecord]='exp_totalRecord' [limitpage]='exp_limitPage' (pageChanged)="paginate($event)"></app-record-pagination></div>
     </perfect-scrollbar>
   </div>
 </div> 

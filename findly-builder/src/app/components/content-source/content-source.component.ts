@@ -1240,6 +1240,24 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   urlCondition(condition, type) {
     type == 'allow' ? this.urlConditionAllow = condition : this.urlConditionBlock = condition;
     type == 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
+    if (condition === 'is') {
+      type === 'allow' ? this.allowUrl.name = "Equals to" : this.blockUrl.name = "Equals to";
+    }
+    else if (condition === 'isNot') {
+      type === 'allow' ? this.allowUrl.name = "Not equals to" : this.blockUrl.name = "Not equals to";
+    }
+    else if (condition === 'beginsWith') {
+      type === 'allow' ? this.allowUrl.name = "Begins with" : this.blockUrl.name = "Begins with";
+    }
+    else if (condition === 'endsWith') {
+      type === 'allow' ? this.allowUrl.name = "Ends with" : this.blockUrl.name = "Ends with";
+    }
+    else if (condition === 'contains') {
+      type === 'allow' ? this.allowUrl.name = "Contains" : this.blockUrl.name = "Contains";
+    }
+    else if (condition === 'doesNotContains') {
+      type === 'allow' ? this.allowUrl.name = "Doesn't contain" : this.blockUrl.name = "Doesn't contain";
+    }
   }
   scheduleData(scheduleData) {
     console.log(scheduleData);

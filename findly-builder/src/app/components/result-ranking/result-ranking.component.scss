@@ -1,6 +1,14 @@
 @import './../../../app/scss/variables/variables.scss';
 .faqmain-container{
     // position: relative;
+    .header-sec{
+        background: #F8F9FA;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        color: #000000;
+        padding: 15px 30px;
+      }
     .empty-scroll{
         height: calc(100vh - 162px);
     }

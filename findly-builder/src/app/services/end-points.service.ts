@@ -781,8 +781,24 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/faqs/import',
       method: 'post'
     }
+    this.serviceList['get.userinfo'] = {
+      endpoint: this.API_SERVER_URL + '/_resolve/user?id=:id',
+      method: 'get'
+    }
+    this.serviceList['get.members'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/getcodevelopers',
+      method: 'get'
+    }
+    this.serviceList['get.roles'] = {
+      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId/sharebot/getorgroles/organizations/:orgId',
+      method: 'get'
+    }
+    this.serviceList['put.members'] = {
+      endpoint: this.API_SERVER_URL + '/findly/users/:userId/streams/:streamId/shareApp',
+      method: 'put'
+    }
     this.serviceList['get.streamData'] = {
-      endpoint: this.API_SERVER_URL + '/users/:userId/builder/streams/:streamId',
+      endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
     }
     this.serviceList['get.crawljobOndemand'] = {

@@ -519,7 +519,7 @@
               <div class="inner-content row m-0 crawl-option">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crawl Option</div>                                  
+                    <div class="label-text">Crawl Options</div>                                  
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
@@ -541,10 +541,10 @@
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
-                          data-toggle="dropdown">{{allowUrl.condition}}</button>
+                          data-toggle="dropdown">{{allowUrl.name}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
-                          <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                          <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
+                          <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
                           <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
                           <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
                           <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
@@ -594,10 +594,10 @@
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
-                          data-toggle="dropdown">{{blockUrl.condition}}</button>
+                          data-toggle="dropdown">{{blockUrl.name}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
-                          <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                          <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
+                          <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
                           <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
                           <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
                           <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
@@ -685,7 +685,7 @@
                       <div class="tooltip-custom">
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
-                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="t-text">The maximum no. of URLs to be crawled.</div>
                           <div class="v-text">Value = 0 (No limit)</div>
                         </span>
                       </div> 

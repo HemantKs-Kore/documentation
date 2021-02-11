@@ -39,6 +39,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   fields:any = [];
   newfieldsData:any = [];
   loadingFields = true;
+  isActiveAll= true;
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
@@ -475,9 +476,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Stage configuration is successfully saved',
+        newTitle: 'Are you sure you want to save ?',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
+        buttons: [{ key: 'yes', label: 'Save' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
         confirmationPopUp:true
       }
     });
@@ -667,9 +668,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Stage',
-        text: 'Are you sure you want to delete selected stage?',
-        newTitle: 'Are you sure you want to delete selected stage?',
+        newTitle: 'Are you sure you want to delete?',
         body:'Selected stage will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -763,7 +762,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       data: {
         title: 'Delete Field',
         text: 'Are you sure you want to delete selected field?',
-        newTitle: 'Are you sure you want to delete selected field?',
+        newTitle: 'Are you sure you want to delete?',
         body:'Selected field will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -822,7 +821,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       data: {
         title: 'Discard current changes',
         text: 'Are you sure you want to discard current?',
-        newTitle: 'Are you sure you want to discard current?',
+        newTitle: 'Are you sure you want to discard?',
         body:'Current changes will be discarded.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -1040,6 +1039,29 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.notificationService.notify('Somthing went worng', 'error');
   }
  }
+ selectAll(){
+this.newfieldsData.forEach(element => {
+  element.isActive=this.isActiveAll;
+});
+ }
+
+ selectSingle(isActive){
+   if(isActive){
+     let fieldActive=false;
+    this.newfieldsData.forEach(element => {
+      if(element.isActive && !fieldActive){
+        this.isActiveAll=true;
+      }else{
+        fieldActive = true;
+        this.isActiveAll=false;
+      }
+    });
+   } else {
+    this.isActiveAll=false;
+  }
+
+ }
+
  ngOnDestroy() {
   const self = this;
   if (this.pollingSubscriber) {

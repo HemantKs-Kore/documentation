@@ -15,6 +15,7 @@ export class SettingsComponent implements OnInit {
   slider = 0;
   refId = "";
   botID = '';
+  enableConfiguration=true;
   configuredBot_streamId = "";
   selectedApp: any;
   serachIndexId: any;

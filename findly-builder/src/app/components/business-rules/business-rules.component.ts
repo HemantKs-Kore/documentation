@@ -55,10 +55,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
-    pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
+    // pageContext: ['device', 'browser', 'currentPage', 'recentPages', 'signed', 'timeDateDay', 'session', 'timeSpentOnThePageSession'],
+    pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
     userContext: ['userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
-    dataTypes:['string','date','number'],
+    dataTypes:['string','date','number','trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
   tagsArray: any = []
@@ -91,7 +92,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   queryPipelineId
   fieldWarnings: any = {
-    NOT_INDEXED: 'Associated field is not indexed',
+    NOT_INDEXED: 'Indexed property has been set to False for this field',
     NOT_EXISTS: 'Associated field has been deleted'
   }
   private contextSuggestedImput: ElementRef;
@@ -272,8 +273,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
     const mainContext = _ruleOptions.contextTypes;
     if($('.mat_autofocus_dropdown').length){
-      if(ruleObj.outcomeValueType == 'static'){
-        $('.mat_autofocus_dropdown')[0].style.display = 'none'
+      if(ruleObj.outcomeValueType == 'static' || (ruleObj.outcomeValueType == 'dynamic' && ruleObj.newValue && (ruleObj.newValue.search(/\./)!==-1))){
+        if($('.mat_autofocus_dropdown')[0]){
+          $('.mat_autofocus_dropdown')[0].style.display = 'none';
+        }
+      }else{
+        if($('.mat_autofocus_dropdown')[0]){
+        $('.mat_autofocus_dropdown')[0].style.display = 'block';
+        }
       }
     }
     this.currentSugg = [];
@@ -334,6 +341,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
       this.autoSuggestInputItems._results[index].nativeElement.value = newVal+ '.';
       ruleObj.newValue = newVal+ '.';
+      if($('.mat_autofocus_dropdown')[0]){
+        $('.mat_autofocus_dropdown')[0].style.display = 'none';
+      }
     }
   }
   addRules(event: MatChipInputEvent, ruleObj, i) {
@@ -474,6 +484,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       }
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      if(this.selcectionObj.selectedCount === this.rules.length){
+        this.selcectionObj.selectAll = true;
+      }
     }
   }
   selectAll(unselectAll?) {
@@ -603,10 +616,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete rule',
-        text: 'Are you sure you want to delete selected rule?',
-        newTitle: 'Delete rule',
-        body: 'Are you sure you want to delete selected rule?',
+        // title: 'Delete rule',
+        // text: 'Are you sure you want to delete selected rule?',
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected rule will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -628,10 +641,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete selected rules',
-        text: 'Are you sure you want to delete selected rules?',
-        newTitle: 'Are you sure you want to delete selected rules?',
-        body: 'Selected rules will be deleted',
+        // title: 'Delete selected rules',
+        // text: 'Are you sure you want to delete selected rules?',
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected rules will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

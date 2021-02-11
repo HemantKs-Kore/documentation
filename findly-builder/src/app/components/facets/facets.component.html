@@ -7,14 +7,14 @@
     <div class="header-sec">
         <div class="title">{{'facets.facets'| translate}}</div>
         <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
-            <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">                               
+            <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
                 <input type="text" id="direct-search" [(ngModel)]="searchfacet" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">           
             </div> 
-            <div class="seach-block">
+            <div class="seach-block" *ngIf="(facets && facets.length)">
                 <span [ngClass]="{'d-none': showSearch}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                 <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)">
             </div>   
-            <button id='btn_addFacet' class="kr-sg-button-primary btn_lg mr-3" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
+            <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg mr-3" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
             <img class="mr-3" src="assets/icons/clock.svg">
         </div>
     </div>
@@ -25,6 +25,7 @@
         </div> -->
         <div class="actions text-right">
             <!-- <button id='btn_addFacet' class="kr-sg-button-primary btn_lg" (click)="createNewFacet()">{{'facets.add_facet'| translate}}</button> -->
+            <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span>
             <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button>
             <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
             <!-- <img src="assets/icons/clock.svg"> -->
@@ -39,7 +40,7 @@
           <div class="desc-text">Facets allow search users to refine their search results by selecting appropriate filters. SearchAssist allows you to add value and range facets, and you can configure any indexed fields as facets.
           </div>
           <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-              <button class="kr-sg-button-primary"  (click)="createNewFacet()">Add Facet</button>                                            
+              <button class="kr-sg-button-primary"  (click)="createNewFacet()">Add Facets</button>                                            
           </div>
       </ng-container>
       <ng-container *ngIf="noItems && emptySearchResults">
@@ -51,11 +52,11 @@
     <div class="table_section" *ngIf="(facets && facets.length)">
         <div class="header_sec row m-0">
             <div class="col-4 content withcheckbox">
-                <div class="kr-sg-checkbox p-0 ml-1 mb-0 pl-5 select-all-checkbox">
+                <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
                     <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()"  [(ngModel)]="selcectionObj.selectAll">
                     <label for="selectAllFacets" class="checkbox-custom-label"></label>
                 </div>
-                <div class="kr-sg-checkbox p-0 m-0 pl-5 partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != facets.length">
+                <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != facets.length">
                     <img (click) = "selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
                 </div> 
                 <span class="d-flex align-items-center flex-column mr-1 selectall-title" (click)="sortBy('name')">
@@ -157,12 +158,12 @@
                 <div class="body_sec row m-0" cdkDrag *ngFor="let facet of facets | filter : [searchfacet, 'facetName']" [ngClass]="{'selected': (selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[facet._id])}">
                     <div class="col-4 content withcheckbox">
                         <div class="drag_drop_icon pl-2"><img src="assets/icons/drog_drop.svg"></div>
-                        <div class="kr-sg-checkbox p-0 m-0 pl-5">
+                        <div class="kr-sg-checkbox p-0 m-0 adjust-checkbox-padding">
                             <input id="{{facet._id}}" class="checkbox-custom selectEachfacetInput" (change)="checkUncheckfacets(facet)" type="checkbox">
                             <label for="{{facet._id}}" class="checkbox-custom-label"></label>
                         </div>
                         <div class="title">
-                            <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>
+                            <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg"  placement="left" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>
                         {{facet.facetName}}</div>
                     </div>
                     <div class="col-2 content">{{facet.facetType | translate}}</div>
@@ -218,22 +219,22 @@
                 <div class="kr-sg-dropdowns col-8 pl-0"> <!-- [ngClass]="{'disabled': addEditFacetObj._id}" -->
                     <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                         <button id="btn_select_facet_field" class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                        <input type="text" placeholder="Search for Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
+                        <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditFacetObj.fieldName)" [(ngModel)]="addEditFacetObj.fieldName">
                         <img src="assets/images/search_gray.svg" class="search-icon">     
                             <ul class="dropdown-menu content-menu">
                                 <perfect-scrollbar class="scroll-search-field">
-                                    <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
+                                    <li *ngFor="let suggesition of fieldAutoSuggestion" (click)="selectField(suggesition); setFaceName(suggesition)"><a *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
                             </ul>                                                                       
                     </div>                        
                 </div>
-                    <div class="col-2 pr-0" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
+                    <div class="col-2 pr-0 pl-2" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
                         <div class="title">{{'facets.field_type :'| translate}}<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
                     </div>
-                    <div class="col-2 pr-0" *ngIf="addEditFacetObj._id && addEditFacetObj.fieldDataType && filedTypeShow" >
+                    <div class="col-2 pr-0 pl-2" *ngIf="addEditFacetObj._id && addEditFacetObj.fieldDataType && filedTypeShow" >
                         <div class="title">{{'facets.field_type :'| translate}}<span class="string">{{addEditFacetObj.fieldDataType | translate}}</span></div>
                     </div>
-                    <div class="col-2 pr-0" *ngIf="addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
+                    <div class="col-2 pr-0 pl-2" *ngIf="addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
                         <div class="title">{{'facets.field_type :'| translate}}<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
                     </div>
             </div>
@@ -245,7 +246,7 @@
             </div>
             <div class="kr-sg-dropdowns col-4 pl-2">
                 <div class="label-text">{{'facets.facet_type'| translate}}</div>
-                <div class="dropdown dropdown-open" [ngClass]="{'disabled': (selectedField && selectedField.fieldDataType)}">
+                <div class="dropdown dropdown-open"  [ngClass]="{'disabled': (selectedField && selectedField.fieldDataType == 'string')}"> <!-- -->
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetType?addEditFacetObj.facetType:'Choose an option') | translate}}</button>                                          
                     <ul class="dropdown-menu content-menu">                                                                   
                       <li (click)="switchType('value')"><a>{{'facets.value'| translate}}</a></li>
@@ -262,15 +263,15 @@
             <div class="row row_inputs" *ngFor="let range of addEditFacetObj.facetRange; let i = index">
                 <div class="kr-sg-input-text col-7 pl-0">
                     <div class="label-text">{{'facets.range_name'| translate}}</div>
-                    <input type="text" placeholder="Enter range name" class="input-text" [(ngModel)]="range.rangeName">                   
+                    <input type="text" placeholder="Enter Range Name" class="input-text" [(ngModel)]="range.rangeName">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">{{'facets.from'| translate}}</div>
-                    <input type="number" placeholder="Enter form" class="input-text" [(ngModel)]="range.from">                   
+                    <input type="number" placeholder="Enter Form" class="input-text" [(ngModel)]="range.from">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">{{'facets.to'| translate}}</div>
-                    <input type="number" placeholder="Enter to" class="input-text" [(ngModel)]="range.to">                   
+                    <input type="number" placeholder="Enter To" class="input-text" [(ngModel)]="range.to">                   
                 </div>
                 <div class="col-1 pl-2 add">
                     <img class="trash" src="assets/images/trashIcon.svg" (click)="removeRange(i)">               
@@ -279,15 +280,15 @@
             <div class="row row_inputs">
                 <div class="kr-sg-input-text col-7 pl-0">
                     <div class="label-text">{{'facets.range_name'| translate}}</div>
-                    <input type="text" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">                   
+                    <input type="text" placeholder="Please Enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].rangeName">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">{{'facets.from'| translate}}</div>
-                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].from">                   
+                    <input type="number" placeholder="Please Enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].from">                   
                 </div>
                 <div class="kr-sg-input-text col-2 pl-2">
                     <div class="label-text">{{'facets.to'| translate}}</div>
-                    <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].to">                   
+                    <input type="number" placeholder="Please Enter" class="input-text" [(ngModel)]="facetDefaultValueObj[addEditFacetObj.facetType].to">                   
                 </div>
                 <div class="col-1 pl-2 add">
                     <img src="assets/images/add-input-field.svg" (click)="addFiled(addEditFacetObj)">               
@@ -305,7 +306,7 @@
                     <div class="label-text col-12 pl-2">{{'facets.sort_by'| translate}}</div>
                     <div class="kr-sg-dropdowns col-4 pl-2">                        
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?'facets.' + addEditFacetObj.facetValue.orderKey:'Choose an option') | translate}}</button>                                            
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(addEditFacetObj.facetValue.orderKey?'facets.' + addEditFacetObj.facetValue.orderKey:'count') | translate}}</button>                                            
                             <ul class="dropdown-menu content-menu">                                                                   
                               <li (click)="addEditFacetObj.facetValue.orderKey = 'count'"><a>{{'facets.count'| translate}}</a></li>
                               <li (click)="addEditFacetObj.facetValue.orderKey = 'label'"><a>{{'facets.label'| translate}}</a></li>
@@ -340,7 +341,7 @@
                     <img container="body" ngbTooltip="{{'facets.facet_size_info' | translate}}" tooltipClass="metrics_tooltips m-0"
                     class="pl-1" src="assets/icons/info.svg" />
                 </div>
-                <input type="number" placeholder="Please enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
+                <input type="number" placeholder="Please Enter" class="input-text" [(ngModel)]="addEditFacetObj.facetValue.size">                   
             </div>
         </div>
         <div class="multi-select mt-3">

@@ -22,7 +22,7 @@ export class RecordPaginationComponent implements OnInit {
     // for(let i = 1 ; i < 569 ; i++){
     //   this.testRecord.push({i});
     // }
-    this.endPage = Number((this.totalRecord / this.limitpage).toFixed());
+    this.endPage = Number(Math.ceil(this.totalRecord / this.limitpage));
     //this.endPage = Number(this.totalRecord/this.limitpage);
     this.remainder = Number((this.totalRecord % this.limitpage));
 

@@ -186,7 +186,7 @@ export class AppExperimentsComponent implements OnInit {
   }
   // based on variant show traffic
   showTraffic(length, type) {
-    console.log("slider lgt", length)
+
     this.star = [];
     if (length > 1) {
       if (type === 'add') {
@@ -254,7 +254,7 @@ export class AppExperimentsComponent implements OnInit {
     this.variantsArray.splice(index, 1);
     this.trafficData.splice(index, 1);
     this.showTraffic(this.variantsArray.length, 'remove');
-    // this.showSliderPercentage(this.variantsArray.length);
+    this.showSliderPercentage(this.variantsArray.length);
   }
   // slider changed
   sliderChanged() {
@@ -343,20 +343,29 @@ export class AppExperimentsComponent implements OnInit {
       const date1: any = new Date();
       this.exp_totalRecord = res.total;
       const result = res.experiments.map(data => {
-        // let date2: any = new Date(data.end);
-        // let sub = Math.abs(date1 - date2) / 1000;
-        // let days = Math.floor(sub / 86400);
-        const createdOn = new Date(data.createdOn);
-        const today = moment();
-        const days = today.diff(createdOn, 'hours');
+        let date2: any = new Date(data.end);
+        let sub = Math.abs(date1 - date2) / 1000;
+        let days = Math.floor(sub / 86400);
+        let date3: any = new Date(data.start);
+        let sub1 = Math.abs(date1 - date3) / 1000;
+        let days1 = Math.floor(sub1 / 86400);
+        // const createdOn = new Date(data.createdOn);
+        // const today = moment();
+        // const days = today.diff(createdOn, 'hours');
         const obj = Object.assign({}, data);
 
-        let endsOn: any = new Date(data.end);
-        endsOn = moment(endsOn);
-        const total_days = endsOn.diff(createdOn, 'hours');
-        console.log("all days", days)
-        obj.date_days = days;
-        obj.total_days = total_days;
+        // let endsOn: any = new Date(data.end);
+        // endsOn = moment(endsOn);
+        // const total_days = endsOn.diff(createdOn, 'hours');
+        if (days1 < 1) {
+          obj.date_days = days * 24;
+          console.log("current days", obj.name, days * 24)
+        }
+        else {
+          obj.date_days = days;
+          console.log("current days", obj.name, days)
+        }
+        obj.total_days = sub;
         return obj;
       });
       this.listOfExperiments = result;
@@ -375,13 +384,13 @@ export class AppExperimentsComponent implements OnInit {
   //dynamically show status
   dynamicStatus: any = [];
   statusList(result) {
-    console.log("staus data", result);
+    console.log("result", result);
     this.dynamicStatus = new Set();
     this.dynamicStatus.add("all");
     for (let i in result) {
       this.dynamicStatus.add(result[i].state)
     }
-    console.log("set1", this.dynamicStatus)
+    console.log("dynamicStatus", this.dynamicStatus)
   }
   // filter count of list of experiments
   countExperiment(res) {
@@ -527,10 +536,10 @@ export class AppExperimentsComponent implements OnInit {
           return obj;
         })
       }
-      console.log("this.filterExperiments", this.filterExperiments)
       this.listOfExperiments = this.filterExperiments;
       this.countExperiment(this.listOfExperiments);
       this.selectedTab(this.setTab);
+      this.statusList(this.listOfExperiments);
       this.notificationService.notify(`Experiment ${status} successfully`, 'success');
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -548,7 +557,7 @@ export class AppExperimentsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Do you really want to delete?',
+        newTitle: 'Are you sure you want to delete?',
         body: 'Selected Experiment will be permanently deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
@@ -585,7 +594,6 @@ export class AppExperimentsComponent implements OnInit {
     });
   }
   selectedTab(type) {
-    console.log("type", type)
     const filterArray: any = this.filterExperiments;
     this.setTab = type;
     if (type === 'all') {
@@ -609,7 +617,6 @@ export class AppExperimentsComponent implements OnInit {
   }
   //pagination for list
   paginate(event) {
-    console.log("event changed", event)
     this.exp_limitPage = event.limit;
     this.exp_skipPage = event.skip;
     this.getExperiments();
@@ -667,8 +674,6 @@ export class AppExperimentsComponent implements OnInit {
       const isAsc = this.isAsc;
       switch (sort) {
         case 'state': return this.compare(a.state, b.state, isAsc);
-        case 'name': return this.compare(a.name, b.name, isAsc);
-        case 'duration': return this.compare(a.start, b.start, isAsc);
         default: return 0;
       }
     });

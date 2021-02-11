@@ -108,10 +108,15 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        (click)="stopCrwaling()">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
+<<<<<<< HEAD
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
           (click)="stopCrwaling()">Cancel Crawling</button>
+=======
+>>>>>>> 008d2b87542cc151b7479fa9da41db1fb5f49a72
          </div>
     </div>
   </div>
@@ -193,16 +198,18 @@
                       <div class="kr-sg-file-drag-drop">
                         <div class="drag-drop-sec">
                           <ng-container *ngIf="!fileObj.fileName">
+                            <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
                             <div class="imageDiv">
                               <img class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
                             </div>
                             <div class="info_text">Drag and drop file anywhere on this screen</div>
                             <div class="or-divider">- or -</div>
                             <div class="custom-file">
-                              <input type="file" id="sourceFileUploader" class="custom-file-input "
-                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf">
+                              <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf"> -->
                             </div>
-                            <label for="sourceFileUploader" class="drag-label">
+                            <label for="sourceFileUploader" class="drag-label adjust_z_index">
                               <span class="browse">Browse</span>                    
                             </label>
                           </ng-container>   
@@ -215,7 +222,7 @@
                                     <img class="type_img" src="assets/icons/file_type_image.svg">
                                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
                                   </div>
-                                  <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                                  <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
                                 </div>
                                 <div class="progress-status">
                                   <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
@@ -261,16 +268,18 @@
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
               <div class="kr-sg-file-drag-drop">
                 <div class="drag-drop-sec">
+                  <input type="file" id="sourceFileUploader" class="custom-file-input"
+                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
                   <div _ngcontent-gpv-c11="" class="imageDiv">
                     <img _ngcontent-gpv-c11="" class="ng-tns-c11-2" src="assets/images/source-icos/drog_frop.svg">
                   </div>
                   <div class="custom-file">
-                    <input type="file" id="sourceFileUploader" class="custom-file-input "
-                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json">
+                    <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
+                      (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json"> -->
                   </div>
                   <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span>
                    
-                    <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse">Browse</span></button>
+                    <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse adjust_z_index">Browse</span></button>
                     <mat-menu #browse="matMenu">
                       <li mat-menu-item > <img class="pr-3" src="assets/images/icons/Urlicon.svg">URL</li>
                       <li mat-menu-item (click)="gotoFileUpload()"><img class="pr-3" src="assets/images/icons/localfileupload.svg">Local File Upload</li>
@@ -293,7 +302,7 @@
                   [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
                   <div class="file-close-text">
                     <div class="file-name" [innerHTML]="fileObj.fileName"></div>
-                    <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">
+                    <img src="assets/images/close.svg" class="close-file adjust_z_index" (click)="removeFile()">
                   </div>
                   <div class="progress-status">
                     <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner" src="assets/icons/spinner.svg">
@@ -350,7 +359,7 @@
               <div class="inner-content row m-0 crawl-option">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crawl Option</div>                                  
+                    <div class="label-text">Crawl Options</div>                                  
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
                         <ul class="dropdown-menu content-menu">
@@ -370,10 +379,10 @@
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{allowUrl.condition}}</button>
+                            data-toggle="dropdown">{{allowUrl.name}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
-                            <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                            <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
+                            <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
                             <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
                             <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
                             <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
@@ -421,10 +430,10 @@
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{blockUrl.condition}}</button>
+                            data-toggle="dropdown">{{blockUrl.name}}</button>
                           <ul class="dropdown-menu content-menu">
-                            <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
-                            <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                            <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
+                            <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
                             <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
                             <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
                             <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
@@ -524,7 +533,7 @@
                       <div class="tooltip-custom">
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
-                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="t-text">The maximum no. of URLs to be crawled.</div>
                           <div class="v-text">Value = 0 (No limit)</div>
                         </span>
                       </div>                    
@@ -686,7 +695,7 @@
         <button class="kr-sg-button-primary btn_lg mr-3"
           [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded"
           (click)="proceedSource()">Proceed</button>
-        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Back</button>
+        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">Cancel</button>
       </div>
     </form>
   </ng-container>

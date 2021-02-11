@@ -682,8 +682,9 @@ var valueList2 = totaldata.map(function (item) {
           },
             formatter: `
               <div class="metrics-tooltips-hover agent_drop_tolltip">
-              <div class="split-sec">
-                <div class="main-title">{c0} Users are using {b0} to search</div>
+              <div class="">
+                <div class="main-title">{c0} Users are using </div>
+                <div class="main-title">{b0} to search</div>
               </div> 
             </div>
             
@@ -775,6 +776,11 @@ var valueList2 = totaldata.map(function (item) {
       //   });
         
       // });
+    //   <div class="metrics-tooltips-hover agent_drop_tolltip">
+    //   <div class="split-sec">
+    //     <div class="main-title">{c0} Users are using {b0} to search</div>
+    //   </div> 
+    // </div>
       this.mostUsedBrowserBar  = {
         tooltip: {
           trigger: 'axis',
@@ -783,8 +789,9 @@ var valueList2 = totaldata.map(function (item) {
         },
           formatter: `
             <div class="metrics-tooltips-hover agent_drop_tolltip">
-            <div class="split-sec">
-              <div class="main-title">{c0} Users are using {b0} to search</div>
+            <div class="">
+              <div class="main-title">{c0} Users are using </div>
+              <div class="main-title">{b0} to search</div>
             </div> 
           </div>
           

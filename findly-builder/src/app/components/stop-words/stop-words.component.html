@@ -6,9 +6,9 @@
     <div class="header-sec-stopwords">
       <div class="title">{{'stopWords.stop_words'| translate}}</div>
       <div class="toggle_switch">
-        <label class="kr-sg-toggle">                                       
+        <label class="kr-sg-toggle" *ngIf="(stopwords && stopwords.length)">                                       
           <input type="checkbox" (change)="enableStopWords($event)" checked [(ngModel)]="enabled">
-          <div class="slider"><span class="enabled">{{'stopWords.enable_stop_word_removal'| translate}}</span><span class="disabled">{{'stopWords.stop_word_removal_disabled'| translate}}</span></div>
+          <div class="slider" ><span class="enabled">{{'stopWords.enable_stop_word_removal'| translate}}</span><span class="disabled">{{'stopWords.stop_word_removal_disabled'| translate}}</span></div>
         </label>
       </div>     
     </div>    
@@ -25,7 +25,35 @@
         </div>
      </div> 
 
-      <div class="empty_screen_data" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+     <div class="empty-stopwords" *ngIf="showAddStopWordsContainer && !(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+      <div class="main_heading">{{'stopWords.lets_start_by_adding_stop_words'| translate}}</div>
+      <div class="desc_info">{{'stopWords.select_on_how_would_you_like_to_add_stop_words'| translate}}</div>
+      <div class="radio-sec">
+        <div class="radio_block">            
+          <div class="kr-sg-radiobutton">
+            <input id="defaultStopWords" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
+            <label for="defaultStopWords" class="radio-custom-label">
+              <div class="label_heading">{{'stopWords.default_stop_words'| translate}}</div>
+              <div class="lable_dec">{{'Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...'| translate}}</div>
+            </label>
+          </div>
+        </div>
+        <div class="radio_block">
+          <div class="kr-sg-radiobutton">
+            <input id="customStopWords" value="scratch" name="customStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio">
+            <label for="customStopWords" class="radio-custom-label">
+              <div class="label_heading">{{'stopWords.start_from_scratch'| translate}}</div>
+              <div class="lable_dec">{{'stopWords.add_custom_stop_words' | translate}}</div>
+            </label>
+          </div> 
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopWords.Continue' | translate}}</button>
+      </div>
+      </div>  
+      <ng-container *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+        <div class="empty_screen_data">
           <perfect-scrollbar class="scoll-empty-screen" *ngIf="!showAddStopWordsContainer">
             <div class="empty-landing-screen">
               <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/stopwords-empty.svg"></div>   
@@ -40,37 +68,11 @@
                   <div class="desc-text">Your Search Query doesn't match with any record.</div>
               </ng-container>
             </div>
-          </perfect-scrollbar>  
-        <div class="empty-stopwords" *ngIf="showAddStopWordsContainer">
-          <div class="main_heading">{{'stopWords.lets_start_by_adding_stop_words'| translate}}</div>
-          <div class="desc_info">{{'stopWords.select_on_how_would_you_like_to_add_stop_words'| translate}}</div>
-          <div class="radio-sec">
-            <div class="radio_block">            
-              <div class="kr-sg-radiobutton">
-                <input id="defaultStopWords" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
-                <label for="defaultStopWords" class="radio-custom-label">
-                  <div class="label_heading">{{'stopWords.default_stop_words'| translate}}</div>
-                  <div class="lable_dec">{{'Eg. if, me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...'| translate}}</div>
-                </label>
-              </div>
-            </div>
-            <div class="radio_block">
-              <div class="kr-sg-radiobutton">
-                <input id="customStopWords" value="scratch" name="customStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio">
-                <label for="customStopWords" class="radio-custom-label">
-                  <div class="label_heading">{{'stopWords.start_from_scratch'| translate}}</div>
-                  <div class="lable_dec">{{'stopWords.add_custom_stop_words' | translate}}</div>
-                </label>
-              </div> 
-            </div>
-          </div>
-          <div class="text-center">
-            <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopWords.Continue' | translate}}</button>
-          </div>
-        </div>  
-      </div>         
+          </perfect-scrollbar>          
+        </div>
+      </ng-container>               
       <ng-container>
-      <div class="listingHeader row m-0">
+      <div class="listingHeader row m-0" *ngIf="stopwords && stopwords.length">
         <div class="col-5 p-0" >
           <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div>
         </div>         
@@ -96,20 +98,20 @@
         </div>
          
         </div>                     
-    </div>
-    <perfect-scrollbar class="table-scroll-perfect-synonyms">
-      <ng-container *ngIf="!loadingWords">
-        <div class="stopWordsListing"  *ngIf="(stopwords && stopwords.length) && !loadingContent">
-          <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
-            <span class="word stopwordBlock" >{{word}}</span>
-            <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event,word,stopwords)" src="assets/icons/clode_stop_word.svg"></span>
-          </span>
-          <div class="divBlockEmptylastChild text-center">         
-            <div class="desc">{{'stopWords.no_search_results_found' | translate}}</div>
+      </div>
+      <perfect-scrollbar class="table-scroll-perfect-synonyms">
+        <ng-container *ngIf="!loadingWords">
+          <div class="stopWordsListing"  *ngIf="(stopwords && stopwords.length) && !loadingContent">
+            <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
+              <span class="word stopwordBlock" >{{word}}</span>
+              <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event,word,stopwords)" src="assets/icons/clode_stop_word.svg"></span>
+            </span>
+            <div class="divBlockEmptylastChild text-center">         
+              <div class="desc">{{'stopWords.no_search_results_found' | translate}}</div>
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </perfect-scrollbar> 
+        </ng-container>
+      </perfect-scrollbar> 
       </ng-container>
     </div>
 </div>

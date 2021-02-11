@@ -562,8 +562,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+    if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
+      payload.extractionType = "basic"
       this.importFaq();
+    }
+    else if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+      quaryparms.faqType = 'document';
+      payload.isNew = true;
+      payload.fileId = this.fileObj.fileId;
+      payload.extractionType = "annotation"
+      this.faqAnotate(payload, endPoint, quaryparms);
+      schdVal = true;
     }
     if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq' && resourceType != 'importfaq' && this.selectedSourceType.id != 'faqDoc') {
       quaryparms.faqType = 'document';
@@ -794,6 +803,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   urlCondition(condition, type) {
     type === 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
+    if (condition === 'is') {
+      type === 'allow' ? this.allowUrl.name = "Equals to" : this.blockUrl.name = "Equals to";
+    }
+    else if (condition === 'isNot') {
+      type === 'allow' ? this.allowUrl.name = "Not equals to" : this.blockUrl.name = "Not equals to";
+    }
+    else if (condition === 'beginsWith') {
+      type === 'allow' ? this.allowUrl.name = "Begins with" : this.blockUrl.name = "Begins with";
+    }
+    else if (condition === 'endsWith') {
+      type === 'allow' ? this.allowUrl.name = "Ends with" : this.blockUrl.name = "Ends with";
+    }
+    else if (condition === 'contains') {
+      type === 'allow' ? this.allowUrl.name = "Contains" : this.blockUrl.name = "Contains";
+    }
+    else if (condition === 'doesNotContains') {
+      type === 'allow' ? this.allowUrl.name = "Doesn't contain" : this.blockUrl.name = "Doesn't contain";
+    }
   }
   /* Annotation Modal */
   annotationModal() {
