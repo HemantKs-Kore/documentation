@@ -108,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        (click)="stopCrwaling()">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
-          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>

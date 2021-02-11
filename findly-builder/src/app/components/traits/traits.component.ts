@@ -284,10 +284,8 @@ export class TraitsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Trait group',
-        text: 'Are you sure you want to delete Trait group?',
-        newTitle:'Are you sure you want to delete Trait group?',
-        body:'The selected trait group will be deleted.',
+        newTitle:'Are you sure you want to delete ?',
+        body:'Selected trait group will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -561,8 +559,8 @@ export class TraitsComponent implements OnInit {
       data: {    
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
-        newTitle:'Are you sure you want to delete Trait ?',
-        body:'The selected trait will be deleted. ',
+        newTitle:'Are you sure you want to delete ?',
+        body:'Selected trait will be deleted. ',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
