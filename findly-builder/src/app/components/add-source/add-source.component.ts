@@ -19,7 +19,7 @@ import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pd
 import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
-import {  DockStatusService} from '../../services/dock.status.service';
+import { DockStatusService } from '../../services/dock.status.service';
 
 @Component({
   selector: 'app-add-source',
@@ -34,8 +34,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwalObject: CrwalObj = new CrwalObj();
   allowUrl: AllowUrl = new AllowUrl();
   blockUrl: BlockUrl = new BlockUrl();
-  sampleJsonPath:any='/home/assets/sample-data/sample.json';
-  sampleCsvPath:any='/home/assets/sample-data/sample.csv';
+  sampleJsonPath: any = '/home/assets/sample-data/sample.json';
+  sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
   filePath;
   receivedQuaryparms: any;
   searchIndexId;
@@ -52,11 +52,11 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   useCookies = true;
   respectRobotTxtDirectives = true;
-  crawlBeyondSitemaps= false;
+  crawlBeyondSitemaps = false;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crwalOptionLabel = "Crawl Everything";
-  crawlDepth :number;
+  crawlDepth: number;
   maxUrlLimit: number;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
@@ -79,7 +79,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     _id: 'job-2745cd21-98f0-580e-926c-6f6bf41593fa',
   };
   currentStatusFailed: any = false;
-  crwal_jobId : any;
+  crwal_jobId: any;
   userInfo: any = {};
   csvContent: any = '';
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
@@ -187,10 +187,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   associatedBots: any = [];
   streamID: any;
   searchAssociatedBots: any;
-  addStructuredDataModalPopRef : any;
-  structuredData : any = {};
-  structuredDataStatusModalRef : any;
-  structuredDataDocPayload : any;
+  addStructuredDataModalPopRef: any;
+  structuredData: any = {};
+  structuredDataStatusModalRef: any;
+  structuredDataDocPayload: any;
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -291,10 +291,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
-          if(queuedJobs[0].validation.urlValidation){
+          if (queuedJobs[0].validation.urlValidation) {
             this.crawlOkDisable = !queuedJobs[0].validation.urlValidation;
           }
-          
+
           if ((queuedJobs[0].status !== 'running') && (queuedJobs[0].status !== 'queued')) {
             this.pollingSubscriber.unsubscribe();
             //this.crawlOkDisable = true;
@@ -306,7 +306,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           // }
         } else {
           this.statusObject = JSON.parse(JSON.stringify(this.defaultStatusObj));
-          if(!schedule) this.statusObject.status = 'failed';
+          if (!schedule) this.statusObject.status = 'failed';
           this.crawlOkDisable = false;
         }
       }, errRes => {
@@ -357,14 +357,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.redirectTo();
     this.cancleSourceAddition();
   }
-  stopCrwaling(source,event){
+  stopCrwaling(source, event) {
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
-      jobId :   this.crwal_jobId
+      jobId: this.crwal_jobId
 
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
@@ -407,7 +407,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedSourceType = selectedCrawlMethod;
       this.openLinkBotsModal();
     }
-    else if(selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')){
+    else if (selectedCrawlMethod && (selectedCrawlMethod.resourceType === 'structuredData' || selectedCrawlMethod.resourceType === 'structuredDataManual')) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddStructuredData();
     }
@@ -442,7 +442,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.fileObj.file_ext = _ext.replace(".", "");
 
     }
-   
+
     this.onFileSelect(event.target, _ext);
   }
   onFileSelect(input: HTMLInputElement, ext) {
@@ -454,19 +454,19 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       const fileToRead = files[0];
       const onFileLoad = (fileLoadedEvent) => {
         const data = new FormData();
-        if( resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc'){
+        if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
           data.append('file', fileToRead);
-          data.append('fileContext', 'bulkImport' );
+          data.append('fileContext', 'bulkImport');
           data.append('Content-Type', fileToRead.type);
           data.append('fileExtension', ext.replace('.', ''));
           this.fileupload(data);
         }
-        else{
-        data.append('file', fileToRead);
-        data.append('fileContext', 'findly');
-        data.append('Content-Type', fileToRead.type);
-        data.append('fileExtension', ext.replace('.', ''));
-        this.fileupload(data);
+        else {
+          data.append('file', fileToRead);
+          data.append('fileContext', 'findly');
+          data.append('Content-Type', fileToRead.type);
+          data.append('fileExtension', ext.replace('.', ''));
+          this.fileupload(data);
         }
       };
       const fileReader = new FileReader();
@@ -503,8 +503,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.newSourceObj.url) {
       this.selectedSourceType.resourceAdded = true;
-    // if(this.selectedSourceType.sourceType === 'faq')
-    //    this.selectedSourceType.resourceType = 'webdomain';
+      // if(this.selectedSourceType.sourceType === 'faq')
+      //    this.selectedSourceType.resourceType = 'webdomain';
     } else {
       this.selectedSourceType.resourceAdded = false;
     }
@@ -527,13 +527,13 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   /** file upload  */
-  gotoFileUpload(){
+  gotoFileUpload() {
     const x = document.createElement('INPUT');
     x.setAttribute('type', 'file');
     x.click();
   }
   /** proceed Source API  */
-  faqAnotate(payload,endPoint,quaryparms){
+  faqAnotate(payload, endPoint, quaryparms) {
     if (payload.hasOwnProperty('url')) delete payload.url;
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
       this.annotationModal();
@@ -547,7 +547,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   proceedSource() {
     let payload: any = {};
-    let schdVal =  true;
+    let schdVal = true;
     const crawler = this.crwalObject;
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -558,22 +558,22 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    if(resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
+    if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       this.importFaq();
     }
-    else if(this.selectedSourceType.annotate  && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc'){
+    else if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
       payload.isNew = true;
-      payload.fileId = this.fileObj.fileId; 
-     this.faqAnotate(payload,endPoint,quaryparms);
-     schdVal = true;
+      payload.fileId = this.fileObj.fileId;
+      this.faqAnotate(payload, endPoint, quaryparms);
+      schdVal = true;
     }
     if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq' && resourceType != 'importfaq' && this.selectedSourceType.id != 'faqDoc') {
       quaryparms.faqType = 'document';
       payload.isNew = true;
-      payload.fileId = this.fileObj.fileId; 
-     this.faqAnotate(payload,endPoint,quaryparms);
-     schdVal = true;
+      payload.fileId = this.fileObj.fileId;
+      this.faqAnotate(payload, endPoint, quaryparms);
+      schdVal = true;
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';
@@ -592,31 +592,31 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         crawler.desc = this.newSourceObj.desc || '';
         crawler.advanceOpts.useCookies = this.useCookies;
         crawler.advanceOpts.respectRobotTxtDirectives = this.respectRobotTxtDirectives;
-        crawler.advanceOpts.crawlBeyondSitemaps= this.crawlBeyondSitemaps;
+        crawler.advanceOpts.crawlBeyondSitemaps = this.crawlBeyondSitemaps;
         crawler.advanceOpts.isJavaScriptRendered = this.isJavaScriptRendered;
         crawler.advanceOpts.blockHttpsMsgs = this.blockHttpsMsgs;
-        if(Number(this.crawlDepth)){
-          crawler.advanceOpts.crawlDepth =  Number(this.crawlDepth);
-        }else{
+        if (Number(this.crawlDepth)) {
+          crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
+        } else {
           delete crawler.advanceOpts.crawlDepth;
         }
-        if(Number(this.maxUrlLimit)){
+        if (Number(this.maxUrlLimit)) {
           crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
-        }else{
+        } else {
           delete crawler.advanceOpts.maxUrlLimit;
         }
-        
+
         // crawler.advanceOpts.crawlDepth = Number(this.crawlDepth);
         // crawler.advanceOpts.maxUrlLimit = Number(this.maxUrlLimit);
         crawler.resourceType = this.selectedSourceType.resourceType;
         crawler.advanceOpts.allowedURLs.length > 0 ? crawler.advanceOpts.allowedOpt = true : crawler.advanceOpts.allowedOpt = false;
         crawler.advanceOpts.blockedURLs.length > 0 ? crawler.advanceOpts.blockedOpt = true : crawler.advanceOpts.blockedOpt = false;
-        payload = {...crawler};
+        payload = { ...crawler };
         delete payload.resourceType;
-        if(payload.advanceOpts){
-          if(!payload.advanceOpts.scheduleOpt){
+        if (payload.advanceOpts) {
+          if (!payload.advanceOpts.scheduleOpt) {
             delete payload.advanceOpts.scheduleOpts;
-            if(payload.advanceOpts.repeatInterval){
+            if (payload.advanceOpts.repeatInterval) {
               delete payload.advanceOpts.repeatInterval;
             }
           }
@@ -630,24 +630,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
       }
-      if(crawler.advanceOpts.scheduleOpt){
-        if(crawler.advanceOpts.scheduleOpts){
-          if(!crawler.advanceOpts.scheduleOpts.date){
+      if (crawler.advanceOpts.scheduleOpt) {
+        if (crawler.advanceOpts.scheduleOpts) {
+          if (!crawler.advanceOpts.scheduleOpts.date) {
             schdVal = false;
           }
-          if(!crawler.advanceOpts.scheduleOpts.time){
+          if (!crawler.advanceOpts.scheduleOpts.time) {
             schdVal = false;
-          }else{
-            if(crawler.advanceOpts.scheduleOpts.time.hour == "" ||crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
-            if(crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
-            if(crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
+          } else {
+            if (crawler.advanceOpts.scheduleOpts.time.hour == "" || crawler.advanceOpts.scheduleOpts.time.hour == "null") schdVal = false;
+            if (crawler.advanceOpts.scheduleOpts.time.timeOpt == "") schdVal = false;
+            if (crawler.advanceOpts.scheduleOpts.time.timezone == "Time Zone") schdVal = false;
           }
         }
       }
-      if(schdVal){
+      if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
           this.openStatusModal();
-          this.poling(res._id,'scheduler');
+          this.poling(res._id, 'scheduler');
           this.crwal_jobId = res._id
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -656,7 +656,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.notificationService.notify('Failed to add sources ', 'error');
           }
         });
-      }else{
+      } else {
         this.notificationService.notify('Please fill Date and Time fields', 'error');
       }
       // this.callWebCraller(this.crwalObject,searchIndex)
@@ -743,23 +743,23 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   /** proceed Source API */
   scheduleData(scheduleData) {
     console.log(scheduleData);
-      // if(scheduleData.date){
-      //   let date = scheduleData.date;
-      //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
-      // }
-      // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
-      //   scheduleData.interval.intervalValue = {};
-      // }
-      // if(scheduleData.interval && 
-      //   scheduleData.interval.intervalValue &&
-      //   scheduleData.interval.intervalValue.endsOn &&
-      //   scheduleData.interval.intervalValue.endsOn.endDate){
-      //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
-      //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
-      // }
-      if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
-        scheduleData.interval.intervalValue = {};
-      }
+    // if(scheduleData.date){
+    //   let date = scheduleData.date;
+    //   if(String(date).split(" ")) scheduleData.date =  String(date).split(" ")[1] + " " + String(date).split(" ")[2]  + " " + String(date).split(" ")[3];
+    // }
+    // if(scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom"){
+    //   scheduleData.interval.intervalValue = {};
+    // }
+    // if(scheduleData.interval && 
+    //   scheduleData.interval.intervalValue &&
+    //   scheduleData.interval.intervalValue.endsOn &&
+    //   scheduleData.interval.intervalValue.endsOn.endDate){
+    //   let endate = scheduleData.interval.intervalValue.endsOn.endDate;
+    //   if(String(endate).split(" ")) scheduleData.interval.intervalValue.endsOn.endDate =  String(endate).split(" ")[1]  + " " +  String(endate).split(" ")[2] + " " +  String(endate).split(" ")[3];
+    // }
+    if (scheduleData.interval.intervalType && scheduleData.interval.intervalType != "Custom") {
+      scheduleData.interval.intervalValue = {};
+    }
     this.crwalObject.advanceOpts.scheduleOpts = scheduleData;
 
     // this.dataFromScheduler = scheduleData
@@ -793,6 +793,24 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   urlCondition(condition, type) {
     type === 'allow' ? this.allowUrl.condition = condition : this.blockUrl.condition = condition;
+    if (condition === 'is') {
+      type === 'allow' ? this.allowUrl.name = "Equals to" : this.blockUrl.name = "Equals to";
+    }
+    else if (condition === 'isNot') {
+      type === 'allow' ? this.allowUrl.name = "Not equals to" : this.blockUrl.name = "Not equals to";
+    }
+    else if (condition === 'beginsWith') {
+      type === 'allow' ? this.allowUrl.name = "Begins with" : this.blockUrl.name = "Begins with";
+    }
+    else if (condition === 'endsWith') {
+      type === 'allow' ? this.allowUrl.name = "Ends with" : this.blockUrl.name = "Ends with";
+    }
+    else if (condition === 'contains') {
+      type === 'allow' ? this.allowUrl.name = "Contains" : this.blockUrl.name = "Contains";
+    }
+    else if (condition === 'doesNotContains') {
+      type === 'allow' ? this.allowUrl.name = "Doesn't contain" : this.blockUrl.name = "Doesn't contain";
+    }
   }
   /* Annotation Modal */
   annotationModal() {
@@ -827,7 +845,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   // Check poling from annoation tool
   checkAnnotationPolling() {
     this.rangyService.getPolling().subscribe(res => {
-      if(res) {
+      if (res) {
         console.log(this.anntationObj);
         this.openStatusModal();
         this.poling(this.anntationObj._id);
@@ -955,44 +973,44 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-  crawlOption(opt,label){
-    this.crwalOptionLabel =  label;
-    if(opt != 'any'){
+  crawlOption(opt, label) {
+    this.crwalOptionLabel = label;
+    if (opt != 'any') {
       this.crwalObject.advanceOpts.crawlEverything = false;
-      if(opt == 'allow'){
+      if (opt == 'allow') {
         this.crwalObject.advanceOpts.allowedOpt = true;
         this.crwalObject.advanceOpts.blockedOpt = false;
-      }else if(opt == 'block'){
+      } else if (opt == 'block') {
         this.crwalObject.advanceOpts.blockedOpt = true;
         this.crwalObject.advanceOpts.allowedOpt = false;
       }
-    }else{
+    } else {
       this.crwalObject.advanceOpts.crawlEverything = true;
     }
   }
 
   // Code for Structured Data Starts
 
-  openAddStructuredData(){
+  openAddStructuredData() {
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
-  closeStructuredDataModal(event?){
+  closeStructuredDataModal(event?) {
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
       this.addStructuredDataModalPopRef.close();
-      if(event && event.showStatusModal){
+      if (event && event.showStatusModal) {
         this.structuredDataDocPayload = event.payload;
         this.openStructuredDataStatusModal();
       }
     }
   }
 
-  openStructuredDataStatusModal(){
+  openStructuredDataStatusModal() {
     this.structuredDataStatusModalRef = this.structuredDataStatusModalPop.open();
   }
 
-  closeStructuredDataStatusModal(){
-    if(this.structuredDataStatusModalRef){
+  closeStructuredDataStatusModal() {
+    if (this.structuredDataStatusModalRef) {
       this.router.navigate(['/structuredData'], { skipLocationChange: true });
       this.structuredDataStatusModalRef.close();
     }
@@ -1008,49 +1026,49 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('PolingDistroyed');
     this.fileObj.fileAdded = false;
   }
-  
-  downloadSampleData(key){
+
+  downloadSampleData(key) {
     let fileName;
     let filePath;
-    if(key === 'json'){
-    fileName = 'sample.json';
-    filePath = this.sampleJsonPath;
+    if (key === 'json') {
+      fileName = 'sample.json';
+      filePath = this.sampleJsonPath;
     }
-    else{
-    fileName = 'sample.csv';
-    filePath = this.sampleCsvPath;
+    else {
+      fileName = 'sample.csv';
+      filePath = this.sampleCsvPath;
     }
-    const link : any = document.createElement('a');
+    const link: any = document.createElement('a');
     link.href = filePath;
     link.download = fileName,
-    link.click();
+      link.click();
     link.remove();
+  }
+  importFaq() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+    };
+    const payload = {
+      fileId: this.fileObj.fileId,
+      fileType: this.fileObj.file_ext,
+      // streamId: this.streamId,
     }
-    importFaq(){
-      const quaryparms: any = {
-        searchIndexId: this.searchIndexId,
-      };
-      const payload = {   
-        fileId: this.fileObj.fileId,
-        fileType:this.fileObj.file_ext,
-        // streamId: this.streamId,
-      }
-      this.service.invoke('import.faq',quaryparms,payload).subscribe(res => {
-       this.dock.trigger()
-        },
-         errRes => {
-          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-          } else {
-            this.notificationService.notify('Failed ', 'error');
-          }
-      
-      });
-      this.service.invoke('get.dockStatus',quaryparms,payload).subscribe(res1=>{
-    
-      });
+    this.service.invoke('import.faq', quaryparms, payload).subscribe(res => {
+      this.dock.trigger()
+    },
+      errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
 
-    }
+      });
+    this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
+
+    });
+
+  }
 
 }
 
