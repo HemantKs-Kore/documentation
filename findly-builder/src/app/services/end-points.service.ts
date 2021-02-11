@@ -801,6 +801,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
     }
+    this.serviceList['get.crawljobOndemand'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/extract/sources/:sourceId/init',
+      method: 'get'
+    }
     //  this.serviceList['export.dockstatus'] = {
     //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
     //   method: 'post'      
