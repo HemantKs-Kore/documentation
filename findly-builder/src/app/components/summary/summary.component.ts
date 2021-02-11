@@ -218,7 +218,6 @@ export class SummaryComponent implements OnInit {
         this.experiments = res.experiments;
         this.activities = res.activities;
         this.indices = res.indices;
-        console.log(this.indices)
         // this.experiments.forEach(element => {
         //   if (element.variants) {
         //     element.variants.forEach(res => {
