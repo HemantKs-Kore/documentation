@@ -1088,7 +1088,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {
         title: 'Configuration has been successfully saved',
         body: 'Do you wish to initiate crawling now?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Crawl', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
