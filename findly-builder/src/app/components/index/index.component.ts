@@ -698,7 +698,7 @@ if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
   simulate(){
     let indexArrayLength:any = this.validateConditionForRD();
       if(indexArrayLength){
-        this.removeExcludeDocumentStage(indexArrayLength,true);
+        this.removeExcludeDocumentStage(indexArrayLength,false);
        }
        else{
     this.simulteObj.showSimulation =  true;
