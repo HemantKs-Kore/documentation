@@ -25,7 +25,7 @@ export class SearchInsightsComponent implements OnInit {
   dateType = "hour";
 
   QWR_totalRecord:number;
-  QWR_limitPage : number = 10;
+  QWR_limitPage : number = 4;
   QWR_skipPage:number = 0;
 
   QWNR_totalRecord : number;
