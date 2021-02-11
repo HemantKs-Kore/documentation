@@ -197,3 +197,15 @@
 ::ng-deep perfect-scrollbar .ps--active-y{
     padding-bottom: 85px;
 }
+
+.dropdown_overflow{
+    background: #FFFFFF;
+    box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
+    // box-shadow: 0px 5px 10px rgba(32, 33, 36, 0.3);
+
+    padding: 10px 0px;
+    border: 0;        
+    margin: 0px 0 0 0;
+    max-height: 300px;
+    overflow: auto;
+}
