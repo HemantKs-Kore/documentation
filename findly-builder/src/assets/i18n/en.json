@@ -276,10 +276,10 @@
         "Appearances" : "Appearances",
         "Clicks" :"Clicks",
         "Avg_Position" : "Avg Position",
-        "Most_Clicked_Position" : "Most Clicked Position",
-        "Feedback" : "Feedback",
+        "Most_Clicked_Position" : "Most Clicked Positions",
+        "Feedback" : "Feedback Recieved",
         "Number_of_Clicks" : "Number of Clicks",
-        "Feedback_Received" :"Feedback Received",
+        "Feedback_Received" :"Feedback ",
         "Useful_Result" : "Useful Result",
         "Not_Useful_Result" : "Not Useful Result"
      },
