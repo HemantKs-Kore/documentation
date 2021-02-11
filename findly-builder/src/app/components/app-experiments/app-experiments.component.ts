@@ -674,8 +674,6 @@ export class AppExperimentsComponent implements OnInit {
       const isAsc = this.isAsc;
       switch (sort) {
         case 'state': return this.compare(a.state, b.state, isAsc);
-        case 'name': return this.compare(a.name, b.name, isAsc);
-        case 'duration': return this.compare(a.start, b.start, isAsc);
         default: return 0;
       }
     });
