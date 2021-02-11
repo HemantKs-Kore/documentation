@@ -1423,7 +1423,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
   }
   //crawl job ondemand
-  jobOndemand(source) {
+  jobOndemand(source, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
     console.log("job odemand", source)
     const queryParams: any = {
       searchIndexID: this.serachIndexId,

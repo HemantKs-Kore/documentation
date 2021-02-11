@@ -277,6 +277,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   poling(jobId, schedule?) {
+    console.log("poling jobId", jobId, schedule, this.selectedSourceType.sourceType)
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -286,6 +287,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+        console.log("job status every time happen", res)
         this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
           return (source._id === jobId);
@@ -1066,7 +1068,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
         if (result === 'yes') {
+          dialogRef.close();
           this.jobOndemand();
+          this.poling(this.crwal_jobId, 'scheduler')
         } else if (result === 'no') {
           dialogRef.close();
         }
@@ -1080,6 +1084,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       console.log(res);
+
+      this.openStatusModal();
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {
