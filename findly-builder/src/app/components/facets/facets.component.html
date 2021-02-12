@@ -228,13 +228,13 @@
                             </ul>                                                                       
                     </div>                        
                 </div>
-                    <div class="col-2 pr-0 pl-2" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
+                    <div class="col-4 pr-0 pl-2" *ngIf="!addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
                         <div class="title">{{'facets.field_type :'| translate}}<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
                     </div>
-                    <div class="col-2 pr-0 pl-2" *ngIf="addEditFacetObj._id && addEditFacetObj.fieldDataType && filedTypeShow" >
+                    <div class="col-4 pr-0 pl-2" *ngIf="addEditFacetObj._id && addEditFacetObj.fieldDataType && filedTypeShow" >
                         <div class="title">{{'facets.field_type :'| translate}}<span class="string">{{addEditFacetObj.fieldDataType | translate}}</span></div>
                     </div>
-                    <div class="col-2 pr-0 pl-2" *ngIf="addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
+                    <div class="col-4 pr-0 pl-2" *ngIf="addEditFacetObj._id &&  selectedField && selectedField.fieldDataType && filedTypeShow">
                         <div class="title">{{'facets.field_type :'| translate}}<span class="string">{{selectedField.fieldDataType | translate}}</span></div>
                     </div>
             </div>
