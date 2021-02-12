@@ -22,6 +22,9 @@ export class NotificationService {
     if (type === 'warning') {
       this.toastr.warning(notifyInfo);
     }
+    if (type === 'info') {
+      this.toastr.info(notifyInfo);
+    }
   }
 }
 

@@ -23,6 +23,7 @@
     "keyword_extraction": "Keyword Extraction",
     "traits_extraction": "Traits Extraction",
     "custom_script": "Custom Script",
+    "exclude_document": "Exclude Document",
     "set": "Set",
     "rename": "Rename",
     "copy": "Copy",

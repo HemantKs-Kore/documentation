@@ -74,7 +74,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     inprogress: { name: 'In Progress', color: '#0D6EFD' },
     validation: { name: 'Queued', color: '#0D6EFD' },
     scheduled: { name: 'Queued', color: '#0D6EFD' },
-    halted: { name: 'Stopped', color: '#DD3646' }
+    halted: { name: 'Stopped', color: '#DD3646' },
+    configured: { name: 'Configured', color: '#202124' }
   };
   executionObj: any = {
     'Execution Successful': {
@@ -1438,6 +1439,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     } else if (opt == 'any') {
       this.selectedSource.advanceSettings.crawlEverything = true;
     }
+  }
+  //crawl job ondemand
+  jobOndemand(source, event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    console.log("job odemand", source)
+    const queryParams: any = {
+      searchIndexID: this.serachIndexId,
+      sourceId: source._id
+    };
+    this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
+      console.log(res);
+      //this.notificationService.notify('Bot linked, successfully', 'success');
+    },
+      (err) => {
+        console.log(err);
+        this.notificationService.notify('Bot linking, unsuccessful', 'error');
+      }
+    )
   }
   ngOnDestroy() {
     const timerObjects = Object.keys(this.polingObj);

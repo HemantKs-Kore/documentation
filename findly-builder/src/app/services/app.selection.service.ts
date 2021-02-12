@@ -147,7 +147,7 @@ export class AppSelectionService {
     this.headerService.toggle(toogleObj);
   }
   setAppWorkFlowData(app, queryPipeline?) {
-    //this.getStreamData(app);
+    // this.getStreamData(app);
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
