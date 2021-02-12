@@ -18,8 +18,8 @@ export class EndPointsService {
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
-      //this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      this.API_SERVER_URL = "http://957ea163d7ce.ngrok.io" + "/api/1.1"
+      this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      //this.API_SERVER_URL = " http://4401862e7130.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -70,7 +70,7 @@ export class EndPointsService {
     };
     this.serviceList['train.app'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
@@ -850,6 +850,10 @@ export class EndPointsService {
     this.serviceList['post.newIndexPipeline'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
       method: 'post'
+    }
+    this.serviceList['delete.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId',
+      method: 'delete'
     }
     /** APIs for multiple Index */
   }
