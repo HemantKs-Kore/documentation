@@ -137,7 +137,7 @@
                 <div class="col-1 title">{{result.negativeFeedback}}</div>
             </div>                  
         </div>
-        <span *ngIf='getSearchQueriesResults'><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></span>
+        <span *ngIf='SQR_totalRecord'><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></span>
     </div>
   </perfect-scrollbar>
   <!-- <div class="modal-footer">

@@ -69,11 +69,11 @@ export class ResultInsightsComponent implements OnInit {
   searchSources : any = '';
   dateType = "hour"
 
-  totalRecord:number;
+  totalRecord:number=0;
   limitPage : number = 10;
   skipPage:number = 0;
 
-  Q_totalRecord:number;
+  Q_totalRecord:number=0;
   Q_limitPage : number = 10;
   Q_skipPage:number = 0;
   startDate:any = moment().subtract({ days: 7 });
