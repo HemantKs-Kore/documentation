@@ -100,12 +100,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'failed': { icon: "assets/icons/content/failed.svg" },
     'stopped': { icon: "assets/icons/content/stopped.svg" },
     'running': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
+    'crawling':{ icon: "assets/icons/content/ex-stat_inprogress.svg" },
+    'halted':{ icon: "assets/icons/content/stopped.svg" },
     'inProgress': { icon: "assets/icons/content/ex-stat_inprogress.svg" }
   }
   finalStateExecutionstageStatusObj: any = {
     'success': { icon: "assets/icons/content/succes-circle.svg" },
     'failed': { icon: "assets/icons/content/failed-circle.svg" },
     'running': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
+    'halted':{ icon: "assets/icons/content/stopped.svg" },
     'stopped': { icon: "assets/icons/content/stopped.svg" },
   }
   stateExecutionStageNameObj: any = {
@@ -513,6 +516,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
             element.executionStats.statusLogs.forEach(status_log => {
               status_log.timeTaken = this.duration(status_log.timeTaken);
             });
+          }
+          if(element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut){
+            if(element.executionStats.statusLogs){
+              //element.statusLogs.forEach(element => {
+                if(element.executionStats.statusLogs.length > 1){
+                  element.executionStats['tooltip'] ="" + element.executionStats.statusLogs[element.statusLogs.length - 2].stageName +  "failed due to timeout"
+                }
+              //});
+            }
+          }else if(element.executionStats.executionStatusMessage == 'Execution Stopped'){
+            element.executionStats['tooltip'] ="Execution Stopped due to " + element.statusMessage || ' time out';
           }
         });
       }
