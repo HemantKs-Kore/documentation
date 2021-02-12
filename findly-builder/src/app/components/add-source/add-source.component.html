@@ -108,10 +108,10 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        (click)="stopCrwaling()">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
-          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="stopCrwaling()">Stop Crawling</button>
          </div>
     </div>
   </div>
@@ -374,7 +374,7 @@
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{allowUrl.condition}}</button>
+                            data-toggle="dropdown">{{allowUrl.name}}</button>
                           <ul class="dropdown-menu content-menu">
                             <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
                             <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
@@ -425,7 +425,7 @@
                       <div class="kr-sg-dropdowns">
                         <div class="dropdown dropdown-open">
                           <button class="dropdown-toggle dropdown-input"
-                            data-toggle="dropdown">{{blockUrl.condition}}</button>
+                            data-toggle="dropdown">{{blockUrl.name}}</button>
                           <ul class="dropdown-menu content-menu">
                             <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
                             <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
@@ -528,7 +528,7 @@
                       <div class="tooltip-custom">
                         <img src="assets/icons/info.svg">
                         <span class="tooltiptext">
-                          <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
+                          <div class="t-text">The maximum no. of URLs to be crawled.</div>
                           <div class="v-text">Value = 0 (No limit)</div>
                         </span>
                       </div>                    

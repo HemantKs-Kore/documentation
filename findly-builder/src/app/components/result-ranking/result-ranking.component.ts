@@ -207,10 +207,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Restore Customization',
-        text: 'Are you sure you want to Restore',
-        newTitle : 'Are you sure you want to Restore?',
-        body : 'Selected customizations will be Restore once you proceed.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        text: 'Are you sure you want to Reset',
+        newTitle : 'Are you sure you want to Reset?',
+        body : 'Selected customizations will be Reset once you proceed.',
+        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
@@ -426,9 +426,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
-        newTitle : 'Do you want to remove?',
+        newTitle : 'Are you sure you want to restore?',
         body : 'Selected customizations will be removed once you proceed.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
@@ -510,10 +510,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Restore Customization',
-        text: 'Are you sure you want to Restore',
-        newTitle : 'Do you really want to reset?',
-        body : 'Selected queries will be set to Reset once you proceed',
+        newTitle : 'Are you sure you want to reset?',
+        body : 'Selected queries will be set to Reset once you proceed.',
         buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }

@@ -447,10 +447,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete facet',
-        text: 'Are you sure you want to delete selected facet?',
-        newTitle: 'Are you sure you want to delete selected facet?',
-        body:'Selected facet will be deleted',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected facet will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
