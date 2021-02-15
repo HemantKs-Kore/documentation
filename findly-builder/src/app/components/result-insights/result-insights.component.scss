@@ -115,6 +115,9 @@
             .search-filter-block{
                 .kr-sg-input-search{
                     width: 252px;
+                    input{
+                        padding-left: 30px;
+                    }
                 }
             }
             .searched-details{
@@ -239,10 +242,11 @@
 ::ng-deep .modal_popups_{
     &.view-query-modal{
         .modal-header{
-            padding: 15px 30px;
+            padding: 25px 30px 15px 30px;
             position: relative;
-            height: auto;
+            height: auto !important;
             box-shadow: none;
+            margin-bottom: 25px;
             .small-title{
                 color: #9AA0A6;
                 font-weight: 500;
@@ -275,5 +279,8 @@
                 right: 30px;
             }
         }   
+        .modal-body{
+            padding-top: 0 !important;
+        }
     }
 }

@@ -72,7 +72,7 @@ export class AppHeaderComponent implements OnInit {
       this.showMainMenu = false;
     }else{
       this.showMainMenu = true;
-      if (menu == '/settings' || menu=='/credentials-list') {
+      if (menu == '/settings' || menu=='/credentials-list' || menu == '/searchInterface') {
         this.menuFlag = true;
       }
       else {
