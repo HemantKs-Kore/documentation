@@ -79,7 +79,7 @@
                         <div class="col-2 title">{{result.clickThroughRate | number : '1.2-2'}}%</div>
                         <div class="col-1 title data-overview">{{result.avgPosition | number : '1.2-2'}}</div>
                         <div class="col-2 title">{{result.positiveFeedback}}</div>                       
-                        <div class="col-2 title">
+                        <div class="col-2 title d-flex align-items-center justify-content-between">
                             <span class="count">{{result.negativeFeedback}}</span>
                             <div class="view-query" (click)="openModalPopup(result)">
                                 <img src="assets/icons/view-query.svg">    
