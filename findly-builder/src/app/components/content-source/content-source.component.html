@@ -201,7 +201,7 @@
                   {{source.schedule_duration}}</span>
               </div>
               <div class="col_ col-1">
-                <span  >{{source.numPages}}</span>
+                <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
               </div>
               <div class="col_ col-2" *ngIf="source.advanceSettings">
                 <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName || source.userDetails.fullName}}</span>
@@ -212,7 +212,8 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' && source.recentStatus !== 'configured'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="stopCrwaling(source,$event)"><img class="action_icon"
                   src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
@@ -371,7 +372,7 @@
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
               <div class="" *ngIf="!page && !execution">
-                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Recrawl</button>
+                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Crawl</button>
               </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
@@ -924,8 +925,13 @@
                               </div>
                               <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
                                 <div class="log-details" *ngIf="statlog.stageName">
-                                  <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
-                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                                  <img *ngIf="statlog.stageName == 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/failed-circle.svg">
+                                  <img *ngIf="statlog.stageStatus == 'failed'" src="assets/icons/content/ex-stopped.svg">
+                                  <img *ngIf="statlog.stageStatus != 'failed'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
+                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'success' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
+                                  </span>
                                 </div>
                               </ng-container>
                               
@@ -960,8 +966,9 @@
                             </div>
                           </div>
                           <div class="col_ col-3 d-flex">
-                            <span class="execute-success mr-2" ngbTooltip='{{executionObj[history.executionStats.executionStatusMessage].tooltip}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                            <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.percentageDone || 99}}%</span>
                             </span>
                             <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">
