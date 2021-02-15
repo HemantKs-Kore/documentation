@@ -2679,7 +2679,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
           $('#viewTypeCheckboxControl').prop('checked', true);
-          $(".pages-wrp, .tasks-wrp").sortable();
+          $(".pages-wrp, .tasks-wrp").sortable({stop: function( event, ui ) {
+            var element = ui.item[0];
+            if($(element).find('.pinning').length){
+              var pinningElement = $(element).find('.pinning')[0];
+              if(pinningElement){
+                $(pinningElement).trigger("click");
+              }
+            }
+          }});
           $(".pages-wrp, .tasks-wrp").sortable("option", "disabled", false);
           $(".pages-wrp, .tasks-wrp").disableSelection();
 
@@ -2739,7 +2747,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (selectedFacet === 'page') {
           if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
             $('#viewTypeCheckboxControl').prop('checked', true);
-            $(".pages-wrp").sortable();
+            $(".pages-wrp").sortable({stop: function( event, ui ) {
+              var element = ui.item[0];
+              if($(element).find('.pinning').length){
+                var pinningElement = $(element).find('.pinning')[0];
+                if(pinningElement){
+                  $(pinningElement).trigger("click");
+                }
+              }
+            }});
             $(".pages-wrp").sortable("option", "disabled", false);
             $(".pages-wrp").disableSelection();
 
@@ -2784,7 +2800,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (selectedFacet === 'faq') {
           if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
             $('#viewTypeCheckboxControl').prop('checked', true);
-            $(".tasks-wrp").sortable();
+            $(".tasks-wrp").sortable({stop: function( event, ui ) {
+              var element = ui.item[0];
+              if($(element).find('.pinning').length){
+                var pinningElement = $(element).find('.pinning')[0];
+                if(pinningElement){
+                  $(pinningElement).trigger("click");
+                }
+              }
+            }});
             $(".tasks-wrp").sortable("option", "disabled", false);
             $(".tasks-wrp").disableSelection();
 
@@ -5150,10 +5174,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           setTimeout(function () {
             if (_self.isDev == false) {
               var scrollBottom = $('#searchChatContainer').scrollTop() + $('#searchChatContainer').height();
+              if(scrollBottom > 100){
+                scrollBottom = scrollBottom + 200;
+              }
               $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
             else {
               var scrollBottom = $('#searchChatContainer').scrollTop() + 100;
+              if(scrollBottom > 100){
+                scrollBottom = scrollBottom + 200;
+              }
               $('#searchChatContainer').animate({ scrollTop: scrollBottom });
             }
 
