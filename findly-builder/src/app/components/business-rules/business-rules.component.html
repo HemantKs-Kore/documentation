@@ -100,7 +100,7 @@
               }}</span>
                         <span class="tags-input mr-1 mb-1"><span class="small-text">{{ "businessRules." + rule.contextType | translate
                 }} :</span> {{ "businessRules." + rule.contextCategory | translate }}</span>
-                        <span class="outer-name mr-1 mb-1">{{ rule.operator }}</span>
+                        <span class="outer-name mr-1 mb-1">{{ rule.operator | titlecase}}</span>
                         <ng-container *ngFor="let value of rule.value; let valueIndex = index">
                             <span class="tags-input mr-1 mb-1">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
                             <span class="divider mr-1 mb-1" *ngIf="valueIndex < rule.value.length - 1">{{ "or_caps" | translate
