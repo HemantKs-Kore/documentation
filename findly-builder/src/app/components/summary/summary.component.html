@@ -114,7 +114,7 @@
           </div>   
           <div class="body-data row m-0" *ngFor="let activity of activities">
             <div class="col-9 title">{{activity.faqInReviewCount}} Faq's Pending Approval</div>
-            <div class="col-3 title time-stamp" *ngIf="activity.faqInReviewCount!=0">{{activity.date}}</div>           
+            <div class="col-3 title time-stamp">{{activity.time}}</div>           
           </div>
            <!-- <div class="body-data row m-0">
             <div class="col-9 title">XYZ replied to you comment</div>
@@ -203,7 +203,7 @@
             </div>
           </div>                     -->
          </div>
-         <div class="create_new_link d-none">View all</div>
+         <div class="create_new_link" (click)="openChannel()">View all</div>
         </div>       
       </div>
       <div class="table-data-content col-6" *ngIf="!experiments.length">
