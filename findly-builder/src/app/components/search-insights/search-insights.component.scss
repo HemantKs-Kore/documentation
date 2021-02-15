@@ -84,6 +84,9 @@
             .search-filter-block{
                 .kr-sg-input-search{
                     width: 252px;
+                    input{
+                        padding-left: 30px;
+                    }
                 }
             }
             .searched-details{
@@ -252,7 +255,7 @@
         .modal-header{
             padding: 15px 30px;
             position: relative;
-            height: auto;
+            height: auto !important;
             box-shadow: none;
             .small-title{
                 color: #9AA0A6;
@@ -286,6 +289,9 @@
                 right: 30px;
             }
         }   
+        .modal-body{
+            padding-top: 0 !important;
+        }
     }
 }
 .info-icon{
