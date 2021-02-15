@@ -925,8 +925,13 @@
                               </div>
                               <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
                                 <div class="log-details" *ngIf="statlog.stageName">
-                                  <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
-                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                                  <img *ngIf="statlog.stageName == 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/failed-circle.svg">
+                                  <img *ngIf="statlog.stageStatus == 'failed'" src="assets/icons/content/ex-stopped.svg">
+                                  <img *ngIf="statlog.stageStatus != 'failed'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
+                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'success' && statlog.stageName != 'stopped'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
+                                  </span>
                                 </div>
                               </ng-container>
                               
@@ -961,8 +966,9 @@
                             </div>
                           </div>
                           <div class="col_ col-3 d-flex">
-                            <span class="execute-success mr-2" ngbTooltip='{{executionObj[history.executionStats.executionStatusMessage].tooltip}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                            <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.percentageDone || 99}}%</span>
                             </span>
                             <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">

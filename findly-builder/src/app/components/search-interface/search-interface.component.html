@@ -1,0 +1,1118 @@
+<div class="search-interface-container">
+  <div class="header_sec">
+    <div class="title">Search Interface</div>
+    <div class="btn_sec">     
+      <button class="kr-sg-button-primary btn_lg" (click)="openPreviewModal()">Preview</button>
+    </div>
+  </div>
+  <div class="body_content">
+    <div class="search-interface-left-sec">
+      <div class="left-tabs">
+        <div class="tab-name" *ngFor="let setting of settingList" (click)="selectedSetting = setting.id" [ngClass]="{'active-tab' : selectedSetting == setting.id}">{{setting.text}}</div>
+        <!-- <div class="tab-name">Search Experience</div>
+        <div class="tab-name">Live Search</div>
+        <div class="tab-name active-tab">Search</div>
+        <div class="tab-name">Full Page Result</div> -->
+      </div>
+    </div>
+    <perfect-scrollbar class="scroll-interface w-100">
+      <div class="search-interface-right-sec">             
+          <div class="radio-section" *ngIf="selectedSetting == 'search'">
+            <div class="radio-block">
+              <div class="main-title">No. of Results to be Displayed</div>
+              <div class="kr-sg-radiobutton d-block">
+                <input id="radio-17" name="radio-result" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.view == 'fit'">
+                <label for="radio-17" class="radio-custom-label">
+                  <div class="label-name">Fit to Viewport</div>          
+                </label>
+              </div>
+              <div class="label-desc">Number of results to be displayed will depend on the Viewport size</div>
+            </div>
+            <div class="radio-block mb-0">
+              <div class="kr-sg-radiobutton d-block mb-1">
+                <input id="radio-18" name="radio-result" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.view != 'fit'">
+                <label for="radio-18" class="radio-custom-label">
+                  <div class="label-name">Custom</div>          
+                </label>
+              </div>   
+              <div class="custom-input-block">
+                <div class="kr-sg-input-text">            
+                  <input type="text" value="0" class="input-text" [disabled] = "selectedSettingResultsObj.view == 'fit'" [(ngModel)] = "selectedSettingResultsObj.maxResultsAllowed">            
+                </div>
+                <div class="custom-desc-info">Topmost results based on relevance</div>
+              </div>     
+            </div>
+          </div>
+          <!-- liveSearch -->
+          
+          <!-- liveSearch -->
+          <!-- fullPageResult -->
+          <div class="radio-section" *ngIf="selectedSetting == 'fullPageResult'">
+            <div class="radio-block">
+              <div class="main-title">Configure same as Search</div>
+              
+              <div class="label-desc">Choose whether to apply the same configurations as per Search tab.</div>
+            </div>
+            <label class="kr-sg-toggle">                                       
+              <input type="checkbox"  >
+              <div class="slider"><span class="enabled">Yes</span><span class="disabled">No, i will Configure this separately</span></div>
+            </label>  
+          </div>
+          <!-- fullPageResult -->
+          <div class="radio-section">
+            <div class="main-title">Results Classification</div>
+            <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user</div>
+            <label class="kr-sg-toggle">                                       
+              <input type="checkbox" [disabled] = "true" [checked] = "selectedSettingResultsObj.resultClassification.isEnabled"> <!-- [checked] = "selectedSettingResultsObj.resultClassification.isEnabled" -->
+              <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+            </label>
+            <div class="kr-sg-dropdowns">        
+              <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input" [disabled] = "true" data-toggle="dropdown">{{selectedSettingResultsObj.resultClassification.sourceType}}</button>                                            
+                  <ul class="dropdown-menu content-menu">                                                   
+                    <li><a>Option 1</a></li>
+                    <li><a>Option 2</a></li>
+                    <li><a>Option 3</a></li>
+                  </ul>
+              </div>
+            </div>
+          </div>    
+          <div class="radio-section">
+            <div class="main-title m-0">Results Appearance</div>
+            <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user.</div>
+            <div class="group-radiobutton">         
+              <div class="kr-sg-radiobutton">
+                  <input id="radio-22" name="radio-app" class="radio-custom" type="radio" [checked] = "selectedSettingResultsObj.orderBasedOnRelevance">
+                  <label for="radio-22" class="radio-custom-label">Order based on relevance<img tooltipClass="inner-width m-0" placement="top-center" ngbTooltip="Order will be decided based on the top matched result" container="body" src="assets/icons/Info_gray.svg" class="ml-2"></label>
+              </div>
+              <div class="kr-sg-radiobutton">
+                  <input id="radio-23" name="radio-app" class="radio-custom" type="radio" [checked] = "!selectedSettingResultsObj.orderBasedOnRelevance">
+                  <label for="radio-23" class="radio-custom-label">Custom order</label>
+              </div>
+            </div>
+            <div class="result-appearences-section">
+              <div cdkDropList (cdkDropListDropped)="drop($event,list)" class="input-left-sec">
+                <div cdkDrag *ngFor="let list of list" class="input-name" (click)="selectedSourceType = list.type" [ngClass]="{'active-input' : list.type == selectedSourceType}"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>{{list.type}}</span></div>
+                <!-- <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Actions</span></div>
+                <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>FAQs</span></div>
+                <div cdkDrag class="input-name"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Pages</span></div>
+                <div cdkDrag class="input-name active-input"><img src="assets/icons/search-interface/move.svg" class="drog-icon"><span>Structured Data</span></div> -->
+                <div class="input-name add-new">+ Add New</div>
+              </div>
+              <div class="result-right-sec">
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="customize-button">
+                  <button class="kr-sg-button-secondary btn_lg" (click)="openCustomModal()">Customize</button>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <!-- Full results Facet--> 
+            <div *ngIf="selectedSetting == 'fullPageResult'">Facet</div>   
+          <!-- Full results Facet-->
+      </div>
+      <div class="footer-btns">
+        <button class="kr-sg-button-secondary btn_lg ml-3">Back</button>
+        <button class="kr-sg-button-primary btn_lg ml-3" (click) = "saveResultSettings()">Save</button>        
+      </div>
+  </perfect-scrollbar>
+  </div>
+</div>
+
+
+<kr-modal modalType="center" #customModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+  <div class="modal-header">
+    <div class="title">Customize Template</div>
+    <div class="close_icon" (click)="closeCustomModal()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="customize-scroll-left">
+  <div class="modal-body">
+    <div class="customize-template-data">
+      <div class="kr-sg-dropdowns template-type-dropdown">
+        <div class="label-text">Template Type</div>
+        <div class="dropdown dropdown-open">
+            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{customizeTemplateObj.template.type}}</button>                                            
+            <ul class="dropdown-menu content-menu">  
+              <li *ngFor="let list of templateTypeList"  (click)="template(list.id,list.value)"><a>{{list.value}}</a></li>                                                          
+              <!-- <li (click)="template('list')"><a>Option 1</a></li>
+              <li (click)="template('list')"><a>Option 2</a></li>
+              <li (click)="template('list')"><a>Option 3</a></li> -->
+            </ul>
+        </div>
+      </div>
+      <div class="customize-inner-content">
+
+        <perfect-scrollbar class="customize-scroll-left">
+          <div class="customize-left">
+            <!-- Title with Text-->
+            <div class="c-template">
+              <div class="group-radiobutton">
+                <div class="heading-title mb-2">Search Result Layout</div>
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-TT" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('tileWithText')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
+                    <label for="radio-TT" class="radio-custom-label">Tile with Text</label>
+                </div> 
+                <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
+                  <div class="heading">Heading</div>
+                  <div class="description">Description</div>
+                </div> 
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText'">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !customizeTemplateObj.template.searchResultlayout.clickable }">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text  customize-right " style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !customizeTemplateObj.template.searchResultlayout.clickable }">
+                    <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+                      <div class="label-text">URL</div>
+                      <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                        <ul class="dropdown-menu content-menu">
+                            <perfect-scrollbar class="country-code-perfect-scroll">
+                              <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </perfect-scrollbar>
+                        </ul>
+                    </div> 
+                    </div> 
+                  </div>
+                </div>                           
+              </div>
+            </div> 
+            <!-- Title with Text-->
+            <!-- Title with Image-->
+            <div class="c-template">
+              <div class="group-radiobutton">              
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-TI" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('tileWithImage')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
+                    <label for="radio-TI" class="radio-custom-label">Tile with Image</label>
+                </div> 
+                <div class="template-type d-flex" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
+                  <div class="img-block mr-2">
+                    <img src="assets/icons/search-interface/dummy-small.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="heading">Heading</div>
+                    <div class="description">Description</div>
+                  </div>
+                </div> 
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage'">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text customize-right " style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+                      <div class="label-text">URL</div>
+                      <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                        <ul class="dropdown-menu content-menu">
+                            <perfect-scrollbar class="country-code-perfect-scroll">
+                              <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </perfect-scrollbar>
+                        </ul>
+                    </div> 
+                    </div>
+                  </div>
+                </div>                                      
+              </div>
+            </div> 
+            <!-- Title with Image-->
+            <!-- Title with Centered Content-->
+            <div class="c-template">
+              <div class="group-radiobutton">              
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-TCC" name="resultLayout" class="radio-custom" type="radio" (change)= "resultLayoutChange('tileWithCenteredContent')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
+                    <label for="radio-TCC" class="radio-custom-label">Tile with Centered Content</label>
+                </div> 
+                <div class="template-type centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
+                  <div class="img-block mb-3">
+                    <img src="assets/icons/search-interface/dummy-large.svg">
+                  </div>
+                  <div class="content-block">
+                    <div class="heading">Heading</div>
+                    <div class="description">Description</div>
+                  </div>
+                </div> 
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent'">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text customize-right " style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+                      <div class="label-text">URL</div>
+                      <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                        <ul class="dropdown-menu content-menu">
+                            <perfect-scrollbar class="country-code-perfect-scroll">
+                              <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </perfect-scrollbar>
+                        </ul>
+                    </div> 
+                    </div> 
+                  </div>
+                </div>                                      
+              </div>
+            </div> 
+             <!-- Title with Centered Content-->
+              <!-- Title with Header-->
+            <div class="c-template">
+              <div class="group-radiobutton">                
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-TH" name="resultLayout" class="radio-custom" type="radio"  (change)= "resultLayoutChange('tileWithHeader')" [checked] = "customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
+                    <label for="radio-TH" class="radio-custom-label">Tile with Header</label>
+                </div> 
+                <div class="template-type" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
+                  <div class="heading m-0">Header</div>                  
+                </div> 
+                <div class="show-clickble-true" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
+                  <div class="label-text mb-1">Clickable</div>
+                  <label class="kr-sg-toggle">                                       
+                    <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                  </label>  
+                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="label-text mb-1">Click Behaviour</div>
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-32" name="radio" class="radio-custom" type="radio" checked>
+                        <label for="radio-32" class="radio-custom-label">Open a Webpage</label>
+                    </div> 
+                    <div class="kr-sg-radiobutton">
+                        <input id="radio-33" name="radio" class="radio-custom" type="radio">
+                        <label for="radio-33" class="radio-custom-label">Postback</label>
+                    </div> 
+                  </div>  
+                  <div class="kr-sg-input-text  customize-right " style="padding: 0;" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                    <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+                      <div class="label-text">URL</div>
+                      <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                        <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                        <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('url',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.url">
+                        <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                        <ul class="dropdown-menu content-menu">
+                            <perfect-scrollbar class="country-code-perfect-scroll">
+                              <li *ngFor="let field of url_fieldData" [id] = "field._id" (click)="filedSelect('url',field)"><a>{{field.fieldName}}</a></li>
+                            </perfect-scrollbar>
+                        </ul>
+                    </div> 
+                    </div>
+                  </div>
+                </div>                           
+              </div>
+            </div> 
+            <!-- Title with Header-->            
+          </div>
+        </perfect-scrollbar>          
+        <perfect-scrollbar  class="customize-scroll-right">
+          <div class="customize-right">
+            <div class="label-text mb-1">Search Result Mapping</div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+              <div class="label-text">Heading</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('heading',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.heading">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li *ngFor="let field of heading_fieldData" [id] = "field._id" (click)="filedSelect('heading',field)"><a>{{field.fieldName}}</a></li>
+                        <!-- <li><a>Field 2</a></li>
+                        <li><a>Field 3</a></li>
+                        <li><a>Field 4</a></li>
+                        <li><a>Field 5</a></li> -->
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="showDescription">
+              <div class="label-text">Description</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('description',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.description">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li *ngFor="let field of desc_fieldData" [id] = "field._id" (click)="filedSelect('description',field)"><a>{{field.fieldName}}</a></li>
+                        <!-- <li><a>Field 2</a></li>
+                        <li><a>Field 3</a></li>
+                        <li><a>Field 4</a></li>
+                        <li><a>Field 5</a></li> -->
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="showImage">
+              <div class="label-text">Image</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off" (keyup)="searchlist('image',$event.target.value,fieldData)" [(ngModel)]="customizeTemplateObj.template.resultMapping.image">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li *ngFor="let field of img_fieldData" [id] = "field._id" (click)="filedSelect('image',field)"><a>{{field.fieldName}}</a></li>
+                        <!-- <li><a>URL 2</a></li>
+                        <li><a>URL 3</a></li>
+                        <li><a>URL 4</a></li>
+                        <li><a>URL 5</a></li> -->
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div>
+            <!-- <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
+              <div class="label-text">URL</div>
+              <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
+                  <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
+                  <input type="text" placeholder="Select Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" autocomplete="off">
+                  <img src="assets/icons/search-interface/search.svg" class="search-icon">                                                           
+                  <ul class="dropdown-menu content-menu">
+                      <perfect-scrollbar class="country-code-perfect-scroll">
+                        <li><a>Title</a></li>
+                        <li><a>Field 2</a></li>
+                        <li><a>Field 3</a></li>
+                        <li><a>Field 4</a></li>
+                        <li><a>Field 5</a></li>
+                      </perfect-scrollbar>
+                  </ul>
+              </div>                        
+            </div> -->
+            <div class="p-selection mb-2">Preview as per above selection</div>
+
+
+          <!-- Tile with Text -->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>              
+            </div>
+
+            <div class="result-right-sec list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 2'">
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate">{{preview_title}}</div>
+                <div class="r-desc text-truncate">{{preview_desc}}</div>
+              </div>              
+            </div>
+
+            <div class="result-right-sec list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 3'">
+              <div class="list-template_3_parent">
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>              
+            </div>
+
+            <!-- Grid View Template -->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'Grid'">
+              <div class="list_gridview_template">
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="r-title">{{preview_title}}</div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+              </div>              
+            </div>      
+
+            <!-- Preview For Title with Text ClickAble-->                       
+            <div class="result-right-sec with-accordion-state" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne111">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapseOne111" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo222">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapseTwo222" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 2'">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne11">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapseOne11" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo22">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapseTwo22" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithText' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 3'">             
+              <div id="accordion" class="accordion-template">
+                <div class="info-title">Collapsed state</div>
+                <div class="template-3-box-shadow">
+                  <div class="card-acc mb-0">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne1">
+                        <div class="r-title text-truncate">{{preview_title}}</div>
+                        <div class="r-desc text-truncate">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                    <div id="collapseOne1" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-acc">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapsethree3">
+                        <div class="r-title text-truncate">{{preview_title}}</div>
+                        <div class="r-desc text-truncate">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                    <div id="collapsethree3" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapseTwo2">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapseTwo2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+          <!-- Tile with Text End -->           
+
+          <!-- Tile with Image -->
+            <div class="result-right-sec with-image" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-right-sec with-image image-tmplate-type-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 2'">
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-right-sec with-image image-tmplate-type-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 3'">
+              <div class="with-image-template-3-shadow">
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">{{preview_title}}</div>
+                    <div class="r-desc text-truncate">{{preview_desc}}</div>
+                  </div>
+                </div>
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">{{preview_title}}</div>
+                    <div class="r-desc text-truncate">{{preview_desc}}</div>
+                  </div>
+                </div>
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">{{preview_title}}</div>
+                    <div class="r-desc text-truncate">{{preview_desc}}</div>
+                  </div>
+                </div>
+                <div class="result-card">
+                  <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                  <div class="content-sec">
+                    <div class="r-title text-truncate">{{preview_title}}</div>
+                    <div class="r-desc text-truncate">{{preview_desc}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid View -->
+            <div class="result-right-sec with-image image-tmplate-type-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'Grid'">
+              <div class="with-image-grid-view">
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+                <div class="result-card">
+                  <div class="d-flex align-items-center">
+                    <div class="img-block"><img src="assets/icons/search-interface/dummy-img.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>                    
+                    </div>
+                  </div>
+                  <div class="r-desc">{{preview_desc}}</div>
+                </div>
+              </div>
+            </div>        
+
+            <!-- Preview For Title with Image ClickAble-->
+            <div class="result-right-sec with-accordion-state with_image_tile " *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 1'">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">{{preview_desc}}</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state with_image_tile img-acc-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 2'">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse01">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse01" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">{{preview_desc}}</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse110">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse110" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">{{preview_desc}}</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title mt-3">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+            <div class="result-right-sec with-accordion-state with_image_tile img-acc-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithImage' && !customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'List Template 3'">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="template-3-box-shadow">
+                  <div class="card-acc">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapse1111">
+                        <div class="r-title text-truncate">{{preview_title}}</div>
+                        <div class="r-desc text-truncate">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                    <div id="collapse1111" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                          <div class="with-image-tile">
+                            <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                            <div class="r-desc">{{preview_desc}}</div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-acc">
+                    <div class="card_header">
+                      <div class="card_link collapsed" data-toggle="collapse" href="#collapse1112">
+                        <div class="r-title text-truncate">{{preview_title}}</div>
+                        <div class="r-desc text-truncate">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                    <div id="collapse1112" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                          <div class="with-image-tile">
+                            <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                            <div class="r-desc">{{preview_desc}}</div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>              
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse22">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse22" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+          <!-- Tile with Image End -->
+         
+          <!-- Tile with Centered Content -->
+            <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable && !(customizeTemplateObj.template.type == 'Grid')">             
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}.</div>
+                </div>
+              </div>
+              <div class="result-card">
+                <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                <div class="content-sec">
+                  <div class="r-title text-truncate">{{preview_title}}</div>
+                  <div class="r-desc text-truncate">{{preview_desc}}.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid View -->
+            <div class="result-right-sec with-centered-content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && customizeTemplateObj.template.searchResultlayout.clickable && customizeTemplateObj.template.type == 'Grid'">             
+                <div class="grid-view-centered-content">
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
+                  <div class="result-card">
+                    <div class="img-block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                    <div class="content-sec">
+                      <div class="r-title">{{preview_title}}</div>
+                      <div class="r-desc">{{preview_desc}}.</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Preview For Title with Centered Content Clickable-->            
+            <div class="result-right-sec with-accordion-state tile_with_centered_content" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithCenteredContent' && !customizeTemplateObj.template.searchResultlayout.clickable">             
+              <div id="accordion">
+                <div class="info-title">Collapsed state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse1">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse1" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="with-image-tile">
+                          <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                          <div class="r-desc">{{preview_desc}}</div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="info-title">Expanded state</div>
+                <div class="card-acc">
+                  <div class="card_header">
+                    <div class="card_link" data-toggle="collapse" href="#collapse2">
+                      <div class="r-title text-truncate">{{preview_title}}</div>
+                      <div class="r-desc text-truncate">{{preview_desc}}</div>
+                    </div>
+                  </div>
+                  <div id="collapse2" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="with-image-tile">
+                        <div class="img_block"><img src="assets/icons/search-interface/image_dummy_large.svg"></div>
+                        <div class="r-desc">{{preview_desc}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>               
+              </div>               
+            </div>
+
+          <!-- Tile with Centered Content End -->
+
+
+          <!-- Tile with Header -->
+
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'List Template 1'">
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>           
+            </div>
+
+            <div class="result-right-sec list-template-2" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'List Template 2'">
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>
+              <div class="result-card">
+                <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+              </div>             
+            </div>
+
+            <div class="result-right-sec list-template-3" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'List Template 3'">
+              <div class="list-template_3_parent">
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title text-truncate m-0">{{preview_title}}</div>                 
+                </div>
+              </div>              
+            </div>
+
+            <!-- Grid View -->
+            <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Grid'">
+              <div class="list_gridview_template">
+                <div class="result-card">
+                  <div class="r-title m-0">{{preview_title}}</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title m-0">{{preview_title}}</div>                 
+                </div>
+                <div class="result-card">
+                  <div class="r-title m-0">{{preview_title}}</div>                  
+                </div>
+                <div class="result-card">
+                  <div class="r-title m-0">{{preview_title}}</div>                  
+                </div>
+              </div>              
+            </div>
+            
+          <!-- Tile with Header End -->
+          </div>
+        </perfect-scrollbar>
+
+      </div>
+    </div>
+ 
+  </div>
+</perfect-scrollbar>
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" (click)="saveTemplate()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closeCustomModal()">Cancel</button>
+  </div>
+</kr-modal> 
+
+<kr-modal modalType="center" #previewModal id="sourceSlider" modalClass="modal_popups_ search-interface-modal">
+  <div class="modal-header">
+    <div class="title">Preview Template</div>
+    <div class="close_icon" (click)="closePreviewModal()"><img src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
+
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+      <button class="kr-sg-button-primary btn_lg" (click)="closePreviewModal()">Save</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="closePreviewModal()">Cancel</button>
+  </div>
+</kr-modal> 
