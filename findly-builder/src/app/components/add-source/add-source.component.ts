@@ -558,6 +558,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
+    
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic"
       this.importFaq();
