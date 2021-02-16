@@ -1234,6 +1234,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
      this.dock.trigger()
      
+     
 
       },
        errRes => {
@@ -1243,6 +1244,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
           this.notificationService.notify('Failed ', 'error');
         }
     
+    });
+    this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
+
     });
   }
   duration(duration){
