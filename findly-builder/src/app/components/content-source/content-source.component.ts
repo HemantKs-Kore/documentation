@@ -17,6 +17,7 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
+
 @Component({
   selector: 'app-content-source',
   templateUrl: './content-source.component.html',
@@ -1231,27 +1232,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   recrwal(from, record, event) {
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      sourceId: record._id,
-      sourceType: record.type,
-    };
-    this.service.invoke('recrwal', quaryparms).subscribe(res => {
-      this.getSourceList();
-      this.notificationService.notify('Recrwaled successfully','success');
-      this.closeStatusModal();
-      //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
+      if (event) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
       }
-    });
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        sourceId: record._id,
+        sourceType: record.type,
+      };
+      this.service.invoke('recrwal', quaryparms).subscribe(res => {
+        this.getSourceList();
+        this.notificationService.notify('Recrwaled successfully','success');
+        this.closeStatusModal();
+        //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
   }
   urlCondition(condition, type) {
     type == 'allow' ? this.urlConditionAllow = condition : this.urlConditionBlock = condition;
