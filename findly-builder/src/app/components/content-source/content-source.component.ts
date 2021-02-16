@@ -1242,7 +1242,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('recrwal', quaryparms).subscribe(res => {
       this.getSourceList();
-      this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
+      this.notificationService.notify('Recrwaled successfully','success');
+      this.closeStatusModal();
+      //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1471,7 +1473,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     },
       (err) => {
         console.log(err);
-        this.notificationService.notify('Bot linking, unsuccessful', 'error');
+        this.notificationService.notify('Failed to crawl', 'error');
       }
     )
   }

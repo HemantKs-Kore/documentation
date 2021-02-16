@@ -656,7 +656,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log("new resd", res)
           //this.openStatusModal();
           this.addSourceModalPopRef.close();
-          this.confirmCrawl();
+          if (this.selectedSourceType.sourceType === 'content') {
+            this.confirmCrawl();
+          }
           //this.poling(res._id, 'scheduler');
           this.crwal_jobId = res._id
         }, errRes => {
@@ -1096,10 +1098,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(result => {
         if (result === 'yes') {
           dialogRef.close();
+          //this.openStatusModal();
           this.jobOndemand();
           this.poling(this.crwal_jobId, 'scheduler')
         } else if (result === 'no') {
           dialogRef.close();
+          this.closeStatusModal();
         }
       })
   }
@@ -1117,7 +1121,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     },
       (err) => {
         console.log(err);
-        this.notificationService.notify('Bot linking, unsuccessful', 'error');
+        this.notificationService.notify('Failed', 'error');
       }
     )
   }
