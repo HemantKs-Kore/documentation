@@ -4,7 +4,7 @@
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
     <div class="header-sec col-12 row m-0" *ngIf="collectedRecord.length===0 && !nextPage">
-        <div class="col-4 p-0">Result Ranking</div>
+        <div class="col-4 p-0">Result Ranking</div>     
         </div>
     <ng-container *ngIf="collectedRecord.length===0 && !nextPage">
         <perfect-scrollbar class="empty-scroll">
@@ -15,7 +15,7 @@
               <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
               </div>
               <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-                <button class="kr-sg-button-primary" (click)="nextPage=true">Let's Start</button>                                                
+                <button class="kr-sg-button-primary btn_lg px-2" (click)="nextPage=true">Let's Start</button>                                                
               </div>
           </ng-container>
           </div>

@@ -450,13 +450,13 @@
                       {{ map.model ? map.model : "Choose Model" }}
                     </button>
                     <ul class="dropdown-menu content-menu">
-                      <li (click)="map.model = 'Universal Sentence Encoder'">
+                      <li (click)="map.model = 'Universal Sentence Encoder'" ngbTooltip="Universal Sentence Encoder" placement="top-left">
                         <a>Universal Sentence Encoder</a>
                       </li>
-                      <li (click)="map.model = 'Sentence Transformers'">
+                      <li (click)="map.model = 'Sentence Transformers'" ngbTooltip="Sentence Transformers" placement="top-left">
                         <a>Sentence Transformers</a>
                       </li>
-                      <li (click)="map.model = 'InferSent'">
+                      <li (click)="map.model = 'InferSent'" ngbTooltip="InferSent" placement="top-left">
                         <a>InferSent</a>
                       </li>
                     </ul>
@@ -469,7 +469,7 @@
                       {{ map.model ? map.model : "Choose Model" }}
                     </button>
                     <ul class="dropdown-menu content-menu">
-                      <li (click)="map.model = 'topic_rank'">
+                      <li (click)="map.model = 'topic_rank'" >
                         <a>Topic Rank</a>
                       </li>
                       <li (click)="map.model = 'position_rank'">
