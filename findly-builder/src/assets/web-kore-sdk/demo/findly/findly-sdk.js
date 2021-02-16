@@ -6537,9 +6537,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.registerTemplateConfig(mockData.settings, _self.customConfig);
       });
       // For now calling direct SearchResults.
-      setTimeout(function () {
-        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
-      }, 2000);
+      // setTimeout(function () {
+      //   _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
+      // }, 2000);
       window.koreWidgetSDKInstance = _self;
       if (!_self.customSearchResult) {
         _self.addSourceType({
