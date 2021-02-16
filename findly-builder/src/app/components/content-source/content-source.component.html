@@ -926,7 +926,7 @@
                               <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
                                 <div class="log-details" *ngIf="statlog.stageName">
                                   <img *ngIf="statlog.stageName == 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/failed-circle.svg">
-                                  <img *ngIf="statlog.stageStatus == 'failed'" src="assets/icons/content/ex-stopped.svg">
+                                  <img *ngIf="statlog.stageName != 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/ex-stopped.svg">
                                   <img *ngIf="statlog.stageStatus != 'failed'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
                                   <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
                                     <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.stageName != 'crawling'">( {{ statlog.timeTaken }} )</span>
