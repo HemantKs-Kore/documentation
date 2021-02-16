@@ -88,7 +88,7 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"> -->
@@ -98,7 +98,7 @@
               </span>
             SOURCE TITLE
           </div>
-          <div class="col_ col-1 d-flex align-items-center pr-0" (click)="sortBy('type')"><span
+          <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortBy('type')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
               <span class="d-flex align-items-center flex-column mr-1">
                 <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -177,8 +177,8 @@
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
-              <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
-              <div class="col_ col-1 pr-0">
+              <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
+              <div class="col_ col-2 pr-0">
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
@@ -271,7 +271,7 @@
             (click)="openStatusSlider(source)">
               <div class="card_sec">
                 <div class="titles-sec">
-                  <span class="name">{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}">
+                  <span class="name text-truncate">{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}">
                     {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
                 </div>
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
