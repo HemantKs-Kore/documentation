@@ -58,7 +58,7 @@
         </div>
         <div class="message-success text-center"
           *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed'))">
-          {{(statusObject.validation.urlValidation && statusObject.validation.validated)?'Successfully Configured':'Configuration In Progress'}}
+          {{(statusObject.validation.urlValidation && statusObject.validation.validated)?'Successfully Configured':'Validation In Progress'}}
         </div>
         <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
           Source added Successfully
@@ -108,10 +108,12 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-        (click)="stopCrwaling()">Cancel Extraction</button>
+        <!-- <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        (click)="stopCrwaling()">Cancel Extraction</button> -->
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
+          <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+          (click)="stopCrwaling()">Cancel Crawling</button>
          </div>
     </div>
   </div>

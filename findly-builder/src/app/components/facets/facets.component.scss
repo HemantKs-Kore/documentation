@@ -255,14 +255,14 @@
           }
         }
         .title {
-          padding-left: 28px;
+          padding-left: 31px;
         }
       }
       &.actions {
         text-align: right;
         display: none;
         img {
-          margin-left: 25px;
+          margin-right: 20px;
           cursor: pointer;
         }
       }
@@ -663,4 +663,9 @@
   &.adjust-checkbox-padding {
     padding-left: 40px !important;
   }
+}
+
+
+.pl-pr-17{
+  padding: 0 17px;
 }

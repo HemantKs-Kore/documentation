@@ -18,7 +18,7 @@
             <img class="mr-3" src="assets/icons/clock.svg">
         </div>
     </div>
-    <div class="search-input-block d-inline">
+    <div class="search-input-block col-12 mb-3 justify-content-end ">
         <!-- <div class="kr-sg-input-search">                               
             <input type="text" placeholder="Search" class="input-search pl-4" [(ngModel)]="searchfacet">
             <img src="assets/icons/search_gray.svg" class="search-icon">
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 content d-flex">
+            <div class="col-3 content d-flex">
                 <span class="d-flex align-items-center flex-column mr-1" (click)="sortBy('status')">
                     <img [ngClass]="getSortIconVisibility('status', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                     <img [ngClass]="getSortIconVisibility('status', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 content"></div>
+            <div class="col-1 content p-0"></div>
         </div>
         <perfect-scrollbar class="scroll_table">   
             <div class="empty-list"  *ngIf="!(facets && facets.length)">
@@ -166,11 +166,11 @@
                             <img class="pr-1" *ngIf="facet.showFieldWarning && (facet.showFieldWarning !== 'false')"   src="assets/icons/info-blue.svg"  placement="left" [tooltipClass]="'whiteTooltip'" container="body"  ngbTooltip='{{fieldWarnings[facet.showFieldWarning] || facet.showFieldWarning}}'>
                         {{facet.facetName}}</div>
                     </div>
-                    <div class="col-2 content">{{facet.facetType | translate}}</div>
-                    <div class="col-2 content">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
-                    <div class="col-2 content"> 
+                    <div class="col-2 content pl-pr-17">{{facet.facetType | translate}}</div>
+                    <div class="col-2 content pl-pr-17">{{facet.isMultiSelect?'Yes':'No' | translate}}</div>
+                    <div class="col-3 content pl-pr-17"> 
                         <span [class.inActive]="!facet.isFacetActive"  [class.active]="facet.isFacetActive">{{(facet.isFacetActive?'facets.active':'facets.inactive') | translate}}</span></div>
-                    <div class="col-2 content actions">
+                    <div class="col-1 p-0 content actions">
                         <img id='btn_edit_facet_tab' class="action_icon" [container]="'body'" ngbTooltip='Edit' (click)="editFacetModal(facet)" src="assets/images/edit-pencil.svg">
                         <img id='btn_delete_facet_tab' class="action_icon" ngbTooltip='Delete' [container]="'body'" (click)="deleteFacets(facet)" src="assets/icons/delete-table.svg">
                     </div>

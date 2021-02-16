@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ThrowStmt } from '@angular/compiler';
 import { RangySelectionService } from '../annotool/services/rangy-selection.service';
 import { DockStatusService } from '../../services/dock.status.service';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-add-source',
@@ -276,6 +277,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   poling(jobId, schedule?) {
+    console.log("poling jobId", jobId, schedule, this.selectedSourceType.sourceType)
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -285,6 +287,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
+        console.log("job status every time happen", res)
         this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
           return (source._id === jobId);
@@ -333,6 +336,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   openStatusModal() {
+    console.log("status popup opened");
     this.closeAddManualFAQModal();
     this.closeAddSourceModal();
     if (this.resourceIDToOpen) {
@@ -647,10 +651,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
+      console.log("payload now", payload, endPoint, schdVal);
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          this.openStatusModal();
-          this.poling(res._id, 'scheduler');
+          console.log("new resd", res)
+          //this.openStatusModal();
+          this.addSourceModalPopRef.close();
+          this.confirmCrawl();
+          //this.poling(res._id, 'scheduler');
           this.crwal_jobId = res._id
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -1072,7 +1080,48 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
   }
+  //popup for crawling confirmation
+  confirmCrawl() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '650px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Configuration has been successfully saved',
+        body: 'Do you wish to initiate crawling now?',
+        buttons: [{ key: 'yes', label: 'Crawl', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          dialogRef.close();
+          this.jobOndemand();
+          this.poling(this.crwal_jobId, 'scheduler')
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  //crawl job ondemand
+  jobOndemand() {
+    const queryParams: any = {
+      searchIndexID: this.searchIndexId,
+      sourceId: this.crwal_jobId
+    };
+    this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
+      console.log(res);
 
+      this.openStatusModal();
+      //this.notificationService.notify('Bot linked, successfully', 'success');
+    },
+      (err) => {
+        console.log(err);
+        this.notificationService.notify('Bot linking, unsuccessful', 'error');
+      }
+    )
+  }
 }
 
 
