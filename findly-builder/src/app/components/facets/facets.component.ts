@@ -23,6 +23,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   serachIndexId;
   fieldDataType ='number';
   filedTypeShow = false;
+  selectedFieldId:any;
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
@@ -251,6 +252,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
         if(element._id === data.fieldId){
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
+          this.selectedFieldId = element._id;
           this.selectField(element);
           this.openModal();
         }
@@ -417,6 +419,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.facets.push(res);
       this.closeModal();
       this.addEditFacetObj = null;
+      this.selectedFieldId = null;
     }, errRes => {
       this.errorToaster(errRes,'Failed to create facet');
     });
@@ -437,6 +440,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
+      this.selectedFieldId = null;
     }, errRes => {
       this.errorToaster(errRes,'Failed to update facet');
     });
@@ -544,6 +548,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
     this.resetDefaults();
     this.addEditFacetObj = null;
+    this.selectedFieldId = null;
   }
   toggleSearch() {
     if (this.showSearch && this.searchfacet) {
