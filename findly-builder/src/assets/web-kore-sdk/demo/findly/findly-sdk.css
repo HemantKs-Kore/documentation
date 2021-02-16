@@ -11800,6 +11800,7 @@ padding-right: 0;
     padding: 0;
     text-align: center;
     margin-bottom: 8px;
+    text-decoration: none;
 }
 .tile-with-centered-content-parent .tile-with-centered-content .img-block {
     background: #FFFFFF;
@@ -12215,4 +12216,17 @@ padding-right: 0;
 
 .structured-data-full-search-container .customizeEnabled .indicator-div{
     top : 33%;
+}
+
+.tile-with-text.faqs-wrp-content.structured-data-wrp-content {
+    text-decoration: none;
+    color: #161928;
+}
+
+.structured-data-header{
+    display: flex;
+}
+.structured-data-header .search-heads.show-all{
+    text-align: right;
+    cursor: pointer;
 }
