@@ -476,7 +476,7 @@ export class TraitsComponent implements OnInit {
   addTraits(traitName, event) {
     const traits = [];
     if (event && event.keyCode === 13) {
-      if (!traitName || traitName === '') {
+      if (!traitName || traitName.trim() === '') {
         return false;
       }
       if (this.checkForSecialChar(traitName, false, 'traits')) {
