@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div (click)="openStatusModal()" class="title" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
-                <div class="clock"><img src="assets/icons/clock.svg"></div>
+                <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
                 <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length)">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/export-top.svg"></button>                                            
@@ -142,7 +142,7 @@
                                                     <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
-                                            <div class="follow_up" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
+                                            <div class="follow_up d-none" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
                                         </div>
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">

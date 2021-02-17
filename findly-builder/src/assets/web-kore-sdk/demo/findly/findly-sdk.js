@@ -4843,11 +4843,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var url = _self.API.searchUrl;//'https://qa-bots.kore.ai/searchAssistant/liveSearch';
       var searchData;
-      _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-        console.log('frequently searched results message event observed');
-        console.log(res);
-        _self.handleSearchRes(res);
-      });
+      if(!botAction){
+        _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+          console.log('frequently searched results message event observed');
+          console.log(res);
+          _self.handleSearchRes(res);
+        });
+      }
     }
     FindlySDK.prototype.handleSearchRes = function (res) {
       var _self = this;
