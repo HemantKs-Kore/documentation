@@ -129,6 +129,8 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
     this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
     this.clickableDisabled = false;
+    this.preview_title = "Field Mapped for heading will appear here"
+    this.preview_desc ="Field mapped for Description will appear here";
   }
   getSettings(interfaceType){
     const quaryparms: any = {
