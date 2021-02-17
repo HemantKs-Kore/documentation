@@ -25,6 +25,8 @@ export class CredentialsListComponent implements OnInit {
   editCredential:any= {};
   listData: any;
   configuredBot_streamId = '';
+  searchcredential=''
+  showSearch;
   botID = '';
   data;
   isAlertsEnabled: boolean;
@@ -280,6 +282,15 @@ deleteCredential(data){
       }
     })
 };
+toggleSearch(){
+  
+    if (this.showSearch && this.searchcredential) {
+      this.searchcredential = '';
+    }
+    this.showSearch = !this.showSearch
+
+
+}
 
 }
 // getLinkedBot() {
