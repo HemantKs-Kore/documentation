@@ -9,8 +9,10 @@ import { AuthService } from '@kore.services/auth.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 @Injectable()
 export class AppSelectionService {
-  queryList: any = []
+  queryList: any = [];
+  indexList: any = []
   public queryConfigs = new Subject<any>();
+  public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public resumingApp = false;
@@ -22,7 +24,37 @@ export class AppSelectionService {
     private authService: AuthService,
     public localstore: LocalStoreService,
   ) { }
-
+  public getIndexPipelineIds(setindex?): ReplaySubject<any> {
+    const payload = {
+      searchIndexId: this.workflowService.selectedSearchIndex()
+    };
+    const appObserver = this.service.invoke('get.indexPipeline', payload);
+    const subject = new ReplaySubject(1);
+    subject.subscribe(res  => {
+      this.indexList = res || [];
+      if (this.queryList) {
+        //this.workflowService.appQueryPipelines(res);
+        let indexPipeline: any = [];
+        if (setindex && setindex._id) {
+          indexPipeline = _.filter(res, (pipeLine) => {
+            return (pipeLine._id === setindex._id);
+          })
+        }
+        if (indexPipeline && indexPipeline.length) {
+          this.selectIndexConfig(setindex);
+        } else if (this.indexList.length) {
+          this.selectIndexConfig(res[0]);
+        } else {
+          this.selectIndexConfig({});
+        }
+        this.appSelectedConfigs.next(res);
+      }
+    }, errRes => {
+     // this.queryList = null;
+    });
+    appObserver.subscribe(subject);
+    return subject;
+  }
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex()
@@ -82,6 +114,10 @@ export class AppSelectionService {
       window.localStorage.removeItem('krPreviousState');
     }
   }
+  selectIndexConfig(config){
+    this.workflowService.selectedIndexPipeline(config._id)
+    console.log(config._id)
+  }
   selectQueryConfig(config) {
     this.workflowService.selectedQueryPipeline(config);
     const previousState = this.getPreviousState();
@@ -111,11 +147,12 @@ export class AppSelectionService {
     this.headerService.toggle(toogleObj);
   }
   setAppWorkFlowData(app, queryPipeline?) {
-    //this.getStreamData(app);
+    // this.getStreamData(app);
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
     this.getQureryPipelineIds(queryPipeline);
+    this.getIndexPipelineIds();
   }
   getStreamData(app) {
     const queryParams = {

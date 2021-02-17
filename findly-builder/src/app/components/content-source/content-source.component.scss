@@ -1161,6 +1161,9 @@
                 }        
                 .titles-sec{
                     margin-bottom: 19px;
+                    padding-right: 40px;
+                    display: flex;
+                    align-items: center;
                     .name{
                         color: #202124;
                         font-weight: 500;
@@ -1168,6 +1171,8 @@
                         line-height: 19px;
                         padding-right: 6px;
                         border-right: 2px solid #BDC1C6;
+                        display: inline-block;
+                        max-width: 70%;
                     }
                     .type-data{
                         color: #0D6EFD;

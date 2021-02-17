@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { Subscription } from 'rxjs';
 declare const $: any;
 
 @Component({
@@ -20,16 +22,28 @@ export class AddResultComponent implements OnInit {
   searchTxt = '';
   contentTypeAny = '';
   loadingContent = false;
+  subscription: Subscription;
   @Input() query : any;
   @Input() addNew;
   @Output() closeResult = new EventEmitter();
   constructor(public workflowService: WorkflowService,
     public notificationService: NotificationService,
+    private appSelectionService:AppSelectionService,
     private service: ServiceInvokerService) { }
 
   ngOnInit(): void {
-    this.appDetails();
+    //this.appDetails();
     this.searchType = this.searchRadioType;
+    this.results();
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
+      this.results();
+    })
+  }
+  results(){
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+    if(this.queryPipelineId){
+      this.appDetails();
+    }
   }
   appDetails(){
     this.selectedApp = this.workflowService.selectedApp();

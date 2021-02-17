@@ -42,6 +42,12 @@
     botOptionsFindly.clientSecret = "wJ2Gu/nL54XJmT4dNIc3X74jsXuEoxl78SQFA4aoa3I=";
     botOptionsFindly.searchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83';*/
 
+    // APP BOT
+    botOptionsFindly.botInfo = { chatBot: "Dec_28", "taskBotId": "st-df349c43-cf62-5830-afdb-cfccca5cb140" }; // bot name is case sensitive
+    botOptionsFindly.clientId = "cs-a347ca42-5806-5b8b-9abe-21ff270d37d7";
+    botOptionsFindly.clientSecret = "gKcxfWMzLjn/azqb6H93PzIyEhD7nU0tJ36N8fgSbTQ=";
+    botOptionsFindly.searchIndexID = 'sidx-687fcd01-bd24-5de3-bdba-3ee58f7e8cfd';
+    
     // PILOT Bot
     /*botOptionsFindly.botInfo = { chatBot: "Future Bank Copy", "taskBotId": "st-c877d8bd-8383-5472-ab69-8410ac17cd4d" };
     botOptionsFindly.clientId = "cs-b63967bb-0599-5ec2-8e84-8af15028f86f";

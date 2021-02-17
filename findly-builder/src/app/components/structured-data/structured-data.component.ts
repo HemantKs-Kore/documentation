@@ -60,6 +60,24 @@ export class StructuredDataComponent implements OnInit {
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
   appliedAdvancedSearch : any = {};
+  advancedSearchOperators = [
+    {
+      "name" : "Exists",
+      "value" : "exists"
+    },
+    {
+      "name" : "Does Not Exist",
+      "value" : "notexists"
+    },
+    {
+      "name" : "Equals to",
+      "value" : "equals"
+    },
+    {
+      "name" : "Not Equals to",
+      "value" : "notequals"
+    }
+  ];
   isLoading : boolean = false;
   structuredDataStatusModalRef : any;
   structuredDataDocPayload : any;
@@ -293,6 +311,16 @@ export class StructuredDataComponent implements OnInit {
         this.advancedSearch.rules[index].type = 'value';
       }
     }
+  }
+
+  getOperatorName(key){
+    let name;
+    this.advancedSearchOperators.forEach((operator) => {
+      if(operator.value === key){
+        name = operator.name;
+      }
+    });
+    return (name ? name : key);
   }
 
   cancleAdvansedSearch(){
