@@ -28,6 +28,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
   loadingContent = true;
   addEditFacetObj:any = null;
   showSearch;
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   // serachTraits: any = '';
   searchfacet:any = '';
   facetDefaultValueObj:any = {
