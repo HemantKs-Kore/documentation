@@ -54,7 +54,7 @@
               <div class="label-desc">Choose whether to apply the same configurations as per Search tab.</div>
             </div>
             <label class="kr-sg-toggle">                                       
-              <input type="checkbox"  >
+              <input type="checkbox" (change)= "selectedSettingResultsObj.referInterface = ''" [checked] = "selectedSettingResultsObj.referInterface == 'search'">
               <div class="slider"><span class="enabled">Yes</span><span class="disabled w-400">No, i will Configure this separately</span></div>
             </label>  
           </div>

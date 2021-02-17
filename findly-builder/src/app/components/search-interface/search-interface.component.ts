@@ -417,7 +417,11 @@ export class SearchInterfaceComponent implements OnInit {
           //       }
           //   ],  
    }
-  
+   if(this.selectedSettingResultsObj.referInterface == 'search'){
+    payload['referInterface'] = 'search';
+   }else{
+     delete payload['referInterface']; 
+   }
     this.service.invoke('put.SI_saveResultSettings', queryparams , payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
@@ -524,6 +528,7 @@ class selectedSettingResults{
     isEnabled : false
   }
   interface= "search"
+  referInterface = ""
   appearance= [
       {
           "type": "action",
