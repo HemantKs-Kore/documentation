@@ -26,7 +26,7 @@
       <ng-template #cancel>
         {{item.label}} 
      </ng-template>
-     <span *ngIf="item.label=='Delete'|| item.label=='OK'; else cancel"> Delete</span>      
+     <span *ngIf="item.label=='Delete'|| item.label=='OK'; else cancel">{{item.label}}</span>      
       <div class="loader-in-button ml-2"*ngIf="item.key === 'save' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>
     </button>
   </div>

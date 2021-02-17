@@ -1,4 +1,4 @@
-import { ElementRef, OnDestroy, ViewChild,QueryList, ViewChildren } from '@angular/core';
+import { ElementRef, OnDestroy, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -31,7 +31,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   indexPipelineId;
   currentEditInex;
   rules = [];
-  currentSugg:any = [];
+  currentSugg: any = [];
   selectedSort;
   isAsc;
   loadingContent = true;
@@ -44,14 +44,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   searchRules = '';
   conditions = {
     string: ['contains', 'doesNotContain', 'equals', 'notEquals'],
-    date: ['equals', 'between', 'greaterThan','lessThan'],
-    number: ['equals', 'between', 'greaterThan','lessThan'],
-    trait:['contains', 'doesNotContain', 'equals', 'notEquals'],
-    entity:['contains', 'doesNotContain', 'equals', 'notEquals'],
-    keyword:['contains', 'doesNotContain', 'equals', 'notEquals']
+    date: ['equals', 'between', 'greaterThan', 'lessThan'],
+    number: ['equals', 'between', 'greaterThan', 'lessThan'],
+    trait: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    entity: ['contains', 'doesNotContain', 'equals', 'notEquals'],
+    keyword: ['contains', 'doesNotContain', 'equals', 'notEquals']
   }
   datePlaceHolders = {
-    equals:''
+    equals: ''
   }
   ruleOptions = {
     searchContext: ['recentSearches', 'currentSearch', 'traits', 'entity', 'keywords'],
@@ -59,13 +59,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     pageContext: ['device', 'browser', 'currentPage', 'recentPages'],
     userContext: ['userType', 'userProfile', 'age', 'sex'],
     contextTypes: ['searchContext', 'pageContext', 'userContext'],
-    dataTypes:['string','date','number','trait', 'entity', 'keyword'],
+    dataTypes: ['string', 'date', 'number', 'trait', 'entity', 'keyword'],
     actions: ['boost', 'lower', 'hide', 'filter']
   }
   tagsArray: any = []
   defaultValuesObj: any = {
     contextType: 'searchContext',
-    dataType:'string',
+    dataType: 'string',
     operator: 'contains',
     contextCategory: 'recentSearches',
     value: []
@@ -76,7 +76,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     fieldId: '',
     outcomeOperator: 'contains',
     outcomeType: 'boost',
-    outcomeValueType:'static',
+    outcomeValueType: 'static',
     outcomeValue: [],
     scale: 3,
   }
@@ -96,16 +96,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     NOT_EXISTS: 'Associated field has been deleted'
   }
   private contextSuggestedImput: ElementRef;
-  autoSuggestInputItems:any;
+  autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
-    if(content) {
-        this.contextSuggestedImput = content;
+    if (content) {
+      this.contextSuggestedImput = content;
     }
   }
   @ViewChildren('contextSuggestedImput') set queries(queries: ElementRef) {
-    if(queries) {
-        this.autoSuggestInputItems = queries;
+    if (queries) {
+      this.autoSuggestInputItems = queries;
     }
   }
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -203,7 +203,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           contextCategory: rule.contextCategory,
           contextType: rule.contextType,
           operator: rule.operator,
-          dataType:rule.dataType,
+          dataType: rule.dataType,
           value: rule.value,
         }
         _verifiedRules.push(tempObj);
@@ -220,9 +220,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           scale: outcome.scale,
           fieldName: outcome.fieldName,
           fieldId: outcome.fieldId,
-          fieldDataType:outcome.fieldDataType,
+          fieldDataType: outcome.fieldDataType,
           outcomeOperator: outcome.outcomeOperator,
-          outcomeValueType:outcome.outcomeValueType,
+          outcomeValueType: outcome.outcomeValueType,
           outcomeValue: outcome.outcomeValue
         }
         _verifiedRules.push(tempObj);
@@ -239,76 +239,76 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   removeTag(tags, index) {
     tags.splice(index, 1);
   }
-  openDateTimePicker(ruleObj,index){
-    setTimeout(()=>{
-      if(ruleObj && ruleObj.operator === 'between'){
+  openDateTimePicker(ruleObj, index) {
+    setTimeout(() => {
+      if (ruleObj && ruleObj.operator === 'between') {
         $('#rangePicker_' + index).click();
       } else {
         $('#datePicker_' + index).click();
       }
     })
   }
-  onDatesUpdated(event,ruleObj){
-    if (!ruleObj.value){
+  onDatesUpdated(event, ruleObj) {
+    if (!ruleObj.value) {
       ruleObj.value = [];
     }
-    if(ruleObj && ruleObj.operator === 'between'){
-      if(event.startDate && event.endDate){
+    if (ruleObj && ruleObj.operator === 'between') {
+      if (event.startDate && event.endDate) {
         moment.utc();
-        const date= [];
-        const startDate  = moment.utc(event.startDate).format();
-        const endDate  = moment.utc(event.endDate).format();
+        const date = [];
+        const startDate = moment.utc(event.startDate).format();
+        const endDate = moment.utc(event.endDate).format();
         date.push(startDate);
         date.push(endDate)
         ruleObj.value.push(date)
       }
     } else {
-      if(event.startDate){
-        const date  = moment.utc(event.startDate).format();
+      if (event.startDate) {
+        const date = moment.utc(event.startDate).format();
         ruleObj.value.push(date)
       }
     }
   }
-  buildCurrentContextSuggetions(ruleObj){
+  buildCurrentContextSuggetions(ruleObj) {
     const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
     const mainContext = _ruleOptions.contextTypes;
-    if($('.mat_autofocus_dropdown').length){
-      if(ruleObj.outcomeValueType == 'static' || (ruleObj.outcomeValueType == 'dynamic' && ruleObj.newValue && (ruleObj.newValue.search(/\./)!==-1))){
-        if($('.mat_autofocus_dropdown')[0]){
+    if ($('.mat_autofocus_dropdown').length) {
+      if (ruleObj.outcomeValueType == 'static' || (ruleObj.outcomeValueType == 'dynamic' && ruleObj.newValue && (ruleObj.newValue.search(/\./) !== -1))) {
+        if ($('.mat_autofocus_dropdown')[0]) {
           $('.mat_autofocus_dropdown')[0].style.display = 'none';
         }
-      }else{
-        if($('.mat_autofocus_dropdown')[0]){
-        $('.mat_autofocus_dropdown')[0].style.display = 'block';
+      } else {
+        if ($('.mat_autofocus_dropdown')[0]) {
+          $('.mat_autofocus_dropdown')[0].style.display = 'block';
         }
       }
     }
     this.currentSugg = [];
-    if(ruleObj && ruleObj.newValue){
+    if (ruleObj && ruleObj.newValue) {
       const selectedContextSelections = ruleObj.newValue.split('.');
-      if(selectedContextSelections && selectedContextSelections.length) {
+      if (selectedContextSelections && selectedContextSelections.length) {
         const selectedContext = selectedContextSelections[0];
-        if(selectedContext && _ruleOptions[selectedContext]){
-          if(selectedContextSelections.length === 3){
+        if (selectedContext && _ruleOptions[selectedContext]) {
+          if (selectedContextSelections.length === 3) {
             this.currentSugg = [];
-          } else if(selectedContextSelections.length === 2) {
-              let  filteredValues =  _ruleOptions[selectedContextSelections[0]] || [];
-              filteredValues = _ruleOptions[selectedContextSelections[0]].filter( it => {
-                if (selectedContextSelections[1]){
-                  return it.toLowerCase().includes(selectedContextSelections[1].toLowerCase());
-                } else {
-                  return true;
-                }
-              });
-           this.currentSugg = filteredValues;
-          } else if (selectedContextSelections.length === 1 &&  _ruleOptions[selectedContextSelections[0]]){
+          } else if (selectedContextSelections.length === 2) {
+            let filteredValues = _ruleOptions[selectedContextSelections[0]] || [];
+            filteredValues = _ruleOptions[selectedContextSelections[0]].filter(it => {
+              if (selectedContextSelections[1]) {
+                return it.toLowerCase().includes(selectedContextSelections[1].toLowerCase());
+              } else {
+                return true;
+              }
+            });
+            this.currentSugg = filteredValues;
+          } else if (selectedContextSelections.length === 1 && _ruleOptions[selectedContextSelections[0]]) {
             this.currentSugg = _ruleOptions[selectedContextSelections[0]];
           } else {
             this.currentSugg = [];
           }
         } else {
-          const filteredValues = mainContext.filter( it => {
-              return it.toLowerCase().includes(ruleObj.newValue.toLowerCase());
+          const filteredValues = mainContext.filter(it => {
+            return it.toLowerCase().includes(ruleObj.newValue.toLowerCase());
           });
           this.currentSugg = filteredValues;
         }
@@ -319,29 +319,29 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.currentSugg = mainContext;
     }
   }
-  selected(event: MatAutocompleteSelectedEvent,ruleObj ,index): void {
+  selected(event: MatAutocompleteSelectedEvent, ruleObj, index): void {
     const newSelectedValue = event.option.viewValue;
     const text = this.autoSuggestInputItems._results[index].nativeElement.value;
     // const text = this.autoSuggestInputItems._re[].nativeElement.value;
     const selectedContextValues = (text || '').split('.') || [];
     selectedContextValues.push(newSelectedValue);
-    if(selectedContextValues && selectedContextValues.length){
+    if (selectedContextValues && selectedContextValues.length) {
       let newVal = ''
       selectedContextValues.forEach(element => {
-        if(element){
-          if(newVal){
+        if (element) {
+          if (newVal) {
             newVal = newVal + '.' + element;
           } else {
             newVal = element;
           }
         }
       });
-      if(newVal.split('.').length > 1){
+      if (newVal.split('.').length > 1) {
         newVal = newVal.split('.')[1];
       }
-      this.autoSuggestInputItems._results[index].nativeElement.value = newVal+ '.';
-      ruleObj.newValue = newVal+ '.';
-      if($('.mat_autofocus_dropdown')[0]){
+      this.autoSuggestInputItems._results[index].nativeElement.value = newVal + '.';
+      ruleObj.newValue = newVal + '.';
+      if ($('.mat_autofocus_dropdown')[0]) {
         $('.mat_autofocus_dropdown')[0].style.display = 'none';
       }
     }
@@ -349,24 +349,24 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   addRules(event: MatChipInputEvent, ruleObj, i) {
     const input = event.input;
     const value = event.value;
-    if(ruleObj && ruleObj.dataType === 'number'){
-      if(ruleObj.operator == 'between'){
+    if (ruleObj && ruleObj.dataType === 'number') {
+      if (ruleObj.operator == 'between') {
         const range = value.split('-');
-        const values:any = [];
-         if(range && range.length === 2){
-           range.forEach((rang) => {
-            const numericVal = parseInt(rang.trim(),10) || 0;
+        const values: any = [];
+        if (range && range.length === 2) {
+          range.forEach((rang) => {
+            const numericVal = parseInt(rang.trim(), 10) || 0;
             values.push(numericVal);
           });
           ruleObj.value.push(values);
-         } else {
-           this.notificationService.notify('Provide range in proper format, Ex: 111-121','error')
-         }
-      }else{
-        if(value){
-          ruleObj.value.push(parseInt(value.trim(),10) || 0);
+        } else {
+          this.notificationService.notify('Provide range in proper format, Ex: 111-121', 'error')
         }
-        
+      } else {
+        if (value) {
+          ruleObj.value.push(parseInt(value.trim(), 10) || 0);
+        }
+
       }
     } else if ((value || '').trim()) {
       if (!this.checkDuplicateTags((value || '').trim(), ruleObj.value)) {
@@ -431,7 +431,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       ruleObj.operator = value;
     }
     if (key === 'dataType') {
-      if(ruleObj.dataType !== value){
+      if (ruleObj.dataType !== value) {
         ruleObj.operator = this.conditions[value][0];
         ruleObj.value = [];
       }
@@ -449,6 +449,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       outcome.outcomeValue = [];
       outcome.outcomeValueType = value;
     }
+    console.log("filter data", this.fieldAutoSuggestion)
   }
   checkUncheckfacets(rule) {
     const selectedElements = $('.selectRuleCheckBoxDiv:checkbox:checked');
@@ -484,7 +485,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
       }
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
-      if(this.selcectionObj.selectedCount === this.rules.length){
+      if (this.selcectionObj.selectedCount === this.rules.length) {
         this.selcectionObj.selectAll = true;
       }
     }
@@ -545,6 +546,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
+      console.log("fieldAutoSuggestion", res)
       this.fieldAutoSuggestion = res || [];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');

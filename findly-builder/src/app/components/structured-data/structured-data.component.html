@@ -238,12 +238,15 @@
                     </div>
                     <div class="kr-sg-dropdowns mr-10">                    
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ rule.operator ? (rule.operator) : ('structuredData.selected_operator' | translate)}}</button>                                            
-                            <ul class="dropdown-menu content-menu">                                                                     
-                                <li><a (click)="setOperator('exists', index)">{{'structuredData.exists' | translate}}</a></li>
+                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{ rule.operator ? getOperatorName(rule.operator) : ('structuredData.selected_operator' | translate)}}</button>                                            
+                            <ul class="dropdown-menu content-menu">
+                                <li *ngFor="let operator of advancedSearchOperators">
+                                    <a (click)="setOperator(operator.value, index)">{{operator.name}}</a>
+                                </li>
+                                <!-- <li><a (click)="setOperator('exists', index)">{{'structuredData.exists' | translate}}</a></li>
                                 <li><a (click)="setOperator('notexists', index)">{{'structuredData.does_not_exist' | translate}}</a></li>
                                 <li><a (click)="setOperator('equals', index)">{{'structuredData.equals_to' | translate}}</a></li>
-                                <li><a (click)="setOperator('notequals', index)">{{'structuredData.not_equals_to' | translate}}</a></li>
+                                <li><a (click)="setOperator('notequals', index)">{{'structuredData.not_equals_to' | translate}}</a></li> -->
                             </ul>
                         </div>
                     </div>

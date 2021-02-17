@@ -218,7 +218,6 @@ export class SummaryComponent implements OnInit {
         this.experiments = res.experiments;
         this.activities = res.activities;
         this.indices = res.indices;
-        console.log(this.indices)
         // this.experiments.forEach(element => {
         //   if (element.variants) {
         //     element.variants.forEach(res => {
@@ -228,7 +227,6 @@ export class SummaryComponent implements OnInit {
         //     });
         //   }
         // });
-        console.log(this.experiments)
         // this.activities.forEach(element => {
         //   element.date = moment(element.date).fromNow();
         //   console.log(this.activities)
@@ -240,8 +238,20 @@ export class SummaryComponent implements OnInit {
         //   if(res.apps.length > 0){
         //     this.channelExist = true;
         //   }
-
         // });
+        this.activities = this.activities.map(item => {
+          let hours = moment().diff(moment(item.time), 'hours');
+          let days = moment().diff(moment(item.time), 'days');
+          let result = hours > 24 ? days + ' days' : hours + ' hrs';
+          return { ...item, time_format: result };
+        })
+        this.experiments = this.experiments.map(data => {
+          let hours = moment().diff(moment(data.end), 'hours');
+          let days = moment().diff(moment(data.end), 'days');
+          console.log("hours", hours, "days", days)
+          let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days more to go' : Math.abs(hours) + ' hrs more to go';
+          return { ...data, total_days: days_result };
+        })
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -254,9 +264,18 @@ export class SummaryComponent implements OnInit {
   }
 
 
-  // viewAll(route){
-  //   this.router.navigateByUrl(route, { skipLocationChange: false });
-  // }
+  userViewAll() {
+    this.openDashboard();
+    this.router.navigateByUrl('userEngagement', { skipLocationChange: true });
+  }
+  searchViewAll() {
+    this.openDashboard();
+    this.router.navigateByUrl('searchInsights', { skipLocationChange: true });
+  }
+  resultViewAll() {
+    this.openDashboard();
+    this.router.navigateByUrl('resultInsights', { skipLocationChange: true });
+  }
   openExp() {
     $('#experimentsTab').trigger('click')
   }

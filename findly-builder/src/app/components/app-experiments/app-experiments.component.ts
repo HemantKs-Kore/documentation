@@ -343,30 +343,13 @@ export class AppExperimentsComponent implements OnInit {
       const date1: any = new Date();
       this.exp_totalRecord = res.total;
       const result = res.experiments.map(data => {
-        let date2: any = new Date(data.end);
-        let sub = Math.abs(date1 - date2) / 1000;
-        let days = Math.floor(sub / 86400);
-        let date3: any = new Date(data.start);
-        let sub1 = Math.abs(date1 - date3) / 1000;
-        let days1 = Math.floor(sub1 / 86400);
-        // const createdOn = new Date(data.createdOn);
-        // const today = moment();
-        // const days = today.diff(createdOn, 'hours');
-        const obj = Object.assign({}, data);
+        let hours = moment().diff(moment(data.end), 'hours');
+        let days = moment().diff(moment(data.end), 'days');
+        console.log("hours", hours, "days", days)
+        let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
 
-        // let endsOn: any = new Date(data.end);
-        // endsOn = moment(endsOn);
-        // const total_days = endsOn.diff(createdOn, 'hours');
-        if (days1 < 1) {
-          obj.date_days = days * 24;
-          console.log("current days", obj.name, days * 24)
-        }
-        else {
-          obj.date_days = days;
-          console.log("current days", obj.name, days)
-        }
-        obj.total_days = sub;
-        return obj;
+        let res_obj = data.variants.reduce((p, c) => p.ctr > c.ctr ? p : c);
+        return { ...data, total_days: days_result, time_result: Math.abs(hours), top_leader: res_obj.code };
       });
       this.listOfExperiments = result;
       this.filterExperiments = result;
@@ -526,14 +509,12 @@ export class AppExperimentsComponent implements OnInit {
         }
       })
       if (status === 'active') {
-        const date1: any = new Date();
         this.filterExperiments = this.filterExperiments.map(data => {
-          const date2: any = new Date(data.end);
-          const sub = Math.abs(date1 - date2) / 1000;
-          const days = Math.floor(sub / 86400);
-          const obj = Object.assign({}, data);
-          obj.date_days = days;
-          return obj;
+          let hours = moment().diff(moment(data.end), 'hours');
+          let days = moment().diff(moment(data.end), 'days');
+          console.log("hours", hours, "days", days)
+          let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
+          return { ...data, total_days: days_result, time_result: Math.abs(hours) };
         })
       }
       this.listOfExperiments = this.filterExperiments;
@@ -674,8 +655,6 @@ export class AppExperimentsComponent implements OnInit {
       const isAsc = this.isAsc;
       switch (sort) {
         case 'state': return this.compare(a.state, b.state, isAsc);
-        case 'name': return this.compare(a.name, b.name, isAsc);
-        case 'duration': return this.compare(a.start, b.start, isAsc);
         default: return 0;
       }
     });

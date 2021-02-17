@@ -192,8 +192,8 @@
             <div class="row m-0 align-items-center">                         
                 <div class="kr-sg-dropdowns col-12 p-0">                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
-                        <ul class="dropdown-menu content-menu">                                                                    
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                             
+                        <ul class="dropdown-menu content-menu dropdown_overflow">                                                                  
                           <li  (click)="selectFieldType('string')"><a>String</a></li>
                           <li  (click)="selectFieldType('number')"><a>Number</a></li>
                           <li  (click)="selectFieldType('trait')"><a>Trait</a></li>

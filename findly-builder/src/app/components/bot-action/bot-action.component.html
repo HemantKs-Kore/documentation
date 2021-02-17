@@ -9,7 +9,7 @@
         <div class="col-4 p-0">Bot Actions</div>
         <div class="col-8 right-sec p-0">
           <div *ngIf="linkedBotID" class="modal-control-text" (click)="openBotsModalElement()">View All Bots</div>
-          <div class="clock"><img src="assets/icons/clock.svg"></div>
+          <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@
           </div>
           <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
               <div class="dropdown dropdown-open">
-                <button class="kr-sg-button-primary" (click)="openBotsModalElement()"> Link a Bot</button>                                            
+                <button class="kr-sg-button-primary btn_lg px-3" (click)="openBotsModalElement()"> Link a Bot</button>                                            
               </div>
           </div>
       </ng-container>

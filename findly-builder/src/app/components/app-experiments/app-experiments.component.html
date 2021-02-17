@@ -27,11 +27,7 @@
     <perfect-scrollbar class="p-scroll-data">
       <div class="table-data-content">
         <div class="row m-0 header-data col-12"  *ngIf='filterExperiments.length>0'>
-          <div class="col-3 h-title d-flex align-items-center" (click)="sortBy('name')">
-            <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-            </span>
+          <div class="col-3 h-title d-flex align-items-center">
             Experiment Name</div>
           <div class="col-3 h-title">
             Variants</div>
@@ -58,11 +54,7 @@
               </div>
             </div>
           </div>
-          <div class="col-3 h-title d-flex align-items-center" (click)="sortBy('duration')">
-            <span class="d-flex align-items-center flex-column mr-1">
-              <img [ngClass]="getSortIconVisibility('duration', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-              <img [ngClass]="getSortIconVisibility('duration', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-            </span>
+          <div class="col-3 h-title d-flex align-items-center">  
             DURATION</div>
         </div>
         <div id="accordion">
@@ -82,9 +74,10 @@
                     </div>
                     <div class="variants-block right">
                       <span *ngFor="let vari of exp.variants; let index = index">
-                        <span class="v-name status" [style.background-color]="vari.color">{{ vari.code }}</span>
-                        <span class="winner" *ngIf="vari.leader && (index === exp.variants.length - 1)"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
-                        <span class="winner" *ngIf="vari.winner && (index === exp.variants.length - 1)">Winner</span>
+                        <span *ngIf="exp.top_leader === vari.code">
+                        <span class="v-name status" [style.background-color]="vari.color">{{ exp.top_leader }}</span>
+                        <span class="winner" *ngIf="vari.leader"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
+                        <span class="winner" *ngIf="vari.winner">Winner</span></span>
                       </span>
                     </div>
                   </div>
@@ -99,7 +92,7 @@
                       </span>
                     </div>
                   </div> -->
-                  <div class="col-2 status">
+                  <div class="col-2 status" *ngIf="exp.state !== 'configured'">
                     <span class="a-status" [ngClass]="exp.state">{{
                       exp.state | titlecase
                       }}</span>
@@ -115,10 +108,10 @@
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
-                        {{ exp.date_days}} more to go 
+                        {{ exp.total_days}} more to go 
                       </div>
                       <div class="hours">
-                        <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
+                        <ngb-progressbar type="secondary" [value]="exp.time_result" [max]="24 * exp.duration.days">
                         </ngb-progressbar>
                       </div>
                     </div>
@@ -198,7 +191,7 @@
                   <div class="row m-0 col-12 acc-row-header">
                     <div class="col-3 title">Variant</div>
                     <div class="col-2 title">SEARCH CONFIGURATION</div>
-                    <div class="col-2 title">Traffic</div>
+                    <div class="col-1 title">Traffic</div>
                     <div class="col-1 title">users</div>
                     <div class="col-1 title">Searches</div>
                     <div class="col-1 title">Clicks</div>
@@ -215,7 +208,7 @@
                     <div class="col-2 title">
                       {{ expCol.queryPipelineName | titlecase }}
                     </div>
-                    <div class="col-2 title">{{ expCol.trafficPct }}%</div>
+                    <div class="col-1 title">{{ expCol.trafficPct }}%</div>
                     <div class="col-1 title">{{ expCol.users || 0 }}</div>
                     <div class="col-1 title">{{ expCol.searches }}</div>
                     <div class="col-1 title">{{ expCol.clicks }}</div>
@@ -256,7 +249,7 @@
               <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
               </div>
               <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
-                <button class="kr-sg-button-primary" (click)="addExperiment('add')">Add Experiments</button>                                            
+                <button class="kr-sg-button-primary btn_lg px-3" (click)="addExperiment('add')">Add Experiments</button>                                            
               <!-- </div> -->
           </ng-container>
           </div>

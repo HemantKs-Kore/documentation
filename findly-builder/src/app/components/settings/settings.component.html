@@ -16,7 +16,7 @@
             <div class="clock"><img src="assets/icons/clock.svg"></div>
         </div>
     </div>
-    <div class="header-sec row m-0 col-12" *ngIf="slider!==0">
+    <div class="header-sec row m-0 col-12" *ngIf="slider!==0" >
         <div class="bread-cum-sec col-12 p-0 d-flex align-items-center">
             <div class="bread-name">Channels</div>
             <img
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="card_data row m-0">
-            <div class="card-content active" *ngFor=" let channel of channels">
+            <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']">
                 <div class="dropdown kr-sg-overflow-menu" *ngIf="channel.enable">
                     <div class="dropdown-toggle" id="menu1" data-toggle="dropdown"><img class="action_icon"
                             src="assets/icons/elipse-black.svg"></div>
