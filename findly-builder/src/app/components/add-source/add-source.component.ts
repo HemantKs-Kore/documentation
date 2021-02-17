@@ -562,6 +562,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
+    
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic"
       this.importFaq();
@@ -656,7 +657,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log("new resd", res)
           //this.openStatusModal();
           this.addSourceModalPopRef.close();
-          if (this.selectedSourceType.sourceType === 'content') {
+          if (this.selectedSourceType.sourceType === 'content' && resourceType === 'webdomain') {
             this.confirmCrawl();
           }
           //this.poling(res._id, 'scheduler');
@@ -1106,6 +1107,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.closeStatusModal();
         }
       })
+      if(this.statusObject.validation){
+        if(this.statusObject.validation.validated ){
+          this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
+        }else{
+          this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
+        }
+        
+      }
   }
   //crawl job ondemand
   jobOndemand() {

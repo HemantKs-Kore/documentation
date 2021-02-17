@@ -425,7 +425,7 @@ export class SettingsComponent implements OnInit {
         this.slider = 0;
         this.selectedApp.channels=res.channels;
         this.workflowService.selectedApp(this.selectedApp);
-        this.notificationService.notify('Credential Configuered', 'success');
+        this.notificationService.notify('Credential Configured', 'success');
         this.prepareChannelData();
         this.standardPublish();
         this.configFlag = true;

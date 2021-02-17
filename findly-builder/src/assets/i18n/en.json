@@ -279,9 +279,9 @@
             "Clicks": "Clicks",
             "Avg_Position": "Avg Position",
             "Most_Clicked_Position": "Most Clicked Position",
-            "Feedback": "Feedback",
+            "Feedback_Received": "Feedback  Received",
             "Number_of_Clicks": "Number of Clicks",
-            "Feedback_Received": "Feedback Received",
+            "Feedback": "Feedback",
             "Useful_Result": "Useful Result",
             "Not_Useful_Result": "Not Useful Result"
         },
