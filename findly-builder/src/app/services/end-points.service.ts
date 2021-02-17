@@ -19,6 +19,7 @@ export class EndPointsService {
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
+      //this.API_SERVER_URL = " http://4401862e7130.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -69,11 +70,11 @@ export class EndPointsService {
     };
     this.serviceList['train.app'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId?skip=:skip&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content?skip=:skip&limit=:limit',
       method: 'get'
     };
     this.serviceList['delete.content.page'] = {
@@ -801,6 +802,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/apps/:streamId',
       method: 'get'
     }
+    this.serviceList['get.crawljobOndemand'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/extract/sources/:sourceId/init',
+      method: 'get'
+    }
     //  this.serviceList['export.dockstatus'] = {
     //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
     //   method: 'post'      
@@ -840,5 +845,20 @@ export class EndPointsService {
       method: 'get'
     }
     /** APIs for Search Interface */
+
+    /** APIs for multiple Index */
+    this.serviceList['get.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
+      method: 'get'
+    }
+    this.serviceList['post.newIndexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
+      method: 'post'
+    }
+    this.serviceList['delete.queryPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId',
+      method: 'delete'
+    }
+    /** APIs for multiple Index */
   }
 }

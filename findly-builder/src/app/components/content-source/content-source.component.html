@@ -88,7 +88,7 @@
       </div>
       <section class="table-content" *ngIf="currentView === 'list'">
         <header class="table-header">
-          <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">
+          <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
             <!-- <img src="assets/icons/caretDown.svg"
               [ngClass]="{'assending': (selectedSort==='name') && isAsc,'decending':(selectedSort==='name') && !isAsc}"
               class="ml-1 sortImg"> -->
@@ -98,7 +98,7 @@
               </span>
             SOURCE TITLE
           </div>
-          <div class="col_ col-1 d-flex align-items-center pr-0" (click)="sortBy('type')"><span
+          <div class="col_ col-2 d-flex align-items-center pr-0" (click)="sortBy('type')"><span
               class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
               <span class="d-flex align-items-center flex-column mr-1">
                 <img [ngClass]="getSortIconVisibility('type', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -177,8 +177,8 @@
         <perfect-scrollbar class="table-scroll-perfect">
           <ng-container *ngIf="sectionShow">
             <div class="content-body" *ngFor="let source of resources" (click)="openStatusSlider(source)"  [ngClass]="{'cursor-pointer':statusObj[source.recentStatus].name == 'Success' }">
-              <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
-              <div class="col_ col-1 pr-0">
+              <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}} <span class ="ml-2" *ngIf="source.advanceSettings"> <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg"></span></div>
+              <div class="col_ col-2 pr-0">
                 {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</div>
               <div class="col_ col-4">
                 <span *ngIf="source.recentStatus && statusObj[source.recentStatus]"
@@ -201,7 +201,7 @@
                   {{source.schedule_duration}}</span>
               </div>
               <div class="col_ col-1">
-                <span  >{{source.numPages}}</span>
+                <span>{{source.recentStatus==='configured'?'--':source.numPages}}</span>
               </div>
               <div class="col_ col-2" *ngIf="source.advanceSettings">
                 <span *ngIf="!source.advanceSettings.scheduleOpt" >{{source.jobInfo.userDetails.fullName || source.userDetails.fullName}}</span>
@@ -212,7 +212,8 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' && source.recentStatus !== 'configured'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="stopCrwaling(source,$event)"><img class="action_icon"
                   src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
@@ -270,7 +271,7 @@
             (click)="openStatusSlider(source)">
               <div class="card_sec">
                 <div class="titles-sec">
-                  <span class="name">{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}">
+                  <span class="name text-truncate">{{source.title || source.name}}</span><span class="type-data" [ngClass]="{'doc': (source.extractionType==='document')}">
                     {{(source.extractionType == 'webdomain' ? 'Web' :(source.extractionType == 'document'? 'Doc': '')) | uppercase }}</span>
                 </div>
                 <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
@@ -371,7 +372,7 @@
                 <img src="assets/images/search-input.svg" class="search-icon">
               </div>
               <div class="" *ngIf="!page && !execution">
-                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Recrawl</button>
+                <button class="kr-sg-button-secondary btn_lg" (click) = "recrwal('source',selectedSource ,null)">Crawl</button>
               </div>
               <!-- <div class="add-page"><img src="assets/icons/sidemenu/plus-table.svg">Add Page</div> -->
             </div>
@@ -540,10 +541,10 @@
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
-                          data-toggle="dropdown">{{allowUrl.condition}}</button>
+                          data-toggle="dropdown">{{allowUrl.name}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('is' , 'allow')"><a>Is</a></li>
-                          <li (click)="urlCondition('isNot', 'allow')"><a>Is not</a></li>
+                          <li (click)="urlCondition('is' , 'allow')"><a>Equals to</a></li>
+                          <li (click)="urlCondition('isNot', 'allow')"><a>Not equals to</a></li>
                           <li (click)="urlCondition('beginsWith', 'allow')"><a>Begins with</a></li>
                           <li (click)="urlCondition('endsWith', 'allow')"><a>Ends with</a></li>
                           <li (click)="urlCondition('contains', 'allow')"><a>Contains</a></li>
@@ -593,10 +594,10 @@
                     <div class="kr-sg-dropdowns">
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input"
-                          data-toggle="dropdown">{{blockUrl.condition}}</button>
+                          data-toggle="dropdown">{{blockUrl.name}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="urlCondition('is' , 'block')"><a>Is</a></li>
-                          <li (click)="urlCondition('isNot', 'block')"><a>Is not</a></li>
+                          <li (click)="urlCondition('is' , 'block')"><a>Equals to</a></li>
+                          <li (click)="urlCondition('isNot', 'block')"><a>Not equals to</a></li>
                           <li (click)="urlCondition('beginsWith', 'block')"><a>Begins with</a></li>
                           <li (click)="urlCondition('endsWith', 'block')"><a>Ends with</a></li>
                           <li (click)="urlCondition('contains', 'block')"><a>Contains</a></li>
@@ -924,8 +925,13 @@
                               </div>
                               <ng-container *ngFor="let statlog of history.executionStats.statusLogs; let i = index;">
                                 <div class="log-details" *ngIf="statlog.stageName">
-                                  <img src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}">
-                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}<span class="time">( {{ statlog.timeTaken }} )</span></span>
+                                  <img *ngIf="statlog.stageName == 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/failed-circle.svg">
+                                  <img *ngIf="statlog.stageName != 'failed' && statlog.stageStatus == 'failed'" src="assets/icons/content/ex-stopped.svg">
+                                  <img *ngIf="statlog.stageStatus != 'failed'" src="{{stateExecutionStageNameObj[statlog.stageName].icon[statlog.stageStatus].icon}}" [ngStyle]="{'height':statlog.stageStatus === 'halted' ? '15px' : '15px' }">
+                                  <span class="log-name"> {{ stateExecutionStageNameObj[statlog.stageName].label }}
+                                    <span class="time" *ngIf="statlog.stageName != 'failed' && statlog.stageName != 'successful' && statlog.stageName != 'stopped' && statlog.stageName != 'crawling'">( {{ statlog.timeTaken }} )</span>
+                                    <span class="time" *ngIf="statlog.stageName == 'stopped'"> by {{ history.executionStats.triggeredBy }} </span>
+                                  </span>
                                 </div>
                               </ng-container>
                               
@@ -960,8 +966,9 @@
                             </div>
                           </div>
                           <div class="col_ col-3 d-flex">
-                            <span class="execute-success mr-2" ngbTooltip='{{executionObj[history.executionStats.executionStatusMessage].tooltip}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
+                            <span class="execute-success mr-2" ngbTooltip='{{ history.executionStats.tooltip || ""}}' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img src="{{executionObj[history.executionStats.executionStatusMessage].icon}}">
+                              <span *ngIf="history.executionStats.executionStatusMessage =='Execution In Progress'"style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history.executionStats.percentageDone || 99}}%</span>
                             </span>
                             <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
                               <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">

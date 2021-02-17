@@ -8,7 +8,7 @@
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
-                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length)">                                        
+                <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle kr-sg-button-primary btn_lg text-left" ngbDropdownToggle>Add FAQ</button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -18,9 +18,9 @@
                         </ul>
                     </div>
                 </div>
-                <div (click)="openStatusModal()" class="title"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
+                <div (click)="openStatusModal()" class="title" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
                 <div class="clock"><img src="assets/icons/clock.svg"></div>
-                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
+                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length)">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/export-top.svg"></button>                                            
                         <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -80,17 +80,27 @@
                                 <button class="dropdown-toggle dropdown-input pl-0 mr-2" ngbDropdownToggle><img src="assets/icons/filter.svg">Filter</button>                                            
                                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                     <li  (click)="selectResourceDrop.close();selectResourceFilter()"><span class="list-name">All</span><img *ngIf="!(selectedResource && selectedResource._id) && !manualFilterSelected" src="assets/icons/check-blue.svg"></li>
-                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()"><span class="list-name">Manual</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
+                                    <li  (click)="selectResourceDrop.close();manualFaqsFilter()" *ngIf="noManulaRecords"><span class="list-name">Manual</span><img *ngIf="!(selectedResource && selectedResource._id) && manualFilterSelected" src="assets/icons/check-blue.svg"></li>
                                     <ng-container *ngFor="let source of resources">                                        
                                         <li *ngIf="source.recentStatus==='success'" (click)="selectResourceDrop.close();selectResourceFilter(source)"><span class="list-name">{{source.name}}</span><img *ngIf="selectedResource && (source._id ===  selectedResource._id)" src="assets/icons/check-blue.svg"></li>
                                     </ng-container>
                                 </ul>
                             </div>
                         </div> 
-                        <div class="kr-sg-input-search">                               
+                        <!-- <div class="seach_add_feild"> -->
+                            <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
+                                <input type="text" placeholder="Search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">                                  
+                            </div>
+                            <div class="seach-block" (click)="toggleSearch()">
+                                <img *ngIf="!showSearch" src="assets/icons/search.svg">
+                                <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                            </div>
+                        <!-- </div> -->
+
+                        <!-- <div class="kr-sg-input-search">                               
                             <input type="text" placeholder="Search" class="input-search" [(ngModel)]="searchFaq" id="searchFaqs" name='faqsSearch' (keyup)="searchFaqs()" autocomplete="off">
                             <img src="assets/icons/search-gray.svg" class="search-icon">
-                        </div>                      
+                        </div>                       -->
                     </div>
                     <div class="footer-sec-btns row m-0 col-12" *ngIf="faqSelectionObj.selectedCount">
                         <div class="col-4 p-0 d-flex align-items-center">
@@ -268,15 +278,15 @@
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
-                                                    <div class="col-2 inner-data-column">
+                                                    <div class="col-3 inner-data-column"> 
                                                         <div class="heading">Source</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || "Manual" | titlecase}}' placement="top-left">{{(selectedFaq.sourceName  || contentTypes[selectedFaq.source]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
                                                         <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
                                                     </div>
-                                                    <div class="col-4 inner-data-column">
+                                                    <div class="col-3 inner-data-column">
                                                         <div class="heading">Created By</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
@@ -428,7 +438,7 @@
                                             <button  class="kr-sg-button-secondary btn_lg" (click)="editThisQa()" ngbTooltip='Edit'  placement="bottom">Edit</button>
                                         </div>
                                         <div class="keywords">
-                                            <span class="key-title">Key Terms :</span>
+                                            <!-- <span class="key-title">Key Terms :</span> -->
                                             <span class="keys" *ngFor="let keyword of selectedFaq._source.keywords">{{keyword}}</span>
                                         </div> 
                                     </div> 
@@ -541,35 +551,40 @@
 </div>
 
 
-<kr-modal modalType="center" modalClass="addSourceModalComponent" #statusModalPop>
-    <div class="modal-header modal-table-actions">               
-        <div class="table-action-header row m-0 justify-content-end"> 
-               
-            <div class="d-flex align-items-center">
-                <div class="kr-sg-input-search">                               
-                    <input type="text" name='searchSources' placeholder="Search" id="searchContentSources" class="input-search" [(ngModel)]="searchSources" autocomplete="off">
-                    <img *ngIf="!searchSources" src="assets/images/search_gray.svg" class="search-icon">
-                    <img *ngIf="searchSources" src="assets/images/close.svg" class="search-icon close-modal">                
-                </div>           
-                              
-                  <div class="kr-sg-dropdowns d-none">            
+<kr-modal modalType="center" modalClass="addSourceModalComponent modal_popups_" #statusModalPop>
+    <div class="modal-header">
+        <div class="title">Extracts</div>
+        <div class="close_icon"  (click)='closeStatusModal()'><img  src="assets/icons/modal-close.svg"></div>
+      </div>
+    
+      <div class="modal-table-actions">               
+        <div class="table-action-header d-flex justify-content-between align-items-center">                           
+            <div>                            
+                <div class="seach_add_feild">
+                    <div class="kr-sg-input-search"  *ngIf="showSearch" [ngClass]="{'active':showSearch}">                               
+                        <input type="text" name='searchSources' placeholder="Search" id="searchFaqSources" class="input-search pl-2" [(ngModel)]="searchSources" autocomplete="off">                                   
+                    </div>
+                    <div class="seach-block" (click)="toggleSearch()">
+                        <img *ngIf="!showSearch" src="assets/icons/search.svg">
+                        <img *ngIf="showSearch" src="assets/images/close.svg">Search
+                    </div>
+                </div>
+
+                <div class="kr-sg-dropdowns d-none">            
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><img src="assets/icons/sidemenu/plus-table.svg">Add FAQs</button>                                            
                         <ul class="dropdown-menu content-menu">                                                              
-                          <li (click)="addFaqSource('faqWeb')">Web URL</li>
-                          <li (click)="addFaqSource('faqDoc')">Upload File</li>
+                            <li (click)="addFaqSource('faqWeb')">Web URL</li>
+                            <li (click)="addFaqSource('faqDoc')">Upload File</li>
                         </ul>
                     </div>
-                  </div>
-                  <div class="close-modal ml-2 pl-1">
-                    <div class="close_modal" (click)='closeStatusModal()'><img src="assets/icons/modal-close.svg"></div>
-                  </div>
-                  <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
-                  <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>
-                
+                </div>                                      
             </div>
-        </div> 
-     
+            <div>
+                <div *ngIf="currentView === 'list'" class="grid-list-view-table" (click)="currentView='grid'"><img src="assets/icons/grid-view.svg"></div>
+                <div *ngIf="currentView === 'grid'" class="grid-list-view-table" (click)="currentView='list'"><img src="assets/icons/list-view.svg"></div>                
+            </div>
+        </div>      
     </div>
    
     <div *ngIf="!(resources && resources.length)" class="empty-source-modal">
@@ -584,13 +599,13 @@
                 <div class="kr-sg-data-table with-checkbox"  *ngIf="resources && resources.length">
                 <section class="table-content">
                     <header class="table-header">
-                        <div class="col_ col-3 d-flex align-items-center" (click)="sortBy('name')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('name')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span> SOURCE TITLE
                             </div>
-                        <div class="col_ col-1 d-flex align-items-center" (click)="sortBy('type')">
+                        <div class="col_ col-2 d-flex align-items-center" (click)="sortBy('type')">
                             <span class="selected-length-doc-web d-none">({{filterSystem.typefilter}})</span>
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
@@ -647,8 +662,8 @@
                     </header>
                     <perfect-scrollbar class="faqScurceListScroll" [disabled]="workflowService.disablePerfectScroll">
                     <div class="content-body" *ngFor="let source of resources | filter: [ searchSources, 'name']">
-                        <div class="col_ col-3" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <div class="col_ col-1">{{contentTypes[source.contentSource] | titlecase}}</div>
+                        <div class="col_ col-2" title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                        <div class="col_ col-2">{{contentTypes[source.contentSource] | titlecase}}</div>
                         <div class="col_ col-3">
                             <span *ngIf="source.recentStatus && statusObj[source.recentStatus]" [ngStyle]="{color: (source.recentStatus && statusObj[source.recentStatus])?statusObj[source.recentStatus].color:'black'}">{{statusObj[source.recentStatus].name}}
                                 <img src="assets/icons/failed-status.svg" *ngIf="statusObj[source.recentStatus].name == 'Failed'" placement="top" container='body' ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source._id] && resourcesStatusObj[source._id].statusMessage)?resourcesStatusObj[source._id].statusMessage:statusObj[source.recentStatus].name}}">

@@ -3,17 +3,20 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
+    <div class="header-sec col-12 row m-0" *ngIf="collectedRecord.length===0 && !nextPage">
+        <div class="col-4 p-0">Result Ranking</div>     
+        </div>
     <ng-container *ngIf="collectedRecord.length===0 && !nextPage">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/experiments-empty.svg"></div>
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
           <ng-container>
-              <div class="empty-title">You haven’t added any experiments yet!</div>
-              <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
+              <div class="empty-title">You haven’t added any queries yet!</div>
+              <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
               </div>
-              <!-- <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                          -->
-                <button class="kr-sg-button-primary" (click)="nextPage=true">Let's Start</button>                                            
-              <!-- </div> -->
+              <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
+                <button class="kr-sg-button-primary btn_lg px-2" (click)="nextPage=true">Let's Start</button>                                                
+              </div>
           </ng-container>
           </div>
     </perfect-scrollbar>  

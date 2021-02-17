@@ -37,6 +37,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   selectedFaq: any = null;
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
+  noManulaRecords:boolean =false;
   selectedApp: any = {};
   fileName: ' ';
   resources: any = [];
@@ -56,6 +57,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   faqComments:any = [];
   pollingSubscriber;
+  showSearch;
+  searchallFaq: any= '';
   faqs:any = [];
   faqsAvailable = false;
   selectedtab = 'draft';
@@ -292,7 +295,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   manualFaqsFilter(){
         this.manualFilterSelected = true;
         this.getfaqsBy('manual',this.selectedtab);
-        this.getStats('manual');
+        // this.getStats('manual');
   }
   selectResourceFilter(source?){
     this.loadingTab = true;
@@ -439,7 +442,14 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.service.invoke(endPoint, quaryparms).subscribe(res => {
       this.faqSelectionObj.stats = res.countByState;
+      // this.faqSelectionObj.stats = res.countBySource; 
       this.faqSelectionObj.loadingStats=false;
+      if(res.countBySource && res.countBySource.manual){
+        this.noManulaRecords=true;
+      }
+      else{
+        this.noManulaRecords=false;
+      }
     }, errRes => {
     });
   }
@@ -489,6 +499,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         })
       }
       this.faqsObj.faqs = this.faqs;
+      if(params.resourceId === 'manual' && this.faqs.length){
+        this.getStats(this.faqs[0].extractionSourceId)
+      }
       if(this.faqs.length){
          this.moreLoading.loadingText = 'Loading...';
          this.selectFaq(this.faqs[0]);
@@ -502,6 +515,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       if(serviceId === 'get.allFaqs'){
         this.faqsAvailable = res.length?true:false;
       }
+     
       this.editfaq = null
       this.apiLoading = false;
       this.loadingFaqs = false;
@@ -718,7 +732,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
   }
   confirmFAQswitch(faq) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
+      width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
@@ -1018,10 +1032,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete FAQ',
-        text: 'Are you sure you want to delete selected question?',
-        newTitle: 'Are you sure you want to delete selected question?',
-        body:'The selected question will be deleted.',
+        newTitle: 'Are you sure you want to delete?',
+        body:'Selected question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1049,7 +1061,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         title: 'Delete Resource',
         text: 'Are you sure you want to delete ?',
         newTitle: 'Are you sure you want to delete ?',
-        body:'Resource will be deleted.',
+        body:'Selected resource will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1070,10 +1082,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete FAQ',
-        text: 'Are you sure you want to delete selected question?',
-        newTitle: 'Are you sure you want to delete selected question?',
-        body:'The selected question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1098,10 +1108,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Alternate Question',
-        text: 'Are you sure you want to delete selected alternate question?',
-        newTitle: 'Are you sure you want to delete selected  alternate question?',
-        body:'The selected alternate question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected alternate question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1144,10 +1152,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Alternate Question',
-        text: 'Are you sure you want to delete this alternate question?',
-        newTitle: 'Are you sure you want to delete selected  alternate question?',
-        body:'The selected alternate question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected alternate question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         // confirmationPopUp:true
       }
@@ -1171,10 +1177,8 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Followup Question',
-        text: 'Are you sure you want to delete this followup question?',
-        newTitle: 'Are you sure you want to delete this followup question?',
-        body:'The selected followup question will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected followup question will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -1230,6 +1234,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
      this.dock.trigger()
      
+     
 
       },
        errRes => {
@@ -1239,6 +1244,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
           this.notificationService.notify('Failed ', 'error');
         }
     
+    });
+    this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
+
     });
   }
   duration(duration){
@@ -1262,4 +1270,11 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
         }
     }
   }
+  toggleSearch() {
+    if (this.showSearch && this.searchSources) {
+      this.searchSources = '';
+    }
+    this.showSearch = !this.showSearch
+  };
+  
 }

@@ -23,10 +23,13 @@ export class FacetsComponent implements OnInit , OnDestroy{
   serachIndexId;
   fieldDataType ='number';
   filedTypeShow = false;
+  selectedFieldId:any;
   indexPipelineId;
   loadingContent = true;
   addEditFacetObj:any = null;
   showSearch;
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   // serachTraits: any = '';
   searchfacet:any = '';
   facetDefaultValueObj:any = {
@@ -251,6 +254,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
         if(element._id === data.fieldId){
           console.log(element)
           this.addEditFacetObj = JSON.parse(JSON.stringify(data));
+          this.selectedFieldId = element._id;
           this.selectField(element);
           this.openModal();
         }
@@ -417,6 +421,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.facets.push(res);
       this.closeModal();
       this.addEditFacetObj = null;
+      this.selectedFieldId = null;
     }, errRes => {
       this.errorToaster(errRes,'Failed to create facet');
     });
@@ -437,6 +442,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.getFacts();
       this.closeModal();
       this.addEditFacetObj = null;
+      this.selectedFieldId = null;
     }, errRes => {
       this.errorToaster(errRes,'Failed to update facet');
     });
@@ -447,10 +453,8 @@ export class FacetsComponent implements OnInit , OnDestroy{
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete facet',
-        text: 'Are you sure you want to delete selected facet?',
-        newTitle: 'Are you sure you want to delete selected facet?',
-        body:'Selected facet will be deleted',
+        newTitle: 'Are you sure you want to delete ?',
+        body:'Selected facet will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -546,6 +550,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
     }
     this.resetDefaults();
     this.addEditFacetObj = null;
+    this.selectedFieldId = null;
   }
   toggleSearch() {
     if (this.showSearch && this.searchfacet) {

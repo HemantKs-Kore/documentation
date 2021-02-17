@@ -110,11 +110,11 @@
         <div class="content-sec">
           <div class="title-sec d-flex justify-content-between">
             <div class="title">Activities</div> 
-            <div class="create_new_link d-none">Show all activities</div>
-          </div>        
+            <div class="create_new_link">Show all activities</div>
+          </div>   
           <div class="body-data row m-0" *ngFor="let activity of activities">
             <div class="col-9 title">{{activity.faqInReviewCount}} Faq's Pending Approval</div>
-            <div class="col-3 title time-stamp" *ngIf="activity.faqInReviewCount!=0">{{activity.date}}</div>           
+            <div class="col-3 title time-stamp">{{activity.time}}</div>           
           </div>
            <!-- <div class="body-data row m-0">
             <div class="col-9 title">XYZ replied to you comment</div>
@@ -129,8 +129,7 @@
     </div>
     <div class="row col-12 row table-data m-0" >
       <div class="table-data-content col-6 " *ngIf="!channelExist">
-        <div class="content-sec config_channels">
-         <div class="title-sec"><div class="title">Configured Channels</div> </div>
+        <div class="content-sec config_channels">       
           <div *ngIf="!channelExist">
             <div class="img-block center-image" (click)="openChannel()"><img src="assets/icons/overview/no-channel-conf.svg"></div>
           </div>
@@ -204,38 +203,28 @@
             </div>
           </div>                     -->
          </div>
-         <div class="create_new_link d-none">View all</div>
+         <div class="create_new_link" (click)="openChannel()">View all</div>
         </div>       
       </div>
       <div class="table-data-content col-6" *ngIf="!experiments.length">
           <div class="content-sec active_experments">
            <div class="title-sec d-flex justify-content-between">
-             <div class="title">Active Experiment</div> </div>
+              </div>
               <div class="img-block center-image" (click) = "openExp()"><img src="assets/icons/overview/no-experiments.svg"></div>
           </div>
       </div>
       <div class="table-data-content col-6" *ngIf="experiments.length">
         <div class="content-sec active_experments">
           <div class="title-sec d-flex justify-content-between">
-            <div class="title">Active Experiment</div> 
+            <div class="title">Experiments</div> 
             <div class="create_new_link" (click)="openExp()">+ Create New</div>
           </div>    
           <div class="header-data row m-0">
-            <div class="col-5 title">Experiment Name</div>
-            <div class="col-4 title">VARIANTS</div>
+            <div class="col-9 title">Experiment Name</div>
             <div class="col-3 title">Status</div>         
           </div>    
           <div class="body-data row m-0" *ngFor="let experiment of experiments">
-            <div class="col-5 title">{{experiment.name}}</div>
-            <div class="col-4 variants">
-              <div class="variants-block left" >
-                <span class="v-name" *ngFor="let variant of experiment.variants">{{ variant.code }}</span>
-              </div>
-              <div class="variants-block right">
-                <span class="v-name" *ngFor="let variant of experiment.variants">{{ variant.code }}</span>
-                <span class="success" *ngIf="experiment.winner">WINNER</span>
-               </div>  
-            </div> 
+            <div class="col-9 title">{{experiment.name}}</div>
             <div class="col-3 status">
               <span class="a-status">{{experiment.state}}</span>
               <span class=""><img src="assets/icons/overview/Info.svg"></span>

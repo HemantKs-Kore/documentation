@@ -40,10 +40,12 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   newfieldsData:any = [];
   loadingFields = true;
   isActiveAll= true;
+  showStageType= false;
   selectedStage;
   changesDetected;
   currentEditIndex :any= -1;
   pollingSubscriber: any = null;
+  showNewStageType:boolean=false;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -73,6 +75,9 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
     },
     semantic_meaning:{
       name:'Semantic Meaning'
+    },
+    exclude_document:{
+      name:'Remove Document'
     },
   }
   entityNlp = [
@@ -156,8 +161,10 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    if((this.selectedApp ||{}).searchIndexes && (this.selectedApp ||{}).searchIndexes.length){
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    }
     this.getSystemStages();
     this.getIndexPipline();
     this.getFileds();
@@ -185,7 +192,7 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
   getTraitGroups(initial?) {
     const quaryparms :any = {
       userId:this.authService.getUserId(),
-      streamId:this.selectedApp._id
+      streamId:(this.selectedApp ||{})._id
     }
     this.service.invoke('get.traits', quaryparms).subscribe(res => {
         const allTraitskeys :any=[];
@@ -267,7 +274,14 @@ export class IndexComponent implements OnInit ,OnDestroy, AfterViewInit{
         defaultValue : {
          script:''
         }
-      }
+      },
+      exclude_document:{
+        defaultValue : {
+          operation:'set',
+          target_field:'',
+          value:'',
+        }
+      },
     }
     if(saveConfig && this.selectedStage && this.selectedStage.type === 'custom_script' && this.selectedStage.config && this.selectedStage.config.mappings && this.selectedStage.config.mappings.length){
       if(!this.newMappingObj.custom_script){
@@ -320,6 +334,13 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
   if(this.newMappingObj.custom_script && this.newMappingObj.custom_script.defaultValue) {
      if(this.newMappingObj.custom_script.defaultValue.script){
       this.addFiledmappings(this.newMappingObj.custom_script.defaultValue);
+     }
+  }
+}
+if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
+  if(this.newMappingObj.exclude_document && this.newMappingObj.exclude_document.defaultValue) {
+     if(this.newMappingObj.exclude_document.defaultValue.script){
+      this.addFiledmappings(this.newMappingObj.exclude_document.defaultValue);
      }
   }
 }
@@ -476,9 +497,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Stage configuration is successfully saved',
+        newTitle: 'Are you sure you want to save ?',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
+        buttons: [{ key: 'yes', label: 'Save' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
         confirmationPopUp:true
       }
     });
@@ -493,46 +514,110 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         }
       })
   }
-  saveConfig(index?,dialogRef?){
-    this.savingConfig = true;
-    const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId
-    };
-    this.service.invoke('put.indexPipeline', quaryparms,{stages:this.preparepayload()}).subscribe(res => {
-     this.pipeline=  res.stages || [];
-     this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
-     this.notificationService.notify('Configurations saved successfully','success');
-     this.savingConfig = false;
-      if(dialogRef && dialogRef.close){
-        dialogRef.close();
-      }
-      if(index !== 'null' && index !== undefined && (index>-1)){
-       this.currentEditIndex = -1
-      }
-      if(res && res.targetFields && res.targetFields.length){
-        const newFileds:any = [];
-        res.targetFields.forEach(field => {
-          const tempPayload:any = {
-            fieldName: field.fieldName,
-            fieldDataType: field.fieldDataType,
-            isMultiValued: field.isMultiValued || true, // can use hasobjectket property if required to take server values in furture //
-            isActive: field.isActive || true,
-            isRequired: field.isRequired || false,
-            isStored: field.isStored || true,
-            isIndexed: field.isIndexed || true,
+  validateConditionForRD(){
+    let indexArray = [];
+    if(this.pipeline.length){
+        for(let k = 0;k<this.pipeline.length;k++){
+          if(this.pipeline[k].type==='exclude_document'){
+            if(!this.pipeline[k].condition){
+               indexArray.push(k);
+              }
           }
-          newFileds.push(tempPayload);
-        });
-        this.newfieldsData =  newFileds || [];
-        this.checkForNewFields();
+        } 
+    }
+    return indexArray.length;
+  }
+  removeExcludeDocumentStage(indexArrayLength,isSaveConfig){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Stage',
+        text: 'Do you want to discard this stage?',
+        newTitle: 'Do you want to discard this stage?',
+        body:'The Exclude Document stage will be discarded as it does not contain any conditions.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp:true
       }
-      this.clearDirtyObj();
-      this.setResetNewMappingsObj(null,true);
-    }, errRes => {
-      this.savingConfig = false;
-      this.errorToaster(errRes,'Failed to save configurations');
     });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          for(let i =0; i<indexArrayLength;i++){
+            let index = this.pipeline.findIndex((p)=> !p.condition);
+            if(index>-1){
+              this.pipeline.splice(index,1);
+            }
+          }
+          console.log("inside dialog");
+          dialogRef.close();
+          if(this.pipeline && this.pipeline.length) {
+           this.selectStage(this.pipeline[0],0);
+           if(isSaveConfig){
+            this.saveConfig();
+           }else{
+             this.simulate();
+           }
+          }else {
+            this.selectedStage = null
+            return false;
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+          return false;
+        }
+      })
+  }
+  saveConfig(index?,dialogRef?){
+    let indexArrayLength:any = this.validateConditionForRD();
+      if(indexArrayLength){
+        this.removeExcludeDocumentStage(indexArrayLength,true);
+       }
+       else{
+        console.log("outside dialog");
+        this.savingConfig = true;
+        const quaryparms: any = {
+          searchIndexID:this.serachIndexId,
+          indexPipelineId:this.indexPipelineId
+        };
+        this.service.invoke('put.indexPipeline', quaryparms,{stages:this.preparepayload()}).subscribe(res => {
+         this.pipeline=  res.stages || [];
+         this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
+         this.notificationService.notify('Configurations saved successfully','success');
+         this.savingConfig = false;
+          if(dialogRef && dialogRef.close){
+            dialogRef.close();
+          }
+          if(index !== 'null' && index !== undefined && (index>-1)){
+           this.currentEditIndex = -1
+          }
+          if(res && res.targetFields && res.targetFields.length){
+            const newFileds:any = [];
+            res.targetFields.forEach(field => {
+              const tempPayload:any = {
+                fieldName: field.fieldName,
+                fieldDataType: field.fieldDataType,
+                isMultiValued: field.isMultiValued || true, // can use hasobjectket property if required to take server values in furture //
+                isActive: field.isActive || true,
+                isRequired: field.isRequired || false,
+                isStored: field.isStored || true,
+                isIndexed: field.isIndexed || true,
+              }
+              newFileds.push(tempPayload);
+            });
+            this.newfieldsData =  newFileds || [];
+            this.checkForNewFields();
+          }
+          this.clearDirtyObj();
+          this.setResetNewMappingsObj(null,true);
+        }, errRes => {
+          this.savingConfig = false;
+          this.errorToaster(errRes,'Failed to save configurations');
+        });
+      }
+     
   }
   openModalPopup(){
     this.loadingFields = true;
@@ -611,6 +696,11 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.simulateJson= JSON.stringify(data, null, ' ');
     }
   simulate(){
+    let indexArrayLength:any = this.validateConditionForRD();
+      if(indexArrayLength){
+        this.removeExcludeDocumentStage(indexArrayLength,false);
+       }
+       else{
     this.simulteObj.showSimulation =  true;
     const self = this;
     this.simulating = true;
@@ -662,7 +752,8 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       this.errorToaster(errRes,'Failed to get stop words');
     });
   }
-  removeStage(i){
+  }
+  removeStage(i,stageType){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -672,6 +763,9 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
         text: 'Are you sure you want to delete selected stage?',
         newTitle: 'Are you sure you want to delete selected stage?',
         body:'Selected stage will be deleted.',
+        // text: 'Do you want to discard this stage?',
+        // newTitle: 'Do you want to discard this stage?',
+        // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -719,7 +813,8 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       api = 'put.updateField'
     }
     this.service.invoke(api, quaryparms,payload).subscribe(res => {
-      this.notificationService.notify('Fields added successfully','success');
+     //this.notificationService.notify('Fields added successfully','success');
+     this.notificationService.notify('ⓘ New Fields have been added. Please train to re-index the configuration','info');
       this.closeModalPopup();
     }, errRes => {
       this.errorToaster(errRes,'Failed to create field');
@@ -764,7 +859,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       data: {
         title: 'Delete Field',
         text: 'Are you sure you want to delete selected field?',
-        newTitle: 'Are you sure you want to delete selected field?',
+        newTitle: 'Are you sure you want to delete?',
         body:'Selected field will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -805,7 +900,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.service.invoke('get.platformStages', quaryparms).subscribe(res => {
     // removing Duplicate value - temporary
     for (let index = 0; index <  res.stages.length; index++) {
-      if(index < 9)
+      if(index < 11 && res.stages[index].name !== 'FAQ Keyword Extraction')
       this.defaultStageTypes.push(res.stages[index])
       }
      setTimeout(() => {
@@ -823,7 +918,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
       data: {
         title: 'Discard current changes',
         text: 'Are you sure you want to discard current?',
-        newTitle: 'Are you sure you want to discard current?',
+        newTitle: 'Are you sure you want to discard?',
         body:'Current changes will be discarded.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -997,9 +1092,28 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     this.selectedStage.config.mappings.push(map);
     this.setResetNewMappingsObj(true,true);
   }
+  closeNewStage(){
+    this.showNewStageType=false;
+    if(this.pipeline && this.pipeline.length){
+      this.selectedStage = this.pipeline[0];
+    }
+
+  }
   switchStage(systemStage,i){
+    if(this.showNewStageType){
+      const obj :any = new StageClass();
+      const newArray = [];
+      obj.name = this.defaultStageTypes[i].name;
+      obj.enable = true;
+      obj.type = this.defaultStageTypes[i].type;
+      obj.category = this.defaultStageTypes[i].category;
+      newArray.push(obj)
+      this.pipeline = newArray.concat(this.pipeline||[]);
+      this.selectedStage = this.pipeline[0];
+      this.showNewStageType =false;
+    }
     this.selectedStage.type = this.defaultStageTypes[i].type;
-    this.selectedStage.catagory = this.defaultStageTypes[i].category;
+    this.selectedStage.category = this.defaultStageTypes[i].category;
     this.selectedStage.name  =this.defaultStageTypesObj[systemStage.type].name;
     this.selectedStage.config = {}
     if(systemStage && systemStage.type === 'custom_script'){
@@ -1023,7 +1137,7 @@ if(this.selectedStage && this.selectedStage.type === 'custom_script'){
     obj.name = this.defaultStageTypes[0].name;
     obj.enable = true;
     obj.type = this.defaultStageTypes[0].type;
-    obj.catagory = this.defaultStageTypes[0].category;
+    obj.category = this.defaultStageTypes[0].category;
     newArray.push(obj)
     this.pipeline = newArray.concat(this.pipeline);
     this.selectedStage = this.pipeline[0];

@@ -124,18 +124,18 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const modalData :any =  {
-      title: 'Enable Stop Words',
-      text: 'Are you sure you want to enable Stop Words?',
+      newTitle: 'Are you sure you want to Enable ?',
+      body: 'Stopwords will be enabled.',
       buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }]
     }
     if(!this.enabled){
-      modalData.title = 'Disable Stop Words'
-      modalData.text = 'Are you sure you want to disable Stop Words?';
+      modalData.newTitle = 'Are you sure you want to disable?'
+      modalData.body = 'Stopwords will be disabled. ';
       modalData.buttons[0].label = 'Disable';
     }
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '446px',
-      height: '306px',
+      width: '530px',
+      height: 'auto',
       panelClass: 'delete-popup',
       data:modalData
     });
@@ -194,7 +194,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore Stop Words',
         text: 'Are you sure you want to restore Stop Words?',
-        newTitle:'Are you sure you want to restore Stop Words?',
+        newTitle:'Are you sure you want to restore ?',
         body:'Selected stop words will be restored.',
         buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
@@ -225,8 +225,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
-        newTitle:'Are you sure you want to delete selected Stop Word?',
-        body:'Selected stop word will be deleted',
+        newTitle:'Are you sure you want to delete ?',
+        body:'Selected stop word will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
@@ -258,8 +258,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Delete  All StopWords',
-        newTitle:'Are you sure you want to delete all StopWords ?',
-        body:'All stopwords will be deleted',
+        newTitle:'Are you sure you want to delete ?',
+        body:'All stopwords will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }

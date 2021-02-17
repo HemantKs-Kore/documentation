@@ -557,7 +557,7 @@ export class AppExperimentsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Do you really want to delete?',
+        newTitle: 'Are you sure you want to delete?',
         body: 'Selected Experiment will be permanently deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
@@ -674,8 +674,6 @@ export class AppExperimentsComponent implements OnInit {
       const isAsc = this.isAsc;
       switch (sort) {
         case 'state': return this.compare(a.state, b.state, isAsc);
-        case 'name': return this.compare(a.name, b.name, isAsc);
-        case 'duration': return this.compare(a.start, b.start, isAsc);
         default: return 0;
       }
     });

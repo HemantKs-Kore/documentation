@@ -185,15 +185,15 @@
                 <div class="kr-sg-input-text col-12 p-0">
                     <div class="label-text">Field Name</div>
                     <!-- <input type="number" *ngIf="newFieldObj.fieldDataType === 'number'"  placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
-                    <input type="text" placeholder="Field name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
+                    <input type="text" placeholder="Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName">
                 </div>
             </div>
             <div class="label-text col-12 p-0">Field Type</div>
             <div class="row m-0 align-items-center">                         
                 <div class="kr-sg-dropdowns col-12 p-0">                    
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                            
-                        <ul class="dropdown-menu content-menu">                                                                    
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" data-boundary="window">{{(newFieldObj.fieldDataType?newFieldObj.fieldDataType:'choose_an_option') | translate}}</button>                                             
+                        <ul class="dropdown-menu content-menu dropdown_overflow">                                                                  
                           <li  (click)="selectFieldType('string')"><a>String</a></li>
                           <li  (click)="selectFieldType('number')"><a>Number</a></li>
                           <li  (click)="selectFieldType('trait')"><a>Trait</a></li>
@@ -233,7 +233,7 @@
             </div>
             <div class="kr-sg-input-text col-10 p-0  d-none">
                 <div class="label-text">Default Value (Optional)</div>
-                <input type="text" placeholder="Add value here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
+                <input type="text" placeholder="Add Value Here" class="input-text" [(ngModel)]="newFieldObj.defaultValue">
             </div>
             <div class="kr-sg-inline-notification" *ngIf="!newFieldObj.isIndexed">
                 <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>

@@ -10,6 +10,7 @@ export class WorkflowService {
   appCreationFlow = false;
   completedPercentage = 0;
   _seedData: any;
+  selectedIndexPipelineId: any;
   selectedAppForEdit: any;
   selectedSearchIndexId: any;
   selectedQueryPipelineObj: any;
@@ -31,6 +32,13 @@ export class WorkflowService {
       this.findlyAppsData = appData;
     }
     return this.findlyAppsData;
+  }
+  selectedIndexPipeline(id){
+    if (id) {
+      this.selectedIndexPipelineId = id;
+      return;
+    }
+    return this.selectedIndexPipelineId;
   }
   selectedApp(data?) {
     if (data) {
