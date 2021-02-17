@@ -290,6 +290,19 @@ export class SearchInterfaceComponent implements OnInit {
       }
     }
   }
+  facetEnableChange(event){
+    if(event){
+      this.selectedSettingResultsObj.facets.isEnabled = event.target.checked;
+      if(!event.target.checked){
+        this.selectedSettingResultsObj.facets.aligned ="left";
+      }
+    }
+  }
+  facetTypeChange(event , value){
+    if(event && value){
+      this.selectedSettingResultsObj.facets.aligned = value;
+    }
+  }
   openCustomModal() {
     let templateId;
     this.list.forEach(element => {
@@ -381,6 +394,10 @@ export class SearchInterfaceComponent implements OnInit {
             },
           "view": this.selectedSettingResultsObj.view,
           "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
+          "facets" : {
+            "aligned" : this.selectedSettingResultsObj.facets.aligned,
+            "isEnabled" : this.selectedSettingResultsObj.facets.isEnabled
+          },
           "interface": this.selectedSetting,
           "appearance": this.selectedSettingResultsObj.appearance
           // [
@@ -500,6 +517,10 @@ class selectedSettingResults{
   }
   view= "fit"
   maxResultsAllowed= 10
+  facets :{
+    aligned : "left",
+    isEnabled : false
+  }
   interface= "search"
   appearance= [
       {

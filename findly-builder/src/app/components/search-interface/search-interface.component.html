@@ -47,7 +47,7 @@
           
           <!-- liveSearch -->
           <!-- fullPageResult -->
-          <div class="radio-section" *ngIf="selectedSetting == 'fullPageResult'">
+          <div class="radio-section" *ngIf="selectedSetting == 'fullSearch'">
             <div class="radio-block">
               <div class="main-title">Configure same as Search</div>
               
@@ -123,38 +123,38 @@
             </div>
           </div>  
           <!-- Full results Facet--> 
-            <ng-container *ngIf="selectedSetting == 'fullPageResult'">
+            <ng-container *ngIf="selectedSetting == 'fullSearch'">
                 <div class="ful-page-facet">
                     <div class="label-text">Facets</div>
                     <div class="helper-text">Helper Text here</div>
                     <label class="kr-sg-toggle">                                       
-                      <input type="checkbox">
+                      <input type="checkbox" (change)= "facetEnableChange($event)" [checked] = "selectedSettingResultsObj.facets.isEnabled">
                       <div class="slider"><span class="enabled">Enabled</span><span class="disabled">Disabled</span></div>
                     </label> 
 
-                    <div class="group-radiobutton mt-4">                  
+                    <div class="group-radiobutton mt-4" *ngIf="selectedSettingResultsObj.facets.isEnabled">                  
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-24" name="radio" class="radio-custom" type="radio" checked>
+                          <input id="radio-24" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'left')" [checked] ="selectedSettingResultsObj.facets.aligned == 'left'">
                           <label for="radio-24" class="radio-custom-label">Left Aligned</label>
                       </div>
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-25" name="radio" class="radio-custom" type="radio">
+                          <input id="radio-25" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'right')" [checked] ="selectedSettingResultsObj.facets.aligned == 'right'">
                           <label for="radio-25" class="radio-custom-label">Right Aligned</label>
                       </div>
                       <div class="kr-sg-radiobutton">
-                          <input id="radio-26" name="radio" class="radio-custom" type="radio">
+                          <input id="radio-26" name="radio" class="radio-custom" type="radio" (change)= "facetTypeChange($event,'top')" [checked] ="selectedSettingResultsObj.facets.aligned == 'top'">
                           <label for="radio-26" class="radio-custom-label">Top Aligned</label>
                       </div>
                     </div>
 
-                    <div class="left-aligned mt-3">
-                      <img src="assets/icons/search-interface/left-aligned.svg">
+                    <div class="left-aligned mt-3"  *ngIf="selectedSettingResultsObj.facets.isEnabled">
+                      <img src="assets/icons/search-interface/left-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'left'">
                     </div>
                     <div class="right-aligned mt-3">
-                      <img src="assets/icons/search-interface/right-aligned.svg">
+                      <img src="assets/icons/search-interface/right-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'right'">
                     </div>
                     <div class="left-aligned mt-3">
-                      <img src="assets/icons/search-interface/top-aligned.svg">
+                      <img src="assets/icons/search-interface/top-aligned.svg" *ngIf="selectedSettingResultsObj.facets.aligned == 'top'" >
                     </div>
                 </div>
             </ng-container>   
