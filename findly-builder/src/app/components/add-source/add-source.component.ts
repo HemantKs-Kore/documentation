@@ -83,6 +83,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwal_jobId: any;
   userInfo: any = {};
   csvContent: any = '';
+  extract_sourceId: any;
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
   availableSources: any = [
     {
@@ -562,7 +563,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    
+
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic"
       this.importFaq();
@@ -633,6 +634,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
+        //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
@@ -661,7 +663,8 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.confirmCrawl();
           }
           //this.poling(res._id, 'scheduler');
-          this.crwal_jobId = res._id
+          this.extract_sourceId = res._id;
+          this.crwal_jobId = res.jobId
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1107,20 +1110,21 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.closeStatusModal();
         }
       })
-      if(this.statusObject.validation){
-        if(this.statusObject.validation.validated ){
-          this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
-        }else{
-          this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
-        }
-        
+    if (this.statusObject.validation) {
+      if (this.statusObject.validation.validated) {
+        this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
+      } else {
+        this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
       }
+
+    }
   }
   //crawl job ondemand
   jobOndemand() {
+    console.log("this.extract_sourceId", this.extract_sourceId)
     const queryParams: any = {
       searchIndexID: this.searchIndexId,
-      sourceId: this.crwal_jobId
+      sourceId: this.extract_sourceId
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       console.log(res);
