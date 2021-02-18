@@ -143,7 +143,7 @@
                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
                 </button>
                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                  <li (click)="sourceFilter.close();filterTable('all','recentStatus')"><span
+                  <li (click)="statusFilter.close();filterTable('all','recentStatus')"><span
                       class="list-name">All</span><img
                       [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}" src="assets/icons/check-blue.svg"></li>
                   <li *ngFor="let status of statusArr"
