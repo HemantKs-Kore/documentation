@@ -237,7 +237,7 @@ export class DashboardComponent implements OnInit {
       }else if(type == 'TopSearchResults'){
         this.topSearchResults = res.result;
       }else if(type == "MostClickedPositions"){
-        this.mostClickedPositions = res.result;
+        this.mostClickedPositions = res.results;
         this.mostClick();
       }else if(type == "FeedbackStats"){
             this.feedbackStats = res ||{};
@@ -576,10 +576,10 @@ export class DashboardComponent implements OnInit {
       let yAxisData = [];
       if(this.mostClickedPositions){
         this.mostClickedPositions.forEach(element => {
-          if(element.position == 1 ) yAxisData.push(element.position + " st")
-          if(element.position == 2 ) yAxisData.push(element.position + " nd")
-          if(element.position == 3 ) yAxisData.push(element.position + " rd")
-          if(element.position > 3 )yAxisData.push(element.position + " th");
+          if(element.position == 0 ) yAxisData.push(Number(element.position+1) + " st")
+          if(element.position == 1 ) yAxisData.push(Number(element.position+1) + " nd")
+          if(element.position == 2 ) yAxisData.push(Number(element.position+1) + " rd")
+          if(element.position > 2 )yAxisData.push(Number(element.position+1) + " th");
           xAxisData.push(element.clicks)
         });
       }else{
