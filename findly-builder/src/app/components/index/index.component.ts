@@ -497,9 +497,10 @@ if(this.selectedStage && this.selectedStage.type === 'exclude_document'){
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Are you sure you want to save ?',
+        // newTitle: 'Are you sure you want to save ?',
+        newTitle: 'Stage configuration is successfully saved',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Save' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn:true }],
         confirmationPopUp:true
       }
     });
