@@ -7988,7 +7988,9 @@ html , body{
     left: 0px;   
     top: 5px;
   }
-  
+  .accordion span.desc-info {
+    cursor: default !important;
+    }
   .accordion.acc-active:before {
     transform: rotate(90deg) !important;    
   }

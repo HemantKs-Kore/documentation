@@ -139,7 +139,7 @@
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{faq._source.question}}</div>
                                                     <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.defaultAnswers[0].payload)'></div>
-                                                    <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                    <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
                                             <div class="follow_up d-none" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
@@ -151,7 +151,7 @@
                                                         <div class="title">{{followUpQuestion._source.question}}</div>
                                                         <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
                                                             <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
-                                                           <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                           <!-- <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                         </ng-container>
                                                     </div>
                                                 </ng-container>
@@ -451,9 +451,9 @@
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
                                                     <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
-                                                    <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                                    <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
                                                 </ng-container> 
-                                            </ng-container>
+                                            </ng-container>   
                                         </div>
                                         <div class="conditionalBlock bot-response-view-mode" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
@@ -467,7 +467,7 @@
                                                         </div>
                                                         <ng-container>
                                                             <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>
-                                                             <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div>
+                                                             <!-- <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div> -->
                                                         </ng-container> 
                                                     </div>
                                                 </div>

@@ -568,13 +568,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       payload.extractionType = "basic"
       this.importFaq();
     }
-    else if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
       payload.extractionType = "annotation"
       this.faqAnotate(payload, endPoint, quaryparms);
       schdVal = true;
+      return
     }
     if (this.selectedSourceType.annotate && this.selectedSourceType.sourceType === 'faq' && resourceType != 'importfaq' && this.selectedSourceType.id != 'faqDoc') {
       quaryparms.faqType = 'document';
@@ -582,6 +583,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       payload.fileId = this.fileObj.fileId;
       this.faqAnotate(payload, endPoint, quaryparms);
       schdVal = true;
+      return
     } else {
       if (this.selectedSourceType.sourceType === 'content') {
         endPoint = 'add.sourceMaterial';

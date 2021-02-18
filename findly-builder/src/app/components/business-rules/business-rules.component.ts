@@ -414,7 +414,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     outcomeObj.fieldDataType = data.fieldDataType
     outcomeObj.fieldName = data.fieldName
     outcomeObj.fieldId = data._id;
-    this.fieldAutoSuggestion = [];
+    //this.fieldAutoSuggestion = [];
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);
