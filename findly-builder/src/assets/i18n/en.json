@@ -278,7 +278,7 @@
             "Appearances": "Appearances",
             "Clicks": "Clicks",
             "Avg_Position": "Avg Position",
-            "Most_Clicked_Position": "Most Clicked Position",
+            "Most_Clicked_Position": "Most Clicked Positions",
             "Feedback_Received": "Feedback  Received",
             "Number_of_Clicks": "Number of Clicks",
             "Feedback": "Feedback",
@@ -382,6 +382,14 @@
         "and": "AND",
         "_or": "OR",
         "add_rule": "Add Rule",
-        "edit_structured_data": "Edit Structured Data"
+        "edit_structured_data": "Edit Structured Data",
+        "key_caps" : "KEY",
+        "value_caps" : "VALUE",
+        "selected" : "Selected",
+        "fields" : "Fields",
+        "view_structured_data" : "View Structured Data",
+        "edit" : "Edit",
+        "updated_by" : "Updated by",
+        "updated_on" : "Last Updated On"
     }
 }

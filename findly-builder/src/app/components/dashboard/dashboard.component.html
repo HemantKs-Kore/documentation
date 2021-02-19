@@ -7,19 +7,20 @@
         </div>
         <div class="d-flex justify-content-end align-items-center col-9 p-0">
             <div class="custom_date_picker_sec">
-                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}"[(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"/>
+                <input type="text" class="d-none" readonly ngxDaterangepickerMd style="width: 320px" [timePicker]="true" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'MM/DD/YYYY hh:mm A'}" [(ngModel)]="selected" (datesUpdated)="onDatesUpdated($event)"
+                />
                 <button type="button" class="ngx-daterangepicker-action invisible custom_date_picker" style="position: absolute; width: 0; height: 0;" (click)="openDateTimePicker($event)" #datetimeTrigger></button>
-              </div>
+            </div>
             <!-- <div class="date-info">All conversation sessions between <span class="bold-text">01-08-2020 to 07-08-2020</span></div>                 -->
             <div class="date-select">
                 <span class="day time " (click)="getDateRange(1)" [ngClass]="{'selected': defaultSelectedDay === 1}">24 Hrs</span>
-                <span class="week time"(click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
+                <span class="week time" (click)="getDateRange(7)" [ngClass]="{'selected': defaultSelectedDay === 7}">7 Days</span>
                 <span class="custom time" (click)="getDateRange(-1)" [ngClass]="{'selected': defaultSelectedDay === -1}">Custom</span>
             </div>
             <div class="export"><img src="assets/icons/share.svg"></div>
         </div>
     </div>
-    <perfect-scrollbar class="scroll_content">        
+    <perfect-scrollbar class="scroll_content">
         <div *ngIf="slider === 0" class="main-dashbord-metrics">
             <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">
                 <div class="col cards-data">
@@ -28,7 +29,7 @@
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{ totalUsersStats.totalUsers}}</div>
-                                <div class="data-percentage" [ngClass] ="{'failed' : totalUsersStats.percentageIncrease < 0}">
+                                <div class="data-percentage" [ngClass]="{'failed' : totalUsersStats.percentageIncrease < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalUsersStats.percentageIncrease >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalUsersStats.percentageIncrease < 0">
                                     <span class="percentage">{{ totalUsersStats.percentageIncrease }}%</span>
@@ -46,8 +47,9 @@
                         <div class="title-info">{{'metrics.dash_board_view.total_searches'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
-                                <div class="count">{{ totalSearchesStats.totalSearches}}</div> <!-- {{totalSearchSum}} -->
-                                <div class="data-percentage" [ngClass] ="{'failed' : totalSearchesStats.searchRate < 0}">
+                                <div class="count">{{ totalSearchesStats.totalSearches}}</div>
+                                <!-- {{totalSearchSum}} -->
+                                <div class="data-percentage" [ngClass]="{'failed' : totalSearchesStats.searchRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.searchRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.searchRate < 0">
                                     <span class="percentage">{{ totalSearchesStats.searchRate}}%</span>
@@ -66,7 +68,7 @@
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.resultRate }}%</div>
-                                <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.increasedResultRate < 0}">
+                                <div class="data-percentage " [ngClass]="{'failed' : totalSearchesStats.increasedResultRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.increasedResultRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.increasedResultRate < 0">
                                     <span class="percentage">{{totalSearchesStats.increasedResultRate }}%</span>
@@ -92,13 +94,14 @@
                                 </div>
                             </div> -->
                             <div class="left-sec col-12 p-0">
-                                <div class="count">{{totalSearchesStats.clicks }}<span class="ctr">CTR: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span></div>
-                                <div class="data-percentage " [ngClass] ="{'failed' : totalSearchesStats.clickRate < 0}">
+                                <div class="count">{{totalSearchesStats.clicks }}<span class="ctr">CTR: <span class="ctr-count">{{totalSearchesStats.ctr}}%</span></span>
+                                </div>
+                                <div class="data-percentage " [ngClass]="{'failed' : totalSearchesStats.clickRate < 0}">
                                     <img src="assets/icons/arrow-increase.svg" *ngIf="totalSearchesStats.clickRate >= 0">
                                     <img src="assets/icons/arrow-decrease.svg" *ngIf="totalSearchesStats.clickRate < 0">
                                     <span class="percentage">{{totalSearchesStats.clickRate}}%</span>
                                 </div>
-                            </div>   
+                            </div>
                             <!-- <div class="right-sec">
                                 <img *ngIf="totalSearchesStats.clickRate >= 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAATCAYAAAApmKv9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAATESURBVHgB3Vd9TJVVGH/OuRcTFG6IM8VQpHDl2FgY4TQNwRj+oSP6chouCA2clF+0YDjuVlMIYwsiJ8OYMBIzy7XUJQpGQuooQ+nDQrOxRiskYCjc957zPD0vX3OsCXFpdvndvfec933Pe857fs/v+Z33CHARGeff9fMAZ5qSom5X+JYqcHNIcBEWqaYTQIAgjIMJAJcJIRJ+QvI/gKe9Yc90cHO4rhAQfmY3hCR6lQwDN4cVXIQFaLo2S2khSWoOuCkCSyPvNUuXCSFAVogA5B8JGQBuiIcORgYCeNSYddc9BCxeQggaOJuTceHtDdvdyEseroiay2RUczWQBH0rwAWYS66nFbM00VQhxSFlGLEaaAYRSQR91ql1g0L5a+GyzD/hf4iQypVpJDAbEachQaPD4Vw+ZkLsTSXTLA7HNiQ9gxDb7Y9ted1cZQwNcTxAJAq2FI1SC2THhTZF6nDB49k1MM6IOZoQQVK8ytENQMLzDgNL6545+N3wdgs/XGFD56Q+n0CrdSmB2slJHsjLpEUB1vb2GPHXE890jImQXY37Iniyz2pUU5Co3YEyf3fE5huD982UkQqfIKAFqDGISHuzx/DiTN+DpMqCJfYmcBGrzyZ5qw6Rowlj2Mckq1QSMP08QR6nisfOro2rbDHbLjoSv4QnX8GB8uVSMnF9B1tfCynacHntiS8G+x0VIfZfSid7dPU+2Haz56rNx8dzkqHsiJoHxmbdemOffbX91p2e3/HVG5FODWv4hWaa1guC2jidrrMVn7vla9SXh+65+U/PrT35SrChjdko8MrHscWtQ2Sc3OyvnD1FYBJO1M33D2inPEXSSOL+F/M4c5kQMwDneOImSUvNgHC9hfoJ6eJjb+Nzx8uHjzkiIbnf7PefZJUpGtFLga4SRIu4M3OpPZMVlnoERomUOvsMi4YoKSFaEc0k1BxRtGgB1zp1x2uHl7/XPdj2hdNbCxHEfNTa1q8sUwF4kdt/zXTO1hpWsBps/B6tEtX6z1aV/Tb4bOTxdfejU23nT8XnTRUwARYmSDItb12I/yR3pPe8IyG7L1X4eoLaiKT82HTMTh2sjCkcBcdkD4/cbSHJ7TAGpH5pD1JKBUkBCRr0LI50VUlkTl4/GTsSAfGlPiIE/Y4AzRyMcCbQ1h/lAckD/SS0kXY7Gbdj2dE1AU7eUpA22O89OuvjD40qTUXR5fLFTtSzOnzomH1eYq95sbCpLIoHDBKK/JXUXqzyH1gdXFJwH+tIHRkLU+3gIpJPZd4nrCKP+/QfkPYfrAL/vgmjJemDmLyfB9s+/fmmVXx/Nmhs1VL++OnKvVfgP4AovFS+k3P6Hq52KKBj/E2xgM3hkT7tsCo06U6bN7zzVxeEK3I+ZV5TpK9lhqUWwDhg4+msB7TU6ZwWwawWTg/+NkI8UPZk/vtwF2BV3qrQ2m1N5sj4WoVYxyowd2wOtuCPEKHX5gOtiayc/Pr8BjnFFqtJeUmwEIwTiqPfvMpFill/sSZ9plVYpu6PzmmGu4QhDzHThKM/jxO31zCgeuujCa3DG+deLN7ETMxn/27KCH25BCYghvYyaSHrq0dqLKWuZcMORqXGZKbugH+1l0kPTW1isyua7HCcgAmKvwFcV7Lg9qECxgAAAABJRU5ErkJggg==">
                                 <img *ngIf="totalSearchesStats.clickRate < 0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAAPCAYAAABdjGkdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAASbSURBVHgB7VZbTFxVFN373HuHx4BtQVKKtbyLEGyLMCBgBQrMiGliouHDRBP98MvEtCZGg2mi/tQPTfth4ncTY2Ki8aNGO1AKqRY6TAdtw6uFGaA8Sqa2oWXIMPdxtvuS0hBLeNRignb93HvOuXc/1l575wA8xn8X155rKAyWu4eDLs/b8JBA2AQMVVcnO2JJhRYZt0CNu5nv++Uu/AtgMtoJMJOTUiXGXsj3dU7CBvFICQkX1SbNO7VSCVhEJBVUFBWBVCKKICpdOb4zV2CTEKpofJNIfAxICi/ZJ/iJjE/z/R39G7GzYUImKisT9GjSbk41TwqM5PR4f70fVLnnIFiygARqAHSNz3dwYLsUBCcScKA4gQLPZ188Mwb/EH1MfkKi4x1CFCCgF0l+BIR7BMLnXICjvJ8CxMQg+Pj5Xp6/dWI9dtdFSEdtrZo2n/hkPJgaV3wvBxCHFstSgDJr3f6pLBAwZva5nZE4ahYoVF2LfPfMhQtzS/+PlLmLBVANKiJVSlBQ0BwHH1ZBDkxOR/qrJrujK/mdrjqUuaBrO6VOY3lXWsNL+6Ou2nQA7bhELOSlrQht8UlwOtff2jJc0bQbyHpfEFRzhll2CzExX+T6Wo+vleuahEyVHk7UVWsfSctBQBrXQ4kZeEsVMpmrkZKgOQIZXT+Pj7jcVayKvULDUE5X6/m/2wmWNmwTDu2AaZml7DQVQTAfUuWenwnPzH21nBRWWgv7yuXvkmlR/qSwwgYRoU+iyECQLwLidpAQBhS/EcpyJmOPpZjNBd3nppb75WJ8wAX80CaF45vi1n19tdZdlZC+omaH0zlbZCng1AgXLMFTwTD/zLzUHrpaVp+jCLHfIjlZ4G/3h1yNb0h2ujBvfF880BlZze7YQc8uU6cMQejhZNMkUCDf3/aNfTZa4XmFbb7GncCEwW2O0Jb6fk5mGwIqPJu42qgi4WhMQktRwHsD1sBIWWM1k/k1CMy224htfou6+VnO7+fGHyBkuKQpTQgjIRqdnikeGNAXg3K9nK6qVpJhgdMUFE8G3CkItA4t/3FROYrutuyFCl1oQKMicCHL5/0B1om+Sk9KvCnfRSF2gj2EEXWSlMzyVoVhHVsecLCsvoFJSudqh6UQobxu7whsEPeUd8xWHfuaY9XV8Qy8vPwbZCk/KzkAULSYMA2WW/w2IWIphmGAiHMoXEVzPDHWX9fZaT7goKLJTZaRbM8NEqRZRDfze856YQOYqDz8lGkZrC6ZxUEqTIhqIpwu6Gn7ETYBoZJDmaCqXzIxr7K/8Tu6XlLyR+fs0jnabRGXHMkjaTq0e5tSkl3460Z8oryh3Y2uRIYNWyVR1GtYgk8sDi6B03k+bwc8JAbL61MdFjpzA2evwyZi9EDtdulw9PIrtxCezPV7jy6d3Z8hdptY3CaqRZaizM083b3y5F8JYxWeOktSBt8Brub2tF2CLYDB51/KipOyl9tnhxDiLb4KnLL3H8nFbKjcna2BrFQlXbQHLmwRBCs8R4DoBL/aLXNS1/VTm3J130oIutwnWBZH7HcmY+x/T4iNUVdjDQ/NT0CIy38B1Y7+DvOnkW4AAAAASUVORK5CYII=">
@@ -128,7 +131,7 @@
                                     <span class="count"><img src="assets/icons/arrow_green.svg">{{totalSearchSum}}</span>
                                     <span class="percentage">+8%</span>
                                 </div> -->
-                            </div>                        
+                            </div>
                         </div>
                         <div class="kr-sg-dropdowns filter-dropdown" ngbDropdown [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -180,8 +183,7 @@
                         <div class="table-content-data">
                             <div class="table_header row m-0">
                                 <div class="col-10 header-title">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    {{'metrics.dash_board_view.Count'| translate}}</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg"> {{'metrics.dash_board_view.Count'| translate}}</div>
                             </div>
                             <div *ngIf="mostSearchedQuries">
                                 <div class="table_body row m-0" *ngFor="let top of mostSearchedQuries;let i = index">
@@ -201,8 +203,7 @@
                         <div class="table-content-data">
                             <div class="table_header row m-0">
                                 <div class="col-10 header-title">{{'metrics.dash_board_view.Searched_Intent'| translate}}</div>
-                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
-                                    {{'metrics.dash_board_view.Count'| translate}}</div>
+                                <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg"> {{'metrics.dash_board_view.Count'| translate}}</div>
                             </div>
                             <div *ngIf="topQuriesWithNoResults">
                                 <div class="table_body row m-0" *ngFor="let top of topQuriesWithNoResults;let i = index">
@@ -210,7 +211,7 @@
                                     <div class="col-2 header-title text-right">{{top.count}}</div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="create_new_link" (click)="viewAll('/searchInsights','Top_Search_Queries_with_No_Result')">View all</div>
                         <!-- <app-pagination  [totalRecord]='tsqNoRtotalRecord' [limitpage]='tsqNoRlimitpage' [recordEnd]="tsqNoRrecordEnd"
@@ -250,14 +251,15 @@
                                 <div class="col-1 header-title text-right"><img src="assets/icons/sort_up_down.svg"></div>
                                 <div class="col-1 header-title text-center">{{'metrics.dash_board_view.Appearances'| translate}}</div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Clicks'| translate}}</div>
-                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div> <!--  ngbTooltip='Click-Through Rate' -->
+                                <div class="col-2 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.ctr'| translate}}</div>
+                                <!--  ngbTooltip='Click-Through Rate' -->
                                 <div class="col-1 header-title text-center"><img src="assets/icons/sort_up_down.svg">{{'metrics.dash_board_view.Avg_Position'| translate}}</div>
                                 <!-- <div class="col-1 header-title text-center"><img src="assets/icons/pos-thumb.svg"></div>
                                 <div class="col-1 header-title text-center"><img src="assets/icons/neg-thumb.svg"></div> -->
                                 <!-- <div class="col-2 header-title text-right"><img src="assets/icons/sort_up_down.svg">
                                     Count</div> -->
                             </div>
-                            <div class="table_body row m-0"  *ngFor="let topSearchResult of topSearchResults;let i = index">
+                            <div class="table_body row m-0" *ngFor="let topSearchResult of topSearchResults;let i = index">
                                 <div class="col-6 body-title ">{{topSearchResult.answer}}</div>
                                 <div class="col-1 header-title text-right"></div>
                                 <div class="col-1 body-title text-center">{{topSearchResult.appearances}}</div>
@@ -330,9 +332,9 @@
                 </div>
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">{{'metrics.dash_board_view.Feedback_Received'| translate}}</div>                        
+                        <div class="title-card">{{'metrics.dash_board_view.Feedback'| translate}}</div>
                         <div class="row col-12 m-0 p-0">
-                            <div class="col-6 m-0 p-0 legends_sec_piechart">                                
+                            <div class="col-6 m-0 p-0 legends_sec_piechart">
                                 <div echarts [options]="feedbackPieSearches" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
@@ -341,26 +343,26 @@
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication feedback"></span>
-                                        <span class="title">{{'metrics.dash_board_view.Feedback'| translate}}</span>
+                                        <span class="title">{{'metrics.dash_board_view.Feedback_Received'| translate}}</span>
                                     </div>
                                 </div>
-                            </div>                          
+                            </div>
                             <div class="col-6 m-0 p-0 legends_sec_piechart">
                                 <div echarts [options]="feedbackPieResult" class="pie-chart-graph"></div>
                                 <div class="legend-data col-12 p-0">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Useful_Result'| translate}}</span>                                   
+                                        <span class="indication usefull"></span><span class="title">{{'metrics.dash_board_view.Useful_Result'| translate}}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="indication notusefull"></span><span class="title">{{'metrics.dash_board_view.Not_Useful_Result'| translate}}</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>                      
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         <!-- <div *ngIf="slider === 2">
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-12 box-content">
@@ -432,5 +434,5 @@
                 </div>
             </div>
         </div> -->
-    </perfect-scrollbar>        
+    </perfect-scrollbar>
 </div>

@@ -210,7 +210,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to Reset',
         newTitle : 'Are you sure you want to Reset?',
         body : 'Selected customizations will be Reset once you proceed.',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });

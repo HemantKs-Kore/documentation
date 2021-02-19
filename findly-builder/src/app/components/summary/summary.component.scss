@@ -119,7 +119,7 @@
                         font-weight: normal;
                         font-size: 10px;
                         line-height: 12px;
-                        margin-top: 5px;
+                        margin-top: 5px;                    
                     }
                 }
                 .show-all-channels-link{
@@ -162,7 +162,7 @@
                 .title-info{
                     color: #5F6368;
                     font-weight: 500;
-                    font-size: 14px;
+                    font-size: 13px;
                     img{
                         cursor: pointer;
                     }
@@ -349,6 +349,7 @@
                         font-size: 14px;
                         line-height: 17px;  
                         padding-left: 0;      
+                        word-break: break-all;
                         &.time-stamp{
                             text-align: center;
                             color: #BDC1C6;
@@ -420,6 +421,14 @@
                                 background: #EAF6EC;
                                 color: #135423;
                             }
+                            &.configured {
+                                background: #e7f1ff;
+                                color: #0d6efd;
+                              }
+                              &.stopped {
+                                background: #fceaed;
+                                color: #dd3646;
+                              }
                         }
                         img{
                             cursor: pointer;

@@ -63,10 +63,10 @@ const routes: Routes = [
       { path: 'credentials-list', component: CredentialsListComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'experiments', component: ExperimentsComponent },
-      { path: 'searchInterface', component: SearchInterfaceComponent},
+      { path: 'searchInterface', component: SearchInterfaceComponent },
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
-      { path: '**', component: AppsListingComponent },
+      { path: '**', component: AppsListingComponent }
     ]
   }
 ];
