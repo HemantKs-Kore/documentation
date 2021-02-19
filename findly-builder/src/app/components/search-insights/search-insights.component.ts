@@ -14,6 +14,8 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
   styleUrls: ['./search-insights.component.scss']
 })
 export class SearchInsightsComponent implements OnInit {
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   viewQueriesRef:any;
   searchSources : any = '';
   selectedApp : any;
