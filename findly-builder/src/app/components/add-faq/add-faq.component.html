@@ -85,8 +85,8 @@
           <ng-container>
             <div class="desc-info" *ngIf="responseObj.type==='string'"
               [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(responseObj.payload)'></div>
-            <div class="desc-info desc-info-javascript-message" *ngIf="responseObj.type==='javascript'">Javascript
-              message</div>
+            <div class="desc-info desc-info-javascript-message" *ngIf="responseObj.type==='javascript'">
+              </div>
           </ng-container>
         </div>
       </div>
@@ -294,9 +294,18 @@
                 </div>
             </div>
         </div>
-        <div class="kr-sg-input-text mb-3"  *ngIf="uploadImage.slide"> 
+        <!-- <div class="kr-sg-input-text mb-3">
+        <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
+        <div class="label-text">URL</div>
+      </div> -->
+        <div class="kr-sg-input-text mb-3"> 
           <div class="label-text">URL</div>
+          <div *ngIf="!uploadImage.slide">
+          <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
+        </div>
+          <div *ngIf="uploadImage.slide">
           <input maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName">
+        </div>
         </div>
         </div>
        
