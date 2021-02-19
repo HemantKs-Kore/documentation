@@ -14,6 +14,8 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
   styleUrls: ['./search-insights.component.scss']
 })
 export class SearchInsightsComponent implements OnInit {
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   viewQueriesRef:any;
   searchSources : any = '';
   selectedApp : any;
@@ -115,7 +117,7 @@ export class SearchInsightsComponent implements OnInit {
       'x-timezone-offset': '-330'
     };
     let queryparams:any={searchIndexId: this.serachIndexId};
-    if(type == 'TopQuriesWithNoResults'){
+    if(type == 'QueriesWithNoResults'){
       queryparams = {
         ...queryparams,
         offset: this.QWNR_skipPage,
@@ -148,7 +150,7 @@ export class SearchInsightsComponent implements OnInit {
       payload.query = this.selectedQuery;
     }
     this.service.invoke('get.queries', queryparams,payload,header).subscribe(res => {
-      if(type == 'TopQuriesWithNoResults'){
+      if(type == 'QueriesWithNoResults'){
        this.topQuriesWithNoResults = res.result;
        this.QWNR_totalRecord = res.totalCount;
       }
@@ -179,7 +181,7 @@ export class SearchInsightsComponent implements OnInit {
     else if(type === 'QWNR'){
       this.QWNR_limitPage = event.limit;
       this.QWNR_skipPage = event.skip;
-      this.getQueries('TopQuriesWithNoResults');
+      this.getQueries('QueriesWithNoResults');
     }
     else if(type === 'SQR'){
       this.SQR_limitPage = event.limit;

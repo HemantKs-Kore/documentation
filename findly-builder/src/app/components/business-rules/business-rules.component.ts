@@ -26,6 +26,8 @@ declare const $: any;
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
   addBusinessRulesRef: any;
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   selectedApp;
   serachIndexId;
   indexPipelineId;
@@ -414,7 +416,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     outcomeObj.fieldDataType = data.fieldDataType
     outcomeObj.fieldName = data.fieldName
     outcomeObj.fieldId = data._id;
-    this.fieldAutoSuggestion = [];
+    //this.fieldAutoSuggestion = [];
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);

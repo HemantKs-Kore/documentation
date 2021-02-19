@@ -29,7 +29,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
   deleteFlag;
   indexPipelineId;
   searching;
-  searchField
+  searchField;
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   fieldWarnings:any = {
     NOT_INDEXED:'Indexed property has been set to False for this field',
     NOT_EXISTS:'Associated field has been deleted'
@@ -71,6 +73,11 @@ export class WeightsComponent implements OnInit, OnDestroy {
       this.addEditWeighObj.fieldName = event.fieldName;
       this.addEditWeighObj.fieldId = event._id;
       this.addEditWeighObj.name = event.fieldName;
+  }
+  clearField(){
+    this.addEditWeighObj.fieldName = '';
+    this.addEditWeighObj.fieldId = '';
+    this.addEditWeighObj.name ='';
   }
    getFieldAutoComplete(query){
     if (/^\d+$/.test(this.searchField)) {
