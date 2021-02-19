@@ -74,7 +74,7 @@ export class EndPointsService {
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content?skip=:skip&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId?skip=:skip&limit=:limit',
       method: 'get'
     };
     this.serviceList['delete.content.page'] = {
