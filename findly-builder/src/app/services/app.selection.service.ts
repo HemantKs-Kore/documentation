@@ -32,7 +32,7 @@ export class AppSelectionService {
     const subject = new ReplaySubject(1);
     subject.subscribe(res  => {
       this.indexList = res || [];
-      if (this.queryList) {
+      if (this.indexList) {
         //this.workflowService.appQueryPipelines(res);
         let indexPipeline: any = [];
         if (setindex && setindex._id) {
@@ -50,7 +50,7 @@ export class AppSelectionService {
         this.appSelectedConfigs.next(res);
       }
     }, errRes => {
-     // this.queryList = null;
+      this.indexList  = null;
     });
     appObserver.subscribe(subject);
     return subject;

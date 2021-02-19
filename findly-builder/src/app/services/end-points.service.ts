@@ -70,7 +70,7 @@ export class EndPointsService {
     };
     this.serviceList['train.app'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
