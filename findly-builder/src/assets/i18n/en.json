@@ -388,6 +388,8 @@
         "selected" : "Selected",
         "fields" : "Fields",
         "view_structured_data" : "View Structured Data",
-        "edit" : "Edit"
+        "edit" : "Edit",
+        "updated_by" : "Updated by",
+        "updated_on" : "Last Updated On"
     }
 }
