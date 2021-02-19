@@ -16,7 +16,9 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
-import {  DockStatusService} from '../../services/dock.status.service';
+// import {  DockStatusService } from '../../services/dock.status.service';
+// import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+
 declare const $: any;
 import * as moment from 'moment';
 
@@ -131,8 +133,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    private dock: DockStatusService,
+    // private dock: DockStatusService,
     private convertMDtoHTML:ConvertMDtoHTML,
+    // public dockService: DockStatusService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -1232,9 +1235,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.service.invoke('export.faq',quaryparms,payload).subscribe(res => {
       this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
-     this.dock.trigger()
-     
-
+    //  this.dock.trigger()
+    // Forcefull click
+    $('.status-docker').click();
       },
        errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

@@ -385,6 +385,6 @@
     </div>    
 </kr-modal>
 
-<div class="statusDockerContent" [style.visibility]="dockService.showStatusDocker ? 'visible' : 'hidden'">
+<div class="statusDockerContent" *ngIf="dockService.showStatusDocker">
 	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
 </div>
