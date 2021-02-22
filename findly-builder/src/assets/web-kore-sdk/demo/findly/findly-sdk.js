@@ -337,12 +337,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       // var SearchIndexID = 'sidx-99a5826d-2fa0-5490-b989-1757c74a4b83'; // DEV SearchIndexID
       var SearchIndexID = _self.config.botOptions ? _self.config.botOptions.searchIndexID : 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e';
+      var indexpipelineId = '';
       // var SearchIndexID = 'sidx-a0d5b74c-ef8d-51df-8cf0-d32617d3e66e' // PILOT SearchIndexID
       var pipelineId = '';
       if (window.selectedFindlyApp && window.selectedFindlyApp._id) {
         // SearchIndexID = window.selectedFindlyApp._id
         SearchIndexID = window.selectedFindlyApp._id;
         pipelineId = window.selectedFindlyApp.pipelineId;
+      }
+      if (window.selectedFindlyApp && window.selectedFindlyApp.indexpipelineId) {
+        indexpipelineId = window.selectedFindlyApp.indexpipelineId;
       }
       /*var baseUrl = "https://app.findly.ai/searchAssistant";
       var businessTooBaseURL = "https://app.findly.ai/api/1.1/findly/"*/
@@ -388,7 +392,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         streamId: _self.config.botOptions.botInfo.taskBotId,
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
-        searchResultsConfigURL : searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings"
+        searchResultsConfigURL : searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings",
+        indexpipelineId : indexpipelineId,
+        pipelineId : pipelineId
       };
       _self.API.uuid = uuid.v4();
       var botIntigrationUrl = businessTooBaseURL + SearchIndexID + '/linkedbotdetails';
@@ -5742,6 +5748,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
 
+      var _self = this;
+      if (!$('body').hasClass('demo')) {
+        payload.indexPipelineId = _self.API.indexpipelineId;
+        payload.queryPipelineId = _self.API.pipelineId;
+      }
+
       payload["messagePayload"] = {
         "clientMessageId": new Date().getTime(),
         "message": {
@@ -6861,6 +6873,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (msgObject && msgObject.nlmeta) {
         messageToBot["message"].nlmeta = msgObject.nlmeta;
+      }
+      if (!$('body').hasClass('demo')) {
+        messageToBot.indexPipelineId = _self.API.indexpipelineId;
+        messageToBot.queryPipelineId = _self.API.pipelineId;
       }
 
       if (_self.bot.options) {
