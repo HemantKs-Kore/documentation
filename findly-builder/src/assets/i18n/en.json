@@ -382,6 +382,18 @@
         "and": "AND",
         "_or": "OR",
         "add_rule": "Add Rule",
-        "edit_structured_data": "Edit Structured Data"
+        "edit_structured_data": "Edit Structured Data",
+        "key_caps" : "KEY",
+        "value_caps" : "VALUE",
+        "selected" : "Selected",
+        "fields" : "Fields",
+        "view_structured_data" : "View Structured Data",
+        "edit" : "Edit",
+        "updated_by" : "Updated by",
+        "updated_on" : "Last Updated On",
+        "noResultTemplate" : "Result templates are not defined for structured data. Go to",
+        "searchInterfacePath" : "Configs >> Search Interface",
+        "toDefine" : "to define.",
+        "learnMore" : "Learn More"
     }
 }
