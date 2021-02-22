@@ -983,7 +983,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <ul class="nav nav-tabs custom-nav-panel">\
                 <li class="tabTitle">\
                   {{each(key, facet) facets}}\
-                    <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
+                    <a class="capital facet" id="${facet.key}" href="javascript:void(0)" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
                         <span class="resultCount">(${facet.value})</span>\
                     </a>\
                   {{/each}}\
@@ -2887,6 +2887,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           bestFAQTitleDiv.find(".accordion").trigger('click');
         }
       }, 500);
+      setTimeout( function (){
+        if (!selectedFacet || selectedFacet === "all results") {
+          $('.facet:first').addClass('facetActive');
+        }
+        else{
+          $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
+        }
+      }, 100);
     }
     FindlySDK.prototype.invokeSearch = function() {
       var _self = this;
