@@ -153,7 +153,7 @@ export class TraitsComponent implements OnInit {
     }
   };
   saveTraits(traitsGroup?, byTraitId?) {
-    if(!this.traits.addEditTraits.groupName.trim()){
+    if (!this.traits.addEditTraits.groupName.trim()) {
       this.notificationService.notify('Please provide a valid trait group', 'error');
       return;
     }
@@ -284,10 +284,10 @@ export class TraitsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle:'Are you sure you want to delete ?',
-        body:'Selected trait group will be deleted.',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected trait group will be deleted.',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
+        confirmationPopUp: true
       }
 
     });
@@ -475,48 +475,50 @@ export class TraitsComponent implements OnInit {
   }
   addTraits(traitName, event) {
     const traits = [];
-    if (event && event.keyCode === 13) {
-      if (!traitName || traitName.trim() === '') {
-        return false;
-      }
-      if (this.checkForSecialChar(traitName, false, 'traits')) {
-        // this.notificationService.notify("Trait names can only contain alphanumeric characters, spaces and underscores.", 'error');
-        return false;
-      }
-      if (this.traits.addEditTraits.traits === undefined) {
-        this.traits.addEditTraits.traits = {};
-      }
+    if (traitName.trim() !== '') {
+      if (event && event.keyCode === 13) {
+        if (!traitName || traitName === '') {
+          return false;
+        }
+        if (this.checkForSecialChar(traitName, false, 'traits')) {
+          // this.notificationService.notify("Trait names can only contain alphanumeric characters, spaces and underscores.", 'error');
+          return false;
+        }
+        if (this.traits.addEditTraits.traits === undefined) {
+          this.traits.addEditTraits.traits = {};
+        }
 
-      if (this.traits.addEditTraits.traitsArray === undefined) {
-        this.traits.addEditTraits.traitsArray = [];
-      }
-      this.add = {
-        traitName: ''
-      };
-      const tempTraitKey = traitName;
-      if (!this.traits.addEditTraits.traits[tempTraitKey]) {
-        const dummyTraitsObj = {};
-        dummyTraitsObj[tempTraitKey] = {
-          data: [],
-          displayName: traitName,
-          key: tempTraitKey,
-          newKey: true
+        if (this.traits.addEditTraits.traitsArray === undefined) {
+          this.traits.addEditTraits.traitsArray = [];
+        }
+        this.add = {
+          traitName: ''
         };
-        Object.assign(dummyTraitsObj, (this.traits.addEditTraits.traits || {}));
-        this.traits.addEditTraits.newTrait = traitName;
-        this.traits.addEditTraits.traits = JSON.parse(JSON.stringify(dummyTraitsObj));
-        traits.push(dummyTraitsObj[tempTraitKey]);
-        this.traits.addEditTraits.traitsArray = traits.concat(this.traits.addEditTraits.traitsArray);
-        // this.traits.addEditTraits.traitsArray.push(dummyTraitsObj[tempTraitKey]);
-        setTimeout(() => {
-          if ($('#0traitsAccordian').hasClass('closedAccordian')) {
-            $('#0traitsAccordian').click();
-          }
-        }, 100);
-      } else {
-        this.notificationService.notify(traitName + ' is already added', 'error');
-      }
+        const tempTraitKey = traitName;
+        if (!this.traits.addEditTraits.traits[tempTraitKey]) {
+          const dummyTraitsObj = {};
+          dummyTraitsObj[tempTraitKey] = {
+            data: [],
+            displayName: traitName,
+            key: tempTraitKey,
+            newKey: true
+          };
+          Object.assign(dummyTraitsObj, (this.traits.addEditTraits.traits || {}));
+          this.traits.addEditTraits.newTrait = traitName;
+          this.traits.addEditTraits.traits = JSON.parse(JSON.stringify(dummyTraitsObj));
+          traits.push(dummyTraitsObj[tempTraitKey]);
+          this.traits.addEditTraits.traitsArray = traits.concat(this.traits.addEditTraits.traitsArray);
+          // this.traits.addEditTraits.traitsArray.push(dummyTraitsObj[tempTraitKey]);
+          setTimeout(() => {
+            if ($('#0traitsAccordian').hasClass('closedAccordian')) {
+              $('#0traitsAccordian').click();
+            }
+          }, 100);
+        } else {
+          this.notificationService.notify(traitName + ' is already added', 'error');
+        }
 
+      }
     }
   };
 
@@ -543,26 +545,26 @@ export class TraitsComponent implements OnInit {
       this.traits.addEditTraits.traits[key].utterance = '';
     }
   }
-  removeUtterances(index, parentIndex) {  
-    this.traitsObj[parentIndex].utterances.splice(index, 1);   
+  removeUtterances(index, parentIndex) {
+    this.traitsObj[parentIndex].utterances.splice(index, 1);
   }
-  deleteTraitInGroup = function (key, traitsGroup, event, traitIndex) {  
-    if (event) { 
-      event.preventDefault(); 
-      event.stopImmediatePropagation(); 
+  deleteTraitInGroup = function (key, traitsGroup, event, traitIndex) {
+    if (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
     }
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data: {    
+      data: {
         title: 'Delete Trait',
         text: 'Are you sure you want to delete Trait ?',
-        newTitle:'Are you sure you want to delete ?',
-        body:'Selected trait will be deleted. ',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'Selected trait will be deleted. ',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
+        confirmationPopUp: true
       }
 
     });
@@ -582,7 +584,7 @@ export class TraitsComponent implements OnInit {
 
 
 
-  
+
 
 
 

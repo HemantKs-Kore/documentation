@@ -26,6 +26,8 @@ export class AppHeaderComponent implements OnInit {
   fromCallFlow = '';
   showSwichAccountOption = false;
   searchActive = false;
+  searchImgSrc:any='assets/icons/search_gray.svg';
+  searchFocusIn=false;
   searchText: any;
   search: any;
   formatter: any;

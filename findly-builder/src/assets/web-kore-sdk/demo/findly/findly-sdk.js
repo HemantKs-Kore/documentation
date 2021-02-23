@@ -356,8 +356,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // var baseAPIServer = ''
       // var baseAPIServer = 'https://app.findly.ai';
     
-      //var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
-      var baseAPIServer = 'https://app.findly.ai'; // For XHR calls in DEV
+      var baseAPIServer =   _self.config.botOptions ? _self.config.botOptions.baseAPIServer : 'https://dev.findly.ai'; // For XHR calls in QA
+     // var baseAPIServer = 'https://dev.findly.ai'; // For XHR calls in DEV
       //var baseAPIServer = 'https://pilot.searchassist.ai'; // For XHR calls in PILOT
 
 
@@ -989,7 +989,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <ul class="nav nav-tabs custom-nav-panel">\
                 <li class="tabTitle">\
                   {{each(key, facet) facets}}\
-                    <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
+                    <a class="capital facet" id="${facet.key}" href="javascript:void(0)" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
                         <span class="resultCount">(${facet.value})</span>\
                     </a>\
                   {{/each}}\
@@ -2893,6 +2893,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           bestFAQTitleDiv.find(".accordion").trigger('click');
         }
       }, 500);
+      setTimeout( function (){
+        if (!selectedFacet || selectedFacet === "all results") {
+          $('.facet:first').addClass('facetActive');
+        }
+        else{
+          $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
+        }
+      }, 100);
     }
     FindlySDK.prototype.invokeSearch = function() {
       var _self = this;
@@ -15675,7 +15683,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         data.dataObj.object = [
           {
             "contentId": "fc-1cbc40e9-2b17-571b-b05c-b676f6bebf3a",
-            "__contentType": "object",
+            "contentType": "object",
             "score": 19.169224,
             "config": {
               "pinIndex": -1,
@@ -15709,7 +15717,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           },
           {
             "contentId": "fc-1cbc40e9-2b17-571b-b05c-b676f6bebf3a",
-            "__contentType": "object",
+            "contentType": "object",
             "score": 19.169224,
             "config": {
               "pinIndex": -1,
@@ -15743,7 +15751,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           },
           {
             "contentId": "fc-1cbc40e9-2b17-571b-b05c-b676f6bebf3a",
-            "__contentType": "object",
+            "contentType": "object",
             "score": 19.169224,
             "config": {
               "pinIndex": -1,
@@ -15888,7 +15896,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               item.config = obj.config;
               item.feedback = obj.feedback;
               item.customization = null;
-              item.__contentType = obj.__contentType;
+              item.contentType = obj.__contentType;
               item.contentId = obj.contentId;
               data.push(item);
             }

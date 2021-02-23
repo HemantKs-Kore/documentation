@@ -83,6 +83,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   crwal_jobId: any;
   userInfo: any = {};
   csvContent: any = '';
+  extract_sourceId: any;
   imageUrl = 'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
   availableSources: any = [
     {
@@ -182,7 +183,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   anntationObj: any = {};
   addManualFaqModalPopRef: any;
   addSourceModalPopRef: any;
-
+  crawlModalPopRef: any;
   linkBotsModalPopRef: any;
   noAssociatedBots: boolean = true;
   associatedBots: any = [];
@@ -211,6 +212,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('linkBotsModalPop') linkBotsModalPop: KRModalComponent;
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('structuredDataStatusModalPop') structuredDataStatusModalPop: KRModalComponent;
+  @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
   ngOnInit() {
     const _self = this
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -258,6 +260,14 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.addManualFaqModalPopRef.close();
     }
   }
+  openCrawlModalPop() {
+    this.crawlModalPopRef = this.crawlModalPop.open();
+  }
+  closeCrawlModalPop() {
+    if (this.crawlModalPopRef && this.crawlModalPopRef.close) {
+      this.crawlModalPopRef.close();
+    }
+  }
   openAddSourceModal() {
     this.addSourceModalPopRef = this.addSourceModalPop.open();
   }
@@ -275,7 +285,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.linkBotsModalPopRef.close();
     }
   }
-
+  datainc = 0;
   poling(jobId, schedule?) {
     console.log("poling jobId", jobId, schedule, this.selectedSourceType.sourceType)
     if (this.pollingSubscriber) {
@@ -287,7 +297,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
-        console.log("job status every time happen", res)
+        this.datainc = this.datainc + 1;
         this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
           return (source._id === jobId);
@@ -312,6 +322,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if (!schedule) this.statusObject.status = 'failed';
           this.crawlOkDisable = false;
         }
+        console.log("job status every time happen", this.statusObject);
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         this.statusObject.status = 'failed';
@@ -361,7 +372,17 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.redirectTo();
     this.cancleSourceAddition();
   }
-  stopCrwaling(source, event) {
+  closeCrawlModal() {
+    this.saveEvent.emit();
+    const self = this;
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    this.closeCrawlModalPop();
+    this.redirectTo();
+    //this.cancleSourceAddition();
+  }
+  stopCrwaling(event) {
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -562,12 +583,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
     let resourceType_import = resourceType;
-    
+
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
       payload.extractionType = "basic"
       this.importFaq();
     }
-     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
+    if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
       quaryparms.faqType = 'document';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
@@ -580,6 +601,9 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       quaryparms.faqType = 'document';
       payload.isNew = true;
       payload.fileId = this.fileObj.fileId;
+      if (this.selectedSourceType.annotate) {
+        payload.extractionType = "annotation"
+      }
       this.faqAnotate(payload, endPoint, quaryparms);
       schdVal = true;
       return
@@ -635,6 +659,10 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (resourceType === 'document') {
         payload.fileId = this.fileObj.fileId;
+        if (this.selectedSourceType.sourceType === 'faq') {
+          payload.extractionType = "basic"
+        }
+        //payload.extractionType = resourceType;
         quaryparms.resourceType = resourceType;
         payload.isNew = true;
         if (payload.hasOwnProperty('url')) delete payload.url;
@@ -653,17 +681,16 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-      console.log("payload now", payload, endPoint, schdVal);
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          console.log("new resd", res)
-          //this.openStatusModal();
+          console.log("proceedfor both pages", res, this.selectedSourceType.sourceType, resourceType)
+          this.openStatusModal();
           this.addSourceModalPopRef.close();
           if (this.selectedSourceType.sourceType === 'content' && resourceType === 'webdomain') {
-            this.confirmCrawl();
           }
-          //this.poling(res._id, 'scheduler');
-          this.crwal_jobId = res._id
+          this.poling(res._id, 'scheduler');
+          this.extract_sourceId = res._id;
+          this.crwal_jobId = res.jobId
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1109,25 +1136,27 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.closeStatusModal();
         }
       })
-      if(this.statusObject.validation){
-        if(this.statusObject.validation.validated ){
-          this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
-        }else{
-          this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
-        }
-        
+    if (this.statusObject.validation) {
+      if (this.statusObject.validation.validated) {
+        this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
+      } else {
+        this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
       }
+
+    }
   }
   //crawl job ondemand
   jobOndemand() {
+    this.statusModalPopRef.close();
+    this.openCrawlModalPop();
     const queryParams: any = {
       searchIndexID: this.searchIndexId,
-      sourceId: this.crwal_jobId
+      sourceId: this.extract_sourceId
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       console.log(res);
 
-      this.openStatusModal();
+      //this.openStatusModal();
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {

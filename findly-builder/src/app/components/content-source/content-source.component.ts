@@ -76,7 +76,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     validation: { name: 'Queued', color: '#0D6EFD' },
     scheduled: { name: 'Queued', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
-    configured: { name: 'Configured', color: '#202124' }
+    configured: { name: 'Validated', color: '#202124' }
   };
   executionObj: any = {
     'Execution Successful': {
@@ -101,15 +101,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'failed': { icon: "assets/icons/content/failed.svg" },
     'stopped': { icon: "assets/icons/content/stopped.svg" },
     'running': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
-    'crawling':{ icon: "assets/icons/content/ex-stat_inprogress.svg" },
-    'halted':{ icon: "assets/icons/content/stopped.svg" },
+    'crawling': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
+    'halted': { icon: "assets/icons/content/stopped.svg" },
     'inProgress': { icon: "assets/icons/content/ex-stat_inprogress.svg" }
   }
   finalStateExecutionstageStatusObj: any = {
     'success': { icon: "assets/icons/content/succes-circle.svg" },
     'failed': { icon: "assets/icons/content/failed-circle.svg" },
     'running': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
-    'halted':{ icon: "assets/icons/content/stopped.svg" },
+    'halted': { icon: "assets/icons/content/stopped.svg" },
     'stopped': { icon: "assets/icons/content/stopped.svg" },
   }
   stateExecutionStageNameObj: any = {
@@ -518,16 +518,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               status_log.timeTaken = this.duration(status_log.timeTaken);
             });
           }
-          if(element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut){
-            if(element.executionStats.statusLogs){
+          if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
+            if (element.executionStats.statusLogs) {
               //element.statusLogs.forEach(element => {
-                if(element.executionStats.statusLogs.length > 1){
-                  element.executionStats['tooltip'] ="" + element.executionStats.statusLogs[element.statusLogs.length - 2].stageName +  "failed due to timeout"
-                }
+              if (element.executionStats.statusLogs.length > 1) {
+                element.executionStats['tooltip'] = "" + element.executionStats.statusLogs[element.statusLogs.length - 2].stageName + "failed due to timeout"
+              }
               //});
             }
-          }else if(element.executionStats.executionStatusMessage == 'Execution Stopped'){
-            element.executionStats['tooltip'] ="Execution Stopped due to " + element.statusMessage || ' time out';
+          } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
+            element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
           }
         });
       }
@@ -1232,27 +1232,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   recrwal(from, record, event) {
-      if (event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: record._id,
+      sourceType: record.type,
+    };
+    this.service.invoke('recrwal', quaryparms).subscribe(res => {
+      this.getSourceList();
+      this.notificationService.notify('Recrwaled successfully', 'success');
+      this.closeStatusModal();
+      //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
       }
-      const quaryparms: any = {
-        searchIndexId: this.serachIndexId,
-        sourceId: record._id,
-        sourceType: record.type,
-      };
-      this.service.invoke('recrwal', quaryparms).subscribe(res => {
-        this.getSourceList();
-        this.notificationService.notify('Recrwaled successfully','success');
-        this.closeStatusModal();
-        //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      });
+    });
   }
   urlCondition(condition, type) {
     type == 'allow' ? this.urlConditionAllow = condition : this.urlConditionBlock = condition;
