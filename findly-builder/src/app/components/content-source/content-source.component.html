@@ -212,8 +212,8 @@
               </div>
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' && source.recentStatus !== 'configured'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
-                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && statusObj[source.recentStatus].name != 'In Progress' && source.recentStatus !== 'configured'"  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Recrawl' container="body"></span>
+                <span class="actions-links" *ngIf="source.extractionType == 'webdomain' && source.recentStatus == 'configured'"  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip='Crawl' container="body"></span>
                 <span class="actions-links" *ngIf="statusObj[source.recentStatus].name == 'In Progress' " (click)="stopCrwaling(source,$event)"><img class="action_icon"
                   src="assets/icons/content/stop.svg" ngbTooltip='Stop' container="body"></span>
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
