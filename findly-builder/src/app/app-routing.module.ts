@@ -30,6 +30,7 @@ import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.r
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
 import { StructuredDataComponent } from './components/structured-data/structured-data.component';
+import { SearchExperienceComponent } from './search-experience/search-experience.component';
 const routes: Routes = [
   {
     path: '',
@@ -66,6 +67,7 @@ const routes: Routes = [
       { path: 'searchInterface', component: SearchInterfaceComponent },
       { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
+      { path: 'search-experience', component: SearchExperienceComponent },
       { path: '**', component: AppsListingComponent }
     ]
   }
