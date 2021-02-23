@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
 import { retryWhen } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-structured-data',
@@ -102,6 +103,7 @@ export class StructuredDataComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private modalService: NgbModal,
     private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -277,6 +279,7 @@ export class StructuredDataComponent implements OnInit {
   closeStructuredDataModal(event?){
     this.selectedSourceType = {};
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
+      this.modalService.dismissAll();
       this.addStructuredDataModalPopRef.close();
       if(event && event.showStatusModal){
         this.structuredDataDocPayload = event.payload;
