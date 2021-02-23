@@ -143,7 +143,7 @@
                                     <div class="info-link">
                                         <img src="assets/icons/info.svg">
                                         <span class="tooltiptext">
-                                            <div class="">{{'structuredData.updated_by' | translate}} : {{data.modUserDetails.fullName}}</div>
+                                            <div class="">{{'structuredData.updated_by' | translate}} : {{data.modUserDetails ? data.modUserDetails.fullName : ''}}</div>
                                             <div class="">{{'structuredData.updated_on' | translate}} :  {{data.lMod | dateFormatPipe: 'DD-MMM-YYYY'}}</div>
                                         </span>
                                     </div>                                   
@@ -218,9 +218,9 @@
             <span class="please-wait-message">{{'synonyms.please_wait' | translate}}</span>
         </div>
     </perfect-scrollbar>
-    <div class="footer-info">
+    <div class="footer-info" *ngIf="isResultTemplate">
         <img class="info-icon" src="assets/icons/structured-data/Info.svg">
-        <div class="info-text">Result templates are not defined for structured data. Go to <b>Configs >> Search Interface</b> to define.<a href="#">Learn More</a></div>
+        <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <b>{{'structuredData.searchInterfacePath' | translate}}</b> {{'structuredData.toDefine' | translate}}<a href="#">{{'structuredData.learnMore' | translate}}</a></div>
         <img src="assets/icons/close.svg" class="close-info">
     </div>
 </div>
@@ -244,7 +244,7 @@
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                             <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName" placeholder="{{'structuredData.enter_field' | translate}}" class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">                                                                        
                             <ul class="dropdown-menu content-menu">
-                                <perfect-scrollbar class="">
+                                <perfect-scrollbar class="scroll-search-field">
                                     <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)"><a>{{suggesition.fieldName}}</a></li>
                                 </perfect-scrollbar>
                             </ul>

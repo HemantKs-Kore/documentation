@@ -983,7 +983,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <ul class="nav nav-tabs custom-nav-panel">\
                 <li class="tabTitle">\
                   {{each(key, facet) facets}}\
-                    <a class="capital facet" id="${facet.key}" href="#home" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
+                    <a class="capital facet" id="${facet.key}" href="javascript:void(0)" data-toggle="tab">{{html getFacetDisplayName(facet.key)}}\
                         <span class="resultCount">(${facet.value})</span>\
                     </a>\
                   {{/each}}\
@@ -1196,11 +1196,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="search-heads">${taskPrefix} FAQS</div>\
                 <div class="tasks-wrp">\
                 {{each(key, faq) faqs}}\
-                <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}" id="${key}">\
+                <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.__contentType}" id="${key}">\
                 <div class="notification-div"></div>\
                 <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <div class="faqs-wrp-content">\
-                  <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}">\
+                  <div class="title" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.__contentType}">\
                       <span class="accordion" id="${key}">{{html faq.question}}<span class="desc-info">{{html getHTMLForSearch(faq.answer)}}</span>\</span>\
                       <div class="panel">\
                         {{if faq.multimedia}}\
@@ -1293,7 +1293,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               <div class="search-heads">${taskPrefix} PAGES</div>\
               <div class="faqs-shadow tasks-wrp">\
               {{each(key, pageInfo) pages}}\
-              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.contentType}" id="${key}">\
+              <div class="faqs-shadow task-wrp matched_pages {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.__contentType}" id="${key}">\
               <div class="notification-div"></div>\
               <div class="indicator-div"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                 <a class="faqs-wrp-content" href="${pageInfo.url}" target="_blank">\
@@ -1382,7 +1382,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div class="tasks-wrp action-wrp btn_block_actions">\
                         {{each(key, task) tasks}}\
                           <div class="task-wrp action-wrp">\
-                            <button id="${key}" class="faq search-task" title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
+                            <button id="${key}" class="faq search-task" title="${task.taskName}" boost="${task.config.boost}" pinIndex="${task.config.pinIndex}" visible="${task.config.visible}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" payload="${task.payload}">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
                                 ${task.taskName}\
                             </button>\
@@ -1497,7 +1497,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             <div class="creditCardIconDiv">\
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJ1BMVEUAAAAAVaoEbq4DbK8GbK4Gbq8Gba0Fba8Fba4Fbq4Eba4Fba7////SVqJwAAAAC3RSTlMAA0hJVYKDqKmq4875bAAAAAABYktHRAyBs1FjAAAAP0lEQVQI12NgwACMJi5A4CzAwLobDBIYOCaAxDknMLCvnAkEsyYwcECkkBicMDV4GGwQxQEMjCogK5wEMC0HALyTIMofpWLWAAAAAElFTkSuQmCC" class="credit-card">\
                             </div>\
-                            <div class="creditCardDetails search-task" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
+                            <div class="creditCardDetails search-task" title="${task.taskName}" contentId="${task.taskId}" contentType="${task.__contentType}" childBotId="${task.childBotId}" childBotName="${task.childBotName}" id="${key}" payload="${task.payload}">\
                                 <p class="title">${task.taskName}</p>\
                                 <p class="desc">${task.text}</p>\
                             </div>\
@@ -1510,7 +1510,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="relatedPagesTitle">MATCHED PAGES</div>\
                   <div class="pages-wrp results-wrp">\
                     {{each(key, pageInfo) selectedFacet === "all results" ? pages.slice(0,5) : pages }}\
-                    <div class="faqs-shadow {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.contentType}" id="${key}">\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&pageInfo.config.visible==false}}display-none{{/if}} {{if pageInfo.config.visible==false}}hide-actions{{/if}} {{if pageInfo.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${pageInfo.config.boost}" pinIndex="${pageInfo.config.pinIndex}" visible="${pageInfo.config.visible}" contentId="${pageInfo.contentId}" contentType="${pageInfo.__contentType}" id="${key}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${pageInfo.url}" target="_blank">\
@@ -1612,7 +1612,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 <div class="mostlyAskedTitle">MATCHED FAQS</div>\
                 <div class="tasks-wrp results-wrp">\
                   {{each(key, faq) selectedFacet === "all results" ? faqs.slice(0,5) : faqs  }}\
-                  <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.contentType}" id="${key}">\
+                  <div class="faqs-shadow custom-position-relative {{if viewType=="Preview"&&faq.config.visible==false}}display-none{{/if}} {{if faq.config.visible==false}}hide-actions{{/if}} {{if faq.config.pinIndex>-1}}hide-visibility-control{{/if}}"" boost="${faq.config.boost}" pinIndex="${faq.config.pinIndex}" visible="${faq.config.visible}" contentId="${faq.contentId}" contentType="${faq.__contentType}" id="${key}">\
                   <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                     <div class="notification-div fullscreen"></div>\
                     <div class="faqs-wrp-content">\
@@ -1723,7 +1723,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="relatedPagesTitle">MATCHED DOCUMENTS</div>\
                   <div class="pages-wrp results-wrp">\
                     {{each(key, document) selectedFacet === "all results" ? documents.slice(0,5) : documents }}\
-                    <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.contentType}">\
+                    <div class="faqs-shadow {{if viewType=="Preview"&&document.config.visible==false}}display-none{{/if}} {{if document.config.visible==false}}hide-actions{{/if}} {{if document.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${document.config.boost}" pinIndex="${document.config.pinIndex}" visible="${document.config.visible}" contentId="${document.contentId}" contentType="${document.__contentType}">\
                     <div class="indicator-div fullscreen"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                       <div class="notification-div fullscreen"></div>\
                       <a class="faqs-wrp-content" href="${document.externalFileURL}" target="_blank" id=${key}>\
@@ -2887,6 +2887,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           bestFAQTitleDiv.find(".accordion").trigger('click');
         }
       }, 500);
+      setTimeout( function (){
+        if (!selectedFacet || selectedFacet === "all results") {
+          $('.facet:first').addClass('facetActive');
+        }
+        else{
+          $('#' + selectedFacet).addClass('facetActive').siblings().removeClass('active');
+        }
+      }, 100);
     }
     FindlySDK.prototype.invokeSearch = function() {
       var _self = this;
@@ -4390,13 +4398,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       var liveResult = res.results;
 
                       liveResult.forEach(function (result) {
-                        if (result.contentType === "faq") {
+                        if (result.__contentType === "faq") {
                           faqs.push(result);
-                        } else if (result.contentType === "page") {
+                        } else if (result.__contentType === "page") {
                           pages.push(result);
-                        } else if (result.contentType === "document") {
+                        } else if (result.__contentType === "document") {
                           documents.push(result);
-                        } else if (result.contentType === "task") {
+                        } else if (result.__contentType === "task") {
                           tasks.push(result);
                         }
                       })
@@ -12494,7 +12502,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -12717,7 +12725,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -12946,7 +12954,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -13190,7 +13198,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -13412,7 +13420,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -13635,7 +13643,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -13864,7 +13872,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -14097,7 +14105,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -14319,7 +14327,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -14542,7 +14550,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -14771,7 +14779,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -15004,7 +15012,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                       {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.contentType}" id="${key}">\
+                        <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             {{if isClickable == true}}\
                               <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
                                 <div class="notification-div"></div>\
@@ -15872,7 +15880,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               item.config = obj.config;
               item.feedback = obj.feedback;
               item.customization = null;
-              item.contentType = obj.contentType;
+              item.contentType = obj.__contentType;
               item.contentId = obj.contentId;
               data.push(item);
             }

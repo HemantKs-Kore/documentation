@@ -4,7 +4,25 @@
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
     <div *ngIf="!loadingContent">
-        <div class="header-sec">
+        <div class="header-sec col-12 row m-0" [ngClass]="{ 'd-none' : !selcectionObj.selectedCount}">
+            <div class="col-4 lef-sec p-0">
+                <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
+                    <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
+                    <label for="selectAllFacets" class="checkbox-custom-label"></label>
+                    <span class="selected_count" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span>
+                </div>
+                <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != facets.length">
+                    <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
+                    <span class="selected_count" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span>
+                </div>
+            </div>
+            <div class="actions text-right col-8 right-sec p-0">
+                <!-- <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span> -->
+                <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button>
+                <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
+            </div>
+        </div>
+        <div class="header-sec m-0" [ngClass]="{ 'd-none' : selcectionObj.selectedCount}">
             <div class="title">{{'facets.facets'| translate}}</div>
             <div class="d-flex align-items-center" *ngIf="!noItems || emptySearchResults">
                 <div class="kr-sg-input-search" [ngClass]="{'d-none': !showSearch}">
@@ -22,16 +40,11 @@
                     <!-- <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)"> -->
                 </div>
                 <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg mr-3" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
-                <img class="mr-3" src="assets/icons/clock.svg">
+                <!-- <img class="mr-3" src="assets/icons/clock.svg"> -->
             </div>
         </div>
-        <div class="search-input-block col-12 mb-3 justify-content-end ">
-            <!-- <div class="kr-sg-input-search">                               
-            <input type="text" placeholder="Search" class="input-search pl-4" [(ngModel)]="searchfacet">
-            <img src="assets/icons/search_gray.svg" class="search-icon">
-        </div> -->
+        <div class="search-input-block col-12 mb-3 justify-content-end d-none">
             <div class="actions text-right">
-                <!-- <button id='btn_addFacet' class="kr-sg-button-primary btn_lg" (click)="createNewFacet()">{{'facets.add_facet'| translate}}</button> -->
                 <span class="selected_count mr-4" *ngIf="selcectionObj && selcectionObj.selectedCount">{{selcectionObj.selectedCount}} {{'facets.selected' | translate}}</span>
                 <button id='btn_cancleFacet' ng class="kr-sg-button-secondary btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="addRemovefacetFromSelection(null,null,true)">{{'facets.deselect'| translate}}</button>
                 <button id='btn_delete' class="kr-sg-button-danger btn_lg" *ngIf="selcectionObj && selcectionObj.selectedCount" (click)="deleteFacets(null,true)">{{'facets.delete_facets'| translate}}</button>
@@ -59,13 +72,13 @@
         <div class="table_section" *ngIf="(facets && facets.length)">
             <div class="header_sec row m-0">
                 <div class="col-4 content withcheckbox">
-                    <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
+                    <!-- <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
                         <input id="selectAllFacets" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll">
                         <label for="selectAllFacets" class="checkbox-custom-label"></label>
                     </div>
                     <div class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none" *ngIf="selcectionObj.selectedItems.length != facets.length">
                         <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
-                    </div>
+                    </div> -->
                     <span class="d-flex align-items-center flex-column mr-1 selectall-title" (click)="sortBy('name')">
                     <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                     <img [ngClass]="getSortIconVisibility('name', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
