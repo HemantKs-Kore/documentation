@@ -77,8 +77,9 @@
                     <div class="kr-sg-dropdowns col-12 p-0" [ngClass]="{'disabled': addEditWeighObj._id}">
                         <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>
-                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+                            <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
+                            <!-- <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'pl-33':!addEditWeighObj.fieldName}" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+                                (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"> -->
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!addEditWeighObj.fieldName">
                             <img class="close-icon" *ngIf="addEditWeighObj.fieldName" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':addEditWeighObj.fieldName}" (click)="clearField();">
                             <!-- <input type="text" placeholder="Search For Field" class="input-search dropdown-toggle dropdown-input" data-toggle="dropdown" (keyup)="getFieldAutoComplete(addEditWeighObj.fieldName)" [(ngModel)]="addEditWeighObj.fieldName">
