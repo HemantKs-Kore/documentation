@@ -746,8 +746,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: 'Delete Document ',
-        text: 'Are you sure you want to delete selected document?',
-        newTitle: 'Are you sure you want to delete selected document?',
+        newTitle: 'Are you sure you want to delete?',
         body: 'The selected document will be deleted.',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
@@ -774,8 +773,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
-        text: 'Are you sure you want to delete selected record?',
-        newTitle: 'Are you sure you want to delete selected record?',
+        text: 'Are you sure you want to delete?',
+        newTitle: 'Are you sure you want to delete?',
         body: 'The selected record will be deleted',
         buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
@@ -1459,17 +1458,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   //crawl job ondemand
   jobOndemand(source, event) {
+    console.log("jobOndemand", source)
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    console.log("job odemand", source)
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
       sourceId: source._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       console.log(res);
+      this.getSourceList();
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {

@@ -125,45 +125,62 @@
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
           (click)="closeStatusModal()"></div>
       <div class="modal-body">
-        <div class="success-check  pb-4">
+        <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
           <img src="assets/icons/successCheck.svg">
         </div>
-        <div class="configInProgress"
-        *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !((statusObject.status==='success') || (statusObject.status==='failed')) && !(selectedSourceType.resourceType === 'document')">
-          <h1><strong>Validation in Progress...</strong></h1>
-        </div>
-        <div class="configInProgress"
-        *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated) && (statusObject.status==='success')">
-          <h1><strong>Validation Successful</strong></h1>
-        </div>
+        <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
+          <div class="success-check  pb-4">
+            <img src="assets/icons/successCheck.svg">
+          </div>
+          <div class="configInProgress"
+          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !(selectedSourceType.resourceType === 'document')">
+            <h1><strong>Validation in Progress...</strong></h1>
+          </div>
+          <div class="configInProgress"
+          *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated)">
+            <h1><strong>Validation Successful</strong></h1>
+          </div>
+        </div>       
         <div class="error-check" *ngIf="(statusObject.status==='failed')">
           <img src="assets/images/exclamationCircle-Red.svg">
         </div>
-        <ng-container *ngIf="statusObject && statusObject.validation && !(statusObject.status==='failed')">
-          <div class="status-identification-content"
-          *ngIf="!((statusObject.status==='success') || (statusObject.status==='failed'))">
-            <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
-              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.urlValidation">
-              <img *ngIf="statusObject.validation.urlValidation" src="assets/images/source-icos/check-green.svg"
-                class="successfullyConnected">
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+          Source added Successfully
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          Failed to add Source
+        </div>
+        <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
+          <div class="status-identification-content">
+            <div class="content-title">
+              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="statusObject.validation.validated===false">
+              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
               <span>Initial URL validation</span>
             </div>
           </div>
         </ng-container>
+        <div class="progressNote"
+          *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
+          <div>Faq Extraction In Progress</div>
+          <div class="text-center">
+            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+          </div>
+        </div>
         <div class="configInProgress"
-        *ngIf="statusObject.status==='success'&&selectedSourceType.sourceType === ['webdomain','document']">
+        *ngIf="statusObject.validation.validated&&selectedSourceType.sourceType === 'webdomain'||selectedSourceType.sourceType === 'document'">
           <h4>Now you can choose to Crawl immediately or later</h4>
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-        (click)="stopCrwaling()" *ngIf="selectedSourceType.sourceType==='faq'">Cancel Extraction</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        (click)="stopCrwaling()" *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
-          (click)="closeStatusModal()">Ok</button>
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
+          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'">Close</button>
-          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'">Crawl</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'webdomain'" [disabled]="crawlOkDisable">Crawl</button>
          </div>
     </div>
   </div>
@@ -825,7 +842,7 @@
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
           (click)="closeCrawlModalPop()"></div>
       <div class="modal-body">
-        <ng-container>
+        <ng-container *ngIf="!(statusObject.status==='success')">
           <div class="progressNote">
           <div>Crawling In-progress</div>
           </div>
@@ -834,15 +851,20 @@
             <div class="relaxNote">You will be notified when the extraction progress is done</div>
           </div>
         </ng-container>
-        <div class="configInProgress"
-        *ngIf="(statusObject.status==='success')">
-          <h4>Now you can choose to Crawl immediately or later</h4>
+        <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
+          <img src="assets/icons/successCheck.svg">
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+          Source added Successfully
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          Failed to add Source
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
-          (click)="stopCrwaling($event)">Abort</button>
-          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="stopCrwaling($event)" [ngClass]="{'d-none': statusObject.status==='success'}">Abort</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeCrawlModal()">Ok</button>
          </div>
     </div>
