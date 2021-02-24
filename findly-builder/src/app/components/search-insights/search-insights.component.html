@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span *ngIf='getQueriesWithResults'><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></span>
+                            <div *ngIf='getQueriesWithResults' style="margin : 15px"><app-record-pagination [totalRecord]='QWR_totalRecord' [limitpage]='QWR_limitPage' (pageChanged)="paginate($event,'QWR')"></app-record-pagination></div>
                         </div>
                         <div id="querieswithoutresults" class="tab-pane fade tab-data-content" [ngClass]="{'active show': !querieswithresults }">
                             <div class="table_data_content">
@@ -100,7 +100,7 @@
 
                             </div>
                             <!-- <span *ngIf='topQuriesWithNoResults.length===0'>No results found</span> -->
-                            <span *ngIf='topQuriesWithNoResults'><app-record-pagination [totalRecord]='QWNR_totalRecord' [limitpage]='QWNR_limitPage' (pageChanged)="paginate($event,'QWNR')"></app-record-pagination></span>
+                            <div *ngIf='topQuriesWithNoResults' style="margin : 15px"><app-record-pagination [totalRecord]='QWNR_totalRecord' [limitpage]='QWNR_limitPage' (pageChanged)="paginate($event,'QWNR')"></app-record-pagination></div>
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                     <div class="col-1 title">{{result.negativeFeedback}}</div>
                 </div>
             </div>
-            <span *ngIf='SQR_totalRecord'><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></span>
+            <div *ngIf='SQR_totalRecord' style="margin : 15px"><app-record-pagination [totalRecord]='SQR_totalRecord' [limitpage]='SQR_limitPage' (pageChanged)="paginate($event,'SQR')"></app-record-pagination></div>
         </div>
     </perfect-scrollbar>
     <!-- <div class="modal-footer">
