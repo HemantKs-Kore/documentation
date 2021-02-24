@@ -450,7 +450,8 @@ export class SearchInterfaceComponent implements OnInit {
       "layout": {
       "layoutType":this.customizeTemplateObj.template.searchResultlayout.layout,
       "isClickable":this.customizeTemplateObj.template.searchResultlayout.clickable,
-      "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour
+      "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour,
+      'textAlignment' : "left"
           },
         "mapping": {
         "heading":this.customizeTemplateObj.template.resultMapping.headingId,
@@ -570,6 +571,7 @@ class searchResultlayout{
     clickable : boolean = true;
     behaviour : string = 'webpage';          // 'webpage' or 'postback'
     url : string = '';
+    textAlignment : string ='';
 }
 class resultMapping{
   heading : string = '';
@@ -588,7 +590,8 @@ class templateResponse{
 "layout"= {
     	"layoutType": "tileWithText",
        		"isClickable": false,
-       		"behaviour": "webpage"
+           "behaviour": "webpage",
+           "textAlignment" : "left"
    	}
    	"type"= "" // grid , list
    	"mapping"= {
