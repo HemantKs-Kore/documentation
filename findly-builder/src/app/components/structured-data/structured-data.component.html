@@ -218,7 +218,7 @@
             <span class="please-wait-message">{{'synonyms.please_wait' | translate}}</span>
         </div>
     </perfect-scrollbar>
-    <div class="footer-info" *ngIf="isResultTemplate">
+    <div class="footer-info" *ngIf="!isResultTemplate">
         <img class="info-icon" src="assets/icons/structured-data/Info.svg">
         <div class="info-text">{{'structuredData.noResultTemplate' | translate}} <b>{{'structuredData.searchInterfacePath' | translate}}</b> {{'structuredData.toDefine' | translate}}<a href="#">{{'structuredData.learnMore' | translate}}</a></div>
         <img src="assets/icons/close.svg" class="close-info">

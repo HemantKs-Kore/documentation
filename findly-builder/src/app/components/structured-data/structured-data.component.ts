@@ -93,7 +93,8 @@ export class StructuredDataComponent implements OnInit {
   advancedSearch : any = {};
   tempAdvancedSearch : any = {};
   disableContainer : any = false;
-  isResultTemplate : boolean = false;
+  isResultTemplate : boolean = true;
+  serachIndexId : any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -110,6 +111,8 @@ export class StructuredDataComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.getStructuredDataList();
     this.getFieldAutoComplete('');
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getAllSettings();
   }
 
   getStructuredDataList(skip?){
@@ -732,6 +735,33 @@ export class StructuredDataComponent implements OnInit {
       this.structuredDataStatusModalRef.close();
       this.getStructuredDataList();
     }
+  }
+
+  getAllSettings(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+      console.log("res", res);
+      if(res.settings){
+        res.settings.forEach( (_interface) => {
+          if(_interface.interface === 'search'){
+            _interface.appearance.forEach(element => {
+              if(element.type === 'structuredData'){
+                if(element.templateId && element.templateId.length){
+                  this.isResultTemplate = true;
+                }
+                else{
+                  this.isResultTemplate = false;
+                }
+              }
+            });
+          }
+        });
+      }
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
+    });
   }
 
 }
