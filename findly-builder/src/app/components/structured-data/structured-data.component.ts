@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
 import { retryWhen } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-structured-data',
@@ -92,6 +93,7 @@ export class StructuredDataComponent implements OnInit {
   advancedSearch : any = {};
   tempAdvancedSearch : any = {};
   disableContainer : any = false;
+  isResultTemplate : boolean = false;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -101,6 +103,7 @@ export class StructuredDataComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private modalService: NgbModal,
     private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -127,6 +130,7 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.totalCount = res.total;
       this.selectedStructuredData = [];
+      this.allSelected = false;
       if(res.data){
         this.structuredDataItemsList = res.data;
       }
@@ -165,19 +169,53 @@ export class StructuredDataComponent implements OnInit {
         else{
           nested = false;
         }
-        if(index < 4){
+        if(index < 2){
+          // element.objectValues.push({
+          //   key : key,
+          //   value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
+          //   // var str = JSON.stringify(obj, null, 2);
+          //   expandedValue : element._source[key],
+          //   nested : nested,
+          //   expanded : false
+          // });
+
+          // console.log("teest", this.getNestedElements(element._source[key]));
+
           element.objectValues.push({
             key : key,
-            value : nested ? JSON.stringify(element._source[key], null, 2) : element._source[key],
+            value : nested ? this.getNestedElements(element._source[key]) : element._source[key],
             // var str = JSON.stringify(obj, null, 2);
             expandedValue : element._source[key],
             nested : nested,
-            expanded : false
+            expanded : false,
+            valuesLength : nested ? (Object.values(element._source[key]).length) : 1
           });
         }
       });
     });
     console.log("structuredDataItemsList", this.structuredDataItemsList);
+  }
+
+  getNestedElements(element){
+    let objectValues = [];
+    if((typeof element === 'object'))
+    Object.keys(element).forEach((key : any, index) => {
+      let nested = false;
+      if(key && (typeof element[key] === 'object')){
+        nested = true;
+      }
+      else{
+        nested = false;
+      }
+      objectValues.push({
+        key : key,
+        value : nested ? this.getNestedElements(element[key]) : element[key],
+        nested : nested,
+        expanded : false,
+        valuesLength : nested ? (Object.values(element[key]).length) : 1
+      });
+    });
+    return objectValues;
   }
 
   getFieldAutoComplete(query){
@@ -212,6 +250,18 @@ export class StructuredDataComponent implements OnInit {
   editJson(payload){
     this.selectedSourceType = JSON.parse(JSON.stringify(this.availableSources[1]));
     this.selectedSourceType.payload = payload;
+    this.selectedSourceType.viewMode = false;
+    this.selectedSourceType.allData = [];
+    this.selectedSourceType.currentIndex = undefined;
+    this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
+  }
+
+  viewJson(data, index){
+    this.selectedSourceType = JSON.parse(JSON.stringify(this.availableSources[1]));
+    this.selectedSourceType.payload = data;
+    this.selectedSourceType.viewMode = true;
+    this.selectedSourceType.allData = this.structuredDataItemsList;
+    this.selectedSourceType.currentIndex = index;
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
   }
 
@@ -229,6 +279,7 @@ export class StructuredDataComponent implements OnInit {
   closeStructuredDataModal(event?){
     this.selectedSourceType = {};
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
+      this.modalService.dismissAll();
       this.addStructuredDataModalPopRef.close();
       if(event && event.showStatusModal){
         this.structuredDataDocPayload = event.payload;
@@ -430,6 +481,7 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.totalCount = res.total;
       this.selectedStructuredData = [];
+      this.allSelected = false;
       if(this.adwancedSearchModalPopRef){
         this.adwancedSearchModalPopRef.close();
       }
@@ -523,6 +575,23 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
+  selectAll(key){
+    if(!key){
+      this.structuredDataItemsList.forEach(data => {
+        data.isChecked = false;
+      });
+      this.selectedStructuredData = [];
+      this.allSelected = false;
+    }
+    else{
+      this.structuredDataItemsList.forEach(data => {
+        data.isChecked = true;
+      });
+      this.selectedStructuredData = JSON.parse(JSON.stringify(this.structuredDataItemsList));
+      this.allSelected = true;
+    }
+  }
+
   searchItems(){
     this.isLoading = true;
     this.emptySearchResults = false;
@@ -546,6 +615,7 @@ export class StructuredDataComponent implements OnInit {
       this.isLoading = false;
       this.totalCount = res.total;
       this.selectedStructuredData = [];
+      this.allSelected = false;
       if(res.data){
         this.structuredDataItemsList = res.data;
       }
@@ -553,6 +623,7 @@ export class StructuredDataComponent implements OnInit {
       this.structuredDataItemsList = [];
       }
       this.selectedStructuredData = [];
+      this.allSelected = false;
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
         if(data._source){
@@ -618,6 +689,7 @@ export class StructuredDataComponent implements OnInit {
       this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
         if(res){
           this.selectedStructuredData = [];
+          this.allSelected = false;
           this.getStructuredDataList();
           this.notificationService.notify('Deleted Successfully', 'success');
         }
@@ -640,6 +712,7 @@ export class StructuredDataComponent implements OnInit {
       this.service.invoke('delete.clearAllStructureData', quaryparms, payload).subscribe(res => {
         if(res){
           this.selectedStructuredData = [];
+          this.allSelected = false;
           this.getStructuredDataList();
           this.notificationService.notify('Deleted Successfully', 'success');
         }

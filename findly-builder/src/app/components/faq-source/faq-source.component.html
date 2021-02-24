@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div (click)="openStatusModal()" class="title" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)"><img src="assets/icons/manage-extraction.svg">Manage Extracts</div>
-                <div class="clock"><img src="assets/icons/clock.svg"></div>
+                <div class="clock d-none"><img src="assets/icons/clock.svg"></div>
                 <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length)">                                        
                     <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/export-top.svg"></button>                                            
@@ -139,10 +139,10 @@
                                                 <div class="title-desc-sec">
                                                     <div class="title">{{faq._source.question}}</div>
                                                     <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(faq._source.defaultAnswers[0].payload)'></div>
-                                                    <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                    <!-- <div class="desc" *ngIf="faq && faq._source.defaultAnswers && faq._source.defaultAnswers.length && faq._source.defaultAnswers[0] && faq._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                 </div>
                                             </div>
-                                            <div class="follow_up" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
+                                            <div class="follow_up d-none" ><span (click)="addFollowUp(faq, $event)"><img src="assets/icons/add_plus.svg">Follow-up</span></div>
                                         </div>
                                         <div id="{{faq._id}}" class="collapse"  [attr.aria-labelledby]="'faqquestionAcc' + faq._id" data-parent="#accordion">
                                             <div class="cardbody">
@@ -151,7 +151,7 @@
                                                         <div class="title">{{followUpQuestion._source.question}}</div>
                                                         <ng-container *ngIf="followUpQuestion._source && followUpQuestion._source.defaultAnswers && followUpQuestion._source.defaultAnswers.length">
                                                             <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(followUpQuestion._source.defaultAnswers[0].payload)'></div>
-                                                           <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div>
+                                                           <!-- <div class="desc" *ngIf="followUpQuestion._source.defaultAnswers[0].type==='javascript'">Javascript message</div> -->
                                                         </ng-container>
                                                     </div>
                                                 </ng-container>
@@ -192,7 +192,7 @@
                         <div class="header-info-que" *ngIf="selectedFaq && selectedFaq._meta.state === 'in_review'">
                             <div class="row m-0 col-12 p-0">
                                 <div class="col-5 p-0 lef-info">
-                                    <div class="approved_title">Req. Date & Time</div>
+                                    <div class="approved_title">Requested On</div>
                                     <div class="approved_date" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY'}}<span class="time"> {{selectedFaq.lMod | dateFormatPipe:'hh:mm:ss A'}}</span></div>
                                 </div>
                                 <div class="col-7 p-0 actions-sec">
@@ -201,17 +201,21 @@
                                             <button class="dropdown-toggle dropdown-input" ngbDropdownToggle><img src="assets/icons/info_header.svg"></button>                                            
                                             <ul class="dropdown-menu content-menu info_header_dropdown_content" ngbDropdownMenu>
                                                 <div class="row m-0 col-12 p-0">
-                                                    <div class="col-2 inner-data-column">
+                                                    <div class="col-3 inner-data-column">
                                                         <div class="heading">Source</div>
-                                                        <div class="title" ngbTooltip='{{selectedFaq.contentSource | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || 'Manual' | titlecase}}</div>
+                                                        <div class="title" ngbTooltip='{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || "Manual"| titlecase}}' placement="top-left">{{(selectedFaq.sourceName || contentTypes[selectedFaq.contentSource]) || 'Manual' | titlecase}}</div>
                                                     </div>
                                                     <div class="col-2 inner-data-column">
                                                         <div class="heading">Type</div>
                                                         <div class="title" ngbTooltip='{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}' placement="top-left">{{(contentTypes[selectedFaq._meta.contentSource] || "Manual") | titlecase}}</div>
                                                     </div>
-                                                    <div class="col-4 inner-data-column">
+                                                    <div class="col-3 inner-data-column">
                                                         <div class="heading">Edited by</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
+                                                    </div>
+                                                    <div class="col-4 inner-data-column">
+                                                        <div class="heading">Last Modified</div>
+                                                        <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                                     </div>
                                                 </div>
                                             </ul>
@@ -243,8 +247,8 @@
                                                     <div class="footer-data">
                                                         <div class="left_sec d-none"><img src="assets/icons/emoji-black.svg"></div>
                                                         <div class="btn_sec">
-                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>
-                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button>                                                            
+                                                            <button class="kr-sg-button-primary btn_lg" [disabled]='!this.newCommentObj.comment'  (click)="saveComment()">Post</button> 
+                                                            <button class="kr-sg-button-secondary btn_lg" (click)="clearContent()">Cancel</button>                                               
                                                         </div>
                                                     </div>
                                                 </div>  
@@ -291,7 +295,7 @@
                                                         <div class="title" ngbTooltip="{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}" placement="top-left">{{selectedFaq.userDetails?selectedFaq.userDetails.fullName:'---'}}</div>
                                                     </div>
                                                     <div class="col-4 inner-data-column">
-                                                        <div class="heading">Modified ON</div>
+                                                        <div class="heading">Last Modified</div>
                                                         <div class="title" ngbTooltip="{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}" placement="top-left">{{selectedFaq.lMod | dateFormatPipe:'MM-DD-YYYY hh:mm:ss A'}}</div>
                                                     </div>
                                                 </div>
@@ -360,7 +364,7 @@
                                             <div class="row m-0 col-12 p-0">
                                                 <div class="col-2 inner-data-column">
                                                     <div class="heading">Source</div>
-                                                    <div class="title" ngbTooltip='{{selectedFaq.source | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || 'Manual') | titlecase}}</div>
+                                                    <div class="title" ngbTooltip='{{(selectedFaq.sourceName || "Manual") | titlecase}}' placement="top-left">{{(selectedFaq.sourceName || 'Manual') | titlecase}}</div>
                                                 </div>
                                                 <div class="col-2 inner-data-column">
                                                     <div class="heading">Type</div>
@@ -451,9 +455,9 @@
                                                         <img src="{{answer.multimedia.url}}">
                                                     </div>
                                                     <div class="desc-info" *ngIf="answer.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(answer.payload)'></div>
-                                                    <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div>
+                                                    <!-- <div class="desc-info desc-info-javascript-message" *ngIf="answer.type==='javascript'">Javascript message</div> -->
                                                 </ng-container> 
-                                            </ng-container>
+                                            </ng-container>   
                                         </div>
                                         <div class="conditionalBlock bot-response-view-mode" >
                                             <ng-container *ngIf="selectedFaq && selectedFaq._source.conditionalAnswers && selectedFaq._source.conditionalAnswers.length">
@@ -467,7 +471,7 @@
                                                         </div>
                                                         <ng-container>
                                                             <div class="desc-info" *ngIf="ans.type==='string'" [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(ans.payload)'></div>
-                                                             <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div>
+                                                             <!-- <div class="desc-info desc-info-javascript-message" *ngIf="ans.type==='javascript'">Javascript message</div> -->
                                                         </ng-container> 
                                                     </div>
                                                 </div>

@@ -16,7 +16,9 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { PdfAnnotationComponent } from '../annotool/components/pdf-annotation/pdf-annotation.component';
-import {  DockStatusService} from '../../services/dock.status.service';
+// import {  DockStatusService } from '../../services/dock.status.service';
+// import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+
 declare const $: any;
 import * as moment from 'moment';
 
@@ -131,8 +133,9 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
-    private dock: DockStatusService,
+    // private dock: DockStatusService,
     private convertMDtoHTML:ConvertMDtoHTML,
+    // public dockService: DockStatusService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
@@ -1223,32 +1226,70 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     this.followAddSub?this.followAddSub.unsubscribe(): false;
     this.followCancelSub?this.followCancelSub.unsubscribe(): false;
   }
-  exportFaq(ext){
+  exportFaq(ext) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
     };
-    const payload = {   
-      exportType:ext,
+    const payload = {
+      exportType: ext,
     }
-    this.service.invoke('export.faq',quaryparms,payload).subscribe(res => {
+    this.service.invoke('export.faq', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Export to JSON is in progress. You can check the status in the Status Docker', 'success');
-     this.dock.trigger()
-     
-     
-
-      },
-       errRes => {
+      this.checkExportFaq();
+    },
+      errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
         }
-    
-    });
-    this.service.invoke('get.dockStatus', quaryparms, payload).subscribe(res1 => {
+      });
+  }
 
+  checkExportFaq() {
+    const queryParms = {
+      searchIndexId: this.workflowService.selectedSearchIndexId
+    }
+    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      if(res && res.dockStatuses){
+        res.dockStatuses.forEach((record: any) => {
+          record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
+          if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
+            if (record.action === 'EXPORT') {
+              this.downloadDockFile(record.fileId, record.store.urlParams, record.streamId, record._id);
+            }
+          }
+        })
+      }
+    }, errRes => {
+      this.pollingSubscriber.unsubscribe();
+      if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed to get Status of Docker.', 'error');
+      }
     });
   }
+
+  downloadDockFile(fileId, fileName, streamId, dockId) {
+    const params = {
+      fileId,
+      streamId: streamId,
+      dockId: dockId
+    }
+    let payload = {
+      "store": {
+        "toastSeen": true,
+        "urlParams": fileName,
+      }
+    }
+    this.service.invoke('attachment.file', params).subscribe(res => {
+      let hrefURL = res.fileUrl + fileName;
+      window.open(hrefURL, '_self');
+      this.service.invoke('put.dockStatus', params, payload).subscribe(res => {      });
+    }, err => { console.log(err) });
+  }
+
   duration(duration){
     if(duration){
       let hr = duration.split(":")[0];

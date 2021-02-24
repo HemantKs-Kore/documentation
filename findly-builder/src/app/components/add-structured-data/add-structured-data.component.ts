@@ -5,6 +5,9 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+
 declare const $: any;
 
 @Component({
@@ -38,6 +41,10 @@ export class AddStructuredDataComponent implements OnInit {
   openingBrace = "{";
   closingBrace = "}";
   startingValue : any;
+  currentDataIndex : any;
+  previousDataIndex : any;
+  nextDataIndex : any;
+  allStructuredData : any = [];
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input('selectedSourceType') selectedSourceType: any;
@@ -48,11 +55,17 @@ export class AddStructuredDataComponent implements OnInit {
     private service: ServiceInvokerService,
     private authService: AuthService,
     public workflowService: WorkflowService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.userInfo = this.authService.getUserInfo() || {};
+    this.codeMirrorOptions['readOnly'] = '';
+    setTimeout(() => {
+      $('.CodeMirror-foldgutter-folded').click();
+      $('.CodeMirror-foldgutter-open').click();
+    }, 500);
   }
 
   ngAfterViewInit(){
@@ -61,24 +74,151 @@ export class AddStructuredDataComponent implements OnInit {
   ngOnChanges(changes){
     if(changes && changes.selectedSourceType){
       if(changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual'){
-        if(changes.selectedSourceType.currentValue.payload){
-          this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
-          console.log("source",changes.selectedSourceType.currentValue);
-          // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
-          this.structuredData.payload = this.selectedJsonForEdit.parsedData;
-          setTimeout( () => {
-            this.indentObj();
-          },200)
+        this.setRequirementsForManualInput(changes);
+        // if(changes.selectedSourceType.currentValue.payload){
+        //   this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
+        //   console.log("source",changes.selectedSourceType.currentValue);
+        //   // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
+        //   this.structuredData.payload = this.selectedJsonForEdit.parsedData;
+        //   if(this.selectedSourceType.viewMode){
+        //     this.codeMirrorOptions['readOnly'] = 'nocursor';
+        //   }
+        //   else{
+        //     this.codeMirrorOptions['readOnly'] = '';
+        //   }
+        //   setTimeout( () => {
+        //     this.indentObj();
+        //   },200)
+        // }
+        // else{
+        //   this.structuredData.payload = JSON.stringify({});
+        // }
+        // setTimeout(() => {
+        //   if(this.codemirror && this.codemirror.codeMirror){
+        //     this.codemirror.codeMirror.refresh();
+        //   }
+        // }, 200);
+      }
+    }
+  }
+
+  setRequirementsForManualInput(changes){
+    if(changes.selectedSourceType.currentValue.payload){
+      // this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
+      console.log("source",changes.selectedSourceType.currentValue);
+      // this.structuredData.payload = JSON.stringify(this.selectedJsonForEdit._source.jsonData,null,1);
+      // this.structuredData.payload = this.selectedJsonForEdit.parsedData;
+      if(changes.selectedSourceType.currentValue.viewMode){
+        this.codeMirrorOptions['readOnly'] = 'nocursor';
+      }
+      else{
+        this.codeMirrorOptions['readOnly'] = '';
+      }
+
+      if(changes.selectedSourceType.currentValue.allData && changes.selectedSourceType.currentValue.allData.length){
+        this.allStructuredData = changes.selectedSourceType.currentValue.allData;
+      }
+
+      if(changes.selectedSourceType.currentValue.currentIndex || (changes.selectedSourceType.currentValue.currentIndex == 0)){
+        this.currentDataIndex = changes.selectedSourceType.currentValue.currentIndex;
+        if(this.currentDataIndex && this.currentDataIndex > 0){
+          this.previousDataIndex = this.currentDataIndex - 1;
         }
         else{
-          this.structuredData.payload = JSON.stringify({});
+          this.previousDataIndex = undefined;
         }
-        setTimeout(() => {
-          if(this.codemirror && this.codemirror.codeMirror){
-            this.codemirror.codeMirror.refresh();
-          }
-        }, 200);
+        if(this.currentDataIndex < (this.allStructuredData.length - 1)){
+          this.nextDataIndex = this.currentDataIndex + 1;
+        }
+        else{
+          this.nextDataIndex = undefined;
+        }
       }
+      if(this.currentDataIndex){
+        this.selectedJsonForEdit = this.allStructuredData[this.currentDataIndex];
+      }
+      else{
+        this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
+      }
+      this.structuredData.payload = this.selectedJsonForEdit.parsedData;
+      setTimeout( () => {
+        this.indentObj();
+      },200)
+    }
+    else{
+      this.codeMirrorOptions['readOnly'] = '';
+      this.structuredData.payload = JSON.stringify({});
+    }
+    setTimeout(() => {
+      if(this.codemirror && this.codemirror.codeMirror){
+        this.codemirror.codeMirror.refresh();
+      }
+    }, 200);
+  }
+
+  navigateToRecord(key){
+    if(this.currentDataIndex || (this.currentDataIndex == 0)){
+      if(key){
+        this.currentDataIndex = this.currentDataIndex + 1;
+      }
+      else{
+        this.currentDataIndex = this.currentDataIndex - 1;
+      }
+      if(this.currentDataIndex && this.currentDataIndex > 0){
+        this.previousDataIndex = this.currentDataIndex - 1;
+      }
+      else{
+        this.previousDataIndex = undefined;
+      }
+      if(this.currentDataIndex < (this.allStructuredData.length - 1)){
+        this.nextDataIndex = this.currentDataIndex + 1;
+      }
+      else{
+        this.nextDataIndex = undefined;
+      }
+      this.selectedJsonForEdit = this.allStructuredData[this.currentDataIndex];
+      this.structuredData.payload = this.selectedJsonForEdit.parsedData;
+    }
+  }
+
+  deleteStructuredDataPopup(record){
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        newTitle: 'Are you sure you want to delete?',
+        body: 'Selected data will be permanently deleted.',
+        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true,
+      }
+    });
+    dialogRef.componentInstance.onSelect.subscribe(res => {
+      if (res === 'yes') {
+          dialogRef.close();
+          this.deleteStructuredData(record);
+      }
+      else if (res === 'no') {
+        dialogRef.close();
+      }
+    });
+  }
+
+  deleteStructuredData(record){
+    let quaryparms : any = {};
+    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.sourceId = Math.random().toString(36).substr(7);
+    if(record){
+      quaryparms.contentId = record._id;
+      this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
+        if(res){
+          this.notificationService.notify('Deleted Successfully', 'success');
+          this.cancleSourceAddition();
+        }
+      }, errRes => {
+        console.log("error", errRes);
+        this.notificationService.notify('Deletion has gone wrong.', 'error');
+      });
     }
   }
 
@@ -171,6 +311,14 @@ export class AddStructuredDataComponent implements OnInit {
     this.selectedJsonForEdit = null;
     this.structuredData = {};
     this.removeFile();
+  }
+
+  editRecord(){
+    // this.selectedSourceType = JSON.parse(JSON.stringify(this.availableSources[1]));
+    // this.selectedSourceType.payload = data;
+    this.selectedSourceType.viewMode = false;
+    // this.selectedSourceType.currentIndex = index;
+    this.codeMirrorOptions['readOnly'] = '';
   }
 
   proceedSource(){

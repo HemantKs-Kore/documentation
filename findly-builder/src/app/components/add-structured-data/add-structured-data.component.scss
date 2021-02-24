@@ -71,6 +71,7 @@
                 font-weight: normal;
                 font-size: 14px;
                 line-height: 20px;
+                flex : auto;
             }
             .indent{
                 cursor: pointer;
@@ -240,4 +241,25 @@
 .kr-sg-file-drag-drop.w-100{
     position: relative;
     z-index: 99;
+}
+
+.navigation-block {
+    &.disabled{
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .navigation-btn{
+        cursor: pointer;
+        margin-left: 5px;
+        padding: 5px;
+        transition: 0.2s all ease-in;
+        &:hover{
+            background: #EFF0F1;
+            border-radius: 2px;
+        }
+        &.disabled{
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    }
 }

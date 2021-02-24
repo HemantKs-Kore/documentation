@@ -74,9 +74,10 @@
                     </div>
                     <div class="variants-block right">
                       <span *ngFor="let vari of exp.variants; let index = index">
-                        <span class="v-name status" [style.background-color]="vari.color">{{ vari.code }}</span>
-                        <span class="winner" *ngIf="vari.leader && (index === exp.variants.length - 1)"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
-                        <span class="winner" *ngIf="vari.winner && (index === exp.variants.length - 1)">Winner</span>
+                        <span *ngIf="exp.top_leader === vari.code &&exp.state !== 'configured'">
+                        <span class="v-name status" [style.background-color]="vari.color">{{ exp.top_leader }}</span>
+                        <span class="winner" *ngIf="vari.leader"><img src="assets/icons/experiment/leader.svg" alt="leader"></span>
+                        <span class="winner" *ngIf="vari.winner">Winner</span></span>
                       </span>
                     </div>
                   </div>
@@ -107,10 +108,10 @@
                     </div>
                     <div class="right-sec" *ngIf="exp.state !== 'completed'">
                       <div class="hours">
-                        {{ exp.date_days}} more to go 
+                        {{ exp.total_days}} more to go 
                       </div>
                       <div class="hours">
-                        <ngb-progressbar type="secondary" [value]="24 * exp.date_days" [max]="24 * exp.duration.days">
+                        <ngb-progressbar type="secondary" [value]="exp.time_result" [max]="24 * exp.duration.days">
                         </ngb-progressbar>
                       </div>
                     </div>

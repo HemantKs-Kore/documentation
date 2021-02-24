@@ -48,7 +48,7 @@ export class AddResultComponent implements OnInit {
   appDetails(){
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id
   }
   closeCross(){
     this.closeResult.emit(!this.addNew);

@@ -257,7 +257,7 @@
                     }
                 }
                 .title {
-                    padding-left: 31px;
+                    padding-left: 33px;
                 }
             }
             &.actions {
@@ -645,7 +645,8 @@
             align-items: center;
         }
         .selectall-title {
-            padding-left: 28px;
+            // padding-left: 28px;
+            padding-left: 90px;
         }
         .sortImg {
             position: static;
@@ -673,6 +674,12 @@
 .kr-sg-checkbox {
     &.adjust-checkbox-padding {
         padding-left: 40px !important;
+    }
+    &.select-all-checkbox.adjust-checkbox-padding{
+        padding-left: 35px !important;
+    }
+    &.partial-select-checkbox.adjust-checkbox-padding{
+        padding-left: 35px !important;
     }
 }
 
@@ -724,4 +731,21 @@
     right: 11px;
     top: 12px;
     cursor: pointer;
+}
+.right-sec{
+    button{
+        margin-right: 10px;
+    }
+}
+.selected_count{
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.partial-select-checkbox {
+    img{
+        margin-right: 12px;
+        cursor: pointer;
+    }
 }
