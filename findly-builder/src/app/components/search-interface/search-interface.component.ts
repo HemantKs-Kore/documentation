@@ -6,6 +6,10 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
+// import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
+declare var PureJSCarousel: any;
+declare var $: any;
+
 @Component({
   selector: 'app-search-interface',
   templateUrl: './search-interface.component.html',
@@ -90,8 +94,11 @@ export class SearchInterfaceComponent implements OnInit {
   switchActive : boolean = true;
   customizeTemplateObj : customizeTemplate = new customizeTemplate();
   customizeTemplate : templateResponse = new templateResponse();
+  carousel : any;
+
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -273,8 +280,19 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.showDescription = true;
     }
-    if(layout == 'titleWithHeader' || layout == 'titleWithText'){
+    if(layout == 'tileWithHeader' || layout == 'titleWithText'){
       this.showImage = false;
+      if(this.customizeTemplateObj.template.type === 'Carousel'){
+        setTimeout(() => {
+          this.carousel = new PureJSCarousel({
+            carousel: '.carousel',
+            slide: '.slide',
+            oneByOne: true,
+            jq: $,
+          });
+        }, 100);
+        console.log("PureJSCarousel", this.carousel);
+      }
     }else{
       this.showImage = true;
     }
