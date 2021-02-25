@@ -63,8 +63,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedFilter: any = ''
   executionLogStatus = false;
   contentTypes = {
-    webdomain: 'WEB',
-    document: 'DOC'
+    webdomain: 'Web',
+    document: 'Doc'
   }
   statusObj: any = {
     failed: { name: 'Failed', color: '#DD3646' },
