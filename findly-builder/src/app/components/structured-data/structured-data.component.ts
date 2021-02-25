@@ -93,7 +93,7 @@ export class StructuredDataComponent implements OnInit {
   advancedSearch : any = {};
   tempAdvancedSearch : any = {};
   disableContainer : any = false;
-  isResultTemplate : boolean = true;
+  isResultTemplate : boolean = false;
   serachIndexId : any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
@@ -111,7 +111,7 @@ export class StructuredDataComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.getStructuredDataList();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getAllSettings();
+    // this.getAllSettings();
   }
 
   getStructuredDataList(skip?){
