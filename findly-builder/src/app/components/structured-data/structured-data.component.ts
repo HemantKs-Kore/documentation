@@ -110,7 +110,6 @@ export class StructuredDataComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.getStructuredDataList();
-    this.getFieldAutoComplete('');
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getAllSettings();
   }
@@ -306,6 +305,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   openAdvancedSearch(){
+    this.getFieldAutoComplete('');
     if(Object.values(this.advancedSearch).length){
       this.tempAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
     }
@@ -765,6 +765,6 @@ export class StructuredDataComponent implements OnInit {
   }
 
   navigateToSearchInterface(){
-    this.router.navigate(['/searchInterface'], { skipLocationChange: true });
+    // this.router.navigate(['/searchInterface'], { skipLocationChange: true });
   }
 }
