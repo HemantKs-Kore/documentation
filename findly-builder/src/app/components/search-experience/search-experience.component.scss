@@ -138,7 +138,20 @@
                                 background: #E7F1FF;
                             }
                         }
+                        .placeholder-text{
+                            position: absolute;
+                            left: 37px;
+                            top: 6px;
+                            border: 1px solid transparent;
+                            &:hover{
+                                border: 1px solid #0D6EFD;
+                                background: #E7F1FF;
+                            }
+                        }
                         .search-icon{
+                            left: 9px;
+                            top: 9px;
+                            border: 1px solid transparent;
                             &:hover{
                                 border: 1px solid #0D6EFD;
                                 background: #E7F1FF;
@@ -153,7 +166,35 @@
                     }
                     .btn-customize{
                         font-weight: normal;
+                        position: relative;
+                        &:hover{
+                            border: 0.5px solid #0D6EFD;
+                            span{
+                                color: #BDC1C6;
+                                opacity: 0.2;
+                            }
+                            .hover-overlay-btn-img{
+                                display: block;
+                            }
+                        }
+                        .hover-overlay-btn-img{
+                            display: none;
+                            position: absolute;
+                            top: 0;
+                            width: 100%;
+                            left: 0;
+                            height: 100%;
+                            line-height: 30px;
+                        }
                         &:disabled{
+                            background: #EFF0F1;
+                            color: #BDC1C6;
+                            border-radius: 4px;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                        }
+                        &.read-mode{
                             background: #EFF0F1;
                             color: #BDC1C6;
                             border-radius: 4px;
@@ -183,6 +224,13 @@
                             width: 32px;
                             height: 32px;
                             cursor: pointer;
+                            input{
+                                width: 100%;
+                                border: 0;
+                                padding: 0;
+                                height: 100%;
+                                border-radius: 0;
+                            }
                         }
                     }
                 }
@@ -254,6 +302,64 @@
                                 background: #EFF0F1;
                                 border-radius: 4px;
                             }
+                        }
+                    }
+                }
+
+
+                .color-pallet-container{
+                    position: relative;
+                    width: auto;
+                    display: inline-block;
+                    .box-color-content{
+                        position: absolute;
+                        left: 50px;
+                        background: #FFFFFF;
+                        box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+                        border-radius: 8px;
+                        width: 542px;
+                        height: 320px;
+                        top: -75px;
+                        padding: 5px 5px 10px 10px;
+                        &::before{
+                            content: "";
+                            position: absolute;
+                            background: #FFFFFF;
+                            box-shadow: -3px 0px 4px rgb(0 0 0 / 10%);
+                            top: 78px;
+                            left: -12px;
+                            width: 24px;
+                            height: 24px;
+                            transform: rotate(45deg);
+                            z-index: -1;
+                        }
+                        .color-picker{
+                            margin-top: -15px;
+                            margin-left: -11px;
+                        }
+                        .selected-previous-colors{
+                            float: right;
+                            display: flex;
+                            width: 270px;
+                            .bg-color-selected{
+                                background: #0D6EFD;
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                width: 32px;
+                                height: 32px;
+                                margin: 10px;
+                            }                            
+                        }
+                        .save-switch{
+                            position: absolute;
+                            right: 16px;
+                            bottom: 25px;
+                            color: #0D6EFD;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                            cursor: pointer;
                         }
                     }
                 }
