@@ -16,8 +16,38 @@
       </div>
     </div>
     <perfect-scrollbar class="scroll-interface w-100">
-      <div class="search-interface-right-sec">             
-          <div class="radio-section" *ngIf="selectedSetting == 'search'">
+      <div class="search-interface-right-sec">
+        <!-- fullPageResult -->
+          <!-- <div class="radio-section" *ngIf="selectedSetting == 'fullSearch'">
+            <div class="radio-block">
+              <div class="main-title">Configure same as Search</div>
+              
+              <div class="label-desc">Choose whether to apply the same configurations as per Search tab.</div>
+            </div>
+            <label class="kr-sg-toggle">                                       
+              <input type="checkbox" (change)= "selectedSettingResultsObj.referInterface = ''" [checked] = "selectedSettingResultsObj.referInterface == 'search'">
+              <div class="slider"><span class="enabled">Yes</span><span class="disabled w-400">No, i will Configure this separately</span></div>
+            </label>  
+          </div> -->
+          <div class="radio-section ">
+            <div class="radio-block">
+              <div class="main-title">Copy Configuration</div>
+              
+              <div class="label-desc">Choose whether to apply the same configurations as per Previous Settings.</div>
+            </div>
+            <div class="kr-sg-dropdowns" style="padding-left: 28px;">        
+              <div class="dropdown dropdown-open">
+                  <button class="dropdown-toggle dropdown-input" [disabled] = "true" data-toggle="dropdown">Select</button>                                            
+                  <ul class="dropdown-menu content-menu">                                                   
+                    <li><a>Search</a></li>
+                    <li><a>Live Search</a></li>
+                    <li><a>Full page Result</a></li>
+                  </ul>
+              </div>
+            </div> 
+          </div>
+          <!-- fullPageResult -->             
+          <div class="radio-section" > <!-- *ngIf="selectedSetting == 'search'"-->
             <div class="radio-block">
               <div class="main-title">No. of Results to be Displayed</div>
               <div class="kr-sg-radiobutton d-block">
@@ -46,19 +76,7 @@
           <!-- liveSearch -->
           
           <!-- liveSearch -->
-          <!-- fullPageResult -->
-          <div class="radio-section" *ngIf="selectedSetting == 'fullSearch'">
-            <div class="radio-block">
-              <div class="main-title">Configure same as Search</div>
-              
-              <div class="label-desc">Choose whether to apply the same configurations as per Search tab.</div>
-            </div>
-            <label class="kr-sg-toggle">                                       
-              <input type="checkbox" (change)= "selectedSettingResultsObj.referInterface = ''" [checked] = "selectedSettingResultsObj.referInterface == 'search'">
-              <div class="slider"><span class="enabled">Yes</span><span class="disabled w-400">No, i will Configure this separately</span></div>
-            </label>  
-          </div>
-          <!-- fullPageResult -->
+      
           <div class="radio-section">
             <div class="main-title">Results Classification</div>
             <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user</div>
@@ -211,7 +229,7 @@
                     <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable" [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !switchActive }">
+                  <div class="group-radiobutton mt-3 mb-3 d-none" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable" [ngClass]="{'disable-url': !switchActive }">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
@@ -263,7 +281,7 @@
                     <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable"  [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                  <div class="group-radiobutton mt-3 mb-3 d-none" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
@@ -315,7 +333,7 @@
                     <input type="checkbox" (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable"  [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                  <div class="group-radiobutton mt-3 mb-3 d-none" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
@@ -361,7 +379,7 @@
                     <input type="checkbox"  (change)= "clickableChange($event)" [checked] = "customizeTemplateObj.template.searchResultlayout.clickable" [disabled]="clickableDisabled">
                     <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                   </label>  
-                  <div class="group-radiobutton mt-3 mb-3" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
+                  <div class="group-radiobutton mt-3 mb-3 d-none" *ngIf="customizeTemplateObj.template.searchResultlayout.clickable">
                     <div class="label-text mb-1">Click Behaviour</div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-32" name="radio" class="radio-custom" type="radio" (change)= "resultLayoutclickBehavior('webpage')" [checked] = "customizeTemplateObj.template.searchResultlayout.behaviour == 'webpage'">
@@ -446,6 +464,19 @@
                       </perfect-scrollbar>
                   </ul>
               </div>                        
+            </div>
+            <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader'">
+              <div class="group-radiobutton">
+                <div class="heading-title">Text Alignment</div>
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-left" name="radioTextAlign" class="radio-custom" type="radio" (click)="customizeTemplateObj.template.searchResultlayout.textAlignment = 'left'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'left'">
+                    <label for="radio-left" class="radio-custom-label">Left Aligned</label>
+                </div>
+                <div class="kr-sg-radiobutton">
+                    <input id="radio-center" name="radioTextAlign" class="radio-custom" type="radio" (click)="customizeTemplateObj.template.searchResultlayout.textAlignment = 'center'" [checked] = "customizeTemplateObj.template.searchResultlayout.textAlignment == 'center'">
+                    <label for="radio-center" class="radio-custom-label">Center Aligned</label>
+                </div>
+            </div> 
             </div>
             <!-- <div class="kr-sg-dropdowns seach-with-dropdown mb-3 pb-1">
               <div class="label-text">URL</div>
@@ -1119,7 +1150,8 @@
                 </div>
               </div>              
             </div>
-
+            
+          <!-- Tile with Header End -->
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
                 <div class="slide tile_with_header grid_view_template">
@@ -1134,10 +1166,8 @@
                 <div class="slide tile_with_header grid_view_template">
                   <a class="tile-title">Last 30 days transaction</a>    
                 </div>
-              </div>              
+              </div>
             </div>
-            
-          <!-- Tile with Header End -->
           </div>
         </perfect-scrollbar>
 

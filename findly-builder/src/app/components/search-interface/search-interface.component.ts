@@ -51,13 +51,15 @@ export class SearchInterfaceComponent implements OnInit {
   selectedTemplatedId : any;
   selectedSettingResultsObj :selectedSettingResults = new selectedSettingResults();
   allSettings : any;
-  settingList : any =[{
-    id:"searchUi",
-    text : "Search UI"
-  },{
-    id:"searchExperience",
-    text : "Search Experience"
-  },{
+  settingList : any =[
+  //   {
+  //   id:"searchUi",
+  //   text : "Search UI"
+  // },{
+  //   id:"searchExperience",
+  //   text : "Search Experience"
+  // },
+  {
     id:"liveSearch",
     text : "Live Search"
   },{
@@ -136,6 +138,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
     this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
     this.clickableDisabled = false;
+    this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc ="Field mapped for Description will appear here";
   }
@@ -262,9 +265,11 @@ export class SearchInterfaceComponent implements OnInit {
       this.clickableDisabled = true;
       this.customizeTemplateObj.template.searchResultlayout.clickable = true;
       this.customizeTemplateObj.template.searchResultlayout.behaviour = '';
+      this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }else{
       this.clickableDisabled = false;
       this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
+      this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }
     
     //this.
@@ -280,21 +285,23 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.showDescription = true;
     }
-    if(layout == 'tileWithHeader' || layout == 'titleWithText'){
+    if(layout == 'tileWithHeader' || layout == 'tileWithText'){
       this.showImage = false;
-      if(this.customizeTemplateObj.template.type === 'Carousel'){
-        setTimeout(() => {
-          this.carousel = new PureJSCarousel({
-            carousel: '.carousel',
-            slide: '.slide',
-            oneByOne: true,
-            jq: $,
-          });
-        }, 100);
-        console.log("PureJSCarousel", this.carousel);
-      }
     }else{
       this.showImage = true;
+    }
+    if(layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage'){
+      if(this.customizeTemplateObj.template.type === 'Carousel'){
+        // setTimeout(() => {
+        //   this.carousel = new PureJSCarousel({
+        //     carousel: '.carousel',
+        //     slide: '.slide',
+        //     oneByOne: true,
+        //     jq: $,
+        //   });
+        // }, 100);
+        //console.log("PureJSCarousel", this.carousel);
+      }
     }
   }
   resultLayoutclickBehavior(type){
@@ -469,7 +476,7 @@ export class SearchInterfaceComponent implements OnInit {
       "layoutType":this.customizeTemplateObj.template.searchResultlayout.layout,
       "isClickable":this.customizeTemplateObj.template.searchResultlayout.clickable,
       "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour,
-      'textAlignment' : "left"
+      'textAlignment' : this.customizeTemplateObj.template.searchResultlayout.textAlignment
           },
         "mapping": {
         "heading":this.customizeTemplateObj.template.resultMapping.headingId,
@@ -589,7 +596,7 @@ class searchResultlayout{
     clickable : boolean = true;
     behaviour : string = 'webpage';          // 'webpage' or 'postback'
     url : string = '';
-    textAlignment : string ='';
+    textAlignment : string ='left';
 }
 class resultMapping{
   heading : string = '';
