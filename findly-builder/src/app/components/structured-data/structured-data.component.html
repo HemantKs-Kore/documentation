@@ -244,9 +244,11 @@
                             <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
                             <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName" placeholder="{{'structuredData.enter_field' | translate}}" class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">                                                                        
                             <ul class="dropdown-menu content-menu">
-                                <perfect-scrollbar class="scroll-search-field">
-                                    <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)"><a>{{suggesition.fieldName}}</a></li>
-                                </perfect-scrollbar>
+                                <ng-container *ngIf="fields.length">
+                                    <perfect-scrollbar class="scroll-search-field">
+                                        <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)"><a>{{suggesition.fieldName}}</a></li>
+                                    </perfect-scrollbar>
+                                </ng-container>
                             </ul>
                         </div>                        
                     </div>
