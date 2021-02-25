@@ -1,0 +1,172 @@
+<div class="search-experience-wrapper">
+    <div class="header-title">Search Experience</div>
+    <div class="tabs-sec">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='experience'}" data-toggle="tab"><span class="active-steps">1</span><span class="name">Experience</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='searchwidget'}" data-toggle="tab"><span class="active-steps">2</span><span class="name">Search Widget</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{'active':selectedTab==='interactions'}" data-toggle="tab" ><span class="active-steps">3</span><span class="name">Interactions</span></a>
+            </li>
+        </ul>
+        <perfect-scrollbar class="scroll-data">
+          <div class="tab-content" [ngSwitch]="selectedTab">
+            <div class="container" *ngSwitchCase="'experience'">              
+                <div class="experience-tab">
+                    <div class="left-sec">
+                        <div class="kr-sg-radiobutton d-block plr-0 mb-4">
+                            <input id="radio-2" name="topdown" value='topdown' class="radio-custom" type="radio" [(ngModel)]="searchObject.experience.search_bar">
+                            <label for="radio-2" class="radio-custom-label">Top Down</label>
+                            <div class="desc-tect">Search Bar at the top</div>
+                        </div>   
+                        <div class="kr-sg-radiobutton d-block plr-0 mb-4">
+                            <input id="radio-22" name="bottomup" value='bottomup' class="radio-custom" type="radio" [(ngModel)]="searchObject.experience.search_bar">
+                            <label for="radio-22" class="radio-custom-label">Bottom Up</label>
+                            <div class="desc-tect">Search Bar at the bottom</div>
+                        </div>   
+                    </div>
+                    <div class="right-sec">
+
+                    </div>
+                </div>
+            </div>
+            <div  class="container" *ngSwitchCase="'searchwidget'">
+                <div class="search-widget">
+                    <div class="label-text">Search Box Customization</div>
+                    <div class="d-flex search-customization-input">
+                        <div class="kr-sg-input-search" (click)="selectSearchBox('inputBox');$event.stopPropagation();">                               
+                            <input type="text" placeholder="Placeholder Text" class="input-search" (click)="selectSearchBox('placeholderText');$event.stopPropagation()">
+                            <img src="assets/icons/search_gray.svg" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation()">
+                        </div>
+                        <button class="btn-customize kr-sg-button-primary btn_lg" (click)="selectSearchBox('button')">Button</button>
+                    </div>
+                    <div [ngSwitch]="selectSearch">
+                        <!-- <input
+                            [style.background]="color"
+                            [(colorPicker)]="color"
+                            [cpOutputFormat]="'hex'"
+                            (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
+                            (colorPickerClose)="onEventLog('colorPickerClose', $event)"
+                            (cpInputChange)="onEventLog('cpInputChange', $event)"
+                            (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
+                            (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"
+                            readonly
+                          /> -->
+                    <div class="fill-colors-block"  *ngSwitchCase="'inputBox'">
+                        <div class="fill-color">
+                            <div class="label-color">Fill Color</div>                            
+                            <div class="box-color"></div>
+                        </div>
+                        <div class="fill-color">
+                            <div class="label-color">Border Color</div>
+                            <div class="box-color"></div>
+                        </div>
+                    </div>
+                    <div class="drog-and-drop-block" *ngSwitchCase="'inputIcon'">
+                        <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
+                        <div class="input-file">
+                            <div class="title">Drag and drop or <span class="browse">browse</span></div>
+                            <input type="file" name="avatar"/>
+                        </div>
+                    </div>
+                    <div class="fill-colors-block" *ngSwitchCase="'placeholderText'">
+                        <div class="fill-color">
+                            <div class="label-color">Text Color</div>
+                            <div class="box-color"></div>
+                        </div>
+                    </div>
+                    <div class="button-enable" *ngSwitchCase="'button'">
+                        <div class="label_text">Add Button</div>
+                        <label class="kr-sg-toggle">                                       
+                            <input type="checkbox">
+                            <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                        </label>
+                        <div class="kr-sg-input-text">
+                            <div class="label-text">Button Text</div>
+                            <input type="text" placeholder="Enter Name" class="input-text" disabled>                            
+                        </div>
+                        <div class="fill-colors-block">
+                            <div class="fill-color">
+                                <div class="label-color">Fill Color</div>
+                                <div class="box-color"></div>
+                            </div>
+                            <div class="fill-color">
+                                <div class="label-color">Border Color</div>
+                                <div class="box-color"></div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>         
+            </div>
+            <div class="container" *ngSwitchCase="'interactions'">
+                <div class="interactins-content col-12 p-0 row m-0">
+                    <div class="left-sec col-7">
+                        <div class="greeting-message border-with-padding">
+                            <div class="kr-sg-input-text-area">
+                                <div class="label-text">Customize Launch Greeting Message</div>
+                                <textarea placeholder="Hi, How may I help you?" class="input-text"></textarea>                                
+                            </div>
+                            <div class="emojis-block">
+                                <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>
+                                <div class="color-picker"></div>
+                                <div class="count-length">0 / 40</div>
+                            </div>
+                        </div>
+                        <div class="group-radiobutton border-with-padding">
+                            <div class="heading-title">Show Searches</div>
+                            <div class="kr-sg-radiobutton">
+                                <input id="radio-22" name="radio" class="radio-custom" type="radio">
+                                <label for="radio-22" class="radio-custom-label">Frequent</label>
+                            </div>
+                            <div class="kr-sg-radiobutton">
+                                <input id="radio-23" name="radio" class="radio-custom" type="radio">
+                                <label for="radio-23" class="radio-custom-label">Recent</label>
+                            </div>
+                        </div>
+                        <div class="border-with-padding">                                                                     
+                            <div class="label_text">Autocomplete</div>
+                            <label class="kr-sg-toggle">                                       
+                                <input type="checkbox">
+                                <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
+                            </label>
+                        </div>
+                        <div class="border-with-padding">                                                                     
+                            <div class="label_text">Query Suggestions</div>
+                        </div>
+                        <div class="border-with-padding">                                                                     
+                            <div class="label_text">Live Search Results</div>
+                        </div>
+                        <div class="border-with-padding group-checkbox">
+                            <div class="heading-title">Feedback Experience </div>
+                            <div class="kr-sg-checkbox">
+                                <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                                <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
+                            </div>
+                            <div class="kr-sg-checkbox">
+                                <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">
+                                <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-sec col-5">
+                        <div class="preview-interactions">
+                            <div class="label_text">Preview</div>
+                            <div class="bg-preview-content">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>             
+            </div>
+          </div>
+        </perfect-scrollbar>
+    </div>
+    <div class="footer-sec">
+        <button class="kr-sg-button-secondary btn_lg">Cancel</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="nextTab()">Next</button>       
+    </div>
+</div>
