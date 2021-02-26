@@ -240,18 +240,22 @@
         <div class="modal-body advance-search-modal">
             <ng-container *ngFor="let rule of advancedSearch.rules; let index = index">
                 <div class="d-flex align-items-center">
-                    <div class="kr-sg-dropdowns dopdown-with-search mr-10">                   
+                    <div class="kr-sg-dropdowns dopdown-with-search mr-10" ngbDropdown [placement]="'bottom-center'">
                         <div class="kr-sg-input-inline-search dropdown dropdown-open line-height-0">
-                            <button class="dropdown-toggle dropdown-input search-with-dropdown" data-toggle="dropdown"></button>    
-                            <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName" placeholder="{{'structuredData.enter_field' | translate}}" class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">                                                                        
-                            <ul class="dropdown-menu content-menu">
+                            <button class="dropdown-toggle dropdown-input search-with-dropdown" ngbDropdownToggle
+                                data-toggle="dropdown"></button>
+                            <input type="text" (keyup)="getFieldAutoComplete(rule.fieldName)" [(ngModel)]="rule.fieldName"
+                                placeholder="{{'structuredData.enter_field' | translate}}"
+                                class="input-search dropdown-toggle dropdown-input pr-2" data-toggle="dropdown" autocomplete="off">
+                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <ng-container *ngIf="fields.length">
-                                    <perfect-scrollbar class="scroll-search-field">
-                                        <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)"><a>{{suggesition.fieldName}}</a></li>
+                                    <perfect-scrollbar class="scroll-search-field h-200">
+                                        <li *ngFor="let suggesition of fields" (click)="selectedField(suggesition, index)">
+                                            <a>{{suggesition.fieldName}}</a></li>
                                     </perfect-scrollbar>
                                 </ng-container>
                             </ul>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="kr-sg-dropdowns mr-10">                    
                         <div class="dropdown dropdown-open">

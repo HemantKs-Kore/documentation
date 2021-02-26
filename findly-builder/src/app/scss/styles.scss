@@ -2849,3 +2849,16 @@ nouislider{
         max-height: 300px !important;
     }
 }
+
+.scroll-search-field{
+    max-height: 300px;
+    &.h-200{
+        max-height: 200px;
+    .ps-content{
+        max-height: 200px !important;
+    }
+    }
+    .ps-content{
+        max-height: 300px !important;
+    }
+}
