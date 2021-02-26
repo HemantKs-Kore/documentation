@@ -2844,7 +2844,6 @@ nouislider{
 }
 
 
-
 .dashboard-custom-tooltips{
     opacity: 1 !important;
     &.ml_12{
@@ -2870,5 +2869,18 @@ nouislider{
         border: 0;
         width: 220px;
         max-width: 220px;
+    }
+}
+
+.scroll-search-field{
+    max-height: 300px;
+    &.h-200{
+        max-height: 200px;
+    .ps-content{
+        max-height: 200px !important;
+    }
+    }
+    .ps-content{
+        max-height: 300px !important;
     }
 }
