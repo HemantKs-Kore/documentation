@@ -25,10 +25,7 @@
             <div class="top-cards-section row m-0" *ngIf="totalUsersStats && totalSearchesStats">
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.total_user'| translate}}<span  placement="top-center" ngbTooltip=" Number of unique users performed search during the selected period"
-                            [container]='"body"' >
-                            <img src="assets/icons/gray_info.svg" class="pl-1">
-                        </span></div>
+                        <div class="title-info">{{'metrics.dash_board_view.total_user'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{ totalUsersStats.totalUsers}}</div>
@@ -47,10 +44,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.total_searches'| translate}}<span  placement="top-center" ngbTooltip="Total number of searches performed during the selected period"
-                            [container]='"body"' >
-                            <img src="assets/icons/gray_info.svg" class="pl-1">
-                        </span></div>
+                        <div class="title-info">{{'metrics.dash_board_view.total_searches'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{ totalSearchesStats.totalSearches}}</div>
@@ -70,10 +64,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.result_rate'| translate}}<span  placement="top-center" ngbTooltip="Percentage of searches that returned at least one result "
-                            [container]='"body"' >
-                            <img src="assets/icons/gray_info.svg" class="pl-1">
-                        </span></div>
+                        <div class="title-info">{{'metrics.dash_board_view.result_rate'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.resultRate }}%</div>
@@ -92,10 +83,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.clicks'| translate}}<span  placement="top-center" ngbTooltip="No. of searches where at least one result was clicked on by the search user"
-                            [container]='"body"' >
-                            <img src="assets/icons/gray_info.svg" class="pl-1">
-                        </span></div>
+                        <div class="title-info">{{'metrics.dash_board_view.clicks'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1"></div>
                         <div class="bottom-sec">
                             <!-- <div class="left-sec">
                                 <div class="count">{{totalSearchesStats.ctr}}%</div>
@@ -123,10 +111,7 @@
                 </div>
                 <div class="col cards-data">
                     <div class="content">
-                        <div class="title-info">{{'metrics.dash_board_view.avg_click_position'| translate}}<span  placement="top-center" ngbTooltip="Average position of the clicks performed on the search results"
-                            [container]='"body"' >
-                            <img src="assets/icons/gray_info.svg" class="pl-1">
-                        </span>
+                        <div class="title-info">{{'metrics.dash_board_view.avg_click_position'| translate}}<img src="assets/icons/gray_info.svg" class="pl-1">
                         </div>
                         <div class="bottom-sec">
                             <div class="left-sec">
@@ -340,10 +325,7 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}} <span  placement="top-center" ngbTooltip=" Position at which the search results were clicked on by the end - users most number of times"
-                            [container]='"body"' >
-                            <img src="assets/icons/gray_info.svg" class="pl-1">
-                        </span></div>
+                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}</div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
                         <div class="text-center">{{'metrics.dash_board_view.Number_of_Clicks'| translate}}</div>
                     </div>
