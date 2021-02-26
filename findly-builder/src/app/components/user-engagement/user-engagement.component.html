@@ -51,7 +51,10 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <div class="title">{{'metrics.user_engagement.New_Users'| translate}}<span class="withresults"></span></div>
+                                <div class="title">{{'metrics.user_engagement.New_Users'| translate}} <span  placement="top-center" ngbTooltip="Number of new users performed search during the selected period"
+                                    [container]='"body"' >
+                                    <img src="assets/icons/gray_info.svg" class="pl-1">
+                                </span><span class="withresults"></span></div>
                                 <div class="count-data">
                                     <span class="count">{{newUser}}
                                         <img style=" background: #DD3646;" *ngIf ="newUserProgress < 0" src="assets/icons/arrow-decrease.svg">
@@ -61,7 +64,10 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <div class="title">{{'metrics.user_engagement.Repeat_Users'| translate}}<span class="clicks"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Repeat_Users'| translate}}<span  placement="top-center" ngbTooltip="Number of returning users performed search during the selected period"
+                                    [container]='"body"' >
+                                    <img src="assets/icons/gray_info.svg" class="pl-1">
+                                </span><span class="clicks"></span></div>
                                 <div class="count-data " >
                                     <span class="count">{{repeatUser}}
                                         <img style=" background: #DD3646;" *ngIf ="repeatUserProgress < 0" src="assets/icons/arrow-decrease.svg">
@@ -96,7 +102,10 @@
                     <div class="full-card">
                         <div class="legends-info">
                             <div class="content no-bg">
-                                <div class="title">{{'metrics.user_engagement.Busy_Hours'| translate}}<span class="toatlsearches"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Busy_Hours'| translate}}<span  placement="top-center" ngbTooltip="Volume of users that performed at different hours of the day"
+                                    [container]='"body"' >
+                                    <img src="assets/icons/gray_info.svg" class="pl-1">
+                                </span><span class="toatlsearches"></span></div>
                             </div>
                         </div>
                         <div echarts [options]="heatMapChartOption" class="demo-chart-graphMode"></div>
