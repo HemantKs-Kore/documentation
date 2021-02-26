@@ -58,7 +58,8 @@
             [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
         </div>
       </div>
-      <div class="tags row m-0">
+
+      <div class="tags row m-0"  *ngIf="newSynonymObj.type==='synonym'">
         <div class="chip-sys-data">
           <mat-form-field class="example-chip-list" [floatLabel]="'never'">
             <mat-chip-list #chipList>
@@ -67,6 +68,24 @@
                 <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
               </mat-chip>
               <input placeholder="Type Synonyms and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
+                [ngModelOptions]="{standalone: true}" autocomplete="off">
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="tags row m-0"  *ngIf="newSynonymObj.type==='oneWaySynonym'">
+        <div class="chip-sys-data">
+          <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let syn of newSynonymObj.values" [selectable]="selectable" [removable]="removable"
+                (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
+                <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+              </mat-chip>
+              <input placeholder="Type Alternatives and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}" autocomplete="off">

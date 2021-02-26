@@ -330,7 +330,9 @@
             <div class="data-information-content col-12 m-0 row split-tables">
                 <div class="col-6 box-content">
                     <div class="full-card pb-4">
-                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}</div>
+                        <div class="title-card">{{'metrics.dash_board_view.Most_Clicked_Position'| translate}}
+                            <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Position at which the search results were clicked on by the end - users most number of times." [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
+                        </div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
                         <div class="text-center">{{'metrics.dash_board_view.Number_of_Clicks'| translate}}</div>
                     </div>

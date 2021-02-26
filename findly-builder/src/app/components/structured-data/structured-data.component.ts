@@ -658,7 +658,7 @@ export class StructuredDataComponent implements OnInit {
         data: {
           newTitle: 'Are you sure you want to delete?',
           body: 'Selected data will be permanently deleted.',
-          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true,
         }
       });

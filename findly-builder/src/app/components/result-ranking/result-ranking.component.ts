@@ -512,7 +512,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       data: {
         newTitle : 'Are you sure you want to reset?',
         body : 'Selected queries will be set to Reset once you proceed.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
