@@ -48,7 +48,7 @@
                         </button>
                     </div>
                     <div [ngSwitch]="selectSearch">                        
-                        <div class="fill-colors-block"  *ngSwitchCase="'inputBox'">
+                        <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
                             <div class="fill-color">
                                 <div class="label-color">Fill Color</div>                            
                                 <div class="box-color color-pallet-container">
@@ -76,7 +76,7 @@
                                      </div>
                                 </div>
                             </div>
-                            <div class="fill-color">
+                            <!-- <div class="fill-color">
                                 <div class="label-color">Border Color</div>
                                 <div class="box-color color-pallet-container">
                                     <input
@@ -102,7 +102,7 @@
                                         <div class="save-switch">Save Swatch</div>
                                      </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="drog-and-drop-block" *ngSwitchCase="'inputIcon'">
                             <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
@@ -216,12 +216,12 @@
                         <div class="greeting-message border-with-padding">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea placeholder="Hi, How may I help you?" class="input-text"></textarea>                                
+                                <textarea placeholder="Hi, How may I help you?" class="input-text" maxlength="40" #box (keyup)="0"></textarea>                                
                             </div>
                             <div class="emojis-block">
                                 <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>
                                 <div class="color-picker"></div>
-                                <div class="count-length">0 / 40</div>
+                                <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
                         <div class="group-radiobutton border-with-padding">
@@ -244,6 +244,9 @@
                         </div>
                         <div class="border-with-padding">                                                                     
                             <div class="label_text">Query Suggestions</div>
+                            <div class="kr-sg-toggle">  
+                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj' (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
+                            </div>
                         </div>
                         <div class="border-with-padding">                                                                     
                             <div class="label_text">Live Search Results</div>
@@ -255,7 +258,7 @@
                                 <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
                             </div>
                             <div class="kr-sg-checkbox">
-                                <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">
+                                <input id="checkbox_grpc" class="checkbox-custom" type="checkbox" disabled>
                                 <label for="checkbox_grpc" class="checkbox-custom-label">Query Level</label>
                             </div>
                         </div>
@@ -274,7 +277,8 @@
         </perfect-scrollbar>
     </div>
     <div class="footer-sec">
-        <button class="kr-sg-button-secondary btn_lg">Cancel</button>
-        <button class="kr-sg-button-primary btn_lg" (click)="nextTab()">Next</button>       
+        <button class="kr-sg-button-secondary btn_lg" (click)="nextTab('pre')" *ngIf="selectedTab!='experience'">Previous</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="nextTab('nex')" *ngIf="selectedTab!=='interactions'">Next</button>     
+        <button class="kr-sg-button-primary btn_lg" (click)="saveSearchExperience()" *ngIf="selectedTab=='interactions'">Done</button>    
     </div>
 </div>

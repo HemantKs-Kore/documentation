@@ -18,14 +18,24 @@ export class SearchExperienceComponent implements OnInit {
   ngOnInit(): void {
   }
   //sequential tabs method
-  nextTab() {
-    console.log("searchObject", this.searchObject)
-    if (this.selectedTab === 'experience') {
-      this.selectedTab = 'searchwidget';
+  nextTab(type) {
+    if (type === 'pre') {
+      if (this.selectedTab === 'searchwidget') {
+        this.selectedTab = 'experience';
+      }
+      else if (this.selectedTab === 'interactions') {
+        this.selectedTab = 'searchwidget';
+      }
     }
-    else if (this.selectedTab === 'searchwidget') {
-      this.selectedTab = 'interactions';
+    else {
+      if (this.selectedTab === 'experience') {
+        this.selectedTab = 'searchwidget';
+      }
+      else if (this.selectedTab === 'searchwidget') {
+        this.selectedTab = 'interactions';
+      }
     }
+
   }
   //select search box widget
   selectSearchBox(type) {
@@ -35,5 +45,9 @@ export class SearchExperienceComponent implements OnInit {
   //fetch color code 
   public onEventLog(event: string, data: any): void {
     console.log(event, data);
+  }
+  //submit search page form
+  saveSearchExperience() {
+
   }
 }
