@@ -287,7 +287,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   datainc = 0;
   poling(jobId, schedule?) {
-    console.log("poling jobId", jobId, schedule, this.selectedSourceType.sourceType)
+    console.log("JobId", jobId)
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -300,7 +300,12 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.datainc = this.datainc + 1;
         this.statusObject = res;
         const queuedJobs = _.filter(res, (source) => {
-          return (source._id === jobId);
+          if (this.selectedSourceType.sourceType === 'content') {
+            return (source.extractionSourceId === jobId);
+          }
+          else {
+            return (source._id === jobId);
+          }
         });
         if (queuedJobs && queuedJobs.length) {
           this.statusObject = queuedJobs[0];
@@ -383,6 +388,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.cancleSourceAddition();
   }
   stopCrwaling(event) {
+    console.log("this.crwal_jobId", this.crwal_jobId)
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -390,7 +396,6 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
       jobId: this.crwal_jobId
-
     }
     this.service.invoke('stop.crwaling', quaryparms).subscribe(res => {
       this.notificationService.notify('Stoped Crwaling', 'success');
@@ -683,14 +688,18 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (schdVal) {
         this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-          console.log("proceedfor both pages", res, this.selectedSourceType.sourceType, resourceType)
+          console.log("proceedfor both pages", res)
           this.openStatusModal();
           this.addSourceModalPopRef.close();
-          if (this.selectedSourceType.sourceType === 'content' && resourceType === 'webdomain') {
+          if (this.selectedSourceType.sourceType === 'content') {
+            this.statusObject = { ...this.statusObject, validation: { validated: true } };
           }
-          this.poling(res._id, 'scheduler');
+          if (this.selectedSourceType.sourceType === 'faq') {
+            this.poling(res._id, 'scheduler');
+          }
           this.extract_sourceId = res._id;
           this.crwal_jobId = res.jobId
+          console.log("this.statusObject", this.statusObject)
         }, errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
             this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1112,43 +1121,44 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   //popup for crawling confirmation
-  confirmCrawl() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '650px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Configuration has been successfully saved',
-        body: 'Do you wish to initiate crawling now?',
-        buttons: [{ key: 'yes', label: 'Crawl', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          dialogRef.close();
-          //this.openStatusModal();
-          this.jobOndemand();
-          this.poling(this.crwal_jobId, 'scheduler')
-        } else if (result === 'no') {
-          dialogRef.close();
-          this.closeStatusModal();
-        }
-      })
-    if (this.statusObject.validation) {
-      if (this.statusObject.validation.validated) {
-        this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
-      } else {
-        this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
-      }
+  // confirmCrawl() {
+  //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+  //     width: '650px',
+  //     height: 'auto',
+  //     panelClass: 'delete-popup',
+  //     data: {
+  //       title: 'Configuration has been successfully saved',
+  //       body: 'Do you wish to initiate crawling now?',
+  //       buttons: [{ key: 'yes', label: 'Crawl', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+  //       confirmationPopUp: true
+  //     }
+  //   });
+  //   dialogRef.componentInstance.onSelect
+  //     .subscribe(result => {
+  //       if (result === 'yes') {
+  //         dialogRef.close();
+  //         //this.openStatusModal();
+  //         this.jobOndemand();
+  //         this.poling(this.crwal_jobId, 'scheduler')
+  //       } else if (result === 'no') {
+  //         dialogRef.close();
+  //         this.closeStatusModal();
+  //       }
+  //     })
+  //   if (this.statusObject.validation) {
+  //     if (this.statusObject.validation.validated) {
+  //       this.notificationService.notify('Url validated ', 'success'); // Remove once validation is used
+  //     } else {
+  //       this.notificationService.notify('Url validated ', 'error'); // Remove once validation is used
+  //     }
 
-    }
-  }
+  //   }
+  // }
   //crawl job ondemand
   jobOndemand() {
     this.statusModalPopRef.close();
     this.openCrawlModalPop();
+    this.poling(this.extract_sourceId, 'scheduler');
     const queryParams: any = {
       searchIndexID: this.searchIndexId,
       sourceId: this.extract_sourceId

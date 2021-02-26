@@ -32,6 +32,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/app/scss/styles.scss",
               "src/assets/fonts/inter/inter-font.css",
+              "src/assets/web-kore-sdk/libs/purejscarousel.css",
               "src/assets/css/bootstrap-slider.css",
               "node_modules/nouislider/distribute/nouislider.min.css"
             ],
@@ -42,6 +43,7 @@
               "src/app/helpers/lib/assets/highlight.js/highlight.min.js",
               "src/app/helpers/lib/assets/marked.min.js",
               "src/assets/js/bootstrap-slider.js",
+              "src/assets/web-kore-sdk/libs/purejscarousel.js",
               "node_modules/rangy/lib/rangy-core.js",
               "node_modules/rangy/lib/rangy-classapplier.js",
               "node_modules/rangy/lib/rangy-highlighter.js",

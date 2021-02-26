@@ -36,10 +36,10 @@
                     <input type="text" id="direct-search" [(ngModel)]="searchfacet" (keyup.enter)="searchItems()" placeholder="Search" autocomplete="off" class="input-search pl-2" placeholder="Search">
                 </div>-->
                 <div class="seach-block" *ngIf="(facets && facets.length)">
-                    <span [ngClass]="{'d-none': showSearch}" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+                    <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" (click)="toggleSearch(true)"><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
                     <!-- <img [ngClass]="{'d-none': !showSearch}" id="btn_close_search_structured_data" src="assets/images/close.svg" (click)="toggleSearch(false)"> -->
                 </div>
-                <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg mr-3" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
+                <button id='btn_addFacet' *ngIf="(facets && facets.length)" class="kr-sg-button-primary btn_lg" (click)="createNewFacet()"><img src="assets/icons/add_plus.svg">{{'facets.add_facet'| translate}}</button>
                 <!-- <img class="mr-3" src="assets/icons/clock.svg"> -->
             </div>
         </div>

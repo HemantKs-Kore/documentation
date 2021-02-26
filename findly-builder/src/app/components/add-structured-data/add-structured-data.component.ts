@@ -146,6 +146,7 @@ export class AddStructuredDataComponent implements OnInit {
       },200)
     }
     else{
+      this.codeMirrorOptions['readOnly'] = '';
       this.structuredData.payload = JSON.stringify({});
     }
     setTimeout(() => {
