@@ -6,6 +6,10 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
+// import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
+declare var PureJSCarousel: any;
+declare var $: any;
+
 @Component({
   selector: 'app-search-interface',
   templateUrl: './search-interface.component.html',
@@ -60,7 +64,7 @@ export class SearchInterfaceComponent implements OnInit {
     id:"search",
     text : "Search"
   },{
-    id:"fullPageResult",
+    id:"fullSearch",
     text : "Full Page Result"
   }
 ]
@@ -86,10 +90,15 @@ export class SearchInterfaceComponent implements OnInit {
   }]
   showDescription: boolean = true;
   showImage : boolean = false;
+  clickableDisabled : boolean = false;
+  switchActive : boolean = true;
   customizeTemplateObj : customizeTemplate = new customizeTemplate();
   customizeTemplate : templateResponse = new templateResponse();
+  carousel : any;
+
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
+
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService) { }
@@ -126,6 +135,9 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.layout = "tileWithText";
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
     this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
+    this.clickableDisabled = false;
+    this.preview_title = "Field Mapped for heading will appear here"
+    this.preview_desc ="Field mapped for Description will appear here";
   }
   getSettings(interfaceType){
     const quaryparms: any = {
@@ -147,6 +159,7 @@ export class SearchInterfaceComponent implements OnInit {
     };
     this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
       this.allSettings = res;
+      this.list = [];
       res.settings.forEach(element => {
         if(element.interface ==this.selectedSetting){
           this.selectedSettingResultsObj = element;
@@ -169,6 +182,12 @@ export class SearchInterfaceComponent implements OnInit {
     });
   }
   templateBind(res : any){
+    if(res.type == 'grid' || res.type == 'carousel'){
+      this.clickableDisabled = true;
+    }else{
+      this.clickableDisabled = false;
+    }
+    
     this.customizeTemplateObj.template.typeId = res.type;
     this.templateTypeList.forEach(element => {
       if(element.id == res.type){
@@ -203,6 +222,8 @@ export class SearchInterfaceComponent implements OnInit {
         this.customizeTemplateObj.template.resultMapping.url = element.fieldName;
        }
     });
+    
+    this.customModalRef = this.customModal.open();
   }
   sourcelist(settingObj){
     settingObj.appearance.forEach(element => {
@@ -236,6 +257,16 @@ export class SearchInterfaceComponent implements OnInit {
   template(id,type){
     this.customizeTemplateObj.template.type = type;
     this.customizeTemplateObj.template.typeId = id;
+
+    if(id == 'grid' || id == 'carousel'){
+      this.clickableDisabled = true;
+      this.customizeTemplateObj.template.searchResultlayout.clickable = true;
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = '';
+    }else{
+      this.clickableDisabled = false;
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
+    }
+    
     //this.
   }
   resultLayoutChange(layout){
@@ -249,19 +280,50 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.showDescription = true;
     }
-    if(layout == 'titleWithHeader' || layout == 'titleWithText'){
+    if(layout == 'tileWithHeader' || layout == 'titleWithText'){
       this.showImage = false;
+      if(this.customizeTemplateObj.template.type === 'Carousel'){
+        setTimeout(() => {
+          this.carousel = new PureJSCarousel({
+            carousel: '.carousel',
+            slide: '.slide',
+            oneByOne: true,
+            jq: $,
+          });
+        }, 100);
+        console.log("PureJSCarousel", this.carousel);
+      }
     }else{
       this.showImage = true;
     }
   }
+  resultLayoutclickBehavior(type){
+    this.customizeTemplateObj.template.searchResultlayout.behaviour = type;
+  }
   clickableChange(event){
     if(event){
-      this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked;
+      this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked; 
+      this.switchActive= event.target.checked;
+      if(event.target.checked){
+        this.customizeTemplateObj.template.searchResultlayout.behaviour ="";
+        this.customizeTemplateObj.template.searchResultlayout.url = "";
+      }
+    }
+  }
+  facetEnableChange(event){
+    if(event){
+      this.selectedSettingResultsObj.facets.isEnabled = event.target.checked;
+      if(!event.target.checked){
+        this.selectedSettingResultsObj.facets.aligned ="left";
+      }
+    }
+  }
+  facetTypeChange(event , value){
+    if(event && value){
+      this.selectedSettingResultsObj.facets.aligned = value;
     }
   }
   openCustomModal() {
-    this.customModalRef = this.customModal.open();
     let templateId;
     this.list.forEach(element => {
       if(element.type == this.selectedSourceType){
@@ -274,6 +336,7 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.customizeTemplateObj = new customizeTemplate();
       this.defaultTemplate();
+      this.customModalRef = this.customModal.open();
     }
   }
   closeCustomModal(){
@@ -351,7 +414,11 @@ export class SearchInterfaceComponent implements OnInit {
             },
           "view": this.selectedSettingResultsObj.view,
           "maxResultsAllowed": this.selectedSettingResultsObj.maxResultsAllowed,
-          "interface": this.selectedSettingResultsObj.interface,
+          "facets" : {
+            "aligned" : this.selectedSettingResultsObj.facets.aligned,
+            "isEnabled" : this.selectedSettingResultsObj.facets.isEnabled
+          },
+          "interface": this.selectedSetting,
           "appearance": this.selectedSettingResultsObj.appearance
           // [
           //       {
@@ -368,7 +435,11 @@ export class SearchInterfaceComponent implements OnInit {
           //       }
           //   ],  
    }
-  
+   if(this.selectedSettingResultsObj.referInterface == 'search'){
+    payload['referInterface'] = 'search';
+   }else{
+     delete payload['referInterface']; 
+   }
     this.service.invoke('put.SI_saveResultSettings', queryparams , payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
@@ -397,13 +468,14 @@ export class SearchInterfaceComponent implements OnInit {
       "layout": {
       "layoutType":this.customizeTemplateObj.template.searchResultlayout.layout,
       "isClickable":this.customizeTemplateObj.template.searchResultlayout.clickable,
-      "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour
+      "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour,
+      'textAlignment' : "left"
           },
         "mapping": {
         "heading":this.customizeTemplateObj.template.resultMapping.headingId,
         "description": this.customizeTemplateObj.template.resultMapping.descriptionId,
         "img":this.customizeTemplateObj.template.resultMapping.imageId,
-        "url":""
+        "url":this.customizeTemplateObj.template.resultMapping.urlId
         },
         "appearanceType":appearnce
     }
@@ -426,6 +498,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.service.invoke(url, queryparams , payload).subscribe(res => {
       this.notificationService.notify(message, 'success');
       this.selectedTemplatedId = "";
+      this.getSettings(this.selectedSetting);
       this.closeCustomModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
@@ -469,7 +542,12 @@ class selectedSettingResults{
   }
   view= "fit"
   maxResultsAllowed= 10
+  facets :{
+    aligned : "left",
+    isEnabled : false
+  }
   interface= "search"
+  referInterface = ""
   appearance= [
       {
           "type": "action",
@@ -509,8 +587,9 @@ class template {
 class searchResultlayout{
   layout :string = '';                // title with text / image / Centered Content
     clickable : boolean = true;
-    behaviour : string = '';          // 'webpage' or 'postback'
+    behaviour : string = 'webpage';          // 'webpage' or 'postback'
     url : string = '';
+    textAlignment : string ='';
 }
 class resultMapping{
   heading : string = '';
@@ -529,7 +608,8 @@ class templateResponse{
 "layout"= {
     	"layoutType": "tileWithText",
        		"isClickable": false,
-       		"behaviour": "webpage"
+           "behaviour": "webpage",
+           "textAlignment" : "left"
    	}
    	"type"= "" // grid , list
    	"mapping"= {
