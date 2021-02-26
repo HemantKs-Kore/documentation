@@ -2842,3 +2842,10 @@ nouislider{
     }
 
 }
+
+.scroll-search-field{    
+    max-height: 300px;
+    .ps-content{
+        max-height: 300px !important;
+    }
+}
