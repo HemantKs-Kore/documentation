@@ -493,7 +493,20 @@
 .children-expanded{
     padding: 10px 15px;
 }
-
+::ng-deep perfect-scrollbar .ps--active-y {
+    .ps__thumb-y {
+        width: 3px !important;
+    }
+    .ps__rail-y {
+        width: 3px !important;
+    }
+    .ps__thumb-x {
+        display: none !important;
+    }
+    .ps__rail-x {
+        display: none !important;
+    }
+}
 
 .interface-link{
     cursor: pointer;
