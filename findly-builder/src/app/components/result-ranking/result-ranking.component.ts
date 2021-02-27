@@ -31,7 +31,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   limitpage = 10;
   customizeListBack : any;
   loadingContent : boolean = false;
-  nextPage: boolean = false;
+  nextPage: boolean = true;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
@@ -174,6 +174,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
     this.loadCustomRankingList();
   })
+  this.loadingContent = true;
   }
   loadCustomRankingList(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
@@ -556,6 +557,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       skip : skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      this.loadingContent = false;
       this.customizeList = res;
       this.customizeListBack = [...res];
       this.totalRecord = res.length
@@ -583,6 +585,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
        } else {
          this.notificationService.notify('Failed ', 'error');
        }
+       this.loadingContent = false;
      });
   }
   toggle(icontoggle,selected){

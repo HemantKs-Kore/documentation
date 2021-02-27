@@ -3,10 +3,10 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
-    <div class="header-sec col-12 row m-0" *ngIf="collectedRecord.length===0 && !nextPage && customizeList.length == 0 && !loadingContent" >
+    <div class="header-sec col-12 row m-0" *ngIf="!nextPage" >
         <div class="col-4 p-0">Result Ranking</div>     
-        </div>
-    <ng-container *ngIf="collectedRecord.length===0 && !nextPage && customizeList.length == 0 && !loadingContent">
+    </div>
+    <ng-container *ngIf="!nextPage">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
