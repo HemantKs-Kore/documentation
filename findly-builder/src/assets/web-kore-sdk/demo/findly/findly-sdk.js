@@ -3008,13 +3008,37 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 // searchFacets: searchFacets,
               }
               console.log(_self.vars.searchObject.liveData);
+              _self.pubSub.publish('sa-search-facets', _self.vars.searchFacetFilters);
               _self.pubSub.publish('sa-search-result', _self.vars.searchObject.liveData);
               _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
-    
 
-              _self.prepAllSearchData();
-              _self.bindAllResultsView();
-              _self.bindSearchActionEvents();
+              // Sea all Results 
+              var container = $('#show-all-results-container');
+              if(!container.length){
+                $('body').append('<div class="show-all-results-container" id="show-all-results-container"></div>');
+                container = $('#show-all-results-container');
+              }
+              var dataObj = _self.vars.searchObject.liveData;
+              var facetdata = _self.vars.searchFacetFilters;
+              _self.showAllResults();
+              _self.pubSub.publish('sa-search-full-results', {container : container ,isFullResults : true, selectedFacet : 'all', isLiveSearch : false, isSearch : false, facetData : facetdata ,dataObj});
+              //_self.pubSub.publish('sa-full-data-search', { });
+              
+               //_self.prepAllSearchData();
+              // _self.bindAllResultsView();
+              // _self.bindSearchActionEvents();
+
+              // var selectedFacet_temp = "all results";
+              // var dataObj = _self.vars.searchObject.liveData;
+              // _self.pubSub.publish('sa-st-data-search', {
+              //   container : '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+              // });
+              // _self.pubSub.publish('sa-faq-search', {
+              //   container : '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+              // });
+              // _self.pubSub.publish('sa-page-search', {
+              //   container : '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+              // });
             }
           })
         }
@@ -3026,10 +3050,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
 
           $(".custom-insights-control-container").hide();
-
-          _self.prepAllSearchData();
-          _self.bindAllResultsView();
-          _self.bindSearchActionEvents();
+          _self.showAllResults();
+           //_self.prepAllSearchData();
+          // _self.bindAllResultsView();
+          // _self.bindSearchActionEvents();
         }
         // var topMatchFAQ;
         // if(data && data.faqs){
@@ -3157,8 +3181,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.show-all-results').off('click').on('click', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
+       
         _self.invokeSearch();
-
+       
+       
+        
       })
       // $('.full-search-close').off('click').on('click', function (e)
       $('.custom-chevron-right-icon').off('click').on('click', function (e) {
@@ -3933,8 +3960,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var _self = this;
       var fieldMatches = false;
-      var _filterContainer = $(event.target).closest('.filters-content');
-
+      var _filterContainer;
+      if($(event.target).closest('.filters-content').length){
+         _filterContainer = $(event.target).closest('.filters-content');
+      }else{
+         _filterContainer = $(event.target).closest('.filter-data');
+      }
       var fieldName = _filterContainer.attr('data-fieldName');
       var facetType = _filterContainer.attr('data-facetType');
       var key = $(event.target).attr('name');
@@ -4026,9 +4057,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }
       console.log(_self.vars.filterObject, isChecked);
-      _self.searchByFacetFilters(_self.vars.filterObject);
+      //_self.searchByFacetFilters(_self.vars.filterObject);
     };
-
+    /** filter New Functions start*/
+   
+    /** filter New Functions  end*/
     FindlySDK.prototype.searchByFacetFilters = function (filterObject) {
       var _self = this;
       // var activeFacet = '';
@@ -4120,8 +4153,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.pubSub.publish('sa-page-search', {container : '.pages-full-search-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : true, dataObj});
           _self.pubSub.publish('sa-document-search', {container : '.documents-full-search-container', isFullResults : true, selectedFacet : 'all results', isLiveSearch : false, isSearch : true, dataObj});
           _self.pubSub.publish('sa-st-data-search', {container: 'structured-data-full-search-container', isFullResults : true, selectedFacet : 'all results', isSearch : false, dataObj});
-          _self.prepAllSearchData(facetActive);
+          // Sea all Results 
+          var container = $('#show-all-results-container');
+          var dataObj = _self.vars.searchObject.liveData;
+          var facetdata = _self.vars.searchFacetFilters;
+          _self.pubSub.publish('sa-search-full-results', {container : container ,isFullResults : true, selectedFacet : 'all', isLiveSearch : false, isSearch : false, facetData : facetdata ,dataObj});
+          //_self.pubSub.publish('sa-full-data-search', { });
+          //_self.showAllResults();
+          //_self.prepAllSearchData(facetActive);
           $('#loaderDIV').hide()
+          _self.markSelectedFilters();
           // setTimeout(function() { alert(); _self.prepAllSearchData();}, 1000)
 
         }
@@ -5327,11 +5368,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           };
         } else {
-          $('.search-body').removeClass('hide');
-          $('#searchChatContainer').addClass('bgfocus');
+          if(!$(event.target).closest('.show-all-results-outer-wrap').length){
+            $('.search-body').removeClass('hide');
+            $('#searchChatContainer').addClass('bgfocus');
+          }          
         }
       });
-    }();
+    } ();
     FindlySDK.prototype.setActionTitle = function (title, container) {
       var actionTitleTmpl = '<div><div class="action-chat-title">${title}</div></div>';
       var template = $(actionTitleTmpl).tmplProxy({
@@ -6380,7 +6423,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           console.log(filter);
         })
       }
-
+      // if (_self.vars['selectedFiltersRadio'].length > 0) {
+      //   _self.vars['selectedFiltersRadio'].forEach(function (filter) {
+      //     $("#" + filter).prop('checked', true)
+      //     console.log(filter);
+      //   })
+      // }
+      
     }
     FindlySDK.prototype.addSearchResult = function(config) {
       var _self = this;
@@ -6588,9 +6637,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.registerTemplateConfig(mockData.settings, _self.customConfig);
       });
       // For now calling direct SearchResults.
-      // setTimeout(function () {
-      //   _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
-      // }, 2000);
+      setTimeout(function () {
+        _self.getSearchResultsConfig(_self.API.searchResultsConfigURL, 'GET');   
+      }, 2000);
       window.koreWidgetSDKInstance = _self;
       if (!_self.customSearchResult) {
         _self.addSourceType({
@@ -16995,7 +17044,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if(!pages ||  !pages.length){
           pages = [];
         }
-
+        /** Sunil - resultRanking test */
+        var resultRanking = $(_self.fullResultRanking()).tmpl({
+          'data' : data.dataObj
+        });
+        $('#resultRankingId').empty().append(resultRanking);
+        _self.checkBoostAndLowerTimes();
+        _self.bindAllResultRankingOperations();
+        /** Sunil - resultRanking test */
         var dataHTML = $(finalTemplate).tmplProxy({
           'isClickable' : data.isClickable,
           'structuredData' : pages,
@@ -17447,6 +17503,806 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           data.push(item);
         });
         return data;
+      }
+    }
+
+
+    FindlySDK.prototype.showAllResults = function(){
+      var _self = this;
+      var showAllResultsContainerTemplate = 
+      '<script type="text/x-jqury-tmpl">\
+      <div>\
+        <div class="show-all-results-outer-wrap" id="">\
+          <div class="s-r-header">\
+            <div class="title">Search Results</div>\
+            <div class="close-btn" id="btn-close-show-all"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABiSURBVHgBjZDJDYBQCESBSjDq3VYswQotRe8e/JW4QEyEvyTMiQxvIADcDRvzOEFD0hOG4MYF8FprsHpvT5k/1Z8Wzj0s0zSr8dUpHbsDHSwykIggqPDq+DF2kkvnW6IPfwCV+T2+mOJOJAAAAABJRU5ErkJggg=="></div>\
+          </div>\
+             <!-- <button id="btn-close-show-all" class="btn-close-show-all">close</button> -->\
+          <div class="filter-sec-tab">\
+                      <!-- Facet left-->\
+                      <div id="leftFacetFilterId"> </div>\
+                      <!-- Facet left-->\
+                      <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count">(${facet.all})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="faq">Faq <span class="count">(${facet.faq})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count">(${facet.page})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="task">Tasks <span class="count">(${facet.task})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="object">Data <span class="count">(${facet.object})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="document"> Documentation <span class="count">(${facet.document})</span></div>\
+                      <!-- Facet right-->\
+                      <div  id="rightFacetFilterId"> </div>\
+                      <!-- Facet right-->\
+                      {{if count > 0 }}\
+                      <div class="filter-updated-count">\
+                        <span class="length-count">${count}</span>\
+                        <span class="title">Filters applied</span>\
+                        <span class="clsoe-filter"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC"></span>\
+                      </div>\
+                      {{/if}}\
+            </div>\
+            <!-- All type -->\
+            {{if view == "preview"}}\
+              <div id="fullResultAllTypeId"></div>\
+            {{/if}}\
+            <!-- All type -->\
+            <!-- Result Ranking -->\
+            {{if view == "customization"}}\
+              <div id="resultRankingId"></div>\
+              {{/if}}\
+            <!-- Result Ranking -->\
+        </div>\
+      </div>\
+      </script>';
+      
+      
+      _self.pubSub.subscribe('sa-search-full-results', (msg, data) => {
+        console.log(data)
+        _self.vars['selectedFiltersRadio'] = [];
+        var facetCount = {};
+        var facetData = [];
+        var count = 0;
+        var view = "customization"//"customization"
+        if(data && data.dataObj && data.dataObj.facets){
+          if(data.dataObj.facets['all results']){
+            data.dataObj.facets['all'] = data.dataObj.facets['all results']
+          }
+          facetCount = data.dataObj.facets;
+        }
+        if(data && data.facetData){
+          facetData = data.facetData;
+        }
+        if(_self.vars && _self.vars.selectedFiltersArr && _self.vars.selectedFiltersArr.length){
+          count = _self.vars.selectedFiltersArr.length;
+        }
+        if(data && data.container){
+          var showAllHTML = $(showAllResultsContainerTemplate).tmpl({
+            'facet' : facetCount,
+            'count' : count,
+            'view' : view
+          });
+          $(data.container).empty().append(showAllHTML);
+        };
+        $('#show-all-results-container').css('display', 'block');
+        $('#searchChatContainer').removeClass('bgfocus');
+        $('.search-body').addClass('hide');
+
+        var facetObj = {};
+        facetObj['position'] = "left";
+        facetObj['show'] = false;
+        _self.facetReset(facetObj,facetData);
+
+        var fullResultAllType = $(_self.fullResultAllType()).tmpl({
+        });
+        $('#fullResultAllTypeId').append(fullResultAllType);
+        var resultRanking = $(_self.fullResultRanking()).tmpl({
+          'data' : data.dataObj
+        });
+        $('#resultRankingId').append(resultRanking);
+        _self.checkBoostAndLowerTimes();
+        _self.bindAllResultRankingOperations();
+        if(false){
+          var leftFacetTemplate = $(_self.facetFilterleft()).tmpl({
+            'position': 'left',
+            'data': {}
+          });
+          $('#leftFacetFilterId').append(leftFacetTemplate);
+        }
+        _self.bindShowAllResultsTrigger(showAllHTML,facetData,data);
+      });
+      
+    }
+    FindlySDK.prototype.facetReset =function(facetObj,facetData){
+      var _self = this;
+      // _self.pubSub.subscribe('sa-search-facets', (msg, data) => {
+      //   if(data){
+      //     facetData = data;
+      //   }
+      // });
+      var facetTemplate = $(_self.facetFilter()).tmpl({
+        'position': facetObj.position,
+        'show' : facetObj.show,
+        'searchFacets': facetData
+      });
+      if(facetObj.position == 'right'){
+        $('#rightFacetFilterId').empty().append(facetTemplate);
+      }else{
+        $('#leftFacetFilterId').empty().append(facetTemplate);
+      }
+      _self.markSelectedFilters();
+    }
+    FindlySDK.prototype.bindShowAllResultsTrigger = function(showAllHTML,facetData,data){
+      var _self = this;
+      //_self.pubSub.publish('sa-full-data-search')
+     var selectedFacet = $('.active-tab').attr('classification') ? $('.active-tab').attr('classification') :'all results';
+     slecetFacetFunc = function(selectedFacet){
+      var selectedFacet_temp = selectedFacet ? selectedFacet : "all results";
+            var dataObj = data ? data.dataObj : _self.vars.searchObject.liveData;
+            _self.pubSub.publish('sa-st-data-search', {
+              container : '.structured-data-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+            });
+            _self.pubSub.publish('sa-faq-search', {
+              container : '.faqs-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+            });
+            _self.pubSub.publish('sa-page-search', {
+              container : '.pages-full-search-container', /*  start with '.' if class or '#' if id of the element*/ selectedFacet : selectedFacet_temp,isFullResults : true, isSearch : false, isLiveSearch : false, dataObj
+            });
+    }
+     slecetFacetFunc(selectedFacet)
+      $('#facetRightIconId').off('click').on('click', function(event){
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        var facetObj = {};
+        facetObj['position'] = "left";
+        // if(facetObj['show']){
+        //   facetObj['show'] = false;
+        // }else{
+        //   facetObj['show'] = true;
+        // }
+        // if($('.filter-data').length){
+        //   facetObj['show'] = false;
+        // }
+        // else{
+        //   facetObj['show'] = true;
+        // }
+        facetObj['show'] = true;
+        _self.facetReset(facetObj,facetData);
+        _self.bindShowAllResultsTrigger(showAllHTML,facetData);
+      });
+      
+      $('#show-all-results-container').off('click').on('click', function(){
+        
+      });
+      $('.clear-all').off('click').on('click', function(event){
+        $('#loaderDIV').show();
+        if (_self.vars.selectedFiltersArr.length > 0) {
+          _self.vars.selectedFiltersArr.forEach(function (filter) {
+            $("#" + filter).prop('checked', false)
+            console.log(filter);
+          })
+          _self.vars.filterObject = [];
+          _self.searchByFacetFilters(_self.vars.filterObject);
+        }
+        var hide = function(){
+          $('.filter-data').hide()
+          $('.filter-updated-count').hide()
+        }
+        setTimeout(hide, 1000);
+        
+      });
+      $('.clsoe-filter').off('click').on('click', function(){
+        $('.filter-updated-count').hide()
+      });
+      $('.apply-btn').off('click').on('click', function(){
+        $('.filter-data').hide()
+        $('#loaderDIV').show();
+        _self.searchByFacetFilters(_self.vars.filterObject);
+        //_self.facetFilter(facetObj);
+      });
+      $('.see-all-result-nav').off('click').on('click', function(event){
+        console.log(event)
+        
+        if ($(event.target).closest('.see-all-result-nav').attr('classification') == "all results") {
+          //_self.showAllResults();
+          removeActive(selectedFacet)
+          selectedFacet = 'all results'
+          slecetFacetFunc(selectedFacet)
+          $(event.target).addClass('active-tab')
+          //_self.performRankActions(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+        }else if($(event.target).closest('.see-all-result-nav').attr('classification') == "page"){
+          removeActive(selectedFacet)
+          selectedFacet = 'page'
+          slecetFacetFunc(selectedFacet)
+          $(event.target).addClass('active-tab')
+        }else if($(event.target).closest('.see-all-result-nav').attr('classification') == "faq"){
+          removeActive(selectedFacet)
+          selectedFacet = 'faq'
+          slecetFacetFunc(selectedFacet)
+          $(event.target).addClass('active-tab')
+        }else if($(event.target).closest('.see-all-result-nav').attr('classification') == "task"){
+          removeActive(selectedFacet)
+          selectedFacet = 'task'
+          slecetFacetFunc(selectedFacet)
+          $(event.target).addClass('active-tab')
+        }else if($(event.target).closest('.see-all-result-nav').attr('classification') == "document"){
+          removeActive(selectedFacet)
+          selectedFacet = 'document'
+          slecetFacetFunc(selectedFacet)
+          $(event.target).addClass('active-tab')
+        }else if($(event.target).closest('.see-all-result-nav').attr('classification') == "object"){
+          removeActive(selectedFacet)
+          selectedFacet = 'object'
+          slecetFacetFunc(selectedFacet)
+          $(event.target).addClass('active-tab')
+        }
+      });
+      removeActive = function(selectedFacet){
+        $('.see-all-result-nav').each(function( index ,element) {
+          if($(element).attr('classification') == selectedFacet){
+            $(element).removeClass('active-tab')
+          }
+        });
+      }
+      
+      
+      $(showAllHTML).off('click', '#btn-close-show-all').on('click', '#btn-close-show-all', function(){
+        $('#show-all-results-container').css('display', 'none');
+        $('#searchChatContainer').removeClass('bgfocus');
+        $('.search-body').addClass('hide');
+        //$('#search').focus();
+      });
+      // SDK checkbox
+      $('.sdk-filter-checkbox').off('change').on('change', function (event) {
+        event.stopImmediatePropagation();
+
+        if ($(this).is(':checked')) {
+          console.log($(this).attr("id"));
+          _self.vars.selectedFiltersArr.push($(this).attr("id"));
+
+          _self.vars.countOfSelectedFilters += 1;
+
+          _self.filterResults(event, true);
+        }
+        else {
+          var unselectedFilterID = $(this).attr("id");
+          console.log($(this).attr("id"));
+          _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
+            if (filter == unselectedFilterID) {
+              _self.vars.selectedFiltersArr.splice(_self.vars.selectedFiltersArr.indexOf(filter), 1)
+            }
+          })
+
+          _self.vars.countOfSelectedFilters -= 1;
+
+          _self.filterResults(event, false);
+        }
+      });
+
+      $('.sdk-filter-radio').off('change').on('change', function (event) {
+        event.stopImmediatePropagation();
+        $('#loaderDIV').show();
+
+        if ($(this).is(':checked')) {
+          console.log($(this).attr("id"));
+          // if(_self.vars['selectedFiltersRadio']){
+          //   _self.vars['selectedFiltersRadio'].push($(this).attr("id"));
+          // }
+          _self.vars.selectedFiltersArr.push($(this).attr("id"));
+
+          _self.vars.countOfSelectedFilters += 1;
+
+          _self.filterResults(event, true);
+        }
+      });
+       // SDK checkbox
+    }
+
+    FindlySDK.prototype.facetFilter = function(){
+      var facet =
+      '<script type="text/x-jqury-tmpl">\
+      <div>\
+      <div id="loaderDIV" class="loader-container">Loading...</div>\
+      <div class="fliter-right-btn {{if position === `left`}} left-filter {{/if}}">\
+        <img id="facetRightIconId" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
+      {{if show === true}}\
+        <div class="filter-data">\
+        <div class="header-sec">\
+          <div class="f-heading">FILTERS</div>\
+          <div class="clear-all" id="clear-all-facet-id">Clear All</div>\
+        </div>\
+            <div class="scroll-data">\
+            {{each(i, searchFacet) searchFacets}}\
+                <div class="group-checkbox filters-content" data-facetType="${searchFacet.facetType}" data-fieldName="${searchFacet.fieldName}">\
+                  <div class="heading-title">${searchFacet.facetName}</div>\
+                  {{each(j, bucket) searchFacet.buckets}}\
+                  {{if searchFacet.facetType == "value"}}\
+                    <div class="custom_checkbox kr-sg-checkbox d-block">\
+                        <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                        <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                    </div>\
+                    {{/if}}\
+                    {{if searchFacet.facetType == "range"}}\
+                      <div class="kr-sg-checkbox d-block custom_checkbox">\
+                        <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true">\
+                        <label for="checkbox-${i}${j}" class="checkbox-custom-label">${bucket.key} <span class="associated-filter-count">(${bucket.doc_count})</span></label>\
+                      </div>\
+                    {{/if}}\
+              {{/each}}\
+            </div> \
+          {{/each}}\
+          </div>\
+          <div class="footer-filter">\
+                <button class="apply-btn">Apply</button>\
+          </div>\
+      </div>\
+      {{/if}}\
+    </div>\
+  </div>\
+</script>'
+      return facet
+    }
+    FindlySDK.prototype.facetFilterleft = function(){
+      var facet = `
+      <div>
+      <div class="fliter-right-btn left-filter">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">
+
+      <div class="filter-data">
+        <div class="header-sec">
+          <div class="f-heading">FILTERS</div>
+          <div class="clear-all">Clear All</div>
+        </div>
+            <div class="scroll-data">
+                <div class="group-checkbox">
+                  <div class="heading-title">Type</div>
+                  <div class="custom_checkbox kr-sg-checkbox d-block">
+                      <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grpb" class="checkbox-custom-label">Sapphire Cards <span class="count">(1)</span></label>
+                  </div>
+                  <div class="custom_checkbox kr-sg-checkbox d-block">
+                      <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">
+                      <label for="checkbox_grpc" class="checkbox-custom-label">Platinum Cards <span class="count">(3)</span></label>
+                  </div>
+                  <div class="custom_checkbox kr-sg-checkbox d-block">
+                    <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">
+                    <label for="checkbox_grpc" class="checkbox-custom-label">Travel Master Cards <span class="count">(2)</span></label>
+                </div>
+                <div class="custom_checkbox kr-sg-checkbox d-block">
+                  <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpc" class="checkbox-custom-label">Rewards Cards <span class="count">(3)</span></label>
+              </div>
+            </div> 
+            <div class="group-checkbox">
+                <div class="heading-title">Benefits</div>
+                <div class="custom_checkbox kr-sg-checkbox d-block">
+                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpb" class="checkbox-custom-label">Accelarated Rewards <span class="count">(2)</span></label>
+                </div>  
+                <div class="custom_checkbox kr-sg-checkbox d-block">
+                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpb" class="checkbox-custom-label">No Joining Fees <span class="count">(2)</span></label>
+                </div>  
+                <div class="custom_checkbox kr-sg-checkbox d-block">
+                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpb" class="checkbox-custom-label">Annual Fee Waiver <span class="count">(1)</span></label>
+                </div>  
+                <div class="custom_checkbox kr-sg-checkbox d-block">
+                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpb" class="checkbox-custom-label">Exclusive Events <span class="count">(1)</span></label>
+                </div>           
+            </div> 
+            <div class="group-checkbox">
+                <div class="heading-title">Min. Balance</div>
+                <div class="custom_checkbox kr-sg-checkbox d-block">
+                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                  <label for="checkbox_grpb" class="checkbox-custom-label">0 to 500 <span class="count">(8)</span></label>
+                </div>                    
+            </div> 
+          </div>
+          <div class="footer-filter">
+                <button class="apply-btn">Apply</button>
+          </div>
+      </div>
+    </div>
+      </div>
+      `
+      return facet
+    }
+    FindlySDK.prototype.fullResultAllType = function(){
+      var template = `
+      <div>
+        <div class="data-body-sec">
+        <div class="faqs-full-search-container matched-structured-data-contaniers">\
+        </div>
+        <div class="pages-full-search-container matched-structured-data-contaniers">\
+        </div>
+        <div class="structured-data-full-search-container matched-structured-data-contaniers">\
+        </div>
+        <div class="display-none">
+          <div class="tile-with-text-parent grid_view_template">
+            <a class="tile-with-text">
+              <div class="tile-heading">How do I request a refund for my credit card account?</div>
+              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+            </a>
+            <a class="tile-with-text">
+              <div class="tile-heading">How do I request a refund for my credit card account?</div>
+              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+            </a> 
+            <a class="tile-with-text">
+              <div class="tile-heading">How do I request a refund for my credit card account?</div>
+              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+            </a>
+            <a class="tile-with-text">
+              <div class="tile-heading">How do I request a refund for my credit card account?</div>
+              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+            </a>   
+          </div>
+          <div class="tile-with-text-parent with-accordion">
+            <div class="tile-with-text">
+              <div class="tile-heading accordion p-0" id="1">
+                How do I request a refund for my credit card account?
+                  <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
+              </div>                     
+              <div class="panel">
+                  <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
+              </div>
+            </div>
+            <div class="tile-with-text">
+              <div class="tile-heading accordion p-0" id="1">
+                How do I request a refund for my credit card account?
+                  <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
+              </div>                     
+              <div class="panel">
+                  <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
+              </div>
+            </div>
+            <div class="tile-with-text">
+              <div class="tile-heading accordion p-0" id="1">
+                How do I request a refund for my credit card account?
+                  <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
+              </div>                     
+              <div class="panel">
+                  <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
+              </div>
+            </div>                    
+          </div>
+        </div>
+        </div>
+      </div>
+      `
+      return template
+    }
+    FindlySDK.prototype.fullResultRanking = function(){
+      var template = 
+      '<script type="text/x-jqury-tmpl">\
+      <div>\
+          <div class="data-body-sec customization">\
+          {{if !data}} <p>test</p>{{/if}}\
+          <div class="results-wrap">\
+            {{each(i, record) data.pages}}\
+              <div class="data-wrap" index="${i}" contentType="${record.__contentType}" contentId="${record.contentId}" score="${record.score}" boost="${record.config.boost}" pinIndex="${record.config.pinIndex}" visible="${record.config.visible}">\
+                <div class="customization-tile">\
+                    <div class="drag-content"></div>\
+                    <div class="actions-content">\
+                      <span class="action-item visibility" type="{{if record.config.visible == true}}Hide{{/if}}{{if record.config.visible == false}}UnHide{{/if}}">\
+                        <span class="tooltiptext">\
+                          <span class="hide {{if record.config.visible == true}}display-block{{else}}display-none{{/if}}">\
+                              Hide\
+                          </span>\
+                          <span class="unhide {{if record.config.visible == false}}display-block{{else}}display-none{{/if}}">\
+                              UnHide\
+                          </span>\
+                        </span>\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                      </span>\
+                      <span class="action-item pinning" type="{{if record.config.pinIndex > 0}}UnPin{{/if}}{{if record.config.pinIndex < 0}}Pin{{/if}}">\
+                        <span class="tooltiptext">\
+                          <span class="unpin {{if record.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
+                            UnPin\
+                          </span>\
+                          <span class="pin {{if record.config.pinIndex < 0}}display-block{{else}}display-none{{/if}}">\
+                            Pin\
+                          </span>\
+                        </span>\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                      </span>\
+                      <span class="action-item boosting">\
+                        <span class="tooltiptext">Up</span>\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                      </span>\
+                      <span class="action-item burying {{if score <= 0}}disabled{{/if}}">\
+                        <span class="tooltiptext">Down</span>\
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                      </span>\
+                    </div>\
+                    <div class="title">${record.pageTitle}</div>\
+                    <div class="desc_text">${record.pageSearchResultPreview}</div>\
+                    <div class="appearences-count">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                      <span class="count">${record.feedback.appearance}</span>\
+                    </div>\
+                    <div class="appearences-count">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEMSURBVHgBnZK/bcJQEMbvniFJmRGSDZINnA2SEijgioConA1iNkgqlKS4IASUwAaMABPgEWgBoeMOyQiZh0F8hU86v9/9+d5DyOivM/gUkRgR4/dqqQUeuWzCgI3go0U4IedLNqmUQI4cXKFC3s/f/74gwEQAwsMdcyHbLUCZ7yLIXIvsDHLmllW0mIXS3dKYGoQGrEWei4isVUaWrNfKmDeyU4+/DdAqbwq8wgVydap8iMBMZx8aqLnpWcg+DSrXtMv4APSPxvykIdnfU4MqcQoy872XwrtIz3SOFv7hntla1V1bG1hNmkRJm/mhgLeR3VdRli9el9rcDQMMIn2JoZa3rol1uIHVFxEttjVMjEnBcNKUAAAAAElFTkSuQmCC">\
+                      <span class="count">${record.feedback.click}</span>\
+                    </div>\
+                    <div class="appearences-count bg-data record-status-pinned" style="display : {{if record.config.pinIndex >= 0}}block{{else}}none{{/if}}">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                      <span class="count">PINNED</span>\
+                    </div>\
+                    <div class="appearences-count bg-data record-status-hidden" style="display : {{if record.config.visible == false}}block{{else}}none{{/if}}">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                      <span class="count">HIDDEN</span>\
+                    </div>\
+                    <div class="appearences-count bg-data record-status-boosted {{if record.config.boost > 1}}display-block{{/if}}">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                      <span class="count boosted">${record.config.boost}X BOOSTED</span>\
+                    </div>\
+                    <div class="appearences-count bg-data record-status-lowered {{if record.config.boost < 1}}display-block{{/if}}">\
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
+                      <span class="count lowered">${record.config.boost}X LOWERED</span>\
+                    </div>\
+                    <div class="tag-ref">FAQ Response</div>\
+                </div>\
+              </div>\
+            {{/each}}\
+          </div>\
+        </div>\
+      </div>\
+      </script>'
+      return template
+    }
+
+    FindlySDK.prototype.bindAllResultRankingOperations = function(){
+      var _self = this;
+
+      $(".results-wrap").sortable({stop: function( event, ui ) {
+        var element = ui.item[0];
+        if($(element).find('.pinning').length){
+          var pinningElement = $(element).find('.pinning')[0];
+          if(pinningElement){
+            $(pinningElement).trigger("click");
+          }
+        }
+      }});
+
+      $('.customization').off('click', '.visibility').on('click', '.visibility', function (event) {
+        if (parseInt($(event.target).closest('.data-wrap').attr('pinindex')) == -1) {
+          if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
+            _self.performRankActionsOnFullPage(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
+          }
+          else {
+            _self.performRankActionsOnFullPage(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
+          }
+        }
+      });
+      $('.customization').off('click', '.pinning').on('click', '.pinning', function (event) {
+          if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
+            var _selectedElement = $(event.target).closest('.data-wrap');
+            var _parentElement = $(event.target).closest('.results-wrap');
+            var childNodes = Array.prototype.slice.call(_parentElement[0].children);
+            var pinIndex = 0;
+            if ($(event.target).closest('.pinning').attr('type') == "UnPin") {
+              pinIndex = -1;
+              console.log(pinIndex);
+            }
+            else {
+              pinIndex = childNodes.indexOf(_selectedElement[0]);
+              console.log(pinIndex);
+            }
+            _self.performRankActionsOnFullPage(event, { pinIndex: pinIndex }, _self.vars.searchObject.searchText, 'pinning');
+          }
+      });
+      $('.customization').off('click', '.boosting').on('click', '.boosting', function (event) {
+        if ($(event.target).closest('.data-wrap').attr('visible') == "true" && parseInt($(event.target).closest('.data-wrap').attr('pinindex')) == -1) {
+          var boostByValue = parseFloat($(event.target).closest('.data-wrap').attr('boost'));
+          boostByValue = boostByValue + 0.25;
+          _self.performRankActionsOnFullPage(event, { boost: boostByValue }, _self.vars.searchObject.searchText, 'boosting');
+        }
+      });
+      $('.customization').off('click', '.burying').on('click', '.burying', function (event) {
+        if ($(event.target).closest('.data-wrap').attr('visible') == "true" && parseInt($(event.target).closest('.data-wrap').attr('pinindex')) == -1) {
+          var buryByValue = parseFloat($(event.target).closest('.data-wrap').attr('boost'));
+          if (buryByValue > 0.25) {
+            buryByValue = buryByValue - 0.25;
+            _self.performRankActionsOnFullPage(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+          }
+          else {
+            buryByValue = 0.25 - buryByValue;
+            _self.performRankActionsOnFullPage(event, { boost: buryByValue }, _self.vars.searchObject.searchText, 'burying');
+          }
+        }
+      })
+    }
+
+    FindlySDK.prototype.performRankActionsOnFullPage = function(event, conf, searchText, actionType){
+
+      var _self = this;
+      event.preventDefault();
+      event.stopPropagation();
+
+      var selectedElement = $(event.target).closest('.data-wrap');
+
+      var contentID = selectedElement.attr('contentid');
+      var contentType = selectedElement.attr('contentType');
+      var queryString = _self.vars.searchObject.searchText;
+
+
+      var payload = {
+        "searchQuery": queryString,
+        "result": {
+          "contentType": contentType,
+          "contentId": contentID,
+          "config": conf,
+        }
+      }
+
+      console.log(payload);
+
+      // fqp-0357ee01-975c-56ab-bfd3-0a577ed1ed8b
+      // var url = 'https://dev.findly.ai/api/1.1/findly/sidx-05441d26-7bb8-5886-a84b-0dd7768f0a44/queryPipeline/fqp-0357ee01-975c-56ab-bfd3-0a577ed1ed8b/rankingAndPinning';
+      var url = _self.API.queryConfig;
+      _self.makeAPItoFindly(url, 'PUT', JSON.stringify(payload)).then(function (res) {
+        console.log(res);
+        if(actionType === "pinning"){
+          res.results.forEach((result) => {
+            if(result.contentId === payload.result.contentId){
+              $(selectedElement).attr('pinIndex', result.config.pinIndex);
+              if(result.config.pinIndex >= 0){
+                selectedElement.find('.pinning').attr('type', "UnPin");
+                if (selectedElement.find('.record-status-pinned')) {
+                  selectedElement.find('.record-status-pinned').css('display', 'block');
+                }
+                if (selectedElement.find('.unpin').hasClass('display-none')) {
+                  selectedElement.find('.unpin').removeClass('display-none');
+                  selectedElement.find('.unpin').addClass('display-block');
+                }
+                if (selectedElement.find('.pin').hasClass('display-block')) {
+                  selectedElement.find('.pin').removeClass('display-block');
+                  selectedElement.find('.pin').addClass('display-none');
+                }
+              }
+              else{
+                selectedElement.find('.pinning').attr('type', "Pin");
+                if (selectedElement.find('.record-status-pinned')) {
+                  selectedElement.find('.record-status-pinned').css('display', 'none');
+                }
+                if (selectedElement.find('.unpin').hasClass('display-block')) {
+                  selectedElement.find('.unpin').removeClass('display-block');
+                  selectedElement.find('.unpin').addClass('display-none');
+                }
+                if (selectedElement.find('.pin').hasClass('display-none')) {
+                  selectedElement.find('.pin').removeClass('display-none');
+                  selectedElement.find('.pin').addClass('display-block');
+                }
+              }
+            }
+          })
+          // if(res.results[0].config.visible){
+            
+          // }
+        }
+
+        else if(actionType === "visibility"){
+          res.results.forEach((result) => {
+            if(result.contentId === payload.result.contentId){
+              $(selectedElement).attr('visible', result.config.visible);
+              if(result.config.visible){
+                selectedElement.find('.visibility').attr('type', "Hide");
+                if (selectedElement.find('.record-status-hidden')) {
+                  selectedElement.find('.record-status-hidden').css('display', 'none');
+                }
+                if (selectedElement.find('.hide').hasClass('display-none')) {
+                  selectedElement.find('.hide').removeClass('display-none');
+                  selectedElement.find('.hide').addClass('display-block');
+                }
+                if (selectedElement.find('.unhide').hasClass('display-block')) {
+                  selectedElement.find('.unhide').removeClass('display-block');
+                  selectedElement.find('.unhide').addClass('display-none');
+                }
+              }
+              else{
+                selectedElement.find('.visibility').attr('type', "UnHide");
+                if (selectedElement.find('.record-status-hidden')) {
+                  selectedElement.find('.record-status-hidden').css('display', 'block');
+                }
+                if (selectedElement.find('.hide').hasClass('display-block')) {
+                  selectedElement.find('.hide').removeClass('display-block');
+                  selectedElement.find('.hide').addClass('display-none');
+                }
+                if (selectedElement.find('.unhide').hasClass('display-none')) {
+                  selectedElement.find('.unhide').removeClass('display-none');
+                  selectedElement.find('.unhide').addClass('display-block');
+                }
+              }
+            }
+          })
+          // if(res.results[0].config.visible){
+            
+          // }
+        }
+
+        else if(actionType === "boosting"){
+          res.results.forEach((result) => {
+            if(result.contentId === payload.result.contentId){
+              $(selectedElement).attr('boost', result.config.boost);
+              if(result.config.boost == 1){
+                selectedElement.find('.record-status-boosted').css('display', 'none');
+                selectedElement.find('.record-status-lowered').css('display', 'none');
+              }
+              else if(result.config.boost > 1){
+                if (selectedElement.find('.record-status-boosted')) {
+                  selectedElement.find('.record-status-boosted').css('display', 'block');
+                }
+                if (selectedElement.find('.record-status-lowered')) {
+                  selectedElement.find('.record-status-lowered').css('display', 'none');
+                }
+              }
+              else{
+                if (selectedElement.find('.record-status-boosted')) {
+                  selectedElement.find('.record-status-boosted').css('display', 'none');
+                }
+                if (selectedElement.find('.record-status-lowered')) {
+                  selectedElement.find('.record-status-lowered').css('display', 'block');
+                }
+              }
+              _self.checkBoostAndLowerTimes();
+            }
+          })
+        }
+
+        else if(actionType === "burying"){
+          res.results.forEach((result) => {
+            if(result.contentId === payload.result.contentId){
+              $(selectedElement).attr('boost', result.config.boost);
+              if(result.config.boost == 1){
+                selectedElement.find('.record-status-boosted').css('display', 'none');
+                selectedElement.find('.record-status-lowered').css('display', 'none');
+              }
+              else if(result.config.boost < 1){
+                if (selectedElement.find('.record-status-lowered')) {
+                  selectedElement.find('.record-status-lowered').css('display', 'block');
+                }
+                if (selectedElement.find('.record-status-boosted')) {
+                  selectedElement.find('.record-status-boosted').css('display', 'none');
+                }
+              }
+              else{
+                if (selectedElement.find('.record-status-lowered')) {
+                  selectedElement.find('.record-status-lowered').css('display', 'none');
+                }
+                if (selectedElement.find('.record-status-boosted')) {
+                  selectedElement.find('.record-status-boosted').css('display', 'block');
+                }
+              }
+              _self.checkBoostAndLowerTimes();
+            }
+          })
+        }
+      });
+    }
+
+    FindlySDK.prototype.checkBoostAndLowerTimes = function(){
+      let elements = $('.data-wrap');
+      console.log('elements', elements);
+      if(elements && elements.length){
+        for(var i = 0; i < elements.length; i++){
+          var boost = $(elements[i]).attr('boost');
+          var times;
+          if(boost && (boost === 1)){
+            // do nothing
+          }
+          else if(boost && boost > 1){
+            // boosted;
+            boost = boost - 1;
+            times = boost/0.25;
+            $(elements[i]).find('.boosted').text(times+'X BOOSTED');
+          }
+          else{
+            // lowered
+            boost = 1 - boost;
+            times = boost/0.25;
+            $(elements[i]).find('.lowered').text(times+'X lOWERED');
+          }
+          console.log("times", times);
+        }
       }
     }
 
