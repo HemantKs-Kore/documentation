@@ -26,7 +26,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   customizeLog : any = {};
   selectedRecord : any = {};
   resultLogs : boolean = false;
-  customizeList : any;
+  customizeList : any=[];
   totalRecord = 0;
   limitpage = 10;
   customizeListBack : any;
@@ -370,10 +370,17 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
         this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
-        //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
-        // if(this.actionLogData[i].target.contentType == 'faq'){
-        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
-        // }
+        if(this.actionLogData[i].logs){
+          this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
+        }
+        if(this.actionLogData[i].target.contentType == 'faq'){
+          if(this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)){
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g,'');
+          }else{
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          }
+          
+        }
       }
 
       this.timeLog(record)
@@ -566,6 +573,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.selectedRecord= {};
       this.customizeLog = [];
       this.actionLogData =[];
+      this.nextPage = false
+    }else{
+      this.nextPage = true
     }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
