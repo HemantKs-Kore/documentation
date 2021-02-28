@@ -3,10 +3,10 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
-    <div class="header-sec col-12 row m-0" *ngIf="collectedRecord.length===0 && !nextPage">
+    <div class="header-sec col-12 row m-0" *ngIf="!nextPage" >
         <div class="col-4 p-0">Result Ranking</div>     
-        </div>
-    <ng-container *ngIf="collectedRecord.length===0 && !nextPage">
+    </div>
+    <ng-container *ngIf="!nextPage">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
@@ -198,7 +198,8 @@
                                           </div>
                                           <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
                                             <div class="row card-body">
-                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo.contentType == 'faq'"> {{faqDesc}} </div>
                                                 <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
                                                 <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
                                                   <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
