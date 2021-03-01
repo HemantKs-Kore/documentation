@@ -370,10 +370,17 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
         this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
-        //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
-        // if(this.actionLogData[i].target.contentType == 'faq'){
-        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
-        // }
+        if (this.actionLogData[i].logs) {
+          this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
+        }
+        if (this.actionLogData[i].target.contentType == 'faq') {
+          if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
+          } else {
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          }
+
+        }
       }
 
       this.timeLog(record)
@@ -512,7 +519,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to reset?',
         body: 'Selected queries will be set to Reset once you proceed.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }
     });
@@ -549,6 +556,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       skip: skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      this.loadingContent = false;
       this.customizeList = res;
       if (res.length > 0) { this.nextPage = true; this.loadingContent = false; }
       else {

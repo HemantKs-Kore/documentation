@@ -401,6 +401,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to  comment');
       // this.clearContent();
     });
+    $('#changePlaceholder').attr('placeholder', 'Reply');
   }
   getRandomRolor() {
     let letters = '012345'.split('');
@@ -1044,7 +1045,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected question will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -1072,7 +1073,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
         text: 'Are you sure you want to delete ?',
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected resource will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -1094,7 +1095,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected question will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -1120,7 +1121,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected alternate question will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -1164,7 +1165,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected alternate question will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         // confirmationPopUp:true
       }
     });
@@ -1189,7 +1190,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected followup question will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

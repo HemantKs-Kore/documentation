@@ -126,7 +126,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const modalData :any =  {
       newTitle: 'Are you sure you want to Enable ?',
       body: 'Stopwords will be enabled.',
-      buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }]
+      buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
     }
     if(!this.enabled){
       modalData.newTitle = 'Are you sure you want to disable?'
@@ -137,7 +138,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data:modalData
+      data:modalData,
+     
     });
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
@@ -227,7 +229,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to delete selected Stop Word?',
         newTitle:'Are you sure you want to delete ?',
         body:'Selected stop word will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
@@ -260,7 +262,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         title: 'Delete  All StopWords',
         newTitle:'Are you sure you want to delete ?',
         body:'All stopwords will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });

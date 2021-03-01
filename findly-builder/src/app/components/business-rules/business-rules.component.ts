@@ -458,8 +458,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const allElements = $('.selectRuleCheckBoxDiv');
     if (selectedElements.length === allElements.length) {
       $('#selectAllRules')[0].checked = true;
+      this.selcectionObj.selectAll =  true
     } else {
       $('#selectAllRules')[0].checked = false;
+      this.selcectionObj.selectAll =  false
     }
     const element = $('#' + rule._id);
     const addition = element[0].checked
@@ -476,6 +478,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedItems = {};
       this.selcectionObj.selectedCount = 0;
       this.selcectionObj.selectAll = false;
+     // $('#checkbox-1').checked = false;
     } else {
       if (ruleId) {
         if (addtion) {
@@ -489,6 +492,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
       if (this.selcectionObj.selectedCount === this.rules.length) {
         this.selcectionObj.selectAll = true;
+        //$('#checkbox-1').checked = true;
       }
     }
   }
@@ -624,7 +628,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         // text: 'Are you sure you want to delete selected rule?',
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected rule will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -649,7 +653,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         // text: 'Are you sure you want to delete selected rules?',
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected rules will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

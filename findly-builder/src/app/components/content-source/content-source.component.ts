@@ -63,8 +63,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedFilter: any = ''
   executionLogStatus = false;
   contentTypes = {
-    webdomain: 'WEB',
-    document: 'DOC'
+    webdomain: 'Web',
+    document: 'Doc'
   }
   statusObj: any = {
     failed: { name: 'Failed', color: '#DD3646' },
@@ -745,10 +745,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Document ',
+        title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
         body: 'The selected document will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -775,8 +775,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: 'The selected record will be deleted',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        body: 'All the Pages associated with this source will be deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

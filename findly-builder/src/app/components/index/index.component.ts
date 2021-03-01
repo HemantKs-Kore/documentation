@@ -499,7 +499,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {
         newTitle: 'Stage configuration is successfully saved',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn: true }],
+        buttons: [{ key: 'yes', label: 'Delete' }, { key: 'no', label: 'Cancel', secondaryBtn: true }],
         confirmationPopUp: true
       }
     });
@@ -537,7 +537,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Do you want to discard this stage?',
         newTitle: 'Do you want to discard this stage?',
         body: 'The Exclude Document stage will be discarded as it does not contain any conditions.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -653,7 +653,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'There are usaved changes, Are you sure you want to reindex without saving them?',
           newTitle: 'There are usaved changes, Are you sure you want to reindex without saving them?',
           body: 'The changes are unsaved.',
-          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Save', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });
@@ -766,7 +766,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         // text: 'Do you want to discard this stage?',
         // newTitle: 'Do you want to discard this stage?',
         // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -861,7 +861,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Are you sure you want to delete selected field?',
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected field will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -920,7 +920,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Are you sure you want to discard current?',
         newTitle: 'Are you sure you want to discard?',
         body: 'Current changes will be discarded.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Discard', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
