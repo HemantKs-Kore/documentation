@@ -58,6 +58,7 @@
                 </li>
                 <div class="p-0 text-right nav-item pr-4 mr-2 trainBlock">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
+                    <button class="kr-sg-button-secondary btn_lg ml-2" (click)="openOrCloseSearchSDK()">{{'test' | translate}}</button>
                 </div>
                 <li class="nav-item pr-4 mr-2">
                     <img src="assets/icons/sidemenu/notification.svg">

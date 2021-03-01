@@ -186,4 +186,8 @@ export class AppHeaderComponent implements OnInit {
     window.location.href = this.appUrlsService.marketURL();
   }
 
+  openOrCloseSearchSDK(){
+    this.headerService.openSearchSDK(true);
+  }
+
 }

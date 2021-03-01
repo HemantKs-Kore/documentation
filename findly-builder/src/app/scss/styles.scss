@@ -2884,3 +2884,12 @@ nouislider{
         max-height: 300px !important;
     }
 }
+
+// Test button in header
+
+.start-search-icon-div{
+    display: none;
+    &.active{
+        display: block;
+    }
+}
