@@ -26,12 +26,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   customizeLog : any = {};
   selectedRecord : any = {};
   resultLogs : boolean = false;
-  customizeList : any;
+  customizeList : any=[];
   totalRecord = 0;
   limitpage = 10;
   customizeListBack : any;
   loadingContent : boolean = false;
-  nextPage: boolean = false;
+  nextPage: boolean = true;
   icontoggle : boolean = false;
   faqDesc : any;
   mocData : any;
@@ -174,6 +174,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   this.subscription =this.appSelectionService.queryConfigs.subscribe(res=>{
     this.loadCustomRankingList();
   })
+  this.loadingContent = true;
   }
   loadCustomRankingList(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
@@ -370,10 +371,17 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.actionLogData[i]["selected"] = false;
         this.actionLogData[i]["drop"] = false;
         this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
-        //this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
-        // if(this.actionLogData[i].target.contentType == 'faq'){
-        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
-        // }
+        if(this.actionLogData[i].logs){
+          this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
+        }
+        if(this.actionLogData[i].target.contentType == 'faq'){
+          if(this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)){
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g,'');
+          }else{
+            this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
+          }
+          
+        }
       }
 
       this.timeLog(record)
@@ -512,7 +520,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       data: {
         newTitle : 'Are you sure you want to reset?',
         body : 'Selected queries will be set to Reset once you proceed.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp : true,
       }
     });
@@ -549,6 +557,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       skip : skip
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
+      this.loadingContent = false;
       this.customizeList = res;
       this.customizeListBack = [...res];
       this.totalRecord = res.length
@@ -566,6 +575,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.selectedRecord= {};
       this.customizeLog = [];
       this.actionLogData =[];
+      this.nextPage = false
+    }else{
+      this.nextPage = true
     }
      }, errRes => {
        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -573,6 +585,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
        } else {
          this.notificationService.notify('Failed ', 'error');
        }
+       this.loadingContent = false;
      });
   }
   toggle(icontoggle,selected){

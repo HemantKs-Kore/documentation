@@ -540,7 +540,7 @@ export class AppExperimentsComponent implements OnInit {
       data: {
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected Experiment will be permanently deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
