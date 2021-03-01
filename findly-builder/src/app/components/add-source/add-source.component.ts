@@ -467,13 +467,35 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.notificationService.notify('Please select a valid csv or pdf file', 'error');
       return;
     } else {
-      this.fileObj.fileUploadInProgress = true;
-      this.fileObj.fileName = fileName;
-      this.fileObj.file_ext = _ext.replace(".", "");
-
+      let showProg: boolean = false;
+      if (this.selectedSourceType.sourceType == "faq") {
+        if (this.selectedSourceType.resourceType == '') {
+          if (_ext === '.pdf') {
+            showProg = true;
+          }
+          else {
+            this.notificationService.notify('Please select a valid pdf file', 'error');
+          }
+        }
+        else {
+          if (_ext === '.csv') {
+            showProg = true;
+          }
+          else {
+            this.notificationService.notify('Please select a valid csv file', 'error');
+          }
+        }
+      }
+      else {
+        showProg = true;
+      }
+      if (showProg) {
+        this.onFileSelect(event.target, _ext);
+        this.fileObj.fileUploadInProgress = true;
+        this.fileObj.fileName = fileName;
+        this.fileObj.file_ext = _ext.replace(".", "");
+      }
     }
-
-    this.onFileSelect(event.target, _ext);
   }
   onFileSelect(input: HTMLInputElement, ext) {
     const files = input.files;
@@ -590,7 +612,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let resourceType_import = resourceType;
 
     if (resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc' && !this.selectedSourceType.annotate) {
-      payload.extractionType = "basic"
+      payload.extractionType = "basic";
       this.importFaq();
     }
     if (this.selectedSourceType.annotate && resourceType_import === 'importfaq' && this.selectedSourceType.id === 'faqDoc') {
