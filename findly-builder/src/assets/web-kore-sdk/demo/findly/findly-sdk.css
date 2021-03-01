@@ -12600,7 +12600,7 @@ padding-right: 0;
     background: #FFFFFF;    
     display: inline-block;
     width: 100%;
-    padding: 8px 10px 8px 36px;
+    /* padding: 8px 10px 8px 36px; */
     position: relative;
 }
 
@@ -12610,7 +12610,7 @@ padding-right: 0;
     width: calc(100% - 36px);
     height: 1px;
     left: 36px;
-    box-shadow: inset 0px -1px 0px rgb(0 0 0 / 10%);
+    /* box-shadow: inset 0px -1px 0px rgb(0 0 0 / 10%); */
     bottom: 0;
 }
 
