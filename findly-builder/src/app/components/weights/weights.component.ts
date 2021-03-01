@@ -116,6 +116,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
       this.notificationService.notify('Weights restored successfully','success');
@@ -160,6 +161,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline=  res.pipeline || {};
@@ -247,6 +249,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
   const quaryparms: any = {
     searchIndexID:this.serachIndexId,
     queryPipelineId:this.queryPipelineId,
+    indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
   };
   this.pipeline.weights = this.getWeightsPayload(weights);
   const payload: any = {

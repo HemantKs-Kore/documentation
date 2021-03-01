@@ -86,6 +86,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
@@ -134,6 +135,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     const payload: any = {
       pipeline: {

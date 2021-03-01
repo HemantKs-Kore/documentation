@@ -96,6 +96,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.pipeline || {};
@@ -155,6 +156,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
@@ -288,6 +290,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     let msg = 'Stop words updated successfully';
     if(!enableOrDisable){

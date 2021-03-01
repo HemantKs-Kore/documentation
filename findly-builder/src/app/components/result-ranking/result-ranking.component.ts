@@ -193,7 +193,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   resetCustomization(){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     let ids = []
     this.collectedRecord.forEach(element => {
@@ -359,8 +360,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
-      rankingAndPinningId : record._id
-     
+      rankingAndPinningId : record._id,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
   
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
@@ -399,7 +400,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: this.selectedRecord._id,
-      contentId : actLog.target.contentId
+      contentId : actLog.target.contentId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
    this.remove_Record(quaryparms)
   }
@@ -511,7 +513,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
-      rankingAndPinningId : record._id
+      rankingAndPinningId : record._id,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -553,6 +556,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
       limit : limit,
       skip : skip
     };

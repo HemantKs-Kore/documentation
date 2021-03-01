@@ -61,7 +61,7 @@
 		</button> -->
 
 			<div class="sub-title marginTop15">Index Configuration</div>
-			<!-- <div class="kr-sg-dropdowns queryPipelineConfig" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
+			<div class="kr-sg-dropdowns queryPipelineConfig" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
 				<div class="dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
 					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
@@ -79,7 +79,7 @@
 						<div class="create-new" (click)="openIndexModalPopup();selectIndexConfigDrop.close();">+ Create New</div>
 					</ul>
 				</div>
-			</div> -->
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active"
 				(click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">

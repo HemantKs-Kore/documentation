@@ -383,19 +383,23 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.queryPipelines'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexpipelineId/queryPipeline',
       method: 'get'
     }
     this.serviceList['create.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexpipelineId/queryPipeline',
       method: 'post'
     }
     this.serviceList['put.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexpipelineId/queryPipeline/:queryPipelineId',
       method: 'put'
     }
     this.serviceList['get.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexpipelineId/queryPipeline/:queryPipelineId',
       method: 'get'
     }
     this.serviceList['get.platformStages'] = {
@@ -427,15 +431,18 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['post.restoreStopWord'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexpipelineId/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
       method: 'put'
     }
     this.serviceList['post.restoreWeights'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+     endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexpipelineId/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
       method: 'put'
     }
     this.serviceList['post.enableStopWords'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexpipelineId/queryPipeline/:queryPipelineId?enableStopWords=:enable',
       method: 'post'
     }
     this.serviceList['get.traits'] = {
@@ -527,7 +534,8 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['update.rankingPinning'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning',
       method: 'post'
     }
     this.serviceList['recrwal'] = {
@@ -545,11 +553,13 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.queryCustomizeList'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
       method: 'get'
     }
     this.serviceList['put.restoreQueryCustomize'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
       method: 'put'
     }
     this.serviceList['get.rankingActionLog'] = {
@@ -557,15 +567,18 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.customisationLogs'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
       method: 'get'
     }
     this.serviceList['reset.bulkCustomization'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
       method: 'put'
     }
     this.serviceList['delete.CustomizatioLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
       method: 'delete'
     }
     /** get API for Metrics */
@@ -855,8 +868,12 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
       method: 'post'
     }
-    this.serviceList['delete.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId',
+    this.serviceList['put.newIndexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
+      method: 'put'
+    }
+    this.serviceList['delete.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
       method: 'delete'
     }
     /** APIs for multiple Index */

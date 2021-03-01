@@ -195,7 +195,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.editName = false;
     const queryParms ={
       queryPipelineId:config._id,
-      searchIndexID:this.workflowService.selectedSearchIndexId
+      searchIndexID:this.workflowService.selectedSearchIndexId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
     }
     let payload = {}
     if(action == 'edit'){
@@ -262,7 +263,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       payload.sourceQueryPipelineId = this.newConfigObj._id
     }
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId
+      searchIndexId: this.workflowService.selectedSearchIndexId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
@@ -297,7 +299,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     const queryParms ={
       indexPipelineId:indexConfigs._id
     }
-    this.service.invoke('delete.queryPipeline', queryParms).subscribe(
+    this.service.invoke('delete.indexPipeline', queryParms).subscribe(
       res => {
         this.notify.notify('deleted successfully','success');
       },

@@ -57,7 +57,8 @@ export class AppSelectionService {
   }
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
-      searchIndexId: this.workflowService.selectedSearchIndex()
+      searchIndexId: this.workflowService.selectedSearchIndex(),
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
