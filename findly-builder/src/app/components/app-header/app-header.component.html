@@ -1,11 +1,12 @@
 <header>
     <nav class="findlyHeader navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
         <div class="container-fluid p-0">
-            <div class="logoTabsContainer">
-                <img src="assets/images/logos/findly_logo.svg" class="logoKoreIcon" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
-                <div class="myappname" *ngIf="appName">
+            <div class="logoTabsContainer align-items-center">
+                <img src="assets/images/logos/findly-logo.svg" class="logoKoreIcon landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
+                <img src="assets/images/logos/findly-logo-small.svg" class="logoKoreIcon no-landing-screen" [routerLink]="['/apps']" routerLinkActive="active" skipLocationChange (click)="analyticsClick('apps',true)">
+                <!-- <div class="myappname" *ngIf="appName">
                     <div container="body" ngbTooltip="{{appName}}" class="name">{{appName}}</div>
-                </div>
+                </div> -->
                 <div class="headerTabsContainer">
                     <div class="headerMenuTab" [ngClass]="{'active' : mainMenu == '/summary'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary')">Overview</div>
                     <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : mainMenu == '/source'}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/source')">
@@ -43,7 +44,7 @@
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                 </ng-template>
-                <li class="nav-item pr-2 mr-2 autoSearchTools">
+                <li class="nav-item autoSearchTools d-none">
                     <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)" [ngClass]="{'d-none': searchActive}">
                     <!-- <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}" >                               
                         <input type="text" placeholder="Search" class="input-search" (keydown.enter)="triggerRoute(searchText)" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt"  [inputFormatter]="formatter">
@@ -56,16 +57,95 @@
                         <img class="close-icon" *ngIf="searchText" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="searchText ='';toggleSearch(false)">
                     </div>
                 </li>
-                <div class="p-0 text-right nav-item pr-4 mr-2 trainBlock">
+                <!-- <div class="text-right nav-item trainBlock d-none">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
-                </div>
-                <li class="nav-item pr-4 mr-2">
-                    <img src="assets/icons/sidemenu/notification.svg">
+                </div> -->
+                <li class="nav-item app-dropdown">
+                    <div class="kr-sg-dropdowns" ngbDropdown [placement]="'bottom-center'">
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>Banking App</button>
+                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                                <div class="search-assist-apps">
+                                    <div class="main-title">SearchAssist Apps</div>
+                                    <div class="apps-block">
+                                        <div class="title-secondary">Recent Apps</div>
+                                        <div class="app-name-block">
+                                            <div class="app-name">Banking App</div>
+                                            <div class="shared-name">Shared by Santhosh</div>
+                                        </div>
+                                        <div class="app-name-block">
+                                            <div class="app-name">Banking App</div>
+                                            <div class="shared-name">My App</div>
+                                        </div>
+                                        <div class="app-name-block">
+                                            <div class="app-name">Banking App</div>
+                                            <div class="shared-name">My App</div>
+                                        </div>
+                                        <div class="app-name-block">
+                                            <div class="app-name">Banking App</div>
+                                            <div class="shared-name">My App</div>
+                                        </div>
+                                        <div class="app-name-block">
+                                            <div class="app-name">Banking App</div>
+                                            <div class="shared-name">My App</div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="view-app-apps">View all Apps</div>
+                                    <div class="create-new-app">Create New App</div>
+                                </div>
+                            </ul>
+                        </div>                                            
+                    </div>
                 </li>
-                <li class="nav-item pr-4 mr-2">
+                <li class="nav-item test-button">
+                    <button class="kr-sg-button-secondary btn_lg">Test</button>
+                </li>
+                <li class="nav-item search-block">
+                    <div class="search_icon">
+                        <img src="assets/icons/sidemenu/search.svg">
+                    </div>
+                    <div class="global-searc-container">
+                        <div class="kr-sg-input-search">     
+                            <input type="text" placeholder="Search" class="input-search" (keyup.enter)="triggerRoute(searchText)" autocomplete="off" [(ngModel)]="searchText" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">                                                      
+                            <img src="assets/icons/search_gray.svg" class="search-icon">
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item notification-block">                                      
+                    <div class="kr-sg-dropdowns" ngbDropdown>
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                                <img src="assets/icons/sidemenu/notification.svg">
+                                <sup class="red-notification"></sup>
+                                <sup class="completed-notification"></sup>
+                            </button>
+                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                                <div class="notification-dropdown-status">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                          <a class="nav-link active" data-toggle="tab" href="#statusupdates">Status Updates</a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link" data-toggle="tab" href="#activities">Activities</a>
+                                        </li>                                       
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="statusupdates" class="tab-pane active">
+                                          <h3>Status Updates</h3>                                         
+                                        </div>
+                                        <div id="activities" class="tab-pane fade">
+                                          <h3>Activities</h3>                                          
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>                                            
+                    </div>
+                </li>
+                <li class="nav-item help-icon">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li>
-                <li class="nav-item">
+                <li class="nav-item user_icon">
                     <button mat-button [matMenuTriggerFor]="menu" class="headerIcons p-0"><img src="assets/images/avatar.svg"></button>
                     <mat-menu #menu="matMenu" class="headerDropDown">
                         <div class="accountsSwitchDiv">
