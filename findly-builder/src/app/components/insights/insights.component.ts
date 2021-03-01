@@ -368,7 +368,7 @@ lineStyle: {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : _id,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;

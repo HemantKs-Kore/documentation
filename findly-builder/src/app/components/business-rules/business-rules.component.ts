@@ -510,7 +510,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   createRule() {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const payload: any = {
       ruleName: this.addEditRuleObj.ruleName,
@@ -544,7 +545,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     // }
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
@@ -558,6 +559,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       offset: offset || 0,
       limit: 100
     };
@@ -575,6 +577,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       searchIndexID: this.serachIndexId,
       ruleId: rule._id,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       limit: 100
     };
     this.service.invoke('get.businessRuleById', quaryparms).subscribe(res => {
@@ -587,6 +590,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       ruleId: rule._id,
     };
     const payload: any = {
@@ -668,6 +672,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       limit: 100
     };
     const payload: any = {
@@ -698,6 +703,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       ruleId: rule._id,
       limit: 100
     };
