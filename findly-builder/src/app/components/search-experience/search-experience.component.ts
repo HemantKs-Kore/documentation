@@ -1,12 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { RangeSlider } from '../../helpers/models/range-slider.model';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 @Component({
   selector: 'app-search-experience',
   templateUrl: './search-experience.component.html',
   styleUrls: ['./search-experience.component.scss']
 })
 export class SearchExperienceComponent implements OnInit {
-  selectedTab: string = 'searchwidget';
+  selectedTab: string = 'experience';
   selectSearch: string;
+  selectedApp: any = {};
+  serachIndexId: any;
+  suggestions: any = [{ 'name': 'Query Suggestions', 'sliderObj': new RangeSlider(0, 10, 1, 5, 'suggestion') }, { 'name': 'Live Search Results', 'sliderObj': new RangeSlider(0, 10, 1, 5, 'live') }];
   searchObject: any =
     {
       "searchExperienceConfig": {
@@ -25,6 +32,7 @@ export class SearchExperienceComponent implements OnInit {
         "searchBarIcon": "6038e58234b5352faa7773b0"
       },
       "searchInteractionsConfig": {
+        "feedbackExperience": { resultLevel: true, queryLevel: false },
         "welcomeMsg": "Hi, How can I help you",
         "welcomeMsgMsgColor": "#000080",
         "showSearchesEnabled": false,
@@ -47,9 +55,14 @@ export class SearchExperienceComponent implements OnInit {
   //search button disabled
   buttonDisabled: boolean = true;
   public color: string = '#2889e9';
-  constructor() { }
+  statusModalPopRef: any = [];
+  @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
+  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService,) { }
 
   ngOnInit(): void {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.getSearchExperience();
   }
   //sequential tabs method
   nextTab(type) {
@@ -70,9 +83,17 @@ export class SearchExperienceComponent implements OnInit {
       }
     }
   }
+  //app-range slider method
+  valueEvent(type, val) {
+    if (type == 'Query Suggestions') {
+      this.searchObject.searchInteractionsConfig.querySuggestionsLimit = val;
+    }
+    else {
+      this.searchObject.searchInteractionsConfig.liveSearchResultsLimit = val;
+    }
+  }
   //select search Icon
   selectIcon(event) {
-    console.log("event", event.target.files[0]);
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const reader = new FileReader();
@@ -123,12 +144,28 @@ export class SearchExperienceComponent implements OnInit {
   selectSearchBox(type) {
     this.selectSearch = type;
   }
-  // //fetch color code 
-  // public onEventLog(event: string, data: any): void {
-  //   console.log(event, data);
-  // }
+  //get default data
+  getSearchExperience() {
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex
+    };
+    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(res => {
+      this.searchObject = { searchExperienceConfig: res.experienceConfig, searchWidgetConfig: res.widgetConfig, searchInteractionsConfig: res.interactionsConfig }
+      console.log("search experience data", this.searchObject);
+    }, errRes => {
+      console.log(errRes);
+    });
+  }
   //submit search page form
   saveSearchExperience() {
-    console.log("this.searchObject", this.searchObject)
+    console.log("this.searchObject", this.searchObject);
+    this.statusModalPopRef = this.statusModalPop.open();
+  }
+  //close preview popup
+  closePreviewPopup() {
+    if (this.statusModalPopRef && this.statusModalPopRef.close) {
+      this.statusModalPopRef = this.statusModalPopRef.close();
+    }
   }
 }

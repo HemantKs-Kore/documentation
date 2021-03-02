@@ -233,7 +233,8 @@
                             <div class="emojis-block">
                                 <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>
                                 <div class="color-picker"></div>
-                                <!-- <div class="fill-color">
+                                <!-- <div class="fill-colors-block">
+                                <div class="fill-color">
                                 <div class="box-color" [ngClass]="{'color-pallet-container': msgColor}">
                                     <input
                                         [style.background]="color6"
@@ -255,18 +256,18 @@
                                         </div>
                                         <div class="save-switch">Save Swatch</div>
                                      </div>
-                                </div></div> -->
+                                </div></div></div> -->
                                 <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
                         <div class="group-radiobutton border-with-padding">
                             <div class="heading-title">Show Searches</div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-22" name="radio" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
+                                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="Frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
                                 <label for="radio-22" class="radio-custom-label">Frequent</label>
                             </div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-23" name="radio" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
+                                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
                                 <label for="radio-23" class="radio-custom-label">Recent</label>
                             </div>
                         </div>
@@ -277,15 +278,14 @@
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
                         </div>
-                        <div class="border-with-padding">                                                                     
-                            <div class="label_text">Query Suggestions</div>
-                            <div class="kr-sg-toggle">  
-                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj' (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
-                            </div>
+                        <div class="border-with-padding" *ngFor="let data of suggestions">                                                                     
+                            <div class="label_text">{{data.name}}</div>
+                            <div class="kr-sg-toggle sliderContainer">  
+                                <div class="range-slider">
+                                <app-range-slider [customClass]='"weightsSlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider>
+                            </div></div>
                         </div>
-                        <div class="border-with-padding">                                                                     
-                            <div class="label_text">Live Search Results</div>
-                        </div>
+
                         <div class="border-with-padding group-checkbox">
                             <div class="heading-title">Feedback Experience </div>
                             <div class="kr-sg-checkbox">
@@ -317,3 +317,31 @@
         <button class="kr-sg-button-primary btn_lg" (click)="saveSearchExperience()" *ngIf="selectedTab=='interactions'">Done</button>    
     </div>
 </div>
+
+<!--Show model for preview-->
+<kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
+    <div class="modal-header">
+      <div class="title">Customization Preview / {{searchObject.searchExperienceConfig.searchBarPosition==='top'?"Top Down":"Bottom Up"}} Experience</div>
+      <div class="close_icon"><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <div class="modal-body source-modal-popup">
+        <div class="search-widget">
+            <div class="label-text">Search Box Customization</div>
+            <div class="d-flex search-customization-input">
+                <div class="kr-sg-input-search">                               
+                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" (click)="selectSearchBox('inputBox');$event.stopPropagation();">
+                    <img [src]="searchIcon" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
+                     <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                </div>
+                <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                    <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                    <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer moadal-footer-config footer-btns">  
+      <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button>
+      <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
+    </div>
+  </kr-modal>
