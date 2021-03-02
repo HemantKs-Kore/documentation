@@ -15626,7 +15626,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         facetObj['show'] = false;
         _self.facetReset(facetObj,facetData);
 
+        var devMode = _self.isDev ? true : false;
+
         var fullResultAllType = $(_self.fullResultAllType()).tmpl({
+          'devMode' : devMode
         });
         $('#fullResultAllTypeId').append(fullResultAllType);
         var resultRanking = $(_self.fullResultRanking()).tmpl({
@@ -15943,68 +15946,77 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return facet
     }
     FindlySDK.prototype.fullResultAllType = function(){
-      var template = `
-      <div>
-        <div class="data-body-sec">
+      var template = '<script type="text/x-jqury-tmpl">\
+      <div>\
+        <div class="data-body-sec">\
         <div class="faqs-full-search-container matched-structured-data-contaniers">\
-        </div>
+        </div>\
         <div class="pages-full-search-container matched-structured-data-contaniers">\
-        </div>
+        </div>\
         <div class="structured-data-full-search-container matched-structured-data-contaniers">\
-        </div>
-        <div class="display-none">
-          <div class="tile-with-text-parent grid_view_template">
-            <a class="tile-with-text">
-              <div class="tile-heading">How do I request a refund for my credit card account?</div>
-              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-            </a>
-            <a class="tile-with-text">
-              <div class="tile-heading">How do I request a refund for my credit card account?</div>
-              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-            </a> 
-            <a class="tile-with-text">
-              <div class="tile-heading">How do I request a refund for my credit card account?</div>
-              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-            </a>
-            <a class="tile-with-text">
-              <div class="tile-heading">How do I request a refund for my credit card account?</div>
-              <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
-            </a>   
-          </div>
-          <div class="tile-with-text-parent with-accordion">
-            <div class="tile-with-text">
-              <div class="tile-heading accordion p-0" id="1">
-                How do I request a refund for my credit card account?
-                  <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-              </div>                     
-              <div class="panel">
-                  <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
-              </div>
-            </div>
-            <div class="tile-with-text">
-              <div class="tile-heading accordion p-0" id="1">
-                How do I request a refund for my credit card account?
-                  <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-              </div>                     
-              <div class="panel">
-                  <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
-              </div>
-            </div>
-            <div class="tile-with-text">
-              <div class="tile-heading accordion p-0" id="1">
-                How do I request a refund for my credit card account?
-                  <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
-              </div>                     
-              <div class="panel">
-                  <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
-              </div>
-            </div>                    
-          </div>
-        </div>
-        </div>
-      </div>
-      `
+        </div>\
+        <div class="custom-add-result-container {{if devMode=="false"}}display-none{{/if}}">\
+          <div class="custom-add-new-result-icon-container">\
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADOSURBVHgBpVLRFYIwDDx4DsAIdQM2sJuAEwgTyCbgKE6AG4ATMAImj6vUVvDDe+8ebXrphSbAJzLhVTgIZ7IXtkLjC1NvXTBBBWfhkayFCS+oAiNcmGSxjZyawgWMcOLBL1hqs4T1g+X5KPntgrjuxwOdasQw+A5NbNVxpujpOen+xP1dHbA669mQ4g9svWZDhlBtr443eE/sYSRDqPahC52WCfs9dMipNS5QYil5r5eWmmh6Kt7WUmRIy9iEtbcRVNhhmUs35OrSYPmlN14wTi/zFOG6gwAAAABJRU5ErkJggg==">\
+          </div>\
+          <div class="custom-add-new-result-content">\
+            <span><strong>Not finding the result</strong></span>\
+            <span>Add new result from repository</span>\
+          </div>\
+        </div>\
+        </script>'
       return template
+      var temp = `<div class="display-none">
+      <div class="tile-with-text-parent grid_view_template">
+        <a class="tile-with-text">
+          <div class="tile-heading">How do I request a refund for my credit card account?</div>
+          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+        </a>
+        <a class="tile-with-text">
+          <div class="tile-heading">How do I request a refund for my credit card account?</div>
+          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+        </a> 
+        <a class="tile-with-text">
+          <div class="tile-heading">How do I request a refund for my credit card account?</div>
+          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+        </a>
+        <a class="tile-with-text">
+          <div class="tile-heading">How do I request a refund for my credit card account?</div>
+          <div class="tile-description">Choose the card that best suites your needs and either contact us on 1980948465 or write to us on loremipsum@gmail.com to c....</div>
+        </a>   
+      </div>
+      <div class="tile-with-text-parent with-accordion">
+        <div class="tile-with-text">
+          <div class="tile-heading accordion p-0" id="1">
+            How do I request a refund for my credit card account?
+              <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
+          </div>                     
+          <div class="panel">
+              <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
+          </div>
+        </div>
+        <div class="tile-with-text">
+          <div class="tile-heading accordion p-0" id="1">
+            How do I request a refund for my credit card account?
+              <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
+          </div>                     
+          <div class="panel">
+              <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
+          </div>
+        </div>
+        <div class="tile-with-text">
+          <div class="tile-heading accordion p-0" id="1">
+            How do I request a refund for my credit card account?
+              <div class="tile-description defalut-show text-truncate">Contact your customer service representati 7 days a week</div>
+          </div>                     
+          <div class="panel">
+              <div class="tile-description">Contact your customer service representati 7 days a week oe email us at xtcred@cred.com. You can contact us through our toll free number 1800-9890-9878 too.</div>
+          </div>
+        </div>                    
+      </div>
+    </div>
+    </div>
+  </div>`
     }
     FindlySDK.prototype.fullResultRanking = function(){
       var template = 
@@ -16148,6 +16160,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
       })
+
+      $('.custom-add-result-container').off('click').on('click', function (event) {
+        console.log(event);
+        if (_self.vars.searchObject && _self.vars.searchObject.searchText) {
+          var responseObject = { 'type': 'addNew', data: true, query: _self.vars.searchObject.searchText }
+          console.log(responseObject);
+          _self.parentEvent(responseObject);
+        }
+      });
     }
 
     FindlySDK.prototype.performRankActionsOnFullPage = function(event, conf, searchText, actionType){
