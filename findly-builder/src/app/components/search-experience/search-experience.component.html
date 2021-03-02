@@ -18,12 +18,12 @@
                 <div class="experience-tab">
                     <div class="left-sec">
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-2" name="topdown" value='topdown' class="radio-custom" type="radio" [(ngModel)]="searchObject.experience.search_bar">
+                            <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition">
                             <label for="radio-2" class="radio-custom-label">Top Down</label>
                             <div class="desc-tect">Search Bar at the top</div>
                         </div>   
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
-                            <input id="radio-22" name="bottomup" value='bottomup' class="radio-custom" type="radio" [(ngModel)]="searchObject.experience.search_bar">
+                            <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition">
                             <label for="radio-22" class="radio-custom-label">Bottom Up</label>
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
@@ -38,33 +38,30 @@
                     <div class="label-text">Search Box Customization</div>
                     <div class="d-flex search-customization-input">
                         <div class="kr-sg-input-search">                               
-                            <input type="text" class="input-search" (click)="selectSearchBox('inputBox');$event.stopPropagation();">
-                            <img src="assets/icons/search_gray.svg" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation()">
-                             <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text">Placeholder Text</span>
+                            <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" (click)="selectSearchBox('inputBox');$event.stopPropagation();">
+                            <img [src]="searchIcon" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
+                             <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
                         </div>
-                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg" (click)="selectSearchBox('button')">
-                            <span>Button</span>
-                            <div class="hover-overlay-btn-img"><img src="assets/icons/search-experience/edit.svg"></div>
+                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                            <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
+                            <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
                     </div>
                     <div [ngSwitch]="selectSearch">                        
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
                             <div class="fill-color">
                                 <div class="label-color">Fill Color</div>                            
-                                <div class="box-color color-pallet-container">
+                                <div class="box-color"  [ngClass]="{'color-pallet-container': inputBox1}">
                                     <input
-                                        [style.background]="color"
+                                        [style.background]="color"                                        
                                         [(colorPicker)]="color"
                                         [cpOutputFormat]="'hex'"
-                                        (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
-                                        (colorPickerClose)="onEventLog('colorPickerClose', $event)"
-                                        (cpInputChange)="onEventLog('cpInputChange', $event)"
-                                        (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
-                                        (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"
+                                        (colorPickerOpen)="onEventLog('inputbox1', $event)"
+                                        (colorPickerClose)="onEventLog('inputbox1', $event)"
                                         readonly
                                     />
 
-                                    <div class="box-color-content">
+                                    <div class="box-color-content" *ngIf="inputBox1">
                                         <div class="selected-previous-colors">
                                            <div class="bg-color-selected"></div>
                                            <div class="bg-color-selected"></div>
@@ -76,22 +73,19 @@
                                      </div>
                                 </div>
                             </div>
-                            <!-- <div class="fill-color">
+                            <div class="fill-color">
                                 <div class="label-color">Border Color</div>
-                                <div class="box-color color-pallet-container">
+                                <div class="box-color" [ngClass]="{'color-pallet-container': inputBox2}">
                                     <input
-                                        [style.background]="color"
-                                        [(colorPicker)]="color"
+                                        [style.background]="color1"
+                                        [(colorPicker)]="color1"
                                         [cpOutputFormat]="'hex'"
-                                        (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
-                                        (colorPickerClose)="onEventLog('colorPickerClose', $event)"
-                                        (cpInputChange)="onEventLog('cpInputChange', $event)"
-                                        (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
-                                        (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"
+                                        (colorPickerOpen)="onEventLog('inputbox2', $event)"
+                                        (colorPickerClose)="onEventLog('inputbox2', $event)"                                      
                                         readonly
                                     />
 
-                                    <div class="box-color-content">
+                                    <div class="box-color-content" *ngIf="inputBox2">
                                         <div class="selected-previous-colors">
                                            <div class="bg-color-selected"></div>
                                            <div class="bg-color-selected"></div>
@@ -102,32 +96,29 @@
                                         <div class="save-switch">Save Swatch</div>
                                      </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="drog-and-drop-block" *ngSwitchCase="'inputIcon'">
                             <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
                             <div class="input-file">
                                 <div class="title">Drag and drop or <span class="browse">browse</span></div>
-                                <input type="file" name="avatar"/>
+                                <input type="file" name="avatar" (change)="selectIcon($event)"/>
                             </div>
                         </div>
                         <div class="fill-colors-block" *ngSwitchCase="'placeholderText'">
                             <div class="fill-color">
                                 <div class="label-color">Text Color</div>
-                                <div class="box-color color-pallet-container">
+                                <div class="box-color" [ngClass]="{'color-pallet-container': placeholBox}">
                                     <input
-                                        [style.background]="color"
-                                        [(colorPicker)]="color"
+                                        [style.background]="color2"
+                                        [(colorPicker)]="color2"
                                         [cpOutputFormat]="'hex'"
-                                        (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
-                                        (colorPickerClose)="onEventLog('colorPickerClose', $event)"
-                                        (cpInputChange)="onEventLog('cpInputChange', $event)"
-                                        (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
-                                        (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"
+                                        (colorPickerOpen)="onEventLog('placeholder', $event)"
+                                        (colorPickerClose)="onEventLog('placeholder', $event)"
                                         readonly
                                     />
 
-                                    <div class="box-color-content">
+                                    <div class="box-color-content" *ngIf="placeholBox">
                                         <div class="selected-previous-colors">
                                            <div class="bg-color-selected"></div>
                                            <div class="bg-color-selected"></div>
@@ -143,30 +134,53 @@
                         <div class="button-enable" *ngSwitchCase="'button'">
                             <div class="label_text">Add Button</div>
                             <label class="kr-sg-toggle">                                       
-                                <input type="checkbox">
+                                <input type="checkbox" [(ngModel)]="searchObject.searchWidgetConfig.searchButtonEnabled">
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
                             <div class="kr-sg-input-text">
                                 <div class="label-text">Button Text</div>
-                                <input type="text" placeholder="Enter Name" class="input-text">                            
+                                <input type="text" placeholder="Enter Name" class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText" [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)">                            
                             </div>
                             <div class="fill-colors-block">
                                 <div class="fill-color">
-                                    <div class="label-color">Fill Color</div>
-                                    <div class="box-color color-pallet-container">
+                                    <div class="label-color">Text Color</div>
+                                    <div class="box-color" [ngClass]="{'color-pallet-container': buttonTextColor}">
                                         <input
-                                            [style.background]="color"
-                                            [(colorPicker)]="color"
+                                            [style.background]="color3"
+                                            [(colorPicker)]="color3"
                                             [cpOutputFormat]="'hex'"
-                                            (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
-                                            (colorPickerClose)="onEventLog('colorPickerClose', $event)"
-                                            (cpInputChange)="onEventLog('cpInputChange', $event)"
-                                            (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
-                                            (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"
+                                            (colorPickerOpen)="onEventLog('buttonTextColor', $event)"
+                                            (colorPickerClose)="onEventLog('buttonTextColor', $event)"
                                             readonly
+                                            [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
                                         />
     
-                                        <div class="box-color-content">
+                                        <div class="box-color-content" *ngIf="buttonTextColor">
+                                            <div class="selected-previous-colors">
+                                               <div class="bg-color-selected"></div>
+                                               <div class="bg-color-selected"></div>
+                                               <div class="bg-color-selected"></div>
+                                               <div class="bg-color-selected"></div>
+                                               <div class="bg-color-selected"></div>
+                                            </div>
+                                            <div class="save-switch">Save Swatch</div>
+                                         </div>
+                                    </div>
+                                </div>
+                                <div class="fill-color">
+                                    <div class="label-color">Fill Color</div>
+                                    <div class="box-color" [ngClass]="{'color-pallet-container': buttonFill}">
+                                        <input
+                                            [style.background]="color4"
+                                            [(colorPicker)]="color4"
+                                            [cpOutputFormat]="'hex'"
+                                            (colorPickerOpen)="onEventLog('buttonFill', $event)"
+                                            (colorPickerClose)="onEventLog('buttonFill', $event)"
+                                            readonly
+                                            [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
+                                        />
+    
+                                        <div class="box-color-content" *ngIf="buttonFill">
                                             <div class="selected-previous-colors">
                                                <div class="bg-color-selected"></div>
                                                <div class="bg-color-selected"></div>
@@ -180,20 +194,18 @@
                                 </div>
                                 <div class="fill-color">
                                     <div class="label-color">Border Color</div>
-                                    <div class="box-color color-pallet-container">
+                                    <div class="box-color" [ngClass]="{'color-pallet-container': buttonBorder}">
                                         <input
-                                            [style.background]="color"
-                                            [(colorPicker)]="color"
+                                            [style.background]="color5"
+                                            [(colorPicker)]="color5"
                                             [cpOutputFormat]="'hex'"
-                                            (colorPickerOpen)="onEventLog('colorPickerOpen', $event)"
-                                            (colorPickerClose)="onEventLog('colorPickerClose', $event)"
-                                            (cpInputChange)="onEventLog('cpInputChange', $event)"
-                                            (cpSliderDragStart)="onEventLog('cpSliderDragStart', $event)"
-                                            (cpSliderDragEnd)="onEventLog('cpSliderDragEnd', $event)"
+                                            (colorPickerOpen)="onEventLog('buttonBorder', $event)"
+                                            (colorPickerClose)="onEventLog('buttonBorder', $event)"
                                             readonly
+                                            [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
                                         />
     
-                                        <div class="box-color-content">
+                                        <div class="box-color-content" *ngIf="buttonBorder">
                                             <div class="selected-previous-colors">
                                                <div class="bg-color-selected"></div>
                                                <div class="bg-color-selected"></div>
@@ -216,29 +228,52 @@
                         <div class="greeting-message border-with-padding">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea placeholder="Hi, How may I help you?" class="input-text" maxlength="40" #box (keyup)="0"></textarea>                                
+                                <textarea placeholder="Hi, How may I help you?" class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg"></textarea>                                
                             </div>
                             <div class="emojis-block">
                                 <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>
                                 <div class="color-picker"></div>
+                                <!-- <div class="fill-color">
+                                <div class="box-color" [ngClass]="{'color-pallet-container': msgColor}">
+                                    <input
+                                        [style.background]="color6"
+                                        [(colorPicker)]="color6"
+                                        [cpOutputFormat]="'hex'"
+                                        (colorPickerOpen)="onEventLog('msgColor', $event)"
+                                        (colorPickerClose)="onEventLog('msgColor', $event)"
+                                        readonly
+                                        [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
+                                    />
+
+                                    <div class="box-color-content" *ngIf="msgColor">
+                                        <div class="selected-previous-colors">
+                                           <div class="bg-color-selected"></div>
+                                           <div class="bg-color-selected"></div>
+                                           <div class="bg-color-selected"></div>
+                                           <div class="bg-color-selected"></div>
+                                           <div class="bg-color-selected"></div>
+                                        </div>
+                                        <div class="save-switch">Save Swatch</div>
+                                     </div>
+                                </div></div> -->
                                 <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
                         <div class="group-radiobutton border-with-padding">
                             <div class="heading-title">Show Searches</div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-22" name="radio" class="radio-custom" type="radio">
+                                <input id="radio-22" name="radio" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
                                 <label for="radio-22" class="radio-custom-label">Frequent</label>
                             </div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-23" name="radio" class="radio-custom" type="radio">
+                                <input id="radio-23" name="radio" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
                                 <label for="radio-23" class="radio-custom-label">Recent</label>
                             </div>
                         </div>
                         <div class="border-with-padding">                                                                     
                             <div class="label_text">Autocomplete</div>
                             <label class="kr-sg-toggle">                                       
-                                <input type="checkbox">
+                                <input type="checkbox" [(ngModel)]="searchObject.searchInteractionsConfig.autocompleteOpt">
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
                         </div>
