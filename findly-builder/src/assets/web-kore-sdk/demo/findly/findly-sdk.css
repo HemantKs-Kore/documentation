@@ -12433,27 +12433,7 @@ padding-right: 0;
 .pages-full-search-container .customizeEnabled .indicator-div{
     top : 33%;
 }
-.faqs-data-container{
-    margin-bottom: 30px;
-}
-.pages-data-container{
-    margin-bottom: 30px;
-}
-.structured-data-container{
-    margin-bottom: 30px;
-}
-.documents-data-container{
-    margin-bottom: 30px;
-}
-.faqs-full-search-container{
-    margin-bottom: 30px;
-}
-.pages-full-search-container{
-    margin-bottom: 30px;
-}
-.structured-data-full-search-container{
-    margin-bottom: 30px;
-}
-.documents-full-search-container{
-    margin-bottom: 30px;
+
+.structured-data-outer-wrap{
+    margin-bottom: 23px;
 }

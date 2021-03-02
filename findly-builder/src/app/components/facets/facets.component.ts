@@ -94,6 +94,11 @@ export class FacetsComponent implements OnInit , OnDestroy{
     })
     this.getFieldAutoComplete('');
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
+
   loadfacets(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){

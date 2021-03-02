@@ -67,6 +67,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.loadSynonyms();
     })
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
   loadSynonyms() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
     if (this.queryPipelineId) {

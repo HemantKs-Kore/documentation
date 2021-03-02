@@ -172,7 +172,7 @@
   <ng-container *ngIf="!linkedBotID && !loadingContent">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
-      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/botactions-empty.svg"></div>
+      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.svg"></div>
       <ng-container >
           <div class="empty-title">You haven’t linked any bot yet!</div>
           <div class="desc-text"> Bot Actions are a list of tasks that are performed by the bots. SearchAssist allows you to link bots that can perform tasks for the search user.

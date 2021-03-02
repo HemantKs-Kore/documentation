@@ -48,6 +48,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadStopwords();
     })
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
   loadStopwords(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){

@@ -6299,6 +6299,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return "Actions"
       } else if (key.toLowerCase() === 'document') {
         return "Documents"
+      } else if (key.toLowerCase() === 'object') {
+        return "Data"
       } else {
         return key;
       }

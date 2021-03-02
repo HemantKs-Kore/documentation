@@ -1,15 +1,15 @@
 <div class="faqmain-container">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+    <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
-    <div class="header-sec col-12 row m-0" *ngIf="!nextPage" >
+    <div class="header-sec col-12 row m-0" *ngIf="!nextPage&&!loadingContent">
         <div class="col-4 p-0">Result Ranking</div>     
-    </div>
-    <ng-container *ngIf="!nextPage">
+        </div>
+    <ng-container *ngIf="!nextPage&&!loadingContent">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
           <ng-container>
               <div class="empty-title">You haven’t added any queries yet!</div>
               <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
@@ -22,7 +22,6 @@
     </perfect-scrollbar>  
   </ng-container>
   <div *ngIf="nextPage">
-    <div *ngIf="!loadingContent">
         <div class="faqsListContainer">
             <div class="faq-content-boxes">
                 <div class="content left-content">
@@ -246,7 +245,7 @@
                     </div>
                 </div>
             </div>        
-        </div>
+
         <!-- <div class="log_section " [ngClass] ="{'d-none' : !resultLogs}">
             <div class="header-log">
                 <div class="title">Log ({{customizeLog.length || 0}})</div>

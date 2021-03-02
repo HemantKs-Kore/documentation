@@ -78,6 +78,10 @@ export class BotActionComponent implements OnInit {
     //this.getdialog();
     //this.getLinkedBot();
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
   getdialog() {
     const queryParams = {
       streamId: this.selectedApp._id
