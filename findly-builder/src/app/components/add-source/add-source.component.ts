@@ -402,6 +402,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.closeStatusModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
+     
     });
   }
   errorToaster(errRes, message) {
@@ -409,6 +410,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
+      this.closeStatusModal();
     } else {
       this.notificationService.notify('Somthing went worng', 'error');
     }
@@ -935,6 +937,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
+    this.closeStatusModal()
   }
   /* Annotation Modal end */
 

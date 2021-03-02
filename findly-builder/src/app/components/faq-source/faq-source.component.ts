@@ -172,6 +172,10 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
       this.filterObject[type] = value;
     }
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingFaqs=false;
+  }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
@@ -1318,5 +1322,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit , OnDestroy {
     }
     this.showSearch = !this.showSearch
   };
+
+  
   
 }

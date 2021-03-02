@@ -75,6 +75,11 @@ export class TraitsComponent implements OnInit {
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
     this.getTraitsGroupsApi(true);
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingTraits=false;
+  }
+
   getTraitsGroupsApi(initial?) {
     if (initial) {
       this.loadingTraits = true;

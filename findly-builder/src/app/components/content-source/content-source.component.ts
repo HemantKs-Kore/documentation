@@ -188,6 +188,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }

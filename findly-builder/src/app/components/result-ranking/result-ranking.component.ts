@@ -176,6 +176,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   })
   this.loadingContent = true;
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
+
   loadCustomRankingList(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){

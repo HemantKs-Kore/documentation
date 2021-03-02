@@ -131,6 +131,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getFieldAutoComplete(null, null);
   }
+  imageLoad(){
+    console.log("image loaded now")
+    this.loadingContent=false;
+  }
   loadRules() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
     if (this.queryPipelineId) {

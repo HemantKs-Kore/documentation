@@ -123,7 +123,10 @@ export class StructuredDataComponent implements OnInit {
         : this.searchItems())
     )
   }
-
+  imageLoad(){
+    console.log("image loaded now")
+    this.isLoading=false;
+  }
   getStructuredDataList(skip?){
     this.isLoading = true;
     this.noItems = false;
