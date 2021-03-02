@@ -164,7 +164,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   markAsDefaultIndex(config,action?){
     this.editIndexName = false;
     const queryParms ={
-      queryPipelineId:config._id,
+      indexPipelineId:config._id,
       searchIndexID:this.workflowService.selectedSearchIndexId
     }
     let payload = {}
@@ -177,7 +177,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
         default:true,
       }
     }
-    this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
+    this.service.invoke('put.newIndexPipeline', queryParms, payload).subscribe(
       res => {
         this.notify.notify('Set to default Index successfully','success');
         this.appSelectionService.getIndexPipelineIds(config);
@@ -196,7 +196,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     const queryParms ={
       queryPipelineId:config._id,
       searchIndexID:this.workflowService.selectedSearchIndexId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     }
     let payload = {}
     if(action == 'edit'){
@@ -236,7 +236,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     name:this.newIndexConfigObj.name,
    }
    if(this.newIndexConfigObj.method === 'clone'){
-    payload.sourceQueryPipelineId = this.newConfigObj._id
+    payload.sourceIndexPipelineId = this.newIndexConfigObj._id
   }
   const queryParms = {
     searchIndexId: this.workflowService.selectedSearchIndexId
@@ -264,7 +264,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     }
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
@@ -321,7 +321,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     //this.workflowService.selectedSearchIndex(indexConfigs._id)
     this.appSelectionService.getIndexPipelineIds(indexConfigs)
     this.selectedIndexConfig = indexConfigs._id;
-    //.reloadCurrentRoute()
+    //this.reloadCurrentRoute()
   }
   onKeypressEvent(e,config){
     if(e){
@@ -356,7 +356,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
         this.indexConfigObj[element._id] = element;
       });
       if(res.length > 0)
-      this.selectedIndexConfig = res[0]._id;
+      this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     // this.indexConfigs.forEach(element => {
     //   this.indexConfigObj[element._id] = element;

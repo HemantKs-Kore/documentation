@@ -131,7 +131,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadRules();
     })
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.getFieldAutoComplete(null, null);
   }
   imageLoad(){
@@ -139,10 +139,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.loadingContent=false;
   }
   loadRules() {
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.getRules();
-    }
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+        if (this.queryPipelineId) {
+          this.getRules();
+        }
+      }
   }
   createNewRule() {
     this.addEditRuleObj = {

@@ -28,6 +28,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
+  indexPipelineId;
   pipeline;
   stopWordsIntiType = 'default'
   createFromScratch;
@@ -53,9 +54,12 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.loadingContent=false;
   }
   loadStopwords(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getStopWords();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getStopWords();
+      }
     }
   }
   toggleSearch(){
@@ -100,7 +104,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.pipeline || {};
@@ -160,7 +164,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
@@ -294,7 +298,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     let msg = 'Stop words updated successfully';
     if(!enableOrDisable){

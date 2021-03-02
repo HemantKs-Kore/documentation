@@ -87,7 +87,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.loadfacets();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.loadfacets();
@@ -100,9 +100,12 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
 
   loadfacets(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getFacts();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getFacts();
+      }
     }
   }
   getType(name){

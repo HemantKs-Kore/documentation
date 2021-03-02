@@ -19,7 +19,7 @@ export class EndPointsService {
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       //this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      this.API_SERVER_URL = "http://f06e75778219.ngrok.io" + "/api/1.1"
+      this.API_SERVER_URL = "http://b10c83bc1944.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -470,31 +470,31 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['post.createField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields',
       method: 'post'
     }
     this.serviceList['get.allField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields?offset=:offset&limit=:limit',
       method: 'get'
     }
     this.serviceList['get.getFieldById'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'get'
     }
     this.serviceList['get.getFieldUsage'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId/usage?queryPipelineId=:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId/usage?queryPipelineId=:queryPipelineId',
       method: 'get'
     }
     this.serviceList['put.updateField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'put'
     }
     this.serviceList['delete.deleteField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'delete'
     }
     this.serviceList['get.getFieldAutocomplete'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/autocomplete?alpha=:query&isIndexed=true',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/autocomplete?alpha=:query&isIndexed=true',
       method: 'get'
     }
     this.serviceList['get.allFacets'] = {

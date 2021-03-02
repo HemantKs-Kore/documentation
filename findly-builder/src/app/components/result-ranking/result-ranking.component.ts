@@ -23,6 +23,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   selectedApp;
   serachIndexId;
   queryPipelineId;
+  indexPipelineId;
   customizeLog: any = {};
   selectedRecord: any = {};
   resultLogs: boolean = false;
@@ -181,9 +182,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
 
   loadCustomRankingList(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getcustomizeList(20,0);
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getcustomizeList(20,0);
+      }
     }
   }
   showLogs() {
@@ -198,7 +202,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     let ids = []
     this.collectedRecord.forEach(element => {
@@ -365,7 +369,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : record._id,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
 
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
@@ -405,7 +409,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: this.selectedRecord._id,
       contentId : actLog.target.contentId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.remove_Record(quaryparms)
   }
@@ -518,7 +522,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
       rankingAndPinningId : record._id,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -560,7 +564,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       limit : limit,
       skip : skip
     };

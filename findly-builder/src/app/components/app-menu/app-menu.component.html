@@ -370,11 +370,11 @@
 			</div>
 	
 			<div class="group-radiobutton in-clone">			
-				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of queryConfigs | filter: [ searchPipeline, 'name']; let i = index">
+				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of indexConfigs | filter: [ searchPipeline, 'name']; let i = index">
 					<input id="{{config._id}}" [(ngModel)]="newIndexConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
 					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
 				</div> 
-				<div class="divBlockEmptylastChild">{{!(queryConfigs && queryConfigs.length)?'No Data Found': 'No search results'}}</div>
+				<div class="divBlockEmptylastChild">{{!(indexConfigs && indexConfigs.length)?'No Data Found': 'No search results'}}</div>
 			</div>
 		</ng-container> 	
     </div>

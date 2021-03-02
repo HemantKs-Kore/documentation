@@ -48,6 +48,7 @@ export class AppSelectionService {
           this.selectIndexConfig({});
         }
         this.appSelectedConfigs.next(res);
+        this.getQureryPipelineIds()
       }
     }, errRes => {
       this.indexList  = null;
@@ -58,7 +59,7 @@ export class AppSelectionService {
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex(),
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);

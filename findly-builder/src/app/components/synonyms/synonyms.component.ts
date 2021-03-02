@@ -36,6 +36,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   queryPipelineId;
+  indexPipelineId;
   newSynonymObj: any = {
     type: 'synonym',
     addNew: false,
@@ -72,9 +73,12 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.loadingContent=false;
   }
   loadSynonyms() {
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.getSynonyms();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getSynonyms();
+      }
     }
   }
   prepareSynonyms() {
@@ -90,7 +94,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
@@ -139,7 +143,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || '' 
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     const payload: any = {
       pipeline: {
