@@ -12884,6 +12884,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <!-- <h1>Tile with Text</h1> -->\
             <div class="total-structured-data-wrap {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customization{{/if}}{{/if}}{{if selectedFacet != "all results"}}{{if selectedFacet != appearanceType}} display-none{{/if}}{{/if}}" appearanceType="${appearanceType}">\
               {{if structuredData.length}}\
+                <div class="tours-information">\
+                  <div class="tourtitle">Customize</div>\
+                  <div class="tour-info">Start Customizing your search results by hovering on the matched content and performing below actions:</div>\
+                  <div class="tour-action-info"><b>HIDE</b> - Hide the search result</div>\
+                  <div class="tour-action-info"><b>PIN</b> - Pin results in a specific position</div>\
+                  <div class="tour-action-info"><b>BOOST</b> - Boost the relevance score</div>\
+                  <div class="tour-action-info"><b>LOWER</b> - Lower the relevance score</div>\
+                  <div class="footer-tour">\
+                    <div class="tour-length">1 of 2</div>\
+                    <div class="tour-btns">\
+                        <button class="next-btn">Next</button>\
+                        <button class="close-btn">Close</button>\
+                    </div>\
+                  </div>\
+                </div>\
+                <div class="tours-information tour-customization-info">\
+                  <div class="tourtitle">Customize</div>\
+                  <div class="tour-info mb-2 pb-1">You can order the results by clicking on this icon and dragging up and down.</div>\
+                  <div class="footer-tour">\
+                    <div class="tour-length">2 of 2</div>\
+                    <div class="tour-btns">\
+                        <button class="next-btn">Got it</button>\
+                        <button class="close-btn">Previous</button>\
+                    </div>\
+                  </div>\
+                </div>\
                 <div class="structured-data-header">\
                   {{if appearanceType == "object"}}\
                     <div class="search-heads">DATA</div>\
@@ -12930,7 +12956,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                               UnHide\
                                           </span>\
                                         </span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHVSURBVHgBlVLdUdtAEN7dE4ozYI86iFJBnAqwKgiuAHjLZJBRKpBdgQ1hMnkLqcDpwO4AUkFUggbDYEu6XfYEYszfg/fhbub2dr9vv28BNDoDSYNEAtgwyB0C9qO1MoUNA93hUJllBojzqxP87t7acXUgKCEyXjJzdvPTv3wVOZ9gToR9ET7oxDap2WihHrtgcEyeuWgP7H/X8AVyjXRsfyv/OinM0fXZ1rzJ7QzKIQKl9wU0vDrF0WNx51jGWtIThhwRAgEJy6L4vPz1PntsHvNM0P5DpC8odO4aUD2b8F6xWvWBJCyKVV+AT7Z8f9b6ehs2xSJ2hGI+GaRI88nOUdkjIEw1M2q1WrnSDhyaR95E/4e+/27aWOh5Xgaqg+qTueaIJiVgzBDwicdOQHcp/a61PH6uslL/oFwycnQEIV0ul4EqkDs69Q+WQ2Vyrn703BI5RK5sv31U7el7ryyLEa6pua/Fc2USLn5Q1KAo7dAyX6iryeIU/2zHRUJC2eLM+4uv2eEQXWc3fy2MMWMRCRU5Wl8WXJ/lHsUO9Xn/2Zi5Fs8RsasWRo2FCG/E9rei625tljefld2EwOzqNkYPom4WuizTdqzbqOHBhmEMHlaVrVndAWmT9/sAm8QuAAAAAElFTkSuQmCC">\
                                       </span>\
                                       <span class="action-item pinning" type="{{if data.config.pinIndex > 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
                                         <span class="tooltiptext">\
@@ -12941,15 +12967,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                             Pin\
                                           </span>\
                                         </span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD7SURBVHgBhZB/asJQDMeTZy0dW0eP0N1Aj9ATjJ1A9p8MVnYEvcFgMPxTT6A38Aj2BnqEgojSviYm/oAnvmLg8SD5fpNPgtASyQ8nDdGqrqrsMHnaXPMG2iORl3bDcBkN9+lDAxG8I2IBzGPXFPjEcc4DBhpR3WS7/7CIvy2oCYb7DF1eF4fsWfz8VfVM0JlfEMsTUvmLpXScaZKJPjvGvKlYGqWmK2LBkuX7ku+ji/KS1yMEM9DLRFFUNixTicfbv2DqXZotL3SK8lpre8AArvjGcGVVdsVDY+aee5yv5Ig/lF1SheCB4t05VBznzVp/X+3O8JrTyltoiSM5w31qLIEkiwAAAABJRU5ErkJggg==">\
                                       </span>\
                                       <span class="action-item boosting">\
-                                        <span class="tooltiptext">Up</span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                                        <span class="tooltiptext">Boost</span>\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADCSURBVHgBfY/BCcJAEEVnNiKKrGgHKSElmA7swBxFJEkHYgfRg3jTTtKCHSQdKIIoMTtjNhgI65o5fh5//gMwbhxyJNfl3MyFAW0YKAaBJxnywgp+oeBdFD6VygegxIRrSIYqGyyfbpONVoVXZdcGxnbT6zjM2wUaFj0nrR7Hglh5Nkjf49C/1DOYZmCz1l/MHC3WgU6Rxfm+x22ntYPCZ6Tgp9lmPYnZlZHKGrjTWsOKKUWCnSAop/+sbwnmeoYCBR8N24MPhSbzYAAAAABJRU5ErkJggg==">\
                                       </span>\
                                       <span class="action-item burying {{if data.score <= 0}}disabled{{/if}}">\
-                                        <span class="tooltiptext">Down</span>\
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
+                                        <span class="tooltiptext">Lower</span>\
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADJSURBVHgBdZDRDYIwEIZbEFKDTRiBEVzBSfDRmBRxA11BX3xTJ3AE4ghOgE7ggyaalvbskZCUWP633n253neUC31USm6/h/GdeJKWkDXG5AFQ84jiuGKLT+aDNJiKEEPbwqRQG17o2oUR4itdYw/ftGtggZIgV1LOGGMEJwGY83sX9UEXxqoLeYNwImT51+DCXHwiXZKlnOJlrLW+DVkjFIxCaw3XQet2UqGfXDTzQeswCNN2EsD6tR+demDP2p7RhfzLW+PuOzc/5PRxOXt0QzUAAAAASUVORK5CYII=">\
                                       </span>\
                                     </div>\
                                     <div class="title text-truncate">${data.heading}</div>\
@@ -16084,12 +16110,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         <div class="structured-data-full-search-container matched-structured-data-contaniers">\
         </div>\
         <div class="custom-add-result-container {{if devMode=="false"}}display-none{{/if}}">\
-          <div class="custom-add-new-result-icon-container">\
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADOSURBVHgBpVLRFYIwDDx4DsAIdQM2sJuAEwgTyCbgKE6AG4ATMAImj6vUVvDDe+8ebXrphSbAJzLhVTgIZ7IXtkLjC1NvXTBBBWfhkayFCS+oAiNcmGSxjZyawgWMcOLBL1hqs4T1g+X5KPntgrjuxwOdasQw+A5NbNVxpujpOen+xP1dHbA669mQ4g9svWZDhlBtr443eE/sYSRDqPahC52WCfs9dMipNS5QYil5r5eWmmh6Kt7WUmRIy9iEtbcRVNhhmUs35OrSYPmlN14wTi/zFOG6gwAAAABJRU5ErkJggg==">\
-          </div>\
           <div class="custom-add-new-result-content">\
-            <span><strong>Not finding the result</strong></span>\
-            <span>Add new result from repository</span>\
+            <div class="bold-text">Not finding the result?</div>\
+            <div class="link-text"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABrSURBVHgBzVHBCYAwEMuV/lRwBDdykoojuIoTiBs5Qt8KjVZfLdeHD8FAyJEQOO4ABZXbx0gts5opIi0KMHiJ7wvSuLBcmu4s7G6lbHnBgmGGZAWa/hnCmvrw0FAPxxSpZT+8kvppkr5UOAH/GRicle7qIwAAAABJRU5ErkJggg==">Add from repository</div>\
           </div>\
         </div>\
         </script>'
