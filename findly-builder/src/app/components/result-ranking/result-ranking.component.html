@@ -9,7 +9,7 @@
     <ng-container *ngIf="!nextPage&&!loadingContent">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
           <ng-container>
               <div class="empty-title">You haven’t added any queries yet!</div>
               <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 

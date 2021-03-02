@@ -5,7 +5,28 @@
       </div>
 <ng-container *ngIf="!loadingTraits">
   <!-- NO DATA FOUND -->
-  <div *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)" class="noTraits">
+  <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
+    <perfect-scrollbar class="empty-scroll">
+    <div  class="empty-landing-screen" >
+      <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
+      <ng-container >
+          <div class="empty-title">You haven’t added any Traits yet!</div>
+          <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
+          </div>
+          <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
+            <div class="dropdown dropdown-open">
+                <button class='kr-sg-button-primary btn_lg px-3' (click)='createNewTraits()'>Add Traits</button>
+              
+          </div>                                    
+          </div>
+      </ng-container>
+      <ng-container *ngIf="noItems && emptySearchResults">
+          <div class="desc-text">Your Search Query doesn't match with any record.</div>
+      </ng-container>
+  </div>
+</perfect-scrollbar>
+</ng-container>
+  <!-- <div *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)" class="noTraits">
     <img src="assets/images/empty-illustration.png">
     <div class='noTraitsInfo'><span class='infoHeader'> {{'No traits created yet!'}}</span>
         <p class='infoP'> {{'Looks like there are no traits created yet Create and manage bot traits'}}<br>
@@ -43,7 +64,7 @@
             {{'Traits can be used to define intent detection rules, path qualification criteria in Knowledge Graph, entity detection or for any defining conversation flows.'}}
         </p>
     </div>
-</div>
+</div> -->
 <!-- TABLE CONTENT -->
 <div class="traits" *ngIf="traits.traitGroups &&  traits.traitGroups.length">
     <div class="kr-sg-multi-line-notification p-3">
