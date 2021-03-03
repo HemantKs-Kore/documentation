@@ -51,13 +51,15 @@ export class SearchInterfaceComponent implements OnInit {
   selectedTemplatedId : any;
   selectedSettingResultsObj :selectedSettingResults = new selectedSettingResults();
   allSettings : any;
-  settingList : any =[{
-    id:"searchUi",
-    text : "Search UI"
-  },{
-    id:"searchExperience",
-    text : "Search Experience"
-  },{
+  settingList : any =[
+  //   {
+  //   id:"searchUi",
+  //   text : "Search UI"
+  // },{
+  //   id:"searchExperience",
+  //   text : "Search Experience"
+  // },
+  {
     id:"liveSearch",
     text : "Live Search"
   },{
@@ -106,7 +108,7 @@ export class SearchInterfaceComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     // Template Response 
     // this.customizeTemplate.type = "list"
     // this.customizeTemplate.layout.layoutType = 'titleWithText'
@@ -136,8 +138,12 @@ export class SearchInterfaceComponent implements OnInit {
     this.customizeTemplateObj.template.searchResultlayout.clickable = true;
     this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
     this.clickableDisabled = false;
+    this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left";
     this.preview_title = "Field Mapped for heading will appear here"
     this.preview_desc ="Field mapped for Description will appear here";
+  }
+  copyConfiguration(interfaceType){
+    this.selectedSettingResultsObj.referInterface = interfaceType;
   }
   getSettings(interfaceType){
     const quaryparms: any = {
@@ -251,7 +257,13 @@ export class SearchInterfaceComponent implements OnInit {
           id : element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
-      }   
+      }else if(element.type == 'document'){
+        let obj ={
+          type  : "Document",
+          id : element.templateId ? element.templateId : ""
+        }
+        this.list.push(obj)
+      }
     });
   }
   template(id,type){
@@ -261,7 +273,7 @@ export class SearchInterfaceComponent implements OnInit {
     if(id == 'grid' || id == 'carousel'){
       this.clickableDisabled = true;
       this.customizeTemplateObj.template.searchResultlayout.clickable = true;
-      this.customizeTemplateObj.template.searchResultlayout.behaviour = '';
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
     }else{
       this.clickableDisabled = false;
       this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
@@ -273,7 +285,7 @@ export class SearchInterfaceComponent implements OnInit {
     //this.customizeTemplate.
 
     this.customizeTemplateObj.template.searchResultlayout = new searchResultlayout();
-    this.customizeTemplateObj.template.resultMapping = new resultMapping();
+    //this.customizeTemplateObj.template.resultMapping = new resultMapping();
     this.customizeTemplateObj.template.searchResultlayout.layout = layout;
     if(layout == 'titleWithHeader'){
       this.showDescription = false;
@@ -305,7 +317,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked; 
       this.switchActive= event.target.checked;
       if(event.target.checked){
-        this.customizeTemplateObj.template.searchResultlayout.behaviour ="";
+        this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
         this.customizeTemplateObj.template.searchResultlayout.url = "";
       }
     }
@@ -435,11 +447,12 @@ export class SearchInterfaceComponent implements OnInit {
           //       }
           //   ],  
    }
-   if(this.selectedSettingResultsObj.referInterface == 'search'){
-    payload['referInterface'] = 'search';
-   }else{
-     delete payload['referInterface']; 
-   }
+   payload['referInterface'] = this.selectedSettingResultsObj.referInterface;
+  //  if(this.selectedSettingResultsObj.referInterface == 'search'){
+  //   payload['referInterface'] = 'search';
+  //  }else{
+  //    delete payload['referInterface']; 
+  //  }
     this.service.invoke('put.SI_saveResultSettings', queryparams , payload).subscribe(res => {
       this.notificationService.notify('Result setting saved successfully', 'success');
       this.selectedTemplatedId = "";
@@ -469,7 +482,7 @@ export class SearchInterfaceComponent implements OnInit {
       "layoutType":this.customizeTemplateObj.template.searchResultlayout.layout,
       "isClickable":this.customizeTemplateObj.template.searchResultlayout.clickable,
       "behaviour":this.customizeTemplateObj.template.searchResultlayout.behaviour,
-      'textAlignment' : "left"
+      'textAlignment' : this.customizeTemplateObj.template.searchResultlayout.textAlignment
           },
         "mapping": {
         "heading":this.customizeTemplateObj.template.resultMapping.headingId,
@@ -485,16 +498,17 @@ export class SearchInterfaceComponent implements OnInit {
         searchIndexId : this.serachIndexId,
         templateId  : this.selectedTemplatedId
       }
-      delete payload['appearanceType'];
+     // delete payload['appearanceType'];
       message = "Template Updated Successfully"
-    }else{
-      url = "post.SI_saveTemplate";
-      queryparams = {
-        searchIndexId : this.serachIndexId,
-        interface  : this.selectedSetting
-      }
-      message = "Template Added Successfully"
-    }
+     }
+     //else{
+    //   url = "post.SI_saveTemplate";
+    //   queryparams = {
+    //     searchIndexId : this.serachIndexId,
+    //     interface  : this.selectedSetting
+    //   }
+    //   message = "Template Added Successfully"
+    // }
     this.service.invoke(url, queryparams , payload).subscribe(res => {
       this.notificationService.notify(message, 'success');
       this.selectedTemplatedId = "";
@@ -589,7 +603,7 @@ class searchResultlayout{
     clickable : boolean = true;
     behaviour : string = 'webpage';          // 'webpage' or 'postback'
     url : string = '';
-    textAlignment : string ='';
+    textAlignment : string ='left';
 }
 class resultMapping{
   heading : string = '';
