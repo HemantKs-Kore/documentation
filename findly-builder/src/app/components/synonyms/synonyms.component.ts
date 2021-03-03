@@ -67,9 +67,12 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.loadSynonyms();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
   imageLoad(){
-    console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   loadSynonyms() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
@@ -95,6 +98,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.pipeline = res.pipeline || {};
       this.loadingContent = false;
       this.prepareSynonyms();
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');

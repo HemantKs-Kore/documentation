@@ -134,9 +134,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getFieldAutoComplete(null, null);
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
   imageLoad(){
-    console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   loadRules() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
@@ -576,6 +579,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.rules = res.rules || [];
       this.loadingContent = false;
       this.addRemoveRuleFromSelection(null, null, true);
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get rules');

@@ -172,9 +172,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterObject[type] = value;
     }
   }
+  loadingFaqs1: boolean;
+  loadImageText: boolean = false;
   imageLoad(){
     console.log("image loaded now")
-    this.loadingFaqs=false;
+    this.loadingFaqs = false;
+    this.loadingFaqs1 = true;
+    this.loadImageText = true;
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -635,6 +639,13 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.filterResourcesBack = [...this.resources];
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      if (res.length > 0) {
+        this.loadingFaqs = false;
+        this.loadingFaqs1 = true;
+      }
+      else {
+        this.loadingFaqs1 = true;
+      }
     }, errRes => {
     });
   }
