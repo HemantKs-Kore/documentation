@@ -306,7 +306,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   updateStopWords(dialogRef?,enableOrDisable?,deleteAll?) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexId:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };

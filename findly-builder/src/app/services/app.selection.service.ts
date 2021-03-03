@@ -153,7 +153,7 @@ export class AppSelectionService {
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
-    this.getQureryPipelineIds(queryPipeline);
+    //this.getQureryPipelineIds(queryPipeline);
     this.getIndexPipelineIds();
   }
   getStreamData(app) {
