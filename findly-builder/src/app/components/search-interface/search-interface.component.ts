@@ -1,9 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
+import { Subscription } from 'rxjs';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
@@ -51,6 +53,7 @@ export class SearchInterfaceComponent implements OnInit {
   selectedTemplatedId : any;
   selectedSettingResultsObj :selectedSettingResults = new selectedSettingResults();
   allSettings : any;
+  subscription: Subscription;
   settingList : any =[
   //   {
   //   id:"searchUi",
@@ -103,7 +106,9 @@ export class SearchInterfaceComponent implements OnInit {
 
   constructor(public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private appSelectionService:AppSelectionService
+    ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -118,7 +123,12 @@ export class SearchInterfaceComponent implements OnInit {
     this.defaultTemplate();
     this.getSettings('search')
     this.getAllSettings();
-    this.getFieldAutoComplete();
+    //this.filedSelect(type,field)
+
+    this.loadFiledsData();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+      this.loadFiledsData();
+    })
 
     console.log(this.customizeTemplateObj);
     console.log(this.selectedSettingResultsObj);
@@ -130,6 +140,12 @@ export class SearchInterfaceComponent implements OnInit {
     // }, errRes => {
     //   this.errorToaster(errRes, 'Failed to save result settings');
     // });
+  }
+  loadFiledsData(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+        this.getFieldAutoComplete();
+      }
   }
   defaultTemplate(){
     this.customizeTemplateObj.template.type = "List Template 1";
@@ -176,6 +192,35 @@ export class SearchInterfaceComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to fetch all Setting Informations');
     });
   }
+  selectByDefaultValBindToTemplatae(mapping){
+    if(mapping.heading){
+      this.heading_fieldData.forEach(element => {
+        var obj = {
+          fieldDataType : element.fieldDataType,
+          fieldName : element.fieldName,
+          _id : element._id
+        }
+        if(element._id == mapping.heading){
+          this.preview_title = element.fieldName
+        }
+        //this.filedSelect(type,obj)
+      });
+    }
+     if(mapping.description){
+      this.desc_fieldData.forEach(element => {
+        var obj = {
+          fieldDataType : element.fieldDataType,
+          fieldName : element.fieldName,
+          _id : element._id
+        }
+        if(element._id == mapping.description){
+          this.preview_desc = element.fieldName
+        }
+        
+        //this.filedSelect(type,obj)
+      });
+    }
+  }
   getTemplate(templateId){
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
@@ -183,6 +228,7 @@ export class SearchInterfaceComponent implements OnInit {
     };
     this.service.invoke('get.SI_searchResultTemplate', quaryparms).subscribe(res => {
       this.templateBind(res)
+      this.selectByDefaultValBindToTemplatae(res.mapping)
     }, errRes => {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
@@ -273,7 +319,7 @@ export class SearchInterfaceComponent implements OnInit {
     if(id == 'grid' || id == 'carousel'){
       this.clickableDisabled = true;
       this.customizeTemplateObj.template.searchResultlayout.clickable = true;
-      this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
+      this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';  // ADDING xan be reoved later
     }else{
       this.clickableDisabled = false;
       this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
@@ -317,7 +363,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.customizeTemplateObj.template.searchResultlayout.clickable = event.target.checked; 
       this.switchActive= event.target.checked;
       if(event.target.checked){
-        this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage";
+        this.customizeTemplateObj.template.searchResultlayout.behaviour ="webpage"; // ADDING xan be reoved later
         this.customizeTemplateObj.template.searchResultlayout.url = "";
       }
     }
@@ -544,6 +590,13 @@ export class SearchInterfaceComponent implements OnInit {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
+  ngOnDestroy(){
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+   }
+   
 }
 
 /** Setting Class **/

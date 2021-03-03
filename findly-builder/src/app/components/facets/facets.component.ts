@@ -697,9 +697,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
-  ngOnDestroy(){
-    if(this.subscription){
-      this.subscription.unsubscribe();
-    }
-   }
+ngOnDestroy(){
+  if(this.subscription){
+    this.subscription.unsubscribe();
+  }
+  }
   }
