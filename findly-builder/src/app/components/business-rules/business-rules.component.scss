@@ -636,7 +636,9 @@
     font-weight: 800;
     background-color: transparent !important;
 }
-
+::ng-deep ngx-daterangepicker-material{
+    z-index: 11111111;
+}
 ::ng-deep ngx-daterangepicker-material .md-drppicker .buttons .buttons_input {
     button.btn.btn-default {
         display: none !important;

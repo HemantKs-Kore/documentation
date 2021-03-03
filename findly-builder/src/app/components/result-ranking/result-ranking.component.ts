@@ -175,11 +175,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.loadCustomRankingList();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
   imageLoad(){
-    console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
-
   loadCustomRankingList(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){
@@ -583,6 +585,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.selectedRecord = {};
         this.customizeLog = [];
         this.actionLogData = [];
+      }
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
       }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {

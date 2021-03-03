@@ -158,6 +158,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   useCookies = false;
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
+  loadingContent1: boolean;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crawlDepth: number;
@@ -188,9 +189,11 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  loadImageText: boolean = false;
   imageLoad() {
-    console.log("image loaded now")
     this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -316,6 +319,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('#searchContentSources').focus();
       }, 100);
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;

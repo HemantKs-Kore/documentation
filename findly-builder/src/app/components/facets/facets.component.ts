@@ -94,9 +94,12 @@ export class FacetsComponent implements OnInit , OnDestroy{
     })
     this.getFieldAutoComplete('');
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
   imageLoad(){
-    console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
 
   loadfacets(){
@@ -377,6 +380,13 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
       this.addRemovefacetFromSelection(null,null,true);
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get facets');
