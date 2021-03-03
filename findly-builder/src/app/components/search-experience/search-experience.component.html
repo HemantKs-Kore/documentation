@@ -19,17 +19,24 @@
                     <div class="left-sec">
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
                             <input id="radio-2" name="topdown" value='top' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition">
-                            <label for="radio-2" class="radio-custom-label">Top Down</label>
+                            <label for="radio-2" class="radio-custom-label">Top Down {{searchObject.searchExperienceConfig.searchBarPosition}}</label>
                             <div class="desc-tect">Search Bar at the top</div>
                         </div>   
                         <div class="kr-sg-radiobutton d-block plr-0 mb-4">
                             <input id="radio-22" name="bottomup" value='bottom' class="radio-custom" type="radio" [(ngModel)]="searchObject.searchExperienceConfig.searchBarPosition">
-                            <label for="radio-22" class="radio-custom-label">Bottom Up</label>
+                            <label for="radio-22" class="radio-custom-label">Bottom Up {{searchObject.searchExperienceConfig.searchBarPosition}}</label>
                             <div class="desc-tect">Search Bar at the bottom</div>
                         </div>   
                     </div>
                     <div class="right-sec">
-
+                        <div class="search-preview-dummy">
+                            <div class="top-search" [ngClass]="{'bottom-search': searchObject.searchExperienceConfig.searchBarPosition == 'bottom'}">
+                                <div class="kr-sg-input-search">                               
+                                    <input type="text" placeholder="Search" class="input-search" id="myInput">
+                                    <img src="assets/icons/search_gray.svg" class="search-icon">
+                                </div>
+                            </div>                                                 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,7 +82,7 @@
                             </div>
                             <div class="fill-color">
                                 <div class="label-color">Border Color</div>
-                                <div class="box-color" [ngClass]="{'color-pallet-container': inputBox2}">
+                                <div class="box-color border-color-pallet" [ngClass]="{'color-pallet-container': inputBox2}">
                                     <input
                                         [style.background]="color1"
                                         [(colorPicker)]="color1"
@@ -194,7 +201,7 @@
                                 </div>
                                 <div class="fill-color">
                                     <div class="label-color">Border Color</div>
-                                    <div class="box-color" [ngClass]="{'color-pallet-container': buttonBorder}">
+                                    <div class="box-color border-color-pallet" [ngClass]="{'color-pallet-container': buttonBorder}">
                                         <input
                                             [style.background]="color5"
                                             [(colorPicker)]="color5"
@@ -231,32 +238,33 @@
                                 <textarea placeholder="Hi, How may I help you?" class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg"></textarea>                                
                             </div>
                             <div class="emojis-block">
-                                <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>
-                                <div class="color-picker"></div>
-                                <!-- <div class="fill-colors-block">
-                                <div class="fill-color">
-                                <div class="box-color" [ngClass]="{'color-pallet-container': msgColor}">
-                                    <input
-                                        [style.background]="color6"
-                                        [(colorPicker)]="color6"
-                                        [cpOutputFormat]="'hex'"
-                                        (colorPickerOpen)="onEventLog('msgColor', $event)"
-                                        (colorPickerClose)="onEventLog('msgColor', $event)"
-                                        readonly
-                                        [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
-                                    />
+                                <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>                                
+                                <div class="fill-colors-block">
+                                    <div class="fill-color">
+                                        <div class="box-color color-pallet-container interaction-color">
+                                            <input
+                                                [style.background]="color6"
+                                                [(colorPicker)]="color6"
+                                                [cpOutputFormat]="'hex'"
+                                                (colorPickerOpen)="onEventLog('msgColor', $event)"
+                                                (colorPickerClose)="onEventLog('msgColor', $event)"
+                                                readonly
+                                                [cpToggle]="true"
+                                            />
 
-                                    <div class="box-color-content" *ngIf="msgColor">
-                                        <div class="selected-previous-colors">
-                                           <div class="bg-color-selected"></div>
-                                           <div class="bg-color-selected"></div>
-                                           <div class="bg-color-selected"></div>
-                                           <div class="bg-color-selected"></div>
-                                           <div class="bg-color-selected"></div>
+                                            <div class="box-color-content">
+                                                <div class="selected-previous-colors">
+                                                <div class="bg-color-selected"></div>
+                                                <div class="bg-color-selected"></div>
+                                                <div class="bg-color-selected"></div>
+                                                <div class="bg-color-selected"></div>
+                                                <div class="bg-color-selected"></div>
+                                                </div>
+                                                <div class="save-switch">Save Swatch</div>
+                                            </div>
                                         </div>
-                                        <div class="save-switch">Save Swatch</div>
-                                     </div>
-                                </div></div></div> -->
+                                    </div>
+                                </div>
                                 <div class="count-length">{{box.value.length}} / 40</div>
                             </div>
                         </div>
@@ -319,14 +327,16 @@
 </div>
 
 <!--Show model for preview-->
-<kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
-    <div class="modal-header">
-      <div class="title">Customization Preview / {{searchObject.searchExperienceConfig.searchBarPosition==='top'?"Top Down":"Bottom Up"}} Experience</div>
-      <div class="close_icon"><img src="assets/icons/modal-close.svg"></div>
-    </div>
-    <div class="modal-body source-modal-popup">
+
+<kr-modal  modalType="center" modalClass="sliderComponent modal_popups_ search-customization-popup-preview" #statusModalPop id="sourceSlider">
+  <div class="modal-header">
+    <div class="title">Customization Preview / {{searchObject.searchExperienceConfig.searchBarPosition==='top'?"Top Down":"Bottom Up"}} Experience</div>
+    <div class="close_icon" (click)="closePreviewPopup()"><img  src="assets/icons/modal-close.svg"></div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body">
+    <div class="modal-body">
         <div class="search-widget">
-            <div class="label-text">Search Box Customization</div>
+            <div class="main-title">Search Widget</div>
             <div class="d-flex search-customization-input">
                 <div class="kr-sg-input-search">                               
                     <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" (click)="selectSearchBox('inputBox');$event.stopPropagation();">
@@ -335,13 +345,16 @@
                 </div>
                 <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
                     <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                    <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
+                    <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled">
+                        <!-- <img src="assets/icons/search-experience/edit.svg"> -->
+                    </div>
                 </button>
             </div>
         </div>
     </div>
-    <div class="modal-footer moadal-footer-config footer-btns">  
-      <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button>
-      <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
-    </div>
-  </kr-modal>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal">Next</button>
+    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closePreviewPopup()">Close</button>
+  </div>
+</kr-modal> 
