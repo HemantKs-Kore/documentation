@@ -151,7 +151,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   addOrUpddate(synonymData, dialogRef?, showFlag?) {
     synonymData = synonymData || this.synonymData;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };

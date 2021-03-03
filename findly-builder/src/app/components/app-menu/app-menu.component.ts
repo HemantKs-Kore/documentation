@@ -145,7 +145,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.editName = false;
     const queryParms ={
       queryPipelineId:config._id,
-      searchIndexID:this.searchIndexId,
+      searchIndexId:this.searchIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     }
     let payload = {}

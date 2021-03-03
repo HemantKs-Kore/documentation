@@ -251,7 +251,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
  addOrUpddate(weights,dialogRef?,type?) {
   weights = weights || this.weights;
   const quaryparms: any = {
-    searchIndexID:this.serachIndexId,
+    searchIndexId:this.serachIndexId,
     queryPipelineId:this.queryPipelineId,
     indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
   };
