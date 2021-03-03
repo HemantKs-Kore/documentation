@@ -323,6 +323,7 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.clickableDisabled = false;
       this.customizeTemplateObj.template.searchResultlayout.behaviour = 'webpage';
+      this.customizeTemplateObj.template.searchResultlayout.textAlignment = "left"
     }
     
     //this.
@@ -338,21 +339,23 @@ export class SearchInterfaceComponent implements OnInit {
     }else{
       this.showDescription = true;
     }
-    if(layout == 'tileWithHeader' || layout == 'titleWithText'){
+    if(layout == 'tileWithHeader' || layout == 'tileWithText'){
       this.showImage = false;
-      if(this.customizeTemplateObj.template.type === 'Carousel'){
-        setTimeout(() => {
-          this.carousel = new PureJSCarousel({
-            carousel: '.carousel',
-            slide: '.slide',
-            oneByOne: true,
-            jq: $,
-          });
-        }, 100);
-        console.log("PureJSCarousel", this.carousel);
-      }
     }else{
       this.showImage = true;
+    }
+    if(layout == 'tileWithHeader' || layout == 'tileWithText' || layout == 'tileWithImage'){
+      if(this.customizeTemplateObj.template.type === 'Carousel'){
+        // setTimeout(() => {
+        //   this.carousel = new PureJSCarousel({
+        //     carousel: '.carousel',
+        //     slide: '.slide',
+        //     oneByOne: true,
+        //     jq: $,
+        //   });
+        // }, 100);
+        //console.log("PureJSCarousel", this.carousel);
+      }
     }
   }
   resultLayoutclickBehavior(type){
@@ -596,7 +599,7 @@ export class SearchInterfaceComponent implements OnInit {
       this.subscription.unsubscribe();
     }
    }
-   
+
 }
 
 /** Setting Class **/

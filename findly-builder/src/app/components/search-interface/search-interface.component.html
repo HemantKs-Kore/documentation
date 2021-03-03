@@ -63,19 +63,7 @@
           <!-- liveSearch -->
           
           <!-- liveSearch -->
-          <!-- fullPageResult -->
-          <div class="radio-section" *ngIf="selectedSetting == 'fullSearch'">
-            <div class="radio-block">
-              <div class="main-title">Configure same as Search</div>
-              
-              <div class="label-desc">Choose whether to apply the same configurations as per Search tab.</div>
-            </div>
-            <label class="kr-sg-toggle">                                       
-              <input type="checkbox" (change)= "selectedSettingResultsObj.referInterface = ''" [checked] = "selectedSettingResultsObj.referInterface == 'search'">
-              <div class="slider"><span class="enabled">Yes</span><span class="disabled w-400">No, i will Configure this separately</span></div>
-            </label>  
-          </div>
-          <!-- fullPageResult -->
+      
           <div class="radio-section">
             <div class="main-title">Results Classification</div>
             <div class="label-desc p-0">Customize the result templates and choose the order in which the results should be displayed to the end-user</div>
@@ -1134,7 +1122,8 @@
                 </div>
               </div>              
             </div>
-
+            
+          <!-- Tile with Header End -->
             <div class="result-right-sec" *ngIf="customizeTemplateObj.template.searchResultlayout.layout == 'tileWithHeader' && customizeTemplateObj.template.type == 'Carousel'">
               <div class="carousel" id="carousel-default">
                 <div class="slide tile_with_header grid_view_template">
@@ -1149,10 +1138,8 @@
                 <div class="slide tile_with_header grid_view_template">
                   <a class="tile-title">Last 30 days transaction</a>    
                 </div>
-              </div>              
+              </div>
             </div>
-            
-          <!-- Tile with Header End -->
           </div>
         </perfect-scrollbar>
 
