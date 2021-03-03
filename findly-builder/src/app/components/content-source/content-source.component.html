@@ -10,10 +10,11 @@
       </div>
     </div>
   </div> -->
-  <ng-container *ngIf="!(resources && resources.length) && !loadingContent">
+  <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
     <perfect-scrollbar class="scoll-empty-screen">
       <div class="empty-landing-screen">
         <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/contentmanag-empty.svg"></div>   
+        <ng-container *ngIf="loadImageText">
         <div class="empty-title">You haven’t added any content data yet!</div>
         <div class="desc-text"> The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.</div>
         <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
@@ -25,6 +26,7 @@
             </ul>
           </div>                                    
         </div>
+      </ng-container>
         <ng-container *ngIf="noItems && emptySearchResults">
             <div class="desc-text">Your Search Query doesn't match with any record.</div>
         </ng-container>

@@ -75,9 +75,13 @@ export class TraitsComponent implements OnInit {
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
     this.getTraitsGroupsApi(true);
   }
+  loadingTraits1: boolean;
+  loadImageText: boolean = false;
   imageLoad(){
     console.log("image loaded now")
     this.loadingTraits=false;
+    this.loadingTraits1 = true;
+    this.loadImageText = true;
   }
 
   getTraitsGroupsApi(initial?) {
@@ -128,6 +132,13 @@ export class TraitsComponent implements OnInit {
         }, 100);
       }
       this.traitCounts = allTraitskeys;
+      if (res.length > 0) {
+        this.loadingTraits = false;
+        this.loadingTraits1 = true;
+      }
+      else {
+        this.loadingTraits1 = true;
+      }
     }, (err) => {
       this.loadingTraits = false;
     });

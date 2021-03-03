@@ -123,9 +123,13 @@ export class StructuredDataComponent implements OnInit {
         : this.searchItems())
     )
   }
+  isLoading1: boolean;
+  loadImageText: boolean = false;
   imageLoad(){
     console.log("image loaded now")
     this.isLoading=false;
+    this.isLoading1 = true;
+    this.loadImageText = true;
   }
   getStructuredDataList(skip?){
     this.isLoading = true;
@@ -151,6 +155,13 @@ export class StructuredDataComponent implements OnInit {
       }
       else{
       this.structuredDataItemsList = [];
+      }
+      if (res.length > 0) {
+        this.isLoading = false;
+        this.isLoading1 = true;
+      }
+      else {
+        this.isLoading1 = true;
       }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;

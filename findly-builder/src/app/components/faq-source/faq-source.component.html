@@ -3,7 +3,7 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
-<div class="faqmain-container" *ngIf="!loadingFaqs">
+<div class="faqmain-container" *ngIf="loadingFaqs1">
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
             <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
@@ -40,7 +40,7 @@
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
           <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
-          <ng-container>
+          <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any FAQ's yet!</div>
               <div class="desc-text"> FAQs is  a form of source documents that contain solutions for the frequently asked questions. SearchAssist allows you to add FAQs in multiple ways to assist search users with their queries.
               </div>
