@@ -188,9 +188,9 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
-  imageLoad(){
+  imageLoad() {
     console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
   }
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -547,6 +547,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source) {
+    console.log("sourec opned", source)
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
