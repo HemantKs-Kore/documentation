@@ -39,7 +39,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       facetType: 'value',
       isMultiSelect: true,
       isFacetActive: true,
-      facetValue: { asc : true },
+      facetValue: { asc : true, size : 10 },
     },
     range:{
       rangeName:'',
@@ -280,7 +280,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
         facetType: 'value',
         isMultiSelect: true,
         isFacetActive: true,
-        facetValue: { asc : true },
+        facetValue: { asc : true, size: 10 },
       },
       range:{
         rangeName:'',
@@ -344,7 +344,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       if(!this.addEditFacetObj.facetRange){
         this.addEditFacetObj.facetRange = [];
       }
-      if(this.facetDefaultValueObj.range.rangeName){
+      if(this.facetDefaultValueObj.range.from && this.facetDefaultValueObj.range.to){
         this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
       }
     }

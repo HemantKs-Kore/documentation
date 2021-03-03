@@ -190,7 +190,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     //console.log(event)
   };
   loadImageText: boolean = false;
-  imageLoad(){
+  imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
@@ -557,6 +557,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source) {
+    console.log("sourec opned", source)
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
