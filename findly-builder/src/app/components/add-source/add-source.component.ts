@@ -376,6 +376,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.redirectTo();
     this.cancleSourceAddition();
+    this.closeCrawlModalPop();
   }
   closeCrawlModal() {
     this.saveEvent.emit();
@@ -402,7 +403,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.closeStatusModal();
     }, errRes => {
       this.errorToaster(errRes, 'Failed to Stop Cwraling');
-     
+
     });
   }
   errorToaster(errRes, message) {
