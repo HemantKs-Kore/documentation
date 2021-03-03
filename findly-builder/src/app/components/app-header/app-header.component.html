@@ -116,10 +116,11 @@
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
                                 <img src="assets/icons/sidemenu/notification.svg">
-                                <sup class="red-notification"></sup>
-                                <sup class="completed-notification"></sup>
+                                <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
+                                <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
+                                <img src="assets/icons/notification-ring.svg" class="inProgress notification-icon" *ngIf="isAnyRecordInprogress" placement="top" container='body'>
                             </button>
-                            <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                            <ul class="dropdown-menu content-menu notification-dropdown" ngbDropdownMenu>
                                 <div class="notification-dropdown-status">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
@@ -131,7 +132,43 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div id="statusupdates" class="tab-pane active">
-                                          <h3>Status Updates</h3>                                         
+                                            <div class="statusDocker">
+                                                <div class="statusDockerBody">
+                                                    <perfect-scrollbar class="perfect-scroll-modal-body docker">
+                                                        <div class="docker-list" *ngIf="!statusDockerLoading">
+                                                            <div class="row ml-0 mr-0 col-12 p-0 row-content" *ngFor="let task of dockersList; let index = index">
+                                                                <div class="col-9 pl-0 task_content">
+                                                                    <div class="heading">{{task.message}}</div>
+                                                                    <div class="desc" *ngIf="getStatusView(task.status)">{{task.status | titlecase}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
+                                                                    <div class="desc" *ngIf="!getStatusView(task.status)">{{getStatusView(task.status, 'other')}} <span class="tooltip-data" ngbTooltip='{{task.createdOn}}' tooltipClass="date-tooltip" placement="right-center" [container]="'body'"><img src="assets/icons/docker/clock.svg"></span></div>
+                                                                </div>
+                                                                <div class="col-3 d-flex p-0 align-items-center justify-content-end">
+                                                                    <div class="img-block" [class.mr-3]="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq' ))">
+                                                                        <img src="assets/icons/docker/info.svg" *ngIf="task.status === 'FAILURE'">
+                                                                        <img src="assets/icons/docker/return.svg" *ngIf="task.status === 'HALTED'" (click)="recrawl(task)">
+                                                                        <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
+                                                                        <img src="assets/icons/docker/check.svg" *ngIf="(task.status === 'SUCCESS')">
+                                                                        <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.status == 'IN_PROGRESS' || task.status == 'validation') && (task.extractionSourceId && (task.jobType == 'webdomain' || task.jobType == 'faq'))">                        
+                                                                    </div>
+                                                                    <div class="status-blcok">                        
+                                                                        <img src="assets/icons/ringLoading.svg" class="inProgress" *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation'" placement="top" container='body'>
+                                                                        <span *ngIf="(task.status == 'IN_PROGRESS') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}</span>
+                                                                        <img src="assets/icons/docker/close.svg" (click)="removeRecord(task, index)" *ngIf="(task.status !== 'IN_PROGRESS')">
+                                                                    </div>
+                                                                </div>
+                                                            </div>         
+                                                            <div *ngIf="!dockersList.length" class="recordsEmpty">
+                                                                You got no records in StatusDocker.
+                                                            </div>
+                                                        </div>
+                                                        <div class="statusDockerLoadingSpinner row m-0" *ngIf="statusDockerLoading" >
+                                                            <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+                                                            <span class="please-wait-message ml-3">{{'please_wait' | translate}}</span>
+                                                        </div>
+                                                    </perfect-scrollbar>
+                                                    <div class="clear_icon text-right" [class.disabled]="!dockersList.length" (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
+                                                </div>
+                                            </div>                                        
                                         </div>
                                         <div id="activities" class="tab-pane fade">
                                           <h3>Activities</h3>                                          

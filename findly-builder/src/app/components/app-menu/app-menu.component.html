@@ -248,14 +248,14 @@
 			</div>
 		</div>
 
-		<div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">
+		<!-- <div class="status-docker" (click)="(dockService.showStatusDocker = !dockService.showStatusDocker); openStatusDocker()">
 			<div class="circles">
 				<div class="inner-clrcle"></div>
 			</div>
 			<div class="docker-title">
 				 {{ 'status_docker' | translate}}
 			</div>
-		</div>
+		</div> -->
 		<!-- <div class="sidebar-fixed position-fixed activeMenu">
 
 		<div mat-button class="mat-button" [routerLink]="['/settings']"  skipLocationChange routerLinkActive="active" (click)="preview('weights')" mat-button>
@@ -385,6 +385,6 @@
     </div>    
 </kr-modal>
 
-<div class="statusDockerContent" *ngIf="dockService.showStatusDocker">
+<!-- <div class="statusDockerContent" *ngIf="dockService.showStatusDocker">
 	<app-status-docker [statusDockerLoading]="statusDockerLoading"></app-status-docker>
-</div>
+</div> -->

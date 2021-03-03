@@ -350,10 +350,10 @@ export class AppComponent implements OnInit, OnDestroy {
   // click event on whole body. For now, using for Status Docker
   globalHandler(event) {
     // console.log("evnt", event);
-    if (!$(event.target).closest('.statusDockerBody').length && !$(event.target).closest('.status-docker').length && !$(event.target).is('.status-docker')) {
-      if (this.dockService.showStatusDocker) {
-        this.dockService.showStatusDocker = false;
-      }
-    }
+    // if (!$(event.target).closest('.statusDockerBody').length && !$(event.target).closest('.status-docker').length && !$(event.target).is('.status-docker')) {
+    //   if (this.dockService.showStatusDocker) {
+    //     this.dockService.showStatusDocker = false;
+    //   }
+    // }
   }
 }
