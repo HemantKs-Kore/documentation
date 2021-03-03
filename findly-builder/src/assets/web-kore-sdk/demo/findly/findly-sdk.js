@@ -13004,7 +13004,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD5SURBVHgBhZAxTgMxEEX/rBeJcnuE2NwgdAhSTBR6lBOsuAl03AI4QaCjIlOt6JIbkCMkXaSs15mJtJKjeBVL1kie9+3nIfQsZi52cAsPP/4TWXXnWV9gCxQElA5ufsdcng3kcE9algHhNQ65FPzAk4oQ3lq001rmP9flYJMhe78qb74p9u0CChcKj2uR5T3zkOBmChYBWB+URGRNoE86ePvnHO3AYNMw2LQa+NsL3RSrjPjxRZuVTeZSb7NXDa7l9yP56RbNl+nYJxvkQ2vG8FGgczV30wPCDMnpRXCAn5q7jVP1tITqJGGwjvHfaqp3EhjxZJFs9Kw9ezRmCkd+ZkUAAAAASUVORK5CYII=">\
                                       <span class="count lowered">${data.config.boost}X LOWERED</span>\
                                     </div>\
-                                    <div class="tag-ref">FAQ Response</div>\
+                                    {{if appearanceType === "faq"}}\
+                                      <div class="tag-ref">FAQ Response</div>\
+                                    {{/if}}\
+                                    {{if appearanceType === "page"}}\
+                                      <div class="tag-ref">PAGE Response</div>\
+                                    {{/if}}\
+                                    {{if appearanceType === "document"}}\
+                                      <div class="tag-ref">DOCUMENT Response</div>\
+                                    {{/if}}\
+                                    {{if appearanceType === "object"}}\
+                                      <div class="tag-ref">OBJECT Response</div>\
+                                    {{/if}}\
                                 </div>\
                               </div>\
                             {{/if}}\
@@ -16258,6 +16269,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if($(element).find('.pinning').length){
             var pinningElement = $(element).find('.pinning')[0];
             if(pinningElement){
+              $(pinningElement).closest('.pinning').attr('type', 'Pin');
               $(pinningElement).trigger("click");
             }
           }
@@ -16276,7 +16288,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       $('.customization').off('click', '.pinning').on('click', '.pinning', function (event) {
           if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
-            var _selectedElement = $(event.target).closest('.data-wrap');
+            var _selectedElement = $(event.target).closest('.structure-data-wrp');
             var _parentElement = $(event.target).closest('.results-wrap');
             var childNodes = Array.prototype.slice.call(_parentElement[0].children);
             var pinIndex = 0;
