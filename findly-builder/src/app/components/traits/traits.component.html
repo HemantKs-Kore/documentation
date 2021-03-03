@@ -3,7 +3,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
       </div>
-<ng-container *ngIf="loadingTraits1">
+<ng-container *ngIf="loadingTraits1">  
   <!-- NO DATA FOUND -->
   <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
     <perfect-scrollbar class="empty-scroll">
