@@ -3,7 +3,7 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">Please Wait!</span>
   </div>
-  <div *ngIf="!loadingContent">
+  <div *ngIf="loadingContent1">
     <div class="header-sec row"  *ngIf='listOfExperiments.length>0'>
       <div class="col-6 left-sec p-0">
         <div class="tab-sec d-flex">
@@ -243,8 +243,8 @@
       <ng-container *ngIf="filterExperiments.length===0">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/experiments-empty.svg"></div>
-          <ng-container>
+          <div class="img-block"><img class="action_icon" src="assets/images/experiments-empty.svg" (load)="imageLoaded()"></div>
+          <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any experiments yet!</div>
               <div class="desc-text">Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience. 
               </div>

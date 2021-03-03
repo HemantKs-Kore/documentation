@@ -3,7 +3,7 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait'| translate}}</span>
     </div>
-    <div *ngIf="!loadingContent">
+    <div *ngIf="loadingContent1">
         <div class="header-sec col-12 row m-0" [ngClass]="{ 'd-none' : !selcectionObj.selectedCount}">
             <div class="col-4 lef-sec p-0">
                 <div class="kr-sg-checkbox p-0 ml-1 mb-0 select-all-checkbox adjust-checkbox-padding">
@@ -55,7 +55,7 @@
             <perfect-scrollbar class="empty-scroll">
                 <div class="empty-landing-screen">
                     <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/facets-empty.svg"></div>
-                    <ng-container>
+                    <ng-container *ngIf="loadImageText">
                         <div class="empty-title">You haven’t added any Facets yet!</div>
                         <div class="desc-text">Facets allow search users to refine their search results by selecting appropriate filters. SearchAssist allows you to add value and range facets, and you can configure any indexed fields as facets.
                         </div>

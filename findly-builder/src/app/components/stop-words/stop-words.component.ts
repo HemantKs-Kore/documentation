@@ -49,9 +49,12 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadStopwords();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
   imageLoad(){
-    console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   loadStopwords(){
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -120,6 +123,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             }
           }
         });
+      }
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
       }
       this.loadingContent = false;
     }, errRes => {

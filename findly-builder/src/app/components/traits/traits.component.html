@@ -3,13 +3,13 @@
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
       </div>
-<ng-container *ngIf="!loadingTraits">
+<ng-container *ngIf="loadingTraits1">  
   <!-- NO DATA FOUND -->
   <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen" >
       <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/traits-empty.svg"></div>
-      <ng-container >
+      <ng-container *ngIf="loadImageText">
           <div class="empty-title">You haven’t added any Traits yet!</div>
           <div class="desc-text"> Traits are specific entities, attributes or details that the users express in their conversations.  Traits present in the utterance can be used in driving the intent detection and bot conversation flows. SearchAssist allows you to define Traits and train the utterances.
           </div>

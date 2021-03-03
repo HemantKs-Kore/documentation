@@ -78,9 +78,13 @@ export class BotActionComponent implements OnInit {
     //this.getdialog();
     //this.getLinkedBot();
   }
+  loadingContent1: boolean;
+  loadImageText: boolean = false;
   imageLoad(){
     console.log("image loaded now")
-    this.loadingContent=false;
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   getdialog() {
     const queryParams = {
@@ -279,6 +283,13 @@ export class BotActionComponent implements OnInit {
                 this.linkedBotName = element.name;
                 this.linkedBotDescription = element.description;
                 this.linkedBotID = element._id;
+              }
+              if (res.length > 0) {
+                this.loadingContent = false;
+                this.loadingContent1 = true;
+              }
+              else {
+                this.loadingContent1 = true;
               }
 
               if (dialogsArr.length > 0) {

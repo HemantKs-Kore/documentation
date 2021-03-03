@@ -249,8 +249,8 @@ export class SummaryComponent implements OnInit {
           let hours = moment().diff(moment(data.end), 'hours');
           let days = moment().diff(moment(data.end), 'days');
           console.log("hours", hours, "days", days)
-          let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days more to go' : Math.abs(hours) + ' hrs more to go';
-          return { ...data, total_days: days_result };
+          let days_result = Math.abs(hours) > 24 ? Math.abs(days) + ' days' : Math.abs(hours) + ' hrs';
+          return { ...data, total_days: days_result, time_result: hours, top_leader: res.obj.code };
         })
       },
       errRes => {
@@ -265,16 +265,22 @@ export class SummaryComponent implements OnInit {
 
 
   userViewAll() {
-    this.openDashboard();
-    this.router.navigateByUrl('userEngagement', { skipLocationChange: true });
+    $('#dashboardTab').trigger('click');
+    setTimeout(() => {
+      this.router.navigate(['/userEngagement'], { skipLocationChange: true });
+    }, 100)
   }
   searchViewAll() {
-    this.openDashboard();
-    this.router.navigateByUrl('searchInsights', { skipLocationChange: true });
+    $('#dashboardTab').trigger('click');
+    setTimeout(() => {
+      this.router.navigate(['/searchInsights'], { skipLocationChange: true });
+    }, 100)
   }
   resultViewAll() {
-    this.openDashboard();
-    this.router.navigateByUrl('resultInsights', { skipLocationChange: true });
+    $('#dashboardTab').trigger('click');
+    setTimeout(() => {
+      this.router.navigate(['/resultInsights'], { skipLocationChange: true });
+    }, 100)
   }
   openExp() {
     $('#experimentsTab').trigger('click')
