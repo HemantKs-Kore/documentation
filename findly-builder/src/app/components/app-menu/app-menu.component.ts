@@ -42,6 +42,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     '/resultranking':true,
   }
   searchIndexId;
+  selectedApp;
+
   configObj:any = {};
   selectedConfig:any ={};
   indexConfigObj : any = {};
@@ -143,7 +145,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.editName = false;
     const queryParms ={
       queryPipelineId:config._id,
-      searchIndexId:this.workflowService.selectedSearchIndexId,
+      searchIndexID:this.searchIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     }
     let payload = {}
@@ -187,7 +189,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     payload.sourceIndexPipelineId = this.newIndexConfigObj._id
   }
   const queryParms = {
-    searchIndexId: this.workflowService.selectedSearchIndexId
+    searchIndexId: this.searchIndexId
   }
   this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
     res => {
@@ -211,7 +213,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       payload.sourceQueryPipelineId = this.newConfigObj._id
     }
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.searchIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
@@ -290,7 +292,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   }
   ngOnInit() {
-    this.searchIndexId = this.workflowService.selectedSearchIndexId
+    this.selectedApp = this.workflowService.selectedApp();
+    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
       this.queryConfigs = res;
       res.forEach(element => {
@@ -357,7 +360,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
 
   getDockerData(){
     const queryParms ={
-      searchIndexId:this.workflowService.selectedSearchIndexId
+      searchIndexId:this.searchIndexId
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       res => {

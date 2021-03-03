@@ -394,7 +394,7 @@ export class EndPointsService {
     }
     this.serviceList['put.queryPipeline'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId',
       method: 'put'
     }
     this.serviceList['get.queryPipeline'] = {

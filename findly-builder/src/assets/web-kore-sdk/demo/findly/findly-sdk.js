@@ -386,7 +386,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         popularSearchesUrl: baseAPIServer + "/api/1.1/searchAssist/" + SearchIndexID + "/popularSearches",
         newSearchFeedbackUrl: businessTooBaseURL + SearchIndexID + "/search/feedback",
         // queryConfig: businessTooBaseURL + SearchIndexID +"/search/queryConfig",
-        queryConfig: businessTooBaseURL + SearchIndexID + '/indexPipeline/'+ indexpipelineId +'/queryPipeline/' + pipelineId + '/rankingAndPinning',
+        queryConfig: businessTooBaseURL + SearchIndexID + '/queryPipeline/' + pipelineId + '/rankingAndPinning',
         SearchIndexID: SearchIndexID,
         // streamId: 'st-a4a4fabe-11d3-56cc-801d-894ddcd26c51',
         streamId: _self.config.botOptions.botInfo.taskBotId,
