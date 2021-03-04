@@ -500,7 +500,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {
         newTitle: 'Stage configuration is successfully saved',
         body: 'You have added ' + this.newfieldsData.length + ' new fields in your configuration. Do you wish to define properties for them?',
-        buttons: [{ key: 'yes', label: 'Delete' }, { key: 'no', label: 'Cancel', secondaryBtn: true }],
+        buttons: [{ key: 'yes', label: 'Proceed' }, { key: 'no', label: 'Cancel', secondaryBtn: true }],
         confirmationPopUp: true
       }
     });
