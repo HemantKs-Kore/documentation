@@ -64,10 +64,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
     })
   }
   loadWeights(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getWeights();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getWeights();
+      }
     }
+    
   }
   selectedField(event){
       this.addEditWeighObj.fieldName = event.fieldName;
@@ -116,6 +120,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
       this.notificationService.notify('Weights restored successfully','success');
@@ -160,6 +165,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline=  res.pipeline || {};
@@ -245,8 +251,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
  addOrUpddate(weights,dialogRef?,type?) {
   weights = weights || this.weights;
   const quaryparms: any = {
-    searchIndexID:this.serachIndexId,
+    searchIndexId:this.serachIndexId,
     queryPipelineId:this.queryPipelineId,
+    indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
   };
   this.pipeline.weights = this.getWeightsPayload(weights);
   const payload: any = {

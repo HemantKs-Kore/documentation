@@ -87,7 +87,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.loadfacets();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res=>{
       this.loadfacets();
@@ -103,9 +103,12 @@ export class FacetsComponent implements OnInit , OnDestroy{
   }
 
   loadfacets(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getFacts();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getFacts();
+      }
     }
   }
   getType(name){
@@ -253,7 +256,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   getRecordDetails(data){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       offset:0,
       limit:100
     };
@@ -297,7 +300,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   getFieldAutoComplete(query){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       query
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
@@ -363,7 +366,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   getFacts(offset?){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId:this.queryPipelineId,
       offset: offset || 0,
       limit:100
@@ -413,7 +416,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   createFacet() {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId:this.queryPipelineId
     };
     const payload = this.addEditFacetObj;
@@ -444,7 +447,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   editFacet(){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       facetId:this.addEditFacetObj._id,
       queryPipelineId:this.queryPipelineId
     };
@@ -492,7 +495,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   deleteBulkFacet(dialogRef){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId:this.queryPipelineId
     };
     const facets = Object.keys(this.selcectionObj.selectedItems);
@@ -521,7 +524,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
   deleteFacet(facet,dialogRef){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
-      indexPipelineId:this.indexPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       facetId:facet._id,
       queryPipelineId:this.queryPipelineId
     };
@@ -694,9 +697,9 @@ export class FacetsComponent implements OnInit , OnDestroy{
     this.facets = JSON.parse(JSON.stringify(tempFacets));
   }
 
-  ngOnDestroy(){
-    if(this.subscription){
-      this.subscription.unsubscribe();
-    }
-   }
+ngOnDestroy(){
+  if(this.subscription){
+    this.subscription.unsubscribe();
+  }
+  }
   }

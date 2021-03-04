@@ -5791,6 +5791,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   payload.queryPipelineId = _self.API.pipelineId;
       // }
 
+      var _self = this;
+      if (!$('body').hasClass('demo')) {
+        payload.indexPipelineId = _self.API.indexpipelineId;
+        payload.queryPipelineId = _self.API.pipelineId;
+      }
+
       payload["messagePayload"] = {
         "clientMessageId": new Date().getTime(),
         "message": {
@@ -6912,6 +6918,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       if (msgObject && msgObject.nlmeta) {
         messageToBot["message"].nlmeta = msgObject.nlmeta;
+      }
+      if (!$('body').hasClass('demo')) {
+        messageToBot.indexPipelineId = _self.API.indexpipelineId;
+        messageToBot.queryPipelineId = _self.API.pipelineId;
       }
 
       // if (!$('body').hasClass('demo')) {

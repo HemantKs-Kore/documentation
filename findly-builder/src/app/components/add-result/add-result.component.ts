@@ -105,7 +105,8 @@ export class AddResultComponent implements OnInit {
     const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     let result :any = [];
     this.recordArray.forEach((element,index) => {

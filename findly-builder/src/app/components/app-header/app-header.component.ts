@@ -180,10 +180,13 @@ export class AppHeaderComponent implements OnInit {
     const self = this;
     const selectedApp = this.workflowService.selectedApp();
     if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
+      const payload = {
+        indexPipelineId : this.workflowService.selectedIndexPipeline()
+      }
       const quaryparms = {
         searchIndexId: selectedApp.searchIndexes[0]._id
       }
-      this.service.invoke('train.app', quaryparms).subscribe(res => {
+      this.service.invoke('train.app', quaryparms,payload).subscribe(res => {
         setTimeout(()=>{
           self.training = false;
           self.notificationService.notify('Training has been initated','success');

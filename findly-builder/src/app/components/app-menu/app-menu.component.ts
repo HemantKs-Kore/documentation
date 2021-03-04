@@ -24,59 +24,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   statusDockerModalPopRef : any;
   loadingQueryPipelines:any = true;
   queryConfigs:any = [];
-  indexConfigs:any = 
-  [
-    {
-      "_id": "fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965a",
-      "stages": [
-          {
-              "name": "amazing stage",
-              "type": "field_mapping"
-          }
-      ],
-      "default": true,
-      "createdBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
-      "name": "Default",
-      "searchIndexId": "sidx-14f596e8-9e10-59cc-8fcf-515e16eab654",
-      "lModBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
-      "lModOn": "2021-02-08T08:35:46.050Z",
-      "streamId": "st-03fe1a81-cf78-53ea-94ea-bfc3918d20cb",
-      "__v": 0
-  },{
-    "_id": "fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965b",
-    "stages": [
-        {
-            "name": "amazing stage",
-            "type": "field_mapping"
-        }
-    ],
-    "default": false,
-    "createdBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
-    "name": "pipeline",
-    "searchIndexId": "sidx-14f596e8-9e10-59cc-8fcf-515e16eab654",
-    "lModBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
-    "lModOn": "2021-02-08T08:35:46.050Z",
-    "streamId": "st-03fe1a81-cf78-53ea-94ea-bfc3918d20cb",
-    "__v": 0
-},
-{
-  "_id": "fip-29dee24c-0be2-5ca3-9340-b3fcb9ea965c",
-  "stages": [
-      {
-          "name": "amazing stage",
-          "type": "field_mapping"
-      }
-  ],
-  "default": false,
-  "createdBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
-  "name": "pipeline1",
-  "searchIndexId": "sidx-14f596e8-9e10-59cc-8fcf-515e16eab654",
-  "lModBy": "u-c64b1dd4-a67e-58a5-821e-040dcb342eb4",
-  "lModOn": "2021-02-08T08:35:46.050Z",
-  "streamId": "st-03fe1a81-cf78-53ea-94ea-bfc3918d20cb",
-  "__v": 0
-},
-];
+  indexConfigs:any = [];
   newConfigObj:any = {
     method:'default',
     name:''
@@ -93,6 +41,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     '/facets':true,
     '/resultranking':true,
   }
+  searchIndexId;
+  selectedApp;
 
   configObj:any = {};
   selectedConfig:any ={};
@@ -164,8 +114,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   markAsDefaultIndex(config,action?){
     this.editIndexName = false;
     const queryParms ={
-      queryPipelineId:config._id,
-      searchIndexID:this.workflowService.selectedSearchIndexId
+      indexPipelineId:config._id,
+      searchIndexId:this.searchIndexId
     }
     let payload = {}
     if(action == 'edit'){
@@ -177,7 +127,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
         default:true,
       }
     }
-    this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
+    this.service.invoke('put.newIndexPipeline', queryParms, payload).subscribe(
       res => {
         this.notify.notify('Set to default Index successfully','success');
         this.appSelectionService.getIndexPipelineIds(config);
@@ -195,7 +145,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     this.editName = false;
     const queryParms ={
       queryPipelineId:config._id,
-      searchIndexID:this.workflowService.selectedSearchIndexId
+      searchIndexId:this.searchIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     }
     let payload = {}
     if(action == 'edit'){
@@ -235,10 +186,10 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     name:this.newIndexConfigObj.name,
    }
    if(this.newIndexConfigObj.method === 'clone'){
-    payload.sourceQueryPipelineId = this.newConfigObj._id
+    payload.sourceIndexPipelineId = this.newIndexConfigObj._id
   }
   const queryParms = {
-    searchIndexId: this.workflowService.selectedSearchIndexId
+    searchIndexId: this.searchIndexId
   }
   this.service.invoke('post.newIndexPipeline', queryParms, payload).subscribe(
     res => {
@@ -262,7 +213,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
       payload.sourceQueryPipelineId = this.newConfigObj._id
     }
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     }
     this.service.invoke('create.queryPipeline', queryParms, payload).subscribe(
       res => {
@@ -297,7 +249,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     const queryParms ={
       indexPipelineId:indexConfigs._id
     }
-    this.service.invoke('delete.queryPipeline', queryParms).subscribe(
+    this.service.invoke('delete.indexPipeline', queryParms).subscribe(
       res => {
         this.notify.notify('deleted successfully','success');
       },
@@ -319,7 +271,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     //this.workflowService.selectedSearchIndex(indexConfigs._id)
     this.appSelectionService.getIndexPipelineIds(indexConfigs)
     this.selectedIndexConfig = indexConfigs._id;
-    //.reloadCurrentRoute()
+    //this.reloadCurrentRoute()
   }
   onKeypressEvent(e,config){
     if(e){
@@ -340,6 +292,8 @@ export class AppMenuComponent implements OnInit , OnDestroy{
   }
   }
   ngOnInit() {
+    this.selectedApp = this.workflowService.selectedApp();
+    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>{
       this.queryConfigs = res;
       res.forEach(element => {
@@ -354,7 +308,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
         this.indexConfigObj[element._id] = element;
       });
       if(res.length > 0)
-      this.selectedIndexConfig = res[0]._id;
+      this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     })
     // this.indexConfigs.forEach(element => {
     //   this.indexConfigObj[element._id] = element;
@@ -406,7 +360,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
 
   getDockerData(){
     const queryParms ={
-      searchIndexId:this.workflowService.selectedSearchIndexId
+      searchIndexId:this.searchIndexId
     }
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       res => {

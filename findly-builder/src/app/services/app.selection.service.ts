@@ -32,7 +32,7 @@ export class AppSelectionService {
     const subject = new ReplaySubject(1);
     subject.subscribe(res  => {
       this.indexList = res || [];
-      if (this.queryList) {
+      if (this.indexList) {
         //this.workflowService.appQueryPipelines(res);
         let indexPipeline: any = [];
         if (setindex && setindex._id) {
@@ -48,16 +48,18 @@ export class AppSelectionService {
           this.selectIndexConfig({});
         }
         this.appSelectedConfigs.next(res);
+        this.getQureryPipelineIds()
       }
     }, errRes => {
-     // this.queryList = null;
+      this.indexList  = null;
     });
     appObserver.subscribe(subject);
     return subject;
   }
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
-      searchIndexId: this.workflowService.selectedSearchIndex()
+      searchIndexId: this.workflowService.selectedSearchIndex(),
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     const appObserver = this.service.invoke('get.queryPipelines', payload);
     const subject = new ReplaySubject(1);
@@ -151,7 +153,7 @@ export class AppSelectionService {
     this.workflowService.selectedApp(app);
     const searchIndex = app.searchIndexes[0]._id;
     this.workflowService.selectedSearchIndex(searchIndex);
-    this.getQureryPipelineIds(queryPipeline);
+    //this.getQureryPipelineIds(queryPipeline);
     this.getIndexPipelineIds();
   }
   getStreamData(app) {

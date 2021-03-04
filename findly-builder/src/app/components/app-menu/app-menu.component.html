@@ -61,7 +61,7 @@
 		</button> -->
 
 			<div class="sub-title marginTop15">Index Configuration</div>
-			<!-- <div class="kr-sg-dropdowns queryPipelineConfig" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
+			<div class="kr-sg-dropdowns queryPipelineConfig" #selectIndexConfigDrop='ngbDropdown' ngbDropdown [placement]="'bottom-right'">
 				<div class="dropdown dropdown-open">
 					<button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{indexConfigObj[selectedIndexConfig]?indexConfigObj[selectedIndexConfig].name:'Loading..'}} <img src="assets/icons/caretDown.svg"></button>
 					<ul class="dropdown-menu content-menu" ngbDropdownMenu>
@@ -79,7 +79,7 @@
 						<div class="create-new" (click)="openIndexModalPopup();selectIndexConfigDrop.close();">+ Create New</div>
 					</ul>
 				</div>
-			</div> -->
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange routerLinkActive="active"
 				(click)="preview('traits')" mat-button>
 				<span class="inlineIconBox leftAdjust">
@@ -230,14 +230,14 @@
 				</span>
 				<span class="linkTitle">Credentials</span>
 			</div>
-			<!-- <div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active"
+			<div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active"
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
 					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
 					<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="activeIcon">
 				</span>
 				<span class="linkTitle">Search Interface</span>
-			</div> -->
+			</div>
 			<div mat-button class="mat-button" [routerLink]="['/team-management']" skipLocationChange routerLinkActive="active"
 				(click)="preview('index')" mat-button>
 				<span class="inlineIconBox">
@@ -370,11 +370,11 @@
 			</div>
 	
 			<div class="group-radiobutton in-clone">			
-				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of queryConfigs | filter: [ searchPipeline, 'name']; let i = index">
+				<div class="kr-sg-radiobutton d-block m-0" *ngFor="let config of indexConfigs | filter: [ searchPipeline, 'name']; let i = index">
 					<input id="{{config._id}}" [(ngModel)]="newIndexConfigObj._id" value="{{config._id}}" name="cloneConfig" class="radio-custom" type="radio">
 					<label for="{{config._id}}" class="radio-custom-label">{{config.name}}</label>
 				</div> 
-				<div class="divBlockEmptylastChild">{{!(queryConfigs && queryConfigs.length)?'No Data Found': 'No search results'}}</div>
+				<div class="divBlockEmptylastChild">{{!(indexConfigs && indexConfigs.length)?'No Data Found': 'No search results'}}</div>
 			</div>
 		</ng-container> 	
     </div>
