@@ -12970,7 +12970,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13025,16 +13024,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
-                              <a class="tile-with-text structured-data-wrp-content" href="" target="_blank">\
+                              <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                                 <div class="tile-heading text-truncate">${data.heading}</div>\
                                 <div class="tile-description text-truncate">${data.description}</div>\
                               </a>\
                             {{/if}}\
                             {{if viewType=="Customize" && (isFullResults != true &&  (isSearch == true || isLiveSearch == true))}}\
-                              <a class="tile-with-text structured-data-wrp-content" href="" target="_blank">\
+                              <a class="tile-with-text structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                                 <div class="tile-heading text-truncate">${data.heading}</div>\
                                 <div class="tile-description text-truncate">${data.description}</div>\
                               </a>\
@@ -13118,7 +13117,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             {{/if}}\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="tile-heading accordion p-0" id="1">\
                                 ${data.heading}\
                                   <div class="tile-description defalut-show text-truncate">${data.description}</div>\
@@ -13135,7 +13134,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13169,9 +13167,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-img-block"><img src="${data.img}"></div>\
@@ -13182,7 +13180,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-image faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13204,7 +13202,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13238,9 +13235,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="img-block">\
@@ -13253,7 +13250,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13277,7 +13274,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13322,16 +13318,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-title">${data.heading}</data>\
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13350,7 +13346,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13384,9 +13379,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading text-truncate">${data.heading}</div>\
@@ -13394,7 +13389,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13413,7 +13408,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13447,9 +13441,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-img-block"><img src="${data.img}"></div>\
@@ -13460,7 +13454,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-image faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13482,7 +13476,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13516,9 +13509,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="img-block">\
@@ -13531,7 +13524,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13555,7 +13548,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13589,16 +13581,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-2 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-title">${data.heading}</data>\
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13617,7 +13609,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13651,9 +13642,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent template-3 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading text-truncate">${data.heading}</div>\
@@ -13661,7 +13652,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13680,7 +13671,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13714,9 +13704,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent template-3 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-img-block"><img src="${data.img}"></div>\
@@ -13727,7 +13717,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-image faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-image faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13749,7 +13739,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13783,9 +13772,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent template-e tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="img-block">\
@@ -13798,7 +13787,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-centered-content faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13822,7 +13811,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13856,16 +13844,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header template-3 tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.maxSearchResultsAllowed)}}\
-                      <div class="task-wrp faqs-shadow structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
-                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" href="" target="_blank">\
+                            <a class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}" href="${data.url}" target="_blank">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-title">${data.heading}</data>\
                             </a>\
                           {{/if}}\
                           {{if isClickable == false}}\
-                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content">\
+                            <div class="tile-with-text faqs-wrp-content structured-data-wrp-content" title="${data.heading}">\
                               <div class="notification-div"></div>\
                               <div class="indicator-div "><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAOCAYAAAASVl2WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA3SURBVHgB7cqhDQAgDATAp0EwRmfAIpmbNBgYg7AIxeKwFT19ofWhiIlryRsPkcmHdBE+PNgJF+92Cl8YZVCcAAAAAElFTkSuQmCC"></div>\
                               <div class="tile-heading accordion p-0" id="1">\
@@ -13884,7 +13872,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       </div>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -13918,13 +13905,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                     <div class="tile-with-text-parent grid_view_template tasks-wrp structured-data-outer-wrap">\
                       {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                          <a class="tile-with-text structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" id="${key}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             <div class="tile-heading">${data.heading}</div>\
                             <div class="tile-description">${data.description}</div>\
                           </a>\
                       {{/each}}\
                     </div>\
-                    <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                   {{/if}}\
                 {{/if}}\
               </div>\
@@ -13958,7 +13944,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-image-parent grid_view_template tasks-wrp structured-data-outer-wrap">\
                     {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                        <a class="tile-with-image structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" id="${key}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}">\
+                        <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             <div class="img-with-content">\
                                 <div class="g-img-block">\
                                   <img src="${data.img}">\
@@ -13969,7 +13955,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </a>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -14003,7 +13988,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-centered-content-parent grid_view_template tasks-wrp structured-data-outer-wrap">\
                     {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                        <a class="tile-with-centered-content">\
+                        <a class="tile-with-centered-content faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" href="${data.url}" target="_blank">\
                           <div class="img-block">\
                               <img src="${data.img}">\
                           </div>\
@@ -14014,7 +13999,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </a>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -14048,10 +14032,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile_with_header grid_view_template tasks-wrp structured-data-outer-wrap">\
                     {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                        <a class="tile-title">${data.heading}</a>\
+                        <a class="tile-title faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" href="${data.url}" target="_blank">${data.heading}</a>\
                     {{/each}}\
                   </div>\
-                  <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                 {{/if}}\
               {{/if}}\
             </div>\
@@ -14086,14 +14069,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-text-parent tasks-wrp structured-data-outer-wrap" id="carousel-default">\
                       {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-text-parent slide-parent-tile-with-text">\
-                          <a class="tile-with-text structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" id="${key}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-text faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             <div class="tile-heading">${data.heading}</div>\
                             <div class="tile-description">${data.description}</div>\
                           </a>\
                         </div>\
                       {{/each}}\
                     </div>\
-                    <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                   {{/if}}\
                 {{/if}}\
               </div>\
@@ -14128,7 +14110,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent"  id="carousel-default">\
                       {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-image-parent grid_view_template grid-view-carousel-tile-with-image">\
-                          <a class="tile-with-image structure-data-wrp {{if viewType=="Customize"&&devMode==true}}{{if isFullResults == true}}customizeEnabled{{/if}}{{/if}}" id="${key}" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}">\
+                          <a href="${data.url}" target="_blank" class="tile-with-image faqs-shadow structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                               <div class="img-with-content">\
                                   <div class="g-img-block">\
                                     <img src="${data.img}">\
@@ -14140,7 +14122,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>\
                       {{/each}}\
                     </div>\
-                    <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                   {{/if}}\
                 {{/if}}\
               </div>\
@@ -14175,7 +14156,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent tasks-wrp structured-data-outer-wrap"  id="carousel-default">\
                       {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
                         <div class="slide tile-with-centered-content-parent grid_view_template gride-view-carousel-with-centered-content-parent">\
-                          <a class="tile-with-centered-content">\
+                          <a href="${data.url}" target="_blank" class="tile-with-centered-content faqs-shadow  structured-data-wrp-content" title="${data.heading}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                             <div class="img-block">\
                                 <img src="${data.img}">\
                             </div>\
@@ -14187,7 +14168,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         </div>\
                       {{/each}}\
                     </div>\
-                    <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                   {{/if}}\
                 {{/if}}\
               </div>\
@@ -14222,11 +14202,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                     <div class="carousel tile-with-image-parent"  id="carousel-default">\
                       {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
                         <div class="slide tile_with_header grid_view_template grid-view-carousel-tile-with-header">\
-                          <a class="tile-title">${data.heading}</a>\
+                          <a  href="${data.url}" target="_blank" class="tile-title faqs-shadow structured-data-wrp-content" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}" title="${data.heading}">${data.heading}</a>\
                         </div>\
                       {{/each}}\
                     </div>\
-                    <div class="moreStructredData custom-show-more-container {{if isFullResults == true}} {{if selectedFacet != appearanceType}} display-block{{/if}}{{/if}}">Show All</div>\
                   {{/if}}\
                 {{/if}}\
               </div>\
@@ -14614,6 +14593,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(obj[mapping.img]){
             item.img = obj[mapping.img];
           }
+          if(obj[mapping.url]){
+            item.url = obj[mapping.url];
+          }
           if(!item.heading || !item.heading.length){
             item.heading = '';
           }
@@ -14622,6 +14604,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if(!item.img || !item.img.length){
             item.img = '';
+          }
+          if(!item.url || !item.url.length){
+            item.url = '';
           }
           item.config = obj.config;
           item.feedback = obj.feedback;
@@ -14677,7 +14662,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.vars.showingMatchedResults == true) {
         $('a.structured-data-wrp-content').off('click').on('click', function (event) {
           console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
-          _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).find('.title').attr('title'));
+          _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).attr('title'));
         })
       }
 
@@ -15045,6 +15030,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(faq[mapping.img]){
             item.img = faq[mapping.img];
           }
+          if(faq[mapping.url]){
+            item.url = faq[mapping.url];
+          }
           if(!item.heading || !item.heading.length){
             item.heading = '';
           }
@@ -15053,6 +15041,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if(!item.img || !item.img.length){
             item.img = '';
+          }
+          if(!item.url || !item.url.length){
+            item.url = '';
           }
           item.config = faq.config;
           item.feedback = faq.feedback;
@@ -15418,6 +15409,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(page[mapping.img]){
             item.img = page[mapping.img];
           }
+          if(page[mapping.url]){
+            item.url = page[mapping.url];
+          }
           if(!item.heading || !item.heading.length){
             item.heading = '';
           }
@@ -15426,6 +15420,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if(!item.img || !item.img.length){
             item.img = '';
+          }
+          if(!item.url || !item.url.length){
+            item.url = '';
           }
           item.config = page.config;
           item.feedback = page.feedback;
@@ -15784,6 +15781,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(document[mapping.img]){
             item.img = document[mapping.img];
           }
+          if(document[mapping.url]){
+            item.url = document[mapping.url];
+          }
           if(!item.heading || !item.heading.length){
             item.heading = '';
           }
@@ -15792,6 +15792,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if(!item.img || !item.img.length){
             item.img = '';
+          }
+          if(!item.iurlmg || !item.url.length){
+            item.url = '';
           }
           item.config = document.config;
           item.feedback = document.feedback;
@@ -15821,9 +15824,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       <div id="leftFacetFilterId"> </div>\
                       <!-- Facet left-->\
                       <div class="tab-name see-all-result-nav active-tab" classification="all results">All <span class="count">(${facet.all})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="faq">Faq <span class="count">(${facet.faq})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="faq">FAQs <span class="count">(${facet.faq})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="page">Pages<span class="count">(${facet.page})</span></div>\
-                      <div class="tab-name see-all-result-nav " classification="task">Tasks <span class="count">(${facet.task})</span></div>\
+                      <div class="tab-name see-all-result-nav " classification="task">Actions <span class="count">(${facet.task})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="object">Data <span class="count">(${facet.object})</span></div>\
                       <div class="tab-name see-all-result-nav " classification="document"> Documentation <span class="count">(${facet.document})</span></div>\
                       <!-- Facet right-->\
@@ -16266,7 +16269,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         </div>\
         <div class="structured-data-full-search-container matched-structured-data-contaniers">\
         </div>\
-        <div class="custom-add-result-container {{if devMode=="false"}}display-none{{/if}}">\
+        <div class="custom-add-result-container {{if devMode== false}}display-none{{/if}}">\
           <div class="custom-add-new-result-content">\
             <div class="bold-text">Not finding the result?</div>\
             <div class="link-text"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABrSURBVHgBzVHBCYAwEMuV/lRwBDdykoojuIoTiBs5Qt8KjVZfLdeHD8FAyJEQOO4ABZXbx0gts5opIi0KMHiJ7wvSuLBcmu4s7G6lbHnBgmGGZAWa/hnCmvrw0FAPxxSpZT+8kvppkr5UOAH/GRicle7qIwAAAABJRU5ErkJggg==">Add from repository</div>\
