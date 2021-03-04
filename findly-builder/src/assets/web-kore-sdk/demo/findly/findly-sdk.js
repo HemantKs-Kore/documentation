@@ -393,6 +393,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         jstBarrer: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wrUCyDpNEwAaf4aU5Jf2-0ajbiwmTU3Yf7ST8yFJdqM",
         //jstBarrer: "bearer " + _self.bot.options.accessToken,
         searchResultsConfigURL : searchResultsConfigAPIURL + SearchIndexID + "/getresultviewsettings",
+        recentSearchUrl : baseAPIServer + "api/1.1/findly/" + SearchIndexID + "/recentSearches",
         indexpipelineId : indexpipelineId,
         pipelineId : pipelineId
       };
@@ -1950,13 +1951,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{/if}}\
         {{if recents && recents.length}}\
         <div class="recentContainer">\
-          <div class="search-heads">RECENTLY ASKED</div>\
+          <div class="search-heads">RECENT SEARCHES</div>\
             <div class="search-recent-column" >\
               {{each(key, recent) recents }}\
                 {{if recent}}\
-                  <div class="recentSearch">\
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBdY+9DcIwEIXvHYJQZgVGYAPYgDoUkSUEJWyA2ABKJCSTJjVMAKuwAa358WEXSIZcvso+f767h72tJxRYmOJECtba/MX9JffIXQFaH6q61KQnsot4f0NaYNB2VhZVWiOR3dxMj/j/HeWOd+dUiu/QRoVjHqTNV4owtcAM+bk3uoVxXXFDL7RKA0JbXAsITdIC8oOykSZFjDH3sMb47WXwASvra91JumNaAAAAAElFTkSuQmCC" id="${key}" class="recentCloseIcon">\
+                  <div class="recentSearch hide">\
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBdY+9DcIwEIXvHYJQZgVGYAPYgDoUkSUEJWyA2ABKJCSTJjVMAKuwAa358WEXSIZcvso+f767h72tJxRYmOJECtba/MX9JffIXQFaH6q61KQnsot4f0NaYNB2VhZVWiOR3dxMj/j/HeWOd+dUiu/QRoVjHqTNV4owtcAM+bk3uoVxXXFDL7RKA0JbXAsITdIC8oOykSZFjDH3sMb47WXwASvra91JumNaAAAAAElFTkSuQmCC" id="${key}" class="recentCloseIon hide">\
                     <span id="${recent}" action-type="textTask" class="pointer recentText">${recent}</span>\
+                  </div>\
+                  <div class="recentSearch tile_with_header">\
+                    <span id="${recent}" action-type="textTask" class="pointer recentText tile-title">${recent}</span>\
                   </div>\
                 {{/if}}\
               {{/each}}\
@@ -3379,6 +3383,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         $('#search').val(recentSearch).focus();
         $('#search').trigger("keyup");
+        _self.pubSub.publish('sa-input-keyup');
 
       })
     }
@@ -4225,6 +4230,37 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     }
 
+    FindlySDK.prototype.getRecentSearches = function (url, type){
+      var _self = this;
+      _self.pubSub.subscribe('sa-generate-recent-search', data => {
+        var bearer = this.API.jstBarrer;
+        $.ajax({
+          url: url,
+          type: type,
+          headers: {
+            "Authorization": 'bearer ' + this.bot.options.accessToken,
+            "Content-Type": "application/json"
+          },
+          data: {},
+          success: function (data) {
+            console.log(data);
+            _self.vars.searchObject.recents = data.recentSearches;
+            var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy({
+              // searchResults: searchResults,
+              recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
+              recentTasks: _self.vars.searchObject.recentTasks.length && _self.vars.searchObject.recentTasks.slice(0, 2),
+              popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
+            });
+            $('.search-body').html(freqData);
+          },
+          error: function (err) {
+            console.log(err);
+            _self.vars.searchObject.recents = [];
+          }
+        });
+      });
+    }
+
     FindlySDK.prototype.searchEventBinding = function (dataHTML, templateType, e, ignorAppend, config) {
       var _self = this;
       _self.vars.searchObject.recents = []; _self.vars.searchObject.recentTasks = [];
@@ -4232,8 +4268,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       try {
 
-        _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
-        _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
+        // _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
+        // _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
       } catch (err) {
 
       }
@@ -4294,6 +4330,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
+          _self.pubSub.publish('sa-handel-chat-container-view');
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
           if (!self.customSearchResult) {
@@ -4335,10 +4372,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               _self.bindLiveDataToChat();
             }
             if ($('.search-body:visible').length) {
-              if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
-                _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
-              }
-              window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+              // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
+              //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
+              // }
+              // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
             }
             $('.custom-header-container-center').css('visibility', 'visible');
 
@@ -4381,6 +4418,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if (!_self.customSearchResult) {
             var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
             $('.search-body').html(freqData);
+            _self.pubSub.publish('sa-generate-recent-search');
           } else {
             _self.pubSub.publish('sa-freq-data', tmplData);
             _self.pubSub.publish('sa-show-freq-data', tmplData);
@@ -4388,6 +4426,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           _self.getPopularSearchList(popSearchUrl, 'GET').then(function (response) {
             _self.vars.searchObject.popularSearches = response;
+            var recentSearchUrl = _self.API.recentSearchUrl;
+            _self.getRecentSearches(recentSearchUrl, 'GET');
             var tmplData = {
               searchResults: _self.vars.searchObject.recentAPIResponse,
               recents: _self.vars.searchObject.recents.length && _self.vars.searchObject.recents.slice(0, 6),
@@ -4397,217 +4437,247 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             if (!_self.customSearchResult) {
               var freqData = $(_self.getSearchTemplate('freqData')).tmplProxy(tmplData);
               $('.search-body').html(freqData);
+              // _self.pubSub.publish('sa-generate-recent-search');
             } else {
               _self.pubSub.publish('sa-freq-data', tmplData);
               _self.pubSub.publish('sa-show-freq-data', tmplData);
             }
           })
         }
+
+        var  timerId;
+        var searchBoxDom = document.getElementById('search');
+
+        // This represents a very heavy method. Which takes a lot of time to execute
+        function  makeAPICall() {
+          console.log("published Keyup");
+          // $('#search').trigger("keydown");
+          $('#search').trigger("keyup");
+          _self.pubSub.publish('sa-input-keyup');
+        }
+
+        // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
+        var  debounceFunction  =  function (func, delay) {
+          // Cancels the setTimeout method execution
+          clearTimeout(timerId)
+          // Executes the func after delay time.
+          timerId  =  setTimeout(func, delay)
+        }
+
+        // Event listener on the input box
+        searchBoxDom.addEventListener('input', function (event) {
+          // Debounces makeAPICall method
+          debounceFunction(makeAPICall, 300, event);
+        })
+
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-          if (!$('#search').val()) {
-            if ((!_self.vars.searchObject.recentTasks.length || !_self.vars.searchObject.recents.length) && $('.search-container').hasClass('active')) {
-              // $('.search-container').removeClass('active');
-            }
-            _self.bindFrequentData();
-            $('.custom-header-container-center').css('visibility', 'visible');
-          } else {
-            var code = e.keyCode || e.which;
-            if (code == '9' || code == '39') {
-              $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
-              $('#search').focus();
-            }
-            if (code == '9') {
-              e.preventDefault();
-            }
-            if (e.target.value) {
-              var payload = {
-                "query": e.target.value.toString(),
-                "maxNumOfResults": 16,
-                "userId": _self.API.uuid,
-                "streamId": _self.API.streamId,
-                "lang": "en"
+          _self.pubSub.unsubscribe('sa-input-keyup');
+          _self.pubSub.subscribe('sa-input-keyup', (msg, data) => {
+            if (!$('#search').val()) {
+              if ((!_self.vars.searchObject.recentTasks.length || !_self.vars.searchObject.recents.length) && $('.search-container').hasClass('active')) {
+                // $('.search-container').removeClass('active');
               }
-
-              /*var contextObj = $("#contextjsonfield").val();
-              if (contextObj) {
-                contextObj.trim();
-                if (contextObj) {
-                  try {
-                    contextObj = JSON.parse(contextObj);
-                  } catch (error) {
-                    contextObj = "";
-                  }
+              _self.bindFrequentData();
+              $('.custom-header-container-center').css('visibility', 'visible');
+            } else {
+              var code = e.keyCode || e.which;
+              if (code == '9' || code == '39') {
+                $('#search').val(JSON.parse(JSON.stringify($('#suggestion').val())));
+                $('#search').focus();
+              }
+              if (code == '9') {
+                e.preventDefault();
+              }
+              if (e.target.value) {
+                var payload = {
+                  "query": e.target.value.toString(),
+                  "maxNumOfResults": 16,
+                  "userId": _self.API.uuid,
+                  "streamId": _self.API.streamId,
+                  "lang": "en"
                 }
-                if (contextObj) {
-                  payload.userContext = contextObj;
-                }
-              }*/
 
-              var url = _self.API.livesearchUrl; //'https://qa-bots.kore.ai/searchAssistant/liveSearch';
-              var searchData;
-              if (code == '13') {
-                $('#search').val('');
-              } else {
-                _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
-                  if (res && res.requestId && res.template && res.template.originalQuery) {
-                    _self.vars.previousSearchObj = {};
-                    _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
-                    _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
-                  } else {
-                    console.log('Previous requestId or orinigal query is mising');
-                  }
-                  if (res.templateType === 'liveSearch') {
-                    $('.search-body').show();
-                    $('#searchChatContainer').removeClass('bgfocus-override');
-                    res = res.template;
-                    var faqs = [], pages = [], tasks = [], documents = [], facets, viewType = "Preview";
-                      if (!$('.search-container').hasClass('active')) {
-                      $('.search-container').addClass('active');
+                /*var contextObj = $("#contextjsonfield").val();
+                if (contextObj) {
+                  contextObj.trim();
+                  if (contextObj) {
+                    try {
+                      contextObj = JSON.parse(contextObj);
+                    } catch (error) {
+                      contextObj = "";
                     }
-                    if (res && res.results && res.results.length) {
-                      _self.closeGreetingMsg();
-                      var liveResult = res.results;
+                  }
+                  if (contextObj) {
+                    payload.userContext = contextObj;
+                  }
+                }*/
 
-                      liveResult.forEach(function (result) {
-                        if (result.__contentType === "faq") {
-                          faqs.push(result);
-                        } else if (result.__contentType === "page") {
-                          pages.push(result);
-                        } else if (result.__contentType === "document") {
-                          documents.push(result);
-                        } else if (result.__contentType === "task") {
-                          tasks.push(result);
-                        }
-                      })
-                      facets = res.facets;
-                      var dataObj = {
-                        faqs: faqs,
-                        pages: pages,
-                        tasks: tasks,
-                        documents: documents,
-                        facets: facets,
-                        originalQuery: res.originalQuery,
-                        customSearchResult : _self.customSearchResult
-                      }
-                      //livesearch
-                      var tmplData = {
-                        faqs: faqs.slice(0, 2),
-                        pages: pages.slice(0, 2),
-                        tasks: tasks.slice(0, 2),
-                        documents: documents.slice(0, 2),
-                        showAllResults: true,
-                        noResults: false,
-                        taskPrefix: 'SUGGESTED',
-                        viewType: viewType,
-                        customSearchResult : _self.customSearchResult
-                      };
-                      
-                      searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
-                      _self.pubSub.publish('sa-st-data-search', {
-                        container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : false, isLiveSearch : true, dataObj
-                      });
-                      _self.pubSub.publish('sa-faq-search', {container : '.faqs-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
-                      _self.pubSub.publish('sa-page-search', {container : '.pages-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
-                      _self.pubSub.publish('sa-document-search', {container : '.documents-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
-                      $(searchData).data(dataObj);
-                      $('.search-body').html(searchData);
-                      setTimeout(function () {
-                        $('.search-body').scrollTop(2);
-                      }, 100);
-                      _self.bindAllResultsView();
-                      _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
-                      tmplData['suggestions'] = res.autoComplete.keywords;
-                      //to sort rendering results based on score
-                      var scoreArray = [
-                        {
-                          name: 'asstPage',
-                          score: pages.length && pages[0].score
-                        },
-                        {
-                          name: 'asstTask',
-                          score: tasks.length && tasks[0].score
-                        },
-                        {
-                          name: 'asstFaq',
-                          score: faqs.length && faqs[0].score
-                        }
-                      ];
-                      scoreArray.sort((a, b) => { return b.score - a.score });
-                      //console.log("scoreArray", scoreArray);
-                      scoreArray.forEach((obj, index) => {
-                        $('.' + obj.name).css("order", index + 1);
-                      })
-                      _self.pubSub.publish('sa-search-result', dataObj);
-                      _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                var url = _self.API.livesearchUrl; //'https://qa-bots.kore.ai/searchAssistant/liveSearch';
+                var searchData;
+                if (code == '13') {
+                  $('#search').val('');
+                } else {
+                  _self.getFrequentlySearched(url, 'POST', JSON.stringify(payload)).then(function (res) {
+                    if (res && res.requestId && res.template && res.template.originalQuery) {
+                      _self.vars.previousSearchObj = {};
+                      _self.vars.previousSearchObj.requestId = res.requestId; // previous search requestId from response
+                      _self.vars.previousSearchObj.searchText = res.template.originalQuery; // previous text
                     } else {
-                      if ($('#search').val()) {
+                      console.log('Previous requestId or orinigal query is mising');
+                    }
+                    if (res.templateType === 'liveSearch') {
+                      $('.search-body').show();
+                      $('#searchChatContainer').removeClass('bgfocus-override');
+                      res = res.template;
+                      var faqs = [], pages = [], tasks = [], documents = [], facets, viewType = "Preview";
+                        if (!$('.search-container').hasClass('active')) {
+                        $('.search-container').addClass('active');
+                      }
+                      if (res && res.results && res.results.length) {
+                        _self.closeGreetingMsg();
+                        var liveResult = res.results;
+
+                        liveResult.forEach(function (result) {
+                          if (result.__contentType === "faq") {
+                            faqs.push(result);
+                          } else if (result.__contentType === "page") {
+                            pages.push(result);
+                          } else if (result.__contentType === "document") {
+                            documents.push(result);
+                          } else if (result.__contentType === "task") {
+                            tasks.push(result);
+                          }
+                        })
+                        facets = res.facets;
                         var dataObj = {
                           faqs: faqs,
                           pages: pages,
                           tasks: tasks,
                           documents: documents,
                           facets: facets,
+                          originalQuery: res.originalQuery,
                           customSearchResult : _self.customSearchResult
                         }
-                        var tmplData =  {
-                          faqs: faqs,
-                          pages: pages,
-                          tasks: tasks,
-                          documents: documents,
-                          showAllResults: false,
-                          noResults: true,
-                          taskPrefix: 'MATCHED',
+                        //livesearch
+                        var tmplData = {
+                          faqs: faqs.slice(0, 2),
+                          pages: pages.slice(0, 2),
+                          tasks: tasks.slice(0, 2),
+                          documents: documents.slice(0, 2),
+                          showAllResults: true,
+                          noResults: false,
+                          taskPrefix: 'SUGGESTED',
                           viewType: viewType,
                           customSearchResult : _self.customSearchResult
-                        }
+                        };
                         
                         searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                        _self.pubSub.publish('sa-st-data-search', {
+                          container : '.structured-data-container', /*  start with '.' if class or '#' if id of the element*/ isFullResults : false, selectedFacet : 'all results', isSearch : false, isLiveSearch : true, dataObj
+                        });
+                        _self.pubSub.publish('sa-faq-search', {container : '.faqs-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
+                        _self.pubSub.publish('sa-page-search', {container : '.pages-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
+                        _self.pubSub.publish('sa-document-search', {container : '.documents-data-container', isFullResults : false, selectedFacet : 'all results', isLiveSearch : true, isSearch : false, dataObj});
                         $(searchData).data(dataObj);
-                        console.log("no results found");
                         $('.search-body').html(searchData);
                         setTimeout(function () {
                           $('.search-body').scrollTop(2);
                         }, 100);
-
+                        _self.bindAllResultsView();
+                        _self.pubSub.publish('sa-auto-suggest', res.autoComplete.keywords);
+                        tmplData['suggestions'] = res.autoComplete.keywords;
+                        //to sort rendering results based on score
+                        var scoreArray = [
+                          {
+                            name: 'asstPage',
+                            score: pages.length && pages[0].score
+                          },
+                          {
+                            name: 'asstTask',
+                            score: tasks.length && tasks[0].score
+                          },
+                          {
+                            name: 'asstFaq',
+                            score: faqs.length && faqs[0].score
+                          }
+                        ];
+                        scoreArray.sort((a, b) => { return b.score - a.score });
+                        //console.log("scoreArray", scoreArray);
+                        scoreArray.forEach((obj, index) => {
+                          $('.' + obj.name).css("order", index + 1);
+                        })
                         _self.pubSub.publish('sa-search-result', dataObj);
                         _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                      } else {
+                        if ($('#search').val()) {
+                          var dataObj = {
+                            faqs: faqs,
+                            pages: pages,
+                            tasks: tasks,
+                            documents: documents,
+                            facets: facets,
+                            customSearchResult : _self.customSearchResult
+                          }
+                          var tmplData =  {
+                            faqs: faqs,
+                            pages: pages,
+                            tasks: tasks,
+                            documents: documents,
+                            showAllResults: false,
+                            noResults: true,
+                            taskPrefix: 'MATCHED',
+                            viewType: viewType,
+                            customSearchResult : _self.customSearchResult
+                          }
+                          
+                          searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy(tmplData);
+                          $(searchData).data(dataObj);
+                          console.log("no results found");
+                          $('.search-body').html(searchData);
+                          setTimeout(function () {
+                            $('.search-body').scrollTop(2);
+                          }, 100);
+
+                          _self.pubSub.publish('sa-search-result', dataObj);
+                          _self.pubSub.publish('sa-source-type', _self.getFacetsAsArray(facets));
+                        }
                       }
+                      _self.vars.searchObject.liveData = {
+                        faqs: faqs,
+                        pages: pages,
+                        tasks: tasks,
+                        documents: documents,
+                        facets: facets,
+                        originalQuery: res.originalQuery || '',
+                      }
+                      // if (res.searchResults.smallTalk && res.searchResults.smallTalk.isSmallTalk && res.searchResults.smallTalk.text) {
+                      //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
+                      // }
+                      _self.searchEventBinding(searchData, "livesearch", e, config);
+                    } else if (res.templateType === 'liveSearchEmpty') {
+                      $('.search-body').hide();
+                      $('#searchChatContainer').addClass('bgfocus-override');
                     }
-                    _self.vars.searchObject.liveData = {
-                      faqs: faqs,
-                      pages: pages,
-                      tasks: tasks,
-                      documents: documents,
-                      facets: facets,
-                      originalQuery: res.originalQuery || '',
+                    else {
+                      $('.search-body').hide();
+                      $('#searchChatContainer').addClass('bgfocus-override');
                     }
-                    // if (res.searchResults.smallTalk && res.searchResults.smallTalk.isSmallTalk && res.searchResults.smallTalk.text) {
-                    //   _self.vars.searchObject.liveData.smallTalk = res.searchResults.smallTalk.text;
-                    // }
-                    _self.searchEventBinding(searchData, "livesearch", e, config);
-                  } else if (res.templateType === 'liveSearchEmpty') {
-                    $('.search-body').hide();
-                    $('#searchChatContainer').addClass('bgfocus-override');
-                  }
-                  else {
-                    $('.search-body').hide();
-                    $('#searchChatContainer').addClass('bgfocus-override');
-                  }
-                })
+                  })
+                }
+              } else {
+                $('.search-body').html('');
+                $('.search-body').removeClass('h-100');
               }
-            } else {
-              $('.search-body').html('');
-              $('.search-body').removeClass('h-100');
+              $('.custom-header-container-center').css('visibility', 'hidden');
             }
-            $('.custom-header-container-center').css('visibility', 'hidden');
-          }
 
-          // $('.custom-header-container-center').css('visibility', 'hidden');
-
+            // $('.custom-header-container-center').css('visibility', 'hidden');
+          });
         })
 
         $(dataHTML).off('focus', '#search').on('focus', '#search', function (e) {
           _self.pubSub.publish('sa-search-focus', {});
+          _self.pubSub.publish('sa-handel-chat-container-view');
           $('.search-body').removeClass('hide');
           $('#searchChatContainer').addClass('bgfocus');
           // _self.closeGreetingMsg();
@@ -4648,6 +4718,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
               });
               $('.search-body').html(freqData);
+              _self.pubSub.publish('sa-generate-recent-search');
             }
             
             setTimeout(function () {
@@ -4664,6 +4735,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           } else if ($('#search').val()) {
             $('#search').trigger("keyup");
+            _self.pubSub.publish('sa-input-keyup');
           }
 
           // if(!_self.vars.searchObject.recentAPIResponse ) {  
@@ -4713,10 +4785,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#search').val('');
             $('#suggestion').val('');
           }
-          if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
-            _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
-          }
-          window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+          // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(searchText.toLowerCase()) == -1)) {
+          //   _self.vars.searchObject.recents.unshift(searchText.toLowerCase());
+          // }
+          // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
           if (!ignorAppend) {
             _self.bindLiveDataToChat();
           }
@@ -4939,6 +5011,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         _self.vars.searchObject.recents = JSON.parse(window.localStorage.getItem('recents')) ? JSON.parse(window.localStorage.getItem('recents')) : [];
         _self.vars.searchObject.recentTasks = JSON.parse(window.localStorage.getItem('recentTasks')) ? JSON.parse(window.localStorage.getItem('recentTasks')) : [];
+        // var recentSearchUrl = _self.API.recentSearchUrl;
+        // _self.getRecentSearches(recentSearchUrl, 'GET');
       } catch (err) {
 
       }
@@ -5176,10 +5250,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
           object : object
         }
-        if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
-          _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
-        }
-        window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
+        // if (!_self.vars.searchObject.recents.length || (_self.vars.searchObject.recents.length && _self.vars.searchObject.recents.indexOf(res.originalQuery.toLowerCase()) == -1)) {
+        //   _self.vars.searchObject.recents.unshift(res.originalQuery.toLowerCase());
+        // }
+        // window.localStorage.setItem("recents", JSON.stringify(_self.vars.searchObject.recents));
         if (dataObj.faqs.length ||
           dataObj.pages.length ||
           dataObj.tasks.length || dataObj.smallTalk || dataObj.object.length) {
@@ -5334,6 +5408,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           popularSearches: _self.vars.searchObject.popularSearches.slice(0, 6)
         });
         $('.search-body').html(freqData);
+        _self.pubSub.publish('sa-generate-recent-search');
       }
       
       setTimeout(function () {
@@ -5829,10 +5904,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
       var _self = this;
-      // if (!$('body').hasClass('demo')) {
-      //   payload.indexPipelineId = _self.API.indexpipelineId;
-      //   payload.queryPipelineId = _self.API.pipelineId;
-      // }
+      if (!$('body').hasClass('demo')) {
+        payload.indexPipelineId = _self.API.indexpipelineId;
+        payload.queryPipelineId = _self.API.pipelineId;
+      }
 
       payload["messagePayload"] = {
         "clientMessageId": new Date().getTime(),
@@ -6336,6 +6411,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return "Actions"
       } else if (key.toLowerCase() === 'document') {
         return "Documents"
+      } else if (key.toLowerCase() === 'object') {
+        return "Data"
       } else {
         return key;
       }
@@ -6683,6 +6760,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         container = $('body')
       }
       $(container).append(dataHTML);
+      _self.bindSearchContainerViewHadler();
       
       _self.bindPerfectScroll(dataHTML, '.search-body', null, 'searchBody');
       _self.bindPerfectScroll(dataHTML, '#searchChatContainer', null, 'searchChatContainer');
@@ -6961,10 +7039,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         messageToBot["message"].nlmeta = msgObject.nlmeta;
       }
 
-      // if (!$('body').hasClass('demo')) {
-      //   messageToBot.indexPipelineId = _self.API.indexpipelineId;
-      //   messageToBot.queryPipelineId = _self.API.pipelineId;
-      // }
+      if (!$('body').hasClass('demo')) {
+        messageToBot.indexPipelineId = _self.API.indexpipelineId;
+        messageToBot.queryPipelineId = _self.API.pipelineId;
+      }
 
       if (_self.bot.options) {
         var contextObj = $("#contextjsonfield").val();
@@ -12256,6 +12334,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     };
     
+    FindlySDK.prototype.bindSearchContainerViewHadler = function(){
+      var _self = this;
+      _self.pubSub.subscribe('sa-handel-chat-container-view', (msg, data) => {
+        let parentChatContainer = $('#searchChatContainer');
+        if(parentChatContainer.children().length){
+          console.log("yes", parentChatContainer.children().length);
+          if($('.search-container').hasClass('no-history')){
+            $('.search-container').removeClass('no-history');
+          }
+        }
+        else{
+          console.log("no", parentChatContainer);
+          if(!$('.search-container').hasClass('no-history')){
+            $('.search-container').addClass('no-history');
+          }
+        }
+      });
+    }
+
     var mockData = {
       "settings": [
         {
@@ -12928,7 +13025,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 {{if isFullResults == true || isSearch == true || isLiveSearch == true}}\
                   <div class="tile-with-text-parent tasks-wrp structured-data-outer-wrap {{if isClickable == false}}with-accordion{{/if}} {{if isFullResults == true}}results-wrap{{/if}}">\
                     {{each(key, data) structuredData.slice(0, config.layout.maxSearchResultsAllowed)}}\
-                      <div class="structure-data-wrp" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
+                      <div class="task-wrp faqs-shadow structure-data-wrp" {{if viewType=="Preview"&&data.config.visible==false}}display-none{{/if}} {{if data.config.visible==false}}hide-actions{{/if}} {{if data.config.pinIndex>-1}}hide-visibility-control{{/if}}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}" contentId="${data.contentId}" contentType="${data.__contentType}" id="${key}">\
                           {{if isClickable == true}}\
                             {{if viewType!="Customize" && (isFullResults == true ||  isSearch == true || isLiveSearch == true)}}\
                               <a class="tile-with-text structured-data-wrp-content" href="" target="_blank">\
@@ -14578,10 +14675,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
 
       if (_self.vars.showingMatchedResults == true) {
-        // $('a.structured-data-wrp-content').off('click').on('click', function (event) {
-        //   console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
-        //   _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).find('.title').attr('title'));
-        // })
+        $('a.structured-data-wrp-content').off('click').on('click', function (event) {
+          console.log($(event.currentTarget).parent().attr('contentType'), $(event.currentTarget).parent().attr('contentId'));
+          _self.captureClickAnalytics(event, $(event.currentTarget).closest('.faqs-shadow').attr('contentType'), 'click', $(event.currentTarget).closest('.faqs-shadow').attr('contentId'), $(event.currentTarget).closest('.faqs-shadow').attr('id'), $(event.currentTarget).find('.title').attr('title'));
+        })
       }
 
       $('.moreStructredData').off('click').on('click', function (e) {
@@ -15739,6 +15836,55 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         <span class="clsoe-filter"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACdSURBVHgBbZHRDcIwDERju+zTSizSCWgl8sFM+Ug26AwsUDIGO9A05AChprV/osjPd2eZLtfbg2gZg3PRKDUMts3SeAaUV5kGa1sVYpkoLaPEeX525+4OGC/+FbSmPgQX6T9dFAETp968jNlC6FNl9YNNLo0NhOIqVFEC9Bk/1Xn5ELwowX6/oGjBtQVpD2mZ4cBZ2GsQCkf4xmj8GzsLeh0gnVcbAAAAAElFTkSuQmCC"></span>\
                       </div>\
                       {{/if}}\
+            </div>\
+            <div class="horizantal-filter-sec hide">\
+              <div class="dropdown_custom_filter">\
+                <div onclick="filterDropDOwn()" class="dropbtn">Type<span class="count">1</span></div>\
+                <div id="myDropdown" class="dropdown-content">\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                </div>\
+              </div>\
+              <div class="dropdown_custom_filter">\
+                <div onclick="filterDropDOwn()" class="dropbtn">Type<span class="count">1</span></div>\
+                <div id="myDropdown" class="dropdown-content">\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                </div>\
+              </div>\
+              <div class="dropdown_custom_filter">\
+                <div onclick="filterDropDOwn()" class="dropbtn">Type<span class="count">1</span></div>\
+                <div id="myDropdown" class="dropdown-content">\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                </div>\
+              </div>\
+              <div class="dropdown_custom_filter">\
+                <div onclick="filterDropDOwn()" class="dropbtn">Type<span class="count">1</span></div>\
+                <div id="myDropdown" class="dropdown-content">\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                  <div class="option-text">Benefits</div>\
+                </div>\
+              </div>\
+              <div class="h-scroll-filter">\
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB9SURBVHgBpZDBDUBAEEX/EvcVDQzLXQk6EBUoRTtuzk5qUAFHJ7YAybISEmvFwT9MJnl/MjMfdCjOYJEDeBwMDQlRmtCVcp44D9q9r3ngT3JZ+gvq8mZwT5fNwMw9REkKpjooFM7zRJUDSgLreJ+K4opCMejn/oI9HSv40gaMjzPqJ5ysbwAAAABJRU5ErkJggg==">\
+              </div>\
             </div>\
             <!-- All type -->\
             {{if view == "preview"}}\
