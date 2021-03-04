@@ -40,6 +40,7 @@ export class AppMenuComponent implements OnInit , OnDestroy{
     '/weights':true,
     '/facets':true,
     '/resultranking':true,
+    '/rules':true,
   }
   searchIndexId;
   selectedApp;
