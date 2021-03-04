@@ -118,7 +118,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
       queryPipelineId:this.queryPipelineId,
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
-      this.notificationService.notify('Weights restored successfully','success');
+      this.notificationService.notify('Weights reset successfully','success');
       this.pipeline=  res.pipeline || {};
       this.prepereWeights();
       if(dialogRef && dialogRef.close){
