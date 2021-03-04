@@ -6404,7 +6404,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
     function getFacetDisplayName (key) {
       if (key.toLowerCase() === 'faq') {
-        return "FAQ's"
+        return "FAQs"
       } else if (key.toLowerCase() === 'page') {
         return "Pages"
       } else if (key.toLowerCase() === 'task') {
