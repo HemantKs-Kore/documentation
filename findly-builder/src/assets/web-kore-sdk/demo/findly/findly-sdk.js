@@ -13040,7 +13040,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                             {{/if}}\
                             {{if viewType=="Customize" && isFullResults == true}}\
                               <div class="data-wrap" index="${i}" contentType="${data.__contentType}" contentId="${data.contentId}" score="${data.score}" boost="${data.config.boost}" pinIndex="${data.config.pinIndex}" visible="${data.config.visible}">\
-                                <div class="customization-tile">\
+                                <div class="customization-tile{{if data.config.visible == false}} disable_hidden{{/if}}{{if data.config.pinIndex >= 0}} disable_pinned{{/if}}">\
                                     <div class="drag-content"></div>\
                                     <div class="actions-content">\
                                       <span class="action-item visibility" type="{{if data.config.visible == true}}Hide{{/if}}{{if data.config.visible == false}}UnHide{{/if}}">\
@@ -13054,7 +13054,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                         </span>\
                                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHVSURBVHgBlVLdUdtAEN7dE4ozYI86iFJBnAqwKgiuAHjLZJBRKpBdgQ1hMnkLqcDpwO4AUkFUggbDYEu6XfYEYszfg/fhbub2dr9vv28BNDoDSYNEAtgwyB0C9qO1MoUNA93hUJllBojzqxP87t7acXUgKCEyXjJzdvPTv3wVOZ9gToR9ET7oxDap2WihHrtgcEyeuWgP7H/X8AVyjXRsfyv/OinM0fXZ1rzJ7QzKIQKl9wU0vDrF0WNx51jGWtIThhwRAgEJy6L4vPz1PntsHvNM0P5DpC8odO4aUD2b8F6xWvWBJCyKVV+AT7Z8f9b6ehs2xSJ2hGI+GaRI88nOUdkjIEw1M2q1WrnSDhyaR95E/4e+/27aWOh5Xgaqg+qTueaIJiVgzBDwicdOQHcp/a61PH6uslL/oFwycnQEIV0ul4EqkDs69Q+WQ2Vyrn703BI5RK5sv31U7el7ryyLEa6pua/Fc2USLn5Q1KAo7dAyX6iryeIU/2zHRUJC2eLM+4uv2eEQXWc3fy2MMWMRCRU5Wl8WXJ/lHsUO9Xn/2Zi5Fs8RsasWRo2FCG/E9rei625tljefld2EwOzqNkYPom4WuizTdqzbqOHBhmEMHlaVrVndAWmT9/sAm8QuAAAAAElFTkSuQmCC">\
                                       </span>\
-                                      <span class="action-item pinning" type="{{if data.config.pinIndex > 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
+                                      <span class="action-item pinning" type="{{if data.config.pinIndex >= 0}}UnPin{{/if}}{{if data.config.pinIndex < 0}}Pin{{/if}}">\
                                         <span class="tooltiptext">\
                                           <span class="unpin {{if data.config.pinIndex >= 0}}display-block{{else}}display-none{{/if}}">\
                                             UnPin\
@@ -13076,11 +13076,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                                     </div>\
                                     <div class="title text-truncate">${data.heading}</div>\
                                     <div class="desc_text text-truncate">${data.description}</div>\
-                                    <div class="appearences-count">\
+                                    <div class="appearences-count count">\
                                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADqSURBVHgBTU/BTcNAEJzxnRDiAyVQAukASuALj+APPG0qcFIB+BVFPI4IIp4pAVMBLbgE54eSnIc9FKPs47Q7M7czS+xrFt4uPV0l6ALgGYFG0uI+v31NfJael8VH5ZiteukrajPaSqOdiUBWiUsazsLyzhkQxStgd24fxmljVKwB3zr231H9debJMaTpXrSCuJawdnSfCbO+tr7yKdMWeDyiezLr+iG/mSSreVi2hC97oHRQYRnZnGDTCujsgBb/pc5Rp8f46WxoOMDz8F6SWWHZ8jSbXUiRhquJgzK7CYnib584tRjPA/cLSnRp8KbGJuoAAAAASUVORK5CYII=">\
                                       <span class="count">${data.feedback.appearance}</span>\
                                     </div>\
-                                    <div class="appearences-count">\
+                                    <div class="appearences-count count">\
                                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEMSURBVHgBnZK/bcJQEMbvniFJmRGSDZINnA2SEijgioConA1iNkgqlKS4IASUwAaMABPgEWgBoeMOyQiZh0F8hU86v9/9+d5DyOivM/gUkRgR4/dqqQUeuWzCgI3go0U4IedLNqmUQI4cXKFC3s/f/74gwEQAwsMdcyHbLUCZ7yLIXIvsDHLmllW0mIXS3dKYGoQGrEWei4isVUaWrNfKmDeyU4+/DdAqbwq8wgVydap8iMBMZx8aqLnpWcg+DSrXtMv4APSPxvykIdnfU4MqcQoy872XwrtIz3SOFv7hntla1V1bG1hNmkRJm/mhgLeR3VdRli9el9rcDQMMIn2JoZa3rol1uIHVFxEttjVMjEnBcNKUAAAAAElFTkSuQmCC">\
                                       <span class="count">${data.feedback.click}</span>\
                                     </div>\
@@ -16426,14 +16426,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }, 200);
 
       $('.customization').off('click', '.visibility').on('click', '.visibility', function (event) {
-        if (parseInt($(event.target).closest('.data-wrap').attr('pinindex')) == -1) {
+        // if (parseInt($(event.target).closest('.data-wrap').attr('pinindex')) == -1) {
           if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
             _self.performRankActionsOnFullPage(event, { visible: false }, _self.vars.searchObject.searchText, 'visibility');
           }
           else {
             _self.performRankActionsOnFullPage(event, { visible: true }, _self.vars.searchObject.searchText, 'visibility');
           }
-        }
+        // }
       });
       $('.customization').off('click', '.pinning').on('click', '.pinning', function (event) {
           if ($(event.target).closest('.data-wrap').attr('visible') == "true") {
@@ -16518,6 +16518,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(selectedElement).attr('pinIndex', result.config.pinIndex);
               if(result.config.pinIndex >= 0){
                 selectedElement.find('.pinning').attr('type', "UnPin");
+                if(!selectedElement.find('.customization-tile').hasClass('disable_pinned')){
+                  selectedElement.find('.customization-tile').addClass('disable_pinned')
+                }
                 if (selectedElement.find('.record-status-pinned')) {
                   selectedElement.find('.record-status-pinned').css('display', 'block');
                 }
@@ -16532,6 +16535,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               else{
                 selectedElement.find('.pinning').attr('type', "Pin");
+                if(selectedElement.find('.customization-tile').hasClass('disable_pinned')){
+                  selectedElement.find('.customization-tile').removeClass('disable_pinned')
+                }
                 if (selectedElement.find('.record-status-pinned')) {
                   selectedElement.find('.record-status-pinned').css('display', 'none');
                 }
@@ -16557,6 +16563,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $(selectedElement).attr('visible', result.config.visible);
               if(result.config.visible){
                 selectedElement.find('.visibility').attr('type', "Hide");
+                if(selectedElement.find('.customization-tile').hasClass('disable_hidden')){
+                  selectedElement.find('.customization-tile').removeClass('disable_hidden')
+                }
                 if (selectedElement.find('.record-status-hidden')) {
                   selectedElement.find('.record-status-hidden').css('display', 'none');
                 }
@@ -16571,6 +16580,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               }
               else{
                 selectedElement.find('.visibility').attr('type', "UnHide");
+                if(!selectedElement.find('.customization-tile').hasClass('disable_hidden')){
+                  selectedElement.find('.customization-tile').addClass('disable_hidden')
+                }
                 if (selectedElement.find('.record-status-hidden')) {
                   selectedElement.find('.record-status-hidden').css('display', 'block');
                 }
@@ -16582,6 +16594,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   selectedElement.find('.unhide').removeClass('display-none');
                   selectedElement.find('.unhide').addClass('display-block');
                 }
+                // start - removing pinning option from DOM
+                $(selectedElement).attr('pinIndex', result.config.pinIndex);
+                selectedElement.find('.pinning').attr('type', "Pin");
+                if(selectedElement.find('.customization-tile').hasClass('disable_pinned')){
+                  selectedElement.find('.customization-tile').removeClass('disable_pinned')
+                }
+                if (selectedElement.find('.record-status-pinned')) {
+                  selectedElement.find('.record-status-pinned').css('display', 'none');
+                }
+                if (selectedElement.find('.unpin').hasClass('display-block')) {
+                  selectedElement.find('.unpin').removeClass('display-block');
+                  selectedElement.find('.unpin').addClass('display-none');
+                }
+                if (selectedElement.find('.pin').hasClass('display-none')) {
+                  selectedElement.find('.pin').removeClass('display-none');
+                  selectedElement.find('.pin').addClass('display-block');
+                }
+                // end
               }
             }
           })

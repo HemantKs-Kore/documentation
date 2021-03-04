@@ -7045,6 +7045,9 @@ body, html{
 .search-container.active.no-history  #searchBox{
     background: transparent !important;
 }
+.search-container.conversation.no-history #searchChatContainer.bgfocus{
+    background: unset;
+}
 .search-container.conversation #searchChatContainer{
     display: block !important;
     position: relative;
@@ -12702,6 +12705,7 @@ padding-right: 0;
     margin: 0 12px;
     cursor: pointer;
     position: relative;
+    z-index: 1;
 }
 .show-all-results-outer-wrap .customization .customization-tile .actions-content .action-item .tooltiptext{
     visibility: hidden;
@@ -13011,6 +13015,7 @@ padding-right: 0;
 /* Full page css - Maneesh */
 .action-item.burying.disabled{
     pointer-events: none;
+    opacity: 0.5;
 }
 
 .bg-data.record-status-pinned{
@@ -13167,4 +13172,36 @@ padding-right: 0;
 }
 .total-structured-data-wrap a{
     text-decoration: none;
+}
+
+.customization-tile.disable_hidden .title{
+    opacity: 0.3;
+}
+.customization-tile.disable_hidden .desc_text{
+    opacity: 0.3;
+}
+.customization-tile.disable_hidden .appearences-count.count{
+    opacity: 0.3;
+}
+/* Hiding */
+.customization-tile.disable_hidden .action-item.pinning {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.customization-tile.disable_hidden .action-item.boosting {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.customization-tile.disable_hidden .action-item.burying {
+    pointer-events: none;
+    opacity: 0.5;
+}
+/* Pinning */
+.customization-tile.disable_pinned .action-item.boosting {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.customization-tile.disable_pinned .action-item.burying {
+    pointer-events: none;
+    opacity: 0.5;
 }
