@@ -45,14 +45,40 @@
                     <div class="label-text">Search Box Customization</div>
                     <div class="d-flex search-customization-input">
                         <div class="kr-sg-input-search">                               
-                            <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" (click)="selectSearchBox('inputBox');$event.stopPropagation();">
-                            <img [src]="searchIcon" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
-                             <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                            <input type="text" class="input-search" [ngClass]="{'activeBox':selectSearch=='inputBox'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (click)="selectSearchBox('inputBox');$event.stopPropagation();"  joyrideStep="firstStep" [counterTemplate]="counter" [stepContent]="searchBox" [prevTemplate]="prevButton" [nextTemplate]="nextButton" [doneTemplate]="doneButton">
+                            <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15" joyrideStep="secondStep" [stepContent]="searchIconChange">
+                             <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text" [ngClass]="{'activeBox':selectSearch=='placeholderText'}"  [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}" joyrideStep="thirdStep" [stepContent]="placeholderText">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
                         </div>
-                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                        <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngClass]="{'activeBox':selectSearch=='button'}" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled" joyrideStep="fourthStep" [stepContent]="searchButton">
                             <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
                             <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled"><img src="assets/icons/search-experience/edit.svg"></div>
                         </button>
+                        <!--custom templates for tour guide-->
+                        <ng-template #searchBox>
+                            <p style="color:white">Click on search box to customize border and fill color</p>
+                        </ng-template>
+                        <ng-template #searchIconChange>
+                            <p style="color:white">Click on search icon to change icon as per your choice</p>
+                        </ng-template>
+                        <ng-template #placeholderText>
+                            <p style="color:white">Click on the text to customize text content and color</p>
+                        </ng-template>
+                        <ng-template #searchButton>
+                            <p style="color:white">Click on the button to customize button text, fill color and border color</p>
+                        </ng-template>
+                        <ng-template #counter let-step="step" let-total="total">
+                            <span  style="color:white">{{ step }} of {{ total }}</span>
+                        </ng-template>
+                        <ng-template #nextButton> 
+                            <button class="btn-customize kr-sg-button-primary btn_lg">Next</button>
+                        </ng-template>
+                        <ng-template #prevButton> 
+                            <button class="btn-customize kr-sg-button-secondary btn_lg">Previous</button>
+                        </ng-template>
+                        <ng-template #doneButton> 
+                            <button class="btn-customize kr-sg-button-primary btn_lg">Got it</button>
+                        </ng-template>
+                        <!----end tour -->                       
                     </div>
                     <div [ngSwitch]="selectSearch">                        
                         <div class="fill-colors-block" *ngSwitchCase="'inputBox'">
@@ -109,7 +135,7 @@
                             <div class="img-block"><img src="assets/icons/search-experience/dummy-image.svg"></div>
                             <div class="input-file">
                                 <div class="title">Drag and drop or <span class="browse">browse</span></div>
-                                <input type="file" name="avatar" (change)="selectIcon($event)"/>
+                                <input type="file" name="avatar" (change)="selectIcon($event,'searchIcon')"/>
                             </div>
                         </div>
                         <div class="fill-colors-block" *ngSwitchCase="'placeholderText'">
@@ -159,7 +185,7 @@
                                             (colorPickerOpen)="onEventLog('buttonTextColor', $event)"
                                             (colorPickerClose)="onEventLog('buttonTextColor', $event)"
                                             readonly
-                                            [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
+                                            [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}"
                                         />
     
                                         <div class="box-color-content" *ngIf="buttonTextColor">
@@ -184,7 +210,7 @@
                                             (colorPickerOpen)="onEventLog('buttonFill', $event)"
                                             (colorPickerClose)="onEventLog('buttonFill', $event)"
                                             readonly
-                                            [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
+                                            [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}"
                                         />
     
                                         <div class="box-color-content" *ngIf="buttonFill">
@@ -201,7 +227,8 @@
                                 </div>
                                 <div class="fill-color">
                                     <div class="label-color">Border Color</div>
-                                    <div class="box-color border-color-pallet" [ngClass]="{'color-pallet-container': buttonBorder}">
+                                    <!-- border-color-pallet-->
+                                    <div class="box-color" [ngClass]="{'color-pallet-container': buttonBorder}">
                                         <input
                                             [style.background]="color5"
                                             [(colorPicker)]="color5"
@@ -209,7 +236,7 @@
                                             (colorPickerOpen)="onEventLog('buttonBorder', $event)"
                                             (colorPickerClose)="onEventLog('buttonBorder', $event)"
                                             readonly
-                                            [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
+                                            [ngClass]="{'input_disable':!(searchObject.searchWidgetConfig.searchButtonEnabled)}"
                                         />
     
                                         <div class="box-color-content" *ngIf="buttonBorder">
@@ -235,13 +262,15 @@
                         <div class="greeting-message border-with-padding">
                             <div class="kr-sg-input-text-area">
                                 <div class="label-text">Customize Launch Greeting Message</div>
-                                <textarea placeholder="Hi, How may I help you?" class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg"></textarea>                                
+                                <textarea class="input-text" maxlength="40" #box (keyup)="0" [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgMsgColor}"></textarea>                                
                             </div>
                             <div class="emojis-block">
-                                <div class="emoji-img"><img src="assets/icons/search-experience/emoji.svg"></div>                                
+                                <div class="emoji-img"><label  for="myFileInput"><img src="assets/icons/search-experience/emoji.svg">
+                                <input type="file" style="display: none;" id="myFileInput" (change)="selectIcon($event,'emoji')" /></label>
+                                </div>                                
                                 <div class="fill-colors-block">
                                     <div class="fill-color">
-                                        <div class="box-color color-pallet-container interaction-color">
+                                        <div class="box-color" [ngClass]="{'color-pallet-container interaction-color': msgColor}">
                                             <input
                                                 [style.background]="color6"
                                                 [(colorPicker)]="color6"
@@ -249,10 +278,9 @@
                                                 (colorPickerOpen)="onEventLog('msgColor', $event)"
                                                 (colorPickerClose)="onEventLog('msgColor', $event)"
                                                 readonly
-                                                [cpToggle]="true"
                                             />
 
-                                            <div class="box-color-content">
+                                            <div class="box-color-content" *ngIf="msgColor">
                                                 <div class="selected-previous-colors">
                                                 <div class="bg-color-selected"></div>
                                                 <div class="bg-color-selected"></div>
@@ -271,11 +299,11 @@
                         <div class="group-radiobutton border-with-padding">
                             <div class="heading-title">Show Searches</div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="Frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
+                                <input id="radio-22" name="radio" class="radio-custom" type="radio" value="frequent" [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" (click)="changeSlider('frequent')">
                                 <label for="radio-22" class="radio-custom-label">Frequent</label>
                             </div>
                             <div class="kr-sg-radiobutton">
-                                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches">
+                                <input id="radio-23" name="radio" class="radio-custom" type="radio" value="recent" [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'" [(ngModel)]="searchObject.searchInteractionsConfig.showSearches" (click)="changeSlider('recent')">
                                 <label for="radio-23" class="radio-custom-label">Recent</label>
                             </div>
                         </div>
@@ -286,18 +314,20 @@
                                 <div class="slider"><span class="enabled">Yes</span><span class="disabled">No</span></div>
                             </label>
                         </div>
-                        <div class="border-with-padding" *ngFor="let data of suggestions">                                                                     
+                        <div class="border-with-padding" *ngFor="let data of suggestions"> 
+                            <!-- <ng-container *ngFor="let num of data.numbers;let i=index;">
+                                <span  [ngStyle]="{'margin-right':num+'px'}">{{num}}&nbsp;&nbsp;</span></ng-container >                                                                     -->
                             <div class="label_text">{{data.name}}</div>
                             <div class="kr-sg-toggle sliderContainer">  
                                 <div class="range-slider">
-                                <app-range-slider [customClass]='"weightsSlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider>
+                                <app-range-slider [customClass]='"querySlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider>
                             </div></div>
                         </div>
 
                         <div class="border-with-padding group-checkbox">
                             <div class="heading-title">Feedback Experience </div>
                             <div class="kr-sg-checkbox">
-                                <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">
+                                <input id="checkbox_grpb" class="checkbox-custom" type="checkbox" [checked]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel" [(ngModel)]="searchObject.searchInteractionsConfig.feedbackExperience.resultLevel">
                                 <label for="checkbox_grpb" class="checkbox-custom-label">Result Level</label>
                             </div>
                             <div class="kr-sg-checkbox">
@@ -339,15 +369,15 @@
             <div class="main-title">Search Widget</div>
             <div class="d-flex search-customization-input">
                 <div class="kr-sg-input-search">                               
-                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" (click)="selectSearchBox('inputBox');$event.stopPropagation();">
+                    <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" #data (change)="onEventLog('placeholderText',data.value)" readonly>
                     <img [src]="searchIcon" class="search-icon" (click)="selectSearchBox('inputIcon');$event.stopPropagation();" height="15" width="15">
-                     <span (click)="selectSearchBox('placeholderText');$event.stopPropagation()" class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
+                     <span class="placeholder-text" [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor}">{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}</span>
                 </div>
-                <button class="btn-customize kr-sg-button-primary read-mode btn_lg"  (click)="selectSearchBox('button')" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}" [disabled]="buttonDisabled">
+                <button class="btn-customize kr-sg-button-primary read-mode btn_lg" [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}">
                     <span>{{searchObject.searchWidgetConfig.buttonText}}</span>
-                    <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled">
-                        <!-- <img src="assets/icons/search-experience/edit.svg"> -->
-                    </div>
+                    <!-- <div class="hover-overlay-btn-img" (click)="buttonDisabled=false" *ngIf="buttonDisabled">
+                        <img src="assets/icons/search-experience/edit.svg">
+                    </div> -->
                 </button>
             </div>
         </div>

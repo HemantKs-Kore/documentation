@@ -161,13 +161,13 @@
                         margin-right: 15px;
                         .input-search{
                             padding: 0 15px 0 36px;
-                            &::placeholder{
-                                color: #BDC1C6 !important;
-                            }
                             &:hover{
                                 border: 1px solid #0D6EFD;
                                 background: #E7F1FF;
                             }
+                            &::placeholder{
+                                color: #BDC1C6 !important;
+                            }                            
                         }
                         .placeholder-text{
                             position: absolute;
@@ -608,3 +608,40 @@
         }
     }
 }
+
+.input_disable{
+    background-color: #EFF0F1;
+    border: 1px solid #BDC1C6;
+    box-sizing: border-box;
+    border-radius: 2px;
+    pointer-events:none;
+}
+.activeBox{
+    border: 1px solid #0D6EFD;
+    background: #E7F1FF;
+}
+:host ::ng-deep .querySlider {
+    .single-slider {
+        .slider-selection {
+            background: #0D6EFD !important;
+        }
+    }
+
+    .slider-horizontal {
+        .slider-tick {
+            background: #0D6EFD !important;
+        }
+        .slider-handle {
+            background: #0D6EFD !important;
+        }
+    }
+}
+::ng-deep .joyride-step__container {
+    background-color: #202124 !important;
+  }
+  ::ng-deep .joyride-arrow__top{
+      border-bottom: 11px solid #202124 !important;
+  }
+  ::ng-deep .joyride-step__close{
+      display: none;
+  }
