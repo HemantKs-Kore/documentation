@@ -1029,7 +1029,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{/if}}\
                background:transparent;">\
             {{if microphone && defaultMicrophone}}\
-              <div class="sdkFooterIcon microphoneBtn"> \
+              <div class="sdkFooterIcon microphoneBtn hide"> \
                   <button class="notRecordingMicrophone" title="Microphone On"> \
                       <i class="microphone"></i> \
                   </button> \
@@ -1146,7 +1146,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             <input id="suggestion"style="position: absolute; bottom: 0px;" name="search" class="search" disabled="disabled">\
             <input autocomplete="off" style="position: absolute; bottom: 0px;" id="search" name="search" class="search" placeholder="Ask anything">\
             <div class="ksa-SpeakIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAETSURBVHgBxVPbSsNAEN2d3XRVSvqQBwNNQwmpgn3xC/x7/0ETEpG2oGAeTKVJ3HXH3Qch1KQiKfTAsJc5c/YyM4QMBO1zhGEYAYwWdg6gn/I8T7p4rGtzPr/xOWcLKat7rdUzIXw5Hl+W2+1btc+FLgGA2kWUa4PKGmO4FuLT6+SSgTi9AG8voii6OkT+8bczctwnNA3stGYXTTMqzOVmQRCcW1OKzBDx3VBcANj1Cvj+5BWAepR+GBKsOD+7s0apk0spSzO6dV0X7ZhflTidxoEQcG2q79Gc/mL30jSdMCZuHYcmWZatDgpYxHHsSkmWjFFPa5SIpFSKJ5vNQ0H+A/vrf2WG9gWaNtkL/Er6GmoQvgHqBWZkE0i8BAAAAABJRU5ErkJggg=="></div>\
-            <div class="sdkFooterIcon microphoneBtn"> \
+            <div class="sdkFooterIcon microphoneBtn hide"> \
                 <button class="notRecordingMicrophone" title="Microphone On"> \
                     <i class="microphone"></i> \
                 </button> \
@@ -6293,6 +6293,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return "Actions"
       } else if (key.toLowerCase() === 'document') {
         return "Documents"
+      } else if (key.toLowerCase() === 'object') {
+        return "Data"
       } else {
         return key;
       }

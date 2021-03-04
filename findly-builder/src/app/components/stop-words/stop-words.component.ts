@@ -48,6 +48,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadStopwords();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   loadStopwords(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){
@@ -111,6 +118,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
             }
           }
         });
+      }
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
       }
       this.loadingContent = false;
     }, errRes => {

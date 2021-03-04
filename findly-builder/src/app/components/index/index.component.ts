@@ -161,6 +161,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    console.log("this.selectedApp", this.selectedApp)
     if ((this.selectedApp || {}).searchIndexes && (this.selectedApp || {}).searchIndexes.length) {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
@@ -881,6 +882,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
+    console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
       this.pipeline = res.stages || [];
       this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));

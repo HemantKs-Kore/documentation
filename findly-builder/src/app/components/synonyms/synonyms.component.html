@@ -5,7 +5,7 @@
     <span class="please-wait-message">{{'synonyms.please_wait' | translate }}</span>
   </div>
   <div class="table-list-content">
-    <div class="kr-sg-data-table" *ngIf="!loadingContent">
+    <div class="kr-sg-data-table" *ngIf="loadingContent1">
       <div class="header-sec col-12 row m-0">
         <div class="col-4 p-0">Synonyms</div>
 
@@ -67,7 +67,7 @@
                 (removed)="remove(syn)"><span *ngIf="syn">{{syn}}</span>
                 <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
               </mat-chip>
-              <input placeholder="Type Synonyms and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList"
+              <input placeholder="Type Synonym and Press Enter" [value]="typedQuery" [matChipInputFor]="chipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="add($event)" #suggestedInput [(ngModel)]="synonymObj.values"
                 [ngModelOptions]="{standalone: true}" autocomplete="off">
@@ -113,9 +113,9 @@
       <div class="heading">{{'synonyms.no_synonyms_available_here' | translate}}</div>
       <div class="desc">{{'synonyms.please_add_synonyms'| translate}}</div> -->
 
-        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/synonyms.empty-svg.svg"></div>
-        <ng-container>
-            <div class="empty-title">You haven’t added any synonyms data yet!</div>
+        <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"src="assets/images/synonyms.empty-svg.svg"></div>
+        <ng-container *ngIf="loadImageText">
+            <div class="empty-title">You have not added any synonyms data yet!</div>
             <div class="desc-text"> Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.
             </div>
             <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
@@ -166,7 +166,7 @@
                   <ul class="dropdown-menu content-menu synonyms_sort_dropdown" ngbDropdownMenu>
                     <li (click)="selectFilter(null);t.close();">{{'synonyms.All' | translate}}<img
                         *ngIf="!(selectedFilter)" class="pl-2" src="assets/icons/check-blue.svg"></li>
-                    <li (click)="selectFilter('oneWaySynonym');t.close();">
+                    <li (click)="selectFilter('oneWaySynonym');t.close();" *ngIf="filterAllSynonym">
                       {{'synonyms.one_way_synonym' | translate}}<img class="pl-2"
                         *ngIf="(selectedFilter === 'oneWaySynonym')" src="assets/icons/check-blue.svg"></li>
                     <li (click)="selectFilter('synonym');t.close();">{{'synonyms.synonym'| translate}}<img class="pl-2"
