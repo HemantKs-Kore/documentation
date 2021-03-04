@@ -279,34 +279,25 @@
             </div>     -->
             <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
           </div>
-          <div class="label_text">Upload Image</div>
+          <div class="label_text mt-2">Upload Image</div>
           <!-- <div class="push-notify"> </div> -->
-          <div class="multi-select">
-            <!-- {{uploadImage.slide | json}} -->
-            <div class="row ml-1">
-                <label class="kr-sg-toggle">                                           
-                    <input type="checkbox" [(ngModel)]="uploadImage.slide">
-                    <div class="slider"></div>
-                </label>  
-                <div class="response ml-1">
-                    <span *ngIf="!uploadImage.slide">No</span>
-                    <span *ngIf="uploadImage.slide">Yes</span>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="kr-sg-input-text mb-3">
-        <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
-        <div class="label-text">URL</div>
-      </div> -->
-        <div class="kr-sg-input-text mb-3"> 
-          <div class="label-text">URL</div>
-          <div *ngIf="!uploadImage.slide">
-          <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" readonly>
-        </div>
-          <div *ngIf="uploadImage.slide">
-          <input maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName">
-        </div>
-        </div>
+          <div class="multi-select mb-2">         
+
+            <label class="kr-sg-toggle">                                       
+              <input type="checkbox" class="h-auto" [(ngModel)]="uploadImage.slide">
+              <div class="slider">
+                <span class="enabled">Yes</span>
+                <span class="disabled">No</span>
+              </div>
+            </label>
+
+          </div>
+
+          <div class="kr-sg-input-text mb-2"> 
+            <div class="label-text">URL</div>
+            <input  maxlength="5128" type="text" autocomplete="off" placeholder="Paste URL here" class="input-text" (keydown)="addImage()" [(ngModel)]="imgInfo.url" name="appName" [ngClass]="{'readonly': !uploadImage.slide}">         
+          </div>
+          <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div>
         </div>
        
         <div class="col-6 right_sec">        
@@ -315,6 +306,18 @@
               <perfect-scrollbar>
                 <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
               </perfect-scrollbar>
+            </div>
+
+            <div class="info-bubble-faq">
+                <div class="w-100 d-flex">
+                  <div class="info_img">
+                    <img src="assets/icons/faq/Info.svg">
+                  </div>
+                  <div class="bubnle-info">
+                    Response layout will be based on the template you select in Search Interface Customization
+                  </div>
+                </div>
+                <div class="know-more-data">Know more</div>
             </div>
           </div>
         </div>
