@@ -43,6 +43,7 @@
     "ngx-color-picker": "^11.0.0",
     "ngx-daterangepicker-material": "^4.0.1",
     "ngx-echarts": "^5.1.2",
+    "ngx-joyride": "^2.3.1",
     "ngx-perfect-scrollbar": "^10.0.1",
     "ngx-toastr": "^13.0.0",
     "nouislider": "^11.1.0",
