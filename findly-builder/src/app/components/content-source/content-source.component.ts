@@ -63,8 +63,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedFilter: any = ''
   executionLogStatus = false;
   contentTypes = {
-    webdomain: 'WEB',
-    document: 'DOC'
+    webdomain: 'Web',
+    document: 'Doc'
   }
   statusObj: any = {
     failed: { name: 'Failed', color: '#DD3646' },
@@ -158,6 +158,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   useCookies = false;
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
+  loadingContent1: boolean;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crawlDepth: number;
@@ -188,6 +189,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  loadImageText: boolean = false;
+  imageLoad() {
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }
@@ -312,6 +319,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('#searchContentSources').focus();
       }, 100);
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -543,6 +557,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source) {
+    console.log("sourec opned", source)
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -745,10 +760,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Document ',
+        title: 'Delete Document',
         newTitle: 'Are you sure you want to delete?',
         body: 'The selected document will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -775,8 +790,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
         text: 'Are you sure you want to delete?',
         newTitle: 'Are you sure you want to delete?',
-        body: 'The selected record will be deleted',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        body: 'All the Pages associated with this source will be deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

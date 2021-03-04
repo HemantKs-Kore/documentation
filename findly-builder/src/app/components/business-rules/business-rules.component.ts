@@ -121,6 +121,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private sortPipe: SortPipe,
     private appSelectionService: AppSelectionService
   ) { }
+  // ngAfterViewInit(){
+  //   this.loadingContent=false;
+  // }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -130,6 +133,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     })
     this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.getFieldAutoComplete(null, null);
+  }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   loadRules() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
@@ -458,8 +468,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const allElements = $('.selectRuleCheckBoxDiv');
     if (selectedElements.length === allElements.length) {
       $('#selectAllRules')[0].checked = true;
+      this.selcectionObj.selectAll =  true
     } else {
       $('#selectAllRules')[0].checked = false;
+      this.selcectionObj.selectAll =  false
     }
     const element = $('#' + rule._id);
     const addition = element[0].checked
@@ -476,6 +488,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedItems = {};
       this.selcectionObj.selectedCount = 0;
       this.selcectionObj.selectAll = false;
+     // $('#checkbox-1').checked = false;
     } else {
       if (ruleId) {
         if (addtion) {
@@ -489,6 +502,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
       if (this.selcectionObj.selectedCount === this.rules.length) {
         this.selcectionObj.selectAll = true;
+        //$('#checkbox-1').checked = true;
       }
     }
   }
@@ -565,6 +579,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       this.rules = res.rules || [];
       this.loadingContent = false;
       this.addRemoveRuleFromSelection(null, null, true);
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get rules');
@@ -624,7 +645,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         // text: 'Are you sure you want to delete selected rule?',
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected rule will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -649,7 +670,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         // text: 'Are you sure you want to delete selected rules?',
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected rules will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

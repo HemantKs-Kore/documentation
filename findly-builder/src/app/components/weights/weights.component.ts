@@ -140,9 +140,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
-        newTitle: 'Are you sure you want to restore ?',
-        body:'Selected weights will be restored.',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        newTitle: 'Are you sure you want to reset ?',
+        body:'Searchable fields and their weights will be reset to system-defined values. ',
+        buttons: [{ key: 'yes', label: 'Reset'}, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
@@ -288,7 +288,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to delete selected rankable field?',
         newTitle: 'Are you sure you want to delete ?',
         body:'Selected rankable field will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });

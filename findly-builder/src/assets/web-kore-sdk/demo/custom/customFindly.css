@@ -54,6 +54,14 @@
     display: none;
     z-index: 999;
 }
+.search-background-div .bgDullOpacity{
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  opacity: 0.8;
+  height: calc(100% - 44px);
+  top: 0;
+}
 /*---- SEARCH RESULTS ----*/
 .search-body-full.searchInSideApp .custom-nav-panel-container{
   width: 50%;

@@ -15,7 +15,7 @@
     </div>
   </div>
   <!-- <div class="bot-actions-content-container" *ngIf="(bots && bots.length) && !loadingContent"> -->
-  <ng-container *ngIf="linkedBotID && !loadingContent">
+  <ng-container *ngIf="linkedBotID && loadingContent1">
     <div class="bot-actions-content-container">
       <div class="linked-bot-details-container">
         <div class="linked-bot-info-container">
@@ -172,8 +172,8 @@
   <ng-container *ngIf="!linkedBotID && !loadingContent">
     <perfect-scrollbar class="empty-scroll">
     <div  class="empty-landing-screen">
-      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" src="assets/images/botactions-empty.svg"></div>
-      <ng-container >
+      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.svg"></div>
+      <ng-container *ngIf="loadImageText" >
           <div class="empty-title">You haven’t linked any bot yet!</div>
           <div class="desc-text"> Bot Actions are a list of tasks that are performed by the bots. SearchAssist allows you to link bots that can perform tasks for the search user.
           </div>

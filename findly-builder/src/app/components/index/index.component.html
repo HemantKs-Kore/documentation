@@ -729,8 +729,8 @@
             <img src="assets/images/simulate.svg" class="mr-1" />{{
             simulteObj.simulating ? "Simulating.." : "Simulate"
             }}
-          </button>
-          <span class="ml-1 d-none"><img src="assets/icons/help.svg" /></span></span>
+          </button> 
+          <span class="mr-2" placement="top-center" ngbTooltip="Simulate to check how the changes reflect in the documents before saving" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <img class="mr-5"src="assets/icons/help.svg"/></span></span>
         <button class="kr-sg-button-secondary btn_lg float-right" id="cancleUnsavedChanges"
           [disabled]="!changesDetected" (click)="clearDirtyObj(true)">
           Cancel

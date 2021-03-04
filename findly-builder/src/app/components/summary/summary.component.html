@@ -44,7 +44,7 @@
       </div>
       <div class="col-3 cards-data">
         <div class="content">
-            <div class="title-info">Result Rate for {{current_month}}(Last 30 days)</div>
+            <div class="title-info">Result Rate (Last 30 days)</div>
             <div class="bottom-sec">
                 <div class="left-sec">
                     <div class="count">{{totalSearchesStats.resultRate }}%</div>
@@ -226,7 +226,7 @@
           <div class="body-data row m-0" *ngFor="let experiment of experiments">
             <div class="col-9 title">{{experiment.name}}</div>
             <div class="col-3 status">
-              <span class="a-status" [ngClass]="experiment.state">{{experiment.state}}</span>
+              <span class="a-status" [ngClass]="experiment.state">{{experiment.state|titlecase }}</span>
               <span placement="top-center" [ngbTooltip]="experiment.total_days" [container]='"body"' tooltipClass="metrics_tooltips m-0" *ngIf="experiment.state!=='completed'"><img src="assets/icons/overview/Info.svg"></span>
             </div>          
           </div>

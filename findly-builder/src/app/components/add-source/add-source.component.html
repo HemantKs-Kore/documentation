@@ -174,7 +174,7 @@
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
-        (click)="stopCrwaling()" *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel Extraction</button>
+        (click)="cancelExtraction()" *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
@@ -259,6 +259,7 @@
                         <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
                         <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
                     </div>
+                    <div class="data">You can upload either JSON or CSV file here</div>
                     </div>
                     <div class="kr-sg-input-text-area mb-4">
                       <div class="kr-sg-file-drag-drop">
@@ -458,7 +459,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
-                          placeholder="Enter/Path" class="input-text">
+                          placeholder="https://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -509,7 +510,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="Enter/Path" class="input-text">
+                          placeholder="https://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -865,7 +866,7 @@
         <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
           (click)="stopCrwaling($event)" [ngClass]="{'d-none': statusObject.status==='success'}">Abort</button>
           <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
-          (click)="closeCrawlModal()">Ok</button>
+          (click)="closeStatusModal()">Ok</button>
          </div>
     </div>
   </div>

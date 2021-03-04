@@ -123,7 +123,14 @@ export class StructuredDataComponent implements OnInit {
         : this.searchItems())
     )
   }
-
+  isLoading1: boolean;
+  loadImageText: boolean = false;
+  imageLoad(){
+    console.log("image loaded now")
+    this.isLoading=false;
+    this.isLoading1 = true;
+    this.loadImageText = true;
+  }
   getStructuredDataList(skip?){
     this.isLoading = true;
     this.noItems = false;
@@ -148,6 +155,13 @@ export class StructuredDataComponent implements OnInit {
       }
       else{
       this.structuredDataItemsList = [];
+      }
+      if (res.length > 0) {
+        this.isLoading = false;
+        this.isLoading1 = true;
+      }
+      else {
+        this.isLoading1 = true;
       }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
@@ -669,7 +683,7 @@ export class StructuredDataComponent implements OnInit {
         data: {
           newTitle: 'Are you sure you want to delete?',
           body: 'Selected data will be permanently deleted.',
-          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true,
         }
       });

@@ -25,6 +25,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   showSearch;
   serachIndexId
   loadingContent = true;
+  filterAllSynonym:boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
@@ -67,6 +68,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.loadSynonyms();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   loadSynonyms() {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
     if (this.queryPipelineId) {
@@ -91,6 +99,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.pipeline = res.pipeline || {};
       this.loadingContent = false;
       this.prepareSynonyms();
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -116,6 +131,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         obj.keyword = this.newSynonymObj.keyword;
       }
     }
+    if (this.newSynonymObj.type === 'oneWaySynonym'){
+      this.filterAllSynonym=true;
+      }
+      else{
+        this.filterAllSynonym=false;
+      }
+   
     this.synonymData.push(obj);
     this.addOrUpddate(this.synonymData);
   }
@@ -207,7 +229,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body:'Selected synonym will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

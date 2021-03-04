@@ -39,7 +39,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       facetType: 'value',
       isMultiSelect: true,
       isFacetActive: true,
-      facetValue: { asc : true },
+      facetValue: { asc : true, size : 10 },
     },
     range:{
       rangeName:'',
@@ -94,6 +94,14 @@ export class FacetsComponent implements OnInit , OnDestroy{
     })
     this.getFieldAutoComplete('');
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
+
   loadfacets(){
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
     if(this.queryPipelineId){
@@ -272,7 +280,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
         facetType: 'value',
         isMultiSelect: true,
         isFacetActive: true,
-        facetValue: { asc : true },
+        facetValue: { asc : true, size: 10 },
       },
       range:{
         rangeName:'',
@@ -336,7 +344,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       if(!this.addEditFacetObj.facetRange){
         this.addEditFacetObj.facetRange = [];
       }
-      if(this.facetDefaultValueObj.range.rangeName){
+      if(this.facetDefaultValueObj.range.from && this.facetDefaultValueObj.range.to){
         this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
       }
     }
@@ -372,6 +380,13 @@ export class FacetsComponent implements OnInit , OnDestroy{
       this.selectTypeArr = [...new Set(this.selectTypeArr)];
       this.loadingContent = false;
       this.addRemovefacetFromSelection(null,null,true);
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes,'Failed to get facets');
@@ -455,7 +470,7 @@ export class FacetsComponent implements OnInit , OnDestroy{
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body:'Selected facet will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
