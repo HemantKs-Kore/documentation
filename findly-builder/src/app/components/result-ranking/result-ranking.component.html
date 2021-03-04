@@ -1,16 +1,16 @@
 <div class="faqmain-container">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+    <div class="mainLoadingSpinner" *ngIf="loadingContent">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'please_wait' | translate}}</span>
     </div>
-    <div class="header-sec col-12 row m-0" *ngIf="collectedRecord.length===0 && !nextPage">
+    <div class="header-sec col-12 row m-0" *ngIf="!nextPage&& loadingContent1">
         <div class="col-4 p-0">Result Ranking</div>     
         </div>
-    <ng-container *ngIf="collectedRecord.length===0 && !nextPage">
+    <ng-container *ngIf="!nextPage&& loadingContent1">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/resultRanking-empty.svg"></div>
-          <ng-container>
+          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/resultRanking-empty.svg"></div>
+          <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any queries yet!</div>
               <div class="desc-text">Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs 
               </div>
@@ -22,7 +22,6 @@
     </perfect-scrollbar>  
   </ng-container>
   <div *ngIf="nextPage">
-    <div *ngIf="!loadingContent">
         <div class="faqsListContainer">
             <div class="faq-content-boxes">
                 <div class="content left-content">
@@ -198,7 +197,8 @@
                                           </div>
                                           <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
                                             <div class="row card-body">
-                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}} </div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo._source"> {{actLog.target.contentInfo._source.pageSearchResultPreview}}</div>
+                                                <div class="col-9 info-card" *ngIf ="actLog.target.contentInfo.contentType == 'faq'"> {{faqDesc}} </div>
                                                 <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
                                                 <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
                                                   <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
@@ -245,7 +245,7 @@
                     </div>
                 </div>
             </div>        
-        </div>
+
         <!-- <div class="log_section " [ngClass] ="{'d-none' : !resultLogs}">
             <div class="header-log">
                 <div class="title">Log ({{customizeLog.length || 0}})</div>

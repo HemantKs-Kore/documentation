@@ -14,6 +14,7 @@ declare const $: any;
 export class AddResultComponent implements OnInit {
   searchType = '';
   searchRadioType = 'faq';
+  searchRadioTypeTxt = "FAQ's"
   selectedApp :any = {};
   extractedResults : any = [];
   serachIndexId;
@@ -56,6 +57,17 @@ export class AddResultComponent implements OnInit {
   resultClick(type){
     this.searchRadioType = type;
     this.searchType = this.searchRadioType;
+    if(this.searchRadioType == 'faq'){
+      this.searchRadioTypeTxt = "FAQ"
+    }else if(this.searchRadioType == 'page'){
+      this.searchRadioTypeTxt = "Content"
+    }else if(this.searchRadioType == 'task'){
+      this.searchRadioTypeTxt = "Bot Action"
+    }else if(this.searchRadioType == 'structuredData'){
+      this.searchRadioTypeTxt = "Structured Data"
+    }else {
+      this.searchRadioTypeTxt = "Any"
+    }
     this.searchTxt ='';
     this.extractedResults = [];
     //this.searchResults(this.searchTxt)
@@ -138,6 +150,7 @@ export class AddResultComponent implements OnInit {
     //this.searchType = '';
     this.searchTxt ='';
     this.extractedResults = [];
+    this.recordArray = [];
     //this.searchResults(this.searchTxt)
   }
   cancelRecord(){

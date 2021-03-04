@@ -399,4 +399,8 @@ export class AppHeaderComponent implements OnInit {
       this.dockServiceSubscriber.unsubscribe();
     }
   }
+  openOrCloseSearchSDK(){
+    this.headerService.openSearchSDK(true);
+  }
+
 }

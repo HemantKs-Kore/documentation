@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showInsightFull = false;
   queryText;
   subscription: Subscription;
+  searchSDKSubscription : Subscription;
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
@@ -72,6 +73,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userInfo = this.authService.getUserInfo() || {};
     this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    })
+    this.searchSDKSubscription = this.headerService.openSearchSDKFromHeader.subscribe( (res : any) => {
+      if (!$('.search-background-div:visible').length) {
+        $('.start-search-icon-div').addClass('active');
+        this.showHideSearch(true);
+      } else {
+        this.showHideSearch(false);
+      }
     })
   }
   showMenu(event) {
@@ -228,6 +237,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.authService.findlyApps.unsubscribe();
     this.subscription.unsubscribe();
+    this.searchSDKSubscription.unsubscribe();
   }
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
@@ -269,7 +279,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showHideSearch(show, disabelInstanceDistroy?) {
     const _self = this;
     if (show) {
-      $('app-body').append('<div class="search-background-div"></div>');
+      $('app-body').append('<div class="search-background-div"><div class="bgDullOpacity"></div></div>');
       $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');

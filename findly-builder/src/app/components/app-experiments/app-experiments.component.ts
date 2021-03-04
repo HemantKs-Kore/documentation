@@ -61,12 +61,19 @@ export class AppExperimentsComponent implements OnInit {
   exp_limitPage: number = 10;
   exp_skipPage: number = 0;
   test = 33.33;
+  loadingContent1: boolean;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getExperiments();
     this.getQueryPipeline();
     this.setSliderDefaults();
+  }
+  loadImageText: boolean = false;
+  imageLoaded() {
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
   }
   setSliderDefaults(starts?) {
     starts = starts || [...this.star];
@@ -95,6 +102,7 @@ export class AppExperimentsComponent implements OnInit {
     };
     this.updateSliderConfig();
   }
+
   // close model popup method
   closeModalPopup() {
     this.exp_status = '';
@@ -355,7 +363,13 @@ export class AppExperimentsComponent implements OnInit {
       this.filterExperiments = result;
       this.statusList(result);
       this.countExperiment(result);
-      this.loadingContent = false;
+      if (result.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -540,7 +554,7 @@ export class AppExperimentsComponent implements OnInit {
       data: {
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected Experiment will be permanently deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
