@@ -6,7 +6,7 @@
 <div class="faqmain-container" *ngIf="loadingFaqs1">
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
-            <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
+            <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
                     <div class="dropdown dropdown-open">
@@ -112,9 +112,10 @@
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
                             <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
+                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
                             <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
-                            <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
+                            
                         </div>
                     </div>
                     <div class="body-content">
@@ -179,7 +180,7 @@
                     </div>
                 </div>
             </div>            
-            <div class="content right-content">
+            <div class="content right-content" [ngClass]="{'blur-content': faqSelectionObj.selectedCount >=2}">
                 <div class="content-boxes train_your_questions">
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">

@@ -42,7 +42,9 @@
                     <div class="full-card">
                         <div class="legends-info">
                             <div class="content no-bg">
-                                <div class="title">{{'metrics.user_engagement.Total_User'| translate}} <span class="toatlsearches"></span></div>
+                                <div class="title">{{'metrics.user_engagement.Total_User'| translate}}
+                                    <img src="assets/icons/gray_info.svg" placement="top-center" ngbTooltip="Number of unique users performed search during the selected period" [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1"> <span class="toatlsearches"></span>
+                                </div>
                                 <div class="count-data">
                                     <span class="count">{{totalUser}}
                                         <img style=" background: #DD3646;" *ngIf ="totalUserProgress < 0" src="assets/icons/arrow-decrease.svg">

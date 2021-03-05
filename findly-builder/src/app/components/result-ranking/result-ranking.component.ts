@@ -446,9 +446,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore Customization',
         text: 'Are you sure you want to Restore',
-        newTitle: 'Are you sure you want to restore?',
-        body: 'Selected customizations will be removed once you proceed.',
-        buttons: [{ key: 'yes', label: 'Restore', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        newTitle: 'Are you sure you want to remove?',
+        body: 'Selected customization done for this query will be removed.',
+        buttons: [{ key: 'yes', label: 'Remove', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }
     });
@@ -532,7 +532,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         newTitle: 'Are you sure you want to reset?',
-        body: 'Selected queries will be set to Reset once you proceed.',
+        body: 'All the customizations done for this query will be removed.',
         buttons: [{ key: 'yes', label: 'Reset', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }

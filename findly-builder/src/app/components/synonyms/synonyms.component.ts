@@ -25,6 +25,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   showSearch;
   serachIndexId
   loadingContent = true;
+  filterAllSynonym:boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
@@ -135,6 +136,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         obj.keyword = this.newSynonymObj.keyword;
       }
     }
+    if (this.newSynonymObj.type === 'oneWaySynonym'){
+      this.filterAllSynonym=true;
+      }
+      else{
+        this.filterAllSynonym=false;
+      }
+   
     this.synonymData.push(obj);
     this.addOrUpddate(this.synonymData);
   }

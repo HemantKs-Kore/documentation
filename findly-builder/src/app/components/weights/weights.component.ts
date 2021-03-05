@@ -146,8 +146,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
         newTitle: 'Are you sure you want to reset ?',
-        body:'Selected weights will be reset to default.',
-        buttons: [{ key: 'yes', label: 'Restore'}, { key: 'no', label: 'Cancel' }],
+        body:'Searchable fields and their weights will be reset to system-defined values. ',
+        buttons: [{ key: 'yes', label: 'Reset'}, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
