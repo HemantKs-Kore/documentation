@@ -228,6 +228,28 @@
                     .kr-sg-input-search{
                         width: 700px;
                         margin-right: 15px;
+                        .placeholder-custom-search{
+                            position: absolute;                         
+                            width: 50px;                            
+                            max-width: initial;                           
+                            height: 20px;
+                            top: 7px;
+                            border-radius: 0;
+                            left: 38px;
+                            padding: 0;
+                            background: #fff;
+                            border: 1px solid transparent;
+                            outline: 0 !important;
+                            max-width: calc(100% - 55px);
+                            &:hover{
+                                border: 1px solid #0D6EFD;
+                                background: #E7F1FF;
+                            }
+                            &.activeBox{
+                                border: 1px solid #0D6EFD;
+                                background: #E7F1FF;
+                            }
+                        }
                         &.added-tour{
                             z-index: 1;
                             pointer-events: none;
