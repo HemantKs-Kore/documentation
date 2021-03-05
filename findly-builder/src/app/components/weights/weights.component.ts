@@ -64,10 +64,14 @@ export class WeightsComponent implements OnInit, OnDestroy {
     })
   }
   loadWeights() {
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.getWeights();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getWeights();
+      }
     }
+
   }
   selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
@@ -117,6 +121,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreWeights', quaryparms).subscribe(res => {
       this.notificationService.notify('Weights restored successfully', 'success');
@@ -141,9 +146,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
-        newTitle: 'Are you sure you want to restore ?',
-        body: 'Selected weights will be restored.',
-        buttons: [{ key: 'yes', label: 'Restore' }, { key: 'no', label: 'Cancel' }],
+        newTitle: 'Are you sure you want to reset ?',
+        body: 'Searchable fields and their weights will be reset to system-defined values. ',
+        buttons: [{ key: 'yes', label: 'Reset' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -161,6 +166,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
@@ -246,8 +252,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
   addOrUpddate(weights, dialogRef?, type?) {
     weights = weights || this.weights;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.pipeline.weights = this.getWeightsPayload(weights);
     const payload: any = {
@@ -289,7 +296,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to delete selected rankable field?',
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected rankable field will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

@@ -19,7 +19,7 @@ export class EndPointsService {
       window.appConfig.API_SERVER_URL = this.SERVER_URL;
     } else {
       this.API_SERVER_URL = environment.API_SERVER_URL + this.API_URL_PREFIX + this.API_VERSION_PREFIX;
-      //this.API_SERVER_URL = " http://4401862e7130.ngrok.io" + "/api/1.1"
+      //this.API_SERVER_URL = "http://b10c83bc1944.ngrok.io" + "/api/1.1"
     }
     this.init();
   }
@@ -70,7 +70,7 @@ export class EndPointsService {
     };
     this.serviceList['train.app'] = {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
-      method: 'get'
+      method: 'post'
     };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
@@ -383,19 +383,23 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['get.queryPipelines'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline',
       method: 'get'
     }
     this.serviceList['create.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline',
       method: 'post'
     }
     this.serviceList['put.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId',
       method: 'put'
     }
     this.serviceList['get.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId',
       method: 'get'
     }
     this.serviceList['get.platformStages'] = {
@@ -427,15 +431,18 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['post.restoreStopWord'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/setDefaults?stage=stopwords',
       method: 'put'
     }
     this.serviceList['post.restoreWeights'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+     endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
       method: 'put'
     }
     this.serviceList['post.enableStopWords'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId?enableStopWords=:enable',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId?enableStopWords=:enable',
       method: 'post'
     }
     this.serviceList['get.traits'] = {
@@ -463,59 +470,66 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['post.createField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields',
       method: 'post'
     }
     this.serviceList['get.allField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields?offset=:offset&limit=:limit',
       method: 'get'
     }
     this.serviceList['get.getFieldById'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'get'
     }
     this.serviceList['get.getFieldUsage'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId/usage?queryPipelineId=:queryPipelineId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId/usage?queryPipelineId=:queryPipelineId',
       method: 'get'
     }
     this.serviceList['put.updateField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'put'
     }
     this.serviceList['delete.deleteField'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/:fieldId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/:fieldId',
       method: 'delete'
     }
     this.serviceList['get.getFieldAutocomplete'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/fields/autocomplete?alpha=:query&isIndexed=true',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/fields/autocomplete?alpha=:query&isIndexed=true',
       method: 'get'
     }
     this.serviceList['get.allFacets'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',
       method: 'get'
     }
     this.serviceList['create.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/',
       method: 'post'
     }
     this.serviceList['reorder.facets'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/facetOrder',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/facetOrder',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/facetOrder',
       method: 'put'
     }
     this.serviceList['update.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'put'
     }
     this.serviceList['update.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'put'
     }
     this.serviceList['delete.facet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/:facetId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/:facetId',
       method: 'delete'
     }
     this.serviceList['delete.bulkFacet'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/bulk',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/bulk',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/facets/bulk',
       method: 'delete'
     }
     this.serviceList['get.extractedResult_RR'] = {
@@ -527,7 +541,8 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['update.rankingPinning'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning',
       method: 'post'
     }
     this.serviceList['recrwal'] = {
@@ -545,11 +560,13 @@ export class EndPointsService {
       method: 'post'
     }
     this.serviceList['get.queryCustomizeList'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/queryCustomisations?limit:limit&skip:skip',
       method: 'get'
     }
     this.serviceList['put.restoreQueryCustomize'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/restore',
       method: 'put'
     }
     this.serviceList['get.rankingActionLog'] = {
@@ -557,15 +574,18 @@ export class EndPointsService {
       method: 'get'
     }
     this.serviceList['get.customisationLogs'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
+     // endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/customisationLogs?limit=20&skip=0',
       method: 'get'
     }
     this.serviceList['reset.bulkCustomization'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/restore',
       method: 'put'
     }
     this.serviceList['delete.CustomizatioLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rankingAndPinning/:rankingAndPinningId/content/:contentId',
       method: 'delete'
     }
     /** get API for Metrics */
@@ -583,31 +603,38 @@ export class EndPointsService {
 
     /** APIs for Business rules */
     this.serviceList['get.businessRules'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp?offset=:offset&limit=:limit',
       method: 'get'
     },
       this.serviceList['create.businessRules'] = {
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp',
+        //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp',
+        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp',
         method: 'post'
       },
       this.serviceList['get.businessRuleById'] = {
-        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
+        //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
+        endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp/:ruleId',
         method: 'get'
       }
     this.serviceList['update.businessRule'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'put'
     }
     this.serviceList['delete.businessRule'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/:ruleId',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp/:ruleId',
       method: 'delete'
     }
     this.serviceList['delete.businessRulesBulk'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/bulk',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/rulesp/bulk',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/rulesp/bulk',
       method: 'delete'
     }
     this.serviceList['get.businessRulesLog'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/logs?subject=rules',
+      //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/logs?subject=rules',
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/logs?subject=rules',
       method: 'get'
     }
     /** APIs for Business rules */
@@ -855,8 +882,12 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline',
       method: 'post'
     }
-    this.serviceList['delete.queryPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/:indexPipelineId',
+    this.serviceList['put.newIndexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
+      method: 'put'
+    }
+    this.serviceList['delete.indexPipeline'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/indexPipeline/:indexPipelineId',
       method: 'delete'
     }
     /** APIs for search experience */

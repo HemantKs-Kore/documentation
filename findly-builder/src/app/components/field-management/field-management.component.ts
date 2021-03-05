@@ -7,9 +7,10 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { of, interval, Subject } from 'rxjs';
+import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 @Component({
   selector: 'app-field-management',
@@ -45,6 +46,7 @@ export class FieldManagementComponent implements OnInit {
   beforeFilterFields : any = [];
   filterTableheaderOption = "";
   filterResourcesBack:any;
+  subscription: Subscription;
   filterTableSource = "all";
   firstFilter: any = {'header': '' , 'source' : ''};
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -53,14 +55,24 @@ export class FieldManagementComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public authService:AuthService
+    public authService:AuthService,
+    private appSelectionService:AppSelectionService
   ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
-    this.getFileds();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.loadFileds();
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+      this.loadFileds();
+    })
+  }
+  loadFileds(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+        this.getFileds();
+      }
   }
   toggleSearch(){
     if(this.showSearch && this.searchFields){
@@ -106,6 +118,7 @@ export class FieldManagementComponent implements OnInit {
     this.fetchingFieldUsage = true
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
       queryPipelineId:this.workflowService.selectedQueryPipeline()._id,
       fieldId:record._id,
     };
@@ -147,7 +160,7 @@ export class FieldManagementComponent implements OnInit {
       data: {
         newTitle:'Are you sure you want to delete?',
         body:usageText,
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
@@ -234,6 +247,7 @@ export class FieldManagementComponent implements OnInit {
   deleteIndField(record,dialogRef){
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
+      indexPipelineId:this.indexPipelineId,
       fieldId:record._id,
     };
     this.service.invoke('delete.deleteField', quaryparms).subscribe(res => {

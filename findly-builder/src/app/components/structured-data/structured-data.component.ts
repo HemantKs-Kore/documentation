@@ -8,7 +8,9 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
-import { retryWhen } from 'rxjs/operators';
+import { debounceTime, map, retryWhen } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-structured-data',
@@ -93,6 +95,10 @@ export class StructuredDataComponent implements OnInit {
   tempAdvancedSearch : any = {};
   disableContainer : any = false;
   isResultTemplate : boolean = false;
+  serachIndexId : any;
+  searchFocusIn=false;
+  search : any;
+  formatter: any;
 
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild('advancedSearchModalPop') advancedSearchModalPop: KRModalComponent;
@@ -102,14 +108,29 @@ export class StructuredDataComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private modalService: NgbModal,
     private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.getStructuredDataList();
-    this.getFieldAutoComplete('');
+    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    // this.getAllSettings();
+    this.search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.searchItems())
+    )
   }
-
+  isLoading1: boolean;
+  loadImageText: boolean = false;
+  imageLoad(){
+    console.log("image loaded now")
+    this.isLoading=false;
+    this.isLoading1 = true;
+    this.loadImageText = true;
+  }
   getStructuredDataList(skip?){
     this.isLoading = true;
     this.noItems = false;
@@ -134,6 +155,13 @@ export class StructuredDataComponent implements OnInit {
       }
       else{
       this.structuredDataItemsList = [];
+      }
+      if (res.length > 0) {
+        this.isLoading = false;
+        this.isLoading1 = true;
+      }
+      else {
+        this.isLoading1 = true;
       }
       this.structuredDataItemsList.forEach(data => {
         data.objectLength =  Object.keys(data._source).length;
@@ -277,6 +305,7 @@ export class StructuredDataComponent implements OnInit {
   closeStructuredDataModal(event?){
     this.selectedSourceType = {};
     if (this.addStructuredDataModalPopRef && this.addStructuredDataModalPopRef.close) {
+      this.modalService.dismissAll();
       this.addStructuredDataModalPopRef.close();
       if(event && event.showStatusModal){
         this.structuredDataDocPayload = event.payload;
@@ -300,6 +329,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   openAdvancedSearch(){
+    this.getFieldAutoComplete('');
     if(Object.values(this.advancedSearch).length){
       this.tempAdvancedSearch = JSON.parse(JSON.stringify(this.advancedSearch));
     }
@@ -326,6 +356,7 @@ export class StructuredDataComponent implements OnInit {
       type : ''
     });
     console.log(this.advancedSearch);
+    this.getFieldAutoComplete('');
   }
 
   removeRule(index){
@@ -652,7 +683,7 @@ export class StructuredDataComponent implements OnInit {
         data: {
           newTitle: 'Are you sure you want to delete?',
           body: 'Selected data will be permanently deleted.',
-          buttons: [{ key: 'yes', label: 'Proceed', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true,
         }
       });
@@ -687,8 +718,15 @@ export class StructuredDataComponent implements OnInit {
         if(res){
           this.selectedStructuredData = [];
           this.allSelected = false;
-          this.getStructuredDataList();
-          this.notificationService.notify('Deleted Successfully', 'success');
+          if(this.searchText.length){
+            this.searchItems();
+          }
+          else if(Object.keys(this.appliedAdvancedSearch).length){
+            this.applyAdvancedSearchCall();
+          }
+          else{
+            this.getStructuredDataList();
+          }          this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
         console.log("error", errRes);
@@ -710,7 +748,15 @@ export class StructuredDataComponent implements OnInit {
         if(res){
           this.selectedStructuredData = [];
           this.allSelected = false;
-          this.getStructuredDataList();
+          if(this.searchText.length){
+            this.searchItems();
+          }
+          else if(Object.keys(this.appliedAdvancedSearch).length){
+            this.applyAdvancedSearchCall();
+          }
+          else{
+            this.getStructuredDataList();
+          }
           this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
@@ -731,4 +777,35 @@ export class StructuredDataComponent implements OnInit {
     }
   }
 
+  getAllSettings(){
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    this.service.invoke('get.SI_setting', quaryparms).subscribe(res => {
+      console.log("res", res);
+      if(res.settings){
+        res.settings.forEach( (_interface) => {
+          if(_interface.interface === 'search'){
+            _interface.appearance.forEach(element => {
+              if(element.type === 'structuredData'){
+                if(element.templateId && element.templateId.length){
+                  this.isResultTemplate = true;
+                }
+                else{
+                  this.isResultTemplate = false;
+                }
+              }
+            });
+          }
+        });
+      }
+    }, errRes => {
+      this.notificationService.notify('Failed to fetch all Setting Informations', 'error');
+    });
+  }
+
+  navigateToSearchInterface(){
+    // this.router.navigate(['/searchInterface'], { skipLocationChange: true });
+  }
+  
 }

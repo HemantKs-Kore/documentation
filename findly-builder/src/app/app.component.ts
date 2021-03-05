@@ -154,7 +154,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id) {
         const searchData = {
           _id: appData.searchIndexes[0]._id,
-          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();
@@ -269,7 +270,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showHideSearch(show, disabelInstanceDistroy?) {
     const _self = this;
     if (show) {
-      $('app-body').append('<div class="search-background-div"></div>');
+      $('app-body').append('<div class="search-background-div"><div class="bgDullOpacity"></div></div>');
       $('app-body').append('<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>');
       $('.search-background-div').show();
       $('.start-search-icon-div').addClass('active');

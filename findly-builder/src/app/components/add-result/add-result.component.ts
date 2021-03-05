@@ -14,6 +14,7 @@ declare const $: any;
 export class AddResultComponent implements OnInit {
   searchType = '';
   searchRadioType = 'faq';
+  searchRadioTypeTxt = "FAQ's"
   selectedApp :any = {};
   extractedResults : any = [];
   serachIndexId;
@@ -48,7 +49,7 @@ export class AddResultComponent implements OnInit {
   appDetails(){
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id
   }
   closeCross(){
     this.closeResult.emit(!this.addNew);
@@ -56,6 +57,17 @@ export class AddResultComponent implements OnInit {
   resultClick(type){
     this.searchRadioType = type;
     this.searchType = this.searchRadioType;
+    if(this.searchRadioType == 'faq'){
+      this.searchRadioTypeTxt = "FAQ"
+    }else if(this.searchRadioType == 'page'){
+      this.searchRadioTypeTxt = "Content"
+    }else if(this.searchRadioType == 'task'){
+      this.searchRadioTypeTxt = "Bot Action"
+    }else if(this.searchRadioType == 'structuredData'){
+      this.searchRadioTypeTxt = "Structured Data"
+    }else {
+      this.searchRadioTypeTxt = "Any"
+    }
     this.searchTxt ='';
     this.extractedResults = [];
     //this.searchResults(this.searchTxt)
@@ -93,7 +105,8 @@ export class AddResultComponent implements OnInit {
     const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     let result :any = [];
     this.recordArray.forEach((element,index) => {
@@ -138,6 +151,7 @@ export class AddResultComponent implements OnInit {
     //this.searchType = '';
     this.searchTxt ='';
     this.extractedResults = [];
+    this.recordArray = [];
     //this.searchResults(this.searchTxt)
   }
   cancelRecord(){

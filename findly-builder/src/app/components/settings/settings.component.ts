@@ -47,16 +47,16 @@ export class SettingsComponent implements OnInit {
       catagory: 'others',
       icon: "assets/icons/web-mobile-client.png"
     },
-    {
-      id: 'ivrLocal',
-      name: 'Webhook',
-      enable: false,
-      status: 'Not Setup',
-      hide: false,
-      class: 'ivr',
-      catagory: 'other',
-      icon: "assets/icons/webhook.svg"
-    }
+    // {
+    //   id: 'ivrLocal',
+    //   name: 'Webhook',
+    //   enable: false,
+    //   status: 'Not Setup',
+    //   hide: false,
+    //   class: 'ivr',
+    //   catagory: 'other',
+    //   icon: "assets/icons/webhook.svg"
+    // }
   ]
   allBotArray = [];
   @ViewChild('addCredential') addCredential: KRModalComponent;

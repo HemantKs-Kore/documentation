@@ -2025,6 +2025,12 @@ and open the template in the editor.
         line-height: 34px;
         width: 100%;
         outline: 0 !important;
+        &:hover{
+            &::placeholder{
+                color: #5F6368;
+                opacity: 1;
+            }
+        }
         &::placeholder{
             color: $secondaryColor;
             opacity: 0.5;
@@ -2032,6 +2038,10 @@ and open the template in the editor.
         }
         &:focus{
             border: 1px solid #1372ff;
+            &::placeholder{
+                color: #BDC1C6;
+                opacity: 1;
+            }
         }
         &:active{
             border: solid 1px $hoverBlue;

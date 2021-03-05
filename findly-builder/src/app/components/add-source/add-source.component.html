@@ -20,7 +20,7 @@
                   <div >{{source.description}}</div>
                 </div>
               </div>
-            </div>           
+            </div>
           </div>
         </div>
       </div>     -->
@@ -35,11 +35,11 @@
             </div>
           </div>
         </div>
-      </div>        
+      </div>
     </div>
   </perfect-scrollbar>
 </div>
-<kr-modal modalType="default" #statusModalPop>
+<!-- <kr-modal modalType="default" #statusModalPop>
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
       <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
@@ -69,22 +69,22 @@
         <ng-container *ngIf="statusObject && statusObject.validation && !(statusObject.status==='failed')">
           <div class="status-identification-content"
             *ngIf="!((statusObject.status==='success') || (statusObject.status==='failed'))">
-            <!-- <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
+            <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'webdomain')">
               <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.urlValidation">
               <img *ngIf="statusObject.validation.urlValidation" src="assets/images/source-icos/check-green.svg"
                 class="successfullyConnected">
               <span>Initial URL validation</span>
-            </div> -->
+            </div>
             <div class="content-title" *ngIf="selectedSourceType && (selectedSourceType.resourceType === 'document')">
               <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected">
-              <span>Initial file validation </span> <!--  <span >done</span> -->
+              <span>Initial file validation </span> <!--  <span >done</span>
             </div>
             <div class="content-title" *ngIf="statusObject.validation && statusObject.validation.sitemaps">
               <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="!statusObject.validation.validated">
               <img *ngIf="statusObject.validation.sitemaps" src="assets/images/source-icos/check-green.svg"
                 class="successfullyConnected">
               <span *ngIf="!statusObject.validation.sitemaps">Sitemaps</span>
-              <!-- <span *ngIf="!statusObject.validation.sitemaps">No Sitemaps</span> -->
+              <span *ngIf="!statusObject.validation.sitemaps">No Sitemaps</span>
               <span *ngIf="statusObject.validation.sitemaps">{{statusObject.validation.sitemaps.length}} Sitemaps</span>
             </div>
           </div>
@@ -107,8 +107,8 @@
         </div>
       </div>
       <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
-        <!-- <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
-        (click)="stopCrwaling()">Cancel Extraction</button> -->
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
+        (click)="stopCrwaling()">Cancel Extraction</button>
         <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
           (click)="closeStatusModal()">Ok</button>
           <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" [ngClass]="{'d-none': statusObject.status==='success'}" data-dismiss="modal"
@@ -116,7 +116,77 @@
          </div>
     </div>
   </div>
+</kr-modal> -->
+
+<!--Status popup-->
+<kr-modal modalType="default" #statusModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
+          (click)="closeStatusModal()"></div>
+      <div class="modal-body">
+        <div class="success-check  pb-4" *ngIf="statusObject.status==='success'">
+          <img src="assets/icons/successCheck.svg">
+        </div>
+        <div *ngIf="selectedSourceType.sourceType === 'content'&&statusObject.status!=='failed'">
+          <div class="success-check  pb-4">
+            <img src="assets/icons/successCheck.svg">
+          </div>
+          <div class="configInProgress"
+          *ngIf="!(statusObject && statusObject.validation && statusObject.validation.validated) && !(selectedSourceType.resourceType === 'document')">
+            <h1><strong>Validation in Progress...</strong></h1>
+          </div>
+          <div class="configInProgress"
+          *ngIf="(statusObject && statusObject.validation && statusObject.validation.validated)">
+            <h1><strong>Validation Successful</strong></h1>
+          </div>
+        </div>       
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
+          <img src="assets/images/exclamationCircle-Red.svg">
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+          Source added Successfully
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          Failed to add Source
+        </div>
+        <ng-container *ngIf="selectedSourceType.sourceType !== 'faq'&&statusObject.status!=='success'">
+          <div class="status-identification-content">
+            <div class="content-title">
+              <img src="assets/images/source-icos/inprogress-blue.svg" *ngIf="statusObject.validation.validated===false">
+              <img src="assets/images/source-icos/check-green.svg" class="successfullyConnected" *ngIf="statusObject.validation.validated===true">
+              <span>Initial URL validation</span>
+            </div>
+          </div>
+        </ng-container>
+        <div class="progressNote"
+          *ngIf="selectedSourceType.sourceType === 'faq'&&!((statusObject.status==='success') || (statusObject.status==='failed'))">
+          <div>Faq Extraction In Progress</div>
+          <div class="text-center">
+            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+          </div>
+        </div>
+        <div class="configInProgress"
+        *ngIf="statusObject.validation.validated&&selectedSourceType.sourceType === 'webdomain'||selectedSourceType.sourceType === 'document'">
+          <h4>Now you can choose to Crawl immediately or later</h4>
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+        (click)="cancelExtraction()" *ngIf="selectedSourceType.sourceType==='faq'&&statusObject.status!=='success'||statusObject.status=='failed'">Cancel Extraction</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
+          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='faq'">Ok</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="closeStatusModal()" *ngIf="selectedSourceType.sourceType==='content'">Close</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()" *ngIf="selectedSourceType.sourceType==='content'&&selectedSourceType.resourceType === 'webdomain'" [disabled]="crawlOkDisable">Crawl</button>
+         </div>
+    </div>
+  </div>
 </kr-modal>
+
+
 <kr-modal modalType="center" modalClass="modal_popups_" #addManualFaqModalPop>
   <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
     <div class="modal-header">
@@ -170,7 +240,7 @@
             <div class="import">IMPORT FROM FILE</div>
             </div>
             <!-- File uploader with Drag & Drop START HERE -->
-           
+
             <div class="browse-file-tabs-container" *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
                 <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                   <li class="nav-item">
@@ -178,7 +248,7 @@
                   </li>
                   <li class="nav-item ">
                     <a class="nav-link" data-toggle="tab" href="#fromurl">Extract from url</a>
-                  </li>             
+                  </li>
                 </ul>
                   <!-- Tab panes -->
                 <div class="tab-content">
@@ -189,6 +259,7 @@
                         <span class="sample-text pr-2" style="padding-right:10px" (click)='downloadSampleData("json")'><img  class="image mr-2"src="assets/icons/docker/download.svg">Sample JSON</span>
                         <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2" src="assets/icons/docker/download.svg">Sample CSV</span>
                     </div>
+                    <div class="data">You can upload either JSON or CSV file here</div>
                     </div>
                     <div class="kr-sg-input-text-area mb-4">
                       <div class="kr-sg-file-drag-drop">
@@ -207,9 +278,9 @@
                                 (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf"> -->
                             </div>
                             <label for="sourceFileUploader" class="drag-label adjust_z_index">
-                              <span class="browse">Browse</span>                    
+                              <span class="browse">Browse</span>
                             </label>
-                          </ng-container>   
+                          </ng-container>
 
                           <ng-container *ngIf="fileObj.fileName">
                             <div class="kr-sg-file-drag-drop">
@@ -230,8 +301,8 @@
                                 uploading file</div>
                             </div>
                           </ng-container>
-                          
-                        </div>                   
+
+                        </div>
                       </div>
                       <!-- Annotation Start Here -->
                       <div class="pt2 annotation" *ngIf="selectedSourceType.sourceType==='faq' && fileObj.fileId">
@@ -256,10 +327,10 @@
                           <!-- <input type="text" placeholder="https://" class="input-text"> -->
                           <!-- <div class="error-msg">Error message here</div> -->
                         </div>
-                      </div>         
-                  </div>               
+                      </div>
+                  </div>
                 </div>
-            </div> 
+            </div>
 
             <div class="kr-sg-input-text-area mb-4 d-none"
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='document')">
@@ -275,15 +346,15 @@
                       (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf,.json"> -->
                   </div>
                   <label for="sourceFileUploader" class="drag-label">Drag and Drop<span class="or-divider">Or</span>
-                   
+
                     <button  mat-button [matMenuTriggerFor]="browse"> <span class="browse adjust_z_index">Browse</span></button>
                     <mat-menu #browse="matMenu">
                       <li mat-menu-item > <img class="pr-3" src="assets/images/icons/Urlicon.svg">URL</li>
                       <li mat-menu-item (click)="gotoFileUpload()"><img class="pr-3" src="assets/images/icons/localfileupload.svg">Local File Upload</li>
                     </mat-menu>
 
-                  
-                
+
+
                 <!-- <span class="dropdown kr-sg-overflow-menu open">
                       <div class="dropdown-toggle browse" id="menu1" data-toggle="dropdown">Browse
                       </div>
@@ -333,9 +404,9 @@
             <!-- <div class="advanced-settings-title"
               *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')"
               data-toggle="collapse" data-target="#settings">Advance Settings</div> -->
-              
+
             <div *ngIf="(selectedSourceType.sourceType === 'content') && (selectedSourceType.resourceType === 'webdomain')" id="settings" class=" advance-setttings">
-              
+
               <div class="inner-content row m-0 schedule-data">
                 <div class="col-12 p-0 input-paddings">
                   <div class="kr-sg-input-text">
@@ -351,16 +422,16 @@
                     (cronExpress)="cronExpress($event)"></app-scheduler>
                 </div>
               </div>
-              
+
               <!-- New Crwal everey thing-->
               <div class="inner-content row m-0 crawl-option">
                 <div class="col-12 p-0 input-paddings">
-                  <div class="kr-sg-dropdowns">      
-                    <div class="label-text">Crawl Options</div>                                  
+                  <div class="kr-sg-dropdowns">
+                    <div class="label-text">Crawl Options</div>
                     <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>                                            
+                        <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{crwalOptionLabel}}</button>
                         <ul class="dropdown-menu content-menu">
-                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>                                              
+                          <li (click)="crawlOption('any','Crawl Everything')"><a>Crawl Everything</a></li>
                           <li (click)="crawlOption('block','Crawl Everything Except Specific URLs')"><a>Crawl Everything Except Specific URLs</a></li>
                           <li (click)="crawlOption('allow','Crawl Only Specific URLs')"><a >Crawl Only Specific URLs</a></li>
                         </ul>
@@ -389,7 +460,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="allowUrl.url" name="allowVal"
-                          placeholder="Enter/Path" class="input-text">
+                          placeholder="https://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="allowUrls(allowUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -406,7 +477,7 @@
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
                                 data-toggle="dropdown" disabled>{{rec.condition}}</button>
-                              
+
                             </div>
                           </div>
                           <div class="kr-sg-input-text">
@@ -415,8 +486,8 @@
                           </div>
                           <div class="add-urls" (click)="updateUrlRecord(i,'allow')"><img src="assets/images/close-cross.svg"></div>
                         </div>
-                      
-                     
+
+
                     </div>
                   </div>
 
@@ -440,7 +511,7 @@
                       </div>
                       <div class="kr-sg-input-text">
                         <input type="text" autocomplete="off" [(ngModel)]="blockUrl.url" name="blockVal"
-                          placeholder="Enter/Path" class="input-text">
+                          placeholder="https://" class="input-text">
                       </div>
                       <div class="add-urls" (click)="blockUrls(blockUrl)"><img src="assets/icons/add-urls.svg"></div>
                     </div>
@@ -465,7 +536,7 @@
                             <div class="dropdown dropdown-open">
                               <button class="dropdown-toggle dropdown-input"
                                 data-toggle="dropdown" disabled>{{rec.condition}}</button>
-                              
+
                             </div>
                           </div>
                           <div class="kr-sg-input-text">
@@ -474,8 +545,8 @@
                           </div>
                           <div class="add-urls" (click)="updateUrlRecord(i,'block')"><img src="assets/images/close-cross.svg"></div>
                         </div>
-                      
-                     
+
+
                     </div>
                   </div>
                   <!-- Block-->
@@ -503,28 +574,28 @@
                     <label for="checkbox_cook" class="checkbox-custom-label" style="font-weight: 500;font-size: 12px;">Use Cookies</label>
                 </div>
               </div>
-            
+
               <!-- Cookies -->
               </div>
 
               <div class="inner-content row m-0">
-                <div class="col-3 p-0">                   
+                <div class="col-3 p-0">
                   <div class="kr-sg-input-text mb-4">
-                    <div class="label-text">Crawl Depth 
+                    <div class="label-text">Crawl Depth
                       <div class="tooltip-custom">
                       <img src="assets/icons/info.svg">
                       <span class="tooltiptext">
                         <div class="t-text">The maximum depth that will be allowed to crawl any site.</div>
                         <div class="v-text">Value = 0 (No limit)</div>
                       </span>
-                    </div> 
+                    </div>
                     </div>
                     <input type="url" autocomplete="off" id="crawlDepth" name="crawlDepth" placeholder="0"
                       [(ngModel)]="crawlDepth" class="input-text" >
                   </div>
                 </div>
                 <div class="col-1 p-0"></div>
-                <div class="col-3 p-0"> 
+                <div class="col-3 p-0">
                   <div class="kr-sg-input-text mb-4">
                     <div class="label-text">Max URL Limit
                       <div class="tooltip-custom">
@@ -533,7 +604,7 @@
                           <div class="t-text">The maximum no. of URLs to be crawled.</div>
                           <div class="v-text">Value = 0 (No limit)</div>
                         </span>
-                      </div>                    
+                      </div>
                     </div>
                     <input type="url" autocomplete="off" id="maxUrlLimit" name="maxUrlLimit" placeholder="0"
                       [(ngModel)]="maxUrlLimit" class="input-text">
@@ -580,7 +651,7 @@
                         (click)="exceptUrl(crwalObject.advanceOpts.allowedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div> 
+                  </div>
                   <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.allowedOpt">
                     <div class="col-2 p-0 title">Allow URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
@@ -617,8 +688,8 @@
                             src="assets/images/close-cross.svg"></span>
                       </div>
                     </div>
-                  </div> 
-                 
+                  </div>
+
                    <div class="allow-list-data-label label_text_dis">Block List <img src="assets/icons/Info-small.svg"
                       class="ml-1">
 
@@ -628,7 +699,7 @@
                         (click)="restrictUrl(crwalObject.advanceOpts.blockedOpt)">
                       <div class="slider"></div>
                     </label>
-                  </div> 
+                  </div>
                    <div class="allow-urls-sec row allow-urlBox" *ngIf="crwalObject.advanceOpts.blockedOpt">
                     <div class="col-2 p-0 title">Block URLS</div>
                     <div class="col-10 p-0 d-flex align-items-center">
@@ -665,10 +736,10 @@
                             src="assets/images/close-cross.svg"></span>
                       </div>
                     </span>
-                  </div> 
+                  </div>
                 </div>
               </div>-->
-              
+
             </div>
 
             <div class="kr-sg-input-text-area mb-4 radio-pad"
@@ -684,7 +755,7 @@
               </div>
             </div>
           </div>
-          
+
         </div>
         </div>
       </perfect-scrollbar>
@@ -755,8 +826,8 @@
         </ng-container>
       </div>
     </perfect-scrollbar>
-  </ng-container>  
-</kr-modal> 
+  </ng-container>
+</kr-modal>
 
 <kr-modal modalType="center" modalClass="modal_popups_ import-structure-data" #addStructuredDataModalPop>
   <app-add-structured-data [selectedSourceType]="selectedSourceType" (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
@@ -764,4 +835,40 @@
 
 <kr-modal modalType="default" #structuredDataStatusModalPop>
   <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()" [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
+</kr-modal>
+
+<!--crawl popup-->
+<kr-modal modalType="default" #crawlModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
+          (click)="closeCrawlModalPop()"></div>
+      <div class="modal-body">
+        <ng-container *ngIf="!(statusObject.status==='success')">
+          <div class="progressNote">
+          <div>Crawling In-progress</div>
+          </div>
+          <div class="text-center">
+            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+            <div class="relaxNote">You will be notified when the extraction progress is done</div>
+          </div>
+        </ng-container>
+        <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
+          <img src="assets/icons/successCheck.svg">
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+          Source added Successfully
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          Failed to add Source
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="stopCrwaling($event)" [ngClass]="{'d-none': statusObject.status==='success'}">Abort</button>
+          <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal" [disabled]="crawlOkDisable"
+          (click)="closeStatusModal()">Ok</button>
+         </div>
+    </div>
+  </div>
 </kr-modal>

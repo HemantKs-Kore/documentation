@@ -243,7 +243,7 @@
         <div class="col-6 left_sec">
           <div class="tabs-sec">
             <span class="tab-title " (click)="faqObj.type='string'" [ngClass]="{'active': faqObj.type === 'string'}">Editor</span>
-            <span class="tab-title" (click)="faqObj.type='javascript'" [ngClass]="{'active': faqObj.type==='javascript'}">&lt;/&gt; CODE</span>
+            <!-- <span class="tab-title" (click)="faqObj.type='javascript'" [ngClass]="{'active': faqObj.type==='javascript'}">&lt;/&gt; CODE</span> -->
             <span class="tab-title d-none" (click)="faqObj.type='external'" [ngClass]="{'active': faqObj.type==='external'}">External</span>
           </div>
         </div>
@@ -283,12 +283,12 @@
           <!-- <div class="push-notify"> </div> -->
           <div class="multi-select">
             <!-- {{uploadImage.slide | json}} -->
-            <div class="row">
+            <div class="row ml-1">
                 <label class="kr-sg-toggle">                                           
                     <input type="checkbox" [(ngModel)]="uploadImage.slide">
                     <div class="slider"></div>
                 </label>  
-                <div>
+                <div class="response ml-1">
                     <span *ngIf="!uploadImage.slide">No</span>
                     <span *ngIf="uploadImage.slide">Yes</span>
                 </div>

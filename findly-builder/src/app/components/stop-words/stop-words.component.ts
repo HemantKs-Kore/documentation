@@ -28,6 +28,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
+  indexPipelineId;
   pipeline;
   stopWordsIntiType = 'default'
   createFromScratch;
@@ -48,10 +49,20 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadStopwords();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   loadStopwords(){
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
-    if(this.queryPipelineId){
-      this.getStopWords();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()?this.workflowService.selectedQueryPipeline()._id:this.selectedApp.searchIndexes[0].queryPipelineId;
+      if(this.queryPipelineId){
+        this.getStopWords();
+      }
     }
   }
   toggleSearch(){
@@ -96,6 +107,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
      this.pipeline=  res.pipeline || {};
@@ -112,6 +124,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           }
         });
       }
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
       this.loadingContent = false;
     }, errRes => {
       this.loadingContent = false;
@@ -126,7 +145,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const modalData :any =  {
       newTitle: 'Are you sure you want to Enable ?',
       body: 'Stopwords will be enabled.',
-      buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }]
+      buttons: [{ key: 'yes', label: 'Enable'}, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
     }
     if(!this.enabled){
       modalData.newTitle = 'Are you sure you want to disable?'
@@ -137,7 +157,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
-      data:modalData
+      data:modalData,
+     
     });
     dialogRef.componentInstance.onSelect
       .subscribe(result => {
@@ -153,6 +174,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
       this.newStopWord = '';
@@ -227,7 +249,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to delete selected Stop Word?',
         newTitle:'Are you sure you want to delete ?',
         body:'Selected stop word will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
@@ -260,7 +282,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         title: 'Delete  All StopWords',
         newTitle:'Are you sure you want to delete ?',
         body:'All stopwords will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
       }
     });
@@ -284,8 +306,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   updateStopWords(dialogRef?,enableOrDisable?,deleteAll?) {
     const quaryparms: any = {
-      searchIndexID:this.serachIndexId,
+      searchIndexId:this.serachIndexId,
       queryPipelineId:this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     let msg = 'Stop words updated successfully';
     if(!enableOrDisable){

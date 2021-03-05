@@ -803,7 +803,7 @@ export class AddFaqComponent implements OnInit, OnDestroy  {
         data: {
         title: 'Are you sure you want to delete?',
         body: 'Selected alternate question will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp:true
         }
       });

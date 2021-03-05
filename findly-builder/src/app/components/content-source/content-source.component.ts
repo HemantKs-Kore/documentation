@@ -63,8 +63,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   selectedFilter: any = ''
   executionLogStatus = false;
   contentTypes = {
-    webdomain: 'WEB',
-    document: 'DOC'
+    webdomain: 'Web',
+    document: 'Doc'
   }
   statusObj: any = {
     failed: { name: 'Failed', color: '#DD3646' },
@@ -76,7 +76,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     validation: { name: 'Queued', color: '#0D6EFD' },
     scheduled: { name: 'Queued', color: '#0D6EFD' },
     halted: { name: 'Stopped', color: '#DD3646' },
-    configured: { name: 'Configured', color: '#202124' }
+    configured: { name: 'Validated', color: '#202124' }
   };
   executionObj: any = {
     'Execution Successful': {
@@ -101,15 +101,15 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'failed': { icon: "assets/icons/content/failed.svg" },
     'stopped': { icon: "assets/icons/content/stopped.svg" },
     'running': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
-    'crawling':{ icon: "assets/icons/content/ex-stat_inprogress.svg" },
-    'halted':{ icon: "assets/icons/content/stopped.svg" },
+    'crawling': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
+    'halted': { icon: "assets/icons/content/stopped.svg" },
     'inProgress': { icon: "assets/icons/content/ex-stat_inprogress.svg" }
   }
   finalStateExecutionstageStatusObj: any = {
     'success': { icon: "assets/icons/content/succes-circle.svg" },
     'failed': { icon: "assets/icons/content/failed-circle.svg" },
     'running': { icon: "assets/icons/content/ex-stat_inprogress.svg" },
-    'halted':{ icon: "assets/icons/content/stopped.svg" },
+    'halted': { icon: "assets/icons/content/stopped.svg" },
     'stopped': { icon: "assets/icons/content/stopped.svg" },
   }
   stateExecutionStageNameObj: any = {
@@ -158,6 +158,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   useCookies = false;
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
+  loadingContent1: boolean;
   isJavaScriptRendered = false;
   blockHttpsMsgs = false;
   crawlDepth: number;
@@ -188,6 +189,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
+  loadImageText: boolean = false;
+  imageLoad() {
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }
@@ -312,6 +319,13 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         $('#searchContentSources').focus();
       }, 100);
       this.filterTable(this.filterTableSource, this.filterTableheaderOption)
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       console.log(errRes);
       this.loadingContent = false;
@@ -518,16 +532,16 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
               status_log.timeTaken = this.duration(status_log.timeTaken);
             });
           }
-          if(element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut){
-            if(element.executionStats.statusLogs){
+          if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
+            if (element.executionStats.statusLogs) {
               //element.statusLogs.forEach(element => {
-                if(element.executionStats.statusLogs.length > 1){
-                  element.executionStats['tooltip'] ="" + element.executionStats.statusLogs[element.statusLogs.length - 2].stageName +  "failed due to timeout"
-                }
+              if (element.executionStats.statusLogs.length > 1) {
+                element.executionStats['tooltip'] = "" + element.executionStats.statusLogs[element.statusLogs.length - 2].stageName + "failed due to timeout"
+              }
               //});
             }
-          }else if(element.executionStats.executionStatusMessage == 'Execution Stopped'){
-            element.executionStats['tooltip'] ="Execution Stopped due to " + element.statusMessage || ' time out';
+          } else if (element.executionStats.executionStatusMessage == 'Execution Stopped') {
+            element.executionStats['tooltip'] = "Execution Stopped due to " + element.statusMessage || ' time out';
           }
         });
       }
@@ -543,6 +557,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
   }
   openStatusSlider(source) {
+    console.log("sourec opned", source)
     // if (source && ((source.recentStatus === 'running') || (source.recentStatus === 'queued') || (source.recentStatus === 'inprogress'))) {
     //   this.notificationService.notify('Source extraction is still in progress', 'error');
     //   return;
@@ -745,11 +760,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        title: 'Delete Document ',
-        text: 'Are you sure you want to delete selected document?',
-        newTitle: 'Are you sure you want to delete selected document?',
+        title: 'Delete Document',
+        newTitle: 'Are you sure you want to delete?',
         body: 'The selected document will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -774,10 +788,10 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       panelClass: 'delete-popup',
       data: {
         title: from == 'source' ? 'Delete Source ' : ' Delete Page',
-        text: 'Are you sure you want to delete selected record?',
-        newTitle: 'Are you sure you want to delete selected record?',
-        body: 'The selected record will be deleted',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        text: 'Are you sure you want to delete?',
+        newTitle: 'Are you sure you want to delete?',
+        body: 'All the Pages associated with this source will be deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -1232,27 +1246,27 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     });
   }
   recrwal(from, record, event) {
-      if (event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      sourceId: record._id,
+      sourceType: record.type,
+    };
+    this.service.invoke('recrwal', quaryparms).subscribe(res => {
+      this.getSourceList();
+      this.notificationService.notify('Recrwaled successfully', 'success');
+      this.closeStatusModal();
+      //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
       }
-      const quaryparms: any = {
-        searchIndexId: this.serachIndexId,
-        sourceId: record._id,
-        sourceType: record.type,
-      };
-      this.service.invoke('recrwal', quaryparms).subscribe(res => {
-        this.getSourceList();
-        this.notificationService.notify('Recrwaled successfully','success');
-        this.closeStatusModal();
-        //this.notificationService.notify('Recrwaled with status : ' + res.recentStatus, 'success');
-      }, errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      });
+    });
   }
   urlCondition(condition, type) {
     type == 'allow' ? this.urlConditionAllow = condition : this.urlConditionBlock = condition;
@@ -1459,17 +1473,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   }
   //crawl job ondemand
   jobOndemand(source, event) {
+    console.log("jobOndemand", source)
     if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    console.log("job odemand", source)
     const queryParams: any = {
       searchIndexID: this.serachIndexId,
       sourceId: source._id
     };
     this.service.invoke('get.crawljobOndemand', queryParams).subscribe(res => {
       console.log(res);
+      this.getSourceList();
       //this.notificationService.notify('Bot linked, successfully', 'success');
     },
       (err) => {

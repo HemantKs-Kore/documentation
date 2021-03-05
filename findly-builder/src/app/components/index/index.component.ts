@@ -9,12 +9,13 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { of, interval, Subject } from 'rxjs';
+import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -46,6 +47,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   currentEditIndex: any = -1;
   pollingSubscriber: any = null;
   showNewStageType: boolean = false;
+  subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -157,20 +159,38 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public authService: AuthService
+    public authService: AuthService,
+    private appSelectionService:AppSelectionService
   ) { }
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
+    console.log("this.selectedApp", this.selectedApp)
     if ((this.selectedApp || {}).searchIndexes && (this.selectedApp || {}).searchIndexes.length) {
       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+      //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     }
-    this.getSystemStages();
-    this.getIndexPipline();
-    this.getFileds();
-    this.setResetNewMappingsObj();
-    this.addcode({});
-    this.getTraitGroups()
+    this.loadIndexAll()
+    // this.getSystemStages();
+    // this.getIndexPipline();
+    // this.getFileds();
+    // this.setResetNewMappingsObj();
+    // this.addcode({});
+    // this.getTraitGroups()
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res=>{
+      this.loadIndexAll()
+    })
+  }
+  loadIndexAll(){
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      if(this.indexPipelineId){
+        this.getSystemStages();
+        this.getIndexPipline();
+        this.getFileds();
+        this.setResetNewMappingsObj();
+        this.addcode({});
+        this.getTraitGroups()
+      }
   }
   ngAfterViewInit() {
     const self = this;
@@ -537,7 +557,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Do you want to discard this stage?',
         newTitle: 'Do you want to discard this stage?',
         body: 'The Exclude Document stage will be discarded as it does not contain any conditions.',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -653,7 +673,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'There are usaved changes, Are you sure you want to reindex without saving them?',
           newTitle: 'There are usaved changes, Are you sure you want to reindex without saving them?',
           body: 'The changes are unsaved.',
-          buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Save', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });
@@ -766,7 +786,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         // text: 'Do you want to discard this stage?',
         // newTitle: 'Do you want to discard this stage?',
         // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -861,7 +881,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Are you sure you want to delete selected field?',
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected field will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
@@ -881,6 +901,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
+    console.log("index queryparams", quaryparms);
     this.service.invoke('get.indexpipelineStages', quaryparms).subscribe(res => {
       this.pipeline = res.stages || [];
       this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
@@ -920,7 +941,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Are you sure you want to discard current?',
         newTitle: 'Are you sure you want to discard?',
         body: 'Current changes will be discarded.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        buttons: [{ key: 'yes', label: 'Discard', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });
