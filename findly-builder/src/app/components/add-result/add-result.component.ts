@@ -77,7 +77,7 @@ export class AddResultComponent implements OnInit {
   keyFunc(txt){
     this.searchResults(txt)
   }
-  addRecord(record,i){
+  addRecord(record,i,event){
     let duplicate = false;
     if(this.recordArray){
       this.recordArray.forEach((element , index) => {

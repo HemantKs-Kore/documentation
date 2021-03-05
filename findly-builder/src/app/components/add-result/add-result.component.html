@@ -188,7 +188,7 @@
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{searchRadioTypeTxt}}</button>                                            
                     <ul class="dropdown-menu content-menu">
                       <li (click) = "resultClick('faq')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'FAQ'}">FAQ</a></li>
-                      <li (click) = "resultClick('content')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
+                      <li (click) = "resultClick('page')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Content'}">Content</a></li>
                       <li (click) = "resultClick('task')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Bot Action'}">Bot Action</a></li>
                       <li (click) = "resultClick('structuredData')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Structured Data'}">Structured Data</a></li>
                       <li (click) = "resultClick('all')"><a [ngClass]="{'selected' : searchRadioTypeTxt == 'Any'}">Any</a></li>
@@ -231,8 +231,8 @@
                             </div>                                                
                         </div>
                         <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">                                                                
-                            <div class="kr-sg-checkbox d-block p-0 m-0" (click)="$event.stopImmediatePropagation();" >
-                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i)">
+                            <div class="kr-sg-checkbox d-block p-0 m-0" >
+                                <input  [attr.id]="i"  class="checkbox-custom selectEachfaqInput" type="checkbox" autocomplete="off" (click)="addRecord(result,i,$event)">
                                 <label [attr.for]="i" class="checkbox-custom-label"></label>
                             </div>                                                          
                             <div class="tiltles-sec" *ngIf="result.__contentType == 'page'">
@@ -278,12 +278,12 @@
         
         <div class="group-radiobutton">
             <div class="kr-sg-radiobutton">
-                <input id="radio-last" name="radio" class="radio-custom" type="radio" checked>
-                <label for="radio-last" class="radio-custom-label">Add to the last</label>
+                <input id="radio-last" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'top'" (change)="positionRecord = 'top'">
+                <label for="radio-last" class="radio-custom-label">Add to the top</label>
             </div>
             <div class="kr-sg-radiobutton">
-                <input id="radio-top" name="radio" class="radio-custom" type="radio">
-                <label for="radio-top" class="radio-custom-label">Add to the top</label>
+                <input id="radio-top" name="radio" class="radio-custom" type="radio"  [checked] = "positionRecord == 'last'" (change)="positionRecord = 'last'">
+                <label for="radio-top" class="radio-custom-label">Add to the last</label>
             </div>
         </div> 
 
