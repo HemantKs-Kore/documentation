@@ -154,7 +154,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (appData && appData.searchIndexes && appData.searchIndexes.length && appData.searchIndexes[0]._id) {
         const searchData = {
           _id: appData.searchIndexes[0]._id,
-          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+          pipelineId: this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
         }
         window.selectedFindlyApp = searchData;
         this.searchInstance.setAPIDetails();

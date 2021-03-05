@@ -2844,6 +2844,88 @@ nouislider{
 }
 
 
+
+
+.search-experience-wrapper{
+    .tabs-sec {
+        .tab-content {
+            .fill-colors-block {
+                .fill-color {
+                    .box-color{
+                        &.interaction-color{
+                            .color-picker{
+                                top: 55px !important;
+                                left: -66px !important;
+                                box-sizing: border-box;
+                                border-radius: 8px;
+                                border: 0;
+                                font-weight: bold;
+                                font-size: 14px !important;
+                            }
+                        }
+                        .color-picker{
+                            top: -58px !important;
+                            left: 68px !important;
+                            box-sizing: border-box;
+                            border-radius: 8px;
+                            border: 0;
+                            font-weight: bold;
+                            font-size: 14px !important;
+                            input{
+                                background: #FFFFFF;
+                                border: 1px solid #5F6368 !important;
+                                box-sizing: border-box;
+                                border-radius: 4px;
+                                height: 40px;
+                            }
+                            .arrow{
+                                display: none !important; 
+                            }
+                            .saturation-lightness{
+                                box-sizing: border-box;
+                                border-radius: 8px;
+                            }
+                            .cursor{
+                                border-radius: 50%;
+                                cursor: default;
+                                height: 24px;
+                                position: relative;
+                                width: 24px;
+                                background: transparent;
+                                border: 6px solid #fff;
+                            }
+                            .hue{
+                                background: linear-gradient(270deg, #FF0008 0%, #FF00EB 16.67%, #0E00FF 32.81%, #00EDFF 49.06%, #00FF00 67.97%, #FFFE00 83.13%, #FF0800 100%);
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                box-sizing: border-box;
+                                border-radius: 24px;
+                                .cursor{
+                                    border-radius: 50%;
+                                    cursor: default;
+                                    height: 16px;
+                                    position: relative;
+                                    width: 16px;
+                                    background: transparent;
+                                    border: 4px solid #fff;
+                                }
+                            }
+                            .value{
+                                background: linear-gradient(270deg, #FF0008 0%, #FF00EB 16.67%, #0E00FF 32.81%, #00EDFF 49.06%, #00FF00 67.97%, #FFFE00 83.13%, #FF0800 100%);
+                                border: 1px solid rgba(0, 0, 0, 0.1);
+                                box-sizing: border-box;
+                                border-radius: 24px;
+                            }
+                            .type-policy{
+                                height: 36px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .dashboard-custom-tooltips{
     opacity: 1 !important;
     &.ml_12{

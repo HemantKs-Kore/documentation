@@ -855,7 +855,7 @@ and open the template in the editor.
                 }
             }
         }
-        &:disabled{
+        &:disabled{           
             + .checkbox-custom-label{
                 &::before{
                     border: solid 1px $borderColor;

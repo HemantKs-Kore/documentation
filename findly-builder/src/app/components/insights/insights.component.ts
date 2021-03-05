@@ -347,7 +347,8 @@ lineStyle: {
     this.getAppDetails()
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      queryPipelineId : this.queryPipelineId
+      queryPipelineId : this.queryPipelineId,
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
       if(res.length){
@@ -366,7 +367,8 @@ lineStyle: {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId : this.queryPipelineId,
-      rankingAndPinningId : _id
+      rankingAndPinningId : _id,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
       //this.customizeList = res;

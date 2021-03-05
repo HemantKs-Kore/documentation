@@ -3,10 +3,10 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'please_wait' | translate}}</span>
 </div>
-<div class="faqmain-container" *ngIf="!loadingFaqs">
+<div class="faqmain-container" *ngIf="loadingFaqs1">
     <div class="faqsListContainer">       
         <div class="faq-header-sec row m-0">
-            <div class="col-6 left-sec p-0 faq-title">FAQ Management</div>
+            <div class="col-6 left-sec p-0 faq-title" >FAQs</div>
             <div class="col-6 p-0 right-sec d-flex align-items-center justify-content-end">
                 <div class="kr-sg-dropdowns add w-auto"  #selectSourceDrop='ngbDropdown'ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="(faqs && faqs.length) ||  (faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved)">                                        
                     <div class="dropdown dropdown-open">
@@ -39,8 +39,8 @@
         <ng-container *ngIf="(!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && !faqSelectionObj.loadingStats) && !(faqs && faqs.length)">
         <perfect-scrollbar class="empty-scroll">
         <div  class="empty-landing-screen" >
-          <div class="img-block"*ngIf="!emptyItems"><img class="action_icon" src="assets/images/faq-empty.svg"></div>
-          <ng-container >
+          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.svg"></div>
+          <ng-container *ngIf="loadImageText">
               <div class="empty-title">You haven’t added any FAQ's yet!</div>
               <div class="desc-text"> FAQs is  a form of source documents that contain solutions for the frequently asked questions. SearchAssist allows you to add FAQs in multiple ways to assist search users with their queries.
               </div>
@@ -111,10 +111,11 @@
                             <div class="title">{{(faqSelectionObj.selectAll)?'All':faqSelectionObj.selectedCount}} Selected</div>
                         </div>
                         <div class="col-8 p-0 d-flex align-items-center justify-content-end">
-                            <button class="kr-sg-button-primary btn_lg pl-1 pr-1" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
-                            <button class="kr-sg-button-primary btn_lg pl-1 pr-1" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
-                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="selectedtab === 'in_review'" (click)="bulkUpdate('update','approved')">Approve</button>
                             <button class="kr-sg-button-secondary btn_lg" *ngIf="(selectedtab === 'draft')" (click)="deleteQuestion('qstnFAQ',singleSelectedFaq,{})">Delete</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'draft')  || (selectedtab === 'approved')" (click)="bulkUpdate('update','in_review')">Send for Review</button>
+                            <button class="kr-sg-button-primary btn_lg" *ngIf="(selectedtab === 'in_review') || (selectedtab === 'approved')" (click)="bulkUpdate('update','draft')">Needs Rework</button>
+                            
                         </div>
                     </div>
                     <div class="body-content">
@@ -179,7 +180,7 @@
                     </div>
                 </div>
             </div>            
-            <div class="content right-content">
+            <div class="content right-content" [ngClass]="{'blur-content': faqSelectionObj.selectedCount >=2}">
                 <div class="content-boxes train_your_questions">
                     <ng-container *ngIf="!selectedFaq">
                         <div class="empty-questions-selected">

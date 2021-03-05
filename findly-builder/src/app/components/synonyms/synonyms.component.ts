@@ -25,6 +25,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   showSearch;
   serachIndexId
   loadingContent = true;
+  filterAllSynonym:boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
   pipeline;
@@ -36,6 +37,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   queryPipelineId;
+  indexPipelineId;
   newSynonymObj: any = {
     type: 'synonym',
     addNew: false,
@@ -67,10 +69,20 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.loadSynonyms();
     })
   }
+  loadImageText: boolean = false;
+  loadingContent1: boolean
+  imageLoad(){
+    this.loadingContent = false;
+    this.loadingContent1 = true;
+    this.loadImageText = true;
+  }
   loadSynonyms() {
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.getSynonyms();
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    if(this.indexPipelineId){
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getSynonyms();
+      }
     }
   }
   prepareSynonyms() {
@@ -86,11 +98,19 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.pipeline = res.pipeline || {};
       this.loadingContent = false;
       this.prepareSynonyms();
+      if (res.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = true;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
     }, errRes => {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -116,6 +136,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         obj.keyword = this.newSynonymObj.keyword;
       }
     }
+    if (this.newSynonymObj.type === 'oneWaySynonym'){
+      this.filterAllSynonym=true;
+      }
+      else{
+        this.filterAllSynonym=false;
+      }
+   
     this.synonymData.push(obj);
     this.addOrUpddate(this.synonymData);
   }
@@ -132,8 +159,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   addOrUpddate(synonymData, dialogRef?, showFlag?) {
     synonymData = synonymData || this.synonymData;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '' 
     };
     const payload: any = {
       pipeline: {

@@ -23,7 +23,7 @@
         </div>
     </div> 
     <perfect-scrollbar class="structured-data-scroll" [ngClass]="{'adjust-height': noItems}">
-        <div *ngIf="!isLoading">
+        <div *ngIf="isLoading1">
                 <div class="structured-data-table-sec">
                     <!-- Commented for now -->
                     <!-- <div class="toast-block-blue row m-0 align-items-center">
@@ -194,8 +194,8 @@
                 </div>
             </div> -->
             <div class="empty-landing-screen" *ngIf="noItems">
-                <div class="img-block"><img class="action_icon" src="assets/images/structured-data-empty.svg"></div>
-                <ng-container *ngIf="noItems && !emptySearchResults">
+                <div class="img-block"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.svg"></div>
+                <ng-container *ngIf="noItems && !emptySearchResults && loadImageText">
                     <div class="empty-title">{{'structuredData.no_structuer_data' | translate}}</div>
                     <div class="desc-text">{{'structuredData.help_text' | translate}}</div>
                     <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                        
