@@ -119,8 +119,7 @@ export class StructuredDataComponent implements OnInit {
     this.search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => term === '' ? []
-        : this.searchItems())
+      map(term => this.searchItems())
     )
   }
   isLoading1: boolean;
